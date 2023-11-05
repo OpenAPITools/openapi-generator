@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class EquilateralTriangle.");
 
-            return new EquilateralTriangle(shapeType.Value!, triangleType.Value!); // a
+            return new EquilateralTriangle(shapeType.Value, triangleType.Value); // a
         }
 
         /// <summary>

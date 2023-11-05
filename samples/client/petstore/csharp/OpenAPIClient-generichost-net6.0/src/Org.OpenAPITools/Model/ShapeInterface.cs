@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
             if (shapeType.IsSet && shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
 
-            return new ShapeInterface(shapeType.Value!); // a
+            return new ShapeInterface(shapeType.Value); // a
         }
 
         /// <summary>

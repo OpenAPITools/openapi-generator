@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class BasquePig.");
 
-            return new BasquePig(className.Value!); // a
+            return new BasquePig(className.Value); // a
         }
 
         /// <summary>

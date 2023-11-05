@@ -243,7 +243,7 @@ namespace Org.OpenAPITools.Model
             if (var123Number.IsSet && var123Number.Value == null)
                 throw new ArgumentNullException(nameof(var123Number), "Property is not nullable for class Name.");
 
-            return new Name(varName.Value!.Value!, property, snakeCase, var123Number); // a
+            return new Name(varName.Value.Value, property, snakeCase, var123Number); // a
         }
 
         /// <summary>
@@ -279,10 +279,10 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("property", name.Property); // 1
 
             if (name.SnakeCaseOption.IsSet)
-                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value!.Value); // 3
+                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value.Value); // 3
 
             if (name.Var123NumberOption.IsSet)
-                writer.WriteNumber("123Number", name.Var123NumberOption.Value!.Value); // 3
+                writer.WriteNumber("123Number", name.Var123NumberOption.Value.Value); // 3
         }
     }
 }

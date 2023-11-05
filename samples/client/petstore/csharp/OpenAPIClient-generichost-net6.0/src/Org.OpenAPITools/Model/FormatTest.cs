@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
-        /// <example>Sat Feb 01 19:00:00 EST 2020</example>
+        /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; } // d
 
@@ -674,7 +674,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid); // a
+            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid); // a
         }
 
         /// <summary>
@@ -734,25 +734,25 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("binary");
                 JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             if (formatTest.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", formatTest.DateTimeOption.Value!.Value.ToString(DateTimeFormat)); // 5
+                writer.WriteString("dateTime", formatTest.DateTimeOption.Value.Value.ToString(DateTimeFormat)); // 5
 
             if (formatTest.VarDecimalOption.IsSet) // 14
                 writer.WritePropertyName("decimal");
                 JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
             if (formatTest.VarDoubleOption.IsSet)
-                writer.WriteNumber("double", formatTest.VarDoubleOption.Value!.Value); // 3
+                writer.WriteNumber("double", formatTest.VarDoubleOption.Value.Value); // 3
 
             if (formatTest.VarFloatOption.IsSet)
-                writer.WriteNumber("float", formatTest.VarFloatOption.Value!.Value); // 3
+                writer.WriteNumber("float", formatTest.VarFloatOption.Value.Value); // 3
 
             if (formatTest.Int32Option.IsSet)
-                writer.WriteNumber("int32", formatTest.Int32Option.Value!.Value); // 3
+                writer.WriteNumber("int32", formatTest.Int32Option.Value.Value); // 3
 
             if (formatTest.Int64Option.IsSet)
-                writer.WriteNumber("int64", formatTest.Int64Option.Value!.Value); // 3
+                writer.WriteNumber("int64", formatTest.Int64Option.Value.Value); // 3
 
             if (formatTest.IntegerOption.IsSet)
-                writer.WriteNumber("integer", formatTest.IntegerOption.Value!.Value); // 3
+                writer.WriteNumber("integer", formatTest.IntegerOption.Value.Value); // 3
 
             if (formatTest.PatternWithBackslashOption.IsSet)
                 writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash); // 1
@@ -767,13 +767,13 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("string", formatTest.VarString); // 1
 
             if (formatTest.UnsignedIntegerOption.IsSet)
-                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value!.Value); // 3
+                writer.WriteNumber("unsigned_integer", formatTest.UnsignedIntegerOption.Value.Value); // 3
 
             if (formatTest.UnsignedLongOption.IsSet)
-                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value!.Value); // 3
+                writer.WriteNumber("unsigned_long", formatTest.UnsignedLongOption.Value.Value); // 3
 
             if (formatTest.UuidOption.IsSet)
-                writer.WriteString("uuid", formatTest.UuidOption.Value!.Value); // 11
+                writer.WriteString("uuid", formatTest.UuidOption.Value.Value); // 11
         }
     }
 }

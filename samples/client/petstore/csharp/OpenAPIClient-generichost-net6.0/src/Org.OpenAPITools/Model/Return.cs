@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             if (varReturn.VarReturnOption.IsSet)
-                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value); // 3
+                writer.WriteNumber("return", varReturn.VarReturnOption.Value.Value); // 3
         }
     }
 }

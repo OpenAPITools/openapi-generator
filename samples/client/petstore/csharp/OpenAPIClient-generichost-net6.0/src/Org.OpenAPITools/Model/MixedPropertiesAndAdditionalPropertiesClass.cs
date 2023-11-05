@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
             // UuidWithPattern (Guid) pattern
             Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
 
-            if (this.UuidWithPatternOption.Value != null &&!regexUuidWithPattern.Match(this.UuidWithPatternOption.Value.ToString()!).Success)
+            if (this.UuidWithPatternOption.Value != null &&!regexUuidWithPattern.Match(this.UuidWithPatternOption.Value.ToString()).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
             }
@@ -249,16 +249,16 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value!.Value.ToString(DateTimeFormat)); // 5
+                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value.Value.ToString(DateTimeFormat)); // 5
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet) // 14
                 writer.WritePropertyName("map");
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value!.Value); // 11
+                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value.Value); // 11
 
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet)
-                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value!.Value); // 11
+                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value.Value); // 11
         }
     }
 }

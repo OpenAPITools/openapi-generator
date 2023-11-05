@@ -154,7 +154,7 @@ namespace Org.OpenAPITools.Model
             if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
                 throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
 
-            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!); // a
+            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value, pkiNotificationtestID.Value.Value); // a
         }
 
         /// <summary>

@@ -54,6 +54,10 @@ public class PasteLambda implements Mustache.Lambda {
     public void execute(Fragment fragment, Writer writer) throws IOException {
         String content = this.copyLambda.savedContent;
 
+        if (content == null) {
+            return;
+        }
+
         if (this.stripTrailing){
             content = content.stripTrailing();
         }

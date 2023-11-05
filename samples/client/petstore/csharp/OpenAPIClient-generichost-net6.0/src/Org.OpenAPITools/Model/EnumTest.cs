@@ -805,7 +805,7 @@ namespace Org.OpenAPITools.Model
             if (outerEnumIntegerDefaultValue.IsSet && outerEnumIntegerDefaultValue.Value == null)
                 throw new ArgumentNullException(nameof(outerEnumIntegerDefaultValue), "Property is not nullable for class EnumTest.");
 
-            return new EnumTest(enumStringRequired.Value!.Value!, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum); // a
+            return new EnumTest(enumStringRequired.Value.Value, enumInteger, enumIntegerOnly, enumNumber, enumString, outerEnumDefaultValue, outerEnumInteger, outerEnumIntegerDefaultValue, outerEnum); // a
         }
 
         /// <summary>
@@ -839,15 +839,15 @@ namespace Org.OpenAPITools.Model
                 writer.WriteNull("enum_string_required");
 
             if (enumTest.EnumIntegerOption.IsSet)
-                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value)); // 6
+                writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value.Value)); // 6
 
             if (enumTest.EnumIntegerOnlyOption.IsSet)
-                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value!.Value)); // 6
+                writer.WriteNumber("enum_integer_only", EnumTest.EnumIntegerOnlyEnumToJsonValue(enumTest.EnumIntegerOnlyOption.Value.Value)); // 6
 
             if (enumTest.EnumNumberOption.IsSet)
-                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value)); // 6
+                writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value.Value)); // 6
 
-            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value); // 7
+            var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value.Value); // 7
             if (enumStringRawValue != null)
                 writer.WriteString("enum_string", enumStringRawValue);
             else
@@ -855,23 +855,23 @@ namespace Org.OpenAPITools.Model
 
             if (enumTest.OuterEnumDefaultValueOption.IsSet) // 10
             {
-                var outerEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue!.Value); // 10 b
+                var outerEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumDefaultValue.Value); // 10 b
                 writer.WriteString("outerEnumDefaultValue", outerEnumDefaultValueRawValue);
             }
             if (enumTest.OuterEnumIntegerOption.IsSet) // 10
             {
-                var outerEnumIntegerRawValue = OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumInteger!.Value); // 10 b
+                var outerEnumIntegerRawValue = OuterEnumIntegerValueConverter.ToJsonValue(enumTest.OuterEnumInteger.Value); // 10 b
                 writer.WriteNumber("outerEnumInteger", outerEnumIntegerRawValue);
             }
             if (enumTest.OuterEnumIntegerDefaultValueOption.IsSet) // 10
             {
-                var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue!.Value); // 10 b
+                var outerEnumIntegerDefaultValueRawValue = OuterEnumIntegerDefaultValueValueConverter.ToJsonValue(enumTest.OuterEnumIntegerDefaultValue.Value); // 10 b
                 writer.WriteNumber("outerEnumIntegerDefaultValue", outerEnumIntegerDefaultValueRawValue);
             }
             if (enumTest.OuterEnumOption.IsSet) // 10
-                if (enumTest.OuterEnumOption!.Value != null) // 10 a
+                if (enumTest.OuterEnumOption.Value != null) // 10 a
                 {
-                    var outerEnumRawValue = OuterEnumValueConverter.ToJsonValue(enumTest.OuterEnumOption.Value!.Value); // 10 c
+                    var outerEnumRawValue = OuterEnumValueConverter.ToJsonValue(enumTest.OuterEnumOption.Value.Value); // 10 c
                     writer.WriteString("outerEnum", outerEnumRawValue);
                 }
                 else

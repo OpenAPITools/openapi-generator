@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
 
-            return new ParentPet(petType.Value!); // a
+            return new ParentPet(petType.Value); // a
         }
 
         /// <summary>

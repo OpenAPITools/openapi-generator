@@ -152,7 +152,7 @@ namespace Org.OpenAPITools.Model
             if (shapeType.IsSet && shapeType.Value == null)
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class SimpleQuadrilateral.");
 
-            return new SimpleQuadrilateral(quadrilateralType.Value!, shapeType.Value!); // a
+            return new SimpleQuadrilateral(quadrilateralType.Value, shapeType.Value); // a
         }
 
         /// <summary>

@@ -145,7 +145,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class IsoscelesTriangle.");
 
-            return new IsoscelesTriangle(shapeType.Value!, triangleType.Value!); // a
+            return new IsoscelesTriangle(shapeType.Value, triangleType.Value); // a
         }
 
         /// <summary>

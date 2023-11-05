@@ -437,31 +437,31 @@ namespace Org.OpenAPITools.Model
                     writer.WriteNull("array_nullable_prop");
             if (nullableClass.BooleanPropOption.IsSet)
                 if (nullableClass.BooleanPropOption.Value != null)
-                    writer.WriteBoolean("boolean_prop", nullableClass.BooleanPropOption.Value!.Value); // 2
+                    writer.WriteBoolean("boolean_prop", nullableClass.BooleanPropOption.Value.Value); // 2
                 else
                     writer.WriteNull("boolean_prop");
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value!.Value.ToString(DatePropFormat)); // 4
+                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value.Value.ToString(DatePropFormat)); // 4
                 else
                     writer.WriteNull("date_prop");
 
             if (nullableClass.DatetimePropOption.IsSet)
                 if (nullableClass.DatetimePropOption.Value != null)
-                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value!.Value.ToString(DatetimePropFormat)); // 5
+                    writer.WriteString("datetime_prop", nullableClass.DatetimePropOption.Value.Value.ToString(DatetimePropFormat)); // 5
                 else
                     writer.WriteNull("datetime_prop");
 
             if (nullableClass.IntegerPropOption.IsSet)
                 if (nullableClass.IntegerPropOption.Value != null)
-                    writer.WriteNumber("integer_prop", nullableClass.IntegerPropOption.Value!.Value); // 3
+                    writer.WriteNumber("integer_prop", nullableClass.IntegerPropOption.Value.Value); // 3
                 else
                     writer.WriteNull("integer_prop");
 
             if (nullableClass.NumberPropOption.IsSet)
                 if (nullableClass.NumberPropOption.Value != null)
-                    writer.WriteNumber("number_prop", nullableClass.NumberPropOption.Value!.Value); // 3
+                    writer.WriteNumber("number_prop", nullableClass.NumberPropOption.Value.Value); // 3
                 else
                     writer.WriteNull("number_prop");
 

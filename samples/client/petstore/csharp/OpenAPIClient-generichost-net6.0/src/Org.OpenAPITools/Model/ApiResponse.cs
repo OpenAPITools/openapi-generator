@@ -215,7 +215,7 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(apiResponse.Type), "Property is required for class ApiResponse.");
 
             if (apiResponse.CodeOption.IsSet)
-                writer.WriteNumber("code", apiResponse.CodeOption.Value!.Value); // 3
+                writer.WriteNumber("code", apiResponse.CodeOption.Value.Value); // 3
 
             if (apiResponse.MessageOption.IsSet)
                 writer.WriteString("message", apiResponse.Message); // 1

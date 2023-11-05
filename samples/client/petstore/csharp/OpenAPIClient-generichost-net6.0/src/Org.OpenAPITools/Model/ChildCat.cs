@@ -229,7 +229,7 @@ namespace Org.OpenAPITools.Model
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name); // 1
 
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetTypeOption.Value!.Value); // 7
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetTypeOption.Value.Value); // 7
             if (petTypeRawValue != null)
                 writer.WriteString("pet_type", petTypeRawValue);
             else

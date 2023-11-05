@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
             if (id.IsSet && id.Value == null)
                 throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
 
-            return new Category(name.Value!, id); // a
+            return new Category(name.Value, id); // a
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("name", category.Name); // 1
 
             if (category.IdOption.IsSet)
-                writer.WriteNumber("id", category.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", category.IdOption.Value.Value); // 3
         }
     }
 }

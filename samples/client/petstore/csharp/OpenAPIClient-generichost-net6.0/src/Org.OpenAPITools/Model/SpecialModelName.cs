@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName); // 1
 
             if (specialModelName.SpecialPropertyNameOption.IsSet)
-                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value); // 3
+                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value.Value); // 3
         }
     }
 }

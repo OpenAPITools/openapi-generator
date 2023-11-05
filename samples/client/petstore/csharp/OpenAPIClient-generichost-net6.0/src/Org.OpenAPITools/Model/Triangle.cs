@@ -223,13 +223,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
 
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType.Value!); // c
+                return new Triangle(equilateralTriangle, triangleType.Value); // c
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType.Value!); // c
+                return new Triangle(isoscelesTriangle, triangleType.Value); // c
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType.Value!); // c
+                return new Triangle(scaleneTriangle, triangleType.Value); // c
 
             throw new JsonException();
         }

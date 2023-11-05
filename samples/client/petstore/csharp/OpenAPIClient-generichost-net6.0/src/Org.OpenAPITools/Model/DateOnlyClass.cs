@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
-        /// <example>Thu Jul 20 20:00:00 EDT 2017</example>
+        /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
         public DateTime? DateOnlyProperty { get { return this. DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } } // d
 
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat)); // 4
+                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value.Value.ToString(DateOnlyPropertyFormat)); // 4
         }
     }
 }

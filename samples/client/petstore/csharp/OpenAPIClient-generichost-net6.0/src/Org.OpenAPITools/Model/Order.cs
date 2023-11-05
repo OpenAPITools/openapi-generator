@@ -369,25 +369,25 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
             if (order.IdOption.IsSet)
-                writer.WriteNumber("id", order.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", order.IdOption.Value.Value); // 3
 
             if (order.PetIdOption.IsSet)
-                writer.WriteNumber("petId", order.PetIdOption.Value!.Value); // 3
+                writer.WriteNumber("petId", order.PetIdOption.Value.Value); // 3
 
             if (order.QuantityOption.IsSet)
-                writer.WriteNumber("quantity", order.QuantityOption.Value!.Value); // 3
+                writer.WriteNumber("quantity", order.QuantityOption.Value.Value); // 3
 
             if (order.ShipDateOption.IsSet)
-                writer.WriteString("shipDate", order.ShipDateOption.Value!.Value.ToString(ShipDateFormat)); // 5
+                writer.WriteString("shipDate", order.ShipDateOption.Value.Value.ToString(ShipDateFormat)); // 5
 
-            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value!.Value); // 7
+            var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value.Value); // 7
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
 
             if (order.CompleteOption.IsSet)
-                writer.WriteBoolean("complete", order.CompleteOption.Value!.Value); // 2
+                writer.WriteBoolean("complete", order.CompleteOption.Value.Value); // 2
         }
     }
 }

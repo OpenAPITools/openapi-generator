@@ -329,7 +329,7 @@ namespace Org.OpenAPITools.Model
             if (tags.IsSet && tags.Value == null)
                 throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
 
-            return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags); // a
+            return new Pet(name.Value, photoUrls.Value, category, id, status, tags); // a
         }
 
         /// <summary>
@@ -376,9 +376,9 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("category");
                 JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
             if (pet.IdOption.IsSet)
-                writer.WriteNumber("id", pet.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", pet.IdOption.Value.Value); // 3
 
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value); // 7
+            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value.Value); // 7
             if (statusRawValue != null)
                 writer.WriteString("status", statusRawValue);
             else

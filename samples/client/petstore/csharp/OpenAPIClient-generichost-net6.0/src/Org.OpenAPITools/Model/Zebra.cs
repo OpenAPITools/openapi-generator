@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Model
             if (type.IsSet && type.Value == null)
                 throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
 
-            return new Zebra(className.Value!, type); // a
+            return new Zebra(className.Value, type); // a
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Org.OpenAPITools.Model
 
             writer.WriteString("className", zebra.ClassName); // 1
 
-            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value); // 7
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value.Value); // 7
             if (typeRawValue != null)
                 writer.WriteString("type", typeRawValue);
             else

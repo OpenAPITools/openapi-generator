@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
 
-            return new Cat(className.Value!, declawed, color); // a
+            return new Cat(className.Value, declawed, color); // a
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", cat.ClassName); // 1
 
             if (cat.DeclawedOption.IsSet)
-                writer.WriteBoolean("declawed", cat.DeclawedOption.Value!.Value); // 2
+                writer.WriteBoolean("declawed", cat.DeclawedOption.Value.Value); // 2
 
             if (cat.ColorOption.IsSet)
                 writer.WriteString("color", cat.Color); // 1

@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
 
             if (quadrilateral != null)
-                return new NullableShape(quadrilateral, shapeType.Value!); // c
+                return new NullableShape(quadrilateral, shapeType.Value); // c
 
             if (triangle != null)
-                return new NullableShape(triangle, shapeType.Value!); // c
+                return new NullableShape(triangle, shapeType.Value); // c
 
             throw new JsonException();
         }

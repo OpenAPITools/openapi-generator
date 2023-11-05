@@ -149,7 +149,7 @@ namespace Org.OpenAPITools.Model
             if (mealy.IsSet && mealy.Value == null)
                 throw new ArgumentNullException(nameof(mealy), "Property is not nullable for class AppleReq.");
 
-            return new AppleReq(cultivar.Value!, mealy); // a
+            return new AppleReq(cultivar.Value, mealy); // a
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("cultivar", appleReq.Cultivar); // 1
 
             if (appleReq.MealyOption.IsSet)
-                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value); // 2
+                writer.WriteBoolean("mealy", appleReq.MealyOption.Value.Value); // 2
         }
     }
 }

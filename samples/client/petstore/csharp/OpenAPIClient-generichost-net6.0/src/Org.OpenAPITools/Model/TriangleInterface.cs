@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
             if (triangleType.IsSet && triangleType.Value == null)
                 throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
 
-            return new TriangleInterface(triangleType.Value!); // a
+            return new TriangleInterface(triangleType.Value); // a
         }
 
         /// <summary>

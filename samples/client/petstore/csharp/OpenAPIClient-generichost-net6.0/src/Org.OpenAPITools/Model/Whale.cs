@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Model
             if (hasTeeth.IsSet && hasTeeth.Value == null)
                 throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
 
-            return new Whale(className.Value!, hasBaleen, hasTeeth); // a
+            return new Whale(className.Value, hasBaleen, hasTeeth); // a
         }
 
         /// <summary>
@@ -212,10 +212,10 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", whale.ClassName); // 1
 
             if (whale.HasBaleenOption.IsSet)
-                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value); // 2
+                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value.Value); // 2
 
             if (whale.HasTeethOption.IsSet)
-                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value); // 2
+                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value.Value); // 2
         }
     }
 }

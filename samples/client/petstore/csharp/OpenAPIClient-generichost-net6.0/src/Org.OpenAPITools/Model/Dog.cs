@@ -139,7 +139,7 @@ namespace Org.OpenAPITools.Model
             if (color.IsSet && color.Value == null)
                 throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
 
-            return new Dog(className.Value!, breed, color); // a
+            return new Dog(className.Value, breed, color); // a
         }
 
         /// <summary>

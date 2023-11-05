@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
             if (quadrilateralType.IsSet && quadrilateralType.Value == null)
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
 
-            return new QuadrilateralInterface(quadrilateralType.Value!); // a
+            return new QuadrilateralInterface(quadrilateralType.Value); // a
         }
 
         /// <summary>

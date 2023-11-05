@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         {
             if (nullableGuidClass.UuidOption.IsSet)
                 if (nullableGuidClass.UuidOption.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value); // 11
+                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value.Value); // 11
                 else
                     writer.WriteNull("uuid");
         }

@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
 
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value!); // c
+                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value); // c
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value!); // c
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value); // c
 
             throw new JsonException();
         }

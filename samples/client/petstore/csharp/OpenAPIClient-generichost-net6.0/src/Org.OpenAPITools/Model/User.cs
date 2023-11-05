@@ -435,7 +435,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("firstName", user.FirstName); // 1
 
             if (user.IdOption.IsSet)
-                writer.WriteNumber("id", user.IdOption.Value!.Value); // 3
+                writer.WriteNumber("id", user.IdOption.Value.Value); // 3
 
             if (user.LastNameOption.IsSet)
                 writer.WriteString("lastName", user.LastName); // 1
@@ -450,7 +450,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("phone", user.Phone); // 1
 
             if (user.UserStatusOption.IsSet)
-                writer.WriteNumber("userStatus", user.UserStatusOption.Value!.Value); // 3
+                writer.WriteNumber("userStatus", user.UserStatusOption.Value.Value); // 3
 
             if (user.UsernameOption.IsSet)
                 writer.WriteString("username", user.Username); // 1

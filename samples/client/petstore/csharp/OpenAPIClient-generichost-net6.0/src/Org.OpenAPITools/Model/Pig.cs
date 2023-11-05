@@ -200,10 +200,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, className.Value!); // c
+                return new Pig(basquePig, className.Value); // c
 
             if (danishPig != null)
-                return new Pig(danishPig, className.Value!); // c
+                return new Pig(danishPig, className.Value); // c
 
             throw new JsonException();
         }

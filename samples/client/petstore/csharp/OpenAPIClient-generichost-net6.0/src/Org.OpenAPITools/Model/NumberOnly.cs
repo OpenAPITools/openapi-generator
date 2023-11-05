@@ -165,7 +165,7 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value); // 3
+                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value.Value); // 3
         }
     }
 }

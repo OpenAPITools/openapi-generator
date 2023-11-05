@@ -223,13 +223,13 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
 
             if (pig != null)
-                return new Mammal(pig, className.Value!); // c
+                return new Mammal(pig, className.Value); // c
 
             if (whale != null)
-                return new Mammal(whale, className.Value!); // c
+                return new Mammal(whale, className.Value); // c
 
             if (zebra != null)
-                return new Mammal(zebra, className.Value!); // c
+                return new Mammal(zebra, className.Value); // c
 
             throw new JsonException();
         }

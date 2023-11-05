@@ -193,7 +193,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("class", model200Response.VarClass); // 1
 
             if (model200Response.NameOption.IsSet)
-                writer.WriteNumber("name", model200Response.NameOption.Value!.Value); // 3
+                writer.WriteNumber("name", model200Response.NameOption.Value.Value); // 3
         }
     }
 }
