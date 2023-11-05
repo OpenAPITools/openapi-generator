@@ -189,7 +189,6 @@ public class OpenAPINormalizer {
 
         normalizePaths();
         normalizeComponentsSchemas();
-        normalizeComponentsResponses();
     }
 
     /**
@@ -320,9 +319,8 @@ public class OpenAPINormalizer {
             if (responsesEntry.getValue() == null) {
                 continue;
             } else {
-                normalizeContent(responsesEntry.getValue().getContent());
-                normalizeHeaders(responsesEntry.getValue().getHeaders());
-
+                normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getContent());
+                normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getHeaders());
             }
         }
     }
@@ -361,33 +359,6 @@ public class OpenAPINormalizer {
             } else {
                 Schema result = normalizeSchema(schema, new HashSet<>());
                 schemas.put(schemaName, result);
-            }
-        }
-    }
-
-    /**
-     * Normalizes responses in components
-     */
-    private void normalizeComponentsResponses() {
-        Map<String, ApiResponse> schemas = openAPI.getComponents().getResponses();
-        if (schemas == null) {
-            return;
-        }
-
-        List<String> schemaNames = new ArrayList<String>(schemas.keySet());
-        for (String schemaName : schemaNames) {
-            ApiResponse schema = schemas.get(schemaName);
-            if (schema == null) {
-                LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
-            } else {
-                Content content = ModelUtils.getReferencedApiResponse(openAPI, schema).getContent();
-                if (content == null || content.isEmpty()) {
-                    continue;
-                }
-                for (Map.Entry<String, MediaType> entry : content.entrySet()) {
-                    Schema entryResult = normalizeSchema(entry.getValue().getSchema(), new HashSet<>());
-                    entry.getValue().setSchema(entryResult);
-                }
             }
         }
     }
