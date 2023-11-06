@@ -127,33 +127,25 @@ class ApiException(OpenApiException):
 
         return error_message
 
-class BadRequestException(ApiException):
 
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(BadRequestException, self).__init__(status, reason, http_resp)
+class BadRequestException(ApiException):
+    pass
+
 
 class NotFoundException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(NotFoundException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class UnauthorizedException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(UnauthorizedException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class ForbiddenException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(ForbiddenException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class ServiceException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(ServiceException, self).__init__(status, reason, http_resp)
+    pass
 
 
 def render_path(path_to_item):
