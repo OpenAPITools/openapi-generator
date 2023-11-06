@@ -576,4 +576,15 @@ public class JSONTest {
         z.putAdditionalProperty("new_object", t);
         assertEquals(z.toJson(), "{\"type\":\"plains\",\"className\":\"zebra\",\"new_key\":\"new_value\",\"new_boolean\":true,\"new_object\":{\"id\":34,\"name\":\"just a tag\"},\"from_json\":4567,\"from_json_map\":{\"nested_string\":\"nested_value\"},\"new_number\":1.23}");
     }
+
+
+    @Test
+    public void testInvalidEnumValueException() {
+        // test Pet with invalid status
+        String str = "{\"id\": 5847, \"name\":\"pet test 1\", \"photoUrls\": [\"https://a.com\", \"https://b.com\"],\"status\":\"sleeping\"}";
+        Exception exception = assertThrows(java.lang.IllegalArgumentException.class, () -> {
+            Pet t7 = Pet.fromJson(str);
+        });
+        assertTrue(exception.getMessage().contains("Unexpected value 'sleeping'"));
+    }
 }
