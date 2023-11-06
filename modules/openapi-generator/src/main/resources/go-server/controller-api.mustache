@@ -495,7 +495,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}{{/isInteger}}
 	{{^isFile}}
 	{{^isLong}}
+	{{#isArray}}
+	{{paramName}}Param := strings.Split(r.FormValue("{{baseName}}"), ",")
+	{{/isArray}}
+	{{^isArray}}
 	{{paramName}}Param := r.FormValue("{{baseName}}")
+	{{/isArray}}
 	{{/isLong}}
 	{{/isFile}}
 	{{/isFormParam}}
