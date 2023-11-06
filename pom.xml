@@ -1290,6 +1290,7 @@
                 <!-- test Go projects -->
                 <module>samples/client/petstore/go</module>
                 <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false</module>
                 <!-- comment out due to Go version
                 <module>samples/server/petstore/go-gin-api-server</module>-->
             </modules>
