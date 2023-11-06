@@ -126,7 +126,7 @@ public class GenApiControllerTest {
     }
     @Test
     public void generateClientWithInvalidOpenAPIUrl() throws Exception {
-        String invalidOpenAPIUrl = "https://example.com/invalid_openapi.json"; // Provide an invalid URL
+        String invalidOpenAPIUrl = "https://test.com:1234/invalid_openapi.json";
         mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"openAPIUrl\": \"" + invalidOpenAPIUrl + "\"}"))
