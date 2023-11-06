@@ -350,6 +350,79 @@ public class BodyApi {
     return localVarRequestBuilder;
   }
   /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+    ApiResponse<Pet> localVarResponse = testEchoBodyAllOfPetWithHttpInfo(pet);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return ApiResponse&lt;Pet&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testEchoBodyAllOfPetRequestBuilder(pet);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      try {
+        if (localVarResponse.statusCode()/ 100 != 2) {
+          throw getApiException("testEchoBodyAllOfPet", localVarResponse);
+        }
+        return new ApiResponse<Pet>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}) // closes the InputStream
+        );
+      } finally {
+      }
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder testEchoBodyAllOfPetRequestBuilder(Pet pet) throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/echo/body/allOf/Pet";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Content-Type", "application/json");
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    try {
+      byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(pet);
+      localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)

@@ -484,13 +484,21 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // additional import for different cases
+            boolean addedFmtImport = false;
+
             // oneOf
             if (model.oneOf != null && !model.oneOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
             }
 
             // anyOf
             if (model.anyOf != null && !model.anyOf.isEmpty()) {
+                imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
+            }
+
+            if (!addedFmtImport && model.hasRequired) {
                 imports.add(createMapping("import", "fmt"));
             }
 

@@ -120,7 +120,7 @@ public class PythonPydanticV1ClientCodegen extends AbstractPythonPydanticV1Codeg
         modelTestTemplateFiles.put("model_test.mustache", ".py");
         apiTestTemplateFiles.put("api_test.mustache", ".py");
 
-        embeddedTemplateDir = templateDir = "python";
+        embeddedTemplateDir = templateDir = "python-pydantic-v1";
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");

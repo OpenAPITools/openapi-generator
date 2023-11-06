@@ -1019,7 +1019,7 @@ public class DefaultCodegen implements CodegenConfig {
                         if (op.getValue().getResponses() != null) {
                             for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
                                 ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, a));
                                 if (responseSchema != null) {
                                     schemas.put(opId + ar.getKey(), responseSchema);
                                 }
@@ -4379,7 +4379,7 @@ public class DefaultCodegen implements CodegenConfig {
                                         CodegenOperation op,
                                         ApiResponse methodResponse,
                                         Map<String, String> schemaMappings) {
-        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
 
         if (responseSchema != null) {
             CodegenProperty cm = fromProperty("response", responseSchema, false);
@@ -4813,6 +4813,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {
+
                 case '1':
                     r.is1xx = true;
                     break;
@@ -4835,12 +4836,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(response));
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
         } else { // no model/alias defined
-            responseSchema = ModelUtils.getSchemaFromResponse(response);
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
         }
         r.schema = responseSchema;
-
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
         // ApiResponse does not support examples at the moment
@@ -7581,8 +7581,19 @@ public class DefaultCodegen implements CodegenConfig {
         String name = null;
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
+        Schema original = null;
+        // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
+        if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
+                schema.getType() == null && schema.getTypes() == null) {
+            if (schema.getAllOf().get(0) instanceof Schema) {
+                original = schema;
+                schema = (Schema) schema.getAllOf().get(0);
+            } else {
+                LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
+            }
+        }
 
+        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
@@ -7650,6 +7661,20 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
+
+        // restore original schema with description, extensions etc
+        if (original != null) {
+            schema = original;
+            // evaluate common attributes such as description if defined in the top level
+            if (schema.getDescription() != null) {
+                codegenParameter.description = escapeText(schema.getDescription());
+                codegenParameter.unescapedDescription = schema.getDescription();
+            }
+
+            if (original.getExtensions() != null) {
+                codegenParameter.vendorExtensions.putAll(original.getExtensions());
+            }
+        }
 
         return codegenParameter;
     }
