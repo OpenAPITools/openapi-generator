@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -924,12 +925,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    /**
-     * Set the OpenAPI document.
-     * This method is invoked when the input OpenAPI document has been parsed and validated.
-     */
-    @Override
-    public void setOpenAPI(OpenAPI openAPI) {
+    public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
         if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
@@ -939,8 +935,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
         Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
         Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
-        boolean specVersionGreaterThanOrEqualTo310 = (specMajorVersion == 3 && specMinorVersion >= 1);
-        if (specVersionGreaterThanOrEqualTo310) {
+        return specMajorVersion == 3 && specMinorVersion >= 1;
+    }
+
+    /**
+     * Set the OpenAPI document.
+     * This method is invoked when the input OpenAPI document has been parsed and validated.
+     */
+    @Override
+    public void setOpenAPI(OpenAPI openAPI) {
+        if (specVersionGreaterThanOrEqualTo310(openAPI)) {
             LOGGER.warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
@@ -2894,7 +2898,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (null != existingProperties && null != newProperties) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
-            existingProperties.putAll(newProperties);
+            newProperties.forEach((key, value) ->
+                    existingProperties.put(
+                            key,
+                            AnnotationsUtils.clone(value, specVersionGreaterThanOrEqualTo310(openAPI))
+                    ));
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
