@@ -169,4 +169,13 @@ public class JavascriptClientCodegenTest {
         }
     }
 
+    @Test(description = "test additional properties for code generation")
+    public void testAdditionalProperties() throws Exception {
+        final JavascriptClientCodegen codegen = new JavascriptClientCodegen();
+        codegen.additionalProperties().put("customProperty", "customValue");
+        codegen.processOpts();
+
+        Assert.assertEquals(codegen.additionalProperties().get("customProperty"), "customValue");
+    }
+
 }
