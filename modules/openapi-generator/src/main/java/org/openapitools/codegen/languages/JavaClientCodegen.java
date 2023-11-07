@@ -133,7 +133,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String serializationLibrary = null;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected String rootJavaEEPackage;
-    protected Map<String, MpRestClientVersion> mpRestClientVersions = new HashMap<>();
+    protected Map<String, MpRestClientVersion> mpRestClientVersions = new LinkedHashMap<>();
     protected boolean useSingleRequestParameter = false;
     protected boolean webclientBlockingOperations = false;
     protected boolean generateClientAsBean = false;

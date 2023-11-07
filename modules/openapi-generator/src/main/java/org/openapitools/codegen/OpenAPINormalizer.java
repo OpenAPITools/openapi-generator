@@ -188,7 +188,7 @@ public class OpenAPINormalizer {
         }
 
         normalizePaths();
-        normalizeComponents();
+        normalizeComponentsSchemas();
     }
 
     /**
@@ -319,9 +319,8 @@ public class OpenAPINormalizer {
             if (responsesEntry.getValue() == null) {
                 continue;
             } else {
-                normalizeContent(responsesEntry.getValue().getContent());
-                normalizeHeaders(responsesEntry.getValue().getHeaders());
-
+                normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getContent());
+                normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getHeaders());
             }
         }
     }
@@ -346,7 +345,7 @@ public class OpenAPINormalizer {
     /**
      * Normalizes schemas in components
      */
-    private void normalizeComponents() {
+    private void normalizeComponentsSchemas() {
         Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         if (schemas == null) {
             return;

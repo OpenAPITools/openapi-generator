@@ -212,6 +212,11 @@ class TestManual(unittest.TestCase):
         self.assertEqual(pet2.tags[0].name, "None")
         self.assertEqual(pet2.category.id, 1)
 
+    def test_parameters_to_url_query_boolean_value(self):
+        client = openapi_client.ApiClient()
+        params = client.parameters_to_url_query([("boolean", True),], {})
+        self.assertEqual(params, "boolean=true")
+
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
 Host: localhost:3000

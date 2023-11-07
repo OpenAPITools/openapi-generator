@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
     """
     TestInlineFreeformAdditionalPropertiesRequest
-    """
+    """ # noqa: E501
     some_property: Optional[StrictStr] = Field(default=None, alias="someProperty")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["someProperty"]
@@ -81,7 +80,7 @@ class TestInlineFreeformAdditionalPropertiesRequest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of TestInlineFreeformAdditionalPropertiesRequest from a dict"""
         if obj is None:
             return None

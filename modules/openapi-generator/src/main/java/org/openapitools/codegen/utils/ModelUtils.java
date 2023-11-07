@@ -714,7 +714,7 @@ public class ModelUtils {
         return (schema != null) &&
                 // has properties
                 ((null != schema.getProperties() && !schema.getProperties().isEmpty())
-                // composed schema is a model, consider very simple ObjectSchema a model
+                        // composed schema is a model, consider very simple ObjectSchema a model
                         || isComposedSchema(schema)
                         || schema instanceof ObjectSchema);
     }
@@ -1009,11 +1009,12 @@ public class ModelUtils {
     /**
      * Return the first defined Schema for a ApiResponse
      *
+     * @param openAPI OpenAPI spec.
      * @param response api response of the operation
      * @return firstSchema
      */
-    public static Schema getSchemaFromResponse(ApiResponse response) {
-        return getSchemaFromContent(response.getContent());
+    public static Schema getSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
+        return getSchemaFromContent(getReferencedApiResponse(openAPI, response).getContent());
     }
 
     /**
@@ -1738,7 +1739,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema '"+ schema.getType() +"'. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + schema.getType() +"'. Ignoring!");
         });
     }
 
@@ -1958,7 +1959,6 @@ public class ModelUtils {
      * Returns true if the schema is a parent (with discriminator).
      *
      * @param schema the schema.
-     *
      * @return true if the schema is a parent.
      */
     public static boolean isParent(Schema schema) {

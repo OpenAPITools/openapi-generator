@@ -201,6 +201,8 @@ void StoreOrderOrder_idResource::handler_DELETE_internal(const std::shared_ptr<r
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 // x-extension
@@ -259,6 +261,8 @@ void StoreOrderOrder_idResource::handler_GET_internal(const std::shared_ptr<rest
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 int StoreOrderOrder_idResource::handler_DELETE(
@@ -374,6 +378,8 @@ void StoreInventoryResource::handler_GET_internal(const std::shared_ptr<restbed:
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 
@@ -496,6 +502,8 @@ void StoreOrderResource::handler_POST_internal(const std::shared_ptr<restbed::Se
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 

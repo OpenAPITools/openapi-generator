@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -70,7 +71,7 @@ class Pet
     protected ?string $name = null;
 
     /**
-     * @var array|null
+     * @var string[]|null
      * @SerializedName("photoUrls")
      * @Assert\NotNull()
      * @Assert\All({
@@ -81,7 +82,7 @@ class Pet
     protected ?array $photoUrls = null;
 
     /**
-     * @var array|null
+     * @var Tag[]|null
      * @SerializedName("tags")
      * @Assert\All({
      *   @Assert\Type("OpenAPI\Server\Model\Tag")
@@ -127,6 +128,8 @@ class Pet
         return $this->id;
     }
 
+
+
     /**
      * Sets id.
      *
@@ -150,6 +153,8 @@ class Pet
     {
         return $this->category;
     }
+
+
 
     /**
      * Sets category.
@@ -175,6 +180,8 @@ class Pet
         return $this->name;
     }
 
+
+
     /**
      * Sets name.
      *
@@ -192,17 +199,19 @@ class Pet
     /**
      * Gets photoUrls.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getPhotoUrls(): ?array
     {
         return $this->photoUrls;
     }
 
+
+
     /**
      * Sets photoUrls.
      *
-     * @param array|null $photoUrls
+     * @param string[]|null $photoUrls
      *
      * @return $this
      */
@@ -216,17 +225,19 @@ class Pet
     /**
      * Gets tags.
      *
-     * @return array|null
+     * @return Tag[]|null
      */
     public function getTags(): ?array
     {
         return $this->tags;
     }
 
+
+
     /**
      * Sets tags.
      *
-     * @param array|null $tags
+     * @param Tag[]|null $tags
      *
      * @return $this
      */
@@ -246,6 +257,8 @@ class Pet
     {
         return $this->status;
     }
+
+
 
     /**
      * Sets status.

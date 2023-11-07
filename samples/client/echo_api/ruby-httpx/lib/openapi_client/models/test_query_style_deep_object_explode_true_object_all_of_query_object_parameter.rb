@@ -194,7 +194,7 @@ module OpenapiClient
       else # model
         # models (e.g. Pet) or oneOf
         klass = OpenapiClient.const_get(type)
-        klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
+        klass.respond_to?(:openapi_any_of) || klass.respond_to?(:openapi_one_of) ? klass.build(value) : klass.build_from_hash(value)
       end
     end
 

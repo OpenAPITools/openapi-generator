@@ -74,6 +74,41 @@ class ApiExceptionTests(unittest.TestCase):
             self.assertIn("1 validation error for FindPetsByStatus", str(e))
             self.assertIn("unexpected value; permitted: 'available', 'pending', 'sold'", str(e))
 
+    def test_request_timeout_validation(self):
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout="1.0")
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=())
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=(1.0, 1.0, 1.0))
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+
+    def test_host_index_validation(self):
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _host_index="1")
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _host_index=1)
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+        try:
+            self.pet_api.get_pet_by_id(self.pet.id, _host_index=-1)
+            self.assertTrue(False)
+        except ValidationError as e:
+            pass
+
+
     def checkRaiseRegex(self, expected_exception, expected_regex):
         return self.assertRaisesRegex(expected_exception, expected_regex)
 
