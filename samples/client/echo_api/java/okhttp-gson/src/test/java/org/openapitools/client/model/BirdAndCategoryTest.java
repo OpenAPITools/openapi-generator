@@ -34,11 +34,11 @@ public class BirdAndCategoryTest {
      */
     @Test
     public void testBirdAndCategory() {
-        birdAndCategory.setSize("Small");
-        assertEquals("Small", birdAndCategory.getSize());
+        model.setSize("Small");
+        assertEquals("Small", model.getSize());
 
-        birdAndCategory.setSize("Large");
-        assertEquals("Large", birdAndCategory.getSize());
+        model.setSize("Large");
+        assertEquals("Large", model.getSize());
     }
 
     /**
