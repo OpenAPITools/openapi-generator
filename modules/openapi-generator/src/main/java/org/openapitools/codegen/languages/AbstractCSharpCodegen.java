@@ -136,7 +136,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "Client", "client", "parameter", "Configuration", "Version",
+                        "Client", "client", "parameter", "Configuration", "Version", "Environment",
+                        "TimeZone", "OperatingSystem",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
