@@ -45,6 +45,7 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -84,6 +85,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String sourceFolder = "src";
     protected String invalidNamePrefix = "var";
+    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -389,6 +391,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties().containsKey(CodegenConstants.ENUM_VALUE_SUFFIX)) {
             setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
+            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
         }
 
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
@@ -1598,6 +1604,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.supportNullable = supportNullable;
     }
 
+    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return this.enumPropertyNaming;
+    }
+
+    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
+        try {
+            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
@@ -1622,12 +1644,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
-            return "Empty";
+            return adjustNamingStyle("Empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return adjustNamingStyle(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -1635,12 +1657,39 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + this.enumValueSuffix;
+        enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    /**
+     * Adjust the naming style of a given name based on the enumPropertyNaming option.
+     *
+     * @param name The original name
+     * @return The adjusted name
+     */
+    private String adjustNamingStyle(String name)
+    {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                // NOTE: Removes hyphens and underscores
+                return camelize(name, LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                // NOTE: Removes hyphens and underscores
+                return camelize(name);
+            case snake_case:
+                // NOTE: Removes hyphens
+                return underscore(name);
+            case UPPERCASE:
+                return underscore(name).toUpperCase(Locale.ROOT);
+            default:
+                return name;
         }
     }
 
