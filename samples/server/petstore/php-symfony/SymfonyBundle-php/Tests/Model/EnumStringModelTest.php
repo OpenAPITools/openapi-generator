@@ -29,6 +29,7 @@
 
 namespace OpenAPI\Server\Tests\Model;
 
+use OpenAPI\Server\Model\EnumStringModel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
