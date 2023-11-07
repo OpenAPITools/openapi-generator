@@ -32,7 +32,6 @@ Service/TypeMismatchException.php
 Service/ValidatorInterface.php
 Tests/AppKernel.php
 Tests/Controller/ControllerTest.php
-Tests/Model/EnumStringModelTest.php
 Tests/test_config.yaml
 autoload.php
 composer.json
