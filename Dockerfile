@@ -1,4 +1,4 @@
-FROM maven:3.6.3-jdk-11-openj9
+FROM maven:3-eclipse-temurin-21
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
