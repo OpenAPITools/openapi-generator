@@ -81,6 +81,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
     protected Set<String> propertyAdditionalKeywords = new HashSet<>(Arrays.asList("entries", "keys", "size", "values"));
 
+    private final List<Pattern> PARENT_TYPES_NEEDING_CTOR_CALL = List.of(Pattern.compile("^kotlin\\.collections\\.HashMap.*"));
+
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
     @Getter @Setter
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
@@ -420,8 +422,44 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                     break;
                 }
             }
+
+            final boolean isParentCtorCallNeeded = isParentCtorCallNeeded(cm);
+            cm.vendorExtensions.put("x-is-parent-ctor-call-needed", isParentCtorCallNeeded);
         }
         return postProcessModelsEnum(objs);
+    }
+
+    /**
+     * Determines if a constructor call is needed for the parent type of a model
+     * and if yes, the invocation syntax `()` is added in the generated code.
+     *
+     * Important note: This is kotlin specific at the moment, but could be
+     * extended with to support detection for other languages as well.
+     *
+     * The generator used to default to issuing a supertype
+     * constructor call and then it was changed to default to not doing it.
+     * Both are wrong since there are different cases and the decision has to be
+     * made at runtime based on the parent type itself.
+     *
+     * For example if it is a HashMap (because you set
+     * additionalProperties: true for example) then it MUST HAVE a parent
+     * constructor call. If the parent type is an interface because you are
+     * using allOf with a discriminator property then the generated code for the
+     * model will have it's parent type as the interface which MUST NOT HAVE a
+     * parent constructor call.
+     *
+     * @see https://github.com/OpenAPITools/openapi-generator/issues/8366
+     *
+     * @return {boolean} `true` if the () call syntax is needed, false otherwise.
+     */
+    protected boolean isParentCtorCallNeeded(CodegenModel cm) {
+        final String parent = cm.getParent();
+
+        if (parent != null) {
+            return PARENT_TYPES_NEEDING_CTOR_CALL.stream()
+                    .anyMatch(pattern -> pattern.matcher(parent).matches());
+        }
+        return false;
     }
 
     @Override
