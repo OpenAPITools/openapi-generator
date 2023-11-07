@@ -27,7 +27,7 @@
  * Please update the test case below to test the model.
  */
 
-namespace OpenAPI\Server\Model;
+namespace OpenAPI\Server\Tests\Model;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -80,7 +80,6 @@ class EnumStringModelTest extends TestCase
      */
     public function testTestClassExists(): void
     {
-        $this->assertTrue(class_exists(EnumStringModel::class));
-        $this->assertInstanceOf(EnumStringModel::class, $this->object);
+        $this->assertTrue(enum_exists(EnumStringModel::class));
     }
 }

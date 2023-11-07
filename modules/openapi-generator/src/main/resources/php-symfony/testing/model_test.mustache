@@ -19,7 +19,7 @@
  * Please update the test case below to test the model.
  */
 
-namespace {{modelPackage}};
+namespace {{modelTestsPackage}};
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -75,8 +75,13 @@ class {{classname}}Test extends TestCase
      */
     public function testTestClassExists(): void
     {
+        {{#isEnum}}
+        $this->assertTrue(enum_exists({{classname}}::class));
+        {{/isEnum}}
+        {{^isEnum}}
         $this->assertTrue(class_exists({{classname}}::class));
         $this->assertInstanceOf({{classname}}::class, $this->object);
+        {{/isEnum}}
     }
 {{#vars}}
 
