@@ -34,7 +34,7 @@ jobs:
             ~/.m2
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server

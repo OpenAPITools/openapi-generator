@@ -70,3 +70,37 @@ export class RequiredError extends Error {
         this.name = "RequiredError"
     }
 }
+
+interface ServerMap {
+    [key: string]: {
+        url: string,
+        description: string,
+    }[];
+}
+
+/**
+ *
+ * @export
+ */
+export const operationServerMap: ServerMap = {
+    "PetApi.addPet": [
+        {
+            url: "http://petstore.swagger.io/v2",
+            description: "No description provided",
+        },
+        {
+            url: "http://path-server-test.petstore.local/v2",
+            description: "No description provided",
+        }
+    ],
+    "PetApi.updatePet": [
+        {
+            url: "http://petstore.swagger.io/v2",
+            description: "No description provided",
+        },
+        {
+            url: "http://path-server-test.petstore.local/v2",
+            description: "No description provided",
+        }
+    ],
+}

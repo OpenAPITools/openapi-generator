@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openapitools.codegen.*;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -688,6 +691,75 @@ public class PostmanCollectionCodegenTest {
 
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
+    }
+
+    @Test
+    public void testAddToList()  {
+
+        PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        postmanCollectionCodegen.addToList(operationUsers);
+
+        CodegenOperation operationGroups = new CodegenOperation();
+        operationGroups.path = "/groups";
+        postmanCollectionCodegen.addToList(operationGroups);
+
+        CodegenOperation operationUserId = new CodegenOperation();
+        operationUserId.path = "/users/{id}";
+        postmanCollectionCodegen.addToList(operationUserId);
+
+        assertEquals(3, postmanCollectionCodegen.codegenOperationsList.size());
+        // verify order
+        assertEquals("/groups", postmanCollectionCodegen.codegenOperationsList.get(0).path);
+        assertEquals("/users", postmanCollectionCodegen.codegenOperationsList.get(1).path);
+        assertEquals("/users/{id}", postmanCollectionCodegen.codegenOperationsList.get(2).path);
+    }
+
+    @Test
+    public void testAddToMap() {
+
+        PostmanCollectionCodegen postmanV2Generator = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        operationUsers.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationUsers);
+
+        CodegenOperation operationGroups = new CodegenOperation();
+        operationGroups.path = "/groups";
+        operationGroups.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationGroups);
+
+        CodegenOperation operationUserId = new CodegenOperation();
+        operationUserId.path = "/users/{id}";
+        operationUserId.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationUserId);
+
+        // verify tag 'basic'
+        assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("basic"));
+
+        List<CodegenOperation> operations = postmanV2Generator.codegenOperationsByTag.get("basic");
+        // verify order
+        assertEquals("/groups", operations.get(0).path);
+        assertEquals("/users", operations.get(1).path);
+        assertEquals("/users/{id}", operations.get(2).path);
+    }
+
+    @Test
+    public void testAddToMapUsingDefaultTag() {
+
+        PostmanCollectionCodegen postmanV2Generator = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        postmanV2Generator.addToMap(operationUsers);
+
+        // verify tag 'default' is used
+        assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("default"));
     }
 
 }

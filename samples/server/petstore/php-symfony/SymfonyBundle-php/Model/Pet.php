@@ -71,7 +71,7 @@ class Pet
     protected ?string $name = null;
 
     /**
-     * @var array|null
+     * @var string[]|null
      * @SerializedName("photoUrls")
      * @Assert\NotNull()
      * @Assert\All({
@@ -82,7 +82,7 @@ class Pet
     protected ?array $photoUrls = null;
 
     /**
-     * @var array|null
+     * @var Tag[]|null
      * @SerializedName("tags")
      * @Assert\All({
      *   @Assert\Type("OpenAPI\Server\Model\Tag")
@@ -199,7 +199,7 @@ class Pet
     /**
      * Gets photoUrls.
      *
-     * @return array|null
+     * @return string[]|null
      */
     public function getPhotoUrls(): ?array
     {
@@ -211,7 +211,7 @@ class Pet
     /**
      * Sets photoUrls.
      *
-     * @param array|null $photoUrls
+     * @param string[]|null $photoUrls
      *
      * @return $this
      */
@@ -225,7 +225,7 @@ class Pet
     /**
      * Gets tags.
      *
-     * @return array|null
+     * @return Tag[]|null
      */
     public function getTags(): ?array
     {
@@ -237,7 +237,7 @@ class Pet
     /**
      * Sets tags.
      *
-     * @param array|null $tags
+     * @param Tag[]|null $tags
      *
      * @return $this
      */

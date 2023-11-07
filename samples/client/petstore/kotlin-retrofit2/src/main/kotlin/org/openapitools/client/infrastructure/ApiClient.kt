@@ -72,7 +72,7 @@ class ApiClient(
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
-            val auth = when (authName) { 
+            val auth: Interceptor? = when (authName) { 
                 "petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
                 
                 "api_key" -> ApiKeyAuth("header", "api_key")
