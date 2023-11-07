@@ -135,6 +135,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
                         "Client", "client", "parameter", "Configuration", "Version", "Environment",
+                        "TimeZone", "OperatingSystem",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
