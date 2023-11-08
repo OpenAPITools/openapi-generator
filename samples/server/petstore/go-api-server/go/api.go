@@ -76,7 +76,7 @@ type PetAPIServicer interface {
 	GetPetsUsingBooleanQueryParameters(context.Context, bool, bool, bool) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UploadFile(context.Context, int64, string, []string, *os.File) (ImplResponse, error)
 	UploadFileArrayOfFiles(context.Context, int64, string, []*os.File) (ImplResponse, error)
 }
 

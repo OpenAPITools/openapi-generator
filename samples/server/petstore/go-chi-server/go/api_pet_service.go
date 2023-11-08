@@ -173,7 +173,7 @@ func (s *PetAPIService) UpdatePetWithForm(ctx context.Context, petId int64, name
 }
 
 // UploadFile - uploads an image
-func (s *PetAPIService) UploadFile(ctx context.Context, petId int64, additionalMetadata string, file *os.File) (ImplResponse, error) {
+func (s *PetAPIService) UploadFile(ctx context.Context, petId int64, additionalMetadata string, extraOptionalMetadata []string, file *os.File) (ImplResponse, error) {
 	// TODO - update UploadFile with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

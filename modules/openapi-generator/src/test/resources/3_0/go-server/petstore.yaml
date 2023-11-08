@@ -346,6 +346,11 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
+                extraOptionalMetadata:
+                  description: More data to pass to server
+                  type: array
+                  items:
+                    type: string
                 file:
                   description: file to upload
                   type: string

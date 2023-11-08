@@ -407,6 +407,9 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
+	
+	
+	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -414,7 +417,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, extraOptionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

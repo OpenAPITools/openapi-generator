@@ -1194,6 +1194,11 @@ components:
         additionalMetadata:
           description: Additional data to pass to server
           type: string
+        extraOptionalMetadata:
+          description: More data to pass to server
+          items:
+            type: string
+          type: array
         file:
           description: file to upload
           format: binary
