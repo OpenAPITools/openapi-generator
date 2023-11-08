@@ -99,6 +99,11 @@ public class EnumTest {
         return EnumStringEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStringEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
@@ -152,6 +157,11 @@ public class EnumTest {
         return EnumStringRequiredEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStringRequiredEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
@@ -203,6 +213,11 @@ public class EnumTest {
         return EnumIntegerEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Integer value = jsonElement.getAsInt();
+      EnumIntegerEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER = "enum_integer";
@@ -253,6 +268,11 @@ public class EnumTest {
         Double value =  jsonReader.nextDouble();
         return EnumNumberEnum.fromValue(value);
       }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Double value = jsonElement.getAsDouble();
+      EnumNumberEnum.fromValue(value);
     }
   }
 
@@ -467,8 +487,26 @@ public class EnumTest {
       if ((jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) && !jsonObj.get("enum_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string").toString()));
       }
+      // validate the optional field `enum_string`
+      if (jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) {
+        EnumStringEnum.validateJsonElement(jsonObj.get("enum_string"));
+      }
       if (!jsonObj.get("enum_string_required").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string_required` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string_required").toString()));
+      }
+      // validate the required field `enum_string_required`
+      EnumStringRequiredEnum.validateJsonElement(jsonObj.get("enum_string_required"));
+      // validate the optional field `enum_integer`
+      if (jsonObj.get("enum_integer") != null && !jsonObj.get("enum_integer").isJsonNull()) {
+        EnumIntegerEnum.validateJsonElement(jsonObj.get("enum_integer"));
+      }
+      // validate the optional field `enum_number`
+      if (jsonObj.get("enum_number") != null && !jsonObj.get("enum_number").isJsonNull()) {
+        EnumNumberEnum.validateJsonElement(jsonObj.get("enum_number"));
+      }
+      // validate the optional field `outerEnum`
+      if (jsonObj.get("outerEnum") != null && !jsonObj.get("outerEnum").isJsonNull()) {
+        OuterEnum.validateJsonElement(jsonObj.get("outerEnum"));
       }
   }
 
