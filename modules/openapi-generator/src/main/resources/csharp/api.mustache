@@ -226,7 +226,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             set { _exceptionFactory = value; }
         }
-		
+
         /// <summary>
         /// Provides a common RequestOptions object for all operations.
         /// </summary>
@@ -244,14 +244,54 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
-			
+
             localVarRequestOptions.Operation = operationId;
             localVarRequestOptions.OperationIndex = operationIndex;
-			
+
             return localVarRequestOptions;
 		}
+
+        /// <summary>
+        /// Sets RequestOptions Authorization headers with bearer or oauth.
+        /// </summary>
+        private RequestOptions SetAuthorization(RequestOptions localVarRequestOptions)
+        {
+			// oauth required
+            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
+            {
+                if (!string.IsNullOrEmpty(Configuration.AccessToken))
+                {
+                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
+                }
+                {{#hasOAuthMethods}}
+                else if (!string.IsNullOrEmpty(Configuration.OAuthTokenUrl) &&
+                         !string.IsNullOrEmpty(Configuration.OAuthClientId) &&
+                         !string.IsNullOrEmpty(Configuration.OAuthClientSecret) &&
+                         Configuration.OAuthFlow != null)
+                {
+                    localVarRequestOptions.OAuth = true;
+                }
+                {{/hasOAuthMethods}}
+            }
+            return localVarRequestOptions;
+		}
+
+        /// <summary>
+        /// Validates if operation has an exception and rethrows it.
+        /// </summary>
+        private void ValidateException(string operationName, IApiResponse localVarResponse)
+        {
+            if (ExceptionFactory != null)
+            {
+                Exception _exception = ExceptionFactory(operationName, localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+		}
         {{#operation}}
-		
+
         /// <summary>
         /// Provides a specific RequestOptions object for {{operationId}}.
         /// </summary>
@@ -265,7 +305,7 @@ namespace {{packageName}}.{{apiPackage}}
             {
                 throw new ApiException(400, "Missing required parameter '{{paramName}}' when calling {{classname}}->{{operationId}}");
             }
-			
+
             {{/vendorExtensions.x-csharp-value-type}}
             {{/required}}
             {{/allParams}}
@@ -281,9 +321,9 @@ namespace {{packageName}}.{{apiPackage}}
                 "{{{mediaType}}}"{{^-last}},{{/-last}}
                 {{/produces}}
             };
-			
+
             RequestOptions localVarRequestOptions = GetRequestOptions(_contentTypes, _accepts,"{{classname}}.{{operationId}}" ,operationIndex);
-			
+
             {{#pathParams}}
             {{#required}}
             localVarRequestOptions.PathParameters.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}})); // path parameter
@@ -427,23 +467,7 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/isBasicBearer}}
             {{#isOAuth}}
-            // oauth required
-            if (!localVarRequestOptions.HeaderParameters.ContainsKey("Authorization"))
-            {
-                if (!string.IsNullOrEmpty(Configuration.AccessToken))
-                {
-                    localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + Configuration.AccessToken);
-                }
-                {{#hasOAuthMethods}}
-                else if (!string.IsNullOrEmpty(Configuration.OAuthTokenUrl) &&
-                         !string.IsNullOrEmpty(Configuration.OAuthClientId) &&
-                         !string.IsNullOrEmpty(Configuration.OAuthClientSecret) &&
-                         Configuration.OAuthFlow != null)
-                {
-                    localVarRequestOptions.OAuth = true;
-                }
-                {{/hasOAuthMethods}}
-            }
+            localVarRequestOptions = SetAuthorization(localVarRequestOptions);
             {{/isOAuth}}
             {{#isHttpSignature}}
             if (Configuration.HttpSigningConfiguration != null)
@@ -465,7 +489,7 @@ namespace {{packageName}}.{{apiPackage}}
             {{/authMethods}}
 			return localVarRequestOptions;
 		}
-		
+
         /// <summary>
         /// {{summary}} {{notes}}
         /// </summary>
@@ -495,18 +519,10 @@ namespace {{packageName}}.{{apiPackage}}
         public ApiResponse<{{{returnType}}}{{^returnType}}Object{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}int operationIndex = 0)
         {
             RequestOptions localVarRequestOptions = GetRequestOptions{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}operationIndex);
-			
+
             // make the HTTP request
             var localVarResponse = Client.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, Configuration);
-            if (ExceptionFactory != null)
-            {
-                Exception _exception = ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            ValidateException("{{operationId}}", localVarResponse);
             return localVarResponse;
         }
 
@@ -549,16 +565,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             // make the HTTP request
             var localVarResponse = await AsynchronousClient.{{#lambda.titlecase}}{{#lambda.lowercase}}{{httpMethod}}{{/lambda.lowercase}}{{/lambda.titlecase}}Async<{{{returnType}}}{{^returnType}}Object{{/returnType}}>("{{{path}}}", localVarRequestOptions, Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (ExceptionFactory != null)
-            {
-                Exception _exception = ExceptionFactory("{{operationId}}", localVarResponse);
-                if (_exception != null)
-                {
-                    throw _exception;
-                }
-            }
-
+            ValidateException("{{operationId}}", localVarResponse);
             return localVarResponse;
         }
         {{/supportsAsync}}
