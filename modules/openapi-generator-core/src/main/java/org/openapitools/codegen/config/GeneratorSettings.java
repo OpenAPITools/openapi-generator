@@ -56,6 +56,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> nameMappings;
     private final Map<String, String> parameterNameMappings;
     private final Map<String, String> modelNameMappings;
+    private final Map<String, String> enumNameMappings;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Map<String, String> reservedWordsMappings;
@@ -296,6 +297,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets enum name mappings between an enum name and the new name.
+     *
+     * @return the enum name mappings
+     */
+    public Map<String, String> getEnumNameMappings() {
+        return enumNameMappings;
+    }
+
+    /**
      * Gets OpenAPI normalizer rules
      *
      * @return a map of rules
@@ -425,6 +435,7 @@ public final class GeneratorSettings implements Serializable {
         nameMappings = Collections.unmodifiableMap(builder.nameMappings);
         parameterNameMappings = Collections.unmodifiableMap(builder.parameterNameMappings);
         modelNameMappings = Collections.unmodifiableMap(builder.modelNameMappings);
+        enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
@@ -502,6 +513,7 @@ public final class GeneratorSettings implements Serializable {
         nameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         parameterNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         modelNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
@@ -572,6 +584,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getModelNameMappings() != null) {
             builder.modelNameMappings.putAll(copy.getModelNameMappings());
         }
+        if (copy.getEnumNameMappings() != null) {
+            builder.enumNameMappings.putAll(copy.getEnumNameMappings());
+        }
         if (copy.getOpenAPINormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
         }
@@ -620,6 +635,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> nameMappings;
         private Map<String, String> parameterNameMappings;
         private Map<String, String> modelNameMappings;
+        private Map<String, String> enumNameMappings;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Map<String, String> reservedWordsMappings;
@@ -644,6 +660,7 @@ public final class GeneratorSettings implements Serializable {
             nameMappings = new HashMap<>();
             parameterNameMappings = new HashMap<>();
             modelNameMappings = new HashMap<>();
+            enumNameMappings = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             reservedWordsMappings = new HashMap<>();
@@ -1044,6 +1061,32 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code enumNameMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param enumNameMappings the {@code enumNameMappings} to set
+         * @return a reference to this Builder
+         */
+        public Builder withEnumNameMappings(Map<String, String> enumNameMappings) {
+            this.enumNameMappings = enumNameMappings;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code enumNameMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for the name mapping
+         * @param value The value of name mapping
+         * @return a reference to this Builder
+         */
+        public Builder withEnumNameMapping(String key, String value) {
+            if (this.enumNameMappings == null) {
+                this.enumNameMappings = new HashMap<>();
+            }
+            this.enumNameMappings.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param openapiNormalizer the {@code openapiNormalizer} to set
@@ -1259,6 +1302,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getNameMappings(), that.getNameMappings()) &&
                 Objects.equals(getParameterNameMappings(), that.getParameterNameMappings()) &&
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
+                Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
@@ -1294,6 +1338,7 @@ public final class GeneratorSettings implements Serializable {
                 getNameMappings(),
                 getParameterNameMappings(),
                 getModelNameMappings(),
+                getEnumNameMappings(),
                 getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getReservedWordsMappings(),

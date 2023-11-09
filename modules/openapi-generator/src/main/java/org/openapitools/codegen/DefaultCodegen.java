@@ -173,6 +173,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> parameterNameMapping = new HashMap<>();
     // a map to store the mapping between model name and the name provided by the user
     protected Map<String, String> modelNameMapping = new HashMap<>();
+    // a map to store the mapping between enum name and the name provided by the user
+    protected Map<String, String> enumNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -1242,6 +1244,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> modelNameMapping() {
         return modelNameMapping;
+    }
+
+    @Override
+    public Map<String, String> enumNameMapping() {
+        return enumNameMapping;
     }
 
     @Override

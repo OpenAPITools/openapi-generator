@@ -159,6 +159,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyEnumNameMappingsKvpList(List<String> enumNameMappings, CodegenConfigurator configurator) {
+        for (String propString : enumNameMappings) {
+            applyEnumNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyEnumNameMappingsKvp(String enumNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(enumNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addEnumNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
         for (String propString : openapiNormalizer) {
             applyOpenAPINormalizerKvp(propString, configurator);

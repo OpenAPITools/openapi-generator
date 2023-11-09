@@ -33,7 +33,11 @@ public enum OuterEnum {
   
   APPROVED("approved"),
   
-  DELIVERED("delivered");
+  DELIVERED("delivered"),
+  
+  LOWER_CASE_S("s"),
+  
+  UPPER_CASE_S("S");
 
   private String value;
 
