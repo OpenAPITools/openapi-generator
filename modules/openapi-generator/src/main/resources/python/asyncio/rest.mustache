@@ -170,7 +170,7 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        if method != 'POST':
+        if method != 'POST' and isinstance(self.retries, int):
             pool_manager = aiohttp_retry.RetryClient(
                 client_session=self.pool_manager,
                 retry_options=aiohttp_retry.ExponentialRetry(
