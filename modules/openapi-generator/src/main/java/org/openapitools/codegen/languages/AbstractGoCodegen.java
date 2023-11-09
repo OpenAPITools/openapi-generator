@@ -280,6 +280,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelFilename(String name) {
+        // Obtain the model name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            // name = underscore(modelNameMapping.get(name));
+            name = modelNameMapping.get(name);
+        }
         name = toModel("model_" + name);
 
         if (isReservedFilename(name)) {
@@ -295,6 +300,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name, boolean doUnderscore) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
