@@ -30,6 +30,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 @SuppressWarnings("static-method")
 public class GoModelTest {
 
@@ -302,8 +304,8 @@ public class GoModelTest {
     @DataProvider(name = "modelMappedNames")
     public static Object[][] mappedNames() {
         return new Object[][] {
-            {"mapped", "Remapped", "/model_remapped.go"},
-            {"mapped_underscore", "RemappedUnderscore", "/model_remapped_underscore.go"},
+            {"mapped", "Remapped", "model_remapped.go"},
+            {"mapped_underscore", "RemappedUnderscore", "model_remapped_underscore.go"},
         };
     }
 
@@ -317,7 +319,7 @@ public class GoModelTest {
         final CodegenModel cm = codegen.fromModel(name, model);
 
         final String fn = codegen.modelFilename("model.mustache", name, "");
-        Assert.assertEquals(fn, expectedFilename);
+        Assert.assertEquals(fn, File.separator + expectedFilename);
 
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
