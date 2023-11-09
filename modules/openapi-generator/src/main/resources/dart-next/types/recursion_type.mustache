@@ -1,0 +1,1 @@
+{{#isContainer}}{{containerType}}<{{#isMap}}String, {{/isMap}}{{#items}}{{>types/recursion_type}}{{/items}}>{{/isContainer}}{{^isContainer}}{{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}{{/isContainer}}{{#isNullable}}?{{/isNullable}}

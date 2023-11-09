@@ -152,6 +152,12 @@
       ]
     },
     {
+      "input": "dart-next-petstore.sh",
+      "matches": [
+        "Client: Dart"
+      ]
+    },
+    {
       "input": "dart-petstore.sh",
       "matches": [
         "Client: Dart"

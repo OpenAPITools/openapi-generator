@@ -1,0 +1,94 @@
+class {{classname}}Raw {
+
+  final Dio _dio;
+
+  const {{classname}}Raw(this._dio);
+
+  {{#operation}}
+  /// {{summary}}{{^summary}}{{nickname}}{{/summary}}
+  /// {{notes}}
+  ///
+  /// Parameters:
+  {{#allParams}}
+  /// * [{{paramName}}] {{#description}}- {{{.}}}{{/description}}{{#defaultValue}} (Default: {{.}})  {{/defaultValue}}
+  {{/allParams}}
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
+  /// Throws [DioException] if API call or serialization fails
+  {{#externalDocs}}
+  /// {{description}}
+  /// Also see [{{summary}} Documentation]({{url}})
+  {{/externalDocs}}
+  {{#isDeprecated}}
+  @Deprecated('This operation has been deprecated')
+  {{/isDeprecated}}
+  Future<Response<{{#returnType}}Object{{/returnType}}{{^returnType}}void{{/returnType}}>> {{nickname}}({ {{#allParams}}{{#isPathParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}required String {{paramName}},{{/isPathParam}}{{#isQueryParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}Object{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isQueryParam}}{{#isHeaderParam}}
+    {{#isDeprecated}}@Deprecated('{{paramName}} is deprecated') {{/isDeprecated}}{{#required}}{{^isNullable}}{{^defaultValue}}required {{/defaultValue}}{{/isNullable}}{{/required}}String{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}} {{paramName}},{{/isHeaderParam}}{{/allParams}}
+    Object? body,
+    String? requestContentType,
+    String? acceptContentType,
+    ResponseType? responseType,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}};
+    final _options = Options(
+      method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
+      headers: <String, dynamic>{
+        {{#httpUserAgent}}
+        r'User-Agent': r'{{{.}}}',
+        {{/httpUserAgent}}
+        {{#headerParams}}
+        {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+        {{/headerParams}}
+        if (acceptContentType != null) 'Accept': acceptContentType,
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[{{^hasAuthMethods}}],{{/hasAuthMethods}}{{#hasAuthMethods}}
+          {{#authMethods}}{
+            'type': '{{type}}',{{#scheme}}
+            'scheme': '{{.}}',{{/scheme}}
+            'name': '{{name}}',{{#isApiKey}}
+            'keyName': '{{keyParamName}}',
+            'where': '{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}',{{/isApiKey}}
+          },{{/authMethods}}
+        ],{{/hasAuthMethods}}
+        ...?extra,
+      },
+      contentType: requestContentType,
+      responseType: responseType,
+      validateStatus: validateStatus,
+    );{{#hasQueryParams}}
+
+    final _queryParameters = <String, dynamic>{
+      {{#queryParams}}
+      {{^required}}{{^isNullable}}if ({{{paramName}}} != null) {{/isNullable}}{{/required}}r'{{baseName}}': {{paramName}},
+      {{/queryParams}}
+    };{{/hasQueryParams}}
+
+    return await _dio.request<Object>(
+      _path,
+      data: body,
+      options: _options,{{#hasQueryParams}}
+      queryParameters: _queryParameters,{{/hasQueryParams}}
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+  }
+
+  {{/operation}}
+}

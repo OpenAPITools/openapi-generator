@@ -1,0 +1,99 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part '{{classFilename}}.g.dart';
+
+{{!
+    Classes with polymorphism or composition may generate unused imports,
+    these need to be ignored for said classes so that there are no lint errors.
+}}
+{{#parentModel}}
+// ignore_for_file: unused_import
+
+{{/parentModel}}
+
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
+@JsonSerializable(
+  checked: true,
+  createToJson: true,
+  disallowUnrecognizedKeys: false,
+  explicitToJson: true,
+)
+class {{{classname}}} {
+{{>serialization/json_serializable/dart_constructor}}
+
+{{#vars}}
+  {{#description}}
+      /// {{{description}}}
+  {{/description}}
+  {{^isEnum}}
+      {{#minimum}}
+          // minimum: {{{minimum}}}
+      {{/minimum}}
+      {{#maximum}}
+          // maximum: {{{maximum}}}
+      {{/maximum}}
+  {{/isEnum}}
+  {{#deprecated}}
+  @Deprecated('{{{name}}} has been deprecated')
+  {{/deprecated}}
+  {{^isBinary}}
+  @JsonKey(
+    {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
+    name: r'{{{baseName}}}',
+    required: {{#required}}true{{/required}}{{^required}}false{{/required}},
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}false{{/required}}{{^required}}false{{/required}}
+  )
+  {{/isBinary}}
+  {{#isBinary}}
+  @JsonKey(ignore: true)
+  {{/isBinary}}
+
+
+  {{#required}}
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}{{#isNullable}}?{{/isNullable}} {{{name}}};
+  {{/required}}
+  {{^required}}
+  {{#finalProperties}}final {{/finalProperties}}{{{datatypeWithEnum}}}? {{{name}}};
+  {{/required}}
+
+
+
+{{/vars}}
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  {{#vars}}
+     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  int get hashCode =>
+  {{#vars}}
+    {{#isNullable}}({{{name}}} == null ? 0 : {{{name}}}.hashCode){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  factory {{{classname}}}.fromJson(Map<String, dynamic> json) => _${{{classname}}}FromJson(json);
+
+  Map<String, dynamic> toJson() => _${{{classname}}}ToJson(this);
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
+}
+{{#vars}}
+    {{#isEnum}}
+        {{^isContainer}}
+
+{{>serialization/json_serializable/enum_inline}}
+        {{/isContainer}}
+        {{#isContainer}}
+            {{#mostInnerItems}}
+
+{{>serialization/json_serializable/enum_inline}}
+            {{/mostInnerItems}}
+        {{/isContainer}}
+    {{/isEnum}}
+{{/vars}}

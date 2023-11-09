@@ -21,6 +21,7 @@ The following generators are available:
 * [csharp](generators/csharp.md)  
 * [dart](generators/dart.md)  
 * [dart-dio](generators/dart-dio.md)  
+* [dart-next (experimental)](generators/dart-next.md)  
 * [eiffel](generators/eiffel.md)  
 * [elixir](generators/elixir.md)  
 * [elm](generators/elm.md)  

@@ -1,0 +1,5 @@
+analyzer:
+  language:
+    strict-inference: true
+    strict-raw-types: true
+    strict-casts: true

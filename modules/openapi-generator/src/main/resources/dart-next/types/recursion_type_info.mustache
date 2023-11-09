@@ -1,0 +1,9 @@
+const TypeInfo{{#isNullable}}.nullable{{/isNullable}}(
+    {{#isContainer}}{{containerType}}, [
+        {{#isMap}}TypeInfo(String), {{/isMap}}
+        {{#items}}{{>types/recursion_type_info}}{{/items}},
+    ]{{/isContainer}}{{^isContainer}}    
+    {{#datatypeWithEnum}}{{{.}}}{{/datatypeWithEnum}}
+    {{^datatypeWithEnum}}{{{dataType}}}{{/datatypeWithEnum}}
+    {{/isContainer}})
+

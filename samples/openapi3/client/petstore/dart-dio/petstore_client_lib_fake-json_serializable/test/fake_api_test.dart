@@ -7,6 +7,13 @@ void main() {
   final instance = Openapi().getFakeApi();
 
   group(FakeApi, () {
+    // for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+    //
+    //Future<FakeBigDecimalMap200Response> fakeBigDecimalMap() async
+    test('test fakeBigDecimalMap', () async {
+      // TODO
+    });
+
     // Health check endpoint
     //
     //Future<HealthCheckResult> fakeHealthGet() async
