@@ -57,6 +57,7 @@ commands: # a reusable command with parameters
       - run: docker ps -a
       - run: sleep 30
       - run: cat /etc/hosts
+      - run: export MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=128m"
       # Test
       #- run: ./mvnw --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
       - run:
