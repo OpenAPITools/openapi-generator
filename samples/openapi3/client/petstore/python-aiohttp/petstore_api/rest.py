@@ -18,6 +18,7 @@ import re
 import ssl
 
 import aiohttp
+import aiohttp_retry
 
 from petstore_api.exceptions import ApiException, ApiValueError
 
@@ -71,6 +72,7 @@ class RESTClientObject:
 
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
+        self.retries = configuration.retries
 
         # https pool manager
         self.pool_manager = aiohttp.ClientSession(
@@ -178,7 +180,20 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        r = await self.pool_manager.request(**args)
+        if method != 'POST':
+            pool_manager = aiohttp_retry.RetryClient(
+                client_session=self.pool_manager,
+                retry_options=aiohttp_retry.ExponentialRetry(
+                    attempts=self.retries,
+                    factor=0.0,
+                    start_timeout=0.0,
+                    max_timeout=120.0
+                )
+            )
+        else:
+            pool_manager = self.pool_manager
+
+        r = await pool_manager.request(**args)
 
         return RESTResponse(r)
 
