@@ -745,6 +745,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /pets/byTime/{createdTime}:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by time
+      operationId: GetPetsByTime
+      parameters:
+        - in: path
+          name: createdTime
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
