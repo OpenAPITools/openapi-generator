@@ -333,7 +333,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <gson-fire-version>1.8.5</gson-fire-version>
+        <gson-fire-version>1.9.0</gson-fire-version>
         <okhttp-version>4.11.0</okhttp-version>
         <gson-version>2.10.1</gson-version>
         <commons-lang3-version>3.13.0</commons-lang3-version>

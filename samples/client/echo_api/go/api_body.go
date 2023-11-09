@@ -356,6 +356,114 @@ func (a *BodyAPIService) TestBodyMultipartFormdataArrayOfBinaryExecute(r ApiTest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiTestEchoBodyAllOfPetRequest struct {
+	ctx context.Context
+	ApiService *BodyAPIService
+	pet *Pet
+}
+
+// Pet object that needs to be added to the store
+func (r ApiTestEchoBodyAllOfPetRequest) Pet(pet Pet) ApiTestEchoBodyAllOfPetRequest {
+	r.pet = &pet
+	return r
+}
+
+func (r ApiTestEchoBodyAllOfPetRequest) Execute() (*Pet, *http.Response, error) {
+	return r.ApiService.TestEchoBodyAllOfPetExecute(r)
+}
+
+/*
+TestEchoBodyAllOfPet Test body parameter(s)
+
+Test body parameter(s)
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestEchoBodyAllOfPetRequest
+*/
+func (a *BodyAPIService) TestEchoBodyAllOfPet(ctx context.Context) ApiTestEchoBodyAllOfPetRequest {
+	return ApiTestEchoBodyAllOfPetRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return Pet
+func (a *BodyAPIService) TestEchoBodyAllOfPetExecute(r ApiTestEchoBodyAllOfPetRequest) (*Pet, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Pet
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "BodyAPIService.TestEchoBodyAllOfPet")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/echo/body/allOf/Pet"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.pet
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiTestEchoBodyFreeFormObjectResponseStringRequest struct {
 	ctx context.Context
 	ApiService *BodyAPIService

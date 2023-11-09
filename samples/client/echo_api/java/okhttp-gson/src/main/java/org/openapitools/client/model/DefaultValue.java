@@ -106,6 +106,11 @@ public class DefaultValue {
         return ArrayStringEnumDefaultEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ArrayStringEnumDefaultEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";

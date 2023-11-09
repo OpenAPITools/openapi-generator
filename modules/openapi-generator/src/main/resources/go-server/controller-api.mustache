@@ -495,13 +495,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}{{/isInteger}}
 	{{^isFile}}
 	{{^isLong}}
+	{{#isArray}}
+	{{paramName}}Param := strings.Split(r.FormValue("{{baseName}}"), ",")
+	{{/isArray}}
+	{{^isArray}}
 	{{paramName}}Param := getPointerOrNilIfEmpty(r.FormValue("{{baseName}}"))
-	{{#required}}
 	if {{paramName}}Param == nil {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
 	{{/required}}
+	{{/isArray}}
 	{{/isLong}}
 	{{/isFile}}
 	{{/isFormParam}}

@@ -192,6 +192,53 @@
 	            "name": "basic",
 	            "item": [
 	                        {
+    "name": "/user",
+                "description": "Create a new user.",
+                 "item": [
+                            {
+                                "name": "Example request for Get User",
+                                "request": {
+                                    "method": "POST",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "Accept",
+                                            "value": "application/json",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "body": {
+                                        "mode": "raw",
+                                        "raw": "{\n  \"id\" : 777,\n  \"firstName\" : \"Alotta\",\n  \"lastName\" : \"Rotta\",\n  \"email\" : \"alotta.rotta@gmail.com\",\n  \"dateOfBirth\" : \"1997-10-31\",\n  \"emailVerified\" : true,\n  \"createDate\" : \"2019-08-24\"\n}",
+                                        "options": {
+                                            "raw": {
+                                                "language": "json"
+                                            }
+                                        }
+                                    },
+                                    "url": {
+                                        "raw": "{{baseUrl}}/user",
+                                        "host": [
+                                            "{{baseUrl}}"
+                                        ],
+                                        "path": [
+                                            "user"
+                                        ],
+                                        "variable": [
+                                        ],
+                                        "query": [
+                                        ]
+                                    },
+                                    "description": "Create a new user."
+                                }
+                            }
+                            ]
+                        },
+	                        {
     "name": "/users/",
                 "description": "Retrieve the information of the user with the matching user ID.",
                  "item": [
@@ -243,53 +290,6 @@
                                         ]
                                     },
                                     "description": "Retrieve the information of the user with the matching user ID."
-                                }
-                            }
-                            ]
-                        },
-	                        {
-    "name": "/user",
-                "description": "Create a new user.",
-                 "item": [
-                            {
-                                "name": "Example request for Get User",
-                                "request": {
-                                    "method": "POST",
-                                    "header": [
-                                        {
-                                            "key": "Content-Type",
-                                            "value": "application/json",
-                                            "disabled": false
-                                        },
-                                        {
-                                            "key": "Accept",
-                                            "value": "application/json",
-                                            "disabled": false
-                                        }
-                                    ],
-                                    "body": {
-                                        "mode": "raw",
-                                        "raw": "{\n  \"id\" : 777,\n  \"firstName\" : \"Alotta\",\n  \"lastName\" : \"Rotta\",\n  \"email\" : \"alotta.rotta@gmail.com\",\n  \"dateOfBirth\" : \"1997-10-31\",\n  \"emailVerified\" : true,\n  \"createDate\" : \"2019-08-24\"\n}",
-                                        "options": {
-                                            "raw": {
-                                                "language": "json"
-                                            }
-                                        }
-                                    },
-                                    "url": {
-                                        "raw": "{{baseUrl}}/user",
-                                        "host": [
-                                            "{{baseUrl}}"
-                                        ],
-                                        "path": [
-                                            "user"
-                                        ],
-                                        "variable": [
-                                        ],
-                                        "query": [
-                                        ]
-                                    },
-                                    "description": "Create a new user."
                                 }
                             }
                             ]

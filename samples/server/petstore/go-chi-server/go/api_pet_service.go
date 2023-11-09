@@ -11,10 +11,10 @@ package petstoreserver
 
 import (
 	"context"
-	"net/http"
 	"errors"
-	"time"
+	"net/http"
 	"os"
+	"time"
 )
 
 // PetAPIService is a service that implements the logic for the PetAPIServicer
