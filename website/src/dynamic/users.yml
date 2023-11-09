@@ -444,6 +444,11 @@
   infoLink: "https://www.puppet.com"
   pinned: false
 -
+  caption: Robocorp
+  image: "img/companies/robocorp.svg"
+  infoLink: "https://www.robocorp.com"
+  pinned: false
+-
   caption: Qovery
   image: "img/companies/qovery.png"
   infoLink: "https://www.qovery.com"
