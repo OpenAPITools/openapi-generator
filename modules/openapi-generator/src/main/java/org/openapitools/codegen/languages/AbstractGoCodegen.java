@@ -282,7 +282,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public String toModelFilename(String name) {
         // Obtain the model name from modelNameMapping directly if provided
         if (modelNameMapping.containsKey(name)) {
-            // name = underscore(modelNameMapping.get(name));
             name = modelNameMapping.get(name);
         }
         name = toModel("model_" + name);

@@ -298,4 +298,28 @@ public class GoModelTest {
         Assert.assertEquals(cm.name, name);
         Assert.assertEquals(cm.classname, expectedName);
     }
+
+    @DataProvider(name = "modelMappedNames")
+    public static Object[][] mappedNames() {
+        return new Object[][] {
+            {"mapped", "Remapped", "/model_remapped.go"},
+            {"mapped_underscore", "RemappedUnderscore", "/model_remapped_underscore.go"},
+        };
+    }
+
+    @Test(dataProvider = "modelMappedNames", description = "map model names")
+    public void modelNameMappingsTest(String name, String expectedName, String expectedFilename) {
+        final Schema model = new Schema();
+        final DefaultCodegen codegen = new GoClientCodegen();
+        codegen.modelNameMapping().put(name, expectedName);
+        OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema(name, model);
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel cm = codegen.fromModel(name, model);
+
+        final String fn = codegen.modelFilename("model.mustache", name, "");
+        Assert.assertEquals(fn, expectedFilename);
+
+        Assert.assertEquals(cm.name, name);
+        Assert.assertEquals(cm.classname, expectedName);
+    }
 }
