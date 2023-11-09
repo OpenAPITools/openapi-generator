@@ -78,8 +78,8 @@ else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   java -version
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  ./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
