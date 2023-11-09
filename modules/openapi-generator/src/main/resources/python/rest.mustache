@@ -201,9 +201,10 @@ class RESTClientObject:
                 elif headers['Content-Type'] == 'text/plain' and isinstance(body, bool):
                     request_body = "true" if body else "false"
                     r = self.pool_manager.request(
-                        method, url,
+                        method,
+                        url,
                         body=request_body,
-                        preload_content=_preload_content,
+                        preload_content=False,
                         timeout=timeout,
                         headers=headers)
                 else:
