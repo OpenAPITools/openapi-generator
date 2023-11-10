@@ -18,11 +18,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,7 +30,7 @@ except ImportError:
 class ObjectWithDeprecatedFields(BaseModel):
     """
     ObjectWithDeprecatedFields
-    """
+    """ # noqa: E501
     uuid: Optional[StrictStr] = None
     id: Optional[float] = None
     deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
@@ -80,7 +79,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ObjectWithDeprecatedFields from a dict"""
         if obj is None:
             return None

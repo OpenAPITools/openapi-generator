@@ -36,7 +36,13 @@
      {{/isMap}}
      {{^isMap}}
      {{#items}}
+     {{#isEnumRef}}
+     * @Accessor(getter="getSerialized{{nameInCamelCase}}")
+     * @Type("array<string>")
+     {{/isEnumRef}}
+     {{^isEnumRef}}
      * @Type("array<{{dataType}}>")
+     {{/isEnumRef}}
      {{/items}}
      {{/isMap}}
 {{/isContainer}}
@@ -49,10 +55,16 @@
      * @Assert\Type("\DateTime"))
      * @Type("DateTime")
     {{/isDateTime}}
+    {{#isEnumRef}}
+        * @Accessor(getter="getSerialized{{nameInCamelCase}}")
+        * @Type("string")
+    {{/isEnumRef}}
     {{^isDate}}
     {{^isDateTime}}
+    {{^isEnumRef}}
      * @Assert\Type("{{dataType}}")
      * @Type("{{dataType}}")
+    {{/isEnumRef}}
     {{/isDateTime}}
     {{/isDate}}
 {{/isContainer}}

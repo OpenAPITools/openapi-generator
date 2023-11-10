@@ -3235,7 +3235,6 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string, string>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar;
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -3761,7 +3760,6 @@ namespace Org.OpenAPITools.Api
                         httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar;
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 

@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Env
     /// </summary>
-    [DataContract(Name = "Environment")]
+    [DataContract(Name = "varEnvironment")]
     public partial class Env : IEquatable<Env>, IValidatableObject
     {
         /// <summary>

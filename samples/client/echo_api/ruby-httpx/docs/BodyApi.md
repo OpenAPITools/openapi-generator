@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost:3000*
 | [**test_binary_gif**](BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**test_body_application_octetstream_binary**](BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s) |
 | [**test_body_multipart_formdata_array_of_binary**](BodyApi.md#test_body_multipart_formdata_array_of_binary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime |
+| [**test_echo_body_all_of_pet**](BodyApi.md#test_echo_body_all_of_pet) | **POST** /echo/body/allOf/Pet | Test body parameter(s) |
 | [**test_echo_body_free_form_object_response_string**](BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**test_echo_body_pet**](BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**test_echo_body_pet_response_string**](BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body |
@@ -202,6 +203,72 @@ No authorization required
 
 - **Content-Type**: multipart/form-data
 - **Accept**: text/plain
+
+
+## test_echo_body_all_of_pet
+
+> <Pet> test_echo_body_all_of_pet(opts)
+
+Test body parameter(s)
+
+Test body parameter(s)
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::BodyApi.new
+opts = {
+  pet: OpenapiClient::Pet.new({name: 'doggie', photo_urls: ['photo_urls_example']}) # Pet | Pet object that needs to be added to the store
+}
+
+begin
+  # Test body parameter(s)
+  result = api_instance.test_echo_body_all_of_pet(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_all_of_pet: #{e}"
+end
+```
+
+#### Using the test_echo_body_all_of_pet_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Pet>, Integer, Hash)> test_echo_body_all_of_pet_with_http_info(opts)
+
+```ruby
+begin
+  # Test body parameter(s)
+  data, status_code, headers = api_instance.test_echo_body_all_of_pet_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Pet>
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_all_of_pet_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | [optional] |
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
 ## test_echo_body_free_form_object_response_string

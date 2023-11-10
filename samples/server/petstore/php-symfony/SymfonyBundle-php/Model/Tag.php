@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -82,6 +83,8 @@ class Tag
         return $this->id;
     }
 
+
+
     /**
      * Sets id.
      *
@@ -105,6 +108,8 @@ class Tag
     {
         return $this->name;
     }
+
+
 
     /**
      * Sets name.

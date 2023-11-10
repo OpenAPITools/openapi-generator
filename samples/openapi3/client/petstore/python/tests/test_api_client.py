@@ -199,20 +199,6 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, list_of_pet_dict)
 
-    def test_context_manager_closes_threadpool(self):
-        with petstore_api.ApiClient() as client:
-            self.assertIsNotNone(client.pool)
-            pool_ref = weakref.ref(client._pool)
-            self.assertIsNotNone(pool_ref())
-        self.assertIsNone(pool_ref())
-
-    def test_atexit_closes_threadpool(self):
-        client = petstore_api.ApiClient()
-        self.assertIsNotNone(client.pool)
-        self.assertIsNotNone(client._pool)
-        atexit._run_exitfuncs()
-        self.assertIsNone(client._pool)
-
     def test_parameters_to_url_query(self):
         data = 'value={"category": "example", "category2": "example2"}'
         dictionary = {
@@ -257,5 +243,6 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
-
-
+    def test_parameters_to_url_query_boolean_value(self):
+        result = self.api_client.parameters_to_url_query([('boolean', True)], {})
+        self.assertEqual(result, "boolean=true")

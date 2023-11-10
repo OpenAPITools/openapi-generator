@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
-    """
+    """ # noqa: E501
     a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
     __properties: ClassVar[List[str]] = ["aProperty"]
 
@@ -73,7 +72,7 @@ class InnerDictWithProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of InnerDictWithProperty from a dict"""
         if obj is None:
             return None

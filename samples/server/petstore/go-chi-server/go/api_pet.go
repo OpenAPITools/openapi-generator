@@ -85,6 +85,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}/uploadImage",
 			c.GetPetImageById,
 		},
+		"GetPetsUsingBooleanQueryParameters": Route{
+			strings.ToUpper("Get"),
+			"/v2/pets/boolean/parsing",
+			c.GetPetsUsingBooleanQueryParameters,
+		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
 			"/v2/pet",
@@ -285,6 +290,43 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
 
+// GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
+func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	exprParam, err := parseBoolParameter(
+		query.Get("expr"),
+		WithRequire[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	groupingParam, err := parseBoolParameter(
+		query.Get("grouping"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	inactiveParam, err := parseBoolParameter(
+		query.Get("inactive"),
+		WithDefaultOrParse[bool](false, parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	petParam := Pet{}
@@ -359,6 +401,9 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
+	
+	
+	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -366,7 +411,7 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, extraOptionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

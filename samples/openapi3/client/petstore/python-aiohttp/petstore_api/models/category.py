@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class Category(BaseModel):
     """
     Category
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: StrictStr
     __properties: ClassVar[List[str]] = ["id", "name"]
@@ -73,7 +72,7 @@ class Category(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Category from a dict"""
         if obj is None:
             return None

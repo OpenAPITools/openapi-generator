@@ -671,6 +671,15 @@ public class DefaultCodegenTest {
         }
         Assert.assertTrue(typeSeen);
         Assert.assertTrue(typeContainsEnums);
+
+        Assert.assertEquals(
+                ((StringSchema) openAPI.getComponents().getSchemas().get("Dog").getProperties().get("type")).getEnum().size(),
+                1
+        );
+        Assert.assertEquals(
+                ((StringSchema) openAPI.getComponents().getSchemas().get("Cat").getProperties().get("type")).getEnum().size(),
+                1
+        );
     }
 
     @Test
@@ -4792,7 +4801,8 @@ public class DefaultCodegenTest {
         assertNotNull(mt.getExample());
     }
 
-    @Test void testIsXML() {
+    @Test
+    void testIsXML() {
         final DefaultCodegen codegen = new DefaultCodegen();
         Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
         Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
