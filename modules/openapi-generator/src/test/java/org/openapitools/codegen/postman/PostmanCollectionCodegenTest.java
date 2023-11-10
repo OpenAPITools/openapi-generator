@@ -161,7 +161,9 @@ public class PostmanCollectionCodegenTest {
                 "key\": \"groupId\", \"value\": \"1\", \"type\": \"number\"");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -196,7 +198,9 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "{{MY_VAR_NAME}}");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -303,7 +307,10 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         // verify request name (from path)
-        assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
+
     }
 
     @Test
