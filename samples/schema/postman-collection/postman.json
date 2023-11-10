@@ -116,7 +116,7 @@
                                         "variable": [
                                             {
                                                 "key": "groupId",
-                                                "value": "",
+                                                "value": "1",
                                                 "description": "group Id"
                                             }
                                         ],
