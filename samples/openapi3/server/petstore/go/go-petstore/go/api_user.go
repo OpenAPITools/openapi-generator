@@ -173,11 +173,7 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
-	if usernameParam == nil {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return	
-	}
+	usernameParam := getPointer(chi.URLParam(r, "username"))
 	booleanTestParam, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
@@ -198,11 +194,7 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
-	if usernameParam == nil {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return	
-	}
+	usernameParam := getPointer(chi.URLParam(r, "username"))
 	result, err := c.service.GetUserByName(r.Context(), *usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -290,11 +282,7 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
-	if usernameParam == nil {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return	
-	}
+	usernameParam := getPointer(chi.URLParam(r, "username"))
 	userParam := &User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
@@ -319,4 +307,3 @@ func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
-

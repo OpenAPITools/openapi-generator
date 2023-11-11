@@ -169,7 +169,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isDateTime}}
-	{{paramName}}Param, err := parseTime({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := time.Parse(time.RFC3339, {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -181,13 +181,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isEnumOrRef}}
-	{{paramName}}Param := getPointerOrNilIfEmpty({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
-	{{#required}}
-	if {{paramName}}Param == nil {
-		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
-		return	
-	}
-	{{/required}}
+	{{paramName}}Param := getPointer({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
@@ -209,13 +203,19 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
-	{{/required}}
 	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
+	{{/required}}
+	{{^required}}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	{{/required}}
 	{{/isDateTime}}
 	{{#isNumber}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
@@ -500,6 +500,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}
 	{{^isArray}}
 	{{paramName}}Param := getPointerOrNilIfEmpty(r.FormValue("{{baseName}}"))
+	{{#required}}
 	if {{paramName}}Param == nil {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
@@ -567,4 +568,3 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code,{{#addResponseHeaders}} result.Headers,{{/addResponseHeaders}} w)
 }{{/operation}}{{/operations}}
-

@@ -286,4 +286,3 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
-

@@ -76,11 +76,7 @@ func (c *StoreAPIController) Routes() Routes {
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	orderIdParam := getPointerOrNilIfEmpty(params["orderId"])
-	if orderIdParam == nil {
-		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
-		return	
-	}
+	orderIdParam := getPointer(params["orderId"])
 	result, err := c.service.DeleteOrder(r.Context(), *orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -152,4 +148,3 @@ func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	// If no error, encode the body and the result code
 	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
 }
-
