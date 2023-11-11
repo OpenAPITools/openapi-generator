@@ -82,10 +82,8 @@ class RESTClientObject:
             if is_socks_proxy_url(configuration.proxy):
                 from urllib3.contrib.socks import SOCKSProxyManager
                 self.pool_manager = SOCKSProxyManager(
-                        num_pools=pools_size,
-                        maxsize=maxsize,
                         cert_reqs=cert_reqs,
-                        ca_certs=ca_certs,
+                        ca_certs=configuration.ssl_ca_cert,
                         cert_file=configuration.cert_file,
                         key_file=configuration.key_file,
                         proxy_url=configuration.proxy,
