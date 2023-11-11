@@ -1079,6 +1079,33 @@ paths:
             text/plain:
               schema:
                 type: string
+  /fake/error_responses_with_model:
+    post:
+      tags:
+        - fake
+      summary: test error responses with model
+      operationId: testErrorResponsesWithModel
+      responses:
+        '204':
+          description: Success, but no response content
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason400:
+                    type: string
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason404:
+                    type: string
   /another-fake/dummy:
     patch:
       tags:
