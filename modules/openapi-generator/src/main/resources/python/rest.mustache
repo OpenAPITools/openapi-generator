@@ -14,6 +14,7 @@ from {{packageName}}.exceptions import ApiException, ApiValueError
 SUPPORTED_SOCKS_PROXIES = {"sock5", "socks5h", "socks4", "socks4a"}
 RESTResponseType = urllib3.HTTPResponse
 
+
 def is_socks_proxy_url(url):
     if url is None:
         return False
@@ -22,6 +23,7 @@ def is_socks_proxy_url(url):
         return False
     else:
         return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
+
 
 class RESTResponse(io.IOBase):
 
