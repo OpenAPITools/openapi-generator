@@ -26,7 +26,7 @@ from petstore_api.exceptions import ApiException, UnauthorizedException, Forbidd
 
 logger = logging.getLogger(__name__)
 
-SUPPORTED_SOCKS_PROXIES = {"sock5", "socks5h", "socks4", "socks4a"}
+SUPPORTED_SOCKS_PROXIES = {"socks5", "socks5h", "socks4", "socks4a"}
 
 
 def is_socks_proxy_url(url):
