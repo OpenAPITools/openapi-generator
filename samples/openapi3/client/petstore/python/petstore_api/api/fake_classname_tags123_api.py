@@ -99,8 +99,7 @@ class FakeClassnameTags123Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -167,8 +166,7 @@ class FakeClassnameTags123Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -235,8 +233,7 @@ class FakeClassnameTags123Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,

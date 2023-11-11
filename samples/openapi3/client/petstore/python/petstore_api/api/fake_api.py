@@ -113,7 +113,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -179,7 +178,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -245,7 +243,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -375,7 +372,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -441,7 +437,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -507,7 +502,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -622,8 +616,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthCheckResult"
-            
+            '200': "HealthCheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -685,8 +678,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthCheckResult"
-            
+            '200': "HealthCheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -748,8 +740,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthCheckResult"
-            
+            '200': "HealthCheckResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -877,7 +868,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -951,7 +941,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1025,7 +1014,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1166,8 +1154,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bool"
-            
+            '200': "bool",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1234,8 +1221,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bool"
-            
+            '200': "bool",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1302,8 +1288,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bool"
-            
+            '200': "bool",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1440,8 +1425,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterComposite"
-            
+            '200': "OuterComposite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1508,8 +1492,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterComposite"
-            
+            '200': "OuterComposite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1576,8 +1559,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterComposite"
-            
+            '200': "OuterComposite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1714,8 +1696,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "float"
-            
+            '200': "float",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1782,8 +1763,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "float"
-            
+            '200': "float",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1850,8 +1830,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "float"
-            
+            '200': "float",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1988,8 +1967,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2056,8 +2034,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2124,8 +2101,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2262,8 +2238,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterObjectWithEnumProperty"
-            
+            '200': "OuterObjectWithEnumProperty",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2330,8 +2305,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterObjectWithEnumProperty"
-            
+            '200': "OuterObjectWithEnumProperty",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2398,8 +2372,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OuterObjectWithEnumProperty"
-            
+            '200': "OuterObjectWithEnumProperty",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2531,8 +2504,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]"
-            
+            '200': "List[List[Tag]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2594,8 +2566,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]"
-            
+            '200': "List[List[Tag]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2657,8 +2628,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[List[Tag]]"
-            
+            '200': "List[List[Tag]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2778,7 +2748,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2844,7 +2813,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2910,7 +2878,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3030,7 +2997,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3097,7 +3063,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3164,7 +3129,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3300,7 +3264,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3367,7 +3330,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3434,7 +3396,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3568,7 +3529,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3638,7 +3598,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3708,7 +3667,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3844,8 +3802,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3912,8 +3869,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3980,8 +3936,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Client"
-            
+            '200': "Client",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4121,7 +4076,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4191,7 +4145,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4261,7 +4214,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4451,7 +4403,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4574,7 +4525,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4697,7 +4647,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4891,7 +4840,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4978,7 +4926,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5065,7 +5012,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5207,7 +5153,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5274,7 +5219,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5341,7 +5285,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5472,7 +5415,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5539,7 +5481,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5606,7 +5547,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5741,7 +5681,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5812,7 +5751,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5883,7 +5821,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6041,7 +5978,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6132,7 +6068,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6223,7 +6158,6 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,

@@ -103,7 +103,6 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -170,7 +169,6 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -237,7 +235,6 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -351,8 +348,7 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]"
-            
+            '200': "Dict[str, int]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -415,8 +411,7 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]"
-            
+            '200': "Dict[str, int]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -479,8 +474,7 @@ class StoreApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, int]"
-            
+            '200': "Dict[str, int]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -604,8 +598,7 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -674,8 +667,7 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -744,8 +736,7 @@ class StoreApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -871,8 +862,7 @@ class StoreApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -940,8 +930,7 @@ class StoreApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1009,8 +998,7 @@ class StoreApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Order",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
