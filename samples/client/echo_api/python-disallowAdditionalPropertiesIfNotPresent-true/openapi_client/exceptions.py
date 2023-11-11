@@ -13,6 +13,8 @@
 """  # noqa: E501
 
 
+from typing_extensions import Self
+
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
 
@@ -102,7 +104,12 @@ class ApiKeyError(OpenApiException, KeyError):
 
 class ApiException(OpenApiException):
 
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
+    def __init__(
+        self, 
+        status=None, 
+        reason=None, 
+        http_resp=None,
+    ):
         if http_resp:
             self.status = http_resp.status
             self.reason = http_resp.reason
@@ -113,6 +120,24 @@ class ApiException(OpenApiException):
             self.reason = reason
             self.body = None
             self.headers = None
+
+    @classmethod
+    def from_response(cls, *, http_resp) -> Self:
+        if http_resp.status == 400:
+            raise BadRequestException(http_resp=http_resp)
+
+        if http_resp.status == 401:
+            raise UnauthorizedException(http_resp=http_resp)
+
+        if http_resp.status == 403:
+            raise ForbiddenException(http_resp=http_resp)
+
+        if http_resp.status == 404:
+            raise NotFoundException(http_resp=http_resp)
+
+        if 500 <= http_resp.status <= 599:
+            raise ServiceException(http_resp=http_resp)
+        raise ApiException(http_resp=http_resp)
 
     def __str__(self):
         """Custom error messages for exception"""

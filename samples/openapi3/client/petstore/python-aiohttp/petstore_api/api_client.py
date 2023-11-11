@@ -284,7 +284,7 @@ class ApiClient:
 
     def response_deserialize(
         self,
-        response_data=None,
+        response_data: rest.RESTResponse = None,
         response_types_map=None
     ) -> ApiResponse:
         """Deserializes response into an object.
@@ -300,21 +300,7 @@ class ApiClient:
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
         if not 200 <= response_data.status <= 299:
-            if response_data.status == 400:
-                raise BadRequestException(http_resp=response_data)
-
-            if response_data.status == 401:
-                raise UnauthorizedException(http_resp=response_data)
-
-            if response_data.status == 403:
-                raise ForbiddenException(http_resp=response_data)
-
-            if response_data.status == 404:
-                raise NotFoundException(http_resp=response_data)
-
-            if 500 <= response_data.status <= 599:
-                raise ServiceException(http_resp=response_data)
-            raise ApiException(http_resp=response_data)
+            raise ApiException.from_response(http_resp=response_data)
 
         # deserialize response data
 
