@@ -267,10 +267,9 @@ func parseBool(param string) (*bool, error) {
 type Operation[T Number | string | bool] func(actual string) (*T, bool, error)
 
 func WithRequire[T Number | string | bool](parse ParseString[T]) Operation[T] {
-	var empty T
 	return func(actual string) (*T, bool, error) {
 		if actual == "" {
-			return &empty, false, errors.New(errMsgRequiredMissing)
+			return nil, false, errors.New(errMsgRequiredMissing)
 		}
 
 		v, err := parse(actual)
