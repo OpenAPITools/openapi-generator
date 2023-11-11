@@ -299,25 +299,29 @@ class ApiClient:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
-        if not 200 <= response_data.status <= 299:
-            raise ApiException.from_response(http_resp=response_data)
-
         # deserialize response data
-
-        if response_type == "bytearray":
-            return_data = response_data.data
-        elif response_type is None:
-            return_data = None
-        elif response_type == "file":
-            return_data = self.__deserialize_file(response_data)
-        else:
-            match = None
-            content_type = response_data.getheader('content-type')
-            if content_type is not None:
-                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-            encoding = match.group(1) if match else "utf-8"
-            response_text = response_data.data.decode(encoding)
-            return_data = self.deserialize(response_text, response_type)
+        response_text = None
+        return_data = None
+        try:
+            if response_type == "bytearray":
+                return_data = response_data.data
+            elif response_type == "file":
+                return_data = self.__deserialize_file(response_data)
+            elif response_type is not None:
+                match = None
+                content_type = response_data.getheader('content-type')
+                if content_type is not None:
+                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+                encoding = match.group(1) if match else "utf-8"
+                response_text = response_data.data.decode(encoding)
+                return_data = self.deserialize(response_text, response_type)
+        finally:
+            if not 200 <= response_data.status <= 299:
+                raise ApiException.from_response(
+                    http_resp=response_data,
+                    body=response_text,
+                    data=return_data,
+                )
 
         return ApiResponse(
             status_code = response_data.status,
