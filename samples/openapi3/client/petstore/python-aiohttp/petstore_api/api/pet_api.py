@@ -104,6 +104,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -170,6 +172,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -236,6 +240,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -373,6 +379,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -443,6 +451,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -513,6 +523,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1437,6 +1449,10 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1503,6 +1519,10 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1569,6 +1589,10 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '400': None,
+            '404': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1710,6 +1734,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1784,6 +1810,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1858,6 +1886,8 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
+            '405': None,
         }
         response_data = await self.api_client.call_api(
             *_param,

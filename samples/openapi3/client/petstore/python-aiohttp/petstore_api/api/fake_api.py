@@ -113,6 +113,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -178,6 +179,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -243,6 +245,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -372,6 +375,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -437,6 +441,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -502,6 +507,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -868,6 +874,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -941,6 +948,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -1014,6 +1022,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2748,6 +2757,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2813,6 +2823,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2878,6 +2889,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2997,6 +3009,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3063,6 +3076,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3129,6 +3143,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3264,6 +3279,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3330,6 +3346,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3396,6 +3413,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3529,6 +3547,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3598,6 +3617,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -3667,6 +3687,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4076,6 +4097,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4145,6 +4167,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4214,6 +4237,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4343,6 +4367,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4405,6 +4431,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4467,6 +4495,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+            '206': "str",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4643,6 +4673,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4765,6 +4797,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -4887,6 +4921,8 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
+            '404': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5080,6 +5116,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5166,6 +5203,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5252,6 +5290,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '400': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5393,6 +5432,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5459,6 +5499,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5525,6 +5566,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5655,6 +5697,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5721,6 +5764,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5787,6 +5831,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5921,6 +5966,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -5991,6 +6037,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -6061,6 +6108,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -6218,6 +6266,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -6308,6 +6357,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -6398,6 +6448,7 @@ class FakeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': None,
         }
         response_data = await self.api_client.call_api(
             *_param,
