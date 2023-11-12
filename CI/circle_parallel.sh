@@ -80,7 +80,7 @@ else
 
   (cd samples/client/petstore/scala-akka && mvn integration-test)
   (cd samples/client/petstore/scala-sttp && mvn integration-test)
-  (cd dsamples/client/petstore/scala-sttp4 && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
   (cd samples/client/petstore/clojure && mvn integration-test)
   (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
   (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
