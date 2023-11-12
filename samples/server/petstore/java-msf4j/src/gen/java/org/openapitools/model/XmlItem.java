@@ -147,7 +147,7 @@ public class XmlItem   {
    * Get attributeInteger
    * @return attributeInteger
   **/
-  @ApiModelProperty(example = "-2", value = "")
+  @ApiModelProperty(value = "")
   public Integer getAttributeInteger() {
     return attributeInteger;
   }
@@ -245,7 +245,7 @@ public class XmlItem   {
    * Get nameInteger
    * @return nameInteger
   **/
-  @ApiModelProperty(example = "-2", value = "")
+  @ApiModelProperty(value = "")
   public Integer getNameInteger() {
     return nameInteger;
   }
@@ -369,7 +369,7 @@ public class XmlItem   {
    * Get prefixInteger
    * @return prefixInteger
   **/
-  @ApiModelProperty(example = "-2", value = "")
+  @ApiModelProperty(value = "")
   public Integer getPrefixInteger() {
     return prefixInteger;
   }
@@ -493,7 +493,7 @@ public class XmlItem   {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
-  @ApiModelProperty(example = "-2", value = "")
+  @ApiModelProperty(value = "")
   public Integer getNamespaceInteger() {
     return namespaceInteger;
   }
@@ -617,7 +617,7 @@ public class XmlItem   {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
-  @ApiModelProperty(example = "-2", value = "")
+  @ApiModelProperty(value = "")
   public Integer getPrefixNsInteger() {
     return prefixNsInteger;
   }

@@ -96,7 +96,7 @@ public class TypeHolderExample   {
    * Get integerItem
    * @return integerItem
   **/
-  @ApiModelProperty(example = "-2", required = true, value = "")
+  @ApiModelProperty(required = true, value = "")
   public Integer getIntegerItem() {
     return integerItem;
   }

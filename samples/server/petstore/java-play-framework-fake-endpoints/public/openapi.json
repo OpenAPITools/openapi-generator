@@ -946,7 +946,7 @@
           "in" : "query",
           "name" : "enum_query_integer",
           "schema" : {
-            "enum" : [ 1, -2 ],
+            "enum" : [ 1, null ],
             "format" : "int32",
             "type" : "integer"
           }
@@ -2444,7 +2444,6 @@
             "type" : "number"
           },
           "integer_item" : {
-            "example" : -2,
             "type" : "integer"
           },
           "bool_item" : {
@@ -2479,7 +2478,6 @@
             }
           },
           "attribute_integer" : {
-            "example" : -2,
             "type" : "integer",
             "xml" : {
               "attribute" : true
@@ -2516,7 +2514,6 @@
             }
           },
           "name_integer" : {
-            "example" : -2,
             "type" : "integer",
             "xml" : {
               "name" : "xml_name_integer"
@@ -2566,7 +2563,6 @@
             }
           },
           "prefix_integer" : {
-            "example" : -2,
             "type" : "integer",
             "xml" : {
               "prefix" : "ef"
@@ -2616,7 +2612,6 @@
             }
           },
           "namespace_integer" : {
-            "example" : -2,
             "type" : "integer",
             "xml" : {
               "namespace" : "http://c.com/schema"
@@ -2668,7 +2663,6 @@
             }
           },
           "prefix_ns_integer" : {
-            "example" : -2,
             "type" : "integer",
             "xml" : {
               "namespace" : "http://c.com/schema",

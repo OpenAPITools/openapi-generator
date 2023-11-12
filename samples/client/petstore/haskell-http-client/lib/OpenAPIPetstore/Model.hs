@@ -2077,7 +2077,7 @@ toE'EnumNumber = \case
 -- | Enum of 'Int'
 data E'EnumQueryInteger
   = E'EnumQueryInteger'Num1 -- ^ @1@
-  | E'EnumQueryInteger'NumMinus_2 -- ^ @-2@
+  | E'EnumQueryInteger'Numnull -- ^ @null@
   deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum)
 
 instance A.ToJSON E'EnumQueryInteger where toJSON = A.toJSON . fromE'EnumQueryInteger
@@ -2090,13 +2090,13 @@ instance MimeRender MimeMultipartFormData E'EnumQueryInteger where mimeRender _ 
 fromE'EnumQueryInteger :: E'EnumQueryInteger -> Int
 fromE'EnumQueryInteger = \case
   E'EnumQueryInteger'Num1 -> 1
-  E'EnumQueryInteger'NumMinus_2 -> -2
+  E'EnumQueryInteger'Numnull -> null
 
 -- | parse 'E'EnumQueryInteger' enum
 toE'EnumQueryInteger :: Int -> P.Either String E'EnumQueryInteger
 toE'EnumQueryInteger = \case
   1 -> P.Right E'EnumQueryInteger'Num1
-  -2 -> P.Right E'EnumQueryInteger'NumMinus_2
+  null -> P.Right E'EnumQueryInteger'Numnull
   s -> P.Left $ "toE'EnumQueryInteger: enum parse failure: " P.++ P.show s
 
 

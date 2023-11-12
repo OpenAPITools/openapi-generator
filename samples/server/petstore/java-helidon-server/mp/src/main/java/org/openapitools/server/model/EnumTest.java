@@ -131,7 +131,7 @@ public enum EnumStringRequiredEnum {
 
 public enum EnumIntegerEnum {
 
-    NUMBER_1(Integer.valueOf(1)), NUMBER_MINUS_1(Integer.valueOf(-1));
+    NUMBER_1(Integer.valueOf(1)), NUMBER_null(Integer.valueOf(null));
 
 
     private Integer value;

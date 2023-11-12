@@ -442,7 +442,7 @@ internal class FakeAPI {
      */
     internal enum EnumQueryInteger_testEnumParameters: Int, CaseIterable {
         case _1 = 1
-        case number2 = -2
+        case numberNull = null
     }
 
     /**

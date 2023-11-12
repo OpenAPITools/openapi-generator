@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `EnumArrays` (
 CREATE TABLE IF NOT EXISTS `Enum_Test` (
   `enum_string` ENUM('UPPER', 'lower', '') DEFAULT NULL,
   `enum_string_required` ENUM('UPPER', 'lower', '') NOT NULL,
-  `enum_integer` ENUM('1', '-1') DEFAULT NULL,
+  `enum_integer` ENUM('1', 'null') DEFAULT NULL,
   `enum_number` ENUM('1.1', '-1.2') DEFAULT NULL,
   `outerEnum` TEXT DEFAULT NULL,
   `outerEnumInteger` TEXT DEFAULT NULL,
