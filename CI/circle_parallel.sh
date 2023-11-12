@@ -38,15 +38,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
 elif [ "$NODE_INDEX" = "3" ]; then
 
   echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
-  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
-  #tar -xf Python-3.8.9.tgz
-  #cd Python-3.8.9
-  #./configure --enable-optimizations
-  #sudo make altinstall
-  pyenv install --list 
-  pyenv install 3.7.12
-  #pyenv install 2.7.14 #python2 no longer supported
-  pyenv global 3.7.12
 
   # Install node@stable (for angular 6)
   set +e
@@ -68,18 +59,41 @@ elif [ "$NODE_INDEX" = "3" ]; then
 elif [ "$NODE_INDEX" = "4" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
 
-  #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  #(cd samples/openapi3/client/petstore/python && make test)
-  # comment out due to ModuleNotFoundError: No module named 'urllib3.request'
-  #(cd samples/openapi3/client/petstore/python-prior && make test)
-  #(cd samples/openapi3/client/3_0_3_unit_test/python && make test)
+  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  #tar -xf Python-3.8.9.tgz
+  #cd Python-3.8.9
+  #./configure --enable-optimizations
+  #sudo make altinstall
+  pyenv install --list 
+  pyenv install 3.7.12
+  #pyenv install 2.7.14 #python2 no longer supported
+  pyenv global 3.7.12
+
+  (cd samples/openapi3/client/petstore/python && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-pydantic-v1 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-aiohttp && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-pydantic-v1-aiohttp && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
   java -version
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  ./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/client/petstore/scala-akka && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp && mvn integration-test)
+  (cd dsamples/client/petstore/scala-sttp4 && mvn integration-test)
+  (cd samples/client/petstore/clojure && mvn integration-test)
+  (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
+  (cd samples/client/petstore/java/resteasy && mvn integration-test)
+  (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
+  (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
+
+  #./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
