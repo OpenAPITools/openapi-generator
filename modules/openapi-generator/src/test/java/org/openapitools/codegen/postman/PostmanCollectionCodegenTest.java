@@ -365,20 +365,6 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
-    public void doubleCurlyBraces() {
-        String str = "/api/{var}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
-    }
-
-    @Test
-    public void doubleCurlyBracesNoChanges() {
-        String str = "/api/{{var}}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
-    }
-
-    @Test
     public void extractExampleByName() {
         String str = "#/components/examples/get-user-basic";
 

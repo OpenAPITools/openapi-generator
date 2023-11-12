@@ -505,17 +505,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         return input.replace("\"", "\\\"");
     }
 
-    public String doubleCurlyBraces(String str) {
-
-        // remove doublebraces first
-        String s = str.replace("{{", "{").replace("}}", "}");
-        // change all singlebraces to doublebraces
-        s = s.replace("{", "{{").replace("}", "}}");
-
-        return s;
-
-    }
-
     // convert path from /users/{id} to /users/:id
     String replacesBracesInPath(String path) {
 
