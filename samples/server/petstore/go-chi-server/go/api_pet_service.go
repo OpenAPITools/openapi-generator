@@ -83,7 +83,7 @@ func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string) (
 
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
-func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string, bornAfter time.Time, bornBefore time.Time) (ImplResponse, error) {
+func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string, bornAfter time.Time, bornBefore *time.Time) (ImplResponse, error) {
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -131,7 +131,7 @@ func (s *PetAPIService) GetPetImageById(ctx context.Context, petId int64) (ImplR
 }
 
 // GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
-func (s *PetAPIService) GetPetsUsingBooleanQueryParameters(ctx context.Context, expr bool, grouping bool, inactive bool) (ImplResponse, error) {
+func (s *PetAPIService) GetPetsUsingBooleanQueryParameters(ctx context.Context, expr bool, grouping *bool, inactive bool) (ImplResponse, error) {
 	// TODO - update GetPetsUsingBooleanQueryParameters with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 

@@ -174,7 +174,11 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := chi.URLParam(r, "username")
-	booleanTestParam, err := parseBoolParameter(
+	
+	var booleanTestParam *bool
+	if query.Has("boolean_test") && query.Get("boolean_test") != "" {
+	
+	booleanTestParamVal, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
 	)
@@ -182,6 +186,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
+		booleanTestParam = &booleanTestParamVal
+	}
+	
 	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -210,7 +218,11 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := query.Get("username")
 	passwordParam := query.Get("password")
-	int32TestParam, err := parseNumericParameter[int32](
+	
+	var int32TestParam *int32
+	if query.Has("int32_test") && query.Get("int32_test") != "" {
+	
+	int32TestParamVal, err := parseNumericParameter[int32](
 		query.Get("int32_test"),
 		WithParse[int32](parseInt32),
 	)
@@ -218,7 +230,15 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	int64TestParam, err := parseNumericParameter[int64](
+	
+		int32TestParam = &int32TestParamVal
+	}
+	
+	
+	var int64TestParam *int64
+	if query.Has("int64_test") && query.Get("int64_test") != "" {
+	
+	int64TestParamVal, err := parseNumericParameter[int64](
 		query.Get("int64_test"),
 		WithParse[int64](parseInt64),
 	)
@@ -226,7 +246,15 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	float32TestParam, err := parseNumericParameter[float32](
+	
+		int64TestParam = &int64TestParamVal
+	}
+	
+	
+	var float32TestParam *float32
+	if query.Has("float32_test") && query.Get("float32_test") != "" {
+	
+	float32TestParamVal, err := parseNumericParameter[float32](
 		query.Get("float32_test"),
 		WithParse[float32](parseFloat32),
 	)
@@ -234,7 +262,15 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	float64TestParam, err := parseNumericParameter[float64](
+	
+		float32TestParam = &float32TestParamVal
+	}
+	
+	
+	var float64TestParam *float64
+	if query.Has("float64_test") && query.Get("float64_test") != "" {
+	
+	float64TestParamVal, err := parseNumericParameter[float64](
 		query.Get("float64_test"),
 		WithParse[float64](parseFloat64),
 	)
@@ -242,7 +278,15 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	booleanTestParam, err := parseBoolParameter(
+	
+		float64TestParam = &float64TestParamVal
+	}
+	
+	
+	var booleanTestParam *bool
+	if query.Has("boolean_test") && query.Get("boolean_test") != "" {
+	
+	booleanTestParamVal, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
 	)
@@ -250,6 +294,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
+		booleanTestParam = &booleanTestParamVal
+	}
+	
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, int32TestParam, int64TestParam, float32TestParam, float64TestParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

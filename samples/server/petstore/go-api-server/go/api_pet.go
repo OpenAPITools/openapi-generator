@@ -237,7 +237,7 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
+	bornBeforeParam, err := parseTimeOrNil(query.Get("bornBefore"))
 	if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
@@ -297,6 +297,7 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 // GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
 func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
+	
 	exprParam, err := parseBoolParameter(
 		query.Get("expr"),
 		WithRequire[bool](parseBool),
@@ -305,7 +306,12 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	groupingParam, err := parseBoolParameter(
+	
+	
+	var groupingParam *bool
+	if query.Has("grouping") && query.Get("grouping") != "" {
+	
+	groupingParamVal, err := parseBoolParameter(
 		query.Get("grouping"),
 		WithParse[bool](parseBool),
 	)
@@ -313,6 +319,11 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
+		groupingParam = &groupingParamVal
+	}
+	
+	
 	inactiveParam, err := parseBoolParameter(
 		query.Get("inactive"),
 		WithDefaultOrParse[bool](false, parseBool),
@@ -321,6 +332,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
 	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

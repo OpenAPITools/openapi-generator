@@ -210,7 +210,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/required}}
 	{{^required}}
-	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	{{paramName}}Param, err := parseTimeOrNil(query.Get("{{baseName}}"))
 	if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
@@ -218,7 +218,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/required}}
 	{{/isDateTime}}
 	{{#isNumber}}
-	{{paramName}}Param, err := parseNumericParameter[float32](
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *float32
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseNumericParameter[float32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -230,9 +234,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isNumber}}
 	{{#isFloat}}
-	{{paramName}}Param, err := parseNumericParameter[float32](
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *float32
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseNumericParameter[float32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[float32]({{defaultValue}}, parseFloat32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float32](parseFloat32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -244,9 +256,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isFloat}}
 	{{#isDouble}}
-	{{paramName}}Param, err := parseNumericParameter[float64](
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *float64
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseNumericParameter[float64](
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[float64]({{defaultValue}}, parseFloat64),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[float64](parseFloat64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -258,9 +278,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isDouble}}
 	{{#isLong}}
-	{{paramName}}Param, err := parseNumericParameter[int64](
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *int64
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseNumericParameter[int64](
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[int64]({{defaultValue}}, parseInt64),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[int64](parseInt64),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -272,9 +300,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isLong}}
 	{{#isInteger}}
-	{{paramName}}Param, err := parseNumericParameter[int32](
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *int32
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseNumericParameter[int32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[int32]({{defaultValue}}, parseInt32),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[int32](parseInt32),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -286,9 +322,17 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isInteger}}
 	{{#isBoolean}}
-	{{paramName}}Param, err := parseBoolParameter(
+	{{^required}}{{^defaultValue}}
+	var {{paramName}}Param *bool
+	if query.Has("{{baseName}}") && query.Get("{{baseName}}") != "" {
+	{{/defaultValue}}{{/required}}
+	{{paramName}}Param{{^required}}{{^defaultValue}}Val{{/defaultValue}}{{/required}}, err := parseBoolParameter(
 		query.Get("{{baseName}}"),{{#defaultValue}}
 		WithDefaultOrParse[bool]({{defaultValue}}, parseBool),{{/defaultValue}}{{^defaultValue}}{{#required}}
 		WithRequire[bool](parseBool),{{/required}}{{/defaultValue}}{{^defaultValue}}{{^required}}
@@ -298,6 +342,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	{{^required}}{{^defaultValue}}
+		{{paramName}}Param = &{{paramName}}ParamVal
+	}
+	{{/defaultValue}}{{/required}}
 	{{/isBoolean}}
 	{{#isArray}}
 	{{#items.isNumber}}
@@ -415,18 +463,19 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/defaultValue}}
 	{{^defaultValue}}
 	{{^required}}
-	var {{paramName}}Param {{dataType}}
+	var {{paramName}}Param *{{dataType}}
 	if query.Has("{{baseName}}") {
 		{{^isEnumOrRef}}
-		{{paramName}}Param = query.Get("{{baseName}}")
+		value := query.Get("{{baseName}}")
+		{{paramName}}Param = &value
 		{{/isEnumOrRef}}
 		{{#isEnumOrRef}}
-		var err error
-		{{paramName}}Param, err = New{{dataType}}FromValue(query.Get("{{baseName}}"))
+		value, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
 		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
 		}
+		{{paramName}}Param = &value
 		{{/isEnumOrRef}}
 	}
 	{{/required}}
