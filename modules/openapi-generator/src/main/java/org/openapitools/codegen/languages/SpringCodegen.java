@@ -1320,6 +1320,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             List<String> provideArgs = (List<String>) argObj;
             if (!provideArgs.isEmpty()) {
                 List<String> formatedArgs = new ArrayList<>();
+                List<String> formatedDelegateArgs = new ArrayList<>();
+                List<String> formatedDlegateCallArgs = new ArrayList<>();
                 for (String oneArg : provideArgs) {
                     if (StringUtils.isNotEmpty(oneArg)) {
                         String regexp = "(?<AnnotationTag>@)?(?<ClassPath>(?<PackageName>(\\w+\\.)*)(?<ClassName>\\w+))(?<Params>\\(.*?\\))?\\s?";
@@ -1340,11 +1342,25 @@ public class SpringCodegen extends AbstractJavaCodegen
                             }
                         }
                         String newArg = String.join(" ", newArgs);
+                        if (newArgs.size() > 1) {
+                            formatedDelegateArgs.add(
+                                    String.join(" ", newArgs.subList(newArgs.size() - 2, newArgs.size())));
+                            formatedDlegateCallArgs.add(newArgs.get(newArgs.size() - 1));
+                        } else {
+                            formatedDelegateArgs.add(newArg);
+                            formatedDlegateCallArgs.add(newArg);
+                        }
                         LOGGER.trace("new arg {} {}", newArg);
+                        LOGGER.trace("new delegate arg {} {}",
+                                formatedDelegateArgs.get(formatedDelegateArgs.size() - 1));
+                        LOGGER.trace("new delegate call arg {} {}",
+                                formatedDelegateArgs.get(formatedDelegateArgs.size() - 1));
                         formatedArgs.add(newArg);
                     }
                 }
                 operation.getExtensions().put("x-spring-provide-args", formatedArgs);
+                operation.getExtensions().put("x-spring-provide-args-delegate", formatedDelegateArgs);
+                operation.getExtensions().put("x-spring-provide-args-delegate-call", formatedDlegateCallArgs);
             }
         }
         return provideArgsClassSet;
