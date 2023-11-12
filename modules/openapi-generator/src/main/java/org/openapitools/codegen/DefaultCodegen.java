@@ -3045,6 +3045,9 @@ public class DefaultCodegen implements CodegenConfig {
             // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
             model.setIsString(false);
             model.setIsUuid(true);
+        } else if (ModelUtils.isURISchema(schema)) {
+            model.setIsString(false);
+            model.setIsUri(true);
         }
     }
 
