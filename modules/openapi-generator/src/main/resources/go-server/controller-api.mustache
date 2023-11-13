@@ -169,7 +169,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/isInteger}}
 	{{#isDateTime}}
-	{{paramName}}Param, err := time.Parse(time.RFC3339, {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	{{paramName}}Param, err := parseTime({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -180,6 +180,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isDouble}}
 	{{^isLong}}
 	{{^isInteger}}
+	{{^isDateTime}}
 	{{^isEnumOrRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
 	{{/isEnumOrRef}}
@@ -190,6 +191,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isEnumOrRef}}
+	{{/isDateTime}}
 	{{/isInteger}}
 	{{/isLong}}
 	{{/isDouble}}

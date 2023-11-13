@@ -479,6 +479,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: Robocorp
+  image: "img/companies/robocorp.svg"
+  infoLink: "https://www.robocorp.com"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"

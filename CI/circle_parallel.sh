@@ -10,10 +10,13 @@ set -e
 export NODE_ENV=test
 
 if [ "$NODE_INDEX" = "1" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
   java -version
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/client/petstore/ruby && mvn integration-test)
+  (cd samples/client/petstore/ruby-faraday && mvn integration-test)
+  (cd samples/client/petstore/ruby-httpx && mvn integration-test)
+  (cd samples/client/petstore/ruby-autoload && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
@@ -33,20 +36,14 @@ elif [ "$NODE_INDEX" = "2" ]; then
   export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
-  # run integration tests
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # run go integration tests
+  (cd samples/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
+
 elif [ "$NODE_INDEX" = "3" ]; then
 
-  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
-  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
-  #tar -xf Python-3.8.9.tgz
-  #cd Python-3.8.9
-  #./configure --enable-optimizations
-  #sudo make altinstall
-  pyenv install --list 
-  pyenv install 3.7.12
-  #pyenv install 2.7.14 #python2 no longer supported
-  pyenv global 3.7.12
+  echo "Running node $NODE_INDEX ... "
 
   # Install node@stable (for angular 6)
   set +e
@@ -63,23 +60,71 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/client/others/typescript-angular && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/inversify && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/inversify && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-node/npm && mvn integration-test)
+  (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
+  (cd samples/client/petstore/javascript-es6 && mvn integration-test)
+  (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "4" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
 
-  #mvn --no-snapshot-updates --quiet verify -Psamples.circleci.node4 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  #(cd samples/openapi3/client/petstore/python && make test)
-  # comment out due to ModuleNotFoundError: No module named 'urllib3.request'
-  #(cd samples/openapi3/client/petstore/python-prior && make test)
-  #(cd samples/openapi3/client/3_0_3_unit_test/python && make test)
+  #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
+  #tar -xf Python-3.8.9.tgz
+  #cd Python-3.8.9
+  #./configure --enable-optimizations
+  #sudo make altinstall
+  pyenv install --list 
+  pyenv install 3.7.12
+  #pyenv install 2.7.14 #python2 no longer supported
+  pyenv global 3.7.12
+
+  (cd samples/openapi3/client/petstore/python && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-pydantic-v1 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-aiohttp && mvn integration-test)
+  (cd samples/openapi3/client/petstore/python-pydantic-v1-aiohttp && mvn integration-test)
 
 else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
   java -version
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  ./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/client/petstore/scala-akka && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp && mvn integration-test)
+  (cd samples/client/petstore/scala-sttp4 && mvn integration-test)
+  (cd samples/client/petstore/clojure && mvn integration-test)
+  (cd samples/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/java/jersey2-java8 && mvn integration-test)
+  (cd samples/client/petstore/java/jersey3 && mvn integration-test)
+  (cd samples/client/others/java/okhttp-gson-streaming && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson && mvn integration-test)
+  (cd samples/client/petstore/java/okhttp-gson-3.1 && mvn integration-test)
+  (cd samples/client/petstore/java/resteasy && mvn integration-test)
+  (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
+  (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
+
 fi
 
 

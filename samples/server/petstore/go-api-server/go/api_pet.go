@@ -85,6 +85,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pet/{petId}/uploadImage",
 			c.GetPetImageById,
 		},
+		"GetPetsByTime": Route{
+			strings.ToUpper("Get"),
+			"/v2/pets/byTime/{createdTime}",
+			c.GetPetsByTime,
+		},
 		"GetPetsUsingBooleanQueryParameters": Route{
 			strings.ToUpper("Get"),
 			"/v2/pets/boolean/parsing",
@@ -285,6 +290,24 @@ func (c *PetAPIController) GetPetImageById(w http.ResponseWriter, r *http.Reques
 		return
 	}
 	result, err := c.service.GetPetImageById(r.Context(), petIdParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// GetPetsByTime - Get the pets by time
+func (c *PetAPIController) GetPetsByTime(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	createdTimeParam, err := parseTime(params["createdTime"])
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	result, err := c.service.GetPetsByTime(r.Context(), createdTimeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

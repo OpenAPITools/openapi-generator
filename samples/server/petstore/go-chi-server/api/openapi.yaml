@@ -761,6 +761,28 @@ paths:
       summary: Get the pets by only using boolean query parameters
       tags:
       - pet
+  /pets/byTime/{createdTime}:
+    get:
+      operationId: GetPetsByTime
+      parameters:
+      - explode: false
+        in: path
+        name: createdTime
+        required: true
+        schema:
+          format: date-time
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Get the pets by time
+      tags:
+      - pet
 components:
   requestBodies:
     UserArray:
