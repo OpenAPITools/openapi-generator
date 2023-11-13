@@ -1196,6 +1196,52 @@ paths:
       responses:
         200:
           description: OK
+  /fake/null-request-body:
+    get:
+      tags:
+        - another_fake
+      summary: null request body
+      operationId: null-request-body
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        '200':
+          description: ''
   /values:
     get:
       tags:
