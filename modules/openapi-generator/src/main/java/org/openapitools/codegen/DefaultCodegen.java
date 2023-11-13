@@ -7599,7 +7599,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         if (schema == null) {
             LOGGER.error("Schema cannot be null in the request body: {}", body);
-            return null;j
+            return null;
         }
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
