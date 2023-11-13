@@ -27,6 +27,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |gemDescription|gem description. | |This gem maps to a REST API|
 |gemHomepage|gem homepage. | |https://openapi-generator.tech|
 |gemLicense|gem license. | |unlicense|
+|gemMetadata|gem metadata.| |{}|
 |gemName|gem name (convention: underscore_case).| |openapi_client|
 |gemRequiredRubyVersion|gem required Ruby version. | |&gt;= 2.4|
 |gemSummary|gem summary. | |A ruby wrapper for the REST APIs|

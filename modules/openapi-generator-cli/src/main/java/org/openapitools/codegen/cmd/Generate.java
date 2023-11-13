@@ -210,6 +210,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> modelNameMappings = new ArrayList<>();
 
     @Option(
+            name = {"--enum-name-mappings"},
+            title = "enum name mappings",
+            description = "specifies mappings between the enum name and the new name in the format of enum_name=AnotherName,enum_name2=OtherName2."
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> enumNameMappings = new ArrayList<>();
+
+    @Option(
             name = {"--openapi-normalizer"},
             title = "OpenAPI normalizer rules",
             description = "specifies the rules to be enabled in OpenAPI normalizer in the form of RULE_1=true,RULE_2=original."
@@ -492,6 +499,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyNameMappingsKvpList(nameMappings, configurator);
         applyParameterNameMappingsKvpList(parameterNameMappings, configurator);
         applyModelNameMappingsKvpList(modelNameMappings, configurator);
+        applyEnumNameMappingsKvpList(enumNameMappings, configurator);
         applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);

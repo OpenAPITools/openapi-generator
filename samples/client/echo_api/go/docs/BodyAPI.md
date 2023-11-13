@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**TestBinaryGif**](BodyAPI.md#TestBinaryGif) | **Post** /binary/gif | Test binary (gif) response body
 [**TestBodyApplicationOctetstreamBinary**](BodyAPI.md#TestBodyApplicationOctetstreamBinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 [**TestBodyMultipartFormdataArrayOfBinary**](BodyAPI.md#TestBodyMultipartFormdataArrayOfBinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+[**TestEchoBodyAllOfPet**](BodyAPI.md#TestEchoBodyAllOfPet) | **Post** /echo/body/allOf/Pet | Test body parameter(s)
 [**TestEchoBodyFreeFormObjectResponseString**](BodyAPI.md#TestEchoBodyFreeFormObjectResponseString) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 [**TestEchoBodyPet**](BodyAPI.md#TestEchoBodyPet) | **Post** /echo/body/Pet | Test body parameter(s)
 [**TestEchoBodyPetResponseString**](BodyAPI.md#TestEchoBodyPetResponseString) | **Post** /echo/body/Pet/response_string | Test empty response body
@@ -201,6 +202,72 @@ No authorization required
 
 - **Content-Type**: multipart/form-data
 - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestEchoBodyAllOfPet
+
+> Pet TestEchoBodyAllOfPet(ctx).Pet(pet).Execute()
+
+Test body parameter(s)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.BodyAPI.TestEchoBodyAllOfPet(context.Background()).Pet(pet).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyAllOfPet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestEchoBodyAllOfPet`: Pet
+    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyAllOfPet`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEchoBodyAllOfPetRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store | 
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

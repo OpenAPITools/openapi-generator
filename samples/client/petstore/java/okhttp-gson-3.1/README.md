@@ -82,26 +82,20 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.PetApi;
+import org.openapitools.client.api.FakeApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
-    
-    // Configure OAuth2 access token for authorization: petstore_auth
-    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
-    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    PetApi apiInstance = new PetApi(defaultClient);
-    Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
+    FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      Pet result = apiInstance.addPet(pet);
+      String result = apiInstance.responseNoRef();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling PetApi#addPet");
+      System.err.println("Exception when calling FakeApi#responseNoRef");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -118,6 +112,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
+*FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
+*FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status

@@ -1206,11 +1206,11 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: api_key_name
       in: header
     api_key_query:
       type: apiKey
-      name: api_key_query
+      name: api_key_query_name
       in: query
     http_basic_test:
       type: http

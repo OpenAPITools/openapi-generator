@@ -257,5 +257,6 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
-
-
+    def test_parameters_to_url_query_boolean_value(self):
+        result = self.api_client.parameters_to_url_query([('boolean', True)], {})
+        self.assertEqual(result, "boolean=true")

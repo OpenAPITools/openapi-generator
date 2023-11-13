@@ -231,6 +231,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     StringJoiner joiner = new StringJoiner("&");
 
     {{#composedSchemas.oneOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
     if (getActualInstance() instanceof {{{dataType}}}) {
         {{#isArray}}
         {{#items.isPrimitiveType}}
@@ -352,6 +353,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isArray}}
         return joiner.toString();
     }
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/composedSchemas.oneOf}}
     return null;
   }

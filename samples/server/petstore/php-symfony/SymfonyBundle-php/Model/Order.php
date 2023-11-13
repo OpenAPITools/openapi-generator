@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -71,7 +72,7 @@ class Order
     /**
      * @var \DateTime|null
      * @SerializedName("shipDate")
-     * @Assert\DateTime()
+     * @Assert\Type("\DateTime"))
      * @Type("DateTime")
      */
     protected ?\DateTime $shipDate = null;
@@ -121,6 +122,8 @@ class Order
         return $this->id;
     }
 
+
+
     /**
      * Sets id.
      *
@@ -144,6 +147,8 @@ class Order
     {
         return $this->petId;
     }
+
+
 
     /**
      * Sets petId.
@@ -169,6 +174,8 @@ class Order
         return $this->quantity;
     }
 
+
+
     /**
      * Sets quantity.
      *
@@ -192,6 +199,8 @@ class Order
     {
         return $this->shipDate;
     }
+
+
 
     /**
      * Sets shipDate.
@@ -217,6 +226,8 @@ class Order
         return $this->status;
     }
 
+
+
     /**
      * Sets status.
      *
@@ -240,6 +251,8 @@ class Order
     {
         return $this->complete;
     }
+
+
 
     /**
      * Sets complete.

@@ -1836,6 +1836,8 @@ components:
         - placed
         - approved
         - delivered
+        - s
+        - S
     OuterEnumInteger:
       type: integer
       enum:

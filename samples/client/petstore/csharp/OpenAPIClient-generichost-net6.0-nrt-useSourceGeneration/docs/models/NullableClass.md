@@ -4,9 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ArrayItemsNullable** | **List&lt;Object&gt;** |  | [optional] 
-**ObjectItemsNullable** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
 **ArrayAndItemsNullableProp** | **List&lt;Object&gt;** |  | [optional] 
+**ArrayItemsNullable** | **List&lt;Object&gt;** |  | [optional] 
 **ArrayNullableProp** | **List&lt;Object&gt;** |  | [optional] 
 **BooleanProp** | **bool** |  | [optional] 
 **DateProp** | **DateTime** |  | [optional] 
@@ -14,6 +13,7 @@ Name | Type | Description | Notes
 **IntegerProp** | **int** |  | [optional] 
 **NumberProp** | **decimal** |  | [optional] 
 **ObjectAndItemsNullableProp** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
+**ObjectItemsNullable** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
 **ObjectNullableProp** | **Dictionary&lt;string, Object&gt;** |  | [optional] 
 **StringProp** | **string** |  | [optional] 
 

@@ -37,19 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty) : base()
+        public TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default) : base()
         {
-            SomeProperty = someProperty;
+            SomePropertyOption = someProperty;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of SomeProperty
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> SomePropertyOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string SomeProperty { get; set; }
+        public string? SomeProperty { get { return this. SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,7 +122,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? someProperty = default;
+            Option<string?> someProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,7 +140,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "someProperty":
-                            someProperty = utf8JsonReader.GetString();
+                            someProperty = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -141,8 +148,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (someProperty == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
+            if (someProperty.IsSet && someProperty.Value == null)
+                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
 
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }
@@ -171,7 +178,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
+            if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
+                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
+
+            if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
+                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
         }
     }
 

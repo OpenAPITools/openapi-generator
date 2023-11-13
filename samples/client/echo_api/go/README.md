@@ -36,7 +36,7 @@ Default configuration comes with `Servers` field that contains server objects as
 
 ### Select Server Configuration
 
-For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
+For using other server than the one defined on index 0 set context value `openapi.ContextServerIndex` of type `int`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
@@ -44,7 +44,7 @@ ctx := context.WithValue(context.Background(), openapi.ContextServerIndex, 1)
 
 ### Templated Server URL
 
-Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
+Templated server URL is formatted using default variables from configuration or from context value `openapi.ContextServerVariables` of type `map[string]string`.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextServerVariables, map[string]string{
@@ -58,7 +58,7 @@ Note, enum values are always validated and all unused variables are silently ign
 
 Each operation can use different server URL defined using `OperationServers` map in the `Configuration`.
 An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
-Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
+Similar rules for overriding default operation server index and variables applies by using `openapi.ContextOperationServerIndices` and `openapi.ContextOperationServerVariables` context maps.
 
 ```golang
 ctx := context.WithValue(context.Background(), openapi.ContextOperationServerIndices, map[string]int{
@@ -81,6 +81,7 @@ Class | Method | HTTP request | Description
 *BodyAPI* | [**TestBinaryGif**](docs/BodyAPI.md#testbinarygif) | **Post** /binary/gif | Test binary (gif) response body
 *BodyAPI* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyAPI.md#testbodyapplicationoctetstreambinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 *BodyAPI* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyAPI.md#testbodymultipartformdataarrayofbinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyAPI* | [**TestEchoBodyAllOfPet**](docs/BodyAPI.md#testechobodyallofpet) | **Post** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyAPI.md#testechobodyfreeformobjectresponsestring) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyAPI* | [**TestEchoBodyPet**](docs/BodyAPI.md#testechobodypet) | **Post** /echo/body/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyPetResponseString**](docs/BodyAPI.md#testechobodypetresponsestring) | **Post** /echo/body/Pet/response_string | Test empty response body
@@ -125,7 +126,7 @@ Authentication schemes defined for the API:
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+auth := context.WithValue(context.Background(), openapi.ContextBasicAuth, openapi.BasicAuth{
     UserName: "username",
     Password: "password",
 })

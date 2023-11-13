@@ -407,13 +407,13 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
             for (CodegenParameter param : op.allParams) {
                 // Determine if the parameter type is supported as a type hint and make it available
                 // to the templating engine
-                String typeHint = getTypeHint(param.dataType);
+                String typeHint = getTypeHint(param.dataType, false);
                 if (!typeHint.isEmpty()) {
                     param.vendorExtensions.put("x-parameter-type", typeHint);
                 }
 
                 if (param.isContainer) {
-                    param.vendorExtensions.put("x-parameter-type", getTypeHint(param.dataType + "[]"));
+                    param.vendorExtensions.put("x-parameter-type", getTypeHint(param.dataType + "[]", false));
                 }
 
                 // Create a variable to display the correct data type in comments for interfaces
@@ -636,7 +636,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     protected String getTypeHintNullable(String type) {
-        String typeHint = getTypeHint(type);
+        String typeHint = getTypeHint(type, false);
         if (!typeHint.equals("")) {
             return "?" + typeHint;
         }
@@ -645,7 +645,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
     }
 
     protected String getTypeHintNullableForComments(String type) {
-        String typeHint = getTypeHint(type);
+        String typeHint = getTypeHint(type, true);
         if (!typeHint.equals("")) {
             return typeHint + "|null";
         }
@@ -653,10 +653,16 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         return typeHint;
     }
 
-    protected String getTypeHint(String type) {
+    protected String getTypeHint(String type, Boolean forComments) {
         // Type hint array types
         if (type.endsWith("[]")) {
-            return "array";
+            if (forComments) {
+                //Make type hints for array in comments. Call getTypeHint recursive for extractSimpleName for models
+                String typeWithoutArray = type.substring(0, type.length() - 2);
+                return this.getTypeHint(typeWithoutArray, true) + "[]";
+            } else {
+                return "array";
+            }
         }
 
         // Check if the type is a native type that is type hintable in PHP

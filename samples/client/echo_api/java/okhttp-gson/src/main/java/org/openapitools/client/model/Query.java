@@ -104,6 +104,11 @@ public class Query {
         return OutcomesEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      OutcomesEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";

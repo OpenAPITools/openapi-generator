@@ -454,14 +454,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
             Collections.sort(codegenModel.parentVars, propertyComparatorByName);
 
-            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparator);
-            Collections.sort(codegenModel.allVars, comparator);
-            Collections.sort(codegenModel.requiredVars, comparator);
-            Collections.sort(codegenModel.optionalVars, comparator);
-            Collections.sort(codegenModel.readOnlyVars, comparator);
-            Collections.sort(codegenModel.readWriteVars, comparator);
-            Collections.sort(codegenModel.parentVars, comparator);
+            Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
         }
 
         return codegenModel;
@@ -474,24 +473,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if ((one.defaultValue == null) == (another.defaultValue == null))
+            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
                 return 0;
-            else if (one.defaultValue == null)
-                return -1;
-            else
-                return 1;
-        }
-    };
-
-    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
-        @Override
-        public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable)
-                return 0;
-            else if (Boolean.FALSE.equals(one.isNullable))
+            else if (!one.isNullable && one.required && one.defaultValue == null)
                 return -1;
             else
                 return 1;
