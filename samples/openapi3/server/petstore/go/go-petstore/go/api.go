@@ -61,14 +61,14 @@ type UserAPIRouter interface {
 // and updated with the logic required for the API.
 type PetAPIServicer interface { 
 	AddPet(context.Context, Pet) (ImplResponse, error)
-	DeletePet(context.Context, int64, string) (ImplResponse, error)
+	DeletePet(context.Context, int64, *string) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
 	FindPetsByTags(context.Context, []string) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
-	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UpdatePetWithForm(context.Context, int64, *string, *string) (ImplResponse, error)
+	UploadFile(context.Context, int64, *string, *os.File) (ImplResponse, error)
 }
 
 
@@ -92,9 +92,9 @@ type UserAPIServicer interface {
 	CreateUser(context.Context, User) (ImplResponse, error)
 	CreateUsersWithArrayInput(context.Context, []User) (ImplResponse, error)
 	CreateUsersWithListInput(context.Context, []User) (ImplResponse, error)
-	DeleteUser(context.Context, string, bool) (ImplResponse, error)
+	DeleteUser(context.Context, string, *bool) (ImplResponse, error)
 	GetUserByName(context.Context, string) (ImplResponse, error)
-	LoginUser(context.Context, string, string, int32, int64, float32, float64, bool) (ImplResponse, error)
+	LoginUser(context.Context, string, string, *int32, *int64, *float32, *float64, *bool) (ImplResponse, error)
 	LogoutUser(context.Context) (ImplResponse, error)
 	UpdateUser(context.Context, string, User) (ImplResponse, error)
 }

@@ -53,12 +53,12 @@ func (v Species) IsValid() bool {
 
 // NewSpeciesFromValue returns a pointer to a valid Species
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func NewSpeciesFromValue(v string) (Species, error) {
+func NewSpeciesFromValue(v string) (*Species, error) {
 	ev := Species(v)
 	if ev.IsValid() {
-		return ev, nil
+		return &ev, nil
 	} else {
-		return "", fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, AllowedSpeciesEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for Species: valid values are %v", v, AllowedSpeciesEnumValues)
 	}
 }
 
