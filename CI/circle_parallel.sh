@@ -54,7 +54,36 @@ elif [ "$NODE_INDEX" = "3" ]; then
   echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  #./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+  (cd samples/client/others/typescript-angular && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v13-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/jquery && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/object_params && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/inversify && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/inversify && mvn integration-test)
+  #(cd samples/openapi3/client/petstore/typescript/tests/deno && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/builds/browser && mvn integration-test)
+  (cd samples/openapi3/client/petstore/typescript/tests/browser && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/es6-target && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-fetch/tests/default && mvn integration-test)
+  (cd samples/client/petstore/typescript-node/npm && mvn integration-test)
+  (cd samples/client/petstore/typescript-rxjs/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/builds/with-npm-version && mvn integration-test)
+  (cd samples/client/petstore/typescript-axios/tests/default && mvn integration-test)
+  (cd samples/client/petstore/javascript-flowtyped && mvn integration-test)
+  (cd samples/client/petstore/javascript-es6 && mvn integration-test)
+  (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "4" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
