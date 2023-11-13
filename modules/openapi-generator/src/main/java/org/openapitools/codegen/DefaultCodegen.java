@@ -23,6 +23,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
@@ -3686,6 +3687,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
+            // fix issue #16797 and #15796, constructor fail by missing parent required params
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                properties.putAll(schema.getProperties());
+            }
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
@@ -3709,6 +3714,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            for (String r : required) {
+                if (!properties.containsKey(r)) {
+                    LOGGER.error("Required not in property %s", r);
+                }
+            }
             return;
         }
 
