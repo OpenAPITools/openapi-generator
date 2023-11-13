@@ -418,11 +418,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        CopyLambda copyLambda = new CopyLambda();
+
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
@@ -430,9 +433,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
+                .put("indent1", new IndentedLambda(4, " ", false, true))
                 .put("indent3", new IndentedLambda(12, " ", false, true))
                 .put("indent4", new IndentedLambda(16, " ", false, true))
-                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
+                .put("copy", copyLambda)
+                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
+                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false));
     }
 
     @Override

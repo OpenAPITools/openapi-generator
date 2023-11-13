@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -152,7 +153,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
+            Option<string?> className = default;
 
             Pig? pig = null;
             Whale? whale = null;
@@ -209,7 +210,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -217,17 +218,20 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Mammal.", nameof(className));
+
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
 
             if (pig != null)
-                return new Mammal(pig, className);
+                return new Mammal(pig, className.Value!);
 
             if (whale != null)
-                return new Mammal(whale, className);
+                return new Mammal(whale, className.Value!);
 
             if (zebra != null)
-                return new Mammal(zebra, className);
+                return new Mammal(zebra, className.Value!);
 
             throw new JsonException();
         }
@@ -271,6 +275,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (mammal.ClassName == null)
+                throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
+
             writer.WriteString("className", mammal.ClassName);
         }
     }
