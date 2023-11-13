@@ -4166,6 +4166,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getExtensions() != null) {
                 property.getVendorExtensions().putAll(original.getExtensions());
             }
+            if (original.getDeprecated() != null) {
+                property.deprecated = p.getDeprecated();
+            }
         }
 
         // set the default value
@@ -7688,6 +7691,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (original.getExtensions() != null) {
                 codegenParameter.vendorExtensions.putAll(original.getExtensions());
+            }
+
+            if (original.getDeprecated() != null) {
+                codegenParameter.isDeprecated = original.getDeprecated();
             }
         }
 
