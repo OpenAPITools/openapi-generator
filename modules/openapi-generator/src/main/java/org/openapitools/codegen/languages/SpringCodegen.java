@@ -28,7 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Sets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -1210,17 +1209,6 @@ public class SpringCodegen extends AbstractJavaCodegen
                 }
                 if (codegenModel.getParentModel() != null) {
                     codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
-
-                    // fix issue #16797 and #15796, constructor fail by missing parent required params
-                    Set<String> requiredSet = codegenModel.requiredVars.stream().map(CodegenProperty::getName).collect(Collectors.toSet());
-                    for (final String varName : Sets.difference(codegenModel.allMandatory, requiredSet)) {
-                        for (CodegenProperty parentVar : codegenModel.parentRequiredVars) {
-                            if (parentVar.name.equals(varName)) {
-                                LOGGER.info("add missing parent required variable {}", varName);
-                                codegenModel.requiredVars.add(parentVar);
-                            }
-                        }
-                    }
                 }
                 // There must be a better way ...
                 for (String imp: inheritedImports) {
