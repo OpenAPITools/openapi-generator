@@ -103,7 +103,6 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
-    
     this.mapString = mapString;
     return this;
   }
@@ -125,14 +124,12 @@ public class AdditionalPropertiesClass {
     return mapString;
   }
 
-
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
   }
 
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
-    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -154,14 +151,12 @@ public class AdditionalPropertiesClass {
     return mapNumber;
   }
 
-
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
   }
 
 
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
-    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -183,14 +178,12 @@ public class AdditionalPropertiesClass {
     return mapInteger;
   }
 
-
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
   }
 
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
-    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -212,14 +205,12 @@ public class AdditionalPropertiesClass {
     return mapBoolean;
   }
 
-
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
   }
 
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
-    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -241,14 +232,12 @@ public class AdditionalPropertiesClass {
     return mapArrayInteger;
   }
 
-
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
   }
 
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
-    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -270,14 +259,12 @@ public class AdditionalPropertiesClass {
     return mapArrayAnytype;
   }
 
-
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
-    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -299,14 +286,12 @@ public class AdditionalPropertiesClass {
     return mapMapString;
   }
 
-
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
   }
 
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
-    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -328,14 +313,12 @@ public class AdditionalPropertiesClass {
     return mapMapAnytype;
   }
 
-
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
   }
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
     this.anytype1 = anytype1;
     return this;
   }
@@ -349,14 +332,12 @@ public class AdditionalPropertiesClass {
     return anytype1;
   }
 
-
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
-    
     this.anytype2 = anytype2;
     return this;
   }
@@ -370,14 +351,12 @@ public class AdditionalPropertiesClass {
     return anytype2;
   }
 
-
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
   }
 
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    
     this.anytype3 = anytype3;
     return this;
   }
@@ -390,7 +369,6 @@ public class AdditionalPropertiesClass {
   public Object getAnytype3() {
     return anytype3;
   }
-
 
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
