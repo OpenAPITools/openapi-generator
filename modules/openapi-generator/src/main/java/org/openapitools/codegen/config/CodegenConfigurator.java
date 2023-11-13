@@ -74,6 +74,7 @@ public class CodegenConfigurator {
     private Map<String, String> nameMappings = new HashMap<>();
     private Map<String, String> parameterNameMappings = new HashMap<>();
     private Map<String, String> modelNameMappings = new HashMap<>();
+    private Map<String, String> enumNameMappings = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
@@ -135,6 +136,9 @@ public class CodegenConfigurator {
             }
             if(generatorSettings.getModelNameMappings() != null) {
                 configurator.modelNameMappings.putAll(generatorSettings.getModelNameMappings());
+            }
+            if(generatorSettings.getEnumNameMappings() != null) {
+                configurator.enumNameMappings.putAll(generatorSettings.getEnumNameMappings());
             }
             if(generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
@@ -241,6 +245,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator addModelNameMapping(String key, String value) {
         this.modelNameMappings.put(key, value);
         generatorSettingsBuilder.withModelNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addEnumNameMapping(String key, String value) {
+        this.enumNameMappings.put(key, value);
+        generatorSettingsBuilder.withEnumNameMapping(key, value);
         return this;
     }
 
@@ -437,6 +447,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator setModelNameMappings(Map<String, String> modelNameMappings) {
         this.modelNameMappings = modelNameMappings;
         generatorSettingsBuilder.withModelNameMappings(modelNameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setEnumNameMappings(Map<String, String> enumNameMappings) {
+        this.enumNameMappings = enumNameMappings;
+        generatorSettingsBuilder.withEnumNameMappings(enumNameMappings);
         return this;
     }
 
@@ -728,6 +744,7 @@ public class CodegenConfigurator {
         config.nameMapping().putAll(generatorSettings.getNameMappings());
         config.parameterNameMapping().putAll(generatorSettings.getParameterNameMappings());
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
+        config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());

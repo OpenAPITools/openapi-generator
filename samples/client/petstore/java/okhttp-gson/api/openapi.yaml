@@ -1861,6 +1861,8 @@ components:
       - placed
       - approved
       - delivered
+      - s
+      - S
       nullable: true
       type: string
     OuterEnumInteger:
