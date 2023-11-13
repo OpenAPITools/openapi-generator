@@ -205,6 +205,14 @@ func parseTime(param string) (time.Time, error) {
 	return time.Parse(time.RFC3339, param)
 }
 
+func parseTimeOrNil(param string) (*time.Time, error) {
+	if param == "" {
+		return nil, nil
+	}
+	t, err := time.Parse(time.RFC3339, param)
+	return &t, err
+}
+
 type Number interface {
 	~int32 | ~int64 | ~float32 | ~float64
 }

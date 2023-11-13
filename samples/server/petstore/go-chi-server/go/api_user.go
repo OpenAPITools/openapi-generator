@@ -174,7 +174,11 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := chi.URLParam(r, "username")
-	booleanTestParam, err := parseBoolParameter(
+	
+	var booleanTestParam *bool
+	if query.Has("boolean_test") && query.Get("boolean_test") != "" {
+	
+	booleanTestParamVal, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
 	)
@@ -182,6 +186,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
+		booleanTestParam = &booleanTestParamVal
+	}
+	
 	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -210,7 +218,11 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	usernameParam := query.Get("username")
 	passwordParam := query.Get("password")
-	booleanTestParam, err := parseBoolParameter(
+	
+	var booleanTestParam *bool
+	if query.Has("boolean_test") && query.Get("boolean_test") != "" {
+	
+	booleanTestParamVal, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
 	)
@@ -218,6 +230,10 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
+	
+		booleanTestParam = &booleanTestParamVal
+	}
+	
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
