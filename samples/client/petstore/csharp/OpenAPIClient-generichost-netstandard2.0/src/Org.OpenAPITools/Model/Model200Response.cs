@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,26 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(string varClass, int name)
+        public Model200Response(Option<string> varClass = default, Option<int?> name = default)
         {
-            VarClass = varClass;
-            Name = name;
+            VarClassOption = varClass;
+            NameOption = name;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of VarClass
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> VarClassOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("class")]
-        public string VarClass { get; set; }
+        public string VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of Name
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<int?> NameOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int Name { get; set; }
+        public int? Name { get { return this. NameOption; } set { this.NameOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,8 +124,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string varClass = default;
-            int? name = default;
+            Option<string> varClass = default;
+            Option<int?> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,11 +143,11 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "class":
-                            varClass = utf8JsonReader.GetString();
+                            varClass = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "name":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                name = utf8JsonReader.GetInt32();
+                                name = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -140,13 +155,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varClass == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is required for class Model200Response.");
+            if (varClass.IsSet && varClass.Value == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class Model200Response.");
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class Model200Response.");
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Model200Response.");
 
-            return new Model200Response(varClass, name.Value);
+            return new Model200Response(varClass, name);
         }
 
         /// <summary>
@@ -173,8 +188,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("class", model200Response.VarClass);
-            writer.WriteNumber("name", model200Response.Name);
+            if (model200Response.VarClassOption.IsSet && model200Response.VarClass == null)
+                throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
+
+            if (model200Response.VarClassOption.IsSet)
+                writer.WriteString("class", model200Response.VarClass);
+
+            if (model200Response.NameOption.IsSet)
+                writer.WriteNumber("name", model200Response.NameOption.Value.Value);
         }
     }
 }

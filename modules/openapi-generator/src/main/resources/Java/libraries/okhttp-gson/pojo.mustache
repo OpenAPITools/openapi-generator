@@ -552,6 +552,30 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
       }
       {{/required}}
       {{/isModel}}
+      {{#isEnum}}
+      {{#required}}
+      // validate the required field `{{{baseName}}}`
+      {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{datatypeWithEnum}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnum}}
+      {{#isEnumRef}}
+      {{#required}}
+      // validate the required field `{{{baseName}}}`
+      {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      {{/required}}
+      {{^required}}
+      // validate the optional field `{{{baseName}}}`
+      if (jsonObj.get("{{{baseName}}}") != null && !jsonObj.get("{{{baseName}}}").isJsonNull()) {
+        {{{dataType}}}.validateJsonElement(jsonObj.get("{{{baseName}}}"));
+      }
+      {{/required}}
+      {{/isEnumRef}}
       {{/isContainer}}
       {{/vars}}
       {{/discriminator}}

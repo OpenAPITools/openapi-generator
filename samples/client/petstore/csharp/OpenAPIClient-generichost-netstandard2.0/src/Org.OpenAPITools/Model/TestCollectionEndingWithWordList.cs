@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,19 +34,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(string value)
+        public TestCollectionEndingWithWordList(Option<string> value = default)
         {
-            Value = value;
+            ValueOption = value;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Value
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> ValueOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string Value { get; set; }
+        public string Value { get { return this. ValueOption; } set { this.ValueOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +108,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string value = default;
+            Option<string> value = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +126,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "value":
-                            value = utf8JsonReader.GetString();
+                            value = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -126,8 +134,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (value == null)
-                throw new ArgumentNullException(nameof(value), "Property is required for class TestCollectionEndingWithWordList.");
+            if (value.IsSet && value.Value == null)
+                throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
 
             return new TestCollectionEndingWithWordList(value);
         }
@@ -156,7 +164,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("value", testCollectionEndingWithWordList.Value);
+            if (testCollectionEndingWithWordList.ValueOption.IsSet && testCollectionEndingWithWordList.Value == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
+
+            if (testCollectionEndingWithWordList.ValueOption.IsSet)
+                writer.WriteString("value", testCollectionEndingWithWordList.Value);
         }
     }
 }

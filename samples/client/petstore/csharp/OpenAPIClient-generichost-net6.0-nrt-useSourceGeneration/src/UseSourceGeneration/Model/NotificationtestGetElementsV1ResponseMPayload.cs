@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<Dictionary<string, Object>>? aObjVariableobject = default;
-            int? pkiNotificationtestID = default;
+            Option<List<Dictionary<string, Object>>?> aObjVariableobject = default;
+            Option<int?> pkiNotificationtestID = default;
 
             while (utf8JsonReader.Read())
             {
@@ -133,11 +133,11 @@ namespace UseSourceGeneration.Model
                     {
                         case "a_objVariableobject":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                aObjVariableobject = JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                aObjVariableobject = new Option<List<Dictionary<string, Object>>?>(JsonSerializer.Deserialize<List<Dictionary<string, Object>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "pkiNotificationtestID":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                pkiNotificationtestID = utf8JsonReader.GetInt32();
+                                pkiNotificationtestID = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -145,13 +145,19 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (aObjVariableobject == null)
-                throw new ArgumentNullException(nameof(aObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+            if (!aObjVariableobject.IsSet)
+                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(aObjVariableobject));
 
-            if (pkiNotificationtestID == null)
-                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+            if (!pkiNotificationtestID.IsSet)
+                throw new ArgumentException("Property is required for class NotificationtestGetElementsV1ResponseMPayload.", nameof(pkiNotificationtestID));
 
-            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject, pkiNotificationtestID.Value);
+            if (aObjVariableobject.IsSet && aObjVariableobject.Value == null)
+                throw new ArgumentNullException(nameof(aObjVariableobject), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+
+            if (pkiNotificationtestID.IsSet && pkiNotificationtestID.Value == null)
+                throw new ArgumentNullException(nameof(pkiNotificationtestID), "Property is not nullable for class NotificationtestGetElementsV1ResponseMPayload.");
+
+            return new NotificationtestGetElementsV1ResponseMPayload(aObjVariableobject.Value!, pkiNotificationtestID.Value!.Value!);
         }
 
         /// <summary>
@@ -178,6 +184,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NotificationtestGetElementsV1ResponseMPayload notificationtestGetElementsV1ResponseMPayload, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (notificationtestGetElementsV1ResponseMPayload.AObjVariableobject == null)
+                throw new ArgumentNullException(nameof(notificationtestGetElementsV1ResponseMPayload.AObjVariableobject), "Property is required for class NotificationtestGetElementsV1ResponseMPayload.");
+
             writer.WritePropertyName("a_objVariableobject");
             JsonSerializer.Serialize(writer, notificationtestGetElementsV1ResponseMPayload.AObjVariableobject, jsonSerializerOptions);
             writer.WriteNumber("pkiNotificationtestID", notificationtestGetElementsV1ResponseMPayload.PkiNotificationtestID);

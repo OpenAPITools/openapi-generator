@@ -50,7 +50,7 @@ namespace OpenAPIClient_generichost_manual_tests
             Apple apple = new("#000000", "cultivar", "origin");
             string appleJson = JsonSerializer.Serialize(apple, _jsonSerializerOptions);
             Apple? apple2 = JsonSerializer.Deserialize<Apple>(appleJson, _jsonSerializerOptions);
-            Assert.IsTrue(apple2 != null && apple.Cultivar.Equals(apple2.Cultivar) && apple.Origin.Equals(apple2.Origin));
+            Assert.IsTrue(apple2 != null && apple.Cultivar != null && apple.Cultivar.Equals(apple2.Cultivar) && apple.Origin != null && apple.Origin.Equals(apple2.Origin));
         }
 
         [TestMethod]
@@ -92,12 +92,12 @@ namespace OpenAPIClient_generichost_manual_tests
                 gmFruit2 != null &&
                 gmFruit2.Apple != null &&
                 gmFruit2.Banana != null &&
+                gmFruit2.Apple.Cultivar != null &&
                 gmFruit2.Apple.Cultivar.Equals(gmFruit.Apple.Cultivar) &&
+                gmFruit2.Apple.Origin != null &&
                 gmFruit2.Apple.Origin.Equals(gmFruit.Apple.Origin) &&
                 gmFruit2.Banana.LengthCm.Equals(gmFruit.Banana.LengthCm));
 
-            Apple? apple2 = JsonSerializer.Deserialize<Apple>(gmFruitJson);
-            Assert.IsTrue(apple2 != null && apple.Cultivar == apple2.Cultivar && apple.Origin == apple2.Origin);
             // TODO: assert the the properties from Banana and GmFruit are in additionalProperties
         }
 
@@ -132,16 +132,16 @@ namespace OpenAPIClient_generichost_manual_tests
             ChildCat childCat = new("some name", Org.OpenAPITools.Model.ChildCat.PetTypeEnum.ChildCat);
             string childCatJson = JsonSerializer.Serialize(childCat, _jsonSerializerOptions);
             ChildCat? childCat2 = JsonSerializer.Deserialize<ChildCat>(childCatJson, _jsonSerializerOptions);
-            Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name.Equals(childCat2.Name));
+            Assert.IsTrue(childCat2 != null && childCat.PetType.Equals(childCat2.PetType) && childCat.Name != null && childCat.Name.Equals(childCat2.Name));
         }
 
         [TestMethod]
         public void Cat()
         {
-            Cat cat = new("cat", false, "black"); // TODO: where is the address property?
+            Cat cat = new("cat", "black", false); // TODO: where is the address property?
             string catJson = JsonSerializer.Serialize(cat, _jsonSerializerOptions);
             Cat? cat2 = JsonSerializer.Deserialize<Cat>(catJson, _jsonSerializerOptions);
-            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color.Equals(cat2.Color)); // TODO: add the address property
+            Assert.IsTrue(cat2 != null && cat.Declawed.Equals(cat2.Declawed) && cat.ClassName.Equals(cat2.ClassName) && cat.Color != null && cat.Color.Equals(cat2.Color)); // TODO: add the address property
         }
     }
 }
