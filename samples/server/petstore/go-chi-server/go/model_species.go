@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"fmt"
-)
-
 
 
 type Species string

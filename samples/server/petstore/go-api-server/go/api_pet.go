@@ -320,29 +320,51 @@ func (c *PetAPIController) GetPetsByTime(w http.ResponseWriter, r *http.Request)
 // GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
 func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	exprParam, err := parseBoolParameter(
-		query.Get("expr"),
-		WithRequire[bool](parseBool),
-	)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+	var exprParam bool
+	if query.Has("expr") {
+		param, err := parseBoolParameter(
+			query.Get("expr"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		exprParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "expr"}, nil)
 		return
 	}
-	groupingParam, err := parseBoolParameter(
-		query.Get("grouping"),
-		WithParse[bool](parseBool),
-	)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+	var groupingParam bool
+	if query.Has("grouping") {
+		param, err := parseBoolParameter(
+			query.Get("grouping"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		groupingParam = param
+	} else {
 	}
-	inactiveParam, err := parseBoolParameter(
-		query.Get("inactive"),
-		WithDefaultOrParse[bool](false, parseBool),
-	)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+	var inactiveParam bool
+	if query.Has("inactive") {
+		param, err := parseBoolParameter(
+			query.Get("inactive"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		inactiveParam = param
+	} else {
+		var param bool = false
+		inactiveParam = param
 	}
 	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
