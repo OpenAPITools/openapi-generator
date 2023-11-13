@@ -3701,6 +3701,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
+            // fix issue #16797 and #15796, constructor fail by missing parent required params
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                properties.putAll(schema.getProperties());
+            }
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
@@ -3723,7 +3727,7 @@ public class DefaultCodegen implements CodegenConfig {
                     addProperties(properties, required, (Schema) component, visitedSchemas);
                 }
             }
-            // add check for issue #16797 and #15796, constructor fail by missing parent required params
+
             for (String r : required) {
                 if (!properties.containsKey(r)) {
                     LOGGER.error("Required var %s not in properties", r);
