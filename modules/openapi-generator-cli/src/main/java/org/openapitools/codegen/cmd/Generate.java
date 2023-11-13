@@ -212,7 +212,7 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(
             name = {"--enum-name-mappings"},
             title = "enum name mappings",
-            description = "specifies mappings between the enum name and the new name in the format of model_name=AnotherName,model_name2=OtherName2."
+            description = "specifies mappings between the enum name and the new name in the format of enum_name=AnotherName,enum_name2=OtherName2."
                     + " You can also have multiple occurrences of this option.")
     private List<String> enumNameMappings = new ArrayList<>();
 
