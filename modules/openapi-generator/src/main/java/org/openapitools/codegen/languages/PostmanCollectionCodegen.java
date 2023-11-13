@@ -131,6 +131,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
+        // create Postman variable from every path parameter
         if(pathParamsAsVariables && parameter.isPathParam) {
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
@@ -216,13 +217,16 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         for(CodegenOperation codegenOperation : opList) {
 
+            // use Postman notation for path parameter
+            codegenOperation.path = replacesBracesInPath(codegenOperation.path);
+
             if(pathParamsAsVariables) {
-                // create Postman variable from path parameter
-                codegenOperation.path = doubleCurlyBraces(codegenOperation.path);
-            } else {
-                // use Postman notation for path parameter
-                codegenOperation.path = replacesBracesInPath(codegenOperation.path);
+                // set value of path parameter with corresponding env variable
+                for(CodegenParameter codegenParameter : codegenOperation.pathParams) {
+                    codegenParameter.defaultValue = "{{" + codegenParameter.paramName + "}}";
+                }
             }
+
             codegenOperation.summary = getSummary(codegenOperation);
 
             // request headers
@@ -499,17 +503,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String escapeQuotationMark(String input) {
         //TODO: check that this logic is safe to escape quotation mark to avoid code injection
         return input.replace("\"", "\\\"");
-    }
-
-    public String doubleCurlyBraces(String str) {
-
-        // remove doublebraces first
-        String s = str.replace("{{", "{").replace("}}", "}");
-        // change all singlebraces to doublebraces
-        s = s.replace("{", "{{").replace("}", "}}");
-
-        return s;
-
     }
 
     // convert path from /users/{id} to /users/:id
