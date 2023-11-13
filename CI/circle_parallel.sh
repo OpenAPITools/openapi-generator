@@ -10,10 +10,13 @@ set -e
 export NODE_ENV=test
 
 if [ "$NODE_INDEX" = "1" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
   java -version
 
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  (cd samples/client/petstore/ruby && mvn integration-test)
+  (cd samples/client/petstore/ruby-faraday && mvn integration-test)
+  (cd samples/client/petstore/ruby-httpx && mvn integration-test)
+  (cd samples/client/petstore/ruby-autoload && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "2" ]; then
   echo "Running node $NODE_INDEX to test Go"
@@ -33,11 +36,14 @@ elif [ "$NODE_INDEX" = "2" ]; then
   export PATH="/usr/local/go1.18/go/bin:$PATH"
   go version
 
-  # run integration tests
-  ./mvnw --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # run go integration tests
+  (cd samples/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go && mvn integration-test)
+  (cd samples/openapi3/client/petstore/go-petstore-generateMarshalJSON-false && mvn integration-test)
+
 elif [ "$NODE_INDEX" = "3" ]; then
 
-  echo "Running node $NODE_INDEX to test 'samples.circleci.node3' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ... "
 
   # Install node@stable (for angular 6)
   set +e
@@ -53,8 +59,6 @@ elif [ "$NODE_INDEX" = "3" ]; then
   # Each step uses the same `$BASH_ENV`, so need to modify it
   echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
   echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
-
-  #./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.node3 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
   (cd samples/client/others/typescript-angular && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v12-provided-in-root && mvn integration-test)
@@ -86,7 +90,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
 
 elif [ "$NODE_INDEX" = "4" ]; then
-  echo "Running node $NODE_INDEX to test 'samples.circleci.node4' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
 
   #wget https://www.python.org/ftp/python/3.8.9/Python-3.8.9.tgz
   #tar -xf Python-3.8.9.tgz
@@ -104,7 +108,7 @@ elif [ "$NODE_INDEX" = "4" ]; then
   (cd samples/openapi3/client/petstore/python-pydantic-v1-aiohttp && mvn integration-test)
 
 else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
+  echo "Running node $NODE_INDEX ..."
   java -version
 
   (cd samples/client/petstore/scala-akka && mvn integration-test)
@@ -121,8 +125,6 @@ else
   (cd samples/client/petstore/java-micronaut-client && mvn integration-test)
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
 
-  #./mvnw --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  #./mvnw --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
