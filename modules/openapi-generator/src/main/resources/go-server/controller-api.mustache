@@ -183,6 +183,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isDateTime}}
 	{{^isEnumOrRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
+	if {{paramName}}Param == "" {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
 	{{/isEnumOrRef}}
 	{{#isEnumOrRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
