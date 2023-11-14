@@ -34,7 +34,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 {{#discriminator}}

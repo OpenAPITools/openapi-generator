@@ -44,7 +44,8 @@ class IntOrString(BaseModel):
     one_of_schemas: List[str] = Literal["int", "str"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
