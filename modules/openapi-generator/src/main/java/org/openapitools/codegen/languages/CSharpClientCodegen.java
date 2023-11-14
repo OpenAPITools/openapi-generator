@@ -114,7 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
-    protected boolean equatable = Boolean.TRUE;
+    protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
