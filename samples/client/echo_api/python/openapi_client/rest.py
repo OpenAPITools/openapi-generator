@@ -22,7 +22,19 @@ import urllib3
 
 from openapi_client.exceptions import ApiException, ApiValueError
 
+SUPPORTED_SOCKS_PROXIES = {"socks5", "socks5h", "socks4", "socks4a"}
 RESTResponseType = urllib3.HTTPResponse
+
+
+def is_socks_proxy_url(url):
+    if url is None:
+        return False
+    split_section = url.split("://")
+    if len(split_section) < 2:
+        return False
+    else:
+        return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
+
 
 class RESTResponse(io.IOBase):
 
@@ -78,15 +90,27 @@ class RESTClientObject:
 
         # https pool manager
         if configuration.proxy:
-            self.pool_manager = urllib3.ProxyManager(
-                cert_reqs=cert_reqs,
-                ca_certs=configuration.ssl_ca_cert,
-                cert_file=configuration.cert_file,
-                key_file=configuration.key_file,
-                proxy_url=configuration.proxy,
-                proxy_headers=configuration.proxy_headers,
-                **addition_pool_args
-            )
+            if is_socks_proxy_url(configuration.proxy):
+                from urllib3.contrib.socks import SOCKSProxyManager
+                self.pool_manager = SOCKSProxyManager(
+                        cert_reqs=cert_reqs,
+                        ca_certs=configuration.ssl_ca_cert,
+                        cert_file=configuration.cert_file,
+                        key_file=configuration.key_file,
+                        proxy_url=configuration.proxy,
+                        headers=configuration.proxy_headers,
+                        **addition_pool_args
+                    )
+            else:
+                self.pool_manager = urllib3.ProxyManager(
+                    cert_reqs=cert_reqs,
+                    ca_certs=configuration.ssl_ca_cert,
+                    cert_file=configuration.cert_file,
+                    key_file=configuration.key_file,
+                    proxy_url=configuration.proxy,
+                    proxy_headers=configuration.proxy_headers,
+                    **addition_pool_args
+                )
         else:
             self.pool_manager = urllib3.PoolManager(
                 cert_reqs=cert_reqs,
