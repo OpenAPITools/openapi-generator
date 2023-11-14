@@ -141,15 +141,15 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 4);
+        assertEquals(schema.getAnyOf().size(), 2);
         assertNull(schema.getNullable());
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
-        assertEquals(schema2.getOneOf().size(), 4);
+        assertEquals(schema2.getOneOf().size(), 2);
         assertNull(schema2.getNullable());
 
         Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
-        assertEquals(schema5.getOneOf().size(), 3);
+        assertEquals(schema5.getOneOf().size(), 2);
         assertNull(schema5.getNullable());
 
         Schema schema7 = openAPI.getComponents().getSchemas().get("Parent");
@@ -172,7 +172,7 @@ public class OpenAPINormalizerTest {
 
         Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
         assertEquals(schema6.getOneOf().size(), 2);
-        assertTrue(schema6.getNullable());
+        assertNull(schema6.getNullable());
 
         Schema schema8 = openAPI.getComponents().getSchemas().get("Parent");
         assertEquals(((Schema) schema8.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
