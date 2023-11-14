@@ -198,6 +198,15 @@ class RESTClientObject:
                         headers=headers,
                         preload_content=False
                     )
+                elif headers['Content-Type'] == 'text/plain' and isinstance(body, bool):
+                    request_body = "true" if body else "false"
+                    r = self.pool_manager.request(
+                        method,
+                        url,
+                        body=request_body,
+                        preload_content=False,
+                        timeout=timeout,
+                        headers=headers)
                 else:
                     # Cannot generate the request from given parameters
                     msg = """Cannot prepare a request message for provided
