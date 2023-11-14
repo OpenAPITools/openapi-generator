@@ -153,6 +153,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one parameter which is not a body parameter
+     *
+     * @return true if any non body parameter exists, false otherwise
+     */
+    public boolean getHasNonBodyParams() {
+        return nonEmpty(queryParams) || nonEmpty(headerParams) || nonEmpty(pathParams) || nonEmpty(cookieParams) || nonEmpty(formParams);
+    }
+
+    /**
      * Check if there's at least one optional parameter
      *
      * @return true if any optional parameter exists, false otherwise
