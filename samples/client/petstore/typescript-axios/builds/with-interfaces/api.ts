@@ -14,7 +14,7 @@
 
 
 import type { Configuration } from './configuration';
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
@@ -259,7 +259,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        addPet: async (body: Pet, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        addPet: async (body: Pet, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('addPet', 'body', body)
             const localVarPath = `/pet`;
@@ -300,7 +300,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePet: async (petId: number, apiKey?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deletePet: async (petId: number, apiKey?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('deletePet', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -342,7 +342,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        findPetsByStatus: async (status: Array<FindPetsByStatusStatusEnum>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByStatus: async (status: Array<FindPetsByStatusStatusEnum>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'status' is not null or undefined
             assertParamExists('findPetsByStatus', 'status', status)
             const localVarPath = `/pet/findByStatus`;
@@ -384,7 +384,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @deprecated
          * @throws {RequiredError}
          */
-        findPetsByTags: async (tags: Array<string>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        findPetsByTags: async (tags: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'tags' is not null or undefined
             assertParamExists('findPetsByTags', 'tags', tags)
             const localVarPath = `/pet/findByTags`;
@@ -425,7 +425,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPetById: async (petId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getPetById: async (petId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('getPetById', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -462,7 +462,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePet: async (body: Pet, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updatePet: async (body: Pet, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('updatePet', 'body', body)
             const localVarPath = `/pet`;
@@ -504,7 +504,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePetWithForm: async (petId: number, name?: string, status?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updatePetWithForm: async (petId: number, name?: string, status?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('updatePetWithForm', 'petId', petId)
             const localVarPath = `/pet/{petId}`
@@ -556,7 +556,7 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        uploadFile: async (petId: number, additionalMetadata?: string, file?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'petId' is not null or undefined
             assertParamExists('uploadFile', 'petId', petId)
             const localVarPath = `/pet/{petId}/uploadImage`
@@ -616,7 +616,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async addPet(body: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async addPet(body: Pet, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.addPet(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.addPet']?.[index]?.url;
@@ -630,7 +630,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deletePet(petId, apiKey, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.deletePet']?.[index]?.url;
@@ -643,7 +643,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+        async findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByStatus(status, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.findPetsByStatus']?.[index]?.url;
@@ -657,7 +657,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @deprecated
          * @throws {RequiredError}
          */
-        async findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
+        async findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Pet>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.findPetsByTags(tags, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.findPetsByTags']?.[index]?.url;
@@ -670,7 +670,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPetById(petId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
+        async getPetById(petId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Pet>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getPetById(petId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.getPetById']?.[index]?.url;
@@ -683,7 +683,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePet(body: Pet, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async updatePet(body: Pet, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePet(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.updatePet']?.[index]?.url;
@@ -698,7 +698,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updatePetWithForm(petId, name, status, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.updatePetWithForm']?.[index]?.url;
@@ -713,7 +713,7 @@ export const PetApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
+        async uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.uploadFile(petId, additionalMetadata, file, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['PetApi.uploadFile']?.[index]?.url;
@@ -832,7 +832,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    addPet(body: Pet, options?: AxiosRequestConfig): AxiosPromise<void>;
+    addPet(body: Pet, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -843,7 +843,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * Multiple status values can be provided with comma separated strings
@@ -853,7 +853,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig): AxiosPromise<Array<Pet>>;
+    findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>>;
 
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -864,7 +864,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig): AxiosPromise<Array<Pet>>;
+    findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig): AxiosPromise<Array<Pet>>;
 
     /**
      * Returns a single pet
@@ -874,7 +874,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    getPetById(petId: number, options?: AxiosRequestConfig): AxiosPromise<Pet>;
+    getPetById(petId: number, options?: RawAxiosRequestConfig): AxiosPromise<Pet>;
 
     /**
      * 
@@ -884,7 +884,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    updatePet(body: Pet, options?: AxiosRequestConfig): AxiosPromise<void>;
+    updatePet(body: Pet, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -896,7 +896,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -908,7 +908,7 @@ export interface PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApiInterface
      */
-    uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig): AxiosPromise<ApiResponse>;
+    uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig): AxiosPromise<ApiResponse>;
 
 }
 
@@ -927,7 +927,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public addPet(body: Pet, options?: AxiosRequestConfig) {
+    public addPet(body: Pet, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).addPet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -940,7 +940,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public deletePet(petId: number, apiKey?: string, options?: AxiosRequestConfig) {
+    public deletePet(petId: number, apiKey?: string, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).deletePet(petId, apiKey, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -952,7 +952,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: AxiosRequestConfig) {
+    public findPetsByStatus(status: Array<FindPetsByStatusStatusEnum>, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByStatus(status, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -965,7 +965,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public findPetsByTags(tags: Array<string>, options?: AxiosRequestConfig) {
+    public findPetsByTags(tags: Array<string>, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).findPetsByTags(tags, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -977,7 +977,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public getPetById(petId: number, options?: AxiosRequestConfig) {
+    public getPetById(petId: number, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).getPetById(petId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -989,7 +989,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePet(body: Pet, options?: AxiosRequestConfig) {
+    public updatePet(body: Pet, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePet(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1003,7 +1003,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: AxiosRequestConfig) {
+    public updatePetWithForm(petId: number, name?: string, status?: string, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).updatePetWithForm(petId, name, status, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1017,7 +1017,7 @@ export class PetApi extends BaseAPI implements PetApiInterface {
      * @throws {RequiredError}
      * @memberof PetApi
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: AxiosRequestConfig) {
+    public uploadFile(petId: number, additionalMetadata?: string, file?: File, options?: RawAxiosRequestConfig) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -1046,7 +1046,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteOrder: async (orderId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteOrder: async (orderId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('deleteOrder', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
@@ -1079,7 +1079,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getInventory: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getInventory: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/store/inventory`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1113,7 +1113,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getOrderById: async (orderId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getOrderById: async (orderId: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'orderId' is not null or undefined
             assertParamExists('getOrderById', 'orderId', orderId)
             const localVarPath = `/store/order/{orderId}`
@@ -1147,7 +1147,7 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder: async (body: Order, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        placeOrder: async (body: Order, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('placeOrder', 'body', body)
             const localVarPath = `/store/order`;
@@ -1193,7 +1193,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteOrder(orderId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteOrder(orderId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteOrder(orderId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['StoreApi.deleteOrder']?.[index]?.url;
@@ -1205,7 +1205,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getInventory(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
+        async getInventory(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<{ [key: string]: number; }>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getInventory(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['StoreApi.getInventory']?.[index]?.url;
@@ -1218,7 +1218,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getOrderById(orderId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async getOrderById(orderId: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getOrderById(orderId, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['StoreApi.getOrderById']?.[index]?.url;
@@ -1231,7 +1231,7 @@ export const StoreApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body: Order, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async placeOrder(body: Order, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.placeOrder(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['StoreApi.placeOrder']?.[index]?.url;
@@ -1303,7 +1303,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    deleteOrder(orderId: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    deleteOrder(orderId: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * Returns a map of status codes to quantities
@@ -1312,7 +1312,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getInventory(options?: AxiosRequestConfig): AxiosPromise<{ [key: string]: number; }>;
+    getInventory(options?: RawAxiosRequestConfig): AxiosPromise<{ [key: string]: number; }>;
 
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
@@ -1322,7 +1322,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    getOrderById(orderId: number, options?: AxiosRequestConfig): AxiosPromise<Order>;
+    getOrderById(orderId: number, options?: RawAxiosRequestConfig): AxiosPromise<Order>;
 
     /**
      * 
@@ -1332,7 +1332,7 @@ export interface StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApiInterface
      */
-    placeOrder(body: Order, options?: AxiosRequestConfig): AxiosPromise<Order>;
+    placeOrder(body: Order, options?: RawAxiosRequestConfig): AxiosPromise<Order>;
 
 }
 
@@ -1351,7 +1351,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public deleteOrder(orderId: string, options?: AxiosRequestConfig) {
+    public deleteOrder(orderId: string, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).deleteOrder(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1362,7 +1362,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getInventory(options?: AxiosRequestConfig) {
+    public getInventory(options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getInventory(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1374,7 +1374,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public getOrderById(orderId: number, options?: AxiosRequestConfig) {
+    public getOrderById(orderId: number, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).getOrderById(orderId, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -1386,7 +1386,7 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(body: Order, options?: AxiosRequestConfig) {
+    public placeOrder(body: Order, options?: RawAxiosRequestConfig) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
@@ -1406,7 +1406,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUser: async (body: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUser: async (body: User, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createUser', 'body', body)
             const localVarPath = `/user`;
@@ -1442,7 +1442,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithArrayInput: async (body: Array<User>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUsersWithArrayInput: async (body: Array<User>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createUsersWithArrayInput', 'body', body)
             const localVarPath = `/user/createWithArray`;
@@ -1478,7 +1478,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createUsersWithListInput: async (body: Array<User>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        createUsersWithListInput: async (body: Array<User>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             assertParamExists('createUsersWithListInput', 'body', body)
             const localVarPath = `/user/createWithList`;
@@ -1514,7 +1514,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteUser: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteUser: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('deleteUser', 'username', username)
             const localVarPath = `/user/{username}`
@@ -1548,7 +1548,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getUserByName: async (username: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getUserByName: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('getUserByName', 'username', username)
             const localVarPath = `/user/{username}`
@@ -1583,7 +1583,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        loginUser: async (username: string, password: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        loginUser: async (username: string, password: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('loginUser', 'username', username)
             // verify required parameter 'password' is not null or undefined
@@ -1625,7 +1625,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutUser: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        logoutUser: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/user/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1657,7 +1657,7 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateUser: async (username: string, body: User, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateUser: async (username: string, body: User, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('updateUser', 'username', username)
             // verify required parameter 'body' is not null or undefined
@@ -1706,7 +1706,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUser(body: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUser(body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.createUser']?.[index]?.url;
@@ -1719,7 +1719,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUsersWithArrayInput(body: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUsersWithArrayInput(body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithArrayInput(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.createUsersWithArrayInput']?.[index]?.url;
@@ -1732,7 +1732,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createUsersWithListInput(body: Array<User>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async createUsersWithListInput(body: Array<User>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createUsersWithListInput(body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.createUsersWithListInput']?.[index]?.url;
@@ -1745,7 +1745,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteUser(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async deleteUser(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteUser(username, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.deleteUser']?.[index]?.url;
@@ -1758,7 +1758,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserByName(username: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+        async getUserByName(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getUserByName(username, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.getUserByName']?.[index]?.url;
@@ -1772,7 +1772,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async loginUser(username: string, password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async loginUser(username: string, password: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.loginUser(username, password, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.loginUser']?.[index]?.url;
@@ -1784,7 +1784,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async logoutUser(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async logoutUser(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.logoutUser(options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.logoutUser']?.[index]?.url;
@@ -1798,7 +1798,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateUser(username: string, body: User, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async updateUser(username: string, body: User, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.updateUser(username, body, options);
             const index = configuration?.serverIndex ?? 0;
             const operationBasePath = operationServerMap['UserApi.updateUser']?.[index]?.url;
@@ -1912,7 +1912,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUser(body: User, options?: AxiosRequestConfig): AxiosPromise<void>;
+    createUser(body: User, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -1922,7 +1922,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithArrayInput(body: Array<User>, options?: AxiosRequestConfig): AxiosPromise<void>;
+    createUsersWithArrayInput(body: Array<User>, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -1932,7 +1932,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    createUsersWithListInput(body: Array<User>, options?: AxiosRequestConfig): AxiosPromise<void>;
+    createUsersWithListInput(body: Array<User>, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * This can only be done by the logged in user.
@@ -1942,7 +1942,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    deleteUser(username: string, options?: AxiosRequestConfig): AxiosPromise<void>;
+    deleteUser(username: string, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * 
@@ -1952,7 +1952,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    getUserByName(username: string, options?: AxiosRequestConfig): AxiosPromise<User>;
+    getUserByName(username: string, options?: RawAxiosRequestConfig): AxiosPromise<User>;
 
     /**
      * 
@@ -1963,7 +1963,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    loginUser(username: string, password: string, options?: AxiosRequestConfig): AxiosPromise<string>;
+    loginUser(username: string, password: string, options?: RawAxiosRequestConfig): AxiosPromise<string>;
 
     /**
      * 
@@ -1972,7 +1972,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    logoutUser(options?: AxiosRequestConfig): AxiosPromise<void>;
+    logoutUser(options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
     /**
      * This can only be done by the logged in user.
@@ -1983,7 +1983,7 @@ export interface UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApiInterface
      */
-    updateUser(username: string, body: User, options?: AxiosRequestConfig): AxiosPromise<void>;
+    updateUser(username: string, body: User, options?: RawAxiosRequestConfig): AxiosPromise<void>;
 
 }
 
@@ -2002,7 +2002,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUser(body: User, options?: AxiosRequestConfig) {
+    public createUser(body: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUser(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2014,7 +2014,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithArrayInput(body: Array<User>, options?: AxiosRequestConfig) {
+    public createUsersWithArrayInput(body: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithArrayInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2026,7 +2026,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public createUsersWithListInput(body: Array<User>, options?: AxiosRequestConfig) {
+    public createUsersWithListInput(body: Array<User>, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).createUsersWithListInput(body, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2038,7 +2038,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public deleteUser(username: string, options?: AxiosRequestConfig) {
+    public deleteUser(username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).deleteUser(username, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2050,7 +2050,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public getUserByName(username: string, options?: AxiosRequestConfig) {
+    public getUserByName(username: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).getUserByName(username, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2063,7 +2063,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public loginUser(username: string, password: string, options?: AxiosRequestConfig) {
+    public loginUser(username: string, password: string, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).loginUser(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2074,7 +2074,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public logoutUser(options?: AxiosRequestConfig) {
+    public logoutUser(options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).logoutUser(options).then((request) => request(this.axios, this.basePath));
     }
 
@@ -2087,7 +2087,7 @@ export class UserApi extends BaseAPI implements UserApiInterface {
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public updateUser(username: string, body: User, options?: AxiosRequestConfig) {
+    public updateUser(username: string, body: User, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
 }
