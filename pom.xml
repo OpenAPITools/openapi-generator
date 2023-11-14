@@ -1221,7 +1221,7 @@
         <junit.version>4.13.2</junit.version>
         <kotlin.version>1.6.21</kotlin.version>
         <kotlin-compiler-embeddable.version>1.6.21</kotlin-compiler-embeddable.version>
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <maven-dependency-plugin.version>3.6.0</maven-dependency-plugin.version>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
