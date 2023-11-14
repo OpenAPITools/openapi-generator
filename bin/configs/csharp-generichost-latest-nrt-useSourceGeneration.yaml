@@ -10,3 +10,4 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   useSourceGeneration: true
   packageName: UseSourceGeneration
+  equatable: true
