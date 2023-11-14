@@ -4725,6 +4725,7 @@ public class DefaultCodegenTest {
         Assert.assertFalse(allOfEnumSchemaProperty.isString);
         Assert.assertFalse(allOfEnumSchemaProperty.isContainer);
         Assert.assertFalse(allOfEnumSchemaProperty.isPrimitiveType);
+        Assert.assertTrue(allOfEnumSchemaProperty.deprecated);
         Assert.assertEquals(allOfEnumSchemaProperty.defaultValue, "null");
     }
 
