@@ -1848,7 +1848,7 @@ public class ModelUtils {
      * @return true if allOf is not empty
      */
     public static boolean hasAllOf(Schema schema) {
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (schema != null && schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
             return true;
         }
 
