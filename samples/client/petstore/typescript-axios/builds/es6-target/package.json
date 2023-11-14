@@ -24,7 +24,7 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",
