@@ -14,6 +14,8 @@ from {{packageName}}.exceptions import ApiException, ApiValueError
 
 RESTResponseType = aiohttp.ClientResponse
 
+ALLOW_RETRY_METHODS = frozenset({'DELETE', 'GET', 'HEAD', 'OPTIONS', 'PUT', 'TRACE'})
+
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
@@ -62,13 +64,26 @@ class RESTClientObject:
 
         self.proxy = configuration.proxy
         self.proxy_headers = configuration.proxy_headers
-        self.retries = configuration.retries
 
         # https pool manager
         self.pool_manager = aiohttp.ClientSession(
             connector=connector,
             trust_env=True
         )
+
+        self.retries = configuration.retries
+        if self.retries is not None:
+            self.retry_client = aiohttp_retry.RetryClient(
+                client_session=self.pool_manager,
+                retry_options=aiohttp_retry.ExponentialRetry(
+                    attempts=self.retries,
+                    factor=0.0,
+                    start_timeout=0.0,
+                    max_timeout=120.0
+                )
+            )
+        else:
+            self.retry_client = None
 
     async def close(self):
         await self.pool_manager.close()
@@ -170,16 +185,8 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        if method != 'POST' and isinstance(self.retries, int):
-            pool_manager = aiohttp_retry.RetryClient(
-                client_session=self.pool_manager,
-                retry_options=aiohttp_retry.ExponentialRetry(
-                    attempts=self.retries,
-                    factor=0.0,
-                    start_timeout=0.0,
-                    max_timeout=120.0
-                )
-            )
+        if self.retry_client and method in ALLOW_RETRY_METHODS:
+            pool_manager = self.retry_client
         else:
             pool_manager = self.pool_manager
 
