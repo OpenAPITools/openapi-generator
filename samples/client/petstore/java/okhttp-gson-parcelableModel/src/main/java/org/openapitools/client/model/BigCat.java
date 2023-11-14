@@ -120,7 +120,6 @@ public class BigCat extends Cat implements Parcelable {
   }
 
   public BigCat kind(KindEnum kind) {
-    
     this.kind = kind;
     return this;
   }
@@ -133,7 +132,6 @@ public class BigCat extends Cat implements Parcelable {
   public KindEnum getKind() {
     return kind;
   }
-
 
   public void setKind(KindEnum kind) {
     this.kind = kind;

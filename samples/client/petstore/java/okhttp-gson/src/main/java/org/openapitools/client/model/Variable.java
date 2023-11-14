@@ -64,7 +64,6 @@ public class Variable {
   }
 
   public Variable name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -78,14 +77,12 @@ public class Variable {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public Variable value(Value value) {
-    
     this.value = value;
     return this;
   }
@@ -98,7 +95,6 @@ public class Variable {
   public Value getValue() {
     return value;
   }
-
 
   public void setValue(Value value) {
     this.value = value;

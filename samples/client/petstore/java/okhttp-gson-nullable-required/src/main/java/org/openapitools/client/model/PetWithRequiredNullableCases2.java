@@ -138,7 +138,6 @@ public class PetWithRequiredNullableCases2 {
   }
 
   public PetWithRequiredNullableCases2 id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -152,14 +151,12 @@ public class PetWithRequiredNullableCases2 {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public PetWithRequiredNullableCases2 category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -173,14 +170,12 @@ public class PetWithRequiredNullableCases2 {
     return category;
   }
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
 
 
   public PetWithRequiredNullableCases2 name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -194,14 +189,12 @@ public class PetWithRequiredNullableCases2 {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public PetWithRequiredNullableCases2 photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -223,14 +216,12 @@ public class PetWithRequiredNullableCases2 {
     return photoUrls;
   }
 
-
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
   public PetWithRequiredNullableCases2 tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -252,7 +243,6 @@ public class PetWithRequiredNullableCases2 {
     return tags;
   }
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -260,7 +250,6 @@ public class PetWithRequiredNullableCases2 {
 
   @Deprecated
   public PetWithRequiredNullableCases2 status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -275,7 +264,6 @@ public class PetWithRequiredNullableCases2 {
   public StatusEnum getStatus() {
     return status;
   }
-
 
   @Deprecated
   public void setStatus(StatusEnum status) {

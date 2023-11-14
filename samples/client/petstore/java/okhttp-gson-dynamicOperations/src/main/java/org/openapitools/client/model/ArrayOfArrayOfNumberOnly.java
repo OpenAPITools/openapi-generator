@@ -62,7 +62,6 @@ public class ArrayOfArrayOfNumberOnly {
   }
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
-    
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -83,7 +82,6 @@ public class ArrayOfArrayOfNumberOnly {
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
-
 
   public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;

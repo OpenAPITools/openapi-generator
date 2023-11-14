@@ -65,7 +65,6 @@ public class Tag implements Parcelable {
   }
 
   public Tag id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -79,14 +78,12 @@ public class Tag implements Parcelable {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Tag name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -99,7 +96,6 @@ public class Tag implements Parcelable {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

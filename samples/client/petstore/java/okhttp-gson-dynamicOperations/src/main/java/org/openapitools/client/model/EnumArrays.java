@@ -169,7 +169,6 @@ public class EnumArrays {
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -183,14 +182,12 @@ public class EnumArrays {
     return justSymbol;
   }
 
-
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -211,7 +208,6 @@ public class EnumArrays {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;

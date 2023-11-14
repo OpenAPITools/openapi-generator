@@ -59,7 +59,6 @@ public class BasquePig {
   }
 
   public BasquePig className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -72,7 +71,6 @@ public class BasquePig {
   public String getClassName() {
     return className;
   }
-
 
   public void setClassName(String className) {
     this.className = className;

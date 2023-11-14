@@ -117,7 +117,6 @@ public class BigCat extends Cat {
   }
 
   public BigCat kind(KindEnum kind) {
-    
     this.kind = kind;
     return this;
   }
@@ -130,7 +129,6 @@ public class BigCat extends Cat {
   public KindEnum getKind() {
     return kind;
   }
-
 
   public void setKind(KindEnum kind) {
     this.kind = kind;
