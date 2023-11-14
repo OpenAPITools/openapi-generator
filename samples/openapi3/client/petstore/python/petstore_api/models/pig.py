@@ -44,7 +44,8 @@ class Pig(BaseModel):
     one_of_schemas: List[str] = Literal["BasquePig", "DanishPig"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
