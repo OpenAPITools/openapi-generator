@@ -117,7 +117,6 @@ public class Zebra {
   }
 
   public Zebra type(TypeEnum type) {
-    
     this.type = type;
     return this;
   }
@@ -131,14 +130,12 @@ public class Zebra {
     return type;
   }
 
-
   public void setType(TypeEnum type) {
     this.type = type;
   }
 
 
   public Zebra className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -151,7 +148,6 @@ public class Zebra {
   public String getClassName() {
     return className;
   }
-
 
   public void setClassName(String className) {
     this.className = className;

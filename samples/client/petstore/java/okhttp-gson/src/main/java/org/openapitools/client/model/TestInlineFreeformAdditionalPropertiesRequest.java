@@ -59,7 +59,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   }
 
   public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
-    
     this.someProperty = someProperty;
     return this;
   }
@@ -72,7 +71,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest {
   public String getSomeProperty() {
     return someProperty;
   }
-
 
   public void setSomeProperty(String someProperty) {
     this.someProperty = someProperty;

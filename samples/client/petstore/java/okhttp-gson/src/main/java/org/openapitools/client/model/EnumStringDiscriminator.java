@@ -111,7 +111,6 @@ public class EnumStringDiscriminator {
   }
 
   public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {
-    
     this.enumStrType = enumStrType;
     return this;
   }
@@ -124,7 +123,6 @@ public class EnumStringDiscriminator {
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }
-
 
   public void setEnumStrType(EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
