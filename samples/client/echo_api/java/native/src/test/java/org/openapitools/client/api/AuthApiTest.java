@@ -49,4 +49,20 @@ public class AuthApiTest {
         // TODO: test validations
     }
     
+    /**
+     * To test HTTP bearer authentication
+     *
+     * To test HTTP bearer authentication
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testAuthHttpBearerTest() throws ApiException {
+        String response = 
+        api.testAuthHttpBearer();
+        
+        // TODO: test validations
+    }
+    
 }

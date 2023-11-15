@@ -37,4 +37,17 @@ class AuthApiTest {
     }
 
     
+    /**
+     * To test HTTP bearer authentication
+     *
+     * To test HTTP bearer authentication
+     */
+    @Test
+    void testAuthHttpBearerTest() {
+        // String response = api.testAuthHttpBearer();
+
+        // TODO: test validations
+    }
+
+    
 }
