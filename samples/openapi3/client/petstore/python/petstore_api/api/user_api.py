@@ -103,7 +103,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -170,7 +169,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -237,7 +235,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -373,7 +370,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -440,7 +436,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -507,7 +502,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -639,7 +633,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -706,7 +699,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -773,7 +765,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -905,7 +896,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -972,7 +964,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1039,7 +1032,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1159,8 +1153,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "User",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1229,8 +1222,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "User",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1299,8 +1291,7 @@ class UserApi:
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "User",
             '400': None,
-            '404': None
-            
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1430,8 +1421,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1503,8 +1493,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1576,8 +1565,7 @@ class UserApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "str",
-            '400': None
-            
+            '400': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1705,7 +1693,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1768,7 +1755,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1831,7 +1817,6 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1950,7 +1935,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2021,7 +2007,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2092,7 +2079,8 @@ class UserApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            
+            '400': None,
+            '404': None,
         }
         response_data = self.api_client.call_api(
             *_param,
