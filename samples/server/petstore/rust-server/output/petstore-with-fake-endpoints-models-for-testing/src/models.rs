@@ -2578,7 +2578,7 @@ pub struct FormatTest {
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
-    pub date: chrono::DateTime::<chrono::Utc>,
+    pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -2613,7 +2613,7 @@ fn validate_byte_formattest_byte(
 
 impl FormatTest {
     #[allow(clippy::new_without_default)]
-    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime::<chrono::Utc>, password: String, ) -> FormatTest {
+    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::naive::NaiveDate, password: String, ) -> FormatTest {
         FormatTest {
             integer: None,
             int32: None,
@@ -2732,7 +2732,7 @@ impl std::str::FromStr for FormatTest {
             pub string: Vec<String>,
             pub byte: Vec<swagger::ByteArray>,
             pub binary: Vec<swagger::ByteArray>,
-            pub date: Vec<chrono::DateTime::<chrono::Utc>>,
+            pub date: Vec<chrono::naive::NaiveDate>,
             pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub uuid: Vec<uuid::Uuid>,
             pub password: Vec<String>,
@@ -2770,7 +2770,7 @@ impl std::str::FromStr for FormatTest {
                     "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     #[allow(clippy::redundant_clone)]
-                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "date" => intermediate_rep.date.push(<chrono::naive::NaiveDate as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]

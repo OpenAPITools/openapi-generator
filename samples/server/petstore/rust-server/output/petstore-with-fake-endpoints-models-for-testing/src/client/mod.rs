@@ -1250,7 +1250,7 @@ impl<S, C> Api<C> for Client<S, C> where
         param_float: Option<f32>,
         param_string: Option<String>,
         param_binary: Option<swagger::ByteArray>,
-        param_date: Option<chrono::DateTime::<chrono::Utc>>,
+        param_date: Option<chrono::naive::NaiveDate>,
         param_date_time: Option<chrono::DateTime::<chrono::Utc>>,
         param_password: Option<String>,
         param_callback: Option<String>,
