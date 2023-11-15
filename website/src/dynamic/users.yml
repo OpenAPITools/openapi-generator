@@ -404,6 +404,11 @@
   infoLink: "https://www.paxos.com/"
   pinned: false
 -
+  caption: "Passgenau Digital"
+  image: "img/companies/passgenau_digital.svg"
+  infoLink: "https://passgenau.digital/en"
+  pinned: false
+-
   caption: "PLAID, Inc."
   image: "img/companies/plaidcojp.jpg"
   infoLink: "https://plaid.co.jp/"
@@ -597,6 +602,11 @@
   caption: wbt-solutions
   image: "img/companies/wbt_solutions.png"
   infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
+  caption: we-make.ai
+  image: "img/companies/wemakeai.svg"
+  infoLink: "https://we-make.ai/"
   pinned: false
 -
   caption: Woleet
