@@ -6,7 +6,7 @@
 ```ps1
 $properties = @(
     'apiName=Api',
-    'targetFramework=net7.0',
+    'targetFramework=net8.0',
     'validatable=true',
     'nullableReferenceTypes=true',
     'hideGenerationTimestamp=true',
@@ -168,7 +168,7 @@ Endpoints do not require authorization.
 - returnICollection: false
 - sortParamsByRequiredFlag: 
 - sourceFolder: src
-- targetFramework: net7.0
+- targetFramework: net8.0
 - useCollection: false
 - useDateTimeOffset: false
 - useOneOfDiscriminatorLookup: false
