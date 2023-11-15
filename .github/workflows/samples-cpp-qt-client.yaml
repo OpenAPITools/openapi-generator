@@ -23,9 +23,6 @@ jobs:
           - ubuntu-latest
           - macOS-latest
           - windows-latest
-        include:
-          - os: windows-latest
-            tools: 'tools_openssl_x64'
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
