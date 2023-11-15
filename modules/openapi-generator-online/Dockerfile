@@ -1,4 +1,4 @@
-FROM maven:3-eclipse-temurin-17
+FROM amazoncorretto:17.0.8-alpine3.18
 
 WORKDIR /generator
 
