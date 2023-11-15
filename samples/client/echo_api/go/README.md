@@ -78,6 +78,7 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthAPI* | [**TestAuthHttpBasic**](docs/AuthAPI.md#testauthhttpbasic) | **Post** /auth/http/basic | To test HTTP basic authentication
+*AuthAPI* | [**TestAuthHttpBearer**](docs/AuthAPI.md#testauthhttpbearer) | **Post** /auth/http/bearer | To test HTTP bearer authentication
 *BodyAPI* | [**TestBinaryGif**](docs/BodyAPI.md#testbinarygif) | **Post** /binary/gif | Test binary (gif) response body
 *BodyAPI* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyAPI.md#testbodyapplicationoctetstreambinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 *BodyAPI* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyAPI.md#testbodymultipartformdataarrayofbinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
@@ -130,6 +131,17 @@ auth := context.WithValue(context.Background(), openapi.ContextBasicAuth, openap
     UserName: "username",
     Password: "password",
 })
+r, err := client.Service.Operation(auth, args)
+```
+
+### http_bearer_auth
+
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), openapi.ContextAccessToken, "BEARER_TOKEN_STRING")
 r, err := client.Service.Operation(auth, args)
 ```
 

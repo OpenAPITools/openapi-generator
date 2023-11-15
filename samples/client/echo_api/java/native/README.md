@@ -106,6 +106,8 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**testAuthHttpBasic**](docs/AuthApi.md#testAuthHttpBasic) | **POST** /auth/http/basic | To test HTTP basic authentication
 *AuthApi* | [**testAuthHttpBasicWithHttpInfo**](docs/AuthApi.md#testAuthHttpBasicWithHttpInfo) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**testAuthHttpBearer**](docs/AuthApi.md#testAuthHttpBearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication
+*AuthApi* | [**testAuthHttpBearerWithHttpInfo**](docs/AuthApi.md#testAuthHttpBearerWithHttpInfo) | **POST** /auth/http/bearer | To test HTTP bearer authentication
 *BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
@@ -173,6 +175,12 @@ Authentication schemes defined for the API:
 
 
 - **Type**: HTTP basic authentication
+
+<a id="http_bearer_auth"></a>
+### http_bearer_auth
+
+
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Recommendation
