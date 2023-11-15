@@ -1,4 +1,4 @@
-FROM openjdk:11
+FROM maven:3-eclipse-temurin-17
 
 WORKDIR /generator
 
