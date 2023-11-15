@@ -81,12 +81,12 @@ class RESTClientObject:
             trust_env=True
         )
 
-        self.retries = configuration.retries
-        if self.retries is not None:
+        retries = configuration.retries
+        if retries is not None:
             self.retry_client = aiohttp_retry.RetryClient(
                 client_session=self.pool_manager,
                 retry_options=aiohttp_retry.ExponentialRetry(
-                    attempts=self.retries,
+                    attempts=retries,
                     factor=0.0,
                     start_timeout=0.0,
                     max_timeout=120.0
