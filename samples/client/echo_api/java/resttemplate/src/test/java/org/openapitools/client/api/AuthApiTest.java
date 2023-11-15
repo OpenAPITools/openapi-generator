@@ -13,6 +13,7 @@
 
 package org.openapitools.client.api;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -58,10 +59,14 @@ public class AuthApiTest {
      */
     @Test
     public void testAuthHttpBearerTest() {
+        String response;
+        api.getApiClient().setBearerToken("fixed token");
+        response = api.testAuthHttpBearer();
+        Assert.assertTrue(response.contains("Authorization: Bearer fixed token"));
 
-        String response = api.testAuthHttpBearer();
-
-        // TODO: test validations
+        api.getApiClient().setBearerToken(() -> "dynamic token");
+        response = api.testAuthHttpBearer();
+        Assert.assertTrue(response.contains("Authorization: Bearer dynamic token"));
     }
     
 }
