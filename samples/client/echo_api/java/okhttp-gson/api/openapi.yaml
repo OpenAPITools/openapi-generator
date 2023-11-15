@@ -551,6 +551,23 @@ paths:
       tags:
       - auth
       x-accepts: text/plain
+  /auth/http/bearer:
+    post:
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      tags:
+      - auth
+      x-accepts: text/plain
 components:
   requestBodies:
     Pet:
@@ -821,5 +838,8 @@ components:
   securitySchemes:
     http_auth:
       scheme: basic
+      type: http
+    http_bearer_auth:
+      scheme: bearer
       type: http
 

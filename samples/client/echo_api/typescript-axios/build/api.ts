@@ -376,6 +376,40 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * To test HTTP bearer authentication
+         * @summary To test HTTP bearer authentication
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testAuthHttpBearer: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/auth/http/bearer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication http_bearer_auth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -398,6 +432,18 @@ export const AuthApiFp = function(configuration?: Configuration) {
             const operationBasePath = operationServerMap['AuthApi.testAuthHttpBasic']?.[index]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
+        /**
+         * To test HTTP bearer authentication
+         * @summary To test HTTP bearer authentication
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testAuthHttpBearer(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testAuthHttpBearer(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['AuthApi.testAuthHttpBearer']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
     }
 };
 
@@ -416,6 +462,15 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          */
         testAuthHttpBasic(options?: any): AxiosPromise<string> {
             return localVarFp.testAuthHttpBasic(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * To test HTTP bearer authentication
+         * @summary To test HTTP bearer authentication
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testAuthHttpBearer(options?: any): AxiosPromise<string> {
+            return localVarFp.testAuthHttpBearer(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -436,6 +491,17 @@ export class AuthApi extends BaseAPI {
      */
     public testAuthHttpBasic(options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).testAuthHttpBasic(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * To test HTTP bearer authentication
+     * @summary To test HTTP bearer authentication
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthApi
+     */
+    public testAuthHttpBearer(options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).testAuthHttpBearer(options).then((request) => request(this.axios, this.basePath));
     }
 }
 
