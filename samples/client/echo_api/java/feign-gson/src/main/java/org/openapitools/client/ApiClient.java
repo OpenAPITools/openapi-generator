@@ -42,6 +42,8 @@ public class ApiClient {
       RequestInterceptor auth = null;
       if ("http_auth".equals(authName)) {
         auth = new HttpBasicAuth();
+      } else if ("http_bearer_auth".equals(authName)) {
+        auth = new HttpBearerAuth("bearer");
       } else {
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
