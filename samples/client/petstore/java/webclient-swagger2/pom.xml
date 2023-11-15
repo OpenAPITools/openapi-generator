@@ -132,7 +132,7 @@
         <spring-boot-version>2.6.6</spring-boot-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <reactor-version>3.4.3</reactor-version>
-        <reactor-netty-version>1.0.4</reactor-netty-version>
+        <reactor-netty-version>1.0.39</reactor-netty-version>
         <junit-version>4.13.2</junit-version>
     </properties>
 </project>
