@@ -604,6 +604,11 @@
   infoLink: "https://www.wbt-solutions.de/"
   pinned: false
 -
+  caption: we-make.ai
+  image: "img/companies/wemakeai.svg"
+  infoLink: "https://we-make.ai/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
