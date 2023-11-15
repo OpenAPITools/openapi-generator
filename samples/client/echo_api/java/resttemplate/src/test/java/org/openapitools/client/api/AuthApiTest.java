@@ -27,7 +27,6 @@ import java.util.Map;
 /**
  * API tests for AuthApi
  */
-@Ignore
 public class AuthApiTest {
 
     private final AuthApi api = new AuthApi();
