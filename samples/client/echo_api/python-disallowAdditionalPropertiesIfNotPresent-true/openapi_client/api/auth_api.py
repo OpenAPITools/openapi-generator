@@ -337,8 +337,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -401,8 +400,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -465,8 +463,7 @@ class AuthApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
