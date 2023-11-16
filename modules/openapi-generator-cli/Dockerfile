@@ -1,4 +1,4 @@
-FROM amazoncorretto:17.0.8-alpine3.18
+FROM openjdk:11.0-jre-buster
 
 ADD target/openapi-generator-cli.jar /opt/openapi-generator/modules/openapi-generator-cli/target/openapi-generator-cli.jar
 
