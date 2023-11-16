@@ -48,7 +48,7 @@ class DefaultValue(BaseModel):
             return value
 
         for i in value:
-            if i not in ('success', 'failure', 'unclassified'):
+            if i not in set(['success', 'failure', 'unclassified']):
                 raise ValueError("each list item must be one of ('success', 'failure', 'unclassified')")
         return value
 
