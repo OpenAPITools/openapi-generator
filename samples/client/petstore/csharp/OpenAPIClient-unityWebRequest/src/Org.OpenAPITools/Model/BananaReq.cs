@@ -42,8 +42,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="sweet">sweet.</param>
         public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
         {
-            this.LengthCm = lengthCm;
-            this.Sweet = sweet;
+            LengthCm = lengthCm;
+            Sweet = sweet;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as BananaReq);
+            return Equals(input as BananaReq);
         }
 
         /// <summary>
@@ -104,12 +104,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.LengthCm == input.LengthCm ||
-                    this.LengthCm.Equals(input.LengthCm)
+                    LengthCm == input.LengthCm ||
+                    LengthCm.Equals(input.LengthCm)
                 ) && 
                 (
-                    this.Sweet == input.Sweet ||
-                    this.Sweet.Equals(input.Sweet)
+                    Sweet == input.Sweet ||
+                    Sweet.Equals(input.Sweet)
                 );
         }
 
@@ -122,8 +122,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.LengthCm.GetHashCode();
-                hashCode = (hashCode * 59) + this.Sweet.GetHashCode();
+                hashCode = (hashCode * 59) + LengthCm.GetHashCode();
+                hashCode = (hashCode * 59) + Sweet.GetHashCode();
                 return hashCode;
             }
         }
