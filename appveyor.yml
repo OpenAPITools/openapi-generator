@@ -56,8 +56,8 @@ test_script:
   - dotnet test samples\client\petstore\csharp\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.8)
   - dotnet test samples\client\petstore\csharp\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  # test C# API client (.net 5.0)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  # test C# API client (.net 7.0)
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net7.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API Client using conditional-serialization
   - dotnet test samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 
