@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: ByRefOrValue
+  description: >
+    This tests for a oneOf interface representation
+  version: 0.0.1
+servers:
+  - url: "http://localhost:8080"
+tags:
+  - name: Foo
+  - name: Bar
+paths:
+  /foo:
+    get:
+      tags:
+        - Foo
+      summary: GET all Foos
+      operationId: getAllFoos
+      responses:
+        '200':
+          $ref: '#/components/responses/200FooArray'
+        '404':
+          $ref: '#/components/responses/404Foo'
+        '500':
+          $ref: '#/components/responses/500Foo'
+  /foo/fi:
+    get:
+      tags:
+        - Foo
+      summary: GET all Foos
+      operationId: getFooFi
+      responses:
+        '200':
+          $ref: '#/components/responses/200FooArray'
+        '404':
+          $ref: '#/components/responses/404Foo'
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        fooPropA:
+          type: string
+        fooPropB:
+          type: string
+    404FooError:
+      type: object
+      properties:
+        message:
+          type: string
+    500FooError:
+      type: object
+      properties:
+        message:
+          type: string
+        trace:
+          type: string
+  responses:
+    200FooArray:
+      description: Success
+      content:
+        application/json;charset=utf-8:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Foo'
+    404Foo:
+      description: Not found
+      content:
+        application/json;charset=utf-8:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/404FooError'
+    500Foo:
+      description: Internal error
+      content:
+        application/json;charset=utf-8:
+          schema:
+            $ref: '#/components/schemas/500FooError'

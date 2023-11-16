@@ -63,6 +63,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -4529,6 +4530,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         op.operationId = toOperationId(operationId);
+        op.capitalizedOperationId = camelize(op.operationId, CamelizeOption.UPPERCASE_FIRST_CHAR);
         op.summary = escapeText(operation.getSummary());
         op.unescapedNotes = operation.getDescription();
         op.notes = escapeText(operation.getDescription());
