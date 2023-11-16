@@ -210,8 +210,3 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_bathing.py
-test/test_feeding.py
-test/test_poop_cleaning.py
-test/test_task.py
-test/test_task_activity.py
