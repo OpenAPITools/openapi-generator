@@ -1,4 +1,4 @@
-name: Samples C# .Net 7
+name: Samples C# .Net 8
 
 on:
   push:
