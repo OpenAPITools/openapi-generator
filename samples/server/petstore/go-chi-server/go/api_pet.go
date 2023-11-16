@@ -13,6 +13,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"time"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -174,13 +176,13 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if !query.Has("species"){
-		c.errorHandler(w, r, &RequiredError{"species"}, nil)
-		return
-	}
-	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+	var speciesParam Species
+	if query.Has("species") {
+		param := Species(query.Get("species"))
+
+		speciesParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "species"}, nil)
 		return
 	}
 	var notSpeciesParam []Species
@@ -231,19 +233,29 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")
 	}
-	if !query.Has("bornAfter"){
+	var bornAfterParam time.Time
+	if query.Has("bornAfter"){
+		param, err := parseTime(query.Get("bornAfter"))
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		bornAfterParam = param
+	} else {
 		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
 		return
 	}
-	bornAfterParam, err := parseTime(query.Get("bornAfter"))
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
-	if err != nil {
+	var bornBeforeParam time.Time
+	if query.Has("bornBefore"){
+		param, err := parseTime(query.Get("bornBefore"))
+		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
+		}
+
+		bornBeforeParam = param
+	} else {
 	}
 	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code

@@ -1,6 +1,7 @@
 {{>partial_header}}
 package {{packageName}}
 
+{{#operations}}
 import (
 	"encoding/json"
 	{{#isBodyParam}}
@@ -11,6 +12,8 @@ import (
 	{{/isBodyParam}}
 	"net/http"
 	"strings"
+{{#imports}}	"{{import}}"
+	{{/imports}}
 
 {{#routers}}
 	{{#mux}}
@@ -21,6 +24,7 @@ import (
 	{{/chi}}
 {{/routers}}
 )
+{{/operations}}
 
 // {{classname}}Controller binds http requests to an api service and writes the service results to the http response
 type {{classname}}Controller struct {
@@ -204,24 +208,21 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isPathParam}}
 	{{#isQueryParam}}
 	{{#isDateTime}}
-	{{#required}}
-	if !query.Has("{{baseName}}"){
-		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
-		return
-	}
-	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	{{/required}}
-	{{^required}}
-	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
-	if err != nil {
+	var {{paramName}}Param {{#isNullable}}*{{/isNullable}}time.Time
+	if query.Has("{{baseName}}"){
+		param, err := parseTime(query.Get("{{baseName}}"))
+		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
+		}
+
+		{{paramName}}Param = {{#isNullable}}&{{/isNullable}}param
+	} else {
+		{{#required}}
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+		{{/required}}
 	}
-	{{/required}}
 	{{/isDateTime}}
 	{{#isNumber}}
 	var {{paramName}}Param {{#isNullable}}*{{/isNullable}}float32
@@ -499,46 +500,23 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isBoolean}}
 	{{^isArray}}
 	{{^isDateTime}}
-	{{#defaultValue}}
-	{{paramName}}Param := "{{defaultValue}}"
+	var {{paramName}}Param {{#isNullable}}*{{/isNullable}}{{dataType}}
 	if query.Has("{{baseName}}") {
-		{{paramName}}Param = {{^isString}}{{dataType}}( {{/isString}}query.Get("{{baseName}}"){{^isString}} ){{/isString}}
-	}
-	{{/defaultValue}}
-	{{^defaultValue}}
-	{{^required}}
-	var {{paramName}}Param {{dataType}}
-	if query.Has("{{baseName}}") {
-		{{^isEnumOrRef}}
-		{{paramName}}Param = query.Get("{{baseName}}")
-		{{/isEnumOrRef}}
-		{{#isEnumOrRef}}
-		var err error
-		{{paramName}}Param, err = New{{dataType}}FromValue(query.Get("{{baseName}}"))
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-		{{/isEnumOrRef}}
-	}
-	{{/required}}
-	{{#required}}
-	{{^isEnumOrRef}}
-	{{paramName}}Param := query.Get("{{baseName}}")
-	{{/isEnumOrRef}}
-	{{#isEnumOrRef}}
-	if !query.Has("{{baseName}}"){
-		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		param := {{^isString}}{{dataType}}({{/isString}}query.Get("{{baseName}}"){{^isString}}){{/isString}}
+
+		{{paramName}}Param = {{#isNullable}}&{{/isNullable}}param
+	} else {
+		{{#required}}
+		c.errorHandler(w, r, &RequiredError{Field: "{{baseName}}"}, nil)
 		return
+		{{/required}}
+		{{^required}}
+		{{#defaultValue}}
+		param := {{^isString}}{{dataType}}({{/isString}}{{defaultValue}}{{^isString}}){{/isString}}
+		{{paramName}}Param = {{#isNullable}}&{{/isNullable}}param
+		{{/defaultValue}}
+		{{/required}}
 	}
-	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	{{/isEnumOrRef}}
-	{{/required}}
-	{{/defaultValue}}
 	{{/isDateTime}}
 	{{/isArray}}
 	{{/isBoolean}}
