@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Pet()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
@@ -90,18 +90,18 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("name is a required property for Pet and cannot be null");
             }
-            this.Name = name;
+            Name = name;
             // to ensure "photoUrls" is required (not null)
             if (photoUrls == null)
             {
                 throw new ArgumentNullException("photoUrls is a required property for Pet and cannot be null");
             }
-            this.PhotoUrls = photoUrls;
-            this.Id = id;
-            this.Category = category;
-            this.Tags = tags;
-            this.Status = status;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            PhotoUrls = photoUrls;
+            Id = id;
+            Category = category;
+            Tags = tags;
+            Status = status;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -198,27 +198,15 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Id.GetHashCode();
-                if (this.Category != null)
+                hashCode = (hashCode * 59) + Id.GetHashCode();
+				hashCode = (hashCode * 59) + Category.GetHashCode();
+				hashCode = (hashCode * 59) + Name.GetHashCode();
+				hashCode = (hashCode * 59) + PhotoUrls.GetHashCode();
+				hashCode = (hashCode * 59) + Tags.GetHashCode();
+                hashCode = (hashCode * 59) + Status.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.Category.GetHashCode();
-                }
-                if (this.Name != null)
-                {
-                    hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                }
-                if (this.PhotoUrls != null)
-                {
-                    hashCode = (hashCode * 59) + this.PhotoUrls.GetHashCode();
-                }
-                if (this.Tags != null)
-                {
-                    hashCode = (hashCode * 59) + this.Tags.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Status.GetHashCode();
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -229,7 +217,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

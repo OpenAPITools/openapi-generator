@@ -40,9 +40,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="varDouble">varDouble.</param>
         public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
         {
-            this.Number = number;
-            this.VarFloat = varFloat;
-            this.VarDouble = varDouble;
+            Number = number;
+            VarFloat = varFloat;
+            VarDouble = varDouble;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as NumberPropertiesOnly);
+            return Equals(input as NumberPropertiesOnly);
         }
 
         /// <summary>
@@ -110,16 +110,16 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Number == input.Number ||
-                    this.Number.Equals(input.Number)
+                    Number == input.Number ||
+                    Number.Equals(input.Number)
                 ) && 
                 (
-                    this.VarFloat == input.VarFloat ||
-                    this.VarFloat.Equals(input.VarFloat)
+                    VarFloat == input.VarFloat ||
+                    VarFloat.Equals(input.VarFloat)
                 ) && 
                 (
-                    this.VarDouble == input.VarDouble ||
-                    this.VarDouble.Equals(input.VarDouble)
+                    VarDouble == input.VarDouble ||
+                    VarDouble.Equals(input.VarDouble)
                 );
         }
 
@@ -132,9 +132,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + VarFloat.GetHashCode();
+                hashCode = (hashCode * 59) + VarDouble.GetHashCode();
                 return hashCode;
             }
         }
@@ -144,18 +144,18 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // VarDouble (double) maximum
             if (this.VarDouble > (double)50.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 50.2.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 50.2.", new [] { "VarDouble" });
             }
 
             // VarDouble (double) minimum
             if (this.VarDouble < (double)0.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 0.8.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 0.8.", new [] { "VarDouble" });
             }
 
             yield break;

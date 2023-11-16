@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass.</param>
         public Model200Response(int name = default(int), string varClass = default(string))
         {
-            this.Name = name;
-            this.VarClass = varClass;
+            Name = name;
+            VarClass = varClass;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Model200Response);
+            return Equals(input as Model200Response);
         }
 
         /// <summary>
@@ -99,13 +99,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Name == input.Name ||
-                    this.Name.Equals(input.Name)
+                    Name == input.Name ||
+                    Name.Equals(input.Name)
                 ) && 
                 (
-                    this.VarClass == input.VarClass ||
-                    (this.VarClass != null &&
-                    this.VarClass.Equals(input.VarClass))
+                    VarClass == input.VarClass ||
+					VarClass.Equals(input.VarClass)
                 );
         }
 
@@ -118,11 +117,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.VarClass != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + Name.GetHashCode();
+				hashCode = (hashCode * 59) + VarClass.GetHashCode();
                 return hashCode;
             }
         }
