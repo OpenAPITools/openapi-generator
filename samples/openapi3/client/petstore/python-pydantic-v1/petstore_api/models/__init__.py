@@ -28,6 +28,7 @@ from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumb
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.models.array_test import ArrayTest
 from petstore_api.models.basque_pig import BasquePig
+from petstore_api.models.bathing import Bathing
 from petstore_api.models.capitalization import Capitalization
 from petstore_api.models.cat import Cat
 from petstore_api.models.category import Category
@@ -46,6 +47,7 @@ from petstore_api.models.enum_class import EnumClass
 from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_test import EnumTest
+from petstore_api.models.feeding import Feeding
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.first_ref import FirstRef
@@ -80,6 +82,7 @@ from petstore_api.models.parent import Parent
 from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
 from petstore_api.models.pet import Pet
 from petstore_api.models.pig import Pig
+from petstore_api.models.poop_cleaning import PoopCleaning
 from petstore_api.models.property_name_collision import PropertyNameCollision
 from petstore_api.models.read_only_first import ReadOnlyFirst
 from petstore_api.models.second_ref import SecondRef
@@ -89,6 +92,8 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.task import Task
+from petstore_api.models.task_activity import TaskActivity
 from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest

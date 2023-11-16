@@ -8,7 +8,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
 tags:
   - name: pet
     description: Everything about your Pets
@@ -28,49 +28,49 @@ paths:
                 type: object
                 properties:
                   string:
-                    $ref: '#/components/schemas/Foo'
+                    $ref: "#/components/schemas/Foo"
   /pet:
     post:
       tags:
         - pet
       summary: Add a new pet to the store
-      description: ''
+      description: ""
       operationId: addPet
       responses:
-        '200':
+        "200":
           description: Successful operation
-        '405':
+        "405":
           description: Invalid input
       security:
         - http_signature_test: []
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
     put:
       tags:
         - pet
       summary: Update an existing pet
-      description: ''
+      description: ""
       operationId: updatePet
       x-webclient-blocking: true
       responses:
-        '200':
+        "200":
           description: Successful operation
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Pet not found
-        '405':
+        "405":
           description: Validation exception
       security:
         - http_signature_test: []
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
   /pet/findByStatus:
     get:
       tags:
@@ -97,26 +97,26 @@ paths:
                 - sold
               default: available
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
+                  $ref: "#/components/schemas/Pet"
+        "400":
           description: Invalid status value
       security:
         - http_signature_test: []
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
   /pet/findByTags:
     get:
       tags:
@@ -140,30 +140,30 @@ paths:
               type: string
             uniqueItems: true
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 uniqueItems: true
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: "#/components/schemas/Pet"
                 uniqueItems: true
-        '400':
+        "400":
           description: Invalid tag value
       security:
         - http_signature_test: []
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       deprecated: true
-  '/pet/{petId}':
+  "/pet/{petId}":
     get:
       tags:
         - pet
@@ -180,18 +180,18 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Pet'
+                $ref: "#/components/schemas/Pet"
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
-        '400':
+                $ref: "#/components/schemas/Pet"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Pet not found
       security:
         - api_key: []
@@ -199,7 +199,7 @@ paths:
       tags:
         - pet
       summary: Updates a pet in the store with form data
-      description: ''
+      description: ""
       operationId: updatePetWithForm
       parameters:
         - name: petId
@@ -210,14 +210,14 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: Successful operation
-        '405':
+        "405":
           description: Invalid input
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -234,7 +234,7 @@ paths:
       tags:
         - pet
       summary: Deletes a pet
-      description: ''
+      description: ""
       operationId: deletePet
       parameters:
         - name: api_key
@@ -250,20 +250,20 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: Successful operation
-        '400':
+        "400":
           description: Invalid pet value
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/{petId}/uploadImage':
+            - "write:pets"
+            - "read:pets"
+  "/pet/{petId}/uploadImage":
     post:
       tags:
         - pet
       summary: uploads an image
-      description: ''
+      description: ""
       operationId: uploadFile
       parameters:
         - name: petId
@@ -274,16 +274,16 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
         content:
           multipart/form-data:
@@ -305,7 +305,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
@@ -321,28 +321,28 @@ paths:
       tags:
         - store
       summary: Place an order for a pet
-      description: ''
+      description: ""
       operationId: placeOrder
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '400':
+                $ref: "#/components/schemas/Order"
+        "400":
           description: Invalid Order
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Order'
+              $ref: "#/components/schemas/Order"
         description: order placed for purchasing the pet
         required: true
-  '/store/order/{order_id}':
+  "/store/order/{order_id}":
     get:
       tags:
         - store
@@ -362,18 +362,18 @@ paths:
             minimum: 1
             maximum: 5
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/Order'
+                $ref: "#/components/schemas/Order"
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '400':
+                $ref: "#/components/schemas/Order"
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Order not found
     delete:
       tags:
@@ -391,29 +391,29 @@ paths:
           schema:
             type: string
       responses:
-        '400':
+        "400":
           description: Invalid ID supplied
-        '404':
+        "404":
           description: Order not found
   /user:
     servers:
-    - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/v2'
-    - url: 'http://{server}.swagger.io:{port}/v2'
-      description: test server with variables
-      variables:
-        server:
-          description: target server
-          enum:
-            - 'petstore'
-            - 'qa-petstore'
-            - 'dev-petstore'
-          default: 'petstore'
-        port:
-          enum:
-            - 80
-            - 8080
-          default: 80
+      - url: "http://petstore.swagger.io/v2"
+      - url: "http://path-server-test.petstore.local/v2"
+      - url: "http://{server}.swagger.io:{port}/v2"
+        description: test server with variables
+        variables:
+          server:
+            description: target server
+            enum:
+              - "petstore"
+              - "qa-petstore"
+              - "dev-petstore"
+            default: "petstore"
+          port:
+            enum:
+              - 80
+              - 8080
+            default: 80
     post:
       tags:
         - user
@@ -427,7 +427,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Created user object
         required: true
   /user/createWithArray:
@@ -435,31 +435,31 @@ paths:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ''
+      description: ""
       operationId: createUsersWithArrayInput
       responses:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
   /user/createWithList:
     post:
       tags:
         - user
       summary: Creates list of users with given input array
-      description: ''
+      description: ""
       operationId: createUsersWithListInput
       responses:
         default:
           description: successful operation
       requestBody:
-        $ref: '#/components/requestBodies/UserArray'
+        $ref: "#/components/requestBodies/UserArray"
   /user/login:
     get:
       tags:
         - user
       summary: Logs user into the system
-      description: ''
+      description: ""
       operationId: loginUser
       parameters:
         - name: username
@@ -475,7 +475,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           headers:
             X-Rate-Limit:
@@ -495,24 +495,24 @@ paths:
             application/json:
               schema:
                 type: string
-        '400':
+        "400":
           description: Invalid username/password supplied
   /user/logout:
     get:
       tags:
         - user
       summary: Logs out current logged in user session
-      description: ''
+      description: ""
       operationId: logoutUser
       responses:
         default:
           description: successful operation
-  '/user/{username}':
+  "/user/{username}":
     get:
       tags:
         - user
       summary: Get user by user name
-      description: ''
+      description: ""
       operationId: getUserByName
       parameters:
         - name: username
@@ -522,18 +522,18 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/xml:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: "#/components/schemas/User"
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
-        '400':
+                $ref: "#/components/schemas/User"
+        "400":
           description: Invalid username supplied
-        '404':
+        "404":
           description: User not found
     put:
       tags:
@@ -549,15 +549,15 @@ paths:
           schema:
             type: string
       responses:
-        '400':
+        "400":
           description: Invalid user supplied
-        '404':
+        "404":
           description: User not found
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         description: Updated user object
         required: true
     delete:
@@ -574,28 +574,28 @@ paths:
           schema:
             type: string
       responses:
-        '400':
+        "400":
           description: Invalid username supplied
-        '404':
+        "404":
           description: User not found
   /fake_classname_test:
     patch:
       tags:
-        - 'fake_classname_tags 123#$%^'
+        - "fake_classname_tags 123#$%^"
       summary: To test class name in snake case
       description: To test class name in snake case
       operationId: testClassname
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
       security:
         - api_key_query: []
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
   /fake:
     patch:
       tags:
@@ -604,14 +604,14 @@ paths:
       description: To test "client" model
       operationId: testClientModel
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
         #    get:
         #      tags:
         #        - fake
@@ -728,9 +728,9 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       responses:
-        '400':
+        "400":
           description: Invalid username supplied
-        '404':
+        "404":
           description: User not found
       security:
         - http_basic_test: []
@@ -774,11 +774,11 @@ paths:
                 string:
                   description: None
                   type: string
-                  pattern: '/[a-z]/i'
+                  pattern: "/[a-z]/i"
                 pattern_without_delimiter:
                   description: None
                   type: string
-                  pattern: '^[A-Z].*'
+                  pattern: "^[A-Z].*"
                 byte:
                   description: None
                   type: string
@@ -860,7 +860,7 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
+        "400":
           description: Someting wrong
   /fake/outer/number:
     post:
@@ -869,17 +869,17 @@ paths:
       description: Test serialization of outer number types
       operationId: fakeOuterNumberSerialize
       responses:
-        '200':
+        "200":
           description: Output number
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/OuterNumber'
+                $ref: "#/components/schemas/OuterNumber"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterNumber'
+              $ref: "#/components/schemas/OuterNumber"
         description: Input number as post body
   /fake/property/enum-int:
     post:
@@ -888,18 +888,18 @@ paths:
       description: Test serialization of enum (int) properties with examples
       operationId: fakePropertyEnumIntegerSerialize
       responses:
-        '200':
+        "200":
           description: Output enum (int)
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+                $ref: "#/components/schemas/OuterObjectWithEnumProperty"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterObjectWithEnumProperty'
+              $ref: "#/components/schemas/OuterObjectWithEnumProperty"
         description: Input enum (int) as post body
   /fake/outer/string:
     post:
@@ -908,17 +908,17 @@ paths:
       description: Test serialization of outer string types
       operationId: fakeOuterStringSerialize
       responses:
-        '200':
+        "200":
           description: Output string
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/OuterString'
+                $ref: "#/components/schemas/OuterString"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterString'
+              $ref: "#/components/schemas/OuterString"
         description: Input string as post body
   /fake/outer/boolean:
     post:
@@ -927,17 +927,17 @@ paths:
       description: Test serialization of outer boolean types
       operationId: fakeOuterBooleanSerialize
       responses:
-        '200':
+        "200":
           description: Output boolean
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
+                $ref: "#/components/schemas/OuterBoolean"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterBoolean'
+              $ref: "#/components/schemas/OuterBoolean"
         description: Input boolean as post body
   /fake/outer/composite:
     post:
@@ -946,27 +946,27 @@ paths:
       description: Test serialization of object with outer number type
       operationId: fakeOuterCompositeSerialize
       responses:
-        '200':
+        "200":
           description: Output composite
           content:
-            '*/*':
+            "*/*":
               schema:
-                $ref: '#/components/schemas/OuterComposite'
+                $ref: "#/components/schemas/OuterComposite"
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterComposite'
+              $ref: "#/components/schemas/OuterComposite"
         description: Input composite as post body
   /fake/jsonFormData:
     get:
       tags:
         - fake
       summary: test json serialization of form data
-      description: ''
+      description: ""
       operationId: testJsonFormData
       responses:
-        '200':
+        "200":
           description: successful operation
       requestBody:
         content:
@@ -988,10 +988,10 @@ paths:
       tags:
         - fake
       summary: test inline additionalProperties
-      description: ''
+      description: ""
       operationId: testInlineAdditionalProperties
       responses:
-        '200':
+        "200":
           description: successful operation
       requestBody:
         content:
@@ -1007,10 +1007,10 @@ paths:
       tags:
         - fake
       summary: test inline free-form additionalProperties
-      description: ''
+      description: ""
       operationId: testInlineFreeformAdditionalProperties
       responses:
-        '200':
+        "200":
           description: successful operation
       requestBody:
         content:
@@ -1041,7 +1041,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Success
   /fake/body-with-query-params:
     put:
@@ -1055,25 +1055,25 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: Success
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
         required: true
   /fake/empty_and_non_empty_responses:
     post:
       tags:
         - fake
       summary: test empty and non-empty responses
-      description: ''
+      description: ""
       operationId: testEmptyAndNonEmptyResponses
       responses:
-        '204':
+        "204":
           description: Success, but no response content
-        '206':
+        "206":
           description: Partial response content
           content:
             text/plain:
@@ -1086,10 +1086,10 @@ paths:
       summary: test error responses with model
       operationId: testErrorResponsesWithModel
       responses:
-        '204':
+        "204":
           description: Success, but no response content
-        '400':
-          description: ''
+        "400":
+          description: ""
           content:
             application/json:
               schema:
@@ -1097,8 +1097,8 @@ paths:
                 properties:
                   reason400:
                     type: string
-        '404':
-          description: ''
+        "404":
+          description: ""
           content:
             application/json:
               schema:
@@ -1112,16 +1112,16 @@ paths:
         - $another-fake?
       summary: To test special tags
       description: To test special tags and operation ID starting with number
-      operationId: '123_test_@#$%_special_tags'
+      operationId: "123_test_@#$%_special_tags"
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                $ref: "#/components/schemas/Client"
       requestBody:
-        $ref: '#/components/requestBodies/Client'
+        $ref: "#/components/requestBodies/Client"
   /fake/body-with-file-schema:
     put:
       tags:
@@ -1131,13 +1131,13 @@ paths:
         `File`.
       operationId: testBodyWithFileSchema
       responses:
-        '200':
+        "200":
           description: Success
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileSchemaTestClass'
+              $ref: "#/components/schemas/FileSchemaTestClass"
         required: true
   /fake/body-with-binary:
     put:
@@ -1147,7 +1147,7 @@ paths:
         For this test, the body has to be a binary file.
       operationId: testBodyWithBinary
       responses:
-        '200':
+        "200":
           description: Success
       requestBody:
         content:
@@ -1224,12 +1224,12 @@ paths:
       responses:
         "200":
           description: Success
-  '/fake/{petId}/uploadImageWithRequiredFile':
+  "/fake/{petId}/uploadImageWithRequiredFile":
     post:
       tags:
         - pet
       summary: uploads an image (required)
-      description: ''
+      description: ""
       operationId: uploadFileWithRequiredFile
       parameters:
         - name: petId
@@ -1240,16 +1240,16 @@ paths:
             type: integer
             format: int64
       responses:
-        '200':
+        "200":
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: "#/components/schemas/ApiResponse"
       security:
         - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
+            - "write:pets"
+            - "read:pets"
       requestBody:
         content:
           multipart/form-data:
@@ -1276,7 +1276,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HealthCheckResult'
+                $ref: "#/components/schemas/HealthCheckResult"
   /fake/http-signature-test:
     get:
       tags:
@@ -1299,7 +1299,7 @@ paths:
       security:
         - http_signature_test: []
       requestBody:
-        $ref: '#/components/requestBodies/Pet'
+        $ref: "#/components/requestBodies/Pet"
       responses:
         200:
           description: The instance started successfully
@@ -1346,7 +1346,7 @@ paths:
           in: query
           description: enum reference
           schema:
-            $ref: '#/components/schemas/EnumClass'
+            $ref: "#/components/schemas/EnumClass"
       responses:
         "200":
           description: Get successful
@@ -1366,15 +1366,15 @@ paths:
                 items:
                   $ref: "#/components/schemas/ListOfObjects"
 servers:
-  - url: 'http://{server}.swagger.io:{port}/v2'
+  - url: "http://{server}.swagger.io:{port}/v2"
     description: petstore server
     variables:
       server:
         enum:
-          - 'petstore'
-          - 'qa-petstore'
-          - 'dev-petstore'
-        default: 'petstore'
+          - "petstore"
+          - "qa-petstore"
+          - "dev-petstore"
+        default: "petstore"
       port:
         enum:
           - 80
@@ -1385,9 +1385,9 @@ servers:
     variables:
       version:
         enum:
-          - 'v1'
-          - 'v2'
-        default: 'v2'
+          - "v1"
+          - "v2"
+        default: "v2"
   - url: https://127.0.0.1/no_varaible
     description: The local server without variables
 components:
@@ -1398,24 +1398,24 @@ components:
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/User'
+              $ref: "#/components/schemas/User"
       description: List of user object
       required: true
     Client:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Client'
+            $ref: "#/components/schemas/Client"
       description: client model
       required: true
     Pet:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
         application/xml:
           schema:
-            $ref: '#/components/schemas/Pet'
+            $ref: "#/components/schemas/Pet"
       description: Pet object that needs to be added to the store
       required: true
   securitySchemes:
@@ -1423,10 +1423,10 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
+          authorizationUrl: "http://petstore.swagger.io/api/oauth/dialog"
           scopes:
-            'write:pets': modify pets in your account
-            'read:pets': read your pets
+            "write:pets": modify pets in your account
+            "read:pets": read your pets
     api_key:
       type: apiKey
       name: api_key
@@ -1453,7 +1453,7 @@ components:
       type: object
       properties:
         bar:
-          $ref: '#/components/schemas/Bar'
+          $ref: "#/components/schemas/Bar"
     Bar:
       type: string
       default: bar
@@ -1532,6 +1532,67 @@ components:
           type: string
       xml:
         name: Tag
+    PoopCleaning:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Feeding:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Bathing:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning_deep]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Task:
+      title: Task
+      type: object
+      description: Used to test oneOf enums with only one string value.
+      properties:
+        id:
+          type: string
+          format: uuid
+        activity:
+          oneOf:
+            - $ref: "#/components/schemas/PoopCleaning"
+            - $ref: "#/components/schemas/Feeding"
+            - $ref: "#/components/schemas/Bathing"
+      required:
+        - id
+        - activity
     Pet:
       type: object
       required:
@@ -1543,7 +1604,7 @@ components:
           format: int64
           x-is-unique: true
         category:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         name:
           type: string
           example: doggie
@@ -1562,7 +1623,7 @@ components:
             name: tag
             wrapped: true
           items:
-            $ref: '#/components/schemas/Tag'
+            $ref: "#/components/schemas/Tag"
         status:
           type: string
           description: pet status in the store
@@ -1579,7 +1640,7 @@ components:
           type: integer
           format: int64
         async:
-          $ref: '#/components/schemas/Category'
+          $ref: "#/components/schemas/Category"
         schema:
           type: string
           description: pet status in the store
@@ -1641,14 +1702,14 @@ components:
           type: string
     Dog:
       allOf:
-        - $ref: '#/components/schemas/Animal'
+        - $ref: "#/components/schemas/Animal"
         - type: object
           properties:
             breed:
               type: string
     Cat:
       allOf:
-        - $ref: '#/components/schemas/Animal'
+        - $ref: "#/components/schemas/Animal"
         - type: object
           properties:
             declawed:
@@ -1668,7 +1729,7 @@ components:
     AnimalFarm:
       type: array
       items:
-        $ref: '#/components/schemas/Animal'
+        $ref: "#/components/schemas/Animal"
     format_test:
       type: object
       required:
@@ -1707,7 +1768,7 @@ components:
           format: number
         string:
           type: string
-          pattern: '/[a-z]/i'
+          pattern: "/[a-z]/i"
         string_with_double_quote_pattern:
           type: string
           pattern: 'this is "something"'
@@ -1742,10 +1803,10 @@ components:
           pattern: '/^image_\d{1,3}$/i'
     EnumClass:
       type: string
-      default: '-efg'
+      default: "-efg"
       enum:
         - _abc
-        - '-efg'
+        - "-efg"
         - (xyz)
     Enum_Test:
       type: object
@@ -1757,13 +1818,13 @@ components:
           enum:
             - UPPER
             - lower
-            - ''
+            - ""
         enum_string_required:
           type: string
           enum:
             - UPPER
             - lower
-            - ''
+            - ""
         enum_integer_default:
           type: integer
           format: int32
@@ -1785,13 +1846,13 @@ components:
             - 1.1
             - -1.2
         outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
+          $ref: "#/components/schemas/OuterEnum"
         outerEnumInteger:
-          $ref: '#/components/schemas/OuterEnumInteger'
+          $ref: "#/components/schemas/OuterEnumInteger"
         outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
+          $ref: "#/components/schemas/OuterEnumDefaultValue"
         outerEnumIntegerDefaultValue:
-          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+          $ref: "#/components/schemas/OuterEnumIntegerDefaultValue"
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1817,7 +1878,7 @@ components:
         map:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/Animal'
+            $ref: "#/components/schemas/Animal"
     ListClass:
       type: object
       properties:
@@ -1883,7 +1944,7 @@ components:
           additionalProperties:
             type: boolean
         indirect_map:
-          $ref: '#/components/schemas/StringBooleanMap'
+          $ref: "#/components/schemas/StringBooleanMap"
     ArrayTest:
       type: object
       properties:
@@ -1905,7 +1966,7 @@ components:
           items:
             type: array
             items:
-              $ref: '#/components/schemas/ReadOnlyFirst'
+              $ref: "#/components/schemas/ReadOnlyFirst"
     NumberOnly:
       type: object
       properties:
@@ -1933,7 +1994,7 @@ components:
         just_symbol:
           type: string
           enum:
-            - '>='
+            - ">="
             - $
         array_enum:
           type: array
@@ -1952,47 +2013,47 @@ components:
     OuterEnumInteger:
       type: integer
       enum:
-      - 0
-      - 1
-      - 2
+        - 0
+        - 1
+        - 2
       example: 2
     OuterEnumDefaultValue:
       type: string
       enum:
-      - placed
-      - approved
-      - delivered
+        - placed
+        - approved
+        - delivered
       default: placed
     OuterEnumIntegerDefaultValue:
       type: integer
       enum:
-      - -1
-      - 0
-      - 1
-      - 2
+        - -1
+        - 0
+        - 1
+        - 2
       default: 0
     SpecialCharacterEnum:
       type: string
       enum:
-      - "456"
-      - "123abc"
-      - "_"
-      - " "
-      - "&"
-      - "$"
-      - ">="
-      - "this_is_!"
-      - "import" # reserved word
-      - " hello world "
+        - "456"
+        - "123abc"
+        - "_"
+        - " "
+        - "&"
+        - "$"
+        - ">="
+        - "this_is_!"
+        - "import" # reserved word
+        - " hello world "
     OuterComposite:
       type: object
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          $ref: "#/components/schemas/OuterNumber"
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          $ref: "#/components/schemas/OuterString"
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
+          $ref: "#/components/schemas/OuterBoolean"
     OuterNumber:
       type: number
     OuterString:
@@ -2007,11 +2068,11 @@ components:
       type: object
       properties:
         file:
-          $ref: '#/components/schemas/File'
+          $ref: "#/components/schemas/File"
         files:
           type: array
           items:
-            $ref: '#/components/schemas/File'
+            $ref: "#/components/schemas/File"
     File:
       type: object
       description: Must be named `File` for test.
@@ -2021,11 +2082,11 @@ components:
           type: string
     _special_model.name_:
       properties:
-        '$special[property.name]':
+        "$special[property.name]":
           type: integer
           format: int64
       xml:
-        name: '$special[model.name]'
+        name: "$special[model.name]"
     HealthCheckResult:
       type: object
       properties:
@@ -2103,9 +2164,9 @@ components:
         - value
       properties:
         str_value:
-          $ref: '#/components/schemas/OuterEnum'
+          $ref: "#/components/schemas/OuterEnum"
         value:
-          $ref: '#/components/schemas/OuterEnumInteger'
+          $ref: "#/components/schemas/OuterEnumInteger"
     DeprecatedObject:
       type: object
       deprecated: true
@@ -2121,12 +2182,12 @@ components:
           type: number
           deprecated: true
         deprecatedRef:
-          $ref: '#/components/schemas/DeprecatedObject'
+          $ref: "#/components/schemas/DeprecatedObject"
         bars:
           type: array
           deprecated: true
           items:
-            $ref: '#/components/schemas/Bar'
+            $ref: "#/components/schemas/Bar"
     AllOfWithSingleRef:
       type: object
       properties:
@@ -2134,7 +2195,7 @@ components:
           type: string
         SingleRefType:
           allOf:
-            - $ref: '#/components/schemas/SingleRefType'
+            - $ref: "#/components/schemas/SingleRefType"
     SingleRefType:
       type: string
       title: SingleRefType
@@ -2143,8 +2204,8 @@ components:
         - user
     Pig:
       oneOf:
-        - $ref: '#/components/schemas/BasquePig'
-        - $ref: '#/components/schemas/DanishPig'
+        - $ref: "#/components/schemas/BasquePig"
+        - $ref: "#/components/schemas/DanishPig"
       discriminator:
         propertyName: className
     BasquePig:
@@ -2169,31 +2230,31 @@ components:
         - size
     AnyOfPig:
       anyOf:
-        - $ref: '#/components/schemas/BasquePig'
-        - $ref: '#/components/schemas/DanishPig'
+        - $ref: "#/components/schemas/BasquePig"
+        - $ref: "#/components/schemas/DanishPig"
     WithNestedOneOf:
       type: object
       properties:
         size:
           type: integer
         nested_pig:
-          $ref: '#/components/schemas/Pig'
+          $ref: "#/components/schemas/Pig"
         nested_oneof_enum_string:
-          $ref: '#/components/schemas/OneOfEnumString'
+          $ref: "#/components/schemas/OneOfEnumString"
     Self-Reference-Model:
       type: object
       properties:
         size:
           type: integer
         nested:
-          $ref: '#/components/schemas/Dummy-Model'
+          $ref: "#/components/schemas/Dummy-Model"
     Dummy-Model:
       type: object
       properties:
         category:
           type: string
         self_ref:
-          $ref: '#/components/schemas/Self-Reference-Model'
+          $ref: "#/components/schemas/Self-Reference-Model"
     RgbColor:
       description: RGB three element array with values 0-255.
       type: array
@@ -2213,7 +2274,7 @@ components:
       minItems: 4
       maxItems: 4
     HexColor:
-      description: 'Hex color string, such as #00FF00.'
+      description: "Hex color string, such as #00FF00."
       type: string
       pattern: ^#(?:[0-9a-fA-F]{3}){1,2}$
       minLength: 7
@@ -2222,21 +2283,21 @@ components:
       nullable: true
       description: RGB array, RGBA array, or hex string.
       oneOf:
-      - $ref: '#/components/schemas/RgbColor'
-      - $ref: '#/components/schemas/RgbaColor'
-      - $ref: '#/components/schemas/HexColor'
+        - $ref: "#/components/schemas/RgbColor"
+        - $ref: "#/components/schemas/RgbaColor"
+        - $ref: "#/components/schemas/HexColor"
       #- type: "null"
     AnyOfColor:
       description: Any of RGB array, RGBA array, or hex string.
       anyOf:
-      - $ref: '#/components/schemas/RgbColor'
-      - $ref: '#/components/schemas/RgbaColor'
-      - $ref: '#/components/schemas/HexColor'
+        - $ref: "#/components/schemas/RgbColor"
+        - $ref: "#/components/schemas/RgbaColor"
+        - $ref: "#/components/schemas/HexColor"
     OneOfEnumString:
       description: oneOf enum strings
       oneOf:
-      - $ref: '#/components/schemas/EnumString1'
-      - $ref: '#/components/schemas/EnumString2'
+        - $ref: "#/components/schemas/EnumString1"
+        - $ref: "#/components/schemas/EnumString2"
     EnumString1:
       type: string
       enum:
@@ -2267,21 +2328,21 @@ components:
         size:
           type: integer
         nested:
-          $ref: '#/components/schemas/FirstRef'
+          $ref: "#/components/schemas/FirstRef"
     FirstRef:
       type: object
       properties:
         category:
           type: string
         self_ref:
-          $ref: '#/components/schemas/SecondRef'
+          $ref: "#/components/schemas/SecondRef"
     SecondRef:
       type: object
       properties:
         category:
           type: string
         circular_ref:
-          $ref: '#/components/schemas/Circular-Reference-Model'
+          $ref: "#/components/schemas/Circular-Reference-Model"
     InnerDictWithAdditionalProperties:
       type: object
       additionalProperties:
@@ -2293,9 +2354,9 @@ components:
           $ref: "#/components/schemas/DictWithAdditionalProperties"
     IntOrString:
       oneOf:
-      - type: integer
-        minimum: 10
-      - type: string
+        - type: integer
+          minimum: 10
+        - type: string
     NullableProperty:
       type: object
       required:
