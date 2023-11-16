@@ -3238,8 +3238,7 @@ public class SpringCodegenTest {
 
     @Test
     public void multipleResponse() throws IOException {
-        //File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        File output = new File("C:\\Users\\asi63\\Downloads\\tmp-output");
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
