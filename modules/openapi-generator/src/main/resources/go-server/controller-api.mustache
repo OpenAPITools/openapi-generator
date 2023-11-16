@@ -528,15 +528,20 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isQueryParam}}
 	{{#isFormParam}}
 	{{#isFile}}
+	var {{paramName}}Param {{#isArray}}[]*os.File{{/isArray}}{{^isArray}}*os.File{{/isArray}}
+	{
 	{{#isArray}}
-	{{paramName}}Param, err := ReadFormFilesToTempFiles(r, "{{baseName}}")
-	{{/isArray}}
-	{{^isArray}}
-	{{paramName}}Param, err := ReadFormFileToTempFile(r, "{{baseName}}")
-	{{/isArray}}
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+		param, err := ReadFormFilesToTempFiles(r, "{{baseName}}")
+		{{/isArray}}
+		{{^isArray}}
+		param, err := ReadFormFileToTempFile(r, "{{baseName}}")
+		{{/isArray}}
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		{{paramName}}Param = param
 	}
 	{{/isFile}}
 	{{#isLong}}{{#isArray}}

@@ -460,10 +460,15 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
-	fileParam, err := ReadFormFileToTempFile(r, "file")
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+	var fileParam *os.File
+	{
+		param, err := ReadFormFileToTempFile(r, "file")
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		fileParam = param
 	}
 	
 	
@@ -494,10 +499,15 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-	filesParam, err := ReadFormFilesToTempFiles(r, "files")
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+	var filesParam []*os.File
+	{
+		param, err := ReadFormFilesToTempFiles(r, "files")
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		filesParam = param
 	}
 	
 	
