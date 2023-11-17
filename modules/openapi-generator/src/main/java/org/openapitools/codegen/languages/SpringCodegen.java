@@ -465,8 +465,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
         }
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
         writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
@@ -644,7 +644,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             } else if (SPRING_HTTP_INTERFACE.equals(library)) {
                 supportingFiles.add(new SupportingFile("httpInterfacesConfiguration.mustache",
                     (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator), "HttpInterfacesAbstractConfigurator.java"));
-                writePropertyBack(USE_BEANVALIDATION, false);
+                writePropertyBack(USE_BEAN_VALIDATION, false);
             }
         }
 

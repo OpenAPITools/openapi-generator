@@ -17,7 +17,7 @@ import static org.openapitools.codegen.languages.AbstractKotlinCodegen.USE_JAKAR
 import static org.openapitools.codegen.languages.KotlinServerCodegen.Constants.JAXRS_SPEC;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEANVALIDATION;
+import static org.openapitools.codegen.languages.features.BeanValidationFeatures.USE_BEAN_VALIDATION;
 
 public class KotlinServerCodegenTest {
 
@@ -90,7 +90,7 @@ public class KotlinServerCodegenTest {
         KotlinServerCodegen codegen = new KotlinServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        codegen.additionalProperties().put(USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(USE_BEAN_VALIDATION, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
@@ -132,7 +132,7 @@ public class KotlinServerCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(USE_JAKARTA_EE, true);
         codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
-        codegen.additionalProperties().put(USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(USE_BEAN_VALIDATION, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
                         .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))

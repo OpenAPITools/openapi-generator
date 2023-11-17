@@ -133,7 +133,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceImplementation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEAN_VALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
@@ -149,7 +149,7 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.GRADLE_BUILD_FILE, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_INTERFACE, true);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION, true);
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, false);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEAN_VALIDATION, false);
         codegen.additionalProperties().put(KotlinSpringServerCodegen.REACTIVE, false);
         codegen.processOpts();
 
@@ -176,7 +176,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertTrue(codegen.getServiceImplementation());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SERVICE_IMPLEMENTATION), true);
         Assert.assertFalse(codegen.getUseBeanValidation());
-        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEANVALIDATION), false);
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.USE_BEAN_VALIDATION), false);
         Assert.assertFalse(codegen.isReactive());
         Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.REACTIVE), false);
     }
@@ -584,7 +584,7 @@ public class KotlinSpringServerCodegenTest {
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
 

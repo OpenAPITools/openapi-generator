@@ -90,7 +90,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
+        cliOptions.add(CliOption.newBoolean(USE_BEAN_VALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
@@ -101,8 +101,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         super.processOpts();
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBooleanAndWriteBack(USE_BEAN_VALIDATION));
         }
 
         if (additionalProperties.containsKey(USE_GENERIC_RESPONSE)) {

@@ -65,7 +65,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     Constants.OMIT_GRADLE_WRAPPER
             ))
             .put(Constants.JAXRS_SPEC, Arrays.asList(
-                    USE_BEANVALIDATION,
+                    USE_BEAN_VALIDATION,
                     Constants.USE_COROUTINES,
                     Constants.USE_MUTINY,
                     Constants.RETURN_RESPONSE,
@@ -130,7 +130,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
         addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
-        addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
+        addSwitch(USE_BEAN_VALIDATION, Constants.USE_BEAN_VALIDATION_DESC, useBeanValidation);
         addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
         addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
         addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
@@ -254,15 +254,15 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             }
         }
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
 
         if (additionalProperties.containsKey(Constants.OMIT_GRADLE_WRAPPER)) {
             setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(Constants.OMIT_GRADLE_WRAPPER).toString()));
         }
 
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
         // set default library to "ktor"
         if (StringUtils.isEmpty(library)) {
@@ -367,7 +367,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String METRICS_DESC = "Enables metrics feature.";
         public static final String INTERFACE_ONLY = "interfaceOnly";
         public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
-        public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_BEAN_VALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
         public static final String USE_COROUTINES = "useCoroutines";
         public static final String USE_COROUTINES_DESC = "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.";
         public static final String RETURN_RESPONSE = "returnResponse";

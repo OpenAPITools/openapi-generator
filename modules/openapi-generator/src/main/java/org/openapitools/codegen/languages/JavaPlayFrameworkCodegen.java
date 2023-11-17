@@ -97,7 +97,7 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
         //Custom options for this generator
         cliOptions.add(createBooleanCliWithDefault(CONTROLLER_ONLY, "Whether to generate only API interface stubs without the server files.", controllerOnly));
-        cliOptions.add(createBooleanCliWithDefault(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(createBooleanCliWithDefault(USE_BEAN_VALIDATION, "Use BeanValidation API annotations", useBeanValidation));
         cliOptions.add(createBooleanCliWithDefault(USE_INTERFACES, "Makes the controllerImp implements an interface to facilitate automatic completion when updating from version x to y of your spec", useInterfaces));
         cliOptions.add(createBooleanCliWithDefault(HANDLE_EXCEPTIONS, "Add a 'throw exception' to each controller function. Add also a custom error handler where you can put your custom logic", handleExceptions));
         cliOptions.add(createBooleanCliWithDefault(WRAP_CALLS, "Add a wrapper to each controller function to handle things like metrics, response modification, etc..", wrapCalls));
@@ -151,10 +151,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         }
         writePropertyBack(CONTROLLER_ONLY, controllerOnly);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_INTERFACES)) {
             this.setUseInterfaces(convertPropertyToBoolean(USE_INTERFACES));

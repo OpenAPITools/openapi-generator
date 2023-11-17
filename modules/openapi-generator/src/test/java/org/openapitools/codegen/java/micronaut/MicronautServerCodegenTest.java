@@ -78,7 +78,7 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
     @Test
     public void doUseValidationParam() {
         JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
-        codegen.additionalProperties().put(JavaMicronautServerCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.USE_BEAN_VALIDATION, "true");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.APIS);
 
@@ -90,7 +90,7 @@ public class MicronautServerCodegenTest extends AbstractMicronautCodegenTest {
     @Test
     public void doNotUseValidationParam() {
         JavaMicronautServerCodegen codegen = new JavaMicronautServerCodegen();
-        codegen.additionalProperties().put(JavaMicronautServerCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(JavaMicronautServerCodegen.USE_BEAN_VALIDATION, "false");
         String outputPath = generateFiles(codegen, PETSTORE_PATH,
                 CodegenConstants.APIS);
 

@@ -85,11 +85,11 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
 
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(USE_SWAGGER_FEATURE)) {
             this.setUseSwaggerFeature(convertPropertyToBoolean(USE_SWAGGER_FEATURE));

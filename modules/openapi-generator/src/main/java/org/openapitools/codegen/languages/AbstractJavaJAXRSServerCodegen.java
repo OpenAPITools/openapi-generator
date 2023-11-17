@@ -94,7 +94,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
 
         cliOptions.add(new CliOption(CodegenConstants.IMPL_FOLDER, CodegenConstants.IMPL_FOLDER_DESC).defaultValue(implFolder));
         cliOptions.add(new CliOption("title", "a title describing the application").defaultValue(title));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(USE_BEAN_VALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(new CliOption(SERVER_PORT, "The port on which the server should be started").defaultValue(serverPort));
         cliOptions.add(CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames"));
     }
@@ -117,15 +117,15 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
             implFolder = (String) additionalProperties.get(CodegenConstants.IMPL_FOLDER);
         }
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             setUseTags(convertPropertyToBoolean(USE_TAGS));
         }
 
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
     }
 
     @Override

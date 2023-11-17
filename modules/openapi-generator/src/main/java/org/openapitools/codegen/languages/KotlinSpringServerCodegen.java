@@ -192,7 +192,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "Useful to help facilitate the generation gap pattern", serviceInterface);
         addSwitch(SERVICE_IMPLEMENTATION, "generate stub service implementations that extends service " +
                 "interfaces. If this is set to true service interfaces will also be generated", serviceImplementation);
-        addSwitch(USE_BEANVALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
+        addSwitch(USE_BEAN_VALIDATION, "Use BeanValidation API annotations to validate data types", useBeanValidation);
         addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to skip generation of default implementations for interfaces", skipDefaultInterface);
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
@@ -557,10 +557,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         }
         writePropertyBack(SERVICE_IMPLEMENTATION, serviceImplementation);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
         if (additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)) {
             this.setSkipDefaultInterface(convertPropertyToBoolean(SKIP_DEFAULT_INTERFACE));

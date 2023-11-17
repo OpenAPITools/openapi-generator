@@ -151,10 +151,10 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
         List<SupportingFile> unmodifiable = new ArrayList<>();
         unmodifiable.add(openApiFile);
 
-        if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
-            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        if (additionalProperties.containsKey(USE_BEAN_VALIDATION)) {
+            this.setUseBeanValidation(convertPropertyToBoolean(USE_BEAN_VALIDATION));
         }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
         importMapping.put("ObjectMapper", "com.fasterxml.jackson.databind.ObjectMapper");
         importMapping.put("Jsonb", rootJavaEEPackage() + ".json.bind.Jsonb");

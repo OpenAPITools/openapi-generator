@@ -1928,7 +1928,7 @@ public class JavaClientCodegenTest {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        additionalProperties.put(BeanValidationFeatures.USE_BEAN_VALIDATION, "true");
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("java")
                 .setAdditionalProperties(additionalProperties)
                 .setInputSpec("src/test/resources/3_0/issue-11340.yaml")

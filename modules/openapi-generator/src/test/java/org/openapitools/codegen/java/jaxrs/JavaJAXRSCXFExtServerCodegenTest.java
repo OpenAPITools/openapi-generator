@@ -84,12 +84,12 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
             return useAnnotatedBasePath;
         }
 
-        // BeanValidationFeatures.USE_BEANVALIDATION
+        // BeanValidationFeatures.USE_BEAN_VALIDATION
         public boolean isUseBeanValidation() {
             return useBeanValidation;
         }
 
-        // BeanValidationExtendedFeatures.USE_BEANVALIDATION_FEATURE
+        // BeanValidationExtendedFeatures.USE_BEAN_VALIDATION_FEATURE
         public boolean isUseBeanValidationFeature() {
             return useBeanValidationFeature;
         }
@@ -222,7 +222,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(AbstractJavaCodegen.OPENAPI_NULLABLE, "false");
         // Options processed by AbstractJavaJAXRSServerCodegen
         additionalProperties.put(CodegenConstants.IMPL_FOLDER, "myimpl");
-        additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        additionalProperties.put(BeanValidationFeatures.USE_BEAN_VALIDATION, "true");
         additionalProperties.put(AbstractJavaJAXRSServerCodegen.SERVER_PORT, "8088");
         // Options processed by JavaCXFServerCodegen
         additionalProperties.put(BeanValidationExtendedFeatures.USE_BEAN_VALIDATION_FEATURE, Boolean.TRUE);
@@ -471,7 +471,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(additionalProperties.get(AbstractJavaCodegen.OPENAPI_NULLABLE), true);
         // Options processed by AbstractJavaJAXRSServerCodegen
         assertNull(additionalProperties.get(CodegenConstants.IMPL_FOLDER));
-        assertEquals(additionalProperties.get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);
+        assertEquals(additionalProperties.get(BeanValidationFeatures.USE_BEAN_VALIDATION), Boolean.TRUE);
         assertEquals(additionalProperties.get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
         // Options processed by JavaCXFServerCodegen
         assertNull(additionalProperties.get(BeanValidationExtendedFeatures.USE_BEAN_VALIDATION_FEATURE));

@@ -140,12 +140,12 @@ public class JavaCXFClientCodegenTest {
         final JavaCXFClientCodegen codegen = new JavaCXFClientCodegen();
 
         codegen.processOpts();
-        Assert.assertNull(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEANVALIDATION));
+        Assert.assertNull(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEAN_VALIDATION));
         Assert.assertFalse(codegen.isUseBeanValidation());
 
-        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, true);
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEAN_VALIDATION, true);
         codegen.processOpts();
-        Assert.assertEquals(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);
+        Assert.assertEquals(codegen.additionalProperties().get(BeanValidationFeatures.USE_BEAN_VALIDATION), Boolean.TRUE);
         Assert.assertTrue(codegen.isUseBeanValidation());
     }
 

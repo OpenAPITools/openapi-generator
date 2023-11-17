@@ -716,7 +716,7 @@ public class SpringCodegenTest {
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -846,7 +846,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_CLOUD_LIBRARY);
         codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(SpringCodegen.PERFORM_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
@@ -1773,7 +1773,7 @@ public class SpringCodegenTest {
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
-        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEAN_VALIDATION, "true");
 
         ClientOptInput input = new ClientOptInput()
             .openAPI(openAPI)
@@ -2140,7 +2140,7 @@ public class SpringCodegenTest {
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.USE_TAGS, "true");
-        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(BeanValidationFeatures.USE_BEAN_VALIDATION, "true");
 
         ClientOptInput input = new ClientOptInput()
                 .openAPI(openAPI)
@@ -2371,7 +2371,7 @@ public class SpringCodegenTest {
         codegen.setLibrary(SPRING_BOOT);
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(SpringCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(SpringCodegen.USE_BEAN_VALIDATION, "true");
         codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
         codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
 
