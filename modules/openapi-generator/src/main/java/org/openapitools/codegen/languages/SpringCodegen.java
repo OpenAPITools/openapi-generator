@@ -226,8 +226,8 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(
                 CliOption.newBoolean(USE_TAGS, "use tags for creating interface and controller classnames", useTags));
         cliOptions
-                .add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION,
+                .add(CliOption.newBoolean(USE_BEAN_VALIDATION, "Use BeanValidation API annotations", useBeanValidation));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEAN_VALIDATION,
                 "Use Bean Validation Impl. to perform BeanValidation", performBeanValidation));
         cliOptions.add(CliOption.newBoolean(API_FIRST,
                 "Generate the API from the OAI spec at server compile time (API first approach)", apiFirst));
@@ -376,8 +376,8 @@ public class SpringCodegen extends AbstractJavaCodegen
             performBeanValidation = false;
 
             additionalProperties.put(USE_JAKARTA_EE, useJakartaEe);
-            additionalProperties.put(USE_BEANVALIDATION, useBeanValidation);
-            additionalProperties.put(PERFORM_BEANVALIDATION, performBeanValidation);
+            additionalProperties.put(USE_BEAN_VALIDATION, useBeanValidation);
+            additionalProperties.put(PERFORM_BEAN_VALIDATION, performBeanValidation);
             additionalProperties.put(DOCUMENTATION_PROVIDER, documentationProvider.toCliOptValue());
             additionalProperties.put(documentationProvider.getPropertyName(), true);
             additionalProperties.put(ANNOTATION_LIBRARY, annotationLibrary.toCliOptValue());
@@ -468,12 +468,12 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             this.setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
         }
-        writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
+        writePropertyBack(USE_BEAN_VALIDATION, useBeanValidation);
 
-        if (additionalProperties.containsKey(PERFORM_BEANVALIDATION)) {
-            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEANVALIDATION));
+        if (additionalProperties.containsKey(PERFORM_BEAN_VALIDATION)) {
+            this.setPerformBeanValidation(convertPropertyToBoolean(PERFORM_BEAN_VALIDATION));
         }
-        writePropertyBack(PERFORM_BEANVALIDATION, performBeanValidation);
+        writePropertyBack(PERFORM_BEAN_VALIDATION, performBeanValidation);
 
         if (additionalProperties.containsKey(USE_OPTIONAL)) {
             this.setUseOptional(convertPropertyToBoolean(USE_OPTIONAL));

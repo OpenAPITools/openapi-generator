@@ -320,7 +320,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
      * @param param CodegenParameter to be modified.
      */
     private static void postProcessSingleParam(CodegenParameter param) {
-        //TODO: This changes the info about the real type but it is needed to parse the header params
+        //TODO: This changes the info about the real type but it is needed to parseAuthString the header params
         if (param.isHeaderParam) {
             param.dataType = "std::optional<Pistache::Http::Header::Raw>";
             param.baseType = "std::optional<Pistache::Http::Header::Raw>";

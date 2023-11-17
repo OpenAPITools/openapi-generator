@@ -65,7 +65,7 @@ public class OpenAPIGenerator {
         try {
             builder.build().parse(args).run();
 
-            // If CLI runs without a command, consider this an error. This exists after initial parse/run
+            // If CLI runs without a command, consider this an error. This exists after initial parseAuthString/run
             // so we can present the configured "default command".
             // We can check against empty args because unrecognized arguments/commands result in an exception.
             // This is useful to exit with status 1, for example, so that misconfigured scripts fail fast.

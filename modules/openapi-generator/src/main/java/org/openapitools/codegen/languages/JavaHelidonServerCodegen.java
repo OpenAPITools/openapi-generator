@@ -86,8 +86,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
 
         modelTestTemplateFiles.put("model_test.mustache", ".java");
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use Bean Validation"));
-        cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
+        cliOptions.add(CliOption.newBoolean(USE_BEAN_VALIDATION, "Use Bean Validation"));
+        cliOptions.add(CliOption.newBoolean(PERFORM_BEAN_VALIDATION, "Perform BeanValidation"));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACT_CLASS,
                 "Whether to generate abstract classes for REST API instead of interfaces.", useAbstractClass));
         cliOptions.add(CliOption.newBoolean(GRADLE_PROJECT,

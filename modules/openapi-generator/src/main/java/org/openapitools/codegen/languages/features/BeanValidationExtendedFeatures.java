@@ -20,7 +20,7 @@ package org.openapitools.codegen.languages.features;
 public interface BeanValidationExtendedFeatures {
 
     // Language (implementing Client/Server) supports automatic BeanValidation (1.1)
-    String USE_BEANVALIDATION_FEATURE = "useBeanValidationFeature";
+    String USE_BEAN_VALIDATION_FEATURE = "useBeanValidationFeature";
 
     void setUseBeanValidationFeature(boolean useBeanValidationFeature);
 

@@ -100,7 +100,7 @@ public class OpenAPIDocumentationConfig {
                 }
                 docket.pathMapping(hostURI.getPath());
             } catch(URISyntaxException e) {
-                LOGGER.warn("Could not parse configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
+                LOGGER.warn("Could not parseAuthString configured GENERATOR_HOST '" + hostString + "': " + e.getMessage());
             }
         }
 

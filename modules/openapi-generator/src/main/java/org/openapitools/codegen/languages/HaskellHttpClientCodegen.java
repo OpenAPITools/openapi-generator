@@ -314,9 +314,9 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         cliOptions.add(CliOption.newBoolean(PROP_STRICT_FIELDS, "Add strictness annotations to all model fields").defaultValue((Boolean.TRUE.toString())));
         cliOptions.add(CliOption.newBoolean(PROP_USE_KATIP, "Sets the default value for the UseKatip cabal flag. If true, the katip package provides logging instead of monad-logger").defaultValue((Boolean.TRUE.toString())));
 
-        cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parse/render a datetime"));
-        cliOptions.add(CliOption.newString(PROP_DATETIME_PARSE_FORMAT, "overrides the format string used to parse a datetime"));
-        cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parse/render a date").defaultValue(defaultDateFormat));
+        cliOptions.add(CliOption.newString(PROP_DATETIME_FORMAT, "format string used to parseAuthString/render a datetime"));
+        cliOptions.add(CliOption.newString(PROP_DATETIME_PARSE_FORMAT, "overrides the format string used to parseAuthString a datetime"));
+        cliOptions.add(CliOption.newString(PROP_DATE_FORMAT, "format string used to parseAuthString/render a date").defaultValue(defaultDateFormat));
         cliOptions.add(CliOption.newString(PROP_QUERY_EXTRA_UNRESERVED, "Configures additional querystring characters which must not be URI encoded, e.g. '+' or ':'"));
 
         cliOptions.add(CliOption.newString(PROP_CUSTOM_TEST_INSTANCE_MODULE, "test module used to provide typeclass instances for types not known by the generator"));

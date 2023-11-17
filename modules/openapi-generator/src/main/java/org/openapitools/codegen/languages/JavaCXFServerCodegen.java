@@ -116,7 +116,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Use Gzip Feature"));
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION_FEATURE, "Use BeanValidation Feature"));
+        cliOptions.add(CliOption.newBoolean(USE_BEAN_VALIDATION_FEATURE, "Use BeanValidation Feature"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE, "Use Logging Feature"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
 
@@ -165,7 +165,7 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
             this.setUseLoggingFeatureForTests(convertPropertyToBooleanAndWriteBack(USE_LOGGING_FEATURE_FOR_TESTS));
             this.setUseSpringAnnotationConfig(convertPropertyToBooleanAndWriteBack(USE_SPRING_ANNOTATION_CONFIG));
 
-            boolean useBeanValidationFeature = convertPropertyToBooleanAndWriteBack(USE_BEANVALIDATION_FEATURE);
+            boolean useBeanValidationFeature = convertPropertyToBooleanAndWriteBack(USE_BEAN_VALIDATION_FEATURE);
             this.setUseBeanValidationFeature(useBeanValidationFeature);
             if (useBeanValidationFeature) {
                 LOGGER.info("make sure your target server supports Bean Validation 1.1");

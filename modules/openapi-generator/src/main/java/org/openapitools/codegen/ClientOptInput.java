@@ -61,12 +61,12 @@ public class ClientOptInput {
 
     @Deprecated
     public String getAuth() {
-        return AuthParser.reconstruct(auths);
+        return AuthParser.reconstructAuthValue(auths);
     }
 
     @Deprecated
     public void setAuth(String urlEncodedAuthString) {
-        this.auths = AuthParser.parse(urlEncodedAuthString);
+        this.auths = AuthParser.parseAuthString(urlEncodedAuthString);
     }
 
     @Deprecated

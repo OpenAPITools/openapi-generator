@@ -271,7 +271,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 }
 
             } catch (NumberFormatException e) {
-                LOGGER.warn("Unable to parse {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
+                LOGGER.warn("Unable to parseAuthString {}: {}, fallback to {}", AKKA_HTTP_VERSION, akkaHttpVersion, DEFAULT_AKKA_HTTP_VERSION);
                 akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
                 is10_1_10AndAbove = true;
             }

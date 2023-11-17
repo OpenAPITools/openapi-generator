@@ -83,7 +83,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "2017-03-30";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "LocalDate.parse(\"2017-03-30\")");
+        Assert.assertEquals(p.example, "LocalDate.parseAuthString(\"2017-03-30\")");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "2007-12-03T10:15:30+01:00";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "OffsetDateTime.parse(\"2007-12-03T10:15:30+01:00\")");
+        Assert.assertEquals(p.example, "OffsetDateTime.parseAuthString(\"2007-12-03T10:15:30+01:00\")");
     }
 
     @Test

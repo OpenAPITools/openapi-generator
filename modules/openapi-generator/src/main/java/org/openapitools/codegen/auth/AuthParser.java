@@ -33,7 +33,7 @@ public class AuthParser {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthParser.class);
 
-    public static List<AuthorizationValue> parse(String urlEncodedAuthStr) {
+    public static List<AuthorizationValue> parseAuthString(String urlEncodedAuthStr) {
         List<AuthorizationValue> auths = new ArrayList<AuthorizationValue>();
         if (isNotEmpty(urlEncodedAuthStr)) {
             String[] parts = urlEncodedAuthStr.split(",");
@@ -51,7 +51,7 @@ public class AuthParser {
         return auths;
     }
 
-    public static String reconstruct(List<AuthorizationValue> authorizationValueList) {
+    public static String reconstructAuthValue(List<AuthorizationValue> authorizationValueList) {
         if (authorizationValueList != null) {
             StringBuilder b = new StringBuilder();
             for (AuthorizationValue v : authorizationValueList) {

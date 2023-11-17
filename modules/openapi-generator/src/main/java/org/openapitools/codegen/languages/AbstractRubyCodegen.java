@@ -157,9 +157,9 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
+                    return "Date.parseAuthString(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
+                    return "Time.parseAuthString(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
                     return "'" + escapeText((String.valueOf(p.getDefault()))) + "'";
                 }

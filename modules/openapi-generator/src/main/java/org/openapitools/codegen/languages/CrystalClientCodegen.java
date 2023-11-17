@@ -669,12 +669,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 return "'https://example.com'";
             } else if (codegenParameter.isDateTime) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "Time.parse('" + codegenParameter.example + "')";
+                    return "Time.parseAuthString('" + codegenParameter.example + "')";
                 }
                 return "Time.now";
             } else if (codegenParameter.isDate) {
                 if (!StringUtils.isEmpty(codegenParameter.example) && !"null".equals(codegenParameter.example)) {
-                    return "Date.parse('" + codegenParameter.example + "')";
+                    return "Date.parseAuthString('" + codegenParameter.example + "')";
                 }
                 return "Date.today";
             } else if (codegenParameter.isFile) {
@@ -737,12 +737,12 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 return "'https://example.com'";
             } else if (codegenProperty.isDateTime) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "Time.parse('" + codegenProperty.example + "')";
+                    return "Time.parseAuthString('" + codegenProperty.example + "')";
                 }
                 return "Time.now";
             } else if (codegenProperty.isDate) {
                 if (!StringUtils.isEmpty(codegenProperty.example) && !"null".equals(codegenProperty.example)) {
-                    return "Date.parse('" + codegenProperty.example + "')";
+                    return "Date.parseAuthString('" + codegenProperty.example + "')";
                 }
                 return "Date.today";
             } else if (codegenProperty.isFile) {
@@ -857,9 +857,9 @@ public class CrystalClientCodegen extends DefaultCodegen {
                 if (p.getDefault() instanceof Date) {
                     Date date = (Date) p.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                    return "Date.parse(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
+                    return "Date.parseAuthString(\"" + String.format(Locale.ROOT, localDate.toString(), "") + "\")";
                 } else if (p.getDefault() instanceof java.time.OffsetDateTime) {
-                    return "Time.parse(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault())
+                    return "Time.parseAuthString(\"" + String.format(Locale.ROOT, ((java.time.OffsetDateTime) p.getDefault())
                             .atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\")";
                 } else {
                     return "\"" + escapeText((String.valueOf(p.getDefault()))) + "\"";

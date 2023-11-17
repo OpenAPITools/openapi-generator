@@ -66,7 +66,7 @@ public class Validate extends OpenApiGeneratorCommand {
         ValidationResult validationResult = evaluator.validate(specification);
 
         // TODO: We could also provide description here along with getMessage. getMessage is either a "generic" message or specific (e.g. Model 'Cat' has issues).
-        //       This would require that we parse the messageList coming from swagger-parser into a better structure.
+        //       This would require that we parseAuthString the messageList coming from swagger-parser into a better structure.
         validationResult.getWarnings().forEach(invalid -> warnings.add(invalid.getMessage()));
         validationResult.getErrors().forEach(invalid -> errors.add(invalid.getMessage()));
 

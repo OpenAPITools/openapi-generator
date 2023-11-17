@@ -820,12 +820,12 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
             if (example == null) {
                 example = "2013-10-20";
             }
-            example = "Date.parse('" + escapeText(example) + "')";
+            example = "Date.parseAuthString('" + escapeText(example) + "')";
         } else if ("DateTime".equals(type)) {
             if (example == null) {
                 example = "2013-10-20T19:20:30+01:00";
             }
-            example = "DateTime.parse('" + escapeText(example) + "')";
+            example = "DateTime.parseAuthString('" + escapeText(example) + "')";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = moduleName + "::" + type + ".new";

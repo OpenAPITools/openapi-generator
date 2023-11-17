@@ -197,7 +197,7 @@ public class JsonCacheTest {
         } catch (ParseException | IllegalArgumentException e) {
             IllegalArgumentException t = e instanceof IllegalArgumentException // split
                     ? (IllegalArgumentException) e
-                    : new IllegalArgumentException("Unable to parse date string", e);
+                    : new IllegalArgumentException("Unable to parseAuthString date string", e);
             throw t;
         }
     }

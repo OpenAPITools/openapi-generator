@@ -647,7 +647,7 @@ public class CodegenConfigurator {
         ModelUtils.setGenerateAliasAsModel(workflowSettings.isGenerateAliasAsModel());
 
         // TODO: Support custom spec loader implementations (https://github.com/OpenAPITools/openapi-generator/issues/844)
-        final List<AuthorizationValue> authorizationValues = AuthParser.parse(this.auth);
+        final List<AuthorizationValue> authorizationValues = AuthParser.parseAuthString(this.auth);
         ParseOptions options = new ParseOptions();
         options.setResolve(true);
         SwaggerParseResult result = new OpenAPIParser().readLocation(inputSpec, authorizationValues, options);

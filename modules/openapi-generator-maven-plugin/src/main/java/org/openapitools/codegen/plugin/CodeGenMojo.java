@@ -966,7 +966,7 @@ public class CodeGenMojo extends AbstractMojo {
 
             URLConnection conn = inputSpecRemoteUrl.openConnection();
             if (isNotEmpty(auth)) {
-                List<AuthorizationValue> authList = AuthParser.parse(auth);
+                List<AuthorizationValue> authList = AuthParser.parseAuthString(auth);
                 for (AuthorizationValue a : authList) {
                     conn.setRequestProperty(a.getKeyName(), a.getValue());
                 }
@@ -990,7 +990,7 @@ public class CodeGenMojo extends AbstractMojo {
     }
 
     /**
-     * Try to parse inputSpec setting string into URL
+     * Try to parseAuthString inputSpec setting string into URL
      * @return A valid URL or null if inputSpec is not a valid URL
      */
     private URL inputSpecRemoteUrl(){

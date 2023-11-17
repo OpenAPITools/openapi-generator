@@ -20,7 +20,7 @@ package org.openapitools.codegen.languages.features;
 public interface BeanValidationFeatures {
 
     // Language supports generating BeanValidation-Annotations
-    String USE_BEANVALIDATION = "useBeanValidation";
+    String USE_BEAN_VALIDATION = "useBeanValidation";
 
     void setUseBeanValidation(boolean useBeanValidation);
 

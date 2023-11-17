@@ -1111,13 +1111,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     if ("java8".equals(getDateLibrary())) {
                         Date date = (Date) schema.getDefault();
                         LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                        return String.format(Locale.ROOT, "LocalDate.parse(\"%s\")", localDate.toString());
+                        return String.format(Locale.ROOT, "LocalDate.parseAuthString(\"%s\")", localDate.toString());
                     } else {
                         return null;
                     }
                 } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
                     if ("java8".equals(getDateLibrary())) {
-                        return String.format(Locale.ROOT, "OffsetDateTime.parse(\"%s\", %s)",
+                        return String.format(Locale.ROOT, "OffsetDateTime.parseAuthString(\"%s\", %s)",
                                 ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()),
                                 "java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())");
                     } else {
@@ -1311,13 +1311,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             if (example == null) {
                 example = "LocalDate.now()";
             } else {
-                example = "LocalDate.parse(\"" + example + "\")";
+                example = "LocalDate.parseAuthString(\"" + example + "\")";
             }
         } else if ("OffsetDateTime".equals(type)) {
             if (example == null) {
                 example = "OffsetDateTime.now()";
             } else {
-                example = "OffsetDateTime.parse(\"" + example + "\")";
+                example = "OffsetDateTime.parseAuthString(\"" + example + "\")";
             }
         } else if ("BigDecimal".equals(type)) {
             if (example == null) {

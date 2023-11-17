@@ -51,13 +51,13 @@ public class Markdown {
     //  <p> ... html ... </p>\n
     // This method removes that markup wrapper if there are no other <p> elements,
     // do that Markdown can be used in non-block contexts such as operation summary etc.
-    private static final String P_END = "</p>\n";
-    private static final String P_START = "<p>";
+    private static final String PARAGRAPH_END = "</p>\n";
+    private static final String PARAGRAPH_START = "<p>";
     private String unwrapped(String html) {
-        if (html.startsWith(P_START) && html.endsWith(P_END)
-                && html.lastIndexOf(P_START) == 0)
-            return html.substring(P_START.length(),
-                    html.length() - P_END.length());
+        if (html.startsWith(PARAGRAPH_START) && html.endsWith(PARAGRAPH_END)
+                && html.lastIndexOf(PARAGRAPH_START) == 0)
+            return html.substring(PARAGRAPH_START.length(),
+                    html.length() - PARAGRAPH_END.length());
         else
             return html;
     }

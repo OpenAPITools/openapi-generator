@@ -1411,7 +1411,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         } else {
             param.vendorExtensions.put("x-format-string", "{:?}");
             if (param.example != null) {
-                example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parse JSON example\")";
+                example = "serde_json::from_str::<" + param.dataType + ">(r#\"" + param.example + "\"#).expect(\"Failed to parseAuthString JSON example\")";
             }
         }
 

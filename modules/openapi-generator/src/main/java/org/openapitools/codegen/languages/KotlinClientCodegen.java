@@ -873,7 +873,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
                 if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP3.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
                     // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
-                    // For now we take the first mediatype we can parse and send that.
+                    // For now we take the first mediatype we can parseAuthString and send that.
                     Predicate<Map<String, String>> isSerializable = typeMapping -> {
                         String mediaTypeValue = typeMapping.get("mediaType");
                         if (mediaTypeValue == null)

@@ -225,7 +225,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         additionalProperties.put(BeanValidationFeatures.USE_BEANVALIDATION, "true");
         additionalProperties.put(AbstractJavaJAXRSServerCodegen.SERVER_PORT, "8088");
         // Options processed by JavaCXFServerCodegen
-        additionalProperties.put(BeanValidationExtendedFeatures.USE_BEANVALIDATION_FEATURE, Boolean.TRUE);
+        additionalProperties.put(BeanValidationExtendedFeatures.USE_BEAN_VALIDATION_FEATURE, Boolean.TRUE);
         additionalProperties.put(GzipFeatures.USE_GZIP_FEATURE, Boolean.TRUE);
         additionalProperties.put(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS, "true");
         additionalProperties.put(JbossFeature.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, Boolean.TRUE);
@@ -474,7 +474,7 @@ public class JavaJAXRSCXFExtServerCodegenTest extends JavaJaxrsBaseTest {
         assertEquals(additionalProperties.get(BeanValidationFeatures.USE_BEANVALIDATION), Boolean.TRUE);
         assertEquals(additionalProperties.get(AbstractJavaJAXRSServerCodegen.SERVER_PORT), "8082");
         // Options processed by JavaCXFServerCodegen
-        assertNull(additionalProperties.get(BeanValidationExtendedFeatures.USE_BEANVALIDATION_FEATURE));
+        assertNull(additionalProperties.get(BeanValidationExtendedFeatures.USE_BEAN_VALIDATION_FEATURE));
         assertNull(additionalProperties.get(GzipFeatures.USE_GZIP_FEATURE));
         assertNull(additionalProperties.get(GzipTestFeatures.USE_GZIP_FEATURE_FOR_TESTS));
         assertNull(additionalProperties.get(JbossFeature.GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR));

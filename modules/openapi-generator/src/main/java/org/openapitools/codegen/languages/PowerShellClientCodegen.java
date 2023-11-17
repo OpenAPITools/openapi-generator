@@ -60,7 +60,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
     protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
-    protected boolean skipVerbParsing = false; // Attempt to parse cmdlets from operation names
+    protected boolean skipVerbParsing = false; // Attempt to parseAuthString cmdlets from operation names
     protected String projectUri;
     protected String licenseUri;
     protected String releaseNotes;
@@ -769,7 +769,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                     commonVerbs.put(pair[0], pair[1]);
                     LOGGER.debug("Add commonVerbs: {} => {}", pair[0], pair[1]);
                 } else {
-                    LOGGER.error("Failed to parse commonVerbs: {}", entry);
+                    LOGGER.error("Failed to parseAuthString commonVerbs: {}", entry);
                 }
             }
         }

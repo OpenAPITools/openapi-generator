@@ -593,7 +593,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         minDate = df.parse(var.minimum).getTime();
                     } catch (ParseException e) {
                         // Ignore, use MIN_DATE.
-                        LOGGER.warn("Could not parse minimum {} value for '{}/{}' as an ISO-8601 {}: {}",
+                        LOGGER.warn("Could not parseAuthString minimum {} value for '{}/{}' as an ISO-8601 {}: {}",
                                 var.dataFormat, op.operationId, var.name, isoFormat, var.minimum);
                     }
                 }
@@ -602,7 +602,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         maxDate = df.parse(var.maximum).getTime();
                     } catch (ParseException e) {
                         // Ignore, use MAX_DATE.
-                        LOGGER.warn("Could not parse maximum {} value for '{}/{}' as an ISO-8601 {}: {}",
+                        LOGGER.warn("Could not parseAuthString maximum {} value for '{}/{}' as an ISO-8601 {}: {}",
                                 var.dataFormat, op.operationId, var.name, isoFormat, var.minimum);
                     }
                 }
