@@ -8,6 +8,7 @@ from aiohttp import FormData
 from openapi_server.models.api_response import ApiResponse
 from openapi_server.models.pet import Pet
 
+pytestmark = pytest.mark.asyncio
 
 @pytest.mark.skip("Connexion does not support multiple consumes. See https://github.com/zalando/connexion/pull/760")
 async def test_add_pet(client):
