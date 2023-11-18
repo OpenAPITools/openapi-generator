@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **string** | **String** |  | [optional] [default to None]
 **byte** | [***swagger::ByteArray**](ByteArray.md) |  | 
 **binary** | [***swagger::ByteArray**](file.md) |  | [optional] [default to None]
-**date** | [***chrono::DateTime::<chrono::Utc>**](date.md) |  | 
+**date** | [***chrono::naive::NaiveDate**](date.md) |  | 
 **date_time** | [**chrono::DateTime::<chrono::Utc>**](DateTime.md) |  | [optional] [default to None]
 **uuid** | [***uuid::Uuid**](UUID.md) |  | [optional] [default to None]
 **password** | **String** |  | 
