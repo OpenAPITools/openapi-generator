@@ -1467,7 +1467,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_70_OR_LATER, true);
                 properties.put(NET_80_OR_LATER, true);
             } else {
-                throw new RuntimeException("Unhanlded case");
+                throw new RuntimeException("Unhandled case");
             }
         }
     }

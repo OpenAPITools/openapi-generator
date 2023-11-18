@@ -74,7 +74,7 @@
         {{#isString}}
         /// <exception cref="NotImplementedException"></exception>
         {{/isString}}
-        public static {{>EnumValueDataType}}{{#nrt}}{{#isString}}{{#isNullable}}{{nrt?}}  {{^nrt}}{{#vendorExtensions.x-is-value-type}}?  {{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}{{/isString}}{{/nrt}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} value)
+        public static {{>EnumValueDataType}}{{#lambda.first}}{{#nrt}}{{#isString}}{{#isNullable}}{{nrt?}}  {{^nrt}}{{#vendorExtensions.x-is-value-type}}?  {{/vendorExtensions.x-is-value-type}}{{/nrt}}{{/isNullable}}{{/isString}}{{/nrt}}{{/lambda.first}} {{datatypeWithEnum}}ToJsonValue({{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{#isString}}{{>NullConditionalProperty}}{{/isString}} value)
         {
             {{^isString}}
             return ({{>EnumValueDataType}}) value;
