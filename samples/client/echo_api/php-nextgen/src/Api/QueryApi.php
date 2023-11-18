@@ -153,7 +153,7 @@ class QueryApi
      * @param  StringEnumRef|null $enum_ref_string_query enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -176,7 +176,7 @@ class QueryApi
      * @param  StringEnumRef|null $enum_ref_string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumRefString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -230,7 +230,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -247,7 +259,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -467,7 +491,7 @@ class QueryApi
      * @param  string|null $string_query string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -492,7 +516,7 @@ class QueryApi
      * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryDatetimeDateString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -547,7 +571,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -564,7 +600,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -800,7 +848,7 @@ class QueryApi
      * @param  string|null $string_query string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -825,7 +873,7 @@ class QueryApi
      * @param  string|null $string_query (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryIntegerBooleanString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -880,7 +928,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -897,7 +957,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1131,7 +1203,7 @@ class QueryApi
      * @param  Pet|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -1152,7 +1224,7 @@ class QueryApi
      * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1205,7 +1277,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1222,7 +1306,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1424,7 +1520,7 @@ class QueryApi
      * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -1445,7 +1541,7 @@ class QueryApi
      * @param  TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleDeepObjectExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1498,7 +1594,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1515,7 +1623,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1717,7 +1837,7 @@ class QueryApi
      * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -1738,7 +1858,7 @@ class QueryApi
      * @param  TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueArrayString'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1791,7 +1911,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1808,7 +1940,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -2010,7 +2154,7 @@ class QueryApi
      * @param  Pet|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -2031,7 +2175,7 @@ class QueryApi
      * @param  Pet|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObject'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2084,7 +2228,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -2101,7 +2257,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -2303,7 +2471,7 @@ class QueryApi
      * @param  DataQuery|null $query_object query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -2324,7 +2492,7 @@ class QueryApi
      * @param  DataQuery|null $query_object (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryStyleFormExplodeTrueObjectAllOf'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2377,7 +2545,19 @@ class QueryApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -2394,7 +2574,19 @@ class QueryApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
