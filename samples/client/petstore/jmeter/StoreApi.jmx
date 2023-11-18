@@ -311,6 +311,10 @@
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
+              <stringProp name="Header.name">Content-Type</stringProp>
+              <stringProp name="Header.value">application/json</stringProp>
+            </elementProp>
+            <elementProp name="" elementType="Header">
               <stringProp name="Header.name">accept</stringProp>
               <stringProp name="Header.value">application/xml</stringProp>
             </elementProp>
@@ -321,9 +325,9 @@
           <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
             <collectionProp name="Arguments.arguments">
-              <elementProp name="body" elementType="HTTPArgument">
+              <elementProp name="order" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">${__javaScript("${body}".replace(/'/g\, '"'),)}</stringProp>
+                <stringProp name="Argument.value">${__javaScript("${order}".replace(/'/g\, '"'),)}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
