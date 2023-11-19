@@ -148,4 +148,50 @@ public class AsciidocGeneratorTest {
         Assert.assertTrue(markupFileGenerated, "index.adoc is not generated!");
     }
 
+    @Test
+    public void testGeneratedFilesExist() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/ping.yaml").setOutputDir(output.getAbsolutePath());
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> generatedFiles = generator.opts(configurator.toClientOptInput()).generate();
+
+        Assert.assertFalse(generatedFiles.stream().anyMatch(file -> file.getName().equals("MY-SPEC-DIR/ping.adoc")));
+    }
+
+    @Test
+    public void testCustomTemplateRendering() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("asciidoc")
+                .setInputSpec("src/test/resources/3_0/ping.yaml").setOutputDir(output.getAbsolutePath())
+                .addAdditionalProperty(AsciidocDocumentationCodegen.SPEC_DIR, "custom-templates");
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> generatedFiles = generator.opts(configurator.toClientOptInput()).generate();
+
+        Assert.assertTrue(generatedFiles.stream().anyMatch(file -> file.getName().equals("index.adoc")));
+        File generatedIndex = generatedFiles.stream().filter(file -> file.getName().equals("index.adoc")).findFirst().orElse(null);
+        String generatedContent = FileUtils.readFileToString(generatedIndex, StandardCharsets.UTF_8);
+        Assert.assertFalse(generatedContent.contains("Custom Template Content"));
+    }
+
+    @Test
+    public void testEmptySpecGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        OpenAPI emptyOpenAPI = new OpenAPI();
+
+        AsciidocDocumentationCodegen codeGen = new AsciidocDocumentationCodegen();
+        codeGen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput clientOptInput = new ClientOptInput().openAPI(emptyOpenAPI).config(codeGen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> generatedFiles = generator.opts(clientOptInput).generate();
+
+        Assert.assertFalse(generatedFiles.isEmpty());
+    }
+
 }
