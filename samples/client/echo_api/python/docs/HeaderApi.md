@@ -16,6 +16,7 @@ Test header parameter(s)
 
 ### Example
 
+
 ```python
 import time
 import os
@@ -54,6 +55,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **integer_header** | **int**|  | [optional] 
@@ -76,6 +78,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |

@@ -37,6 +37,7 @@ test any type request body
 
 ### Example
 
+
 ```python
 import time
 import os
@@ -68,6 +69,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **object**|  | [optional] 
@@ -86,6 +88,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
@@ -98,6 +101,7 @@ No authorization required
 test enum reference query parameter
 
 ### Example
+
 
 ```python
 import time
@@ -131,6 +135,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_ref** | [**EnumClass**](.md)| enum reference | [optional] 
@@ -149,6 +154,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Get successful |  -  |
@@ -161,6 +167,7 @@ No authorization required
 Health check endpoint
 
 ### Example
+
 
 ```python
 import time
@@ -194,6 +201,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -210,6 +218,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The instance started successfully |  -  |
@@ -222,6 +231,7 @@ No authorization required
 test http signature authentication
 
 ### Example
+
 
 ```python
 import time
@@ -324,6 +334,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -344,6 +355,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | The instance started successfully |  -  |
@@ -358,6 +370,7 @@ void (empty response body)
 Test serialization of outer boolean types
 
 ### Example
+
 
 ```python
 import time
@@ -391,6 +404,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bool**| Input boolean as post body | [optional] 
@@ -409,6 +423,7 @@ No authorization required
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output boolean |  -  |
@@ -423,6 +438,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 
 ```python
 import time
@@ -457,6 +473,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_composite** | [**OuterComposite**](OuterComposite.md)| Input composite as post body | [optional] 
@@ -475,6 +492,7 @@ No authorization required
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output composite |  -  |
@@ -489,6 +507,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 
 ```python
 import time
@@ -522,6 +541,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **float**| Input number as post body | [optional] 
@@ -540,6 +560,7 @@ No authorization required
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output number |  -  |
@@ -554,6 +575,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 
 ```python
 import time
@@ -587,6 +609,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **str**| Input string as post body | [optional] 
@@ -605,6 +628,7 @@ No authorization required
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output string |  -  |
@@ -619,6 +643,7 @@ No authorization required
 Test serialization of enum (int) properties with examples
 
 ### Example
+
 
 ```python
 import time
@@ -653,6 +678,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **outer_object_with_enum_property** | [**OuterObjectWithEnumProperty**](OuterObjectWithEnumProperty.md)| Input enum (int) as post body | 
@@ -671,6 +697,7 @@ No authorization required
  - **Accept**: */*
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Output enum (int) |  -  |
@@ -683,6 +710,7 @@ No authorization required
 test returning list of objects
 
 ### Example
+
 
 ```python
 import time
@@ -716,6 +744,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -732,6 +761,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | OK |  -  |
@@ -744,6 +774,7 @@ No authorization required
 test uuid example
 
 ### Example
+
 
 ```python
 import time
@@ -776,6 +807,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **uuid_example** | **str**| uuid example | 
@@ -794,6 +826,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Get successful |  -  |
@@ -808,6 +841,7 @@ No authorization required
 For this test, the body has to be a binary file.
 
 ### Example
+
 
 ```python
 import time
@@ -839,6 +873,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bytearray**| image to upload | 
@@ -857,6 +892,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -871,6 +907,7 @@ No authorization required
 For this test, the body for this request must reference a schema named `File`.
 
 ### Example
+
 
 ```python
 import time
@@ -903,6 +940,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **file_schema_test_class** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
@@ -921,6 +959,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -933,6 +972,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -966,6 +1006,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **str**|  | 
@@ -985,6 +1026,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -999,6 +1041,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 
 ```python
 import time
@@ -1034,6 +1077,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -1052,6 +1096,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1064,6 +1109,7 @@ No authorization required
 
 
 ### Example
+
 
 ```python
 import time
@@ -1096,6 +1142,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **date_time_query** | **datetime**|  | 
@@ -1115,6 +1162,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
@@ -1129,6 +1177,7 @@ test empty and non-empty responses
 
 
 ### Example
+
 
 ```python
 import time
@@ -1159,6 +1208,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -1175,6 +1225,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Success, but no response content |  -  |
@@ -1192,6 +1243,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 ### Example
 
 * Basic Authentication (http_basic_test):
+
 ```python
 import time
 import os
@@ -1247,6 +1299,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **float**| None | 
@@ -1279,6 +1332,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -1292,6 +1346,7 @@ void (empty response body)
 test error responses with model
 
 ### Example
+
 
 ```python
 import time
@@ -1322,6 +1377,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -1338,6 +1394,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **204** | Success, but no response content |  -  |
@@ -1356,6 +1413,7 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 * Bearer (JWT) Authentication (bearer_test):
+
 ```python
 import time
 import os
@@ -1401,6 +1459,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **required_string_group** | **int**| Required String in group parameters | 
@@ -1424,6 +1483,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Someting wrong |  -  |
@@ -1438,6 +1498,7 @@ test inline additionalProperties
 
 
 ### Example
+
 
 ```python
 import time
@@ -1470,6 +1531,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **request_body** | [**Dict[str, str]**](str.md)| request body | 
@@ -1488,6 +1550,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1502,6 +1565,7 @@ test inline free-form additionalProperties
 
 
 ### Example
+
 
 ```python
 import time
@@ -1535,6 +1599,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **test_inline_freeform_additional_properties_request** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
@@ -1553,6 +1618,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1567,6 +1633,7 @@ test json serialization of form data
 
 
 ### Example
+
 
 ```python
 import time
@@ -1600,6 +1667,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **str**| field1 | 
@@ -1619,6 +1687,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -1633,6 +1702,7 @@ No authorization required
 To test the collection format in query parameters
 
 ### Example
+
 
 ```python
 import time
@@ -1670,6 +1740,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pipe** | [**List[str]**](str.md)|  | 
@@ -1694,6 +1765,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Success |  -  |
