@@ -2471,6 +2471,13 @@ components:
         type_:
           type: string
       type: object
+    AllOfModelArrayAnyOf:
+      allOf:
+      - $ref: '#/components/schemas/Category'
+      - properties:
+          linkListColumn1:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1'
+        type: object
     _foo_get_default_response:
       example:
         string:
@@ -2654,6 +2661,20 @@ components:
         required:
         - name
         type: object
+    AllOfModelArrayAnyOf_allOf_linkListColumn1_value:
+      anyOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Tag'
+    AllOfModelArrayAnyOf_allOf_linkListColumn1:
+      properties:
+        value:
+          items:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
+          type: array
+      required:
+      - value
+      type: object
+      example: null
   securitySchemes:
     petstore_auth:
       flows:
