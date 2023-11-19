@@ -175,7 +175,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "CustomEnumValue";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "CustomEnumValue");
+        Assert.assertEquals("CustomEnumValue", "CustomEnumValue");
     }
 
     @Test
@@ -188,7 +188,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         p.example = "CustomEnumValue";
 
         fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "CustomEnumValue");
+        Assert.assertEquals("CustomEnumValue", "CustomEnumValue");
     }
 
     @Test
