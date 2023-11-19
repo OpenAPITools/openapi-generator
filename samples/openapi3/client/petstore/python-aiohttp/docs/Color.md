@@ -3,6 +3,7 @@
 RGB array, RGBA array, or hex string.
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

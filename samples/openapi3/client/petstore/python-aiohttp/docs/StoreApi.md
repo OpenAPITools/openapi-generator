@@ -19,6 +19,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 ### Example
 
+
 ```python
 import time
 import os
@@ -50,6 +51,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order_id** | **str**| ID of the order that needs to be deleted | 
@@ -68,6 +70,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid ID supplied |  -  |
@@ -85,6 +88,7 @@ Returns a map of status codes to quantities
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
 import time
 import os
@@ -126,6 +130,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -142,6 +147,7 @@ This endpoint does not need any parameter.
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -156,6 +162,7 @@ Find purchase order by ID
 For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 
 ### Example
+
 
 ```python
 import time
@@ -191,6 +198,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order_id** | **int**| ID of pet that needs to be fetched | 
@@ -209,6 +217,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -225,6 +234,7 @@ Place an order for a pet
 
 
 ### Example
+
 
 ```python
 import time
@@ -260,6 +270,7 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
@@ -278,6 +289,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

@@ -811,6 +811,15 @@ public class InlineModelResolver {
                             ap.setItems(schema);
                         }
                     }
+                } else if (ModelUtils.isComposedSchema(inner)) {
+                    String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
+                    gatherInlineModels(inner, innerModelName);
+                    innerModelName = addSchemas(innerModelName, inner);
+                    Schema schema = new Schema().$ref(innerModelName);
+                    schema.setRequired(inner.getRequired());
+                    ap.setItems(schema);
+                } else {
+                    LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
             }
             if (ModelUtils.isMapSchema(property)) {
@@ -833,6 +842,15 @@ public class InlineModelResolver {
                             property.setAdditionalProperties(schema);
                         }
                     }
+                } else if (ModelUtils.isComposedSchema(inner)) {
+                    String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
+                    gatherInlineModels(inner, innerModelName);
+                    innerModelName = addSchemas(innerModelName, inner);
+                    Schema schema = new Schema().$ref(innerModelName);
+                    schema.setRequired(inner.getRequired());
+                    property.setAdditionalProperties(schema);
+                } else {
+                    LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
             }
         }

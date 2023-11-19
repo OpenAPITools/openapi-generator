@@ -18,6 +18,7 @@ To test HTTP basic authentication
 ### Example
 
 * Basic Authentication (http_auth):
+
 ```python
 import time
 import os
@@ -59,6 +60,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -75,6 +77,7 @@ This endpoint does not need any parameter.
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -91,6 +94,7 @@ To test HTTP bearer authentication
 ### Example
 
 * Bearer Authentication (http_bearer_auth):
+
 ```python
 import time
 import os
@@ -131,6 +135,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -147,6 +152,7 @@ This endpoint does not need any parameter.
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
