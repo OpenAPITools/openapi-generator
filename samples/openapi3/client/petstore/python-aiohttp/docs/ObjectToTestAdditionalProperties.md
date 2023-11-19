@@ -3,6 +3,7 @@
 Minimal object
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **var_property** | **bool** | Property | [optional] [default to False]
