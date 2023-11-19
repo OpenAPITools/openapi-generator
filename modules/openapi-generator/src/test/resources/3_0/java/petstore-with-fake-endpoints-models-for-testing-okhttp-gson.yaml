@@ -2477,3 +2477,19 @@ components:
           type: string
         type_:
           type: string
+    AllOfModelArrayAnyOf:
+      allOf:
+        - $ref: "#/components/schemas/Category"
+        - type: object
+          properties:
+            linkListColumn1:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    anyOf:
+                      - $ref: '#/components/schemas/User'
+                      - $ref: '#/components/schemas/Tag'
+              required:
+                - value
