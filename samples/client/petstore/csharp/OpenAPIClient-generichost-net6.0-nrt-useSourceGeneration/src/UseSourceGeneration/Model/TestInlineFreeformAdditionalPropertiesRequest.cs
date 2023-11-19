@@ -30,14 +30,14 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// TestInlineFreeformAdditionalPropertiesRequest
     /// </summary>
-    public partial class TestInlineFreeformAdditionalPropertiesRequest : Dictionary<String, Object>, IValidatableObject
+    public partial class TestInlineFreeformAdditionalPropertiesRequest : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default) : base()
+        public TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default)
         {
             SomePropertyOption = someProperty;
             OnCreated();
@@ -72,7 +72,6 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -85,16 +84,6 @@ namespace UseSourceGeneration.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
