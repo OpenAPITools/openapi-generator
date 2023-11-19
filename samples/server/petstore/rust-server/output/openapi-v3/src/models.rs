@@ -295,7 +295,7 @@ impl std::string::ToString for AnotherXmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -815,7 +815,7 @@ impl std::string::ToString for DuplicateXmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -1233,7 +1233,7 @@ impl std::string::ToString for MultigetGet201Response {
         let params: Vec<Option<String>> = vec![
 
             self.foo.as_ref().map(|foo| {
-                vec![
+                [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
@@ -1574,7 +1574,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_null_default.as_ref().map(|nullable_with_null_default| {
-                vec![
+                [
                     "nullableWithNullDefault".to_string(),
                     nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1582,7 +1582,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_present_default.as_ref().map(|nullable_with_present_default| {
-                vec![
+                [
                     "nullableWithPresentDefault".to_string(),
                     nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1590,7 +1590,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_no_default.as_ref().map(|nullable_with_no_default| {
-                vec![
+                [
                     "nullableWithNoDefault".to_string(),
                     nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1598,7 +1598,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_array.as_ref().map(|nullable_array| {
-                vec![
+                [
                     "nullableArray".to_string(),
                     nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
                 ].join(",")
@@ -1750,7 +1750,7 @@ impl std::string::ToString for ObjectHeader {
 
 
             self.optional_object_header.as_ref().map(|optional_object_header| {
-                vec![
+                [
                     "optionalObjectHeader".to_string(),
                     optional_object_header.to_string(),
                 ].join(",")
@@ -1895,7 +1895,7 @@ impl std::string::ToString for ObjectParam {
 
 
             self.optional_param.as_ref().map(|optional_param| {
-                vec![
+                [
                     "optionalParam".to_string(),
                     optional_param.to_string(),
                 ].join(",")
@@ -2189,7 +2189,7 @@ impl std::string::ToString for ObjectWithArrayOfObjects {
         let params: Vec<Option<String>> = vec![
 
             self.object_array.as_ref().map(|object_array| {
-                vec![
+                [
                     "objectArray".to_string(),
                     object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -2963,7 +2963,7 @@ impl std::string::ToString for XmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "innerString".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -2971,7 +2971,7 @@ impl std::string::ToString for XmlObject {
 
 
             self.other_inner_rename.as_ref().map(|other_inner_rename| {
-                vec![
+                [
                     "other_inner_rename".to_string(),
                     other_inner_rename.to_string(),
                 ].join(",")

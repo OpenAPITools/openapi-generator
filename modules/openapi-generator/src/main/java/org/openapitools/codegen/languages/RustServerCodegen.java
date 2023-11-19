@@ -193,7 +193,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("ByteArray", bytesType);
         typeMapping.put("binary", bytesType);
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "chrono::DateTime::<chrono::Utc>");
+        typeMapping.put("date", "chrono::naive::NaiveDate");
         typeMapping.put("DateTime", "chrono::DateTime::<chrono::Utc>");
         typeMapping.put("password", "String");
         typeMapping.put("File", bytesType);
