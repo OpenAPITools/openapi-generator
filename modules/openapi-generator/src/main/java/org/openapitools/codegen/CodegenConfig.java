@@ -41,6 +41,8 @@ public interface CodegenConfig {
 
     String getVersionMetadataFilename();
 
+    GeneratorMetadata getGeneratorMetadata();
+
     CodegenType getTag();
 
     String getName();
