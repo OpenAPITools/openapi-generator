@@ -896,8 +896,8 @@ opts = {
   float: 3.4, # Float | None
   string: 'string_example', # String | None
   binary: File.new('/path/to/some/file'), # File | None
-  date: Date.parse('2013-10-20'), # Date | None
-  date_time: Time.parse('2013-10-20T19:20:30+01:00'), # Time | None
+  date: Date.parseAuthString('2013-10-20'), # Date | None
+  date_time: Time.parseAuthString('2013-10-20T19:20:30+01:00'), # Time | None
   password: 'password_example', # String | None
   callback: 'callback_example' # String | None
 }

@@ -670,7 +670,7 @@ public class Example {
     String string = "string_example"; // String | None
     File binary = new File("/path/to/file"); // File | None
     LocalDate date = LocalDate.now(); // LocalDate | None
-    OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
+    OffsetDateTime dateTime = OffsetDateTime.parseAuthString("2010-02-01T10:20:10.111110+01:00"); // OffsetDateTime | None
     String password = "password_example"; // String | None
     String paramCallback = "paramCallback_example"; // String | None
     try {

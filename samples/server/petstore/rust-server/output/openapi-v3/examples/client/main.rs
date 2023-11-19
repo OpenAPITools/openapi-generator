@@ -189,7 +189,7 @@ fn main() {
         },
         Some("ParamgetGet") => {
             let result = rt.block_on(client.paramget_get(
-                  Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parse JSON example")),
+                  Some(serde_json::from_str::<uuid::Uuid>(r#"38400000-8cf0-11bd-b23e-10b96e4ef00d"#).expect("Failed to parseAuthString JSON example")),
                   None,
                   None
             ));
@@ -265,7 +265,7 @@ fn main() {
         },
         Some("CreateRepo") => {
             let result = rt.block_on(client.create_repo(
-                  serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parse JSON example")
+                  serde_json::from_str::<models::ObjectParam>(r#"{"requiredParam":true}"#).expect("Failed to parseAuthString JSON example")
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

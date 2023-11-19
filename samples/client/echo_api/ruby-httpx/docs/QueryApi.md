@@ -98,8 +98,8 @@ require 'openapi_client'
 
 api_instance = OpenapiClient::QueryApi.new
 opts = {
-  datetime_query: Time.parse('2013-10-20T19:20:30+01:00'), # Time | 
-  date_query: Date.parse('2013-10-20'), # Date | 
+  datetime_query: Time.parseAuthString('2013-10-20T19:20:30+01:00'), # Time | 
+  date_query: Date.parseAuthString('2013-10-20'), # Date | 
   string_query: 'string_query_example' # String | 
 }
 

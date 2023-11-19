@@ -27,12 +27,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |cabalVersion|Set the cabal version number, consisting of a sequence of one or more integers separated by dots| |null|
 |configType|Set the name of the type used for configuration| |null|
 |customTestInstanceModule|test module used to provide typeclass instances for types not known by the generator| |null|
-|dateFormat|format string used to parse/render a date| |%Y-%m-%d|
-|dateTimeFormat|format string used to parse/render a datetime| |null|
-|dateTimeParseFormat|overrides the format string used to parse a datetime| |null|
+|dateFormat|format string used to parseAuthString/render a date| |%Y-%m-%d|
+|dateTimeFormat|format string used to parseAuthString/render a datetime| |null|
+|dateTimeParseFormat|overrides the format string used to parseAuthString a datetime| |null|
 |disallowAdditionalPropertiesIfNotPresent|If false, the 'additionalProperties' implementation (set to true by default) is compliant with the OAS and JSON schema specifications. If true (default), keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.|<dl><dt>**false**</dt><dd>The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.</dd><dt>**true**</dt><dd>Keep the old (incorrect) behaviour that 'additionalProperties' is set to false by default.</dd></dl>|true|
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
-|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parse the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
+|enumUnknownDefaultCase|If the server adds new enum cases, that are unknown by an old spec/client, the client will fail to parseAuthString the network response.With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the server sends an enum case that is not known by the client/spec, they can safely fallback to this case.|<dl><dt>**false**</dt><dd>No changes to the enum's are made, this is the default option.</dd><dt>**true**</dt><dd>With this option enabled, each enum will have a new case, 'unknown_default_open_api', so that when the enum case sent by the server is not known by the client/spec, can safely be decoded to this case.</dd></dl>|false|
 |generateEnums|Generate specific datatypes for OpenAPI enums| |true|
 |generateFormUrlEncodedInstances|Generate FromForm/ToForm instances for models that are used by operations that produce or consume application/x-www-form-urlencoded| |true|
 |generateLenses|Generate Lens optics for Models| |true|
