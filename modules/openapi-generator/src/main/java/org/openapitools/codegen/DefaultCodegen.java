@@ -1631,7 +1631,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @return A provided {@link GeneratorMetadata} instance
      */
-    @Override
+
     public GeneratorMetadata getGeneratorMetadata() {
         return generatorMetadata;
     }
