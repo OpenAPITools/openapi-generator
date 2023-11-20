@@ -97,6 +97,8 @@ class RESTClientObject:
 
     async def close(self):
         await self.pool_manager.close()
+        if self.retry_client is not None:
+            await self.retry_client.close()
 
     async def request(
         self,
@@ -195,7 +197,7 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
-        if self.retry_client and method in ALLOW_RETRY_METHODS:
+        if self.retry_client is not None and method in ALLOW_RETRY_METHODS:
             pool_manager = self.retry_client
         else:
             pool_manager = self.pool_manager
