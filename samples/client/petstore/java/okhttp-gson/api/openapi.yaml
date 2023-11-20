@@ -2477,6 +2477,8 @@ components:
       - properties:
           linkListColumn1:
             $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1'
+          attributes:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes'
         type: object
     _foo_get_default_response:
       example:
@@ -2674,7 +2676,15 @@ components:
       required:
       - value
       type: object
-      example: null
+    AllOfModelArrayAnyOf_allOf_attributes_C:
+      oneOf:
+      - $ref: '#/components/schemas/Pet'
+      - $ref: '#/components/schemas/Order'
+    AllOfModelArrayAnyOf_allOf_attributes:
+      properties:
+        C:
+          $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes_C'
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

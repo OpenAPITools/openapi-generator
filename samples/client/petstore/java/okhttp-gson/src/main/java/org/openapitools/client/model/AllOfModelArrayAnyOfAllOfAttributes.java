@@ -21,8 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributes;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1;
+import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributesC;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -49,102 +48,33 @@ import java.util.Set;
 import org.openapitools.client.JSON;
 
 /**
- * AllOfModelArrayAnyOf
+ * AllOfModelArrayAnyOfAllOfAttributes
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class AllOfModelArrayAnyOf {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
-  private Long id;
+public class AllOfModelArrayAnyOfAllOfAttributes {
+  public static final String SERIALIZED_NAME_C = "C";
+  @SerializedName(SERIALIZED_NAME_C)
+  private AllOfModelArrayAnyOfAllOfAttributesC C;
 
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
-  private String name = "default-name";
-
-  public static final String SERIALIZED_NAME_LINK_LIST_COLUMN1 = "linkListColumn1";
-  @SerializedName(SERIALIZED_NAME_LINK_LIST_COLUMN1)
-  private AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1;
-
-  public static final String SERIALIZED_NAME_ATTRIBUTES = "attributes";
-  @SerializedName(SERIALIZED_NAME_ATTRIBUTES)
-  private AllOfModelArrayAnyOfAllOfAttributes attributes;
-
-  public AllOfModelArrayAnyOf() {
+  public AllOfModelArrayAnyOfAllOfAttributes() {
   }
 
-  public AllOfModelArrayAnyOf id(Long id) {
-    this.id = id;
+  public AllOfModelArrayAnyOfAllOfAttributes C(AllOfModelArrayAnyOfAllOfAttributesC C) {
+    this.C = C;
     return this;
   }
 
    /**
-   * Get id
-   * @return id
+   * Get C
+   * @return C
   **/
   @javax.annotation.Nullable
-  public Long getId() {
-    return id;
+  public AllOfModelArrayAnyOfAllOfAttributesC getC() {
+    return C;
   }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-
-  public AllOfModelArrayAnyOf name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @javax.annotation.Nonnull
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-
-  public AllOfModelArrayAnyOf linkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
-    this.linkListColumn1 = linkListColumn1;
-    return this;
-  }
-
-   /**
-   * Get linkListColumn1
-   * @return linkListColumn1
-  **/
-  @javax.annotation.Nullable
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
-    return linkListColumn1;
-  }
-
-  public void setLinkListColumn1(AllOfModelArrayAnyOfAllOfLinkListColumn1 linkListColumn1) {
-    this.linkListColumn1 = linkListColumn1;
-  }
-
-
-  public AllOfModelArrayAnyOf attributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
-    this.attributes = attributes;
-    return this;
-  }
-
-   /**
-   * Get attributes
-   * @return attributes
-  **/
-  @javax.annotation.Nullable
-  public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
-    return attributes;
-  }
-
-  public void setAttributes(AllOfModelArrayAnyOfAllOfAttributes attributes) {
-    this.attributes = attributes;
+  public void setC(AllOfModelArrayAnyOfAllOfAttributesC C) {
+    this.C = C;
   }
 
   /**
@@ -160,9 +90,9 @@ public class AllOfModelArrayAnyOf {
    *
    * @param key name of the property
    * @param value value of the property
-   * @return the AllOfModelArrayAnyOf instance itself
+   * @return the AllOfModelArrayAnyOfAllOfAttributes instance itself
    */
-  public AllOfModelArrayAnyOf putAdditionalProperty(String key, Object value) {
+  public AllOfModelArrayAnyOfAllOfAttributes putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, Object>();
     }
@@ -201,27 +131,21 @@ public class AllOfModelArrayAnyOf {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AllOfModelArrayAnyOf allOfModelArrayAnyOf = (AllOfModelArrayAnyOf) o;
-    return Objects.equals(this.id, allOfModelArrayAnyOf.id) &&
-        Objects.equals(this.name, allOfModelArrayAnyOf.name) &&
-        Objects.equals(this.linkListColumn1, allOfModelArrayAnyOf.linkListColumn1) &&
-        Objects.equals(this.attributes, allOfModelArrayAnyOf.attributes)&&
-        Objects.equals(this.additionalProperties, allOfModelArrayAnyOf.additionalProperties);
+    AllOfModelArrayAnyOfAllOfAttributes allOfModelArrayAnyOfAllOfAttributes = (AllOfModelArrayAnyOfAllOfAttributes) o;
+    return Objects.equals(this.C, allOfModelArrayAnyOfAllOfAttributes.C)&&
+        Objects.equals(this.additionalProperties, allOfModelArrayAnyOfAllOfAttributes.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, linkListColumn1, attributes, additionalProperties);
+    return Objects.hash(C, additionalProperties);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AllOfModelArrayAnyOf {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    linkListColumn1: ").append(toIndentedString(linkListColumn1)).append("\n");
-    sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
+    sb.append("class AllOfModelArrayAnyOfAllOfAttributes {\n");
+    sb.append("    C: ").append(toIndentedString(C)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -245,46 +169,28 @@ public class AllOfModelArrayAnyOf {
   static {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
-    openapiFields.add("id");
-    openapiFields.add("name");
-    openapiFields.add("linkListColumn1");
-    openapiFields.add("attributes");
+    openapiFields.add("C");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
-    openapiRequiredFields.add("name");
   }
 
  /**
   * Validates the JSON Element and throws an exception if issues found
   *
   * @param jsonElement JSON Element
-  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOf
+  * @throws IOException if the JSON Element is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
   */
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
       if (jsonElement == null) {
-        if (!AllOfModelArrayAnyOf.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
-          throw new IllegalArgumentException(String.format("The required field(s) %s in AllOfModelArrayAnyOf is not found in the empty JSON string", AllOfModelArrayAnyOf.openapiRequiredFields.toString()));
-        }
-      }
-
-      // check to make sure all required properties/fields are present in the JSON string
-      for (String requiredField : AllOfModelArrayAnyOf.openapiRequiredFields) {
-        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
+        if (!AllOfModelArrayAnyOfAllOfAttributes.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
+          throw new IllegalArgumentException(String.format("The required field(s) %s in AllOfModelArrayAnyOfAllOfAttributes is not found in the empty JSON string", AllOfModelArrayAnyOfAllOfAttributes.openapiRequiredFields.toString()));
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if (!jsonObj.get("name").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
-      }
-      // validate the optional field `linkListColumn1`
-      if (jsonObj.get("linkListColumn1") != null && !jsonObj.get("linkListColumn1").isJsonNull()) {
-        AllOfModelArrayAnyOfAllOfLinkListColumn1.validateJsonElement(jsonObj.get("linkListColumn1"));
-      }
-      // validate the optional field `attributes`
-      if (jsonObj.get("attributes") != null && !jsonObj.get("attributes").isJsonNull()) {
-        AllOfModelArrayAnyOfAllOfAttributes.validateJsonElement(jsonObj.get("attributes"));
+      // validate the optional field `C`
+      if (jsonObj.get("C") != null && !jsonObj.get("C").isJsonNull()) {
+        AllOfModelArrayAnyOfAllOfAttributesC.validateJsonElement(jsonObj.get("C"));
       }
   }
 
@@ -292,16 +198,16 @@ public class AllOfModelArrayAnyOf {
     @SuppressWarnings("unchecked")
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-       if (!AllOfModelArrayAnyOf.class.isAssignableFrom(type.getRawType())) {
-         return null; // this class only serializes 'AllOfModelArrayAnyOf' and its subtypes
+       if (!AllOfModelArrayAnyOfAllOfAttributes.class.isAssignableFrom(type.getRawType())) {
+         return null; // this class only serializes 'AllOfModelArrayAnyOfAllOfAttributes' and its subtypes
        }
        final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-       final TypeAdapter<AllOfModelArrayAnyOf> thisAdapter
-                        = gson.getDelegateAdapter(this, TypeToken.get(AllOfModelArrayAnyOf.class));
+       final TypeAdapter<AllOfModelArrayAnyOfAllOfAttributes> thisAdapter
+                        = gson.getDelegateAdapter(this, TypeToken.get(AllOfModelArrayAnyOfAllOfAttributes.class));
 
-       return (TypeAdapter<T>) new TypeAdapter<AllOfModelArrayAnyOf>() {
+       return (TypeAdapter<T>) new TypeAdapter<AllOfModelArrayAnyOfAllOfAttributes>() {
            @Override
-           public void write(JsonWriter out, AllOfModelArrayAnyOf value) throws IOException {
+           public void write(JsonWriter out, AllOfModelArrayAnyOfAllOfAttributes value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
              // serialize additional properties
@@ -324,12 +230,12 @@ public class AllOfModelArrayAnyOf {
            }
 
            @Override
-           public AllOfModelArrayAnyOf read(JsonReader in) throws IOException {
+           public AllOfModelArrayAnyOfAllOfAttributes read(JsonReader in) throws IOException {
              JsonElement jsonElement = elementAdapter.read(in);
              validateJsonElement(jsonElement);
              JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
-             AllOfModelArrayAnyOf instance = thisAdapter.fromJsonTree(jsonObj);
+             AllOfModelArrayAnyOfAllOfAttributes instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
                if (!openapiFields.contains(entry.getKey())) {
                  if (entry.getValue().isJsonPrimitive()) { // primitive type
@@ -356,18 +262,18 @@ public class AllOfModelArrayAnyOf {
   }
 
  /**
-  * Create an instance of AllOfModelArrayAnyOf given an JSON string
+  * Create an instance of AllOfModelArrayAnyOfAllOfAttributes given an JSON string
   *
   * @param jsonString JSON string
-  * @return An instance of AllOfModelArrayAnyOf
-  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOf
+  * @return An instance of AllOfModelArrayAnyOfAllOfAttributes
+  * @throws IOException if the JSON string is invalid with respect to AllOfModelArrayAnyOfAllOfAttributes
   */
-  public static AllOfModelArrayAnyOf fromJson(String jsonString) throws IOException {
-    return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOf.class);
+  public static AllOfModelArrayAnyOfAllOfAttributes fromJson(String jsonString) throws IOException {
+    return JSON.getGson().fromJson(jsonString, AllOfModelArrayAnyOfAllOfAttributes.class);
   }
 
  /**
-  * Convert an instance of AllOfModelArrayAnyOf to an JSON string
+  * Convert an instance of AllOfModelArrayAnyOfAllOfAttributes to an JSON string
   *
   * @return JSON string
   */

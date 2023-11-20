@@ -164,6 +164,8 @@ Class | Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [AllOfModelArrayAnyOf](docs/AllOfModelArrayAnyOf.md)
+ - [AllOfModelArrayAnyOfAllOfAttributes](docs/AllOfModelArrayAnyOfAllOfAttributes.md)
+ - [AllOfModelArrayAnyOfAllOfAttributesC](docs/AllOfModelArrayAnyOfAllOfAttributesC.md)
  - [AllOfModelArrayAnyOfAllOfLinkListColumn1](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md)
  - [AllOfModelArrayAnyOfAllOfLinkListColumn1Value](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md)
  - [Animal](docs/Animal.md)
