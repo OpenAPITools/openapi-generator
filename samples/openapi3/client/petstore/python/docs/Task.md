@@ -3,6 +3,7 @@
 Used to test oneOf enums with only one string value.
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **str** |  | 
