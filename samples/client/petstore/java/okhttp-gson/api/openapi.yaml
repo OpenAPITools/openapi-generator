@@ -2676,7 +2676,6 @@ components:
       required:
       - value
       type: object
-      example: null
     AllOfModelArrayAnyOf_allOf_attributes_C:
       oneOf:
       - $ref: '#/components/schemas/Pet'
@@ -2686,7 +2685,6 @@ components:
         C:
           $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes_C'
       type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

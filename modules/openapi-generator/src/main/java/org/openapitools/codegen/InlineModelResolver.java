@@ -893,8 +893,10 @@ public class InlineModelResolver {
         // including object types.
         model.setFormat(object.getFormat());
 
+        if (object.getExample() != null) {
+            model.setExample(example);
+        }
         model.setDescription(description);
-        model.setExample(example);
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());
