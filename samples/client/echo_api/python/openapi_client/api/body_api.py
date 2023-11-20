@@ -101,8 +101,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray"
-            
+            '200': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -165,8 +164,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray"
-            
+            '200': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -229,8 +227,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "bytearray"
-            
+            '200': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -351,8 +348,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -419,8 +415,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -487,8 +482,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -630,8 +624,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -698,8 +691,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -766,8 +758,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -905,8 +896,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -973,8 +963,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1041,8 +1030,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1179,8 +1167,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1247,8 +1234,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1315,8 +1301,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1453,8 +1438,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1521,8 +1505,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1589,8 +1572,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pet"
-            
+            '200': "Pet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1727,8 +1709,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1795,8 +1776,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1863,8 +1843,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2001,8 +1980,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2069,8 +2047,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2137,8 +2114,7 @@ class BodyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "str"
-            
+            '200': "str",
         }
         response_data = self.api_client.call_api(
             *_param,

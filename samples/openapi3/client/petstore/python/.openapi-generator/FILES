@@ -84,6 +84,8 @@ docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestErrorResponsesWithModel400Response.md
+docs/TestErrorResponsesWithModel404Response.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Tiger.md
 docs/UnnamedDictWithAdditionalModelListProperties.md
@@ -181,6 +183,8 @@ petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py
+petstore_api/models/test_error_responses_with_model400_response.py
+petstore_api/models/test_error_responses_with_model404_response.py
 petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/tiger.py
 petstore_api/models/unnamed_dict_with_additional_model_list_properties.py

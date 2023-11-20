@@ -142,7 +142,6 @@ public class NewPet {
   }
 
   public NewPet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -156,14 +155,12 @@ public class NewPet {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public NewPet categoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
-    
     this.categoryInlineAllof = categoryInlineAllof;
     return this;
   }
@@ -177,14 +174,12 @@ public class NewPet {
     return categoryInlineAllof;
   }
 
-
   public void setCategoryInlineAllof(NewPetCategoryInlineAllof categoryInlineAllof) {
     this.categoryInlineAllof = categoryInlineAllof;
   }
 
 
   public NewPet categoryAllOfRef(Category categoryAllOfRef) {
-    
     this.categoryAllOfRef = categoryAllOfRef;
     return this;
   }
@@ -198,14 +193,12 @@ public class NewPet {
     return categoryAllOfRef;
   }
 
-
   public void setCategoryAllOfRef(Category categoryAllOfRef) {
     this.categoryAllOfRef = categoryAllOfRef;
   }
 
 
   public NewPet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -219,14 +212,12 @@ public class NewPet {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public NewPet photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -248,14 +239,12 @@ public class NewPet {
     return photoUrls;
   }
 
-
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
   public NewPet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -277,14 +266,12 @@ public class NewPet {
     return tags;
   }
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
 
   public NewPet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -297,7 +284,6 @@ public class NewPet {
   public StatusEnum getStatus() {
     return status;
   }
-
 
   public void setStatus(StatusEnum status) {
     this.status = status;

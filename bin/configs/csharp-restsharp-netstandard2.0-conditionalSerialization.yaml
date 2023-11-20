@@ -10,3 +10,4 @@ additionalProperties:
   useOneOfDiscriminatorLookup: true
   targetFramework:  netstandard2.0
   conditionalSerialization: true
+  equatable: true

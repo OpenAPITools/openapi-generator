@@ -4175,6 +4175,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getExtensions() != null) {
                 property.getVendorExtensions().putAll(original.getExtensions());
             }
+            if (original.getDeprecated() != null) {
+                property.deprecated = p.getDeprecated();
+            }
         }
 
         // set the default value
@@ -4665,18 +4668,19 @@ public class DefaultCodegen implements CodegenConfig {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
 
-                bodyParams.add(bodyParam);
+                if (bodyParam != null) {
+                    bodyParam.description = escapeText(requestBody.getDescription());
+                    postProcessParameter(bodyParam);
+                    bodyParams.add(bodyParam);
+                    if (prependFormOrBodyParameters) {
+                        allParams.add(bodyParam);
+                    }
 
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
-
-                // add example
-                if (schemas != null && !isSkipOperationExample()) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    // add example
+                    if (schemas != null && !isSkipOperationExample()) {
+                        op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    }
                 }
             }
         }
@@ -7605,6 +7609,10 @@ public class DefaultCodegen implements CodegenConfig {
         String name = null;
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in the request body: {}", body);
+            return null;
+        }
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
@@ -7697,6 +7705,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             if (original.getExtensions() != null) {
                 codegenParameter.vendorExtensions.putAll(original.getExtensions());
+            }
+
+            if (original.getDeprecated() != null) {
+                codegenParameter.isDeprecated = original.getDeprecated();
             }
         }
 

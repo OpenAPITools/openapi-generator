@@ -558,11 +558,31 @@ paths:
             text/plain:
               schema:
                 type: string
+  # To test http bearer auth
+  /auth/http/bearer:
+    post:
+      tags:
+        - auth
+      security:
+        - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   securitySchemes:
     http_auth:
       type: http
       scheme: basic
+    http_bearer_auth:
+      type: http
+      scheme: bearer
   requestBodies:
     Pet:
       content:

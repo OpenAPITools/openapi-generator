@@ -290,7 +290,6 @@ public class EnumTest implements Parcelable {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    
     this.enumString = enumString;
     return this;
   }
@@ -304,14 +303,12 @@ public class EnumTest implements Parcelable {
     return enumString;
   }
 
-
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -325,14 +322,12 @@ public class EnumTest implements Parcelable {
     return enumStringRequired;
   }
 
-
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -346,14 +341,12 @@ public class EnumTest implements Parcelable {
     return enumInteger;
   }
 
-
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -367,14 +360,12 @@ public class EnumTest implements Parcelable {
     return enumNumber;
   }
 
-
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    
     this.outerEnum = outerEnum;
     return this;
   }
@@ -387,7 +378,6 @@ public class EnumTest implements Parcelable {
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
-
 
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;

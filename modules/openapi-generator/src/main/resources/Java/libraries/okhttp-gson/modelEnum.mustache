@@ -1,26 +1,14 @@
-{{#jackson}}
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-{{/jackson}}
-{{#gson}}
 import java.io.IOException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-{{/gson}}
 
 /**
  * {{description}}{{^description}}Gets or Sets {{{name}}}{{/description}}
  */
-{{#gson}}
 @JsonAdapter({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.Adapter.class)
-{{/gson}}
-{{#jsonb}}
-@JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
-@JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
-{{/jsonb}}
 {{>additionalEnumTypeAnnotations}}public enum {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} {
   {{#allowableValues}}{{#enumVars}}
     {{#enumDescription}}
@@ -40,9 +28,6 @@ import com.google.gson.stream.JsonWriter;
     this.value = value;
   }
 
-{{#jackson}}
-  @JsonValue
-{{/jackson}}
   public {{{dataType}}} getValue() {
     return value;
   }
@@ -52,9 +37,6 @@ import com.google.gson.stream.JsonWriter;
     return String.valueOf(value);
   }
 
-{{#jackson}}
-  @JsonCreator
-{{/jackson}}
   public static {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} fromValue({{{dataType}}} value) {
     for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
       if (b.value.{{^isString}}equals{{/isString}}{{#isString}}{{#useEnumCaseInsensitive}}equalsIgnoreCase{{/useEnumCaseInsensitive}}{{^useEnumCaseInsensitive}}equals{{/useEnumCaseInsensitive}}{{/isString}}(value)) {
@@ -63,7 +45,6 @@ import com.google.gson.stream.JsonWriter;
     }
     {{#isNullable}}return null;{{/isNullable}}{{^isNullable}}{{#enumUnknownDefaultCase}}{{#allowableValues}}{{#enumVars}}{{#-last}}return {{{name}}};{{/-last}}{{/enumVars}}{{/allowableValues}}{{/enumUnknownDefaultCase}}{{^enumUnknownDefaultCase}}throw new IllegalArgumentException("Unexpected value '" + value + "'");{{/enumUnknownDefaultCase}}{{/isNullable}}
   }
-{{#gson}}
 
   public static class Adapter extends TypeAdapter<{{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}> {
     @Override
@@ -82,28 +63,6 @@ import com.google.gson.stream.JsonWriter;
     {{^isNumber}}{{{dataType}}}{{/isNumber}}{{#isNumber}}String{{/isNumber}} value = jsonElement.{{#isNumber}}getAsString(){{/isNumber}}{{#isInteger}}getAsInt(){{/isInteger}}{{^isNumber}}{{^isInteger}}getAs{{{dataType}}}(){{/isInteger}}{{/isNumber}};
     {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.fromValue({{#isNumber}}new BigDecimal({{/isNumber}}value{{#isNumber}}){{/isNumber}});
   }
-{{/gson}}
-{{#jsonb}}
-
-  public static final class Deserializer implements JsonbDeserializer<{{datatypeWithEnum}}> {
-    @Override
-    public {{datatypeWithEnum}} deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
-      for ({{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}} b : {{{datatypeWithEnum}}}{{^datatypeWithEnum}}{{{classname}}}{{/datatypeWithEnum}}.values()) {
-        if (String.valueOf(b.value).equals(parser.getString())) {
-          return b;
-        }
-      }
-      {{#useNullForUnknownEnumValue}}return null;{{/useNullForUnknownEnumValue}}{{^useNullForUnknownEnumValue}}throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");{{/useNullForUnknownEnumValue}}
-    }
-  }
-
-  public static final class Serializer implements JsonbSerializer<{{datatypeWithEnum}}> {
-    @Override
-    public void serialize({{datatypeWithEnum}} obj, JsonGenerator generator, SerializationContext ctx) {
-      generator.write(obj.value);
-    }
-  }
-{{/jsonb}}
 {{#supportUrlQuery}}
 
   /**

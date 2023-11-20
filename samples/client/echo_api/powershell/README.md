@@ -52,6 +52,7 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**Test-AuthHttpBasic**](docs/AuthApi.md#Test-AuthHttpBasic) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**Test-AuthHttpBearer**](docs/AuthApi.md#Test-AuthHttpBearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication
 *BodyApi* | [**Test-BinaryGif**](docs/BodyApi.md#Test-BinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**Test-BodyApplicationOctetstreamBinary**](docs/BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**Test-BodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
@@ -99,4 +100,10 @@ Authentication schemes defined for the API:
 
 
 - **Type**: HTTP basic authentication
+
+<a id="http_bearer_auth"></a>
+### http_bearer_auth
+
+
+- **Type**: HTTP Bearer Token authentication
 

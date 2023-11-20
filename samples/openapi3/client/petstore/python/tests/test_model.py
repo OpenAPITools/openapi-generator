@@ -8,8 +8,10 @@ import time
 import unittest
 
 from pydantic import ValidationError
+import pytest
 
 import petstore_api
+from petstore_api import InnerDictWithProperty
 
 
 class ModelTests(unittest.TestCase):
@@ -507,6 +509,19 @@ class ModelTests(unittest.TestCase):
         b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
         self.assertFalse(b is None)
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
+
+    def test_freeform_object(self):
+        # Allows dict[str, Any] and is nullable
+        a = InnerDictWithProperty.from_dict({"aProperty": {"a": 12}})
+        a = InnerDictWithProperty.from_dict({"aProperty": None})
+
+        # Allows no other values
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": {123: 45}})
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": "abc"})
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": 12})
 
     def test_object_with_dict_of_dict_of_object(self):
         # for https://github.com/OpenAPITools/openapi-generator/issues/15135

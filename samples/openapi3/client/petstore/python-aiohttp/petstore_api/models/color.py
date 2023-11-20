@@ -46,7 +46,8 @@ class Color(BaseModel):
     one_of_schemas: List[str] = Literal["List[int]", "str"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 

@@ -60,7 +60,6 @@ public class FooGetDefaultResponse {
   }
 
   public FooGetDefaultResponse string(Foo string) {
-    
     this.string = string;
     return this;
   }
@@ -73,7 +72,6 @@ public class FooGetDefaultResponse {
   public Foo getString() {
     return string;
   }
-
 
   public void setString(Foo string) {
     this.string = string;

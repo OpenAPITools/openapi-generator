@@ -23,6 +23,7 @@ This can only be done by the logged in user.
 
 ### Example
 
+
 ```python
 import time
 import os
@@ -55,6 +56,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | [**User**](User.md)| Created user object | 
@@ -73,6 +75,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -87,6 +90,7 @@ Creates list of users with given input array
 
 
 ### Example
+
 
 ```python
 import time
@@ -120,6 +124,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | [**List[User]**](User.md)| List of user object | 
@@ -138,6 +143,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -152,6 +158,7 @@ Creates list of users with given input array
 
 
 ### Example
+
 
 ```python
 import time
@@ -185,6 +192,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **user** | [**List[User]**](User.md)| List of user object | 
@@ -203,6 +211,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -217,6 +226,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -249,6 +259,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| The name that needs to be deleted | 
@@ -267,6 +278,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid username supplied |  -  |
@@ -282,6 +294,7 @@ Get user by user name
 
 
 ### Example
+
 
 ```python
 import time
@@ -317,6 +330,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| The name that needs to be fetched. Use user1 for testing. | 
@@ -335,6 +349,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -351,6 +366,7 @@ Logs user into the system
 
 
 ### Example
+
 
 ```python
 import time
@@ -386,6 +402,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| The user name for login | 
@@ -405,6 +422,7 @@ No authorization required
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
@@ -420,6 +438,7 @@ Logs out current logged in user session
 
 
 ### Example
+
 
 ```python
 import time
@@ -450,6 +469,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -466,6 +486,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | successful operation |  -  |
@@ -480,6 +501,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 
 ```python
 import time
@@ -514,6 +536,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| name that need to be deleted | 
@@ -533,6 +556,7 @@ No authorization required
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **400** | Invalid user supplied |  -  |

@@ -1,2 +1,2 @@
-testCase,httpStatusCode,orderId,orderId,body
+testCase,httpStatusCode,orderId,orderId,order
 Success,200,0,0,0

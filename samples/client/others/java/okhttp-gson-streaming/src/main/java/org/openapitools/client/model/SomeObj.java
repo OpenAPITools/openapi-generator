@@ -128,7 +128,6 @@ public class SomeObj implements Serializable {
   }
 
   public SomeObj $type(TypeEnum $type) {
-    
     this.$type = $type;
     return this;
   }
@@ -142,14 +141,12 @@ public class SomeObj implements Serializable {
     return $type;
   }
 
-
   public void set$Type(TypeEnum $type) {
     this.$type = $type;
   }
 
 
   public SomeObj id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -163,14 +160,12 @@ public class SomeObj implements Serializable {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public SomeObj name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -184,14 +179,12 @@ public class SomeObj implements Serializable {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public SomeObj active(Boolean active) {
-    
     this.active = active;
     return this;
   }
@@ -205,14 +198,12 @@ public class SomeObj implements Serializable {
     return active;
   }
 
-
   public void setActive(Boolean active) {
     this.active = active;
   }
 
 
   public SomeObj type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -225,7 +216,6 @@ public class SomeObj implements Serializable {
   public String getType() {
     return type;
   }
-
 
   public void setType(String type) {
     this.type = type;
