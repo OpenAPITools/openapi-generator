@@ -2493,3 +2493,10 @@ components:
                       - $ref: '#/components/schemas/Tag'
               required:
                 - value
+            attributes:
+              type: object
+              properties:
+                C:
+                  oneOf:
+                  - $ref: '#/components/schemas/Pet'
+                  - $ref: '#/components/schemas/Order'

@@ -7,6 +7,8 @@ build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
 docs/AllOfModelArrayAnyOf.md
+docs/AllOfModelArrayAnyOfAllOfAttributes.md
+docs/AllOfModelArrayAnyOfAllOfAttributesC.md
 docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md
 docs/Animal.md
 docs/AnotherFakeApi.md
@@ -141,6 +143,8 @@ src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
 src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOf.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributes.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributesC.java
 src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
