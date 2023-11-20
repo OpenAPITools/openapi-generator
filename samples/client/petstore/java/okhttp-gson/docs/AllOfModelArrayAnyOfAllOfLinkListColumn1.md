@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**value** | [**List&lt;AnyOfUserTag&gt;**](AnyOfUserTag.md) |  |  |
+|**value** | [**List&lt;AllOfModelArrayAnyOfAllOfLinkListColumn1Value&gt;**](AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md) |  |  |
 
 
 
