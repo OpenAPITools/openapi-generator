@@ -426,10 +426,7 @@ class ObjectSerializer
             return $deserialized;
         }
 
-        if ($class === 'object') {
-            settype($data, 'array');
-            return $data;
-        } elseif ($class === 'mixed') {
+        if ($class === 'mixed') {
             settype($data, gettype($data));
             return $data;
         }

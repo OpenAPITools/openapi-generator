@@ -23,6 +23,7 @@ Test binary (gif) response body
 
 ### Example
 
+
 ```python
 import time
 import os
@@ -54,6 +55,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -70,6 +72,7 @@ No authorization required
  - **Accept**: image/gif
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -84,6 +87,7 @@ Test body parameter(s)
 Test body parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -118,6 +122,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bytearray**|  | [optional] 
@@ -136,6 +141,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -150,6 +156,7 @@ Test array of binary in multipart mime
 Test array of binary in multipart mime
 
 ### Example
+
 
 ```python
 import time
@@ -184,6 +191,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **files** | **List[bytearray]**|  | 
@@ -202,6 +210,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -216,6 +225,7 @@ Test body parameter(s)
 Test body parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -251,6 +261,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
@@ -269,6 +280,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -283,6 +295,7 @@ Test free form object
 Test free form object
 
 ### Example
+
 
 ```python
 import time
@@ -317,6 +330,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **object**| Free form object | [optional] 
@@ -335,6 +349,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -349,6 +364,7 @@ Test body parameter(s)
 Test body parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -384,6 +400,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
@@ -402,6 +419,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -416,6 +434,7 @@ Test empty response body
 Test empty response body
 
 ### Example
+
 
 ```python
 import time
@@ -451,6 +470,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
@@ -469,6 +489,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -483,6 +504,7 @@ Test empty json (request body)
 Test empty json (request body)
 
 ### Example
+
 
 ```python
 import time
@@ -518,6 +540,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tag** | [**Tag**](Tag.md)| Tag object | [optional] 
@@ -536,6 +559,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |

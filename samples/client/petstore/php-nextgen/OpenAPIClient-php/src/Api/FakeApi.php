@@ -185,7 +185,7 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\FakeBigDecimalMap200Response
      */
@@ -202,7 +202,7 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeBigDecimalMap'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\FakeBigDecimalMap200Response, HTTP status code, HTTP response headers (array of strings)
      */
@@ -254,7 +254,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\FakeBigDecimalMap200Response' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -271,7 +283,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -452,7 +476,7 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\HealthCheckResult
      */
@@ -471,7 +495,7 @@ class FakeApi
      *
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHealthGet'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\HealthCheckResult, HTTP status code, HTTP response headers (array of strings)
      */
@@ -523,7 +547,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\HealthCheckResult' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -540,7 +576,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -728,7 +776,7 @@ class FakeApi
      * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -752,7 +800,7 @@ class FakeApi
      * @param  string|null $header_1 header parameter (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeHttpSignatureTest'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1002,7 +1050,7 @@ class FakeApi
      * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return bool
      */
@@ -1021,7 +1069,7 @@ class FakeApi
      * @param  bool|null $body Input boolean as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterBooleanSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of bool, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1074,7 +1122,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('bool' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1091,7 +1151,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1285,7 +1357,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterComposite
      */
@@ -1304,7 +1376,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterComposite|null $outer_composite Input composite as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterCompositeSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1357,7 +1429,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\OuterComposite' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1374,7 +1458,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1568,7 +1664,7 @@ class FakeApi
      * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return float
      */
@@ -1587,7 +1683,7 @@ class FakeApi
      * @param  float|null $body Input number as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterNumberSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of float, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1640,7 +1736,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('float' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1657,7 +1765,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -1851,7 +1971,7 @@ class FakeApi
      * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -1870,7 +1990,7 @@ class FakeApi
      * @param  string|null $body Input string as post body (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakeOuterStringSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1923,7 +2043,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -1940,7 +2072,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -2134,7 +2278,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterObjectWithEnumProperty
      */
@@ -2153,7 +2297,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\OuterObjectWithEnumProperty $outer_object_with_enum_property Input enum (int) as post body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fakePropertyEnumIntegerSerialize'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterObjectWithEnumProperty, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2206,7 +2350,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\OuterObjectWithEnumProperty' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -2223,7 +2379,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -2423,7 +2591,7 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -2441,7 +2609,7 @@ class FakeApi
      * @param  \SplFileObject $body image to upload (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithBinary'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2658,7 +2826,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -2676,7 +2844,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithFileSchema'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -2894,7 +3062,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -2914,7 +3082,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\User $user (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testBodyWithQueryParams'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -3156,7 +3324,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
@@ -3177,7 +3345,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\Client $client client model (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testClientModel'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
@@ -3230,7 +3398,19 @@ class FakeApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('\OpenAPI\Client\Model\Client' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -3247,7 +3427,19 @@ class FakeApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                         );
+                    }
                 }
             }
 
@@ -3466,7 +3658,7 @@ class FakeApi
      * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -3512,7 +3704,7 @@ class FakeApi
      * @param  string|null $callback None (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEndpointParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -3965,7 +4157,7 @@ class FakeApi
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -4001,7 +4193,7 @@ class FakeApi
      * @param  string|null $enum_form_string Form parameter enum test (string) (optional, default to '-efg')
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testEnumParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -4346,7 +4538,7 @@ class FakeApi
      * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -4372,7 +4564,7 @@ class FakeApi
      * @param  int|null $int64_group Integer in group parameters (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testGroupParameters'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -4678,7 +4870,7 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -4698,7 +4890,7 @@ class FakeApi
      * @param  array<string,string> $request_body request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -4921,7 +5113,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -4941,7 +5133,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testInlineFreeformAdditionalProperties'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -5165,7 +5357,7 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -5187,7 +5379,7 @@ class FakeApi
      * @param  string $param2 field2 (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testJsonFormData'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -5425,7 +5617,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -5445,7 +5637,7 @@ class FakeApi
      * @param  \OpenAPI\Client\Model\ChildWithNullable $child_with_nullable request body (required)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testNullable'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -5672,7 +5864,7 @@ class FakeApi
      * @param  array<string,string>|null $language language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return void
      */
@@ -5702,7 +5894,7 @@ class FakeApi
      * @param  array<string,string>|null $language (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testQueryParameterCollectionFormat'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */

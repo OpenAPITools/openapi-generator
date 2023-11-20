@@ -94,7 +94,18 @@ namespace Org.OpenAPITools.Client
         /// <returns>Object representation of the JSON string.</returns>
         internal async Task<object> Deserialize(HttpResponseMessage response, Type type)
         {
-            IList<string> headers = response.Headers.Select(x => x.Key + "=" + x.Value).ToList();
+            IList<string> headers = new List<string>();
+            // process response headers, e.g. Access-Control-Allow-Methods
+            foreach (var responseHeader in response.Headers)
+            {
+                headers.Add(responseHeader.Key + "=" +  ClientUtils.ParameterToString(responseHeader.Value));
+            }
+
+            // process response content headers, e.g. Content-Type
+            foreach (var responseHeader in response.Content.Headers)
+            {
+                headers.Add(responseHeader.Key + "=" +  ClientUtils.ParameterToString(responseHeader.Value));
+            }
 
             if (type == typeof(byte[])) // return byte array
             {
