@@ -17,7 +17,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 ## createUser
 
-> void createUser(body)
+> void createUser(user)
 
 Create user
 
@@ -30,6 +30,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -37,11 +38,17 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        User body = new User(); // User | Created user object
+        User user = new User(); // User | Created user object
         try {
-            void result = apiInstance.createUser(body);
+            void result = apiInstance.createUser(user);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
@@ -59,7 +66,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**User**](User.md)| Created user object | |
+| **user** | [**User**](User.md)| Created user object | |
 
 ### Return type
 
@@ -67,11 +74,11 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
@@ -83,9 +90,11 @@ No authorization required
 
 ## createUsersWithArrayInput
 
-> void createUsersWithArrayInput(body)
+> void createUsersWithArrayInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -94,6 +103,7 @@ Creates list of users with given input array
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -101,11 +111,17 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            void result = apiInstance.createUsersWithArrayInput(body);
+            void result = apiInstance.createUsersWithArrayInput(user);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
@@ -123,7 +139,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -131,11 +147,11 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
@@ -147,9 +163,11 @@ No authorization required
 
 ## createUsersWithListInput
 
-> void createUsersWithListInput(body)
+> void createUsersWithListInput(user)
 
 Creates list of users with given input array
+
+
 
 ### Example
 
@@ -158,6 +176,7 @@ Creates list of users with given input array
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -165,11 +184,17 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<User> user = Arrays.asList(); // List<User> | List of user object
         try {
-            void result = apiInstance.createUsersWithListInput(body);
+            void result = apiInstance.createUsersWithListInput(user);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
@@ -187,7 +212,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
+| **user** | [**List&lt;User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -195,11 +220,11 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
@@ -224,6 +249,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -231,6 +257,12 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | The name that needs to be deleted
@@ -261,7 +293,7 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -281,6 +313,8 @@ No authorization required
 > User getUserByName(username)
 
 Get user by user name
+
+
 
 ### Example
 
@@ -348,6 +382,8 @@ No authorization required
 
 Logs user into the system
 
+
+
 ### Example
 
 ```java
@@ -405,7 +441,7 @@ No authorization required
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
+| **200** | successful operation |  * Set-Cookie - Cookie authentication key for use with the &#x60;api_key&#x60; apiKey authentication. <br>  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
 | **400** | Invalid username/password supplied |  -  |
 
 
@@ -415,6 +451,8 @@ No authorization required
 
 Logs out current logged in user session
 
+
+
 ### Example
 
 ```java
@@ -422,6 +460,7 @@ Logs out current logged in user session
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -429,6 +468,12 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
         try {
@@ -455,7 +500,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -471,7 +516,7 @@ No authorization required
 
 ## updateUser
 
-> void updateUser(username, body)
+> void updateUser(username, user)
 
 Updated user
 
@@ -484,6 +529,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
@@ -491,12 +537,18 @@ public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
         defaultClient.setBasePath("http://petstore.swagger.io/v2");
+        
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
 
         UserApi apiInstance = new UserApi(defaultClient);
         String username = "username_example"; // String | name that need to be deleted
-        User body = new User(); // User | Updated user object
+        User user = new User(); // User | Updated user object
         try {
-            void result = apiInstance.updateUser(username, body);
+            void result = apiInstance.updateUser(username, user);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
@@ -515,7 +567,7 @@ public class Example {
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **username** | **String**| name that need to be deleted | |
-| **body** | [**User**](User.md)| Updated user object | |
+| **user** | [**User**](User.md)| Updated user object | |
 
 ### Return type
 
@@ -523,11 +575,11 @@ public class Example {
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 
