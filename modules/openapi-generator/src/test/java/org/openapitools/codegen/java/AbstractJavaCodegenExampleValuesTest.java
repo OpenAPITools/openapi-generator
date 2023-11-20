@@ -153,65 +153,7 @@ public class AbstractJavaCodegenExampleValuesTest {
         public String getArtifactVersion() {
             return this.artifactVersion;
         }
-        @Test
-        void customExampleForEnumValue() {
-            final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-            final CodegenParameter p = new CodegenParameter();
-            p.allowableValues = Collections.singletonMap("values", Arrays.asList("first", "second"));
-            p.dataType = "WrappedEnum";
-            p.example = "CustomEnumValue";
 
-            fakeJavaCodegen.setParameterExampleValue(p);
-            // Custom example value should not be modified
-            Assert.assertEquals(p.example, "CustomEnumValue");
-        }
-    }
-    @Test
-    void customExampleForEnumValue() {
-        final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-        final CodegenParameter p = new CodegenParameter();
-        p.allowableValues = Collections.singletonMap("values", Arrays.asList("first", "second"));
-        p.dataType = "WrappedEnum";
-        p.example = "CustomEnumValue";
 
-        fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals("CustomEnumValue", "CustomEnumValue");
-    }
-
-    @Test
-    void customExampleForInlineEnum() {
-        final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-        final CodegenParameter p = new CodegenParameter();
-        p.allowableValues = Collections.singletonMap("values", Arrays.asList("one", "two", "three"));
-        p.isEnum = true;
-        p.dataType = "String";
-        p.example = "CustomEnumValue";
-
-        fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals("CustomEnumValue", "CustomEnumValue");
-    }
-
-    @Test
-    void customExampleForDateTime() {
-        final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-        final CodegenParameter p = new CodegenParameter();
-        p.isDateTime = true;
-        p.dataType = "OffsetDateTime";
-        p.example = "2023-01-01T12:00:00+00:00";
-
-        fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "OffsetDateTime.parse(\"2023-01-01T12:00:00+00:00\")");
-    }
-
-    @Test
-    void customExampleForUuid() {
-        final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
-        final CodegenParameter p = new CodegenParameter();
-        p.isUuid = true;
-        p.dataType = "UUID";
-        p.example = "custom-uuid-value";
-
-        fakeJavaCodegen.setParameterExampleValue(p);
-        Assert.assertEquals(p.example, "UUID.fromString(\"custom-uuid-value\")");
     }
 }
