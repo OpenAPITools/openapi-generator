@@ -67,48 +67,4 @@ public interface TemplatingEngineAdapter {
     String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
                            String templateFile) throws IOException;
 
-    /**
-     * Determines whether the template file with supported extensions exists. This may be on the filesystem,
-     * external filesystem, or classpath (implementation is up to TemplatingGenerator).
-     *
-     * @param generator    The generator holding details about file resolution
-     * @param templateFile The original target filename
-     * @return True if the template is available in the template search path, false if it can not be found
-     */
-    @SuppressWarnings({"java:S2093"}) // ignore java:S2093 because we have double-assignment to the closeable
-    default boolean templateExists(TemplatingExecutor generator, String templateFile) {
-        return Arrays.stream(getFileExtensions()).anyMatch(ext -> {
-            int idx = templateFile.lastIndexOf('.');
-            String baseName;
-            if (idx > 0 && idx < templateFile.length() - 1) {
-                baseName = templateFile.substring(0, idx);
-            } else {
-                baseName = templateFile;
-            }
-
-            Path path = generator.getFullTemplatePath(String.format(Locale.ROOT, "%s.%s", baseName, ext));
-
-            InputStream is = null;
-            try {
-                String resourcePath = System.getProperty("os.name").startsWith("Windows") ?
-                        path.toString().replace("\\", "/") :
-                        path.toString();
-                is = this.getClass().getClassLoader().getResourceAsStream(resourcePath);
-                if (is == null) {
-                    is = new FileInputStream(path.toFile());
-                }
-
-                return is.available() > 0;
-            } catch (IOException e) {
-                // ignore
-            } finally {
-                try {
-                    if (is != null) is.close();
-                } catch (IOException e) {
-                    // ignore
-                }
-            }
-            return false;
-        });
-    }
 }

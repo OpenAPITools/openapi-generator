@@ -380,7 +380,6 @@ class PebbleTemplateAdapter : AbstractTemplatingEngineAdapter() {
     override fun getIdentifier(): String = "pebble"
 
     override fun compileTemplate(
-        generator: TemplatingGenerator?,
         bundle: MutableMap<String, Any>?,
         templateFile: String?
     ): String {

@@ -49,8 +49,8 @@ public abstract class AbstractTemplatingEngineAdapter implements TemplatingEngin
      */
     private String getPathWithoutExtension(String location) {
         if (location == null) return null;
-        int indexOfPath = location.lastIndexOf('.');
-        if (indexOfPath == -1) return location;
-        return location.substring(0, indexOfPath);
+        int indexOfExtension = location.lastIndexOf('.');
+        if (indexOfExtension == -1) return location;
+        return location.substring(0, indexOfExtension);
     }
 }

@@ -2661,15 +2661,13 @@ components:
         required:
         - name
         type: object
-    AllOfModelArrayAnyOf_allOf_linkListColumn1_value:
-      anyOf:
-      - $ref: '#/components/schemas/User'
-      - $ref: '#/components/schemas/Tag'
     AllOfModelArrayAnyOf_allOf_linkListColumn1:
       properties:
         value:
           items:
-            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
+            anyOf:
+            - $ref: '#/components/schemas/User'
+            - $ref: '#/components/schemas/Tag'
           type: array
       required:
       - value

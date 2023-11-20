@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfLinkListColumn1Value;
+import org.openapitools.client.model.AnyOfUserTag;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -56,17 +56,17 @@ import org.openapitools.client.JSON;
 public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
   public static final String SERIALIZED_NAME_VALUE = "value";
   @SerializedName(SERIALIZED_NAME_VALUE)
-  private List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value = new ArrayList<>();
+  private List<AnyOfUserTag> value = new ArrayList<>();
 
   public AllOfModelArrayAnyOfAllOfLinkListColumn1() {
   }
 
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public AllOfModelArrayAnyOfAllOfLinkListColumn1 value(List<AnyOfUserTag> value) {
     this.value = value;
     return this;
   }
 
-  public AllOfModelArrayAnyOfAllOfLinkListColumn1 addValueItem(AllOfModelArrayAnyOfAllOfLinkListColumn1Value valueItem) {
+  public AllOfModelArrayAnyOfAllOfLinkListColumn1 addValueItem(AnyOfUserTag valueItem) {
     if (this.value == null) {
       this.value = new ArrayList<>();
     }
@@ -79,11 +79,11 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
    * @return value
   **/
   @javax.annotation.Nonnull
-  public List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> getValue() {
+  public List<AnyOfUserTag> getValue() {
     return value;
   }
 
-  public void setValue(List<AllOfModelArrayAnyOfAllOfLinkListColumn1Value> value) {
+  public void setValue(List<AnyOfUserTag> value) {
     this.value = value;
   }
 
@@ -214,7 +214,7 @@ public class AllOfModelArrayAnyOfAllOfLinkListColumn1 {
       JsonArray jsonArrayvalue = jsonObj.getAsJsonArray("value");
       // validate the required field `value` (array)
       for (int i = 0; i < jsonArrayvalue.size(); i++) {
-        AllOfModelArrayAnyOfAllOfLinkListColumn1Value.validateJsonElement(jsonArrayvalue.get(i));
+        AnyOfUserTag.validateJsonElement(jsonArrayvalue.get(i));
       };
   }
 
