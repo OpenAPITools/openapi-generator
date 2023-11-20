@@ -256,7 +256,7 @@ To build from source, you need the following installed and available in your `$P
 
 * [Apache Maven 3.3.4 or greater](https://maven.apache.org/) (optional)
 
-After cloning the project, you can build it from source using [maven wrapper](https://github.com/takari/maven-wrapper):
+After cloning the project, you can build it from source using [maven wrapper](https://maven.apache.org/wrapper/):
 
 - Linux: `./mvnw clean install`
 - Windows: `mvnw.cmd clean install`
