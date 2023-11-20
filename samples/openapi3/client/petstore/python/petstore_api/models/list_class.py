@@ -21,7 +21,6 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,14 +29,15 @@ except ImportError:
 class ListClass(BaseModel):
     """
     ListClass
-    """
+    """ # noqa: E501
     var_123_list: Optional[StrictStr] = Field(default=None, alias="123-list")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["123-list"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -81,7 +81,7 @@ class ListClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ListClass from a dict"""
         if obj is None:
             return None

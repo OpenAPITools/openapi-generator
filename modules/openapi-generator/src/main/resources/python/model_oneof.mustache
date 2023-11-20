@@ -34,7 +34,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 {{#discriminator}}
@@ -189,7 +190,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
@@ -207,10 +208,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    {{{.}}}
-    # TODO: pydantic v2
+{{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-    # {{classname}}.model_rebuild()
+# TODO: Rewrite to not use raise_errors
+{{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

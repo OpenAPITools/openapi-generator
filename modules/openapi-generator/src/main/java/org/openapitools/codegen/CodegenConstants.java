@@ -433,4 +433,7 @@ public class CodegenConstants {
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
 
     public static final String WITH_GO_MOD = "withGoMod";
+
+    public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
+    public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
 }

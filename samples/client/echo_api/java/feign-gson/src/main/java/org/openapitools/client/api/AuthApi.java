@@ -39,4 +39,29 @@ public interface AuthApi extends ApiClient.Api {
   ApiResponse<String> testAuthHttpBasicWithHttpInfo();
 
 
+
+  /**
+   * To test HTTP bearer authentication
+   * To test HTTP bearer authentication
+   * @return String
+   */
+  @RequestLine("POST /auth/http/bearer")
+  @Headers({
+    "Accept: text/plain",
+  })
+  String testAuthHttpBearer();
+
+  /**
+   * To test HTTP bearer authentication
+   * Similar to <code>testAuthHttpBearer</code> but it also returns the http response headers .
+   * To test HTTP bearer authentication
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /auth/http/bearer")
+  @Headers({
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testAuthHttpBearerWithHttpInfo();
+
+
 }

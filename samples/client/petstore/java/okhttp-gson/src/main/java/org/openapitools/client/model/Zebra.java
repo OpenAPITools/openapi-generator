@@ -98,6 +98,11 @@ public class Zebra {
         return TypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      TypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_TYPE = "type";
@@ -112,7 +117,6 @@ public class Zebra {
   }
 
   public Zebra type(TypeEnum type) {
-    
     this.type = type;
     return this;
   }
@@ -126,14 +130,12 @@ public class Zebra {
     return type;
   }
 
-
   public void setType(TypeEnum type) {
     this.type = type;
   }
 
 
   public Zebra className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -146,7 +148,6 @@ public class Zebra {
   public String getClassName() {
     return className;
   }
-
 
   public void setClassName(String className) {
     this.className = className;
@@ -276,6 +277,10 @@ public class Zebra {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
+      }
+      // validate the optional field `type`
+      if (jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) {
+        TypeEnum.validateJsonElement(jsonObj.get("type"));
       }
       if (!jsonObj.get("className").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `className` to be a primitive type in the JSON string but got `%s`", jsonObj.get("className").toString()));

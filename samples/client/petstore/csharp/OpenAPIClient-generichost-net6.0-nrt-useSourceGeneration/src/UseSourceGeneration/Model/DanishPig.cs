@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
+            Option<string?> className = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,10 +130,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class DanishPig.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class DanishPig.", nameof(className));
 
-            return new DanishPig(className);
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class DanishPig.");
+
+            return new DanishPig(className.Value!);
         }
 
         /// <summary>
@@ -160,6 +163,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DanishPig danishPig, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (danishPig.ClassName == null)
+                throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
+
             writer.WriteString("className", danishPig.ClassName);
         }
     }

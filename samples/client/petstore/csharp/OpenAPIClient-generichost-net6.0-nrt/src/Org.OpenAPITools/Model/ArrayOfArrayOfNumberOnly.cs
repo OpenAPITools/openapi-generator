@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,19 +36,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayArrayNumber">arrayArrayNumber</param>
         [JsonConstructor]
-        public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber)
+        public ArrayOfArrayOfNumberOnly(Option<List<List<decimal>>?> arrayArrayNumber = default)
         {
-            ArrayArrayNumber = arrayArrayNumber;
+            ArrayArrayNumberOption = arrayArrayNumber;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of ArrayArrayNumber
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<List<decimal>>?> ArrayArrayNumberOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets ArrayArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayArrayNumber")]
-        public List<List<decimal>> ArrayArrayNumber { get; set; }
+        public List<List<decimal>>? ArrayArrayNumber { get { return this. ArrayArrayNumberOption; } set { this.ArrayArrayNumberOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +110,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<List<decimal>>? arrayArrayNumber = default;
+            Option<List<List<decimal>>?> arrayArrayNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +129,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "ArrayArrayNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayNumber = JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions);
+                                arrayArrayNumber = new Option<List<List<decimal>>?>(JsonSerializer.Deserialize<List<List<decimal>>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -129,8 +137,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
+            if (arrayArrayNumber.IsSet && arrayArrayNumber.Value == null)
+                throw new ArgumentNullException(nameof(arrayArrayNumber), "Property is not nullable for class ArrayOfArrayOfNumberOnly.");
 
             return new ArrayOfArrayOfNumberOnly(arrayArrayNumber);
         }
@@ -159,8 +167,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("ArrayArrayNumber");
-            JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
+            if (arrayOfArrayOfNumberOnly.ArrayArrayNumberOption.IsSet && arrayOfArrayOfNumberOnly.ArrayArrayNumber == null)
+                throw new ArgumentNullException(nameof(arrayOfArrayOfNumberOnly.ArrayArrayNumber), "Property is required for class ArrayOfArrayOfNumberOnly.");
+
+            if (arrayOfArrayOfNumberOnly.ArrayArrayNumberOption.IsSet)
+            {
+                writer.WritePropertyName("ArrayArrayNumber");
+                JsonSerializer.Serialize(writer, arrayOfArrayOfNumberOnly.ArrayArrayNumber, jsonSerializerOptions);
+            }
         }
     }
 }

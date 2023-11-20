@@ -11,7 +11,7 @@ version = "1.0.0"
 val kotlin_version = "1.7.21"
 val coroutines_version = "1.6.4"
 val serialization_version = "1.3.3"
-val ktor_version = "2.1.3"
+val ktor_version = "2.2.3"
 
 repositories {
     mavenCentral()
@@ -20,6 +20,7 @@ repositories {
 kotlin {
     jvm()
     ios { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
+    iosSimulatorArm64 { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
     js {
         browser()
         nodejs()
@@ -65,6 +66,10 @@ kotlin {
         }
 
         val iosTest by getting
+
+        val iosSimulatorArm64Main by getting
+
+        val iosSimulatorArm64Test by getting
 
         val jsMain by getting {
             dependencies {

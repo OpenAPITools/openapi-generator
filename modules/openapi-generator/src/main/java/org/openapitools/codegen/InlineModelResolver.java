@@ -811,9 +811,17 @@ public class InlineModelResolver {
                             ap.setItems(schema);
                         }
                     }
+                } else if (ModelUtils.isComposedSchema(inner)) {
+                    String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
+                    gatherInlineModels(inner, innerModelName);
+                    innerModelName = addSchemas(innerModelName, inner);
+                    Schema schema = new Schema().$ref(innerModelName);
+                    schema.setRequired(inner.getRequired());
+                    ap.setItems(schema);
+                } else {
+                    LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
-            }
-            if (ModelUtils.isMapSchema(property)) {
+            } else if (ModelUtils.isMapSchema(property)) {
                 Schema inner = ModelUtils.getAdditionalProperties(property);
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
@@ -833,7 +841,25 @@ public class InlineModelResolver {
                             property.setAdditionalProperties(schema);
                         }
                     }
+                } else if (ModelUtils.isComposedSchema(inner)) {
+                    String innerModelName = resolveModelName(inner.getTitle(), path + "_" + key);
+                    gatherInlineModels(inner, innerModelName);
+                    innerModelName = addSchemas(innerModelName, inner);
+                    Schema schema = new Schema().$ref(innerModelName);
+                    schema.setRequired(inner.getRequired());
+                    property.setAdditionalProperties(schema);
+                } else {
+                    LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
+            } else if (ModelUtils.isComposedSchema(property)) { // oneOf, anyOf, etc
+                String propertyModelName = resolveModelName(property.getTitle(), path + "_" + key);
+                gatherInlineModels(property, propertyModelName);
+                propertyModelName = addSchemas(propertyModelName, property);
+                Schema schema = new Schema().$ref(propertyModelName);
+                schema.setRequired(property.getRequired());
+                propsToUpdate.put(key, schema);
+            } else {
+                LOGGER.debug("Schema not yet handled in model resolver: {}", property);
             }
         }
         if (propsToUpdate.size() > 0) {
@@ -867,8 +893,10 @@ public class InlineModelResolver {
         // including object types.
         model.setFormat(object.getFormat());
 
+        if (object.getExample() != null) {
+            model.setExample(example);
+        }
         model.setDescription(description);
-        model.setExample(example);
         model.setName(object.getName());
         model.setXml(xml);
         model.setRequired(object.getRequired());

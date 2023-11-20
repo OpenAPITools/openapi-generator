@@ -37,19 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="bar">bar (default to &quot;bar&quot;)</param>
         [JsonConstructor]
-        public Foo(string bar = @"bar")
+        public Foo(Option<string?> bar = default)
         {
-            Bar = bar;
+            BarOption = bar;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Bar
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> BarOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; set; }
+        public string? Bar { get { return this. BarOption; } set { this.BarOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +111,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? bar = default;
+            Option<string?> bar = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +129,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = utf8JsonReader.GetString();
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -130,8 +137,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (bar == null)
-                throw new ArgumentNullException(nameof(bar), "Property is required for class Foo.");
+            if (bar.IsSet && bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class Foo.");
 
             return new Foo(bar);
         }
@@ -160,7 +167,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Foo foo, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", foo.Bar);
+            if (foo.BarOption.IsSet && foo.Bar == null)
+                throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
+
+            if (foo.BarOption.IsSet)
+                writer.WriteString("bar", foo.Bar);
         }
     }
 

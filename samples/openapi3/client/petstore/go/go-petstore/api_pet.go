@@ -999,8 +999,6 @@ func (a *PetAPIService) UploadFileExecute(r ApiUploadFileRequest) (*ApiResponse,
 	var fileLocalVarFileBytes    []byte
 
 	fileLocalVarFormFileName = "file"
-
-
 	fileLocalVarFile := r.file
 
 	if fileLocalVarFile != nil {
@@ -1139,8 +1137,6 @@ func (a *PetAPIService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 	var requiredFileLocalVarFileBytes    []byte
 
 	requiredFileLocalVarFormFileName = "requiredFile"
-
-
 	requiredFileLocalVarFile := r.requiredFile
 
 	if requiredFileLocalVarFile != nil {

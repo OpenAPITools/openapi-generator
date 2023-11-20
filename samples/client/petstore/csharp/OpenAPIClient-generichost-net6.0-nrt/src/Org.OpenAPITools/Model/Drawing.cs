@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,44 +35,72 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Drawing" /> class.
         /// </summary>
         /// <param name="mainShape">mainShape</param>
-        /// <param name="shapes">shapes</param>
         /// <param name="nullableShape">nullableShape</param>
         /// <param name="shapeOrNull">shapeOrNull</param>
+        /// <param name="shapes">shapes</param>
         [JsonConstructor]
-        public Drawing(Shape mainShape, List<Shape> shapes, NullableShape? nullableShape = default, ShapeOrNull? shapeOrNull = default) : base()
+        public Drawing(Option<Shape?> mainShape = default, Option<NullableShape?> nullableShape = default, Option<ShapeOrNull?> shapeOrNull = default, Option<List<Shape>?> shapes = default) : base()
         {
-            MainShape = mainShape;
-            Shapes = shapes;
-            NullableShape = nullableShape;
-            ShapeOrNull = shapeOrNull;
+            MainShapeOption = mainShape;
+            NullableShapeOption = nullableShape;
+            ShapeOrNullOption = shapeOrNull;
+            ShapesOption = shapes;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of MainShape
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Shape?> MainShapeOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape MainShape { get; set; }
+        public Shape? MainShape { get { return this. MainShapeOption; } set { this.MainShapeOption = new(value); } }
 
         /// <summary>
-        /// Gets or Sets Shapes
+        /// Used to track the state of NullableShape
         /// </summary>
-        [JsonPropertyName("shapes")]
-        public List<Shape> Shapes { get; set; }
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<NullableShape?> NullableShapeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape? NullableShape { get; set; }
+        public NullableShape? NullableShape { get { return this. NullableShapeOption; } set { this.NullableShapeOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of ShapeOrNull
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ShapeOrNull?> ShapeOrNullOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull? ShapeOrNull { get; set; }
+        public ShapeOrNull? ShapeOrNull { get { return this. ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of Shapes
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<Shape>?> ShapesOption { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Shapes
+        /// </summary>
+        [JsonPropertyName("shapes")]
+        public List<Shape>? Shapes { get { return this. ShapesOption; } set { this.ShapesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,9 +118,9 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Drawing {\n");
             sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  MainShape: ").Append(MainShape).Append("\n");
-            sb.Append("  Shapes: ").Append(Shapes).Append("\n");
             sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
             sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
+            sb.Append("  Shapes: ").Append(Shapes).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -140,10 +169,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Shape? mainShape = default;
-            List<Shape>? shapes = default;
-            NullableShape? nullableShape = default;
-            ShapeOrNull? shapeOrNull = default;
+            Option<Shape?> mainShape = default;
+            Option<NullableShape?> nullableShape = default;
+            Option<ShapeOrNull?> shapeOrNull = default;
+            Option<List<Shape>?> shapes = default;
 
             while (utf8JsonReader.Read())
             {
@@ -162,19 +191,19 @@ namespace Org.OpenAPITools.Model
                     {
                         case "mainShape":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                mainShape = JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions);
-                            break;
-                        case "shapes":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shapes = JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions);
+                                mainShape = new Option<Shape?>(JsonSerializer.Deserialize<Shape>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         case "nullableShape":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                nullableShape = JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions);
+                                nullableShape = new Option<NullableShape?>(JsonSerializer.Deserialize<NullableShape>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "shapeOrNull":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                shapeOrNull = JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions);
+                                shapeOrNull = new Option<ShapeOrNull?>(JsonSerializer.Deserialize<ShapeOrNull>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "shapes":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                shapes = new Option<List<Shape>?>(JsonSerializer.Deserialize<List<Shape>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -182,13 +211,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (mainShape == null)
-                throw new ArgumentNullException(nameof(mainShape), "Property is required for class Drawing.");
+            if (mainShape.IsSet && mainShape.Value == null)
+                throw new ArgumentNullException(nameof(mainShape), "Property is not nullable for class Drawing.");
 
-            if (shapes == null)
-                throw new ArgumentNullException(nameof(shapes), "Property is required for class Drawing.");
+            if (shapes.IsSet && shapes.Value == null)
+                throw new ArgumentNullException(nameof(shapes), "Property is not nullable for class Drawing.");
 
-            return new Drawing(mainShape, shapes, nullableShape, shapeOrNull);
+            return new Drawing(mainShape, nullableShape, shapeOrNull, shapes);
         }
 
         /// <summary>
@@ -215,14 +244,38 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Drawing drawing, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("mainShape");
-            JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapes");
-            JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
-            writer.WritePropertyName("nullableShape");
-            JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
-            writer.WritePropertyName("shapeOrNull");
-            JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
+            if (drawing.MainShapeOption.IsSet && drawing.MainShape == null)
+                throw new ArgumentNullException(nameof(drawing.MainShape), "Property is required for class Drawing.");
+
+            if (drawing.ShapesOption.IsSet && drawing.Shapes == null)
+                throw new ArgumentNullException(nameof(drawing.Shapes), "Property is required for class Drawing.");
+
+            if (drawing.MainShapeOption.IsSet)
+            {
+                writer.WritePropertyName("mainShape");
+                JsonSerializer.Serialize(writer, drawing.MainShape, jsonSerializerOptions);
+            }
+            if (drawing.NullableShapeOption.IsSet)
+                if (drawing.NullableShapeOption.Value != null)
+                {
+                    writer.WritePropertyName("nullableShape");
+                    JsonSerializer.Serialize(writer, drawing.NullableShape, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("nullableShape");
+            if (drawing.ShapeOrNullOption.IsSet)
+                if (drawing.ShapeOrNullOption.Value != null)
+                {
+                    writer.WritePropertyName("shapeOrNull");
+                    JsonSerializer.Serialize(writer, drawing.ShapeOrNull, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("shapeOrNull");
+            if (drawing.ShapesOption.IsSet)
+            {
+                writer.WritePropertyName("shapes");
+                JsonSerializer.Serialize(writer, drawing.Shapes, jsonSerializerOptions);
+            }
         }
     }
 }

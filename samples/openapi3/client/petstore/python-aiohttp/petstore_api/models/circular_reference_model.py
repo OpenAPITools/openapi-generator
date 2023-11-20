@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,14 +28,15 @@ except ImportError:
 class CircularReferenceModel(BaseModel):
     """
     CircularReferenceModel
-    """
+    """ # noqa: E501
     size: Optional[StrictInt] = None
     nested: Optional[FirstRef] = None
     __properties: ClassVar[List[str]] = ["size", "nested"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -76,7 +76,7 @@ class CircularReferenceModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of CircularReferenceModel from a dict"""
         if obj is None:
             return None
@@ -91,9 +91,6 @@ class CircularReferenceModel(BaseModel):
         return _obj
 
 from petstore_api.models.first_ref import FirstRef
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # CircularReferenceModel.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+CircularReferenceModel.model_rebuild(raise_errors=False)
 

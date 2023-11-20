@@ -63,7 +63,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   }
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInner breed(String breed) {
-    
     this.breed = breed;
     return this;
   }
@@ -77,14 +76,12 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
     return breed;
   }
 
-
   public void setBreed(String breed) {
     this.breed = breed;
   }
 
 
   public ArrayOfInlineAllOfArrayAllofDogPropertyInner color(String color) {
-    
     this.color = color;
     return this;
   }
@@ -97,7 +94,6 @@ public class ArrayOfInlineAllOfArrayAllofDogPropertyInner {
   public String getColor() {
     return color;
   }
-
 
   public void setColor(String color) {
     this.color = color;

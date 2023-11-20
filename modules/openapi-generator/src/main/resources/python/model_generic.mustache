@@ -12,7 +12,6 @@ import json
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -20,8 +19,8 @@ except ImportError:
 
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
-    {{#description}}{{{description}}}  # noqa: E501{{/description}}{{^description}}{{{classname}}}{{/description}}
-    """
+    {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
+    """ # noqa: E501
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
@@ -83,7 +82,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -98,7 +98,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -238,7 +238,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: Dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#hasChildren}}
         {{#discriminator}}
@@ -379,9 +379,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # {{classname}}.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+{{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

@@ -59,7 +59,6 @@ public class TriangleInterface {
   }
 
   public TriangleInterface triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -72,7 +71,6 @@ public class TriangleInterface {
   public String getTriangleType() {
     return triangleType;
   }
-
 
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;

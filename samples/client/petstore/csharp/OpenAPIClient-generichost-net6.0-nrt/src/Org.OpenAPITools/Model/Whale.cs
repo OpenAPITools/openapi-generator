@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,11 +38,11 @@ namespace Org.OpenAPITools.Model
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
         [JsonConstructor]
-        public Whale(string className, bool hasBaleen, bool hasTeeth)
+        public Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
         {
             ClassName = className;
-            HasBaleen = hasBaleen;
-            HasTeeth = hasTeeth;
+            HasBaleenOption = hasBaleen;
+            HasTeethOption = hasTeeth;
             OnCreated();
         }
 
@@ -54,16 +55,30 @@ namespace Org.OpenAPITools.Model
         public string ClassName { get; set; }
 
         /// <summary>
+        /// Used to track the state of HasBaleen
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> HasBaleenOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets HasBaleen
         /// </summary>
         [JsonPropertyName("hasBaleen")]
-        public bool HasBaleen { get; set; }
+        public bool? HasBaleen { get { return this. HasBaleenOption; } set { this.HasBaleenOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of HasTeeth
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> HasTeethOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets HasTeeth
         /// </summary>
         [JsonPropertyName("hasTeeth")]
-        public bool HasTeeth { get; set; }
+        public bool? HasTeeth { get { return this. HasTeethOption; } set { this.HasTeethOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -120,9 +135,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
-            bool? hasBaleen = default;
-            bool? hasTeeth = default;
+            Option<string?> className = default;
+            Option<bool?> hasBaleen = default;
+            Option<bool?> hasTeeth = default;
 
             while (utf8JsonReader.Read())
             {
@@ -140,15 +155,15 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "hasBaleen":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                hasBaleen = utf8JsonReader.GetBoolean();
+                                hasBaleen = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         case "hasTeeth":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                hasTeeth = utf8JsonReader.GetBoolean();
+                                hasTeeth = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -156,16 +171,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Whale.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Whale.", nameof(className));
 
-            if (hasBaleen == null)
-                throw new ArgumentNullException(nameof(hasBaleen), "Property is required for class Whale.");
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Whale.");
 
-            if (hasTeeth == null)
-                throw new ArgumentNullException(nameof(hasTeeth), "Property is required for class Whale.");
+            if (hasBaleen.IsSet && hasBaleen.Value == null)
+                throw new ArgumentNullException(nameof(hasBaleen), "Property is not nullable for class Whale.");
 
-            return new Whale(className, hasBaleen.Value, hasTeeth.Value);
+            if (hasTeeth.IsSet && hasTeeth.Value == null)
+                throw new ArgumentNullException(nameof(hasTeeth), "Property is not nullable for class Whale.");
+
+            return new Whale(className.Value!, hasBaleen, hasTeeth);
         }
 
         /// <summary>
@@ -192,9 +210,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Whale whale, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (whale.ClassName == null)
+                throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
+
             writer.WriteString("className", whale.ClassName);
-            writer.WriteBoolean("hasBaleen", whale.HasBaleen);
-            writer.WriteBoolean("hasTeeth", whale.HasTeeth);
+
+            if (whale.HasBaleenOption.IsSet)
+                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);
+
+            if (whale.HasTeethOption.IsSet)
+                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value);
         }
     }
 }

@@ -12,6 +12,7 @@ package petstoreserver
 import (
 	"context"
 	"net/http"
+	"time"
 	"os"
 )
 
@@ -29,6 +30,8 @@ type PetAPIRouter interface {
 	FindPetsByTags(http.ResponseWriter, *http.Request)
 	GetPetById(http.ResponseWriter, *http.Request)
 	GetPetImageById(http.ResponseWriter, *http.Request)
+	GetPetsByTime(http.ResponseWriter, *http.Request)
+	GetPetsUsingBooleanQueryParameters(http.ResponseWriter, *http.Request)
 	UpdatePet(http.ResponseWriter, *http.Request)
 	UpdatePetWithForm(http.ResponseWriter, *http.Request)
 	UploadFile(http.ResponseWriter, *http.Request)
@@ -68,12 +71,14 @@ type PetAPIServicer interface {
 	FilterPetsByCategory(context.Context, Gender, Species, []Species) (ImplResponse, error)
 	FindPetsByStatus(context.Context, []string) (ImplResponse, error)
 	// Deprecated
-	FindPetsByTags(context.Context, []string) (ImplResponse, error)
+	FindPetsByTags(context.Context, []string, time.Time, time.Time) (ImplResponse, error)
 	GetPetById(context.Context, int64) (ImplResponse, error)
 	GetPetImageById(context.Context, int64) (ImplResponse, error)
+	GetPetsByTime(context.Context, time.Time) (ImplResponse, error)
+	GetPetsUsingBooleanQueryParameters(context.Context, bool, bool, bool) (ImplResponse, error)
 	UpdatePet(context.Context, Pet) (ImplResponse, error)
 	UpdatePetWithForm(context.Context, int64, string, string) (ImplResponse, error)
-	UploadFile(context.Context, int64, string, *os.File) (ImplResponse, error)
+	UploadFile(context.Context, int64, string, []string, *os.File) (ImplResponse, error)
 	UploadFileArrayOfFiles(context.Context, int64, string, []*os.File) (ImplResponse, error)
 }
 

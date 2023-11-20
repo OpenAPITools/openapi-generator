@@ -18,9 +18,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,14 +28,15 @@ except ImportError:
 class SecondRef(BaseModel):
     """
     SecondRef
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     circular_ref: Optional[CircularReferenceModel] = None
     __properties: ClassVar[List[str]] = ["category", "circular_ref"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -76,7 +76,7 @@ class SecondRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of SecondRef from a dict"""
         if obj is None:
             return None
@@ -91,9 +91,6 @@ class SecondRef(BaseModel):
         return _obj
 
 from petstore_api.models.circular_reference_model import CircularReferenceModel
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # SecondRef.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+SecondRef.model_rebuild(raise_errors=False)
 

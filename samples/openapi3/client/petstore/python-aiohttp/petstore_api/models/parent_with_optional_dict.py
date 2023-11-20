@@ -18,11 +18,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,13 +30,14 @@ except ImportError:
 class ParentWithOptionalDict(BaseModel):
     """
     ParentWithOptionalDict
-    """
+    """ # noqa: E501
     optional_dict: Optional[Dict[str, InnerDictWithProperty]] = Field(default=None, alias="optionalDict")
     __properties: ClassVar[List[str]] = ["optionalDict"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -81,7 +81,7 @@ class ParentWithOptionalDict(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ParentWithOptionalDict from a dict"""
         if obj is None:
             return None

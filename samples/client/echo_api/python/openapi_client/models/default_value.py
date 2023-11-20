@@ -19,10 +19,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from openapi_client.models.string_enum_ref import StringEnumRef
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,8 +29,8 @@ except ImportError:
 
 class DefaultValue(BaseModel):
     """
-    to test the default value of properties  # noqa: E501
-    """
+    to test the default value of properties
+    """ # noqa: E501
     array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
     array_string_enum_default: Optional[List[StrictStr]] = None
     array_string_default: Optional[List[StrictStr]] = None
@@ -55,7 +54,8 @@ class DefaultValue(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -107,7 +107,7 @@ class DefaultValue(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of DefaultValue from a dict"""
         if obj is None:
             return None

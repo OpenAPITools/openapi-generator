@@ -44,7 +44,8 @@ class OneOfEnumString(BaseModel):
     one_of_schemas: List[str] = Literal["EnumString1", "EnumString2"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -126,7 +127,7 @@ class OneOfEnumString(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

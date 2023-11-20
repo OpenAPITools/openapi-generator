@@ -100,6 +100,11 @@ public class EnumArrays implements Parcelable {
         return JustSymbolEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      JustSymbolEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
@@ -151,6 +156,11 @@ public class EnumArrays implements Parcelable {
         return ArrayEnumEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ArrayEnumEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
@@ -161,7 +171,6 @@ public class EnumArrays implements Parcelable {
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -175,14 +184,12 @@ public class EnumArrays implements Parcelable {
     return justSymbol;
   }
 
-
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -203,7 +210,6 @@ public class EnumArrays implements Parcelable {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -310,6 +316,10 @@ public class EnumArrays implements Parcelable {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
+      }
+      // validate the optional field `just_symbol`
+      if (jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) {
+        JustSymbolEnum.validateJsonElement(jsonObj.get("just_symbol"));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonNull() && !jsonObj.get("array_enum").isJsonArray()) {

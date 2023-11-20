@@ -421,7 +421,13 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 ```
 will rename the `Tag` schema to `Label` instead.
 
-Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings).
+To map enum names, use `enumNameMappings` option, e.g.
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -o /tmp/java/ --enum-name-mappings sold=UNAVAILABLE
+```
+will rename SOLD to UNAVAILABLE instead.
+
+Not all generators support thess features yet. Please give it a try to confirm the behaviour and open an issue (ticket) to let us know which generators you would like to have this feature enabled and we'll prioritize accordingly. We also welcome PRs to add these features to generators. Related PRs for reference: #16209, #16234 (modelNameMappings), #16194, #16206 (nameMappings, parameterNameMappings), #17108 (enumNameMappings).
 
 NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 

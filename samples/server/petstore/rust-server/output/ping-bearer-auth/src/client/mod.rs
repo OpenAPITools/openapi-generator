@@ -424,7 +424,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,

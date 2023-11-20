@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.function.Supplier;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -353,6 +354,20 @@ public class ApiClient extends JavaTimeFormatter {
     throw new RuntimeException("No Bearer authentication configured!");
   }
 
+  /**
+   * Helper method to set the supplier of access tokens for Bearer authentication.
+   *
+   * @param tokenSupplier the token supplier function
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    for (Authentication auth : authentications.values()) {
+      if (auth instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
+        return;
+      }
+    }
+    throw new RuntimeException("No Bearer authentication configured!");
+  }
 
   /**
    * Helper method to set username for the first HTTP basic authentication.

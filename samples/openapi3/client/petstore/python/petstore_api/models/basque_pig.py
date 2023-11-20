@@ -21,7 +21,6 @@ import json
 from typing import Any, ClassVar, Dict, List
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class BasquePig(BaseModel):
     """
     BasquePig
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     color: StrictStr
     additional_properties: Dict[str, Any] = {}
@@ -38,7 +37,8 @@ class BasquePig(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -82,7 +82,7 @@ class BasquePig(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of BasquePig from a dict"""
         if obj is None:
             return None

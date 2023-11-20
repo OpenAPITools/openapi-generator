@@ -389,7 +389,7 @@ impl std::string::ToString for {{{classname}}} {
 {{/required}}
 {{^required}}
             self.{{{name}}}.as_ref().map(|{{{name}}}| {
-                vec![
+                [
                     "{{{baseName}}}".to_string(),
 {{^isArray}}
 {{#isNullable}}

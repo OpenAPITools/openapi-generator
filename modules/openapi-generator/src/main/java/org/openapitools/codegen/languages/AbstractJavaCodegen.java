@@ -1689,6 +1689,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         if (value.length() == 0) {
             return "EMPTY";
         }
@@ -1734,6 +1738,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else if ("BigDecimal".equals(datatype)) {
             // use BigDecimal String constructor
             return "new BigDecimal(\"" + value + "\")";
+        } else if ("URI".equals(datatype)) {
+            return "URI.create(\"" + escapeText(value) + "\")";
         } else {
             return "\"" + escapeText(value) + "\"";
         }

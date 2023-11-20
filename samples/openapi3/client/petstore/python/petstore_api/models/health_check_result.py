@@ -21,7 +21,6 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,15 +28,16 @@ except ImportError:
 
 class HealthCheckResult(BaseModel):
     """
-    Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.  # noqa: E501
-    """
+    Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+    """ # noqa: E501
     nullable_message: Optional[StrictStr] = Field(default=None, alias="NullableMessage")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["NullableMessage"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -86,7 +86,7 @@ class HealthCheckResult(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of HealthCheckResult from a dict"""
         if obj is None:
             return None

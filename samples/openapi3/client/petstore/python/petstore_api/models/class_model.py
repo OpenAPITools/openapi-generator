@@ -21,7 +21,6 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,15 +28,16 @@ except ImportError:
 
 class ClassModel(BaseModel):
     """
-    Model for testing model with \"_class\" property  # noqa: E501
-    """
+    Model for testing model with \"_class\" property
+    """ # noqa: E501
     var_class: Optional[StrictStr] = Field(default=None, alias="_class")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["_class"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -81,7 +81,7 @@ class ClassModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ClassModel from a dict"""
         if obj is None:
             return None

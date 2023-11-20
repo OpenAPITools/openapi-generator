@@ -44,7 +44,8 @@ class Pig(BaseModel):
     one_of_schemas: List[str] = Literal["BasquePig", "DanishPig"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -144,7 +145,7 @@ class Pig(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

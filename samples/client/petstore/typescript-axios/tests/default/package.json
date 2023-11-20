@@ -1,12 +1,10 @@
 {
   "private": true,
   "dependencies": {
-    "@openapitools/typescript-axios-petstore": "file:../../builds/with-npm-version",
-    "chai": "^4.2.0",
-    "ts-node": "^9.1.1"
+    "@openapitools/typescript-axios-petstore": "file:../../builds/with-npm-version"
   },
   "scripts": {
-    "preinstall": "npm install ../../builds/with-npm-version && npm run build",
+    "preinstall": "npm --prefix ../../builds/with-npm-version install && npm run build",
     "test": "mocha test/*.ts --require ts-node/register --timeout 10000",
     "build": "tsc",
     "browserify": "browserify test -p [ tsify ] > ./dist/test.browserify-bundle.js"
@@ -15,8 +13,11 @@
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.2.0",
     "@types/node": "^14.14.14",
+    "axios": "*",
     "browserify": "^17.0.0",
+    "chai": "^4.2.0",
     "mocha": "^8.2.1",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
   },
   "name": "typescript-axios-test",

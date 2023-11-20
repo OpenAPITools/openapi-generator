@@ -1946,6 +1946,264 @@ components:
           nullable: true
           type: string
       type: object
+    RequiredClass:
+      properties:
+        required_nullable_integer_prop:
+          nullable: true
+          type: integer
+        required_notnullableinteger_prop:
+          nullable: false
+          type: integer
+        not_required_nullable_integer_prop:
+          nullable: true
+          type: integer
+        not_required_notnullableinteger_prop:
+          nullable: false
+          type: integer
+        required_nullable_string_prop:
+          nullable: true
+          type: string
+        required_notnullable_string_prop:
+          nullable: false
+          type: string
+        notrequired_nullable_string_prop:
+          nullable: true
+          type: string
+        notrequired_notnullable_string_prop:
+          nullable: false
+          type: string
+        required_nullable_boolean_prop:
+          nullable: true
+          type: boolean
+        required_notnullable_boolean_prop:
+          nullable: false
+          type: boolean
+        notrequired_nullable_boolean_prop:
+          nullable: true
+          type: boolean
+        notrequired_notnullable_boolean_prop:
+          nullable: false
+          type: boolean
+        required_nullable_date_prop:
+          format: date
+          nullable: true
+          type: string
+        required_not_nullable_date_prop:
+          format: date
+          nullable: false
+          type: string
+        not_required_nullable_date_prop:
+          format: date
+          nullable: true
+          type: string
+        not_required_notnullable_date_prop:
+          format: date
+          nullable: false
+          type: string
+        required_notnullable_datetime_prop:
+          format: date-time
+          nullable: false
+          type: string
+        required_nullable_datetime_prop:
+          format: date-time
+          nullable: true
+          type: string
+        notrequired_nullable_datetime_prop:
+          format: date-time
+          nullable: true
+          type: string
+        notrequired_notnullable_datetime_prop:
+          format: date-time
+          nullable: false
+          type: string
+        required_nullable_enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          nullable: true
+          type: integer
+        required_notnullable_enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          nullable: false
+          type: integer
+        notrequired_nullable_enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          nullable: true
+          type: integer
+        notrequired_notnullable_enum_integer:
+          enum:
+          - 1
+          - -1
+          format: int32
+          nullable: false
+          type: integer
+        required_nullable_enum_integer_only:
+          enum:
+          - 2
+          - -2
+          nullable: true
+          type: integer
+        required_notnullable_enum_integer_only:
+          enum:
+          - 2
+          - -2
+          nullable: false
+          type: integer
+        notrequired_nullable_enum_integer_only:
+          enum:
+          - 2
+          - -2
+          nullable: true
+          type: integer
+        notrequired_notnullable_enum_integer_only:
+          enum:
+          - 2
+          - -2
+          nullable: false
+          type: integer
+        required_notnullable_enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
+          nullable: false
+          type: string
+        required_nullable_enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
+          nullable: true
+          type: string
+        notrequired_nullable_enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
+          nullable: true
+          type: string
+        notrequired_notnullable_enum_string:
+          enum:
+          - UPPER
+          - lower
+          - ""
+          - "Value\twith tab"
+          - Value with " quote
+          - Value with escaped \" quote
+          - |-
+            Duplicate
+            value
+          - "Duplicate\r\nvalue"
+          nullable: false
+          type: string
+        required_nullable_outerEnumDefaultValue:
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+          nullable: true
+        required_notnullable_outerEnumDefaultValue:
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+          nullable: false
+        notrequired_nullable_outerEnumDefaultValue:
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+          nullable: true
+        notrequired_notnullable_outerEnumDefaultValue:
+          allOf:
+          - $ref: '#/components/schemas/OuterEnumDefaultValue'
+          nullable: false
+        required_nullable_uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          nullable: true
+          type: string
+        required_notnullable_uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          nullable: false
+          type: string
+        notrequired_nullable_uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          nullable: true
+          type: string
+        notrequired_notnullable_uuid:
+          example: 72f98069-206d-4f12-9f12-3d1e525a8e84
+          format: uuid
+          nullable: false
+          type: string
+        required_nullable_array_of_string:
+          items:
+            type: string
+          nullable: true
+          type: array
+        required_notnullable_array_of_string:
+          items:
+            type: string
+          nullable: false
+          type: array
+        notrequired_nullable_array_of_string:
+          items:
+            type: string
+          nullable: true
+          type: array
+        notrequired_notnullable_array_of_string:
+          items:
+            type: string
+          nullable: false
+          type: array
+      required:
+      - required_not_nullable_date_prop
+      - required_notnullable_array_of_string
+      - required_notnullable_boolean_prop
+      - required_notnullable_datetime_prop
+      - required_notnullable_enum_integer
+      - required_notnullable_enum_integer_only
+      - required_notnullable_enum_string
+      - required_notnullable_outerEnumDefaultValue
+      - required_notnullable_string_prop
+      - required_notnullable_uuid
+      - required_notnullableinteger_prop
+      - required_nullable_array_of_string
+      - required_nullable_boolean_prop
+      - required_nullable_date_prop
+      - required_nullable_datetime_prop
+      - required_nullable_enum_integer
+      - required_nullable_enum_integer_only
+      - required_nullable_enum_string
+      - required_nullable_integer_prop
+      - required_nullable_outerEnumDefaultValue
+      - required_nullable_string_prop
+      - required_nullable_uuid
+      type: object
     NullableClass:
       additionalProperties:
         nullable: true

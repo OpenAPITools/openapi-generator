@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,19 +34,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="varString">varString</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Foo varString)
+        public FooGetDefaultResponse(Option<Foo> varString = default)
         {
-            VarString = varString;
+            VarStringOption = varString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of VarString
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Foo> VarStringOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets VarString
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo VarString { get; set; }
+        public Foo VarString { get { return this. VarStringOption; } set { this.VarStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +108,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Foo varString = default;
+            Option<Foo> varString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -119,7 +127,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varString = JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions);
+                                varString = new Option<Foo>(JsonSerializer.Deserialize<Foo>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -127,8 +135,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (varString == null)
-                throw new ArgumentNullException(nameof(varString), "Property is required for class FooGetDefaultResponse.");
+            if (varString.IsSet && varString.Value == null)
+                throw new ArgumentNullException(nameof(varString), "Property is not nullable for class FooGetDefaultResponse.");
 
             return new FooGetDefaultResponse(varString);
         }
@@ -157,8 +165,14 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("string");
-            JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+            if (fooGetDefaultResponse.VarStringOption.IsSet && fooGetDefaultResponse.VarString == null)
+                throw new ArgumentNullException(nameof(fooGetDefaultResponse.VarString), "Property is required for class FooGetDefaultResponse.");
+
+            if (fooGetDefaultResponse.VarStringOption.IsSet)
+            {
+                writer.WritePropertyName("string");
+                JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+            }
         }
     }
 }

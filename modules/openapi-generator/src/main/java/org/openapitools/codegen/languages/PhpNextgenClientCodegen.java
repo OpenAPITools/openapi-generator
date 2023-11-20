@@ -149,7 +149,7 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
                     propType = prop.dataType;
                 }
 
-                if ((!prop.required || prop.isNullable)) { // optional or nullable
+                if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
                     propType = "?" + propType;
                 }
 
