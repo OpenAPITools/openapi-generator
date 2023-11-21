@@ -1488,9 +1488,16 @@ public class SpringCodegen extends AbstractJavaCodegen
             return "@Pattern(regexp = \""+codegenProperty.pattern+"\")";
         }
 
-        String beanValidationLength = getSizeBeanValidation(codegenProperty.minLength, codegenProperty.maxLength);
-        if (beanValidationLength != null) {
-            return beanValidationLength;
+        if (codegenProperty.minLength != null && codegenProperty.maxLength != null) {
+            return "@Size(min = " + codegenProperty.minLength + ", max = " + codegenProperty.maxLength + ")";
+        }
+
+        if (codegenProperty.minLength != null) {
+            return "@Size(min = " + codegenProperty.minLength + ")";
+        }
+
+        if (codegenProperty.maxLength != null) {
+            return "@Size(max = " + codegenProperty.maxLength + ")";
         }
 
 
@@ -1529,20 +1536,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         return null;
     }
 
-    private static String getSizeBeanValidation(Integer min, Integer max) {
-        if (min != null && max != null) {
-            return "@Size(min = " + min + ", max = " + max + ")";
-        }
-
-        if (min != null) {
-            return "@Size(min = " + min + ")";
-        }
-
-        if (max != null) {
-            return "@Size(max = " + max + ")";
-        }
-        return null;
-    }
 
 
     public void setResourceFolder( String resourceFolder ) {
