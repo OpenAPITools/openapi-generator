@@ -9,7 +9,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Locale;
 import java.util.Properties;
 
-import static org.openapitools.codegen.Constants.*;
+import static org.openapitools.codegen.Constants.CLI_NAME;
 
 /**
  * Presents build-time information
@@ -19,6 +19,10 @@ public class BuildInfo {
     private static final String VERSION_PLACEHOLDER = "${project.version}";
     private static final String UNSET = "unset";
     private static final String UNKNOWN = "unknown";
+
+    private static final String SITE = "https://openapi-generator.tech/";
+    private static final String GIT_REPO = "https://github.com/openapitools/openapi-generator";
+
 
     private static final Properties properties = new Properties();
 
