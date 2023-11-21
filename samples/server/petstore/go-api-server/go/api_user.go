@@ -175,6 +175,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	query := r.URL.Query()
 	usernameParam := params["username"]
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	booleanTestParam, err := parseBoolParameter(
 		query.Get("boolean_test"),
 		WithParse[bool](parseBool),
@@ -197,6 +201,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -246,6 +254,10 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

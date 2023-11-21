@@ -76,6 +76,10 @@ func (c *StoreAPIController) Routes() Routes {
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	orderIdParam := chi.URLParam(r, "orderId")
+	if orderIdParam == "" {
+		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
+		return
+	}
 	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {

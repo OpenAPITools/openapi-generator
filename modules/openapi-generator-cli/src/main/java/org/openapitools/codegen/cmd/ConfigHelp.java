@@ -89,6 +89,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--model-name-mappings"}, title = "model name mappings", description = "displays the model name mappings (none)")
     private Boolean modelNameMappings;
 
+    @Option(name = {"--enum-name-mappings"}, title = "enum name mappings", description = "displays the enum name mappings (none)")
+    private Boolean enumNameMappings;
+
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
 
@@ -539,6 +542,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
                         throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
                     }, TreeMap::new));
             writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "model name", "Mapped to");
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(enumNameMappings)) {
+            sb.append(newline).append("ENUM NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.enumNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "enum name", "Mapped to");
             sb.append(newline);
         }
 

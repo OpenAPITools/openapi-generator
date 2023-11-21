@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -210,6 +211,15 @@ public class ApiClient {
   public void setBearerToken(String bearerToken) {
     HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
     apiAuthorization.setBearerToken(bearerToken);
+  }
+
+  /**
+   * Helper method to configure the supplier of bearer tokens.
+   * @param tokenSupplier the supplier of bearer tokens.
+   */
+  public void setBearerToken(Supplier<String> tokenSupplier) {
+    HttpBearerAuth apiAuthorization =  getAuthorization(HttpBearerAuth.class);
+    apiAuthorization.setBearerToken(tokenSupplier);
   }
 
   /**

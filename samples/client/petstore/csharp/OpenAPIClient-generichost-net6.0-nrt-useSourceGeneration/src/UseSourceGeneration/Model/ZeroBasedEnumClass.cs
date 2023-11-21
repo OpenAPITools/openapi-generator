@@ -37,9 +37,9 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="zeroBasedEnum">zeroBasedEnum</param>
         [JsonConstructor]
-        public ZeroBasedEnumClass(ZeroBasedEnumEnum zeroBasedEnum)
+        public ZeroBasedEnumClass(Option<ZeroBasedEnumEnum?> zeroBasedEnum = default)
         {
-            ZeroBasedEnum = zeroBasedEnum;
+            ZeroBasedEnumOption = zeroBasedEnum;
             OnCreated();
         }
 
@@ -100,9 +100,8 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string ZeroBasedEnumEnumToJsonValue(ZeroBasedEnumEnum value)
+        public static string ZeroBasedEnumEnumToJsonValue(ZeroBasedEnumEnum? value)
         {
-
             if (value == ZeroBasedEnumEnum.Unknown)
                 return "unknown";
 
@@ -113,10 +112,17 @@ namespace UseSourceGeneration.Model
         }
 
         /// <summary>
+        /// Used to track the state of ZeroBasedEnum
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<ZeroBasedEnumEnum?> ZeroBasedEnumOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets ZeroBasedEnum
         /// </summary>
         [JsonPropertyName("ZeroBasedEnum")]
-        public ZeroBasedEnumEnum ZeroBasedEnum { get; set; }
+        public ZeroBasedEnumEnum? ZeroBasedEnum { get { return this.ZeroBasedEnumOption; } set { this.ZeroBasedEnumOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -171,7 +177,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            ZeroBasedEnumClass.ZeroBasedEnumEnum? zeroBasedEnum = default;
+            Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?> zeroBasedEnum = default;
 
             while (utf8JsonReader.Read())
             {
@@ -190,9 +196,8 @@ namespace UseSourceGeneration.Model
                     {
                         case "ZeroBasedEnum":
                             string? zeroBasedEnumRawValue = utf8JsonReader.GetString();
-                            zeroBasedEnum = zeroBasedEnumRawValue == null
-                                ? null
-                                : ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue);
+                            if (zeroBasedEnumRawValue != null)
+                                zeroBasedEnum = new Option<ZeroBasedEnumClass.ZeroBasedEnumEnum?>(ZeroBasedEnumClass.ZeroBasedEnumEnumFromStringOrDefault(zeroBasedEnumRawValue));
                             break;
                         default:
                             break;
@@ -200,10 +205,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (zeroBasedEnum == null)
-                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is required for class ZeroBasedEnumClass.");
+            if (zeroBasedEnum.IsSet && zeroBasedEnum.Value == null)
+                throw new ArgumentNullException(nameof(zeroBasedEnum), "Property is not nullable for class ZeroBasedEnumClass.");
 
-            return new ZeroBasedEnumClass(zeroBasedEnum.Value);
+            return new ZeroBasedEnumClass(zeroBasedEnum);
         }
 
         /// <summary>
@@ -230,8 +235,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
-
-            var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnum);
+            var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnumOption.Value!.Value);
             if (zeroBasedEnumRawValue != null)
                 writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
             else

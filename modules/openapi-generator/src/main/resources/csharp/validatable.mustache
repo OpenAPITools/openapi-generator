@@ -78,7 +78,7 @@
             {{/minLength}}
             {{#maximum}}
             // {{{name}}} ({{{dataType}}}) maximum
-            if (this.{{{name}}} > ({{{dataType}}}){{maximum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} > ({{{dataType}}}){{maximum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value less than or equal to {{maximum}}.", new [] { "{{{name}}}" });
             }
@@ -86,7 +86,7 @@
             {{/maximum}}
             {{#minimum}}
             // {{{name}}} ({{{dataType}}}) minimum
-            if (this.{{{name}}} < ({{{dataType}}}){{minimum}})
+            if ({{#useGenericHost}}{{^required}}this.{{{name}}}Option.IsSet && {{/required}}{{/useGenericHost}}this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} < ({{{dataType}}}){{minimum}})
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for {{{name}}}, must be a value greater than or equal to {{minimum}}.", new [] { "{{{name}}}" });
             }
@@ -96,7 +96,7 @@
             {{^isByteArray}}
             {{#vendorExtensions.x-is-value-type}}
             {{#isNullable}}
-            if (this.{{{name}}} != null){
+            if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null){
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
                 {{>ValidateRegex}}
@@ -116,7 +116,7 @@
             {{/isNullable}}
             {{/vendorExtensions.x-is-value-type}}
             {{^vendorExtensions.x-is-value-type}}
-            if (this.{{{name}}} != null) {
+            if (this.{{{name}}}{{#useGenericHost}}{{^required}}Option.Value{{/required}}{{/useGenericHost}} != null) {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#lambda.indent4}}
                 {{>ValidateRegex}}

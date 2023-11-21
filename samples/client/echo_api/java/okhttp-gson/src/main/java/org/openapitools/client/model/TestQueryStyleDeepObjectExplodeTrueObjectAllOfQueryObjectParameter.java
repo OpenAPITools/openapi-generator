@@ -71,7 +71,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   }
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(String size) {
-    
     this.size = size;
     return this;
   }
@@ -85,14 +84,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return size;
   }
 
-
   public void setSize(String size) {
     this.size = size;
   }
 
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(String color) {
-    
     this.color = color;
     return this;
   }
@@ -106,14 +103,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return color;
   }
 
-
   public void setColor(String color) {
     this.color = color;
   }
 
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -127,14 +122,12 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -147,7 +140,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

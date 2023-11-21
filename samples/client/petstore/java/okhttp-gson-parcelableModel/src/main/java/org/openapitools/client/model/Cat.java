@@ -64,7 +64,6 @@ public class Cat extends Animal implements Parcelable {
   }
 
   public Cat declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }
@@ -77,7 +76,6 @@ public class Cat extends Animal implements Parcelable {
   public Boolean getDeclawed() {
     return declawed;
   }
-
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;

@@ -37,5 +37,17 @@ namespace UseSourceGeneration.Client
             IsSet = true;
             Value = value;
         }
+
+        /// <summary>
+        /// Implicitly converts this option to the contained type
+        /// </summary>
+        /// <param name="option"></param>
+        public static implicit operator TType(Option<TType> option) => option.Value;
+
+        /// <summary>
+        /// Implicitly converts the provided value to an Option
+        /// </summary>
+        /// <param name="value"></param>
+        public static implicit operator Option<TType>(TType value) => new Option<TType>(value);
     }
 }

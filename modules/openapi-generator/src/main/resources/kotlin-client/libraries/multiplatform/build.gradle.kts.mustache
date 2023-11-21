@@ -20,6 +20,7 @@ repositories {
 kotlin {
     jvm()
     ios { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
+    iosSimulatorArm64 { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
     js {
         browser()
         nodejs()
@@ -65,6 +66,10 @@ kotlin {
         }
 
         val iosTest by getting
+
+        val iosSimulatorArm64Main by getting
+
+        val iosSimulatorArm64Test by getting
 
         val jsMain by getting {
             dependencies {

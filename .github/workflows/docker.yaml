@@ -1,6 +1,7 @@
 name: Docker tests
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - Dockerfile
@@ -27,7 +28,7 @@ jobs:
         shell: bash
         run: |
           sed -i 's/ -it / /g' run-in-docker.sh
-          ./run-in-docker.sh mvn clean install
+          ./run-in-docker.sh mvn -B clean install
 
       - name: Build Dockerfile
         shell: bash

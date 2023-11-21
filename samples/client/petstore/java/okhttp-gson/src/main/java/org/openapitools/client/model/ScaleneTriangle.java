@@ -63,7 +63,6 @@ public class ScaleneTriangle {
   }
 
   public ScaleneTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -77,14 +76,12 @@ public class ScaleneTriangle {
     return shapeType;
   }
 
-
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
 
 
   public ScaleneTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -97,7 +94,6 @@ public class ScaleneTriangle {
   public String getTriangleType() {
     return triangleType;
   }
-
 
   public void setTriangleType(String triangleType) {
     this.triangleType = triangleType;

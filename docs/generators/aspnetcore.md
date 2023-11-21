@@ -116,6 +116,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Client</li>
 <li>Configuration</li>
+<li>Environment</li>
+<li>OperatingSystem</li>
+<li>TimeZone</li>
 <li>Version</li>
 <li>abstract</li>
 <li>as</li>

@@ -90,7 +90,6 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
-    
     this.mapProperty = mapProperty;
     return this;
   }
@@ -112,14 +111,12 @@ public class AdditionalPropertiesClass {
     return mapProperty;
   }
 
-
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
 
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
   }
@@ -141,14 +138,12 @@ public class AdditionalPropertiesClass {
     return mapOfMapProperty;
   }
 
-
   public void setMapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     this.mapOfMapProperty = mapOfMapProperty;
   }
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
     this.anytype1 = anytype1;
     return this;
   }
@@ -162,14 +157,12 @@ public class AdditionalPropertiesClass {
     return anytype1;
   }
 
-
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
   }
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
-    
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
     return this;
   }
@@ -183,14 +176,12 @@ public class AdditionalPropertiesClass {
     return mapWithUndeclaredPropertiesAnytype1;
   }
 
-
   public void setMapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
   }
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
-    
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
     return this;
   }
@@ -204,14 +195,12 @@ public class AdditionalPropertiesClass {
     return mapWithUndeclaredPropertiesAnytype2;
   }
 
-
   public void setMapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
   }
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
-    
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
     return this;
   }
@@ -233,14 +222,12 @@ public class AdditionalPropertiesClass {
     return mapWithUndeclaredPropertiesAnytype3;
   }
 
-
   public void setMapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
   }
 
 
   public AdditionalPropertiesClass emptyMap(Object emptyMap) {
-    
     this.emptyMap = emptyMap;
     return this;
   }
@@ -254,14 +241,12 @@ public class AdditionalPropertiesClass {
     return emptyMap;
   }
 
-
   public void setEmptyMap(Object emptyMap) {
     this.emptyMap = emptyMap;
   }
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
-    
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
     return this;
   }
@@ -282,7 +267,6 @@ public class AdditionalPropertiesClass {
   public Map<String, String> getMapWithUndeclaredPropertiesString() {
     return mapWithUndeclaredPropertiesString;
   }
-
 
   public void setMapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;

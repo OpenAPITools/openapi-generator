@@ -125,6 +125,11 @@ public class Pet {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -136,7 +141,6 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -151,14 +155,12 @@ public class Pet {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -173,14 +175,12 @@ public class Pet {
     return category;
   }
 
-
   public void setCategory(Category category) {
     this.category = category;
   }
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -195,14 +195,12 @@ public class Pet {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public Pet photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -225,14 +223,12 @@ public class Pet {
     return photoUrls;
   }
 
-
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -255,7 +251,6 @@ public class Pet {
     return tags;
   }
 
-
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
@@ -263,7 +258,6 @@ public class Pet {
 
   @Deprecated
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -279,7 +273,6 @@ public class Pet {
   public StatusEnum getStatus() {
     return status;
   }
-
 
   @Deprecated
   public void setStatus(StatusEnum status) {
@@ -450,6 +443,10 @@ public class Pet {
       }
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
   }
 

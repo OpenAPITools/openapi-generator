@@ -68,7 +68,6 @@ public class NewPetCategoryInlineAllof {
   }
 
   public NewPetCategoryInlineAllof id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -82,14 +81,12 @@ public class NewPetCategoryInlineAllof {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public NewPetCategoryInlineAllof name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -103,14 +100,12 @@ public class NewPetCategoryInlineAllof {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public NewPetCategoryInlineAllof categoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
-    
     this.categoryTag = categoryTag;
     return this;
   }
@@ -123,7 +118,6 @@ public class NewPetCategoryInlineAllof {
   public NewPetCategoryInlineAllofAllOfCategoryTag getCategoryTag() {
     return categoryTag;
   }
-
 
   public void setCategoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;

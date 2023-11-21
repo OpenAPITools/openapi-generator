@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -172,6 +173,8 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> parameterNameMapping = new HashMap<>();
     // a map to store the mapping between model name and the name provided by the user
     protected Map<String, String> modelNameMapping = new HashMap<>();
+    // a map to store the mapping between enum name and the name provided by the user
+    protected Map<String, String> enumNameMapping = new HashMap<>();
     // a map to store the rules in OpenAPI Normalizer
     protected Map<String, String> openapiNormalizer = new HashMap<>();
     protected String modelPackage = "", apiPackage = "", fileSuffix;
@@ -924,12 +927,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    /**
-     * Set the OpenAPI document.
-     * This method is invoked when the input OpenAPI document has been parsed and validated.
-     */
-    @Override
-    public void setOpenAPI(OpenAPI openAPI) {
+    public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
         String originalSpecVersion;
         String xOriginalSwaggerVersion = "x-original-swagger-version";
         if (openAPI.getExtensions() != null && !openAPI.getExtensions().isEmpty() && openAPI.getExtensions().containsValue(xOriginalSwaggerVersion)) {
@@ -939,8 +937,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
         Integer specMajorVersion = Integer.parseInt(originalSpecVersion.substring(0, 1));
         Integer specMinorVersion = Integer.parseInt(originalSpecVersion.substring(2, 3));
-        boolean specVersionGreaterThanOrEqualTo310 = (specMajorVersion == 3 && specMinorVersion >= 1);
-        if (specVersionGreaterThanOrEqualTo310) {
+        return specMajorVersion == 3 && specMinorVersion >= 1;
+    }
+
+    /**
+     * Set the OpenAPI document.
+     * This method is invoked when the input OpenAPI document has been parsed and validated.
+     */
+    @Override
+    public void setOpenAPI(OpenAPI openAPI) {
+        if (specVersionGreaterThanOrEqualTo310(openAPI)) {
             LOGGER.warn(UNSUPPORTED_V310_SPEC_MSG);
         }
         this.openAPI = openAPI;
@@ -1019,7 +1025,7 @@ public class DefaultCodegen implements CodegenConfig {
                         if (op.getValue().getResponses() != null) {
                             for (Map.Entry<String, ApiResponse> ar : op.getValue().getResponses().entrySet()) {
                                 ApiResponse a = ModelUtils.getReferencedApiResponse(openAPI, ar.getValue());
-                                Schema responseSchema = ModelUtils.getSchemaFromResponse(a);
+                                Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, a));
                                 if (responseSchema != null) {
                                     schemas.put(opId + ar.getKey(), responseSchema);
                                 }
@@ -1238,6 +1244,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, String> modelNameMapping() {
         return modelNameMapping;
+    }
+
+    @Override
+    public Map<String, String> enumNameMapping() {
+        return enumNameMapping;
     }
 
     @Override
@@ -2894,7 +2905,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (null != existingProperties && null != newProperties) {
             Schema existingType = existingProperties.get("type");
             Schema newType = newProperties.get("type");
-            existingProperties.putAll(newProperties);
+            newProperties.forEach((key, value) ->
+                    existingProperties.put(
+                            key,
+                            AnnotationsUtils.clone(value, specVersionGreaterThanOrEqualTo310(openAPI))
+                    ));
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
                     // ensure all interface enum types are added to schema
@@ -4151,6 +4166,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getExtensions() != null) {
                 property.getVendorExtensions().putAll(original.getExtensions());
             }
+            if (original.getDeprecated() != null) {
+                property.deprecated = p.getDeprecated();
+            }
         }
 
         // set the default value
@@ -4379,7 +4397,7 @@ public class DefaultCodegen implements CodegenConfig {
                                         CodegenOperation op,
                                         ApiResponse methodResponse,
                                         Map<String, String> schemaMappings) {
-        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+        Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
 
         if (responseSchema != null) {
             CodegenProperty cm = fromProperty("response", responseSchema, false);
@@ -4641,18 +4659,19 @@ public class DefaultCodegen implements CodegenConfig {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
-                bodyParam.description = escapeText(requestBody.getDescription());
-                postProcessParameter(bodyParam);
 
-                bodyParams.add(bodyParam);
+                if (bodyParam != null) {
+                    bodyParam.description = escapeText(requestBody.getDescription());
+                    postProcessParameter(bodyParam);
+                    bodyParams.add(bodyParam);
+                    if (prependFormOrBodyParameters) {
+                        allParams.add(bodyParam);
+                    }
 
-                if (prependFormOrBodyParameters) {
-                    allParams.add(bodyParam);
-                }
-
-                // add example
-                if (schemas != null && !isSkipOperationExample()) {
-                    op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    // add example
+                    if (schemas != null && !isSkipOperationExample()) {
+                        op.requestBodyExamples = new ExampleGenerator(schemas, this.openAPI).generate(null, new ArrayList<>(getConsumesInfo(this.openAPI, operation)), bodyParam.baseType);
+                    }
                 }
             }
         }
@@ -4813,6 +4832,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {
+
                 case '1':
                     r.is1xx = true;
                     break;
@@ -4835,12 +4855,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(response));
+            responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, response));
         } else { // no model/alias defined
-            responseSchema = ModelUtils.getSchemaFromResponse(response);
+            responseSchema = ModelUtils.getSchemaFromResponse(openAPI, response);
         }
         r.schema = responseSchema;
-
         r.message = escapeText(response.getDescription());
         // TODO need to revise and test examples in responses
         // ApiResponse does not support examples at the moment
@@ -7581,8 +7600,23 @@ public class DefaultCodegen implements CodegenConfig {
         String name = null;
         LOGGER.debug("Request body = {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
-        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
+        if (schema == null) {
+            LOGGER.error("Schema cannot be null in the request body: {}", body);
+            return null;
+        }
+        Schema original = null;
+        // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
+        if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
+                schema.getType() == null && schema.getTypes() == null) {
+            if (schema.getAllOf().get(0) instanceof Schema) {
+                original = schema;
+                schema = (Schema) schema.getAllOf().get(0);
+            } else {
+                LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
+            }
+        }
 
+        codegenParameter.setContent(getContent(body.getContent(), imports, "RequestBody"));
         if (StringUtils.isNotBlank(schema.get$ref())) {
             name = ModelUtils.getSimpleRef(schema.get$ref());
         }
@@ -7650,6 +7684,24 @@ public class DefaultCodegen implements CodegenConfig {
         // set the parameter's example value
         // should be overridden by lang codegen
         setParameterExampleValue(codegenParameter, body);
+
+        // restore original schema with description, extensions etc
+        if (original != null) {
+            schema = original;
+            // evaluate common attributes such as description if defined in the top level
+            if (schema.getDescription() != null) {
+                codegenParameter.description = escapeText(schema.getDescription());
+                codegenParameter.unescapedDescription = schema.getDescription();
+            }
+
+            if (original.getExtensions() != null) {
+                codegenParameter.vendorExtensions.putAll(original.getExtensions());
+            }
+
+            if (original.getDeprecated() != null) {
+                codegenParameter.isDeprecated = original.getDeprecated();
+            }
+        }
 
         return codegenParameter;
     }

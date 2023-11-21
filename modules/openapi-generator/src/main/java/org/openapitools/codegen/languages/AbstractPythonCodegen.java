@@ -2024,16 +2024,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return new PythonType(cp.getDataType());
         }
 
-        private PythonType freeFormType(IJsonSchemaValidationProperties cp) {
-            typingImports.add("Dict");
-            typingImports.add("Any");
-            typingImports.add("Union");
-            PythonType pt = new PythonType("Union");
-            pt.addTypeParam(new PythonType("str"));
-            pt.addTypeParam(new PythonType("Any"));
-            return pt;
-        }
-
         private PythonType modelType(IJsonSchemaValidationProperties cp) {
             // add model prefix
             hasModelsToImport = true;
@@ -2056,7 +2046,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             if (cp.getIsArray()) {
                 return arrayType(cp);
-            } else if (cp.getIsMap()) {
+            } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {
                 return mapType(cp);
             } else if (cp.getIsString()) {
                 return stringType(cp);
@@ -2076,8 +2066,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return dateType(cp);
             } else if (cp.getIsUuid()) {
                 return uuidType(cp);
-            } else if (cp.getIsFreeFormObject()) { // type: object
-                return freeFormType(cp);
             }
 
             return null;

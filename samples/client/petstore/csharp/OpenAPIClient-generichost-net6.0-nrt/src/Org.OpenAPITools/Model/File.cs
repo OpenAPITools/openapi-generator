@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,20 +36,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="sourceURI">Test capitalization</param>
         [JsonConstructor]
-        public File(string sourceURI)
+        public File(Option<string?> sourceURI = default)
         {
-            SourceURI = sourceURI;
+            SourceURIOption = sourceURI;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of SourceURI
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> SourceURIOption { get; private set; }
+
+        /// <summary>
         /// Test capitalization
         /// </summary>
         /// <value>Test capitalization</value>
         [JsonPropertyName("sourceURI")]
-        public string SourceURI { get; set; }
+        public string? SourceURI { get { return this. SourceURIOption; } set { this.SourceURIOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,7 +111,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? sourceURI = default;
+            Option<string?> sourceURI = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +129,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "sourceURI":
-                            sourceURI = utf8JsonReader.GetString();
+                            sourceURI = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -129,8 +137,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (sourceURI == null)
-                throw new ArgumentNullException(nameof(sourceURI), "Property is required for class File.");
+            if (sourceURI.IsSet && sourceURI.Value == null)
+                throw new ArgumentNullException(nameof(sourceURI), "Property is not nullable for class File.");
 
             return new File(sourceURI);
         }
@@ -159,7 +167,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, File file, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("sourceURI", file.SourceURI);
+            if (file.SourceURIOption.IsSet && file.SourceURI == null)
+                throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
+
+            if (file.SourceURIOption.IsSet)
+                writer.WriteString("sourceURI", file.SourceURI);
         }
     }
 }

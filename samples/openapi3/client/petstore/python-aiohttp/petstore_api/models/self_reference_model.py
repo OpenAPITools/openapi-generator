@@ -35,7 +35,8 @@ class SelfReferenceModel(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -90,9 +91,6 @@ class SelfReferenceModel(BaseModel):
         return _obj
 
 from petstore_api.models.dummy_model import DummyModel
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # SelfReferenceModel.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+SelfReferenceModel.model_rebuild(raise_errors=False)
 

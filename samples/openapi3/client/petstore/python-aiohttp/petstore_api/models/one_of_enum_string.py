@@ -44,7 +44,8 @@ class OneOfEnumString(BaseModel):
     one_of_schemas: List[str] = Literal["EnumString1", "EnumString2"]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 

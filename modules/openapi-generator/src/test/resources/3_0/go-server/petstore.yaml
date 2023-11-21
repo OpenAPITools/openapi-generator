@@ -346,6 +346,11 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
+                extraOptionalMetadata:
+                  description: More data to pass to server
+                  type: array
+                  items:
+                    type: string
                 file:
                   description: file to upload
                   type: string
@@ -733,6 +738,26 @@ paths:
           schema:
             type: boolean
             default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /pets/byTime/{createdTime}:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by time
+      operationId: GetPetsByTime
+      parameters:
+        - in: path
+          name: createdTime
+          required: true
+          schema:
+            type: string
+            format: date-time
       responses:
         '200':
           description: successful operation

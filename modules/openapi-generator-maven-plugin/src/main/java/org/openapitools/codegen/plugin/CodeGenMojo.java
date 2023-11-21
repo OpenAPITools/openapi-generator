@@ -351,6 +351,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> modelNameMappings;
 
     /**
+     * A map of enum names and the new names
+     */
+    @Parameter(name = "enumNameMappings", property = "openapi.generator.maven.plugin.enumNameMappings")
+    private List<String> enumNameMappings;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -834,6 +840,11 @@ public class CodeGenMojo extends AbstractMojo {
                 applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
+            // Apply Enum Name Mappings
+            if (enumNameMappings != null && (configOptions == null || !configOptions.containsKey("enum-name-mappings"))) {
+                applyEnumNameMappingsKvpList(enumNameMappings, configurator);
+            }
+
             // Apply OpenAPI normalizer rules
             if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
                 applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
@@ -903,6 +914,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
+            GlobalSettings.log();
             new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {

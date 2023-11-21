@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,20 +36,27 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="dateOnlyProperty">dateOnlyProperty</param>
         [JsonConstructor]
-        public DateOnlyClass(DateTime dateOnlyProperty)
+        public DateOnlyClass(Option<DateTime?> dateOnlyProperty = default)
         {
-            DateOnlyProperty = dateOnlyProperty;
+            DateOnlyPropertyOption = dateOnlyProperty;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of DateOnlyProperty
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<DateTime?> DateOnlyPropertyOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets DateOnlyProperty
         /// </summary>
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
-        public DateTime DateOnlyProperty { get; set; }
+        public DateTime? DateOnlyProperty { get { return this. DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -108,7 +116,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            DateTime? dateOnlyProperty = default;
+            Option<DateTime?> dateOnlyProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -127,7 +135,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "dateOnlyProperty":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateOnlyProperty = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                                dateOnlyProperty = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -135,10 +143,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (dateOnlyProperty == null)
-                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is required for class DateOnlyClass.");
+            if (dateOnlyProperty.IsSet && dateOnlyProperty.Value == null)
+                throw new ArgumentNullException(nameof(dateOnlyProperty), "Property is not nullable for class DateOnlyClass.");
 
-            return new DateOnlyClass(dateOnlyProperty.Value);
+            return new DateOnlyClass(dateOnlyProperty);
         }
 
         /// <summary>
@@ -165,7 +173,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyProperty.ToString(DateOnlyPropertyFormat));
+            if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
+                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat));
         }
     }
 }

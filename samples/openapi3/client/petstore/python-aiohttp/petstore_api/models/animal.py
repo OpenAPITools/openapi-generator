@@ -36,7 +36,8 @@ class Animal(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -104,9 +105,6 @@ class Animal(BaseModel):
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # Animal.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+Animal.model_rebuild(raise_errors=False)
 

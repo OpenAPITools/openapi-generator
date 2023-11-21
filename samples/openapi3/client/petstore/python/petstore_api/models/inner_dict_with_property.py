@@ -18,7 +18,7 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 try:
@@ -30,13 +30,14 @@ class InnerDictWithProperty(BaseModel):
     """
     InnerDictWithProperty
     """ # noqa: E501
-    a_property: Optional[Union[str, Any]] = Field(default=None, alias="aProperty")
+    a_property: Optional[Dict[str, Any]] = Field(default=None, alias="aProperty")
     additional_properties: Dict[str, Any] = {}
     __properties: ClassVar[List[str]] = ["aProperty"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
