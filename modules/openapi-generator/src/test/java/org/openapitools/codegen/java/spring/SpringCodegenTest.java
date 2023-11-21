@@ -893,6 +893,101 @@ public class SpringCodegenTest {
               .withType( "Set<Integer>" );
     }
 
+
+
+    @Test
+    public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue17150() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_17150.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+       // codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .isNormalClass()
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+                .hasProperty("stringPattern")
+                .withType( "Set<@Pattern(regexp = \"[a-z]\") String>" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "Set<@Size(min = 1, max = 10) String>" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "List<@Size(min = 1) String>" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "Set<@Size(max = 1) String>" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "List<@Min(1) @Max(10) Integer>" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "List<@Min(1) Integer>" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "List<@Max(10) Integer>" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "JsonNullable<Set<@Pattern(regexp = \"[a-z]\") String>>" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "JsonNullable<Set<@Size(min = 1, max = 10) String>>" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "JsonNullable<List<@Size(min = 1) String>>" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "JsonNullable<Set<@Size(max = 1) String>>" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "JsonNullable<List<@Min(1) @Max(10) Integer>>" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "JsonNullable<List<@Min(1) Integer>>" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "JsonNullable<List<@Max(10) Integer>>" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>>" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "JsonNullable<List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .toType()
+        ;
+    }
+
+
     // Helper function, intended to reduce boilerplate
     private Map<String, File> generateFiles(SpringCodegen codegen, String filePath) throws IOException {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
