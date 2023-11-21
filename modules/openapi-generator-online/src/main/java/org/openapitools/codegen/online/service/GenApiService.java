@@ -57,16 +57,27 @@ public class GenApiService implements GenApiDelegate {
     static {
         List<CodegenConfig> extensions = CodegenConfigLoader.getAll();
         for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT)
-                    || config.getTag().equals(CodegenType.DOCUMENTATION)) {
-                clients.add(config.getName());
-            } else if (config.getTag().equals(CodegenType.SERVER)) {
-                servers.add(config.getName());
-            }
+            processCodegenConfig(config);
         }
 
         clients.sort(String.CASE_INSENSITIVE_ORDER);
         servers.sort(String.CASE_INSENSITIVE_ORDER);
+    }
+
+    private static void processCodegenConfig(CodegenConfig config) {
+        if (isClientOrDocumentation(config)) {
+            clients.add(config.getName());
+        } else if (isServer(config)) {
+            servers.add(config.getName());
+        }
+    }
+
+    private static boolean isClientOrDocumentation(CodegenConfig config) {
+        return config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION);
+    }
+
+    private static boolean isServer(CodegenConfig config) {
+        return config.getTag().equals(CodegenType.SERVER);
     }
 
     @Autowired

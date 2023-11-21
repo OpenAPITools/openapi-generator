@@ -48,9 +48,9 @@ public class OpenAPIDocumentationConfig {
 
     ApiInfo apiInfo() {
         final Properties properties = new Properties();
-        try (InputStream stream = this.getClass().getResourceAsStream("/version.properties")) {
-            if (stream != null) {
-                properties.load(stream);
+        try (InputStream inputStream = this.getClass().getResourceAsStream("/version.properties")) {
+            if (inputStream != null) {
+                properties.load(inputStream);
             }
         } catch (IOException ex) {
             // ignore
