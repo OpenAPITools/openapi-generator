@@ -35,9 +35,11 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
         /// </summary>
-        /// <param name="binary">binary</param>
         /// <param name="varByte">varByte</param>
         /// <param name="date">date</param>
+        /// <param name="number">number</param>
+        /// <param name="password">password</param>
+        /// <param name="binary">binary</param>
         /// <param name="dateTime">dateTime</param>
         /// <param name="varDecimal">varDecimal</param>
         /// <param name="varDouble">varDouble</param>
@@ -45,8 +47,6 @@ namespace UseSourceGeneration.Model
         /// <param name="int32">int32</param>
         /// <param name="int64">int64</param>
         /// <param name="integer">integer</param>
-        /// <param name="number">number</param>
-        /// <param name="password">password</param>
         /// <param name="patternWithBackslash">None</param>
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros.</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</param>
@@ -55,11 +55,13 @@ namespace UseSourceGeneration.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(System.IO.Stream binary, byte[] varByte, DateTime date, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, decimal number, string password, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
+        public FormatTest(byte[] varByte, DateTime date, decimal number, string password, System.IO.Stream binary, DateTime dateTime, decimal varDecimal, double varDouble, float varFloat, int int32, long int64, int integer, string patternWithBackslash, string patternWithDigits, string patternWithDigitsAndDelimiter, string varString, uint unsignedInteger, ulong unsignedLong, Guid uuid)
         {
-            Binary = binary;
             VarByte = varByte;
             Date = date;
+            Number = number;
+            Password = password;
+            Binary = binary;
             DateTime = dateTime;
             VarDecimal = varDecimal;
             VarDouble = varDouble;
@@ -67,8 +69,6 @@ namespace UseSourceGeneration.Model
             Int32 = int32;
             Int64 = int64;
             Integer = integer;
-            Number = number;
-            Password = password;
             PatternWithBackslash = patternWithBackslash;
             PatternWithDigits = patternWithDigits;
             PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
@@ -82,12 +82,6 @@ namespace UseSourceGeneration.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Gets or Sets Binary
-        /// </summary>
-        [JsonPropertyName("binary")]
-        public System.IO.Stream Binary { get; set; }
-
-        /// <summary>
         /// Gets or Sets VarByte
         /// </summary>
         [JsonPropertyName("byte")]
@@ -99,6 +93,24 @@ namespace UseSourceGeneration.Model
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Number
+        /// </summary>
+        [JsonPropertyName("number")]
+        public decimal Number { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Password
+        /// </summary>
+        [JsonPropertyName("password")]
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Binary
+        /// </summary>
+        [JsonPropertyName("binary")]
+        public System.IO.Stream Binary { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
@@ -142,18 +154,6 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("integer")]
         public int Integer { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Number
-        /// </summary>
-        [JsonPropertyName("number")]
-        public decimal Number { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Password
-        /// </summary>
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
 
         /// <summary>
         /// None
@@ -215,9 +215,11 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FormatTest {\n");
-            sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  VarByte: ").Append(VarByte).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
+            sb.Append("  Number: ").Append(Number).Append("\n");
+            sb.Append("  Password: ").Append(Password).Append("\n");
+            sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  VarDecimal: ").Append(VarDecimal).Append("\n");
             sb.Append("  VarDouble: ").Append(VarDouble).Append("\n");
@@ -225,8 +227,6 @@ namespace UseSourceGeneration.Model
             sb.Append("  Int32: ").Append(Int32).Append("\n");
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  Integer: ").Append(Integer).Append("\n");
-            sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  PatternWithBackslash: ").Append(PatternWithBackslash).Append("\n");
             sb.Append("  PatternWithDigits: ").Append(PatternWithDigits).Append("\n");
             sb.Append("  PatternWithDigitsAndDelimiter: ").Append(PatternWithDigitsAndDelimiter).Append("\n");
@@ -244,78 +244,78 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // VarDouble (double) maximum
-            if (this.VarDouble > (double)123.4)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
-            }
-
-            // VarDouble (double) minimum
-            if (this.VarDouble < (double)67.8)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
-            }
-
-            // VarFloat (float) maximum
-            if (this.VarFloat > (float)987.6)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
-            }
-
-            // VarFloat (float) minimum
-            if (this.VarFloat < (float)54.3)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
-            }
-
-            // Int32 (int) maximum
-            if (this.Int32 > (int)200)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
-            }
-
-            // Int32 (int) minimum
-            if (this.Int32 < (int)20)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
-            }
-
-            // Integer (int) maximum
-            if (this.Integer > (int)100)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
-            }
-
-            // Integer (int) minimum
-            if (this.Integer < (int)10)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
-            }
-
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+            }
+
+            // VarDouble (double) maximum
+            if (this.VarDouble > (double)123.4)
+            {
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
+            }
+
+            // VarDouble (double) minimum
+            if (this.VarDouble < (double)67.8)
+            {
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
+            }
+
+            // VarFloat (float) maximum
+            if (this.VarFloat > (float)987.6)
+            {
+                yield return new ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
+            }
+
+            // VarFloat (float) minimum
+            if (this.VarFloat < (float)54.3)
+            {
+                yield return new ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
+            }
+
+            // Int32 (int) maximum
+            if (this.Int32 > (int)200)
+            {
+                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+            }
+
+            // Int32 (int) minimum
+            if (this.Int32 < (int)20)
+            {
+                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+            }
+
+            // Integer (int) maximum
+            if (this.Integer > (int)100)
+            {
+                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
+            }
+
+            // Integer (int) minimum
+            if (this.Integer < (int)10)
+            {
+                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             if (this.PatternWithBackslash != null) {
@@ -357,13 +357,13 @@ namespace UseSourceGeneration.Model
             // UnsignedInteger (uint) maximum
             if (this.UnsignedInteger > (uint)200)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
             if (this.UnsignedInteger < (uint)20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             yield break;
@@ -402,9 +402,11 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            System.IO.Stream? binary = default;
             byte[]? varByte = default;
             DateTime? date = default;
+            decimal? number = default;
+            string? password = default;
+            System.IO.Stream? binary = default;
             DateTime? dateTime = default;
             decimal? varDecimal = default;
             double? varDouble = default;
@@ -412,8 +414,6 @@ namespace UseSourceGeneration.Model
             int? int32 = default;
             long? int64 = default;
             int? integer = default;
-            decimal? number = default;
-            string? password = default;
             string? patternWithBackslash = default;
             string? patternWithDigits = default;
             string? patternWithDigitsAndDelimiter = default;
@@ -437,10 +437,6 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "binary":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
-                            break;
                         case "byte":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 varByte = JsonSerializer.Deserialize<byte[]>(ref utf8JsonReader, jsonSerializerOptions);
@@ -448,6 +444,17 @@ namespace UseSourceGeneration.Model
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 date = JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
+                        case "number":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                number = utf8JsonReader.GetDecimal();
+                            break;
+                        case "password":
+                            password = utf8JsonReader.GetString();
+                            break;
+                        case "binary":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                binary = JsonSerializer.Deserialize<System.IO.Stream>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "dateTime":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -476,13 +483,6 @@ namespace UseSourceGeneration.Model
                         case "integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 integer = utf8JsonReader.GetInt32();
-                            break;
-                        case "number":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                number = utf8JsonReader.GetDecimal();
-                            break;
-                        case "password":
-                            password = utf8JsonReader.GetString();
                             break;
                         case "pattern_with_backslash":
                             patternWithBackslash = utf8JsonReader.GetString();
@@ -514,14 +514,20 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (binary == null)
-                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
-
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte), "Property is required for class FormatTest.");
 
             if (date == null)
                 throw new ArgumentNullException(nameof(date), "Property is required for class FormatTest.");
+
+            if (number == null)
+                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
+
+            if (password == null)
+                throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
+
+            if (binary == null)
+                throw new ArgumentNullException(nameof(binary), "Property is required for class FormatTest.");
 
             if (dateTime == null)
                 throw new ArgumentNullException(nameof(dateTime), "Property is required for class FormatTest.");
@@ -544,12 +550,6 @@ namespace UseSourceGeneration.Model
             if (integer == null)
                 throw new ArgumentNullException(nameof(integer), "Property is required for class FormatTest.");
 
-            if (number == null)
-                throw new ArgumentNullException(nameof(number), "Property is required for class FormatTest.");
-
-            if (password == null)
-                throw new ArgumentNullException(nameof(password), "Property is required for class FormatTest.");
-
             if (patternWithBackslash == null)
                 throw new ArgumentNullException(nameof(patternWithBackslash), "Property is required for class FormatTest.");
 
@@ -571,7 +571,7 @@ namespace UseSourceGeneration.Model
             if (uuid == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is required for class FormatTest.");
 
-            return new FormatTest(binary, varByte, date.Value, dateTime.Value, varDecimal.Value, varDouble.Value, varFloat.Value, int32.Value, int64.Value, integer.Value, number.Value, password, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
+            return new FormatTest(varByte, date.Value, number.Value, password, binary, dateTime.Value, varDecimal.Value, varDouble.Value, varFloat.Value, int32.Value, int64.Value, integer.Value, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger.Value, unsignedLong.Value, uuid.Value);
         }
 
         /// <summary>
@@ -598,11 +598,13 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FormatTest formatTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("binary");
-            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WritePropertyName("byte");
             JsonSerializer.Serialize(writer, formatTest.VarByte, jsonSerializerOptions);
             writer.WriteString("date", formatTest.Date.ToString(DateFormat));
+            writer.WriteNumber("number", formatTest.Number);
+            writer.WriteString("password", formatTest.Password);
+            writer.WritePropertyName("binary");
+            JsonSerializer.Serialize(writer, formatTest.Binary, jsonSerializerOptions);
             writer.WriteString("dateTime", formatTest.DateTime.ToString(DateTimeFormat));
             writer.WritePropertyName("decimal");
             JsonSerializer.Serialize(writer, formatTest.VarDecimal, jsonSerializerOptions);
@@ -611,8 +613,6 @@ namespace UseSourceGeneration.Model
             writer.WriteNumber("int32", formatTest.Int32);
             writer.WriteNumber("int64", formatTest.Int64);
             writer.WriteNumber("integer", formatTest.Integer);
-            writer.WriteNumber("number", formatTest.Number);
-            writer.WriteString("password", formatTest.Password);
             writer.WriteString("pattern_with_backslash", formatTest.PatternWithBackslash);
             writer.WriteString("pattern_with_digits", formatTest.PatternWithDigits);
             writer.WriteString("pattern_with_digits_and_delimiter", formatTest.PatternWithDigitsAndDelimiter);

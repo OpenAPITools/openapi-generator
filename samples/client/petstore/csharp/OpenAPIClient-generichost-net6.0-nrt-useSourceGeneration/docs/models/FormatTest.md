@@ -4,9 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Binary** | **System.IO.Stream** |  | [optional] 
 **VarByte** | **byte[]** |  | 
 **Date** | **DateTime** |  | 
+**Number** | **decimal** |  | 
+**Password** | **string** |  | 
+**Binary** | **System.IO.Stream** |  | [optional] 
 **DateTime** | **DateTime** |  | [optional] 
 **VarDecimal** | **decimal** |  | [optional] 
 **VarDouble** | **double** |  | [optional] 
@@ -14,8 +16,6 @@ Name | Type | Description | Notes
 **Int32** | **int** |  | [optional] 
 **Int64** | **long** |  | [optional] 
 **Integer** | **int** |  | [optional] 
-**Number** | **decimal** |  | 
-**Password** | **string** |  | 
 **PatternWithBackslash** | **string** | None | [optional] 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 

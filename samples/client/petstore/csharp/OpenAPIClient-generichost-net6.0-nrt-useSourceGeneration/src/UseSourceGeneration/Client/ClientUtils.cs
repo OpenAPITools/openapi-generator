@@ -143,6 +143,8 @@ namespace UseSourceGeneration.Client
                 return EnumArrays.JustSymbolEnumToJsonValue(enumArraysJustSymbolEnum);
             if (obj is EnumClass enumClass)
                 return EnumClassValueConverter.ToJsonValue(enumClass);
+            if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
+                return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
             if (obj is EnumTest.EnumIntegerEnum enumTestEnumIntegerEnum)
                 return EnumTest.EnumIntegerEnumToJsonValue(enumTestEnumIntegerEnum).ToString();
             if (obj is EnumTest.EnumIntegerOnlyEnum enumTestEnumIntegerOnlyEnum)
@@ -151,8 +153,6 @@ namespace UseSourceGeneration.Client
                 return EnumTest.EnumNumberEnumToJsonValue(enumTestEnumNumberEnum).ToString();
             if (obj is EnumTest.EnumStringEnum enumTestEnumStringEnum)
                 return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
-            if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
-                return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
             if (obj is MapTest.InnerEnum mapTestInnerEnum)
                 return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
             if (obj is Order.StatusEnum orderStatusEnum)

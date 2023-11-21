@@ -35,11 +35,11 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="breed">breed</param>
         /// <param name="className">className</param>
+        /// <param name="breed">breed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Dog(string breed, string className, string color = @"red") : base(className, color)
+        public Dog(string className, string breed, string color = @"red") : base(className, color)
         {
             Breed = breed;
             OnCreated();
@@ -90,8 +90,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? breed = default;
             string? className = default;
+            string? breed = default;
             string? color = default;
 
             while (utf8JsonReader.Read())
@@ -109,11 +109,11 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "breed":
-                            breed = utf8JsonReader.GetString();
-                            break;
                         case "className":
                             className = utf8JsonReader.GetString();
+                            break;
+                        case "breed":
+                            breed = utf8JsonReader.GetString();
                             break;
                         case "color":
                             color = utf8JsonReader.GetString();
@@ -124,16 +124,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (breed == null)
-                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
-
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+
+            if (breed == null)
+                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
 
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
 
-            return new Dog(breed, className, color);
+            return new Dog(className, breed, color);
         }
 
         /// <summary>
@@ -160,8 +160,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("breed", dog.Breed);
             writer.WriteString("className", dog.ClassName);
+            writer.WriteString("breed", dog.Breed);
             writer.WriteString("color", dog.Color);
         }
     }

@@ -35,19 +35,19 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
-        /// <param name="category">category</param>
-        /// <param name="id">id</param>
         /// <param name="name">name</param>
         /// <param name="photoUrls">photoUrls</param>
+        /// <param name="category">category</param>
+        /// <param name="id">id</param>
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(Category category, long id, string name, List<string> photoUrls, StatusEnum status, List<Tag> tags)
+        public Pet(string name, List<string> photoUrls, Category category, long id, StatusEnum status, List<Tag> tags)
         {
-            Category = category;
-            Id = id;
             Name = name;
             PhotoUrls = photoUrls;
+            Category = category;
+            Id = id;
             Status = status;
             Tags = tags;
             OnCreated();
@@ -145,18 +145,6 @@ namespace UseSourceGeneration.Model
         public StatusEnum Status { get; set; }
 
         /// <summary>
-        /// Gets or Sets Category
-        /// </summary>
-        [JsonPropertyName("category")]
-        public Category Category { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Id
-        /// </summary>
-        [JsonPropertyName("id")]
-        public long Id { get; set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>doggie</example>
@@ -168,6 +156,18 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("photoUrls")]
         public List<string> PhotoUrls { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Category
+        /// </summary>
+        [JsonPropertyName("category")]
+        public Category Category { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [JsonPropertyName("id")]
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
@@ -189,10 +189,10 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Pet {\n");
-            sb.Append("  Category: ").Append(Category).Append("\n");
-            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  PhotoUrls: ").Append(PhotoUrls).Append("\n");
+            sb.Append("  Category: ").Append(Category).Append("\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Tags: ").Append(Tags).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -205,7 +205,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -233,10 +233,10 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Category? category = default;
-            long? id = default;
             string? name = default;
             List<string>? photoUrls = default;
+            Category? category = default;
+            long? id = default;
             Pet.StatusEnum? status = default;
             List<Tag>? tags = default;
 
@@ -255,6 +255,13 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "name":
+                            name = utf8JsonReader.GetString();
+                            break;
+                        case "photoUrls":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
+                            break;
                         case "category":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
@@ -262,13 +269,6 @@ namespace UseSourceGeneration.Model
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 id = utf8JsonReader.GetInt64();
-                            break;
-                        case "name":
-                            name = utf8JsonReader.GetString();
-                            break;
-                        case "photoUrls":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
@@ -286,17 +286,17 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (category == null)
-                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
-
-            if (id == null)
-                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
-
             if (name == null)
                 throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
 
             if (photoUrls == null)
                 throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
+
+            if (category == null)
+                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
+
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
 
             if (status == null)
                 throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
@@ -304,7 +304,7 @@ namespace UseSourceGeneration.Model
             if (tags == null)
                 throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
 
-            return new Pet(category, id.Value, name, photoUrls, status.Value, tags);
+            return new Pet(name, photoUrls, category, id.Value, status.Value, tags);
         }
 
         /// <summary>
@@ -331,12 +331,12 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("category");
-            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
-            writer.WriteNumber("id", pet.Id);
             writer.WriteString("name", pet.Name);
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
+            writer.WritePropertyName("category");
+            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
+            writer.WriteNumber("id", pet.Id);
 
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
             if (statusRawValue != null)

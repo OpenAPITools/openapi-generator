@@ -32,10 +32,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="className">className</param>
-        /// <param name="declawed">declawed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
+        /// <param name="declawed">declawed</param>
         [JsonConstructor]
-        public Cat(string className, bool declawed, string color = @"red") : base(className, color)
+        public Cat(string className, string color = @"red", bool declawed) : base(className, color)
         {
             Declawed = declawed;
             OnCreated();
@@ -87,8 +87,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             string className = default;
-            bool? declawed = default;
             string color = default;
+            bool? declawed = default;
 
             while (utf8JsonReader.Read())
             {
@@ -108,12 +108,12 @@ namespace Org.OpenAPITools.Model
                         case "className":
                             className = utf8JsonReader.GetString();
                             break;
+                        case "color":
+                            color = utf8JsonReader.GetString();
+                            break;
                         case "declawed":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 declawed = utf8JsonReader.GetBoolean();
-                            break;
-                        case "color":
-                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -124,13 +124,13 @@ namespace Org.OpenAPITools.Model
             if (className == null)
                 throw new ArgumentNullException(nameof(className), "Property is required for class Cat.");
 
-            if (declawed == null)
-                throw new ArgumentNullException(nameof(declawed), "Property is required for class Cat.");
-
             if (color == null)
                 throw new ArgumentNullException(nameof(color), "Property is required for class Cat.");
 
-            return new Cat(className, declawed.Value, color);
+            if (declawed == null)
+                throw new ArgumentNullException(nameof(declawed), "Property is required for class Cat.");
+
+            return new Cat(className, color, declawed.Value);
         }
 
         /// <summary>
@@ -158,8 +158,8 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Cat cat, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteString("className", cat.ClassName);
-            writer.WriteBoolean("declawed", cat.Declawed);
             writer.WriteString("color", cat.Color);
+            writer.WriteBoolean("declawed", cat.Declawed);
         }
     }
 }

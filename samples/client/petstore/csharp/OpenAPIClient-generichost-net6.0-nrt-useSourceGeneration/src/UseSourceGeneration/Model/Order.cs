@@ -35,21 +35,21 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
         /// </summary>
+        /// <param name="complete">complete (default to false)</param>
         /// <param name="id">id</param>
         /// <param name="petId">petId</param>
         /// <param name="quantity">quantity</param>
         /// <param name="shipDate">shipDate</param>
         /// <param name="status">Order Status</param>
-        /// <param name="complete">complete (default to false)</param>
         [JsonConstructor]
-        public Order(long id, long petId, int quantity, DateTime shipDate, StatusEnum status, bool complete = false)
+        public Order(bool complete = false, long id, long petId, int quantity, DateTime shipDate, StatusEnum status)
         {
+            Complete = complete;
             Id = id;
             PetId = petId;
             Quantity = quantity;
             ShipDate = shipDate;
             Status = status;
-            Complete = complete;
             OnCreated();
         }
 
@@ -145,6 +145,12 @@ namespace UseSourceGeneration.Model
         public StatusEnum Status { get; set; }
 
         /// <summary>
+        /// Gets or Sets Complete
+        /// </summary>
+        [JsonPropertyName("complete")]
+        public bool Complete { get; set; }
+
+        /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
@@ -170,12 +176,6 @@ namespace UseSourceGeneration.Model
         public DateTime ShipDate { get; set; }
 
         /// <summary>
-        /// Gets or Sets Complete
-        /// </summary>
-        [JsonPropertyName("complete")]
-        public bool Complete { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -189,12 +189,12 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Order {\n");
+            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  PetId: ").Append(PetId).Append("\n");
             sb.Append("  Quantity: ").Append(Quantity).Append("\n");
             sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
-            sb.Append("  Complete: ").Append(Complete).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -205,7 +205,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -238,12 +238,12 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
+            bool? complete = default;
             long? id = default;
             long? petId = default;
             int? quantity = default;
             DateTime? shipDate = default;
             Order.StatusEnum? status = default;
-            bool? complete = default;
 
             while (utf8JsonReader.Read())
             {
@@ -260,6 +260,10 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
+                        case "complete":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                complete = utf8JsonReader.GetBoolean();
+                            break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 id = utf8JsonReader.GetInt64();
@@ -282,15 +286,14 @@ namespace UseSourceGeneration.Model
                                 ? null
                                 : Order.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
-                        case "complete":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                complete = utf8JsonReader.GetBoolean();
-                            break;
                         default:
                             break;
                     }
                 }
             }
+
+            if (complete == null)
+                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
 
             if (id == null)
                 throw new ArgumentNullException(nameof(id), "Property is required for class Order.");
@@ -307,10 +310,7 @@ namespace UseSourceGeneration.Model
             if (status == null)
                 throw new ArgumentNullException(nameof(status), "Property is required for class Order.");
 
-            if (complete == null)
-                throw new ArgumentNullException(nameof(complete), "Property is required for class Order.");
-
-            return new Order(id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value, complete.Value);
+            return new Order(complete.Value, id.Value, petId.Value, quantity.Value, shipDate.Value, status.Value);
         }
 
         /// <summary>
@@ -337,6 +337,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Order order, JsonSerializerOptions jsonSerializerOptions)
         {
+            writer.WriteBoolean("complete", order.Complete);
             writer.WriteNumber("id", order.Id);
             writer.WriteNumber("petId", order.PetId);
             writer.WriteNumber("quantity", order.Quantity);
@@ -347,8 +348,6 @@ namespace UseSourceGeneration.Model
                 writer.WriteString("status", statusRawValue);
             else
                 writer.WriteNull("status");
-
-            writer.WriteBoolean("complete", order.Complete);
         }
     }
 

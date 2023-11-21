@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected FormatTest()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="FormatTest" /> class.
@@ -64,96 +64,96 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithBackslash">None.</param>
         public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
-            this._Number = number;
+            _Number = number;
             // to ensure "varByte" is required (not null)
             if (varByte == null)
             {
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this._VarByte = varByte;
-            this._Date = date;
+            _VarByte = varByte;
+            _Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
             {
                 throw new ArgumentNullException("password is a required property for FormatTest and cannot be null");
             }
-            this._Password = password;
-            this._Integer = integer;
-            if (this.Integer != null)
+            _Password = password;
+            _Integer = integer;
+            if (Integer != null)
             {
-                this._flagInteger = true;
+                _flagInteger = true;
             }
-            this._Int32 = int32;
-            if (this.Int32 != null)
+            _Int32 = int32;
+            if (Int32 != null)
             {
-                this._flagInt32 = true;
+                _flagInt32 = true;
             }
-            this._UnsignedInteger = unsignedInteger;
-            if (this.UnsignedInteger != null)
+            _UnsignedInteger = unsignedInteger;
+            if (UnsignedInteger != null)
             {
-                this._flagUnsignedInteger = true;
+                _flagUnsignedInteger = true;
             }
-            this._Int64 = int64;
-            if (this.Int64 != null)
+            _Int64 = int64;
+            if (Int64 != null)
             {
-                this._flagInt64 = true;
+                _flagInt64 = true;
             }
-            this._UnsignedLong = unsignedLong;
-            if (this.UnsignedLong != null)
+            _UnsignedLong = unsignedLong;
+            if (UnsignedLong != null)
             {
-                this._flagUnsignedLong = true;
+                _flagUnsignedLong = true;
             }
-            this._VarFloat = varFloat;
-            if (this.VarFloat != null)
+            _VarFloat = varFloat;
+            if (VarFloat != null)
             {
-                this._flagVarFloat = true;
+                _flagVarFloat = true;
             }
-            this._VarDouble = varDouble;
-            if (this.VarDouble != null)
+            _VarDouble = varDouble;
+            if (VarDouble != null)
             {
-                this._flagVarDouble = true;
+                _flagVarDouble = true;
             }
-            this._VarDecimal = varDecimal;
-            if (this.VarDecimal != null)
+            _VarDecimal = varDecimal;
+            if (VarDecimal != null)
             {
-                this._flagVarDecimal = true;
+                _flagVarDecimal = true;
             }
-            this._VarString = varString;
-            if (this.VarString != null)
+            _VarString = varString;
+            if (VarString != null)
             {
-                this._flagVarString = true;
+                _flagVarString = true;
             }
-            this._Binary = binary;
-            if (this.Binary != null)
+            _Binary = binary;
+            if (Binary != null)
             {
-                this._flagBinary = true;
+                _flagBinary = true;
             }
-            this._DateTime = dateTime;
-            if (this.DateTime != null)
+            _DateTime = dateTime;
+            if (DateTime != null)
             {
-                this._flagDateTime = true;
+                _flagDateTime = true;
             }
-            this._Uuid = uuid;
-            if (this.Uuid != null)
+            _Uuid = uuid;
+            if (Uuid != null)
             {
-                this._flagUuid = true;
+                _flagUuid = true;
             }
-            this._PatternWithDigits = patternWithDigits;
-            if (this.PatternWithDigits != null)
+            _PatternWithDigits = patternWithDigits;
+            if (PatternWithDigits != null)
             {
-                this._flagPatternWithDigits = true;
+                _flagPatternWithDigits = true;
             }
-            this._PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-            if (this.PatternWithDigitsAndDelimiter != null)
+            _PatternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+            if (PatternWithDigitsAndDelimiter != null)
             {
-                this._flagPatternWithDigitsAndDelimiter = true;
+                _flagPatternWithDigitsAndDelimiter = true;
             }
-            this._PatternWithBackslash = patternWithBackslash;
-            if (this.PatternWithBackslash != null)
+            _PatternWithBackslash = patternWithBackslash;
+            if (PatternWithBackslash != null)
             {
-                this._flagPatternWithBackslash = true;
+                _flagPatternWithBackslash = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -663,7 +663,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -695,58 +695,28 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Integer.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int32.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedInteger.GetHashCode();
-                hashCode = (hashCode * 59) + this.Int64.GetHashCode();
-                hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
-                hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDecimal.GetHashCode();
-                if (this.VarString != null)
+                hashCode = (hashCode * 59) + Integer.GetHashCode();
+                hashCode = (hashCode * 59) + Int32.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedInteger.GetHashCode();
+                hashCode = (hashCode * 59) + Int64.GetHashCode();
+                hashCode = (hashCode * 59) + UnsignedLong.GetHashCode();
+                hashCode = (hashCode * 59) + Number.GetHashCode();
+                hashCode = (hashCode * 59) + VarFloat.GetHashCode();
+                hashCode = (hashCode * 59) + VarDouble.GetHashCode();
+                hashCode = (hashCode * 59) + VarDecimal.GetHashCode();
+				hashCode = (hashCode * 59) + VarString.GetHashCode();
+				hashCode = (hashCode * 59) + VarByte.GetHashCode();
+				hashCode = (hashCode * 59) + Binary.GetHashCode();
+				hashCode = (hashCode * 59) + Date.GetHashCode();
+				hashCode = (hashCode * 59) + DateTime.GetHashCode();
+				hashCode = (hashCode * 59) + Uuid.GetHashCode();
+				hashCode = (hashCode * 59) + Password.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithDigits.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithDigitsAndDelimiter.GetHashCode();
+				hashCode = (hashCode * 59) + PatternWithBackslash.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
-                }
-                if (this.VarByte != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarByte.GetHashCode();
-                }
-                if (this.Binary != null)
-                {
-                    hashCode = (hashCode * 59) + this.Binary.GetHashCode();
-                }
-                if (this.Date != null)
-                {
-                    hashCode = (hashCode * 59) + this.Date.GetHashCode();
-                }
-                if (this.DateTime != null)
-                {
-                    hashCode = (hashCode * 59) + this.DateTime.GetHashCode();
-                }
-                if (this.Uuid != null)
-                {
-                    hashCode = (hashCode * 59) + this.Uuid.GetHashCode();
-                }
-                if (this.Password != null)
-                {
-                    hashCode = (hashCode * 59) + this.Password.GetHashCode();
-                }
-                if (this.PatternWithDigits != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithDigits.GetHashCode();
-                }
-                if (this.PatternWithDigitsAndDelimiter != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithDigitsAndDelimiter.GetHashCode();
-                }
-                if (this.PatternWithBackslash != null)
-                {
-                    hashCode = (hashCode * 59) + this.PatternWithBackslash.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -757,78 +727,78 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             // Integer (int) maximum
             if (this.Integer > (int)100)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value less than or equal to 100.", new [] { "Integer" });
             }
 
             // Integer (int) minimum
             if (this.Integer < (int)10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
+                yield return new ValidationResult("Invalid value for Integer, must be a value greater than or equal to 10.", new [] { "Integer" });
             }
 
             // Int32 (int) maximum
             if (this.Int32 > (int)200)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value less than or equal to 200.", new [] { "Int32" });
             }
 
             // Int32 (int) minimum
             if (this.Int32 < (int)20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
+                yield return new ValidationResult("Invalid value for Int32, must be a value greater than or equal to 20.", new [] { "Int32" });
             }
 
             // UnsignedInteger (uint) maximum
             if (this.UnsignedInteger > (uint)200)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value less than or equal to 200.", new [] { "UnsignedInteger" });
             }
 
             // UnsignedInteger (uint) minimum
             if (this.UnsignedInteger < (uint)20)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
+                yield return new ValidationResult("Invalid value for UnsignedInteger, must be a value greater than or equal to 20.", new [] { "UnsignedInteger" });
             }
 
             // Number (decimal) maximum
             if (this.Number > (decimal)543.2)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value less than or equal to 543.2.", new [] { "Number" });
             }
 
             // Number (decimal) minimum
             if (this.Number < (decimal)32.1)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
+                yield return new ValidationResult("Invalid value for Number, must be a value greater than or equal to 32.1.", new [] { "Number" });
             }
 
             // VarFloat (float) maximum
             if (this.VarFloat > (float)987.6)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
+                yield return new ValidationResult("Invalid value for VarFloat, must be a value less than or equal to 987.6.", new [] { "VarFloat" });
             }
 
             // VarFloat (float) minimum
             if (this.VarFloat < (float)54.3)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
+                yield return new ValidationResult("Invalid value for VarFloat, must be a value greater than or equal to 54.3.", new [] { "VarFloat" });
             }
 
             // VarDouble (double) maximum
             if (this.VarDouble > (double)123.4)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 123.4.", new [] { "VarDouble" });
             }
 
             // VarDouble (double) minimum
             if (this.VarDouble < (double)67.8)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
+                yield return new ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 67.8.", new [] { "VarDouble" });
             }
 
             if (this.VarString != null) {
@@ -843,13 +813,13 @@ namespace Org.OpenAPITools.Model
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be less than 64.", new [] { "Password" });
             }
 
             // Password (string) minLength
             if (this.Password != null && this.Password.Length < 10)
             {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
+                yield return new ValidationResult("Invalid value for Password, length must be greater than 10.", new [] { "Password" });
             }
 
             if (this.PatternWithDigits != null) {
