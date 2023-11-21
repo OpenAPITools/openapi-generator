@@ -1466,7 +1466,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         if (StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" )) {
             return dataType;
         }
-        return dataType.replace( "<", "<@Valid " );
+        return dataType.replaceFirst("< *(.*\\.)?", "<$1@Valid ");
     }
 
     public void setResourceFolder( String resourceFolder ) {
