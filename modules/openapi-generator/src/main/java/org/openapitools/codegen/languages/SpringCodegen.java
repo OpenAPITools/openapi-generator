@@ -1471,7 +1471,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             return dataType.replace( "<", "<@Valid " );
         }
         String beanValidation = getPrimitiveBeanValidation(codegenProperty);
-        if(beanValidation == null){
+        if(beanValidation == null) {
             return dataType;
         }
         return dataType.replace( "<", "<" + beanValidation +" ");
@@ -1484,45 +1484,45 @@ public class SpringCodegen extends AbstractJavaCodegen
      */
     private String getPrimitiveBeanValidation(CodegenProperty codegenProperty) {
 
-        if(StringUtils.isNotEmpty(codegenProperty.pattern) && !codegenProperty.isByteArray){
+        if (StringUtils.isNotEmpty(codegenProperty.pattern) && !codegenProperty.isByteArray) {
             return "@Pattern(regexp = \""+codegenProperty.pattern+"\")";
         }
 
         String beanValidationLength = getSizeBeanValidation(codegenProperty.minLength, codegenProperty.maxLength);
-        if(beanValidationLength != null){
+        if (beanValidationLength != null) {
             return beanValidationLength;
         }
 
 
-        if(codegenProperty.isEmail){
+        if (codegenProperty.isEmail) {
             return "@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.Email";
         }
 
 
-       if(codegenProperty.isLong || codegenProperty.isInteger){
+       if (codegenProperty.isLong || codegenProperty.isInteger) {
 
-           if(StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)){
+           if (StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)) {
                return "@Min("+codegenProperty.minimum+") @Max("+codegenProperty.maximum+")";
            }
 
-           if(StringUtils.isNotEmpty(codegenProperty.minimum)){
+           if (StringUtils.isNotEmpty(codegenProperty.minimum)) {
                return "@Min("+codegenProperty.minimum+")";
            }
 
-           if(StringUtils.isNotEmpty(codegenProperty.maximum)){
+           if (StringUtils.isNotEmpty(codegenProperty.maximum)) {
                return "@Max("+codegenProperty.maximum+")";
            }
        }
 
-        if(StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)){
+        if (StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)) {
             return "@DecimalMin(value = \""+codegenProperty.minimum+"\", inclusive = false) @DecimalMax(value = \""+codegenProperty.maximum+"\", inclusive = false)";
         }
 
-        if(StringUtils.isNotEmpty(codegenProperty.minimum)){
+        if (StringUtils.isNotEmpty(codegenProperty.minimum)) {
             return "@DecimalMin( value = \""+codegenProperty.minimum+"\", inclusive = false)";
         }
 
-        if(StringUtils.isNotEmpty(codegenProperty.maximum)){
+        if (StringUtils.isNotEmpty(codegenProperty.maximum)) {
             return "@DecimalMax( value = \""+codegenProperty.maximum+"\", inclusive = false)";
         }
 
@@ -1530,15 +1530,15 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private static String getSizeBeanValidation(Integer min, Integer max) {
-        if(min != null && max != null){
+        if (min != null && max != null) {
             return "@Size(min = " + min + ", max = " + max + ")";
         }
 
-        if(min != null){
+        if (min != null) {
             return "@Size(min = " + min + ")";
         }
 
-        if(max != null){
+        if (max != null) {
             return "@Size(max = " + max + ")";
         }
         return null;
