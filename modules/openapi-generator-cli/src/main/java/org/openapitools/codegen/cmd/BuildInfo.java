@@ -23,18 +23,18 @@ public class BuildInfo {
     private static final Properties properties = new Properties();
 
     static {
-        try (InputStream is = BuildInfo.class.getResourceAsStream("/version.properties")) {
-            if (is != null) {
+        try (InputStream inputStream = BuildInfo.class.getResourceAsStream("/version.properties")) {
+            if (inputStream != null) {
                 Properties versionProps = new Properties();
-                versionProps.load(is);
+                versionProps.load(inputStream);
                 properties.putAll(versionProps);
             }
         } catch (IOException ignored) {
         }
-        try (InputStream is = BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
-            if (is != null) {
+        try (InputStream inputStream = BuildInfo.class.getResourceAsStream("/openapi-generator-git.properties")) {
+            if (inputStream != null) {
                 Properties gitProps = new Properties();
-                gitProps.load(is);
+                gitProps.load(inputStream);
                 properties.putAll(gitProps);
             }
         } catch (IOException ignored) {
@@ -84,18 +84,18 @@ public class BuildInfo {
      * @return Human-readable version display information
      */
     public String versionDisplayText() {
-        StringBuilder sb = new StringBuilder(CLI_NAME);
-        sb.append(" ").append(this.getVersion()).append(System.lineSeparator());
-        sb.append("  commit : ").append(this.getSha()).append(System.lineSeparator());
-        sb.append("  built  : ");
+        StringBuilder stringBuilder = new StringBuilder(CLI_NAME);
+        stringBuilder.append(" ").append(this.getVersion()).append(System.lineSeparator());
+        stringBuilder.append("  commit : ").append(this.getSha()).append(System.lineSeparator());
+        stringBuilder.append("  built  : ");
         try {
-            sb.append(this.getBuildTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+            stringBuilder.append(this.getBuildTime().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         } catch (DateTimeException e) {
-            sb.append(UNKNOWN);
+            stringBuilder.append(UNKNOWN);
         }
-        sb.append(System.lineSeparator());
-        sb.append("  source : ").append(GIT_REPO).append(System.lineSeparator());
-        sb.append("  docs   : ").append(SITE).append(System.lineSeparator());
-        return sb.toString();
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append("  source : ").append(GIT_REPO).append(System.lineSeparator());
+        stringBuilder.append("  docs   : ").append(SITE).append(System.lineSeparator());
+        return stringBuilder.toString();
     }
 }

@@ -20,23 +20,14 @@ public class ParameterAllowableValuesPlugin implements ParameterBuilderPlugin {
 
     static {
         List<CodegenConfig> extensions = CodegenConfigLoader.getAll();
-        for (CodegenConfig config : extensions) {
-            if (config.getTag().equals(CodegenType.CLIENT)
-                    || config.getTag().equals(CodegenType.DOCUMENTATION)) {
-                clients.add(config.getName());
-            } else if (config.getTag().equals(CodegenType.SERVER)) {
-                servers.add(config.getName());
-            }
-        }
-
-        clients.sort(String.CASE_INSENSITIVE_ORDER);
-        servers.sort(String.CASE_INSENSITIVE_ORDER);
+        processCodegenExtensions(extensions);
+        sortClientsAndServers();
     }
 
     @Override
     public void apply(ParameterContext parameterContext) {
-        String name = parameterContext.getOperationContext().getName();
-        switch (name) {
+        String parameterName = parameterContext.getOperationContext().getName();
+        switch (parameterName) {
             case "getClientOptions":
             case "generateClient":
                 parameterContext.parameterBuilder().allowableValues(new AllowableListValues(clients, "string"));
@@ -50,5 +41,33 @@ public class ParameterAllowableValuesPlugin implements ParameterBuilderPlugin {
     @Override
     public boolean supports(DocumentationType documentationType) {
         return true;
+    }
+
+
+    private static void processCodegenExtensions(List<CodegenConfig> extensions) {
+        for (CodegenConfig config : extensions) {
+            processCodegenConfig(config);
+        }
+    }
+
+    private static void processCodegenConfig(CodegenConfig config) {
+        if (isClientOrDocumentation(config)) {
+            clients.add(config.getName());
+        } else if (isServer(config)) {
+            servers.add(config.getName());
+        }
+    }
+
+    private static boolean isClientOrDocumentation(CodegenConfig config) {
+        return config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION);
+    }
+
+    private static boolean isServer(CodegenConfig config) {
+        return config.getTag().equals(CodegenType.SERVER);
+    }
+
+    private static void sortClientsAndServers() {
+        clients.sort(String.CASE_INSENSITIVE_ORDER);
+        servers.sort(String.CASE_INSENSITIVE_ORDER);
     }
 }
