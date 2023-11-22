@@ -28,6 +28,7 @@ public class CodegenConstants {
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
+    public static final String WEBHOOKS = "webhooks";
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
@@ -296,6 +297,7 @@ public class CodegenConstants {
 
     public static final String GENERATE_APIS = "generateApis";
     public static final String GENERATE_API_DOCS = "generateApiDocs";
+    public static final String GENERATE_WEBHOOKS = "generateWebhooks";
 
     public static final String GENERATE_API_TESTS = "generateApiTests";
     public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
