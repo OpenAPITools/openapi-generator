@@ -123,12 +123,8 @@ namespace UseSourceGeneration.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (Bar != null)
-                    hashCode = (hashCode * 59) + Bar.GetHashCode();
-
-                if (Foo != null)
-                    hashCode = (hashCode * 59) + Foo.GetHashCode();
-
+                
+                
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -238,10 +234,8 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
 
             if (hasOnlyReadOnly.BarOption.IsSet)
-                writer.WriteString("bar", hasOnlyReadOnly.Bar);
 
             if (hasOnlyReadOnly.FooOption.IsSet)
-                writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
     }
 

@@ -141,8 +141,6 @@ namespace UseSourceGeneration.Model
         {
             if (parentPet.PetType == null)
                 throw new ArgumentNullException(nameof(parentPet.PetType), "Property is required for class ParentPet.");
-
-            writer.WriteString("pet_type", parentPet.PetType);
         }
     }
 

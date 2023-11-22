@@ -174,8 +174,6 @@ namespace Org.OpenAPITools.Model
         {
             if (grandparentAnimal.PetType == null)
                 throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
-
-            writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }
 }

@@ -21,7 +21,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import org.openapitools.client.model.AllOfModelArrayAnyOfAllOfAttributesC;
+import org.openapitools.client.model.OneOfPetOrder;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,12 +55,12 @@ import org.openapitools.client.JSON;
 public class AllOfModelArrayAnyOfAllOfAttributes {
   public static final String SERIALIZED_NAME_C = "C";
   @SerializedName(SERIALIZED_NAME_C)
-  private AllOfModelArrayAnyOfAllOfAttributesC C;
+  private OneOfPetOrder C;
 
   public AllOfModelArrayAnyOfAllOfAttributes() {
   }
 
-  public AllOfModelArrayAnyOfAllOfAttributes C(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public AllOfModelArrayAnyOfAllOfAttributes C(OneOfPetOrder C) {
     this.C = C;
     return this;
   }
@@ -69,11 +70,11 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
    * @return C
   **/
   @javax.annotation.Nullable
-  public AllOfModelArrayAnyOfAllOfAttributesC getC() {
+  public OneOfPetOrder getC() {
     return C;
   }
 
-  public void setC(AllOfModelArrayAnyOfAllOfAttributesC C) {
+  public void setC(OneOfPetOrder C) {
     this.C = C;
   }
 
@@ -136,9 +137,20 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
         Objects.equals(this.additionalProperties, allOfModelArrayAnyOfAllOfAttributes.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(C, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -190,7 +202,7 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `C`
       if (jsonObj.get("C") != null && !jsonObj.get("C").isJsonNull()) {
-        AllOfModelArrayAnyOfAllOfAttributesC.validateJsonElement(jsonObj.get("C"));
+        OneOfPetOrder.validateJsonElement(jsonObj.get("C"));
       }
   }
 

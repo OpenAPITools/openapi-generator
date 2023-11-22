@@ -121,7 +121,7 @@ namespace UseSourceGeneration.Model
                 // ColorCode (string) pattern
                 Regex regexColorCode = new Regex(@"^#(([0-9a-fA-F]{2}){3}|([0-9a-fA-F]){3})$", RegexOptions.CultureInvariant);
 
-                if (this.ColorCodeOption.Value != null &&!regexColorCode.Match(this.ColorCodeOption.Value).Success)
+                if (!regexColorCode.Match(this.ColorCodeOption.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for ColorCode, must match a pattern of " + regexColorCode, new [] { "ColorCode" });
                 }
@@ -131,7 +131,7 @@ namespace UseSourceGeneration.Model
                 // Cultivar (string) pattern
                 Regex regexCultivar = new Regex(@"^[a-zA-Z\s]*$", RegexOptions.CultureInvariant);
 
-                if (this.CultivarOption.Value != null &&!regexCultivar.Match(this.CultivarOption.Value).Success)
+                if (!regexCultivar.Match(this.CultivarOption.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
                 }
@@ -141,7 +141,7 @@ namespace UseSourceGeneration.Model
                 // Origin (string) pattern
                 Regex regexOrigin = new Regex(@"^[A-Z\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
 
-                if (this.OriginOption.Value != null &&!regexOrigin.Match(this.OriginOption.Value).Success)
+                if (!regexOrigin.Match(this.OriginOption.Value).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
                 }
@@ -253,13 +253,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(apple.Origin), "Property is required for class Apple.");
 
             if (apple.ColorCodeOption.IsSet)
-                writer.WriteString("color_code", apple.ColorCode);
 
             if (apple.CultivarOption.IsSet)
-                writer.WriteString("cultivar", apple.Cultivar);
 
             if (apple.OriginOption.IsSet)
-                writer.WriteString("origin", apple.Origin);
         }
     }
 

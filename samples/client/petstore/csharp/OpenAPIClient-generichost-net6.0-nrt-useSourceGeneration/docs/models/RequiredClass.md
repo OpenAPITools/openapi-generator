@@ -4,6 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
+**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
+**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
+**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
+**NotrequiredNotnullableEnumInteger** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
+**NotrequiredNotnullableEnumString** | **string** |  | [optional] 
+**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
+**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
 **RequiredNotNullableDateProp** | **DateTime** |  | 
 **RequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNotnullableBooleanProp** | **bool** |  | 
@@ -15,6 +26,17 @@ Name | Type | Description | Notes
 **RequiredNotnullableStringProp** | **string** |  | 
 **RequiredNotnullableUuid** | **Guid** |  | 
 **RequiredNotnullableintegerProp** | **int** |  | 
+**NotRequiredNullableDateProp** | **DateTime** |  | [optional] 
+**NotRequiredNullableIntegerProp** | **int** |  | [optional] 
+**NotrequiredNullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
+**NotrequiredNullableBooleanProp** | **bool** |  | [optional] 
+**NotrequiredNullableDatetimeProp** | **DateTime** |  | [optional] 
+**NotrequiredNullableEnumInteger** | **int** |  | [optional] 
+**NotrequiredNullableEnumIntegerOnly** | **int** |  | [optional] 
+**NotrequiredNullableEnumString** | **string** |  | [optional] 
+**NotrequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**NotrequiredNullableStringProp** | **string** |  | [optional] 
+**NotrequiredNullableUuid** | **Guid** |  | [optional] 
 **RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNullableBooleanProp** | **bool** |  | 
 **RequiredNullableDateProp** | **DateTime** |  | 
@@ -26,28 +48,6 @@ Name | Type | Description | Notes
 **RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
 **RequiredNullableStringProp** | **string** |  | 
 **RequiredNullableUuid** | **Guid** |  | 
-**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
-**NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
-**NotRequiredNullableDateProp** | **DateTime** |  | [optional] 
-**NotRequiredNullableIntegerProp** | **int** |  | [optional] 
-**NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
-**NotrequiredNotnullableDatetimeProp** | **DateTime** |  | [optional] 
-**NotrequiredNotnullableEnumInteger** | **int** |  | [optional] 
-**NotrequiredNotnullableEnumIntegerOnly** | **int** |  | [optional] 
-**NotrequiredNotnullableEnumString** | **string** |  | [optional] 
-**NotrequiredNotnullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**NotrequiredNotnullableStringProp** | **string** |  | [optional] 
-**NotrequiredNotnullableUuid** | **Guid** |  | [optional] 
-**NotrequiredNullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
-**NotrequiredNullableBooleanProp** | **bool** |  | [optional] 
-**NotrequiredNullableDatetimeProp** | **DateTime** |  | [optional] 
-**NotrequiredNullableEnumInteger** | **int** |  | [optional] 
-**NotrequiredNullableEnumIntegerOnly** | **int** |  | [optional] 
-**NotrequiredNullableEnumString** | **string** |  | [optional] 
-**NotrequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
-**NotrequiredNullableStringProp** | **string** |  | [optional] 
-**NotrequiredNullableUuid** | **Guid** |  | [optional] 
 
 [[Back to Model list]](../../README.md#documentation-for-models) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to README]](../../README.md)
 

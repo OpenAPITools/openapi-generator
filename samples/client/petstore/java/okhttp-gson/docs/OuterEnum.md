@@ -11,9 +11,9 @@
 
 * `DELIVERED` (value: `"delivered"`)
 
-* `LOWER_CASE_S` (value: `"s"`)
+* `S` (value: `"s"`)
 
-* `UPPER_CASE_S` (value: `"S"`)
+* `S2` (value: `"S"`)
 
 
 

@@ -164,8 +164,6 @@ namespace Org.OpenAPITools.Model
         {
             if (danishPig.ClassName == null)
                 throw new ArgumentNullException(nameof(danishPig.ClassName), "Property is required for class DanishPig.");
-
-            writer.WriteString("className", danishPig.ClassName);
         }
     }
 }

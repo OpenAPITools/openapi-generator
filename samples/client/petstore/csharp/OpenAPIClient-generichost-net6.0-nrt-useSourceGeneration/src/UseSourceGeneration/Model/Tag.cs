@@ -195,10 +195,8 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
 
             if (tag.IdOption.IsSet)
-                writer.WriteNumber("id", tag.IdOption.Value!.Value);
 
             if (tag.NameOption.IsSet)
-                writer.WriteString("name", tag.Name);
         }
     }
 

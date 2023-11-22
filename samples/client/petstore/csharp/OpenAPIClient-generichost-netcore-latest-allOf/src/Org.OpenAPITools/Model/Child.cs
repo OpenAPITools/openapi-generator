@@ -209,19 +209,14 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(child.Type), "Property is required for class Child.");
 
             if (child.AgeOption.IsSet)
-                writer.WriteNumber("age", child.AgeOption.Value!.Value);
 
             if (child.FirstNameOption.IsSet)
-                writer.WriteString("firstName", child.FirstName);
 
             if (child.LastNameOption.IsSet)
-                writer.WriteString("lastName", child.LastName);
 
             if (child.TypeOption.IsSet)
-                writer.WriteString("$_type", child.Type);
 
             if (child.BoosterSeatOption.IsSet)
-                writer.WriteBoolean("boosterSeat", child.BoosterSeatOption.Value!.Value);
         }
     }
 }

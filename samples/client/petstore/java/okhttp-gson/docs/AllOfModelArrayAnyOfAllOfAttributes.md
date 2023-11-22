@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**C** | [**AllOfModelArrayAnyOfAllOfAttributesC**](AllOfModelArrayAnyOfAllOfAttributesC.md) |  |  [optional] |
+|**C** | [**OneOfPetOrder**](OneOfPetOrder.md) |  |  [optional] |
 
 
 

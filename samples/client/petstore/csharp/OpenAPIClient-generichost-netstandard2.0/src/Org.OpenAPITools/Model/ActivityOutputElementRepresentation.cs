@@ -195,7 +195,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
 
             if (activityOutputElementRepresentation.Prop1Option.IsSet)
-                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
 
             if (activityOutputElementRepresentation.Prop2Option.IsSet)
             {

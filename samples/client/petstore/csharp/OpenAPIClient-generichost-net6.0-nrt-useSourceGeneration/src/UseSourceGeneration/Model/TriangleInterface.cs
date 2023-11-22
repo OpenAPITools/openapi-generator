@@ -165,8 +165,6 @@ namespace UseSourceGeneration.Model
         {
             if (triangleInterface.TriangleType == null)
                 throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
-
-            writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }
 

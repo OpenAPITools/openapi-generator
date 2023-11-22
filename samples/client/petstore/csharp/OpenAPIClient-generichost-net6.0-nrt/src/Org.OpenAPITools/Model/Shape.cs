@@ -246,8 +246,6 @@ namespace Org.OpenAPITools.Model
         {
             if (shape.ShapeType == null)
                 throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
-
-            writer.WriteString("shapeType", shape.ShapeType);
         }
     }
 }

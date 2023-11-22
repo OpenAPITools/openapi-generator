@@ -169,7 +169,6 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
             if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
         }
     }
 

@@ -194,10 +194,8 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(literalStringClass.UnescapedLiteralString), "Property is required for class LiteralStringClass.");
 
             if (literalStringClass.EscapedLiteralStringOption.IsSet)
-                writer.WriteString("escapedLiteralString", literalStringClass.EscapedLiteralString);
 
             if (literalStringClass.UnescapedLiteralStringOption.IsSet)
-                writer.WriteString("unescapedLiteralString", literalStringClass.UnescapedLiteralString);
         }
     }
 }

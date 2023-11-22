@@ -187,10 +187,6 @@ namespace UseSourceGeneration.Model
 
             if (scaleneTriangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(scaleneTriangle.TriangleType), "Property is required for class ScaleneTriangle.");
-
-            writer.WriteString("shapeType", scaleneTriangle.ShapeType);
-
-            writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }
 

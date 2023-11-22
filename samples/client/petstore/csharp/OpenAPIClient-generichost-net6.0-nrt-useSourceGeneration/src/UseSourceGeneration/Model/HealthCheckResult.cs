@@ -165,10 +165,6 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
             if (healthCheckResult.NullableMessageOption.IsSet)
-                if (healthCheckResult.NullableMessageOption.Value != null)
-                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
-                else
-                    writer.WriteNull("NullableMessage");
         }
     }
 

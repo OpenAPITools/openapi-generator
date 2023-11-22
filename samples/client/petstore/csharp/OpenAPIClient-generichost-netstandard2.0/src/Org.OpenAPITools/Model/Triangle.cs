@@ -275,8 +275,6 @@ namespace Org.OpenAPITools.Model
         {
             if (triangle.TriangleType == null)
                 throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
-
-            writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
 }

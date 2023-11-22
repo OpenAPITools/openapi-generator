@@ -145,12 +145,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (SnakeCase != null)
-                    hashCode = (hashCode * 59) + SnakeCase.GetHashCode();
-
-                if (Var123Number != null)
-                    hashCode = (hashCode * 59) + Var123Number.GetHashCode();
-
+                
+                
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -276,16 +272,13 @@ namespace Org.OpenAPITools.Model
             if (name.PropertyOption.IsSet && name.Property == null)
                 throw new ArgumentNullException(nameof(name.Property), "Property is required for class Name.");
 
-            writer.WriteNumber("name", name.VarName);
+            
 
             if (name.PropertyOption.IsSet)
-                writer.WriteString("property", name.Property);
 
             if (name.SnakeCaseOption.IsSet)
-                writer.WriteNumber("snake_case", name.SnakeCaseOption.Value.Value);
 
             if (name.Var123NumberOption.IsSet)
-                writer.WriteNumber("123Number", name.Var123NumberOption.Value.Value);
         }
     }
 }

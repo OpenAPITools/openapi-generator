@@ -171,7 +171,6 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
 
             if (deprecatedObject.NameOption.IsSet)
-                writer.WriteString("name", deprecatedObject.Name);
         }
     }
 

@@ -179,7 +179,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
 
             if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
-                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
         }
     }
 }

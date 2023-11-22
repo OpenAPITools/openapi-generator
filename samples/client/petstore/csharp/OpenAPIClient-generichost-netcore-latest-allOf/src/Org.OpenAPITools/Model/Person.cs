@@ -232,13 +232,10 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
 
             if (person.FirstNameOption.IsSet)
-                writer.WriteString("firstName", person.FirstName);
 
             if (person.LastNameOption.IsSet)
-                writer.WriteString("lastName", person.LastName);
 
             if (person.TypeOption.IsSet)
-                writer.WriteString("$_type", person.Type);
         }
     }
 }

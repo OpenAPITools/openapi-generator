@@ -180,10 +180,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("lengthCm", bananaReq.LengthCm);
+            
 
             if (bananaReq.SweetOption.IsSet)
-                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value!.Value);
         }
     }
 }

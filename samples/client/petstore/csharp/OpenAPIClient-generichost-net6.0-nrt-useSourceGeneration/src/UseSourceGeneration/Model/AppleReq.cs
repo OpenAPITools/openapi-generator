@@ -183,10 +183,9 @@ namespace UseSourceGeneration.Model
             if (appleReq.Cultivar == null)
                 throw new ArgumentNullException(nameof(appleReq.Cultivar), "Property is required for class AppleReq.");
 
-            writer.WriteString("cultivar", appleReq.Cultivar);
+            
 
             if (appleReq.MealyOption.IsSet)
-                writer.WriteBoolean("mealy", appleReq.MealyOption.Value!.Value);
         }
     }
 

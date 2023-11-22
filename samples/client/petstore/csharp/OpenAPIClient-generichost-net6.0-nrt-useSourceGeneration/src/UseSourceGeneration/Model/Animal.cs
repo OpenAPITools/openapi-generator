@@ -202,10 +202,9 @@ namespace UseSourceGeneration.Model
             if (animal.ColorOption.IsSet && animal.Color == null)
                 throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
 
-            writer.WriteString("className", animal.ClassName);
+            
 
             if (animal.ColorOption.IsSet)
-                writer.WriteString("color", animal.Color);
         }
     }
 

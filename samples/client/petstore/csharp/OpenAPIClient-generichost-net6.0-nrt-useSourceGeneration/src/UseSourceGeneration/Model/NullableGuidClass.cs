@@ -167,10 +167,6 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
             if (nullableGuidClass.UuidOption.IsSet)
-                if (nullableGuidClass.UuidOption.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value);
-                else
-                    writer.WriteNull("uuid");
         }
     }
 

@@ -35,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="className">className</param>
-        /// <param name="color">color (default to &quot;red&quot;)</param>
         /// <param name="declawed">declawed</param>
+        /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Cat(string className, Option<string?> color = default, Option<bool?> declawed = default) : base(className, color)
+        public Cat(string className, Option<bool?> declawed = default, Option<string?> color = default) : base(className, color)
         {
             DeclawedOption = declawed;
             OnCreated();
@@ -97,8 +97,8 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<string?> className = default;
-            Option<string?> color = default;
             Option<bool?> declawed = default;
+            Option<string?> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,12 +118,12 @@ namespace Org.OpenAPITools.Model
                         case "className":
                             className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
-                        case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         case "declawed":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 declawed = new Option<bool?>(utf8JsonReader.GetBoolean());
+                            break;
+                        case "color":
+                            color = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -137,13 +137,13 @@ namespace Org.OpenAPITools.Model
             if (className.IsSet && className.Value == null)
                 throw new ArgumentNullException(nameof(className), "Property is not nullable for class Cat.");
 
-            if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
-
             if (declawed.IsSet && declawed.Value == null)
                 throw new ArgumentNullException(nameof(declawed), "Property is not nullable for class Cat.");
 
-            return new Cat(className.Value!, color, declawed);
+            if (color.IsSet && color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Cat.");
+
+            return new Cat(className.Value!, declawed, color);
         }
 
         /// <summary>
@@ -176,13 +176,11 @@ namespace Org.OpenAPITools.Model
             if (cat.ColorOption.IsSet && cat.Color == null)
                 throw new ArgumentNullException(nameof(cat.Color), "Property is required for class Cat.");
 
-            writer.WriteString("className", cat.ClassName);
-
-            if (cat.ColorOption.IsSet)
-                writer.WriteString("color", cat.Color);
+            
 
             if (cat.DeclawedOption.IsSet)
-                writer.WriteBoolean("declawed", cat.DeclawedOption.Value!.Value);
+
+            if (cat.ColorOption.IsSet)
         }
     }
 }

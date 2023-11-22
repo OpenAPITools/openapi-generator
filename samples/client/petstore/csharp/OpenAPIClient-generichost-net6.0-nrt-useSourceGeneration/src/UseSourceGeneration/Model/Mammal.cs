@@ -278,8 +278,6 @@ namespace UseSourceGeneration.Model
         {
             if (mammal.ClassName == null)
                 throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
-
-            writer.WriteString("className", mammal.ClassName);
         }
     }
 

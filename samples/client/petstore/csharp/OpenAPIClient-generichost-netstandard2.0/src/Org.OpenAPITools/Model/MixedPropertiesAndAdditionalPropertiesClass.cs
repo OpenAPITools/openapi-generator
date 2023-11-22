@@ -133,7 +133,7 @@ namespace Org.OpenAPITools.Model
             // UuidWithPattern (Guid) pattern
             Regex regexUuidWithPattern = new Regex(@"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", RegexOptions.CultureInvariant);
 
-            if (this.UuidWithPatternOption.Value != null &&!regexUuidWithPattern.Match(this.UuidWithPatternOption.Value.ToString()).Success)
+            if (!regexUuidWithPattern.Match(this.UuidWithPatternOption.Value.ToString()).Success)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for UuidWithPattern, must match a pattern of " + regexUuidWithPattern, new [] { "UuidWithPattern" });
             }
@@ -253,7 +253,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(mixedPropertiesAndAdditionalPropertiesClass.Map), "Property is required for class MixedPropertiesAndAdditionalPropertiesClass.");
 
             if (mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.IsSet)
-                writer.WriteString("dateTime", mixedPropertiesAndAdditionalPropertiesClass.DateTimeOption.Value.Value.ToString(DateTimeFormat));
 
             if (mixedPropertiesAndAdditionalPropertiesClass.MapOption.IsSet)
             {
@@ -261,10 +260,8 @@ namespace Org.OpenAPITools.Model
                 JsonSerializer.Serialize(writer, mixedPropertiesAndAdditionalPropertiesClass.Map, jsonSerializerOptions);
             }
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidOption.IsSet)
-                writer.WriteString("uuid", mixedPropertiesAndAdditionalPropertiesClass.UuidOption.Value.Value);
 
             if (mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.IsSet)
-                writer.WriteString("uuid_with_pattern", mixedPropertiesAndAdditionalPropertiesClass.UuidWithPatternOption.Value.Value);
         }
     }
 }

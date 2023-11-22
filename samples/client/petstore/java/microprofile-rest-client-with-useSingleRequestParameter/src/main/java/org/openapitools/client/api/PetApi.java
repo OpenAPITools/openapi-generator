@@ -62,38 +62,7 @@ public interface PetApi  {
      */
     @DELETE
     @Path("/{petId}")
-    void deletePet(@BeanParam DeletePetRequest request) throws ApiException, ProcessingException;
-    public class DeletePetRequest {
-
-        private @HeaderParam("api_key")  String apiKey;
-        private @PathParam("petId") Long petId;
-
-        private DeletePetRequest() {
-        }
-
-        public static DeletePetRequest newInstance() {
-            return new DeletePetRequest();
-        }
-
-        /**
-         * Set petId
-         * @param petId Pet id to delete (required)
-         * @return DeletePetRequest
-         */
-        public DeletePetRequest petId(Long petId) {
-            this.petId = petId;
-            return this;
-        }
-        /**
-         * Set apiKey
-         * @param apiKey  (optional)
-         * @return DeletePetRequest
-         */
-        public DeletePetRequest apiKey(String apiKey) {
-            this.apiKey = apiKey;
-            return this;
-        }
-    }
+    void deletePet() throws ApiException, ProcessingException;
 
     /**
      * Finds Pets by status
@@ -104,28 +73,7 @@ public interface PetApi  {
     @GET
     @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByStatus(@BeanParam FindPetsByStatusRequest request) throws ApiException, ProcessingException;
-    public class FindPetsByStatusRequest {
-
-        private @QueryParam("status") List<String> status;
-
-        private FindPetsByStatusRequest() {
-        }
-
-        public static FindPetsByStatusRequest newInstance() {
-            return new FindPetsByStatusRequest();
-        }
-
-        /**
-         * Set status
-         * @param status Status values that need to be considered for filter (required)
-         * @return FindPetsByStatusRequest
-         */
-        public FindPetsByStatusRequest status(List<String> status) {
-            this.status = status;
-            return this;
-        }
-    }
+    List<Pet> findPetsByStatus() throws ApiException, ProcessingException;
 
     /**
      * Finds Pets by tags
@@ -138,28 +86,7 @@ public interface PetApi  {
     @GET
     @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
-    List<Pet> findPetsByTags(@BeanParam FindPetsByTagsRequest request) throws ApiException, ProcessingException;
-    public class FindPetsByTagsRequest {
-
-        private @QueryParam("tags") List<String> tags;
-
-        private FindPetsByTagsRequest() {
-        }
-
-        public static FindPetsByTagsRequest newInstance() {
-            return new FindPetsByTagsRequest();
-        }
-
-        /**
-         * Set tags
-         * @param tags Tags to filter by (required)
-         * @return FindPetsByTagsRequest
-         */
-        public FindPetsByTagsRequest tags(List<String> tags) {
-            this.tags = tags;
-            return this;
-        }
-    }
+    List<Pet> findPetsByTags() throws ApiException, ProcessingException;
 
     /**
      * Find pet by ID
@@ -170,28 +97,7 @@ public interface PetApi  {
     @GET
     @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
-    Pet getPetById(@BeanParam GetPetByIdRequest request) throws ApiException, ProcessingException;
-    public class GetPetByIdRequest {
-
-        private @PathParam("petId") Long petId;
-
-        private GetPetByIdRequest() {
-        }
-
-        public static GetPetByIdRequest newInstance() {
-            return new GetPetByIdRequest();
-        }
-
-        /**
-         * Set petId
-         * @param petId ID of pet to return (required)
-         * @return GetPetByIdRequest
-         */
-        public GetPetByIdRequest petId(Long petId) {
-            this.petId = petId;
-            return this;
-        }
-    }
+    Pet getPetById() throws ApiException, ProcessingException;
 
     /**
      * Update an existing pet
@@ -214,48 +120,7 @@ public interface PetApi  {
     @POST
     @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
-    void updatePetWithForm(@BeanParam UpdatePetWithFormRequest request) throws ApiException, ProcessingException;
-    public class UpdatePetWithFormRequest {
-
-        private @PathParam("petId") Long petId;
-        private @Multipart(value = "name", required = false)  String name;
-        private @Multipart(value = "status", required = false)  String status;
-
-        private UpdatePetWithFormRequest() {
-        }
-
-        public static UpdatePetWithFormRequest newInstance() {
-            return new UpdatePetWithFormRequest();
-        }
-
-        /**
-         * Set petId
-         * @param petId ID of pet that needs to be updated (required)
-         * @return UpdatePetWithFormRequest
-         */
-        public UpdatePetWithFormRequest petId(Long petId) {
-            this.petId = petId;
-            return this;
-        }
-        /**
-         * Set name
-         * @param name Updated name of the pet (optional)
-         * @return UpdatePetWithFormRequest
-         */
-        public UpdatePetWithFormRequest name(String name) {
-            this.name = name;
-            return this;
-        }
-        /**
-         * Set status
-         * @param status Updated status of the pet (optional)
-         * @return UpdatePetWithFormRequest
-         */
-        public UpdatePetWithFormRequest status(String status) {
-            this.status = status;
-            return this;
-        }
-    }
+    void updatePetWithForm() throws ApiException, ProcessingException;
 
     /**
      * uploads an image
@@ -267,46 +132,5 @@ public interface PetApi  {
     @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
-    ModelApiResponse uploadFile(@BeanParam UploadFileRequest request) throws ApiException, ProcessingException;
-    public class UploadFileRequest {
-
-        private @PathParam("petId") Long petId;
-        private @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata;
-        private  @Multipart(value = "file" , required = false) Attachment _fileDetail;
-
-        private UploadFileRequest() {
-        }
-
-        public static UploadFileRequest newInstance() {
-            return new UploadFileRequest();
-        }
-
-        /**
-         * Set petId
-         * @param petId ID of pet to update (required)
-         * @return UploadFileRequest
-         */
-        public UploadFileRequest petId(Long petId) {
-            this.petId = petId;
-            return this;
-        }
-        /**
-         * Set additionalMetadata
-         * @param additionalMetadata Additional data to pass to server (optional)
-         * @return UploadFileRequest
-         */
-        public UploadFileRequest additionalMetadata(String additionalMetadata) {
-            this.additionalMetadata = additionalMetadata;
-            return this;
-        }
-        /**
-         * Set _fileDetail
-         * @param _fileDetail file to upload (optional)
-         * @return UploadFileRequest
-         */
-        public UploadFileRequest _fileDetail( Attachment _fileDetail) {
-            this._fileDetail = _fileDetail;
-            return this;
-        }
-    }
+    ModelApiResponse uploadFile() throws ApiException, ProcessingException;
 }

@@ -164,8 +164,6 @@ namespace Org.OpenAPITools.Model
         {
             if (basquePig.ClassName == null)
                 throw new ArgumentNullException(nameof(basquePig.ClassName), "Property is required for class BasquePig.");
-
-            writer.WriteString("className", basquePig.ClassName);
         }
     }
 }

@@ -48,28 +48,7 @@ public interface StoreApi  {
      */
     @DELETE
     @Path("/order/{orderId}")
-    void deleteOrder(@BeanParam DeleteOrderRequest request) throws ApiException, ProcessingException;
-    public class DeleteOrderRequest {
-
-        private @PathParam("orderId") String orderId;
-
-        private DeleteOrderRequest() {
-        }
-
-        public static DeleteOrderRequest newInstance() {
-            return new DeleteOrderRequest();
-        }
-
-        /**
-         * Set orderId
-         * @param orderId ID of the order that needs to be deleted (required)
-         * @return DeleteOrderRequest
-         */
-        public DeleteOrderRequest orderId(String orderId) {
-            this.orderId = orderId;
-            return this;
-        }
-    }
+    void deleteOrder() throws ApiException, ProcessingException;
 
     /**
      * Returns pet inventories by status
@@ -91,28 +70,7 @@ public interface StoreApi  {
     @GET
     @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
-    Order getOrderById(@BeanParam GetOrderByIdRequest request) throws ApiException, ProcessingException;
-    public class GetOrderByIdRequest {
-
-        private @PathParam("orderId") Long orderId;
-
-        private GetOrderByIdRequest() {
-        }
-
-        public static GetOrderByIdRequest newInstance() {
-            return new GetOrderByIdRequest();
-        }
-
-        /**
-         * Set orderId
-         * @param orderId ID of pet that needs to be fetched (required)
-         * @return GetOrderByIdRequest
-         */
-        public GetOrderByIdRequest orderId(Long orderId) {
-            this.orderId = orderId;
-            return this;
-        }
-    }
+    Order getOrderById() throws ApiException, ProcessingException;
 
     /**
      * Place an order for a pet

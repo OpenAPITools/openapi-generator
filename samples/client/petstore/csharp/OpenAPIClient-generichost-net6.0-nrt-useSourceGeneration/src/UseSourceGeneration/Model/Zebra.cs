@@ -282,7 +282,7 @@ namespace UseSourceGeneration.Model
             if (zebra.ClassName == null)
                 throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
 
-            writer.WriteString("className", zebra.ClassName);
+            
 
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value);
             if (typeRawValue != null)

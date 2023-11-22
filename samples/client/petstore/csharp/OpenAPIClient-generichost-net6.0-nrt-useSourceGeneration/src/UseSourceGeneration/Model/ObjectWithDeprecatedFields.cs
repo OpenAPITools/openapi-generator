@@ -262,10 +262,8 @@ namespace UseSourceGeneration.Model
                 JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
             }
             if (objectWithDeprecatedFields.IdOption.IsSet)
-                writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value);
 
             if (objectWithDeprecatedFields.UuidOption.IsSet)
-                writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }
 

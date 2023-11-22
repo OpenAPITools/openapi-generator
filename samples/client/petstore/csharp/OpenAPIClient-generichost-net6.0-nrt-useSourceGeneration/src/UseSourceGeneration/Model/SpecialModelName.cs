@@ -195,10 +195,8 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(specialModelName.VarSpecialModelName), "Property is required for class SpecialModelName.");
 
             if (specialModelName.VarSpecialModelNameOption.IsSet)
-                writer.WriteString("_special_model.name_", specialModelName.VarSpecialModelName);
 
             if (specialModelName.SpecialPropertyNameOption.IsSet)
-                writer.WriteNumber("$special[property.name]", specialModelName.SpecialPropertyNameOption.Value!.Value);
         }
     }
 

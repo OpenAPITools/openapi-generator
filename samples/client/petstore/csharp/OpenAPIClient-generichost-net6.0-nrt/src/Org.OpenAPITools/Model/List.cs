@@ -170,7 +170,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
 
             if (list.Var123ListOption.IsSet)
-                writer.WriteString("123-list", list.Var123List);
         }
     }
 }

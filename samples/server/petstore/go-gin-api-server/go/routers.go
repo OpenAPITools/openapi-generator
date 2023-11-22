@@ -52,7 +52,7 @@ func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
 }
 
 // Default handler for not yet implemented routes
-func DefaultHandleFunc(c *gin.Context) {
+func DefaultHandleFunc(c *gin.Cont	ext) {
 	c.String(http.StatusNotImplemented, "501 not implemented")
 }
 
@@ -67,8 +67,7 @@ type ApiHandleFunctions struct {
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{
-	
+	return []Route{ 
 		{
 			"AddPet",
 			http.MethodPost,
@@ -191,3 +190,6 @@ func getRoutes(handleFunctions ApiHandleFunctions) []Route {
 		},
 	}
 }
+
+
+

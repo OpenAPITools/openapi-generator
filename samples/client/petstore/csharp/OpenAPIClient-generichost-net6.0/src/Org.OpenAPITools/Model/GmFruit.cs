@@ -200,13 +200,13 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.AppleOption.IsSet && gmFruit.AppleOption.Value != null)
+            if ()
             {
                 AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.AppleOption.Value.GetType()));
                 AppleJsonConverter.WriteProperties(ref writer, gmFruit.AppleOption.Value, jsonSerializerOptions);
             }
 
-            if (gmFruit.BananaOption.IsSet && gmFruit.BananaOption.Value != null)
+            if ()
             {
                 BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.BananaOption.Value.GetType()));
                 BananaJsonConverter.WriteProperties(ref writer, gmFruit.BananaOption.Value, jsonSerializerOptions);
@@ -229,7 +229,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
 
             if (gmFruit.ColorOption.IsSet)
-                writer.WriteString("color", gmFruit.Color);
         }
     }
 }

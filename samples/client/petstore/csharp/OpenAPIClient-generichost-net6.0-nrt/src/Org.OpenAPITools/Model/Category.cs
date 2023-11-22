@@ -190,9 +190,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
 
             if (category.IdOption.IsSet)
-                writer.WriteNumber("id", category.IdOption.Value!.Value);
-
-            writer.WriteString("name", category.Name);
         }
     }
 }

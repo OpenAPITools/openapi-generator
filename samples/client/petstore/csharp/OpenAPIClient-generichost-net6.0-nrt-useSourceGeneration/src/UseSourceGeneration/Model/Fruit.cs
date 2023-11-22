@@ -215,7 +215,6 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
 
             if (fruit.ColorOption.IsSet)
-                writer.WriteString("color", fruit.Color);
         }
     }
 

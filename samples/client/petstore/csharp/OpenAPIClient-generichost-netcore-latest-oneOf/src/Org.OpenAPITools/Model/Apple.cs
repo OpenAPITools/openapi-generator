@@ -170,7 +170,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
 
             if (apple.KindOption.IsSet)
-                writer.WriteString("kind", apple.Kind);
         }
     }
 }

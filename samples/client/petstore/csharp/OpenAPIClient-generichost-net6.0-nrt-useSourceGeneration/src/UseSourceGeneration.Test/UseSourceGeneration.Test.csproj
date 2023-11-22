@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>UseSourceGeneration.Test</AssemblyName>
     <RootNamespace>UseSourceGeneration.Test</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
   </PropertyGroup>

@@ -170,7 +170,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(classModel.VarClass), "Property is required for class ClassModel.");
 
             if (classModel.VarClassOption.IsSet)
-                writer.WriteString("_class", classModel.VarClass);
         }
     }
 }

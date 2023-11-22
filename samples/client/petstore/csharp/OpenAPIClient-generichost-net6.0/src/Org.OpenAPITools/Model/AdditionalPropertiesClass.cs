@@ -32,7 +32,6 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
         /// </summary>
-        /// <param name="anytype1">anytype1</param>
         /// <param name="emptyMap">an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</param>
         /// <param name="mapOfMapProperty">mapOfMapProperty</param>
         /// <param name="mapProperty">mapProperty</param>
@@ -40,10 +39,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="mapWithUndeclaredPropertiesAnytype2">mapWithUndeclaredPropertiesAnytype2</param>
         /// <param name="mapWithUndeclaredPropertiesAnytype3">mapWithUndeclaredPropertiesAnytype3</param>
         /// <param name="mapWithUndeclaredPropertiesString">mapWithUndeclaredPropertiesString</param>
+        /// <param name="anytype1">anytype1</param>
         [JsonConstructor]
-        public AdditionalPropertiesClass(Option<Object> anytype1 = default, Option<Object> emptyMap = default, Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default, Option<Dictionary<string, string>> mapProperty = default, Option<Object> mapWithUndeclaredPropertiesAnytype1 = default, Option<Object> mapWithUndeclaredPropertiesAnytype2 = default, Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default, Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default)
+        public AdditionalPropertiesClass(Option<Object> emptyMap = default, Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default, Option<Dictionary<string, string>> mapProperty = default, Option<Object> mapWithUndeclaredPropertiesAnytype1 = default, Option<Object> mapWithUndeclaredPropertiesAnytype2 = default, Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default, Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default, Option<Object> anytype1 = default)
         {
-            Anytype1Option = anytype1;
             EmptyMapOption = emptyMap;
             MapOfMapPropertyOption = mapOfMapProperty;
             MapPropertyOption = mapProperty;
@@ -51,23 +50,11 @@ namespace Org.OpenAPITools.Model
             MapWithUndeclaredPropertiesAnytype2Option = mapWithUndeclaredPropertiesAnytype2;
             MapWithUndeclaredPropertiesAnytype3Option = mapWithUndeclaredPropertiesAnytype3;
             MapWithUndeclaredPropertiesStringOption = mapWithUndeclaredPropertiesString;
+            Anytype1Option = anytype1;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of Anytype1
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object> Anytype1Option { get; private set; }
-
-        /// <summary>
-        /// Gets or Sets Anytype1
-        /// </summary>
-        [JsonPropertyName("anytype_1")]
-        public Object Anytype1 { get { return this. Anytype1Option; } set { this.Anytype1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of EmptyMap
@@ -162,6 +149,19 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, string> MapWithUndeclaredPropertiesString { get { return this. MapWithUndeclaredPropertiesStringOption; } set { this.MapWithUndeclaredPropertiesStringOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of Anytype1
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Object> Anytype1Option { get; private set; }
+
+        /// <summary>
+        /// Gets or Sets Anytype1
+        /// </summary>
+        [JsonPropertyName("anytype_1")]
+        public Object Anytype1 { get { return this. Anytype1Option; } set { this.Anytype1Option = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -175,7 +175,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class AdditionalPropertiesClass {\n");
-            sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
             sb.Append("  EmptyMap: ").Append(EmptyMap).Append("\n");
             sb.Append("  MapOfMapProperty: ").Append(MapOfMapProperty).Append("\n");
             sb.Append("  MapProperty: ").Append(MapProperty).Append("\n");
@@ -183,6 +182,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  MapWithUndeclaredPropertiesAnytype2: ").Append(MapWithUndeclaredPropertiesAnytype2).Append("\n");
             sb.Append("  MapWithUndeclaredPropertiesAnytype3: ").Append(MapWithUndeclaredPropertiesAnytype3).Append("\n");
             sb.Append("  MapWithUndeclaredPropertiesString: ").Append(MapWithUndeclaredPropertiesString).Append("\n");
+            sb.Append("  Anytype1: ").Append(Anytype1).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -221,7 +221,6 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Object> anytype1 = default;
             Option<Object> emptyMap = default;
             Option<Dictionary<string, Dictionary<string, string>>> mapOfMapProperty = default;
             Option<Dictionary<string, string>> mapProperty = default;
@@ -229,6 +228,7 @@ namespace Org.OpenAPITools.Model
             Option<Object> mapWithUndeclaredPropertiesAnytype2 = default;
             Option<Dictionary<string, Object>> mapWithUndeclaredPropertiesAnytype3 = default;
             Option<Dictionary<string, string>> mapWithUndeclaredPropertiesString = default;
+            Option<Object> anytype1 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -245,10 +245,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "anytype_1":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anytype1 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
                         case "empty_map":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 emptyMap = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
@@ -277,6 +273,10 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 mapWithUndeclaredPropertiesString = new Option<Dictionary<string, string>>(JsonSerializer.Deserialize<Dictionary<string, string>>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
+                        case "anytype_1":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                anytype1 = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
                         default:
                             break;
                     }
@@ -304,7 +304,7 @@ namespace Org.OpenAPITools.Model
             if (mapWithUndeclaredPropertiesString.IsSet && mapWithUndeclaredPropertiesString.Value == null)
                 throw new ArgumentNullException(nameof(mapWithUndeclaredPropertiesString), "Property is not nullable for class AdditionalPropertiesClass.");
 
-            return new AdditionalPropertiesClass(anytype1, emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString);
+            return new AdditionalPropertiesClass(emptyMap, mapOfMapProperty, mapProperty, mapWithUndeclaredPropertiesAnytype1, mapWithUndeclaredPropertiesAnytype2, mapWithUndeclaredPropertiesAnytype3, mapWithUndeclaredPropertiesString, anytype1);
         }
 
         /// <summary>
@@ -352,14 +352,6 @@ namespace Org.OpenAPITools.Model
             if (additionalPropertiesClass.MapWithUndeclaredPropertiesStringOption.IsSet && additionalPropertiesClass.MapWithUndeclaredPropertiesString == null)
                 throw new ArgumentNullException(nameof(additionalPropertiesClass.MapWithUndeclaredPropertiesString), "Property is required for class AdditionalPropertiesClass.");
 
-            if (additionalPropertiesClass.Anytype1Option.IsSet)
-                if (additionalPropertiesClass.Anytype1Option.Value != null)
-                {
-                    writer.WritePropertyName("anytype_1");
-                    JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
-                }
-                else
-                    writer.WriteNull("anytype_1");
             if (additionalPropertiesClass.EmptyMapOption.IsSet)
             {
                 writer.WritePropertyName("empty_map");
@@ -395,6 +387,14 @@ namespace Org.OpenAPITools.Model
                 writer.WritePropertyName("map_with_undeclared_properties_string");
                 JsonSerializer.Serialize(writer, additionalPropertiesClass.MapWithUndeclaredPropertiesString, jsonSerializerOptions);
             }
+            if (additionalPropertiesClass.Anytype1Option.IsSet)
+                if (additionalPropertiesClass.Anytype1Option.Value != null)
+                {
+                    writer.WritePropertyName("anytype_1");
+                    JsonSerializer.Serialize(writer, additionalPropertiesClass.Anytype1, jsonSerializerOptions);
+                }
+                else
+                    writer.WriteNull("anytype_1");
         }
     }
 }

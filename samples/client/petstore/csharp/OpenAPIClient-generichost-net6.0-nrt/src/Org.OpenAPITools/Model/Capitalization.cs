@@ -301,22 +301,16 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
 
             if (capitalization.ATT_NAMEOption.IsSet)
-                writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
 
             if (capitalization.CapitalCamelOption.IsSet)
-                writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
 
             if (capitalization.CapitalSnakeOption.IsSet)
-                writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
 
             if (capitalization.SCAETHFlowPointsOption.IsSet)
-                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
 
             if (capitalization.SmallCamelOption.IsSet)
-                writer.WriteString("smallCamel", capitalization.SmallCamel);
 
             if (capitalization.SmallSnakeOption.IsSet)
-                writer.WriteString("small_Snake", capitalization.SmallSnake);
         }
     }
 }

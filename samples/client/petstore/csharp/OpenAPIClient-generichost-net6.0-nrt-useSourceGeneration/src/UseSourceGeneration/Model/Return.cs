@@ -169,7 +169,6 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
             if (varReturn.VarReturnOption.IsSet)
-                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value);
         }
     }
 

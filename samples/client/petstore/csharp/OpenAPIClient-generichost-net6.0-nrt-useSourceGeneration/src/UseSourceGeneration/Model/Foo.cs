@@ -171,7 +171,6 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(foo.Bar), "Property is required for class Foo.");
 
             if (foo.BarOption.IsSet)
-                writer.WriteString("bar", foo.Bar);
         }
     }
 

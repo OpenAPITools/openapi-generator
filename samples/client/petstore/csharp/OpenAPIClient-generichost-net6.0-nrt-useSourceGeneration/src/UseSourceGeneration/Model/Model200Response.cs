@@ -195,10 +195,8 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
 
             if (model200Response.VarClassOption.IsSet)
-                writer.WriteString("class", model200Response.VarClass);
 
             if (model200Response.NameOption.IsSet)
-                writer.WriteNumber("name", model200Response.NameOption.Value!.Value);
         }
     }
 

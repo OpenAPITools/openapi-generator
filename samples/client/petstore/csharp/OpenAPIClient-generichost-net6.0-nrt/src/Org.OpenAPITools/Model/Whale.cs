@@ -213,13 +213,11 @@ namespace Org.OpenAPITools.Model
             if (whale.ClassName == null)
                 throw new ArgumentNullException(nameof(whale.ClassName), "Property is required for class Whale.");
 
-            writer.WriteString("className", whale.ClassName);
+            
 
             if (whale.HasBaleenOption.IsSet)
-                writer.WriteBoolean("hasBaleen", whale.HasBaleenOption.Value!.Value);
 
             if (whale.HasTeethOption.IsSet)
-                writer.WriteBoolean("hasTeeth", whale.HasTeethOption.Value!.Value);
         }
     }
 }

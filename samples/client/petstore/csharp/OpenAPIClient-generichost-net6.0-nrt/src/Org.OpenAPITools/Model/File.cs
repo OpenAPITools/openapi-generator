@@ -171,7 +171,6 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException(nameof(file.SourceURI), "Property is required for class File.");
 
             if (file.SourceURIOption.IsSet)
-                writer.WriteString("sourceURI", file.SourceURI);
         }
     }
 }

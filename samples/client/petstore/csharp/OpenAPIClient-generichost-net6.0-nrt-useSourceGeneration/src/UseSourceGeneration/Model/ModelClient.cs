@@ -171,7 +171,6 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(modelClient.VarClient), "Property is required for class ModelClient.");
 
             if (modelClient.VarClientOption.IsSet)
-                writer.WriteString("client", modelClient.VarClient);
         }
     }
 

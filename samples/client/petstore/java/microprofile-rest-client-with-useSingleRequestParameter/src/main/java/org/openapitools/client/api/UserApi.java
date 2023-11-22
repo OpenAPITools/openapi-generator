@@ -82,28 +82,7 @@ public interface UserApi  {
      */
     @DELETE
     @Path("/{username}")
-    void deleteUser(@BeanParam DeleteUserRequest request) throws ApiException, ProcessingException;
-    public class DeleteUserRequest {
-
-        private @PathParam("username") String username;
-
-        private DeleteUserRequest() {
-        }
-
-        public static DeleteUserRequest newInstance() {
-            return new DeleteUserRequest();
-        }
-
-        /**
-         * Set username
-         * @param username The name that needs to be deleted (required)
-         * @return DeleteUserRequest
-         */
-        public DeleteUserRequest username(String username) {
-            this.username = username;
-            return this;
-        }
-    }
+    void deleteUser() throws ApiException, ProcessingException;
 
     /**
      * Get user by user name
@@ -114,28 +93,7 @@ public interface UserApi  {
     @GET
     @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
-    User getUserByName(@BeanParam GetUserByNameRequest request) throws ApiException, ProcessingException;
-    public class GetUserByNameRequest {
-
-        private @PathParam("username") String username;
-
-        private GetUserByNameRequest() {
-        }
-
-        public static GetUserByNameRequest newInstance() {
-            return new GetUserByNameRequest();
-        }
-
-        /**
-         * Set username
-         * @param username The name that needs to be fetched. Use user1 for testing. (required)
-         * @return GetUserByNameRequest
-         */
-        public GetUserByNameRequest username(String username) {
-            this.username = username;
-            return this;
-        }
-    }
+    User getUserByName() throws ApiException, ProcessingException;
 
     /**
      * Logs user into the system
@@ -146,38 +104,7 @@ public interface UserApi  {
     @GET
     @Path("/login")
     @Produces({ "application/xml", "application/json" })
-    String loginUser(@BeanParam LoginUserRequest request) throws ApiException, ProcessingException;
-    public class LoginUserRequest {
-
-        private @QueryParam("username") String username;
-        private @QueryParam("password") String password;
-
-        private LoginUserRequest() {
-        }
-
-        public static LoginUserRequest newInstance() {
-            return new LoginUserRequest();
-        }
-
-        /**
-         * Set username
-         * @param username The user name for login (required)
-         * @return LoginUserRequest
-         */
-        public LoginUserRequest username(String username) {
-            this.username = username;
-            return this;
-        }
-        /**
-         * Set password
-         * @param password The password for login in clear text (required)
-         * @return LoginUserRequest
-         */
-        public LoginUserRequest password(String password) {
-            this.password = password;
-            return this;
-        }
-    }
+    String loginUser() throws ApiException, ProcessingException;
 
     /**
      * Logs out current logged in user session
@@ -198,26 +125,5 @@ public interface UserApi  {
     @PUT
     @Path("/{username}")
     @Consumes({ "application/json" })
-    void updateUser(@BeanParam UpdateUserRequest request, User user) throws ApiException, ProcessingException;
-    public class UpdateUserRequest {
-
-        private @PathParam("username") String username;
-
-        private UpdateUserRequest() {
-        }
-
-        public static UpdateUserRequest newInstance() {
-            return new UpdateUserRequest();
-        }
-
-        /**
-         * Set username
-         * @param username name that need to be deleted (required)
-         * @return UpdateUserRequest
-         */
-        public UpdateUserRequest username(String username) {
-            this.username = username;
-            return this;
-        }
-    }
+    void updateUser(User user) throws ApiException, ProcessingException;
 }

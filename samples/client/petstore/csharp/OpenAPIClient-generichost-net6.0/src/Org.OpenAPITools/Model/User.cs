@@ -32,65 +32,37 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="User" /> class.
         /// </summary>
-        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</param>
-        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param>
         /// <param name="email">email</param>
         /// <param name="firstName">firstName</param>
         /// <param name="id">id</param>
         /// <param name="lastName">lastName</param>
         /// <param name="objectWithNoDeclaredProps">test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</param>
-        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param>
         /// <param name="password">password</param>
         /// <param name="phone">phone</param>
         /// <param name="userStatus">User Status</param>
         /// <param name="username">username</param>
+        /// <param name="anyTypeProp">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</param>
+        /// <param name="anyTypePropNullable">test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</param>
+        /// <param name="objectWithNoDeclaredPropsNullable">test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</param>
         [JsonConstructor]
-        public User(Option<Object> anyTypeProp = default, Option<Object> anyTypePropNullable = default, Option<string> email = default, Option<string> firstName = default, Option<long?> id = default, Option<string> lastName = default, Option<Object> objectWithNoDeclaredProps = default, Option<Object> objectWithNoDeclaredPropsNullable = default, Option<string> password = default, Option<string> phone = default, Option<int?> userStatus = default, Option<string> username = default)
+        public User(Option<string> email = default, Option<string> firstName = default, Option<long?> id = default, Option<string> lastName = default, Option<Object> objectWithNoDeclaredProps = default, Option<string> password = default, Option<string> phone = default, Option<int?> userStatus = default, Option<string> username = default, Option<Object> anyTypeProp = default, Option<Object> anyTypePropNullable = default, Option<Object> objectWithNoDeclaredPropsNullable = default)
         {
-            AnyTypePropOption = anyTypeProp;
-            AnyTypePropNullableOption = anyTypePropNullable;
             EmailOption = email;
             FirstNameOption = firstName;
             IdOption = id;
             LastNameOption = lastName;
             ObjectWithNoDeclaredPropsOption = objectWithNoDeclaredProps;
-            ObjectWithNoDeclaredPropsNullableOption = objectWithNoDeclaredPropsNullable;
             PasswordOption = password;
             PhoneOption = phone;
             UserStatusOption = userStatus;
             UsernameOption = username;
+            AnyTypePropOption = anyTypeProp;
+            AnyTypePropNullableOption = anyTypePropNullable;
+            ObjectWithNoDeclaredPropsNullableOption = objectWithNoDeclaredPropsNullable;
             OnCreated();
         }
 
         partial void OnCreated();
-
-        /// <summary>
-        /// Used to track the state of AnyTypeProp
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object> AnyTypePropOption { get; private set; }
-
-        /// <summary>
-        /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
-        /// </summary>
-        /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
-        [JsonPropertyName("anyTypeProp")]
-        public Object AnyTypeProp { get { return this. AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of AnyTypePropNullable
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object> AnyTypePropNullableOption { get; private set; }
-
-        /// <summary>
-        /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
-        /// </summary>
-        /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
-        [JsonPropertyName("anyTypePropNullable")]
-        public Object AnyTypePropNullable { get { return this. AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -159,20 +131,6 @@ namespace Org.OpenAPITools.Model
         public Object ObjectWithNoDeclaredProps { get { return this. ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new(value); } }
 
         /// <summary>
-        /// Used to track the state of ObjectWithNoDeclaredPropsNullable
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object> ObjectWithNoDeclaredPropsNullableOption { get; private set; }
-
-        /// <summary>
-        /// test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
-        /// </summary>
-        /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
-        [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
-        public Object ObjectWithNoDeclaredPropsNullable { get { return this. ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } }
-
-        /// <summary>
         /// Used to track the state of Password
         /// </summary>
         [JsonIgnore]
@@ -226,6 +184,48 @@ namespace Org.OpenAPITools.Model
         public string Username { get { return this. UsernameOption; } set { this.UsernameOption = new(value); } }
 
         /// <summary>
+        /// Used to track the state of AnyTypeProp
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Object> AnyTypePropOption { get; private set; }
+
+        /// <summary>
+        /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+        /// </summary>
+        /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
+        [JsonPropertyName("anyTypeProp")]
+        public Object AnyTypeProp { get { return this. AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of AnyTypePropNullable
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Object> AnyTypePropNullableOption { get; private set; }
+
+        /// <summary>
+        /// test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
+        /// </summary>
+        /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
+        [JsonPropertyName("anyTypePropNullable")]
+        public Object AnyTypePropNullable { get { return this. AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } }
+
+        /// <summary>
+        /// Used to track the state of ObjectWithNoDeclaredPropsNullable
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Object> ObjectWithNoDeclaredPropsNullableOption { get; private set; }
+
+        /// <summary>
+        /// test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
+        /// </summary>
+        /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
+        [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
+        public Object ObjectWithNoDeclaredPropsNullable { get { return this. ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } }
+
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -239,18 +239,18 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class User {\n");
-            sb.Append("  AnyTypeProp: ").Append(AnyTypeProp).Append("\n");
-            sb.Append("  AnyTypePropNullable: ").Append(AnyTypePropNullable).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  ObjectWithNoDeclaredProps: ").Append(ObjectWithNoDeclaredProps).Append("\n");
-            sb.Append("  ObjectWithNoDeclaredPropsNullable: ").Append(ObjectWithNoDeclaredPropsNullable).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Phone: ").Append(Phone).Append("\n");
             sb.Append("  UserStatus: ").Append(UserStatus).Append("\n");
             sb.Append("  Username: ").Append(Username).Append("\n");
+            sb.Append("  AnyTypeProp: ").Append(AnyTypeProp).Append("\n");
+            sb.Append("  AnyTypePropNullable: ").Append(AnyTypePropNullable).Append("\n");
+            sb.Append("  ObjectWithNoDeclaredPropsNullable: ").Append(ObjectWithNoDeclaredPropsNullable).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -289,18 +289,18 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Object> anyTypeProp = default;
-            Option<Object> anyTypePropNullable = default;
             Option<string> email = default;
             Option<string> firstName = default;
             Option<long?> id = default;
             Option<string> lastName = default;
             Option<Object> objectWithNoDeclaredProps = default;
-            Option<Object> objectWithNoDeclaredPropsNullable = default;
             Option<string> password = default;
             Option<string> phone = default;
             Option<int?> userStatus = default;
             Option<string> username = default;
+            Option<Object> anyTypeProp = default;
+            Option<Object> anyTypePropNullable = default;
+            Option<Object> objectWithNoDeclaredPropsNullable = default;
 
             while (utf8JsonReader.Read())
             {
@@ -317,14 +317,6 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "anyTypeProp":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypeProp = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
-                        case "anyTypePropNullable":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                anyTypePropNullable = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
                         case "email":
                             email = new Option<string>(utf8JsonReader.GetString());
                             break;
@@ -342,10 +334,6 @@ namespace Org.OpenAPITools.Model
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
                                 objectWithNoDeclaredProps = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
-                        case "objectWithNoDeclaredPropsNullable":
-                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                objectWithNoDeclaredPropsNullable = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
-                            break;
                         case "password":
                             password = new Option<string>(utf8JsonReader.GetString());
                             break;
@@ -358,6 +346,18 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "username":
                             username = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "anyTypeProp":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                anyTypeProp = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "anyTypePropNullable":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                anyTypePropNullable = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
+                            break;
+                        case "objectWithNoDeclaredPropsNullable":
+                            if (utf8JsonReader.TokenType != JsonTokenType.Null)
+                                objectWithNoDeclaredPropsNullable = new Option<Object>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         default:
                             break;
@@ -392,7 +392,7 @@ namespace Org.OpenAPITools.Model
             if (username.IsSet && username.Value == null)
                 throw new ArgumentNullException(nameof(username), "Property is not nullable for class User.");
 
-            return new User(anyTypeProp, anyTypePropNullable, email, firstName, id, lastName, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, password, phone, userStatus, username);
+            return new User(email, firstName, id, lastName, objectWithNoDeclaredProps, password, phone, userStatus, username, anyTypeProp, anyTypePropNullable, objectWithNoDeclaredPropsNullable);
         }
 
         /// <summary>
@@ -440,6 +440,27 @@ namespace Org.OpenAPITools.Model
             if (user.UsernameOption.IsSet && user.Username == null)
                 throw new ArgumentNullException(nameof(user.Username), "Property is required for class User.");
 
+            if (user.EmailOption.IsSet)
+
+            if (user.FirstNameOption.IsSet)
+
+            if (user.IdOption.IsSet)
+
+            if (user.LastNameOption.IsSet)
+
+            if (user.ObjectWithNoDeclaredPropsOption.IsSet)
+            {
+                writer.WritePropertyName("objectWithNoDeclaredProps");
+                JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
+            }
+            if (user.PasswordOption.IsSet)
+
+            if (user.PhoneOption.IsSet)
+
+            if (user.UserStatusOption.IsSet)
+
+            if (user.UsernameOption.IsSet)
+
             if (user.AnyTypePropOption.IsSet)
                 if (user.AnyTypePropOption.Value != null)
                 {
@@ -456,23 +477,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("anyTypePropNullable");
-            if (user.EmailOption.IsSet)
-                writer.WriteString("email", user.Email);
-
-            if (user.FirstNameOption.IsSet)
-                writer.WriteString("firstName", user.FirstName);
-
-            if (user.IdOption.IsSet)
-                writer.WriteNumber("id", user.IdOption.Value.Value);
-
-            if (user.LastNameOption.IsSet)
-                writer.WriteString("lastName", user.LastName);
-
-            if (user.ObjectWithNoDeclaredPropsOption.IsSet)
-            {
-                writer.WritePropertyName("objectWithNoDeclaredProps");
-                JsonSerializer.Serialize(writer, user.ObjectWithNoDeclaredProps, jsonSerializerOptions);
-            }
             if (user.ObjectWithNoDeclaredPropsNullableOption.IsSet)
                 if (user.ObjectWithNoDeclaredPropsNullableOption.Value != null)
                 {
@@ -481,17 +485,6 @@ namespace Org.OpenAPITools.Model
                 }
                 else
                     writer.WriteNull("objectWithNoDeclaredPropsNullable");
-            if (user.PasswordOption.IsSet)
-                writer.WriteString("password", user.Password);
-
-            if (user.PhoneOption.IsSet)
-                writer.WriteString("phone", user.Phone);
-
-            if (user.UserStatusOption.IsSet)
-                writer.WriteNumber("userStatus", user.UserStatusOption.Value.Value);
-
-            if (user.UsernameOption.IsSet)
-                writer.WriteString("username", user.Username);
         }
     }
 }

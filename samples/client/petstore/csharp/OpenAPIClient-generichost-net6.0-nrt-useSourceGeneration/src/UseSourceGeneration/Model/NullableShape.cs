@@ -247,8 +247,6 @@ namespace UseSourceGeneration.Model
         {
             if (nullableShape.ShapeType == null)
                 throw new ArgumentNullException(nameof(nullableShape.ShapeType), "Property is required for class NullableShape.");
-
-            writer.WriteString("shapeType", nullableShape.ShapeType);
         }
     }
 

@@ -169,7 +169,6 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
             if (banana.LengthCmOption.IsSet)
-                writer.WriteNumber("lengthCm", banana.LengthCmOption.Value!.Value);
         }
     }
 

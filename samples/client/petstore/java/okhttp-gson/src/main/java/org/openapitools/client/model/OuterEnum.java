@@ -35,9 +35,9 @@ public enum OuterEnum {
   
   DELIVERED("delivered"),
   
-  LOWER_CASE_S("s"),
+  S("s"),
   
-  UPPER_CASE_S("S");
+  S2("S");
 
   private String value;
 

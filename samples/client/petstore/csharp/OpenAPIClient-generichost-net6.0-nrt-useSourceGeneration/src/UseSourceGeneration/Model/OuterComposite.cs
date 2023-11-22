@@ -219,13 +219,10 @@ namespace UseSourceGeneration.Model
                 throw new ArgumentNullException(nameof(outerComposite.MyString), "Property is required for class OuterComposite.");
 
             if (outerComposite.MyBooleanOption.IsSet)
-                writer.WriteBoolean("my_boolean", outerComposite.MyBooleanOption.Value!.Value);
 
             if (outerComposite.MyNumberOption.IsSet)
-                writer.WriteNumber("my_number", outerComposite.MyNumberOption.Value!.Value);
 
             if (outerComposite.MyStringOption.IsSet)
-                writer.WriteString("my_string", outerComposite.MyString);
         }
     }
 
