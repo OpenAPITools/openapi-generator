@@ -113,7 +113,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         THREETENBP("threetenbp"),
         THREETENBP_LOCALDATETIME("threetenbp-localdatetime"),
         JAVA8("java8"),
-        JAVA8_LOCALDATETIME("java8-localdatetime");
+        JAVA8_LOCALDATETIME("java8-localdatetime"),
+        KOTLINX_DATETIME("kotlinx-datetime");
 
         public final String value;
 
@@ -203,6 +204,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         dateOptions.put(DateLibrary.STRING.value, "String");
         dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
         dateOptions.put(DateLibrary.JAVA8_LOCALDATETIME.value, "Java 8 native JSR310 (jvm only, for legacy app only)");
+        dateOptions.put(DateLibrary.KOTLINX_DATETIME.value, "kotlinx-datetime (preferred for multiplatform)");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(this.dateLibrary);
         cliOptions.add(dateLibrary);
@@ -515,6 +517,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             processStringDate();
         } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
             processJava8Date(dateLibrary);
+        } else if (DateLibrary.KOTLINX_DATETIME.value.equals(dateLibrary)) {
+            processKotlinxDate();
         }
     }
 
@@ -564,6 +568,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("DateTime", "LocalDateTime");
             importMapping.put("LocalDateTime", "java.time.LocalDateTime");
         }
+    }
+
+    private void processKotlinxDate() {
+        additionalProperties.put(DateLibrary.KOTLINX_DATETIME.value, true);
+
+        typeMapping.put("date-time", "kotlinx.datetime.Instant");
+        typeMapping.put("DateTime", "Instant");
+        importMapping.put("Instant", "kotlinx.datetime.Instant");
     }
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
@@ -629,6 +641,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                addKotlinxDateTimeInstantAdapter(infrastructureFolder);
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigDecimalAdapter.kt.mustache", infrastructureFolder, "BigDecimalAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/BigIntegerAdapter.kt.mustache", infrastructureFolder, "BigIntegerAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/URIAdapter.kt.mustache", infrastructureFolder, "URIAdapter.kt"));
@@ -639,6 +652,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateAdapter.kt.mustache", infrastructureFolder, "LocalDateAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
+                addKotlinxDateTimeInstantAdapter(infrastructureFolder);
                 break;
 
             case jackson:
@@ -659,6 +673,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/StringBuilderAdapter.kt.mustache", infrastructureFolder, "StringBuilderAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/proguard-rules.pro.mustache", "", "proguard-rules.pro"));
                 break;
+        }
+    }
+
+    private void addKotlinxDateTimeInstantAdapter(final String infrastructureFolder) {
+        if (DateLibrary.KOTLINX_DATETIME.value.equals(dateLibrary)) {
+            supportingFiles.add(new SupportingFile("jvm-common/infrastructure/InstantAdapter.kt.mustache", infrastructureFolder, "InstantAdapter.kt"));
         }
     }
 
@@ -741,7 +761,11 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     private void processMultiplatformLibrary(final String infrastructureFolder) {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         additionalProperties.put(MULTIPLATFORM, true);
-        setDateLibrary(DateLibrary.STRING.value);
+
+        if (!DateLibrary.STRING.value.equals(dateLibrary) && !DateLibrary.KOTLINX_DATETIME.value.equals(dateLibrary)) {
+            throw new RuntimeException("Multiplatform only supports string and kotlinx-datetime. Try adding '--additional-properties dateLibrary=kotlinx-datetime' to your command.");
+        }
+
         setRequestDateConverter(RequestDateConverter.TO_STRING.value);
 
         // multiplatform default includes
