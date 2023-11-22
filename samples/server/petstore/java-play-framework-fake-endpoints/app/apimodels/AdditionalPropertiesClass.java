@@ -40,7 +40,7 @@ public class AdditionalPropertiesClass   {
   @JsonProperty("map_array_anytype")
   @Valid
 
-  private Map<String, List<@Valid Object>> mapArrayAnytype = null;
+  private Map<String, List<Object>> mapArrayAnytype = null;
 
   @JsonProperty("map_map_string")
   @Valid
@@ -189,12 +189,12 @@ public class AdditionalPropertiesClass   {
     this.mapArrayInteger = mapArrayInteger;
   }
 
-  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
+  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<@Valid Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
       this.mapArrayAnytype = new HashMap<>();
     }
@@ -206,11 +206,11 @@ public class AdditionalPropertiesClass   {
    * Get mapArrayAnytype
    * @return mapArrayAnytype
   **/
-  public Map<String, List<@Valid Object>> getMapArrayAnytype() {
+  public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
-  public void setMapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 

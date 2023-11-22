@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **mapInteger** | `Map&lt;String, Integer&gt;` |  |  [optional property]
 **mapBoolean** | `Map&lt;String, Boolean&gt;` |  |  [optional property]
 **mapArrayInteger** | `Map&lt;String, List&lt;Integer&gt;&gt;` |  |  [optional property]
-**mapArrayAnytype** | `Map&lt;String, List&lt;@Valid Object&gt;&gt;` |  |  [optional property]
+**mapArrayAnytype** | `Map&lt;String, List&lt;Object&gt;&gt;` |  |  [optional property]
 **mapMapString** | `Map&lt;String, Map&lt;String, String&gt;&gt;` |  |  [optional property]
 **mapMapAnytype** | `Map&lt;String, Map&lt;String, Object&gt;&gt;` |  |  [optional property]
 **anytype1** | `Object` |  |  [optional property]

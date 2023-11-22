@@ -25,7 +25,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   private @Valid Map<String, Integer> mapInteger = new HashMap<>();
   private @Valid Map<String, Boolean> mapBoolean = new HashMap<>();
   private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
-  private @Valid Map<String, List<@Valid Object>> mapArrayAnytype = new HashMap<>();
+  private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
   private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<>();
   private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
   private @Valid Object anytype1;
@@ -226,7 +226,7 @@ public class AdditionalPropertiesClass  implements Serializable {
   }
   /**
    **/
-  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
+  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -234,16 +234,16 @@ public class AdditionalPropertiesClass  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("map_array_anytype")
-  public Map<String, List<@Valid Object>> getMapArrayAnytype() {
+  public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
   @JsonProperty("map_array_anytype")
-  public void setMapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<@Valid Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
       this.mapArrayAnytype = new HashMap<>();
     }
@@ -252,7 +252,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     return this;
   }
 
-  public AdditionalPropertiesClass removeMapArrayAnytypeItem(List<@Valid Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClass removeMapArrayAnytypeItem(List<Object> mapArrayAnytypeItem) {
     if (mapArrayAnytypeItem != null && this.mapArrayAnytype != null) {
       this.mapArrayAnytype.remove(mapArrayAnytypeItem);
     }
@@ -469,7 +469,7 @@ public class AdditionalPropertiesClass  implements Serializable {
     private Map<String, Integer> mapInteger = new HashMap<>();
     private Map<String, Boolean> mapBoolean = new HashMap<>();
     private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
-    private Map<String, List<@Valid Object>> mapArrayAnytype = new HashMap<>();
+    private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
     private Map<String, Map<String, String>> mapMapString = new HashMap<>();
     private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
     private Object anytype1;
@@ -499,7 +499,7 @@ public class AdditionalPropertiesClass  implements Serializable {
       this.mapArrayInteger = mapArrayInteger;
       return self();
     }
-    public B mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
+    public B mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
       this.mapArrayAnytype = mapArrayAnytype;
       return self();
     }

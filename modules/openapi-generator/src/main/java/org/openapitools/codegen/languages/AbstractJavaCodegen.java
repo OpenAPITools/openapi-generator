@@ -950,6 +950,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "";
         }
 
+        if (ModelUtils.isTypeObjectSchema(items)) {
+            return "";
+        }
+
         if (ModelUtils.isModel(items)) {
             return "@Valid ";
         }
@@ -971,7 +975,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (ModelUtils.isLongSchema(items) || ModelUtils.isIntegerSchema(items)) {
-
             if (items.getMinimum() != null && items.getMaximum() != null) {
                 return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
             }
