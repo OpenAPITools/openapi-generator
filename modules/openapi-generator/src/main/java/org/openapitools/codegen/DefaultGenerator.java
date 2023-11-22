@@ -700,17 +700,17 @@ public class DefaultGenerator implements Generator {
                         String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
                         String filename = config.apiFilename(templateName, tag, outputDir);
                         // do not overwrite apiController file for spring server
-                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
                             written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
                         } else {
-                            LOGGER.info("Implementation file {} is not overwritten",filename);
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
                         }
                     } else {
                         String filename = config.apiFilename(templateName, tag);
-                        if(apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
                             written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
                         } else {
-                            LOGGER.info("Implementation file {} is not overwritten",filename);
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
                         }
                     }
                     if (written != null) {
@@ -763,7 +763,7 @@ public class DefaultGenerator implements Generator {
     }
 
     // checking if apiController file is already existed for spring generator
-    private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate){
+    private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate) {
         File apiFile = new File(filename);
         return !(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate));
     }
@@ -818,7 +818,7 @@ public class DefaultGenerator implements Generator {
             Writer fileWriter = Files.newBufferedWriter(ignoreFile.toPath(), StandardCharsets.UTF_8);
             fileWriter.write(header);
             // add entries provided by the users
-            for (String entry: config.getOpenAPIGeneratorIgnoreList()) {
+            for (String entry : config.getOpenAPIGeneratorIgnoreList()) {
                 fileWriter.write(entry);
                 fileWriter.write("\n");
             }
