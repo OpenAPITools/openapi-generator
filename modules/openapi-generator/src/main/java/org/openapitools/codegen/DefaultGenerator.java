@@ -768,6 +768,9 @@ public class DefaultGenerator implements Generator {
         return !(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate));
     }
 
+    /*
+     * Generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled.
+     */
     private void generateOpenAPIGeneratorIgnoreFile() {
         if (config.getOpenAPIGeneratorIgnoreList() == null || config.getOpenAPIGeneratorIgnoreList().isEmpty()) {
             return;
