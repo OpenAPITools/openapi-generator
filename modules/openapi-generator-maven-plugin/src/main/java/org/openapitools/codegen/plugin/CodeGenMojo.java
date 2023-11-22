@@ -375,6 +375,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> languageSpecificPrimitives;
 
     /**
+     * A list of openapi-generator-ignore entries
+     */
+    @Parameter(name = "openapiGeneratorIgnoreList", property = "openapi.generator.maven.plugin.openapiGeneratorIgnoreList")
+    private List<String> openapiGeneratorIgnoreList;
+
+    /**
      * A map of additional properties that can be referenced by the mustache templates
      */
     @Parameter(name = "additionalProperties", property = "openapi.generator.maven.plugin.additionalProperties")
@@ -783,6 +789,12 @@ public class CodeGenMojo extends AbstractMojo {
                             .get("language-specific-primitives").toString(), configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> openapi-generator-ignore-list
+                if (openapiGeneratorIgnoreList == null && configOptions.containsKey("openapi-generator-ignore-list")) {
+                    applyOpenAPIGeneratorIgnoreListCsv(configOptions
+                            .get("openapi-generator-ignore-list").toString(), configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> additional-properties
                 if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
                     applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
@@ -859,6 +871,12 @@ public class CodeGenMojo extends AbstractMojo {
             if (languageSpecificPrimitives != null
                     && (configOptions == null || !configOptions.containsKey("language-specific-primitives"))) {
                 applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+            }
+
+            // Apply Language Specific Primitives
+            if (openapiGeneratorIgnoreList != null
+                    && (configOptions == null || !configOptions.containsKey("openapi-generator-ignore-list"))) {
+                applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
             }
 
             // Apply Additional Properties
