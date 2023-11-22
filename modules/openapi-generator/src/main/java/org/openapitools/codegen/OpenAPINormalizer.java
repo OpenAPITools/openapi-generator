@@ -628,7 +628,7 @@ public class OpenAPINormalizer {
     }
 
     /**
-     * Set the tag name to operationId
+     * Set the tag name to operationId (or "default" if operationId is empty)
      *
      * @param operation Operation
      */
@@ -643,7 +643,6 @@ public class OpenAPINormalizer {
         } else { // default to "default" if operationId is empty
             operation.addTagsItem("default");
         }
-
     }
 
     /**
