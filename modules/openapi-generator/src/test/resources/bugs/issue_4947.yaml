@@ -44,8 +44,6 @@ components:
             type: string
             maxLength: 1
           maxItems: 10
-
-
         stringEmail:
           type: array
           items:
