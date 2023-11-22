@@ -17,16 +17,24 @@
 
 package org.openapitools.codegen.java;
 
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
+
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -34,6 +42,8 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class AbstractJavaCodegenTest {
 
@@ -872,6 +882,182 @@ public class AbstractJavaCodegenTest {
         Assert.assertTrue(cm.imports.contains("BigDecimal"));
         Assert.assertTrue(cm.imports.contains("Date"));
         Assert.assertTrue(cm.imports.contains("UUID"));
+    }
+
+    @Test
+    public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue4947() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_4947.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .isNormalClass()
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+                .hasProperty("stringPattern")
+                .withType("Set<@Pattern(regexp = \"[a-z]\") String>")
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType("Set<@Size(min = 1, max = 10) String>")
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType("List<@Size(min = 1) String>")
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType("Set<@Size(max = 1) String>")
+                .toType()
+                .hasProperty("intMinMax")
+                .withType("List<@Min(1) @Max(10) Integer>")
+                .toType()
+                .hasProperty("intMin")
+                .withType("List<@Min(1) Integer>")
+                .toType()
+                .hasProperty("intMax")
+                .withType("List<@Max(10) Integer>")
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType("List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>")
+                .toType()
+                .hasProperty("numberMin")
+                .withType("List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>")
+                .toType()
+                .hasProperty("numberMax")
+                .withType("List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>")
+                .toType()
+                .hasProperty("stringPatternNullable")
+                .withType("JsonNullable<Set<@Pattern(regexp = \"[a-z]\") String>>")
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType("JsonNullable<Set<@Size(min = 1, max = 10) String>>")
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType("JsonNullable<List<@Size(min = 1) String>>")
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType("JsonNullable<Set<@Size(max = 1) String>>")
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType("JsonNullable<List<@Min(1) @Max(10) Integer>>")
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType("JsonNullable<List<@Min(1) Integer>>")
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType("JsonNullable<List<@Max(10) Integer>>")
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType("JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>>")
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType("JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>>")
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType("JsonNullable<List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>>")
+                .toType();
+    }
+
+    @Test
+    public void shouldNotAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue4947() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_4947.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "false");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .isNormalClass()
+                .hasProperty("stringPattern")
+                .withType("Set<String>")
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType("Set<String>")
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType("List<String>")
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType("Set<String>")
+                .toType()
+                .hasProperty("intMinMax")
+                .withType("List<Integer>")
+                .toType()
+                .hasProperty("intMin")
+                .withType("List<Integer>")
+                .toType()
+                .hasProperty("intMax")
+                .withType("List<Integer>")
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType("List<BigDecimal>")
+                .toType()
+                .hasProperty("numberMin")
+                .withType("List<BigDecimal>")
+                .toType()
+                .hasProperty("numberMax")
+                .withType("List<BigDecimal>")
+                .toType()
+                .hasProperty("stringPatternNullable")
+                .withType("JsonNullable<Set<String>>")
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType("JsonNullable<Set<String>>")
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType("JsonNullable<List<String>>")
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType("JsonNullable<Set<String>>")
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType("JsonNullable<List<Integer>>")
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType("JsonNullable<List<Integer>>")
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType("JsonNullable<List<Integer>>")
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType("JsonNullable<List<BigDecimal>>")
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType("JsonNullable<List<BigDecimal>>")
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType("JsonNullable<List<BigDecimal>>")
+                .toType();
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

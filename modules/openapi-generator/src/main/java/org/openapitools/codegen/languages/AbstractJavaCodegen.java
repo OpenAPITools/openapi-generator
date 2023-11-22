@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import io.swagger.models.Model;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -35,6 +34,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -930,7 +930,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -943,6 +943,63 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
+    }
+
+    private String getBeanValidation(Schema<?> items) {
+        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
+            return "";
+        }
+
+        if (ModelUtils.isModel(items)) {
+            return "@Valid ";
+        }
+
+        if (StringUtils.isNotEmpty(items.getPattern()) && !ModelUtils.isByteArraySchema(items)) {
+            return String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", items.getPattern());
+        }
+
+        if (items.getMinLength() != null && items.getMaxLength() != null) {
+            return String.format(Locale.ROOT, "@Size(min = %d, max = %d)", items.getMinLength(), items.getMaxLength());
+        }
+
+        if (items.getMinLength() != null) {
+            return String.format(Locale.ROOT, "@Size(min = %d)", items.getMinLength());
+        }
+
+        if (items.getMaxLength() != null) {
+            return String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength());
+        }
+
+        if (ModelUtils.isLongSchema(items) || ModelUtils.isIntegerSchema(items)) {
+
+            if (items.getMinimum() != null && items.getMaximum() != null) {
+                return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
+            }
+
+            if (items.getMinimum() != null) {
+                return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
+            }
+
+            if (items.getMaximum() != null) {
+                return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+            }
+        }
+
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = false) @DecimalMax(value = \"%s\", inclusive = false)",
+                    items.getMinimum(),
+                    items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = false)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = false)", items.getMaximum());
+        }
+
+        return "";
     }
 
     @Override
@@ -2289,7 +2346,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         operation.hasParams = !operation.allParams.isEmpty();
     }
-    
+
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
         return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }

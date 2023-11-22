@@ -44,11 +44,11 @@ public class NullableClass extends HashMap<String, Object> {
 
   private OffsetDateTime datetimeProp;
 
-  private List<Object> arrayNullableProp = null;
+  private List<@Valid Object> arrayNullableProp = null;
 
-  private List<Object> arrayAndItemsNullableProp = null;
+  private List<@Valid Object> arrayAndItemsNullableProp = null;
 
-  private List<Object> arrayItemsNullable = null;
+  private List<@Valid Object> arrayItemsNullable = null;
 
   private Map<String, Object> objectNullableProp = null;
 
@@ -180,18 +180,18 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayNullableProp
    * @return arrayNullableProp
   **/
-  public List<Object> getArrayNullableProp() {
+  public List<@Valid Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
 
   /**
     * Set arrayNullableProp
   **/
-  public void setArrayNullableProp(List<Object> arrayNullableProp) {
+  public void setArrayNullableProp(List<@Valid Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
-  public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
+  public NullableClass arrayNullableProp(List<@Valid Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -205,18 +205,18 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayAndItemsNullableProp
    * @return arrayAndItemsNullableProp
   **/
-  public List<Object> getArrayAndItemsNullableProp() {
+  public List<@Valid Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
 
   /**
     * Set arrayAndItemsNullableProp
   **/
-  public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public void setArrayAndItemsNullableProp(List<@Valid Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
-  public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public NullableClass arrayAndItemsNullableProp(List<@Valid Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -230,18 +230,18 @@ public class NullableClass extends HashMap<String, Object> {
    * Get arrayItemsNullable
    * @return arrayItemsNullable
   **/
-  public List<Object> getArrayItemsNullable() {
+  public List<@Valid Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
 
   /**
     * Set arrayItemsNullable
   **/
-  public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
+  public void setArrayItemsNullable(List<@Valid Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
-  public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
+  public NullableClass arrayItemsNullable(List<@Valid Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }

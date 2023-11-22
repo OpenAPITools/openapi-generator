@@ -47,7 +47,7 @@ public class AdditionalPropertiesClassDto {
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   @Valid
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<@Valid Object>> mapArrayAnytype = new HashMap<>();
 
   @Valid
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
@@ -201,12 +201,12 @@ public class AdditionalPropertiesClassDto {
     this.mapArrayInteger = mapArrayInteger;
   }
 
-  public AdditionalPropertiesClassDto mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public AdditionalPropertiesClassDto mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
 
-  public AdditionalPropertiesClassDto putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClassDto putMapArrayAnytypeItem(String key, List<@Valid Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
       this.mapArrayAnytype = new HashMap<>();
     }
@@ -221,11 +221,11 @@ public class AdditionalPropertiesClassDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("map_array_anytype")
-  public Map<String, List<Object>> getMapArrayAnytype() {
+  public Map<String, List<@Valid Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
-  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 

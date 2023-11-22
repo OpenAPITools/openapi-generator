@@ -64,7 +64,7 @@ public class AdditionalPropertiesClass {
   private Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<@Valid Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   private Map<String, Map<String, String>> mapMapString = new HashMap<>();
@@ -261,13 +261,13 @@ public class AdditionalPropertiesClass {
   }
 
 
-  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<@Valid Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
       this.mapArrayAnytype = new HashMap<>();
     }
@@ -285,14 +285,14 @@ public class AdditionalPropertiesClass {
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public Map<String, List<Object>> getMapArrayAnytype() {
+  public Map<String, List<@Valid Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
 
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 

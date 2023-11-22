@@ -67,7 +67,7 @@ public class AdditionalPropertiesClass  implements Serializable {
 
   public static final String JSON_PROPERTY_MAP_ARRAY_ANYTYPE = "map_array_anytype";
   @JsonProperty(JSON_PROPERTY_MAP_ARRAY_ANYTYPE)
-  private Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private Map<String, List<@Valid Object>> mapArrayAnytype = new HashMap<>();
 
   public static final String JSON_PROPERTY_MAP_MAP_STRING = "map_map_string";
   @JsonProperty(JSON_PROPERTY_MAP_MAP_STRING)
@@ -229,12 +229,12 @@ public class AdditionalPropertiesClass  implements Serializable {
     this.mapArrayInteger = mapArrayInteger;
   }
 
-  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
 
-  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
+  public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<@Valid Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
       this.mapArrayAnytype = new HashMap<>();
     }
@@ -249,11 +249,11 @@ public class AdditionalPropertiesClass  implements Serializable {
   @JsonProperty(value = "map_array_anytype")
   @ApiModelProperty(value = "")
   @Valid 
-  public Map<String, List<Object>> getMapArrayAnytype() {
+  public Map<String, List<@Valid Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
 
-  public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+  public void setMapArrayAnytype(Map<String, List<@Valid Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
   }
 

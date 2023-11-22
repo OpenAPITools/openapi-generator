@@ -73,15 +73,15 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public static final String JSON_PROPERTY_ARRAY_NULLABLE_PROP = "array_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_NULLABLE_PROP)
-  private List<Object> arrayNullableProp;
+  private List<@Valid Object> arrayNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP = "array_and_items_nullable_prop";
   @JsonProperty(JSON_PROPERTY_ARRAY_AND_ITEMS_NULLABLE_PROP)
-  private List<Object> arrayAndItemsNullableProp;
+  private List<@Valid Object> arrayAndItemsNullableProp;
 
   public static final String JSON_PROPERTY_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable;
+  private List<@Valid Object> arrayItemsNullable;
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @JsonProperty(JSON_PROPERTY_OBJECT_NULLABLE_PROP)
@@ -215,7 +215,7 @@ public class NullableClass extends HashMap<String, Object>  {
     this.datetimeProp = datetimeProp;
   }
 
-  public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
+  public NullableClass arrayNullableProp(List<@Valid Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -235,15 +235,15 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_nullable_prop")
   @Schema(description = "")
   
-  public List<Object> getArrayNullableProp() {
+  public List<@Valid Object> getArrayNullableProp() {
     return arrayNullableProp;
   }
 
-  public void setArrayNullableProp(List<Object> arrayNullableProp) {
+  public void setArrayNullableProp(List<@Valid Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
-  public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public NullableClass arrayAndItemsNullableProp(List<@Valid Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -263,15 +263,15 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_and_items_nullable_prop")
   @Schema(description = "")
   
-  public List<Object> getArrayAndItemsNullableProp() {
+  public List<@Valid Object> getArrayAndItemsNullableProp() {
     return arrayAndItemsNullableProp;
   }
 
-  public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+  public void setArrayAndItemsNullableProp(List<@Valid Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
-  public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
+  public NullableClass arrayItemsNullable(List<@Valid Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -291,11 +291,11 @@ public class NullableClass extends HashMap<String, Object>  {
   @JsonProperty(value = "array_items_nullable")
   @Schema(description = "")
   
-  public List<Object> getArrayItemsNullable() {
+  public List<@Valid Object> getArrayItemsNullable() {
     return arrayItemsNullable;
   }
 
-  public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
+  public void setArrayItemsNullable(List<@Valid Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
