@@ -22,5 +22,4 @@ public class WebhooksMap extends HashMap<String, Object> {
 	public List<Map<String, String>> getImports() {
 		return (List<Map<String, String>>) get("imports");
 	}
-
 }
