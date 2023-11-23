@@ -908,8 +908,13 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if (schema == null || schema.getTypes() == null) {
+        if (schema == null) {
             return null;
+        }
+
+        if (schema.getTypes() == null || schema.getTypes().isEmpty()) {
+            schema.setNullable(true);
+            return schema;
         }
 
         // process null
