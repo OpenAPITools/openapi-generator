@@ -160,6 +160,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> instantiationTypes;
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
+    protected Set<String> openapiGeneratorIgnoreList = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
@@ -1209,6 +1210,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Set<String> languageSpecificPrimitives() {
         return languageSpecificPrimitives;
+    }
+
+    @Override
+    public Set<String> openapiGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
     }
 
     @Override
@@ -8316,6 +8322,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseOpenAPINormalizer() { return true; }
+
+    @Override
+    public Set<String> getOpenAPIGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
+    }
 
     /*
     A function to convert yaml or json ingested strings like property names

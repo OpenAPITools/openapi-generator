@@ -245,6 +245,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
+     */
+    @Optional
+    @Input
+    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+
+    /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @Optional
@@ -892,6 +899,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (languageSpecificPrimitives.isPresent) {
                 languageSpecificPrimitives.get().forEach {
                     configurator.addLanguageSpecificPrimitive(it)
+                }
+            }
+
+            if (openapiGeneratorIgnoreList.isPresent) {
+                openapiGeneratorIgnoreList.get().forEach {
+                    configurator.addOpenAPIGeneratorIgnoreList(it)
                 }
             }
 
