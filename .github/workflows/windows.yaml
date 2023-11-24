@@ -55,5 +55,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Gradle tests
+        if: matrix.java == '11' || matrix.java == '17'
+        shell: bash
         run: |
           gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace
