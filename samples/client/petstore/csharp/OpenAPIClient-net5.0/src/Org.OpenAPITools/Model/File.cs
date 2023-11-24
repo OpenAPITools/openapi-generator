@@ -38,8 +38,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="sourceURI">Test capitalization.</param>
         public File(string sourceURI = default(string))
         {
-            this.SourceURI = sourceURI;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            SourceURI = sourceURI;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -107,13 +107,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.SourceURI != null)
+				hashCode = (hashCode * 59) + SourceURI.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.SourceURI.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -124,7 +121,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

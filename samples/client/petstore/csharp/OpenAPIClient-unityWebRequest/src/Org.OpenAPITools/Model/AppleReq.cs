@@ -47,8 +47,8 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("cultivar is a required property for AppleReq and cannot be null");
             }
-            this.Cultivar = cultivar;
-            this.Mealy = mealy;
+            Cultivar = cultivar;
+            Mealy = mealy;
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as AppleReq);
+            return Equals(input as AppleReq);
         }
 
         /// <summary>
@@ -109,13 +109,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Cultivar == input.Cultivar ||
-                    (this.Cultivar != null &&
-                    this.Cultivar.Equals(input.Cultivar))
+                    Cultivar == input.Cultivar ||
+					Cultivar.Equals(input.Cultivar)
                 ) && 
                 (
-                    this.Mealy == input.Mealy ||
-                    this.Mealy.Equals(input.Mealy)
+                    Mealy == input.Mealy ||
+                    Mealy.Equals(input.Mealy)
                 );
         }
 
@@ -128,11 +127,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
-                {
-                    hashCode = (hashCode * 59) + this.Cultivar.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.Mealy.GetHashCode();
+				hashCode = (hashCode * 59) + Cultivar.GetHashCode();
+                hashCode = (hashCode * 59) + Mealy.GetHashCode();
                 return hashCode;
             }
         }

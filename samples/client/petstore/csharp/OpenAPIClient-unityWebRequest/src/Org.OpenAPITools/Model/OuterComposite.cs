@@ -38,9 +38,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="myBoolean">myBoolean.</param>
         public OuterComposite(decimal myNumber = default(decimal), string myString = default(string), bool myBoolean = default(bool))
         {
-            this.MyNumber = myNumber;
-            this.MyString = myString;
-            this.MyBoolean = myBoolean;
+            MyNumber = myNumber;
+            MyString = myString;
+            MyBoolean = myBoolean;
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as OuterComposite);
+            return Equals(input as OuterComposite);
         }
 
         /// <summary>
@@ -108,17 +108,16 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.MyNumber == input.MyNumber ||
-                    this.MyNumber.Equals(input.MyNumber)
+                    MyNumber == input.MyNumber ||
+                    MyNumber.Equals(input.MyNumber)
                 ) && 
                 (
-                    this.MyString == input.MyString ||
-                    (this.MyString != null &&
-                    this.MyString.Equals(input.MyString))
+                    MyString == input.MyString ||
+					MyString.Equals(input.MyString)
                 ) && 
                 (
-                    this.MyBoolean == input.MyBoolean ||
-                    this.MyBoolean.Equals(input.MyBoolean)
+                    MyBoolean == input.MyBoolean ||
+                    MyBoolean.Equals(input.MyBoolean)
                 );
         }
 
@@ -131,12 +130,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.MyNumber.GetHashCode();
-                if (this.MyString != null)
-                {
-                    hashCode = (hashCode * 59) + this.MyString.GetHashCode();
-                }
-                hashCode = (hashCode * 59) + this.MyBoolean.GetHashCode();
+                hashCode = (hashCode * 59) + MyNumber.GetHashCode();
+				hashCode = (hashCode * 59) + MyString.GetHashCode();
+                hashCode = (hashCode * 59) + MyBoolean.GetHashCode();
                 return hashCode;
             }
         }

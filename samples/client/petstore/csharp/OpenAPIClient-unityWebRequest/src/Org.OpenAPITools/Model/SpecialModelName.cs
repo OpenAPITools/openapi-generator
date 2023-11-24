@@ -37,8 +37,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="varSpecialModelName">varSpecialModelName.</param>
         public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
         {
-            this.SpecialPropertyName = specialPropertyName;
-            this.VarSpecialModelName = varSpecialModelName;
+            SpecialPropertyName = specialPropertyName;
+            VarSpecialModelName = varSpecialModelName;
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as SpecialModelName);
+            return Equals(input as SpecialModelName);
         }
 
         /// <summary>
@@ -99,13 +99,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.SpecialPropertyName == input.SpecialPropertyName ||
-                    this.SpecialPropertyName.Equals(input.SpecialPropertyName)
+                    SpecialPropertyName == input.SpecialPropertyName ||
+                    SpecialPropertyName.Equals(input.SpecialPropertyName)
                 ) && 
                 (
-                    this.VarSpecialModelName == input.VarSpecialModelName ||
-                    (this.VarSpecialModelName != null &&
-                    this.VarSpecialModelName.Equals(input.VarSpecialModelName))
+                    VarSpecialModelName == input.VarSpecialModelName ||
+					VarSpecialModelName.Equals(input.VarSpecialModelName)
                 );
         }
 
@@ -118,11 +117,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.SpecialPropertyName.GetHashCode();
-                if (this.VarSpecialModelName != null)
-                {
-                    hashCode = (hashCode * 59) + this.VarSpecialModelName.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + SpecialPropertyName.GetHashCode();
+				hashCode = (hashCode * 59) + VarSpecialModelName.GetHashCode();
                 return hashCode;
             }
         }

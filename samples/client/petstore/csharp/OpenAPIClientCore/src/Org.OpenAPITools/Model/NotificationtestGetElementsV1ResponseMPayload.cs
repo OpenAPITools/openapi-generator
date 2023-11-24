@@ -44,13 +44,13 @@ namespace Org.OpenAPITools.Model
         /// <param name="aObjVariableobject">aObjVariableobject (required).</param>
         public NotificationtestGetElementsV1ResponseMPayload(int pkiNotificationtestID = default(int), List<Dictionary<string, Object>> aObjVariableobject = default(List<Dictionary<string, Object>>))
         {
-            this.PkiNotificationtestID = pkiNotificationtestID;
+            PkiNotificationtestID = pkiNotificationtestID;
             // to ensure "aObjVariableobject" is required (not null)
             if (aObjVariableobject == null)
             {
                 throw new ArgumentNullException("aObjVariableobject is a required property for NotificationtestGetElementsV1ResponseMPayload and cannot be null");
             }
-            this.AObjVariableobject = aObjVariableobject;
+            AObjVariableobject = aObjVariableobject;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -117,11 +117,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + this.PkiNotificationtestID.GetHashCode();
-                if (this.AObjVariableobject != null)
-                {
-                    hashCode = (hashCode * 59) + this.AObjVariableobject.GetHashCode();
-                }
+                hashCode = (hashCode * 59) + PkiNotificationtestID.GetHashCode();
+				hashCode = (hashCode * 59) + AObjVariableobject.GetHashCode();
                 return hashCode;
             }
         }
@@ -131,7 +128,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

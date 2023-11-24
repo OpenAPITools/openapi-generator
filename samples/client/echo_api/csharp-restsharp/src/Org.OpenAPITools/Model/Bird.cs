@@ -39,8 +39,8 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color.</param>
         public Bird(string size = default(string), string color = default(string))
         {
-            this.Size = size;
-            this.Color = color;
+            Size = size;
+            Color = color;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Bird);
+            return Equals(input as Bird);
         }
 
         /// <summary>
@@ -101,14 +101,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Size == input.Size ||
-                    (this.Size != null &&
-                    this.Size.Equals(input.Size))
+                    Size == input.Size ||
+					Size.Equals(input.Size)
                 ) && 
                 (
-                    this.Color == input.Color ||
-                    (this.Color != null &&
-                    this.Color.Equals(input.Color))
+                    Color == input.Color ||
+					Color.Equals(input.Color)
                 );
         }
 
@@ -121,14 +119,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Size != null)
-                {
-                    hashCode = (hashCode * 59) + this.Size.GetHashCode();
-                }
-                if (this.Color != null)
-                {
-                    hashCode = (hashCode * 59) + this.Color.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + Size.GetHashCode();
+				hashCode = (hashCode * 59) + Color.GetHashCode();
                 return hashCode;
             }
         }
@@ -138,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

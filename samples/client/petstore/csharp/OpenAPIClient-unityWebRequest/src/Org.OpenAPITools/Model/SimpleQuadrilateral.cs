@@ -47,13 +47,13 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("shapeType is a required property for SimpleQuadrilateral and cannot be null");
             }
-            this.ShapeType = shapeType;
+            ShapeType = shapeType;
             // to ensure "quadrilateralType" is required (not null)
             if (quadrilateralType == null)
             {
                 throw new ArgumentNullException("quadrilateralType is a required property for SimpleQuadrilateral and cannot be null");
             }
-            this.QuadrilateralType = quadrilateralType;
+            QuadrilateralType = quadrilateralType;
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as SimpleQuadrilateral);
+            return Equals(input as SimpleQuadrilateral);
         }
 
         /// <summary>
@@ -114,14 +114,12 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.ShapeType == input.ShapeType ||
-                    (this.ShapeType != null &&
-                    this.ShapeType.Equals(input.ShapeType))
+                    ShapeType == input.ShapeType ||
+					ShapeType.Equals(input.ShapeType)
                 ) && 
                 (
-                    this.QuadrilateralType == input.QuadrilateralType ||
-                    (this.QuadrilateralType != null &&
-                    this.QuadrilateralType.Equals(input.QuadrilateralType))
+                    QuadrilateralType == input.QuadrilateralType ||
+					QuadrilateralType.Equals(input.QuadrilateralType)
                 );
         }
 
@@ -134,14 +132,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                {
-                    hashCode = (hashCode * 59) + this.ShapeType.GetHashCode();
-                }
-                if (this.QuadrilateralType != null)
-                {
-                    hashCode = (hashCode * 59) + this.QuadrilateralType.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + ShapeType.GetHashCode();
+				hashCode = (hashCode * 59) + QuadrilateralType.GetHashCode();
                 return hashCode;
             }
         }
