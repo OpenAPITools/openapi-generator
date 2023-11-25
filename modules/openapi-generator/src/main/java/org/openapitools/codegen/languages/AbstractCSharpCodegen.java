@@ -439,7 +439,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("copy", copyLambda)
                 .put("paste", new PasteLambda(copyLambda, true, true, true, false))
                 .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false));
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("uniqueLines", new UniqueLambda("\n", false))
+                .put("unique", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -777,6 +779,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+                    //  if (operation.authMethods != null) {
+                    //      List<CodegenSecurity> apiKeys = operation.authMethods.stream().filter(a -> a.isApiKey).collect(Collectors.toList());
+                    //      List<CodegenSecurity> basicBasics = operation.authMethods.stream().filter(a -> a.isBasicBasic).collect(Collectors.toList());
+                    //      List<CodegenSecurity> basicBearers = operation.authMethods.stream().filter(a -> a.isBasicBearer).collect(Collectors.toList());
+                    //      List<CodegenSecurity> httpSignatures = operation.authMethods.stream().filter(a -> a.isHttpSignature).collect(Collectors.toList());
+                    //      List<CodegenSecurity> oAuths = operation.authMethods.stream().filter(a -> a.isOAuth).collect(Collectors.toList());
+
+                    //      operation.vendorExtensions.put("x-api-keys", apiKeys);
+                    //      operation.vendorExtensions.put("x-basic-basics", basicBasics);
+                    //      operation.vendorExtensions.put("x-basic-bearers", basicBearers);
+                    //      operation.vendorExtensions.put("x-http-signatures", httpSignatures);
+                    //      operation.vendorExtensions.put("x-oauths", oAuths);
+                    //  }
+
                     if (operation.responses != null) {
                         for (CodegenResponse response : operation.responses) {
 
@@ -784,6 +800,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 Boolean isValueType = isValueType(response.returnProperty);
                                 response.vendorExtensions.put("x-is-value-type", isValueType);
                                 response.vendorExtensions.put("x-is-reference-type", !isValueType);
+                            }
+
+                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
+                                response.vendorExtensions.put("x-set-cookie", true);
+                                operation.vendorExtensions.put("x-set-cookie", true);
                             }
 
                             String code = response.code.toLowerCase(Locale.ROOT);
