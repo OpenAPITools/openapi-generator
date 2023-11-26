@@ -42,6 +42,9 @@ namespace Org.OpenAPITools.Test.Api
                 HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
+
+                OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
             })
             .Build();
 
@@ -63,6 +66,9 @@ namespace Org.OpenAPITools.Test.Api
                 HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
+
+                OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken);
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
             .Build();
@@ -87,6 +93,9 @@ namespace Org.OpenAPITools.Test.Api
                     HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                     HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(httpSignatureToken1);
+
+                    OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken1);
                 });
             })
             .Build();
@@ -111,6 +120,9 @@ namespace Org.OpenAPITools.Test.Api
                     HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                     HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(httpSignatureToken1);
+
+                    OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken1);
                     options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });
             })
