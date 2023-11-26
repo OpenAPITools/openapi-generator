@@ -22,13 +22,14 @@ import org.openapitools.codegen.meta.features.annotations.AnnotationType;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.stream.Collectors;
+import static org.openapitools.codegen.Constants.*;
+
 
 /**
  * Defines the feature set for a target generator.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class FeatureSet {
-    public static FeatureSet UNSPECIFIED = FeatureSet.newBuilder().build();
 
     private EnumSet<ClientModificationFeature> clientModificationFeatures;
     private EnumSet<DataTypeFeature> dataTypeFeatures;

@@ -1,5 +1,6 @@
 package org.openapitools.codegen.meta;
 
+import org.openapitools.codegen.Constants;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.meta.features.annotations.AnnotationType;
 import org.testng.annotations.Test;
@@ -9,13 +10,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.openapitools.codegen.Constants.*;
 import static org.testng.Assert.*;
 
 public class FeatureSetTest {
 
     @Test
     public void flattOnUnspecified() {
-        List<FeatureSet.FeatureSetFlattened> flattened = FeatureSet.UNSPECIFIED.flatten();
+        List<FeatureSet.FeatureSetFlattened> flattened = Constants.UNSPECIFIED.flatten();
         // There are 73 features at the time of writing this test. This makes sure we get a "Full" flat representation.
         int knownFeatureCount = 73;
         int checkedCount = 0;
