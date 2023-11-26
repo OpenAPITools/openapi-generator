@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_client.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties  # noqa: E501
+from petstore_client.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
 
 class TestUnnamedDictWithAdditionalModelListProperties(unittest.TestCase):
     """UnnamedDictWithAdditionalModelListProperties unit test stubs"""
@@ -33,7 +33,7 @@ class TestUnnamedDictWithAdditionalModelListProperties(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `UnnamedDictWithAdditionalModelListProperties`
         """
-        model = UnnamedDictWithAdditionalModelListProperties()  # noqa: E501
+        model = UnnamedDictWithAdditionalModelListProperties()
         if include_optional:
             return UnnamedDictWithAdditionalModelListProperties(
                 dict_property = {

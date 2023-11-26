@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_client_aiohttp.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest  # noqa: E501
+from petstore_client_aiohttp.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 
 class TestTestInlineFreeformAdditionalPropertiesRequest(unittest.TestCase):
     """TestInlineFreeformAdditionalPropertiesRequest unit test stubs"""
@@ -33,7 +33,7 @@ class TestTestInlineFreeformAdditionalPropertiesRequest(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `TestInlineFreeformAdditionalPropertiesRequest`
         """
-        model = TestInlineFreeformAdditionalPropertiesRequest()  # noqa: E501
+        model = TestInlineFreeformAdditionalPropertiesRequest()
         if include_optional:
             return TestInlineFreeformAdditionalPropertiesRequest(
                 some_property = ''

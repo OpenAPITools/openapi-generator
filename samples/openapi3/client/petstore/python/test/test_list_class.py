@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_client.models.list_class import ListClass  # noqa: E501
+from petstore_client.models.list_class import ListClass
 
 class TestListClass(unittest.TestCase):
     """ListClass unit test stubs"""
@@ -33,7 +33,7 @@ class TestListClass(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `ListClass`
         """
-        model = ListClass()  # noqa: E501
+        model = ListClass()
         if include_optional:
             return ListClass(
                 var_123_list = ''
