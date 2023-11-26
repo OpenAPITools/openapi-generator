@@ -5,7 +5,7 @@
 import unittest
 import weakref
 
-from tests.util import async_test
+from .util import async_test
 import petstore_client_aiohttp
 
 
