@@ -2456,6 +2456,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @return type
      */
     private String getPrimitiveType(Schema schema) {
+
+        if (schema.getTypes() != null) {
+            // Support Schema types in OAS 3.1
+            schema.setType(ModelUtils.getType(schema));
+        }
+
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {

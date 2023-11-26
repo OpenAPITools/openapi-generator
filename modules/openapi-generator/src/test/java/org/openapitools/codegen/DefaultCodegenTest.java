@@ -4808,4 +4808,34 @@ public class DefaultCodegenTest {
         Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
         Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
     }
+
+    @Test
+    public void testParameterSchemaType31() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
+
+        Operation operation = openAPI.getPaths().get("/pet/{petId}").getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation("/pet/{petId}", "get", operation, null);
+
+        assertEquals(1, codegenOperation.pathParams.size());
+        assertEquals("petId", codegenOperation.pathParams.get(0).paramName);
+        assertEquals("Long", codegenOperation.pathParams.get(0).dataType);
+    }
+
+    @Test
+    public void testModelSchemaType31() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/petstore.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        assertEquals(openAPI, codegen.openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ApiResponse");
+        CodegenModel codegenModel = codegen.fromModel("ApiResponse", schema);
+
+        assertEquals(3, codegenModel.getVars().size());
+        assertEquals("code", codegenModel.getVars().get(0).getName());
+        assertEquals("Integer", codegenModel.getVars().get(0).getDataType());
+    }
 }
