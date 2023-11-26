@@ -500,6 +500,14 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false

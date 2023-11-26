@@ -7,7 +7,17 @@
 {{/nrt}}
 using System;
 using System.Collections.Generic;
+{{#net80OrLater}}
+{{#lambda.uniqueLines}}
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-set-cookie}}
 using System.Linq;
+{{/vendorExtensions.x-set-cookie}}
+{{/operation}}
+{{/operations}}
+{{/lambda.uniqueLines}}
+{{/net80OrLater}}
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -490,13 +500,13 @@ namespace {{packageName}}.{{apiPackage}}
                     ApiKeyToken apiKeyTokenLocalVar{{-index}} = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar{{-index}});
                     {{#isKeyInHeader}}
-                    apiKeyTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar);
+                    apiKeyTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
 
                     {{/isKeyInHeader}}
                     {{/isKeyInCookie}}
                     {{#isKeyInQuery}}
 
-                    apiKeyTokenLocalVar{{-index}}.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
+                    apiKeyTokenLocalVar{{-index}}.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "{{keyParamName}}");
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
                     {{/isKeyInQuery}}

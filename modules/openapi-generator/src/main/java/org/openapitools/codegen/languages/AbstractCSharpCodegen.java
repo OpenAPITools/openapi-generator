@@ -784,20 +784,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
-                    //  if (operation.authMethods != null) {
-                    //      List<CodegenSecurity> apiKeys = operation.authMethods.stream().filter(a -> a.isApiKey).collect(Collectors.toList());
-                    //      List<CodegenSecurity> basicBasics = operation.authMethods.stream().filter(a -> a.isBasicBasic).collect(Collectors.toList());
-                    //      List<CodegenSecurity> basicBearers = operation.authMethods.stream().filter(a -> a.isBasicBearer).collect(Collectors.toList());
-                    //      List<CodegenSecurity> httpSignatures = operation.authMethods.stream().filter(a -> a.isHttpSignature).collect(Collectors.toList());
-                    //      List<CodegenSecurity> oAuths = operation.authMethods.stream().filter(a -> a.isOAuth).collect(Collectors.toList());
-
-                    //      operation.vendorExtensions.put("x-api-keys", apiKeys);
-                    //      operation.vendorExtensions.put("x-basic-basics", basicBasics);
-                    //      operation.vendorExtensions.put("x-basic-bearers", basicBearers);
-                    //      operation.vendorExtensions.put("x-http-signatures", httpSignatures);
-                    //      operation.vendorExtensions.put("x-oauths", oAuths);
-                    //  }
-
                     if (operation.responses != null) {
                         for (CodegenResponse response : operation.responses) {
 
