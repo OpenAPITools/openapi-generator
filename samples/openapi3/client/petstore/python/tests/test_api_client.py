@@ -16,8 +16,8 @@ import weakref
 import unittest
 from dateutil.parser import parse
 
-import petstore_api
-import petstore_api.configuration
+import petstore_client
+import petstore_client.configuration
 
 HOST = 'http://localhost/v2'
 
@@ -25,10 +25,10 @@ HOST = 'http://localhost/v2'
 class ApiClientTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
+        self.api_client = petstore_client.ApiClient()
 
     def test_configuration(self):
-        config = petstore_api.Configuration()
+        config = petstore_client.Configuration()
 
         config.api_key['api_key'] = '123456'
         config.api_key_prefix['api_key'] = 'PREFIX'
@@ -39,7 +39,7 @@ class ApiClientTests(unittest.TestCase):
         query_params = {'test2': 'value2'}
         auth_settings = ['api_key', 'unknown']
 
-        client = petstore_api.ApiClient(config)
+        client = petstore_client.ApiClient(config)
 
         # test prefix
         self.assertEqual('PREFIX', client.configuration.api_key_prefix['api_key'])
@@ -174,16 +174,16 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        pet = petstore_api.Pet(name=pet_dict["name"], photoUrls=pet_dict["photoUrls"])
+        pet = petstore_client.Pet(name=pet_dict["name"], photoUrls=pet_dict["photoUrls"])
         pet.id = pet_dict["id"]
-        cate = petstore_api.Category(name="something")
+        cate = petstore_client.Category(name="something")
         cate.id = pet_dict["category"]["id"]
         cate.name = pet_dict["category"]["name"]
         pet.category = cate
-        tag1 = petstore_api.Tag()
+        tag1 = petstore_client.Tag()
         tag1.id = pet_dict["tags"][0]["id"]
         tag1.name = pet_dict["tags"][0]["name"]
-        tag2 = petstore_api.Tag()
+        tag2 = petstore_client.Tag()
         tag2.id = pet_dict["tags"][1]["id"]
         tag2.name = pet_dict["tags"][1]["name"]
         pet.tags = [tag1, tag2]

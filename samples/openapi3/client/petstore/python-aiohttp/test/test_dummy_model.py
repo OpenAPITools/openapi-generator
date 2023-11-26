@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.dummy_model import DummyModel  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.dummy_model import DummyModel  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestDummyModel(unittest.TestCase):
     """DummyModel unit test stubs"""
@@ -35,13 +35,13 @@ class TestDummyModel(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `DummyModel`
         """
-        model = petstore_api.models.dummy_model.DummyModel()  # noqa: E501
+        model = petstore_client_aiohttp.models.dummy_model.DummyModel()  # noqa: E501
         if include_optional :
             return DummyModel(
                 category = '', 
-                self_ref = petstore_api.models.self_reference_model.Self-Reference-Model(
+                self_ref = petstore_client_aiohttp.models.self_reference_model.Self-Reference-Model(
                     size = 56, 
-                    nested = petstore_api.models.dummy_model.Dummy-Model(
+                    nested = petstore_client_aiohttp.models.dummy_model.Dummy-Model(
                         category = '', ), )
             )
         else :

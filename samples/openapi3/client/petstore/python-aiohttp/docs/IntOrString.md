@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.int_or_string import IntOrString
+from petstore_client_aiohttp.models.int_or_string import IntOrString
 
 # TODO update the JSON string below
 json = "{}"

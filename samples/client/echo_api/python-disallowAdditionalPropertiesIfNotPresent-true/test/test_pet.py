@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.pet import Pet  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.pet import Pet  # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 class TestPet(unittest.TestCase):
     """Pet unit test stubs"""
@@ -36,19 +36,19 @@ class TestPet(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `Pet`
         """
-        model = openapi_client.models.pet.Pet()  # noqa: E501
+        model = echo_client_disallow_additional_properties_if_not_present.models.pet.Pet()  # noqa: E501
         if include_optional :
             return Pet(
                 id = 10, 
                 name = 'doggie', 
-                category = openapi_client.models.category.Category(
+                category = echo_client_disallow_additional_properties_if_not_present.models.category.Category(
                     id = 1, 
                     name = 'Dogs', ), 
                 photo_urls = [
                     ''
                     ], 
                 tags = [
-                    openapi_client.models.tag.Tag(
+                    echo_client_disallow_additional_properties_if_not_present.models.tag.Tag(
                         id = 56, 
                         name = '', )
                     ], 

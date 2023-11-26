@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestAdditionalPropertiesWithDescriptionOnly(unittest.TestCase):
     """AdditionalPropertiesWithDescriptionOnly unit test stubs"""
@@ -35,7 +35,7 @@ class TestAdditionalPropertiesWithDescriptionOnly(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `AdditionalPropertiesWithDescriptionOnly`
         """
-        model = petstore_api.models.additional_properties_with_description_only.AdditionalPropertiesWithDescriptionOnly()  # noqa: E501
+        model = petstore_client.models.additional_properties_with_description_only.AdditionalPropertiesWithDescriptionOnly()  # noqa: E501
         if include_optional :
             return AdditionalPropertiesWithDescriptionOnly(
                 name = ''

@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.nullable_property import NullableProperty  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.nullable_property import NullableProperty  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestNullableProperty(unittest.TestCase):
     """NullableProperty unit test stubs"""
@@ -35,7 +35,7 @@ class TestNullableProperty(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `NullableProperty`
         """
-        model = petstore_api.models.nullable_property.NullableProperty()  # noqa: E501
+        model = petstore_client.models.nullable_property.NullableProperty()  # noqa: E501
         if include_optional :
             return NullableProperty(
                 id = 56, 

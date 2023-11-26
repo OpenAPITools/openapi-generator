@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
+from petstore_client.models.foo_get_default_response import FooGetDefaultResponse
 
 # TODO update the JSON string below
 json = "{}"

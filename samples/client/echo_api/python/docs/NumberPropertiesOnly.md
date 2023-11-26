@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.number_properties_only import NumberPropertiesOnly
+from echo_client.models.number_properties_only import NumberPropertiesOnly
 
 # TODO update the JSON string below
 json = "{}"

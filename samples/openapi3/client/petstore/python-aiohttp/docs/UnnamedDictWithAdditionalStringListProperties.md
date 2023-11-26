@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
+from petstore_client_aiohttp.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties
 
 # TODO update the JSON string below
 json = "{}"

@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.enum_test import EnumTest
+from petstore_client.models.enum_test import EnumTest
 
 # TODO update the JSON string below
 json = "{}"

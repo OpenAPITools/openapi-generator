@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.map_of_array_of_model import MapOfArrayOfModel  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestMapOfArrayOfModel(unittest.TestCase):
     """MapOfArrayOfModel unit test stubs"""
@@ -35,12 +35,12 @@ class TestMapOfArrayOfModel(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `MapOfArrayOfModel`
         """
-        model = petstore_api.models.map_of_array_of_model.MapOfArrayOfModel()  # noqa: E501
+        model = petstore_client_aiohttp.models.map_of_array_of_model.MapOfArrayOfModel()  # noqa: E501
         if include_optional :
             return MapOfArrayOfModel(
                 shop_id_to_org_online_lip_map = {
                     'key' : [
-                        petstore_api.models.tag.Tag(
+                        petstore_client_aiohttp.models.tag.Tag(
                             id = 56, 
                             name = '', )
                         ]

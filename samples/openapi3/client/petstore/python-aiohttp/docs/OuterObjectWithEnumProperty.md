@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
+from petstore_client_aiohttp.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 
 # TODO update the JSON string below
 json = "{}"

@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
+from petstore_client_aiohttp.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
 
 class TestTestErrorResponsesWithModel400Response(unittest.TestCase):
     """TestErrorResponsesWithModel400Response unit test stubs"""

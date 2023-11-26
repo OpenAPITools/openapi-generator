@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.capitalization import Capitalization
+from petstore_client_aiohttp.models.capitalization import Capitalization
 
 # TODO update the JSON string below
 json = "{}"

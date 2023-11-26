@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.pet import Pet
+from echo_client_disallow_additional_properties_if_not_present.models.pet import Pet
 
 # TODO update the JSON string below
 json = "{}"

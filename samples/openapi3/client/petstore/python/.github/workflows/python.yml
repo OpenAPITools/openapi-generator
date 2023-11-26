@@ -3,7 +3,7 @@
 #
 # ref: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
-name: petstore_api Python package
+name: petstore_client Python package
 
 on: [push, pull_request]
 

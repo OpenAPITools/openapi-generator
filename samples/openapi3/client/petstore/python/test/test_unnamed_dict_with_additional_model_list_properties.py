@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties  # noqa: E501
+from petstore_client.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties  # noqa: E501
 
 class TestUnnamedDictWithAdditionalModelListProperties(unittest.TestCase):
     """UnnamedDictWithAdditionalModelListProperties unit test stubs"""
@@ -38,7 +38,7 @@ class TestUnnamedDictWithAdditionalModelListProperties(unittest.TestCase):
             return UnnamedDictWithAdditionalModelListProperties(
                 dict_property = {
                     'key' : [
-                        petstore_api.models.creature_info.CreatureInfo(
+                        petstore_client.models.creature_info.CreatureInfo(
                             name = '', )
                         ]
                     }

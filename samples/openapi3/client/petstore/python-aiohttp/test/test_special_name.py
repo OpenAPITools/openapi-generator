@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.special_name import SpecialName  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.special_name import SpecialName  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestSpecialName(unittest.TestCase):
     """SpecialName unit test stubs"""
@@ -35,11 +35,11 @@ class TestSpecialName(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `SpecialName`
         """
-        model = petstore_api.models.special_name.SpecialName()  # noqa: E501
+        model = petstore_client_aiohttp.models.special_name.SpecialName()  # noqa: E501
         if include_optional :
             return SpecialName(
                 var_property = 56, 
-                var_async = petstore_api.models.category.Category(
+                var_async = petstore_client_aiohttp.models.category.Category(
                     id = 56, 
                     name = 'default-name', ), 
                 var_schema = 'available'

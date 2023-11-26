@@ -6,13 +6,13 @@ import os
 import time
 import unittest
 
-import petstore_api
+import petstore_client
 
 
 class OrderModelTests(unittest.TestCase):
 
     def test_status(self):
-        order = petstore_api.Order()
+        order = petstore_client.Order()
         # order.status = "placed"
         # self.assertEqual("placed", order.status)
 

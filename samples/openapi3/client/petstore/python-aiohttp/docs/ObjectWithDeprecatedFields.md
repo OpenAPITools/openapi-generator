@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
+from petstore_client_aiohttp.models.object_with_deprecated_fields import ObjectWithDeprecatedFields
 
 # TODO update the JSON string below
 json = "{}"

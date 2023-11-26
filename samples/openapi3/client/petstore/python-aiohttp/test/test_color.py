@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.color import Color  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.color import Color  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestColor(unittest.TestCase):
     """Color unit test stubs"""
@@ -35,7 +35,7 @@ class TestColor(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `Color`
         """
-        model = petstore_api.models.color.Color()  # noqa: E501
+        model = petstore_client_aiohttp.models.color.Color()  # noqa: E501
         if include_optional :
             return Color(
             )

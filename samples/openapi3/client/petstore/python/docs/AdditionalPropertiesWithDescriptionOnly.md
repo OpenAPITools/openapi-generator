@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly
+from petstore_client.models.additional_properties_with_description_only import AdditionalPropertiesWithDescriptionOnly
 
 # TODO update the JSON string below
 json = "{}"

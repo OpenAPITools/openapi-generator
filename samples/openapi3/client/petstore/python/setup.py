@@ -20,7 +20,7 @@ from setuptools import setup, find_packages  # noqa: H301
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "petstore-api"
+NAME = "petstore-client"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
@@ -48,5 +48,5 @@ setup(
     long_description="""\
     This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \&quot; \\
     """,  # noqa: E501
-    package_data={"petstore_api": ["py.typed"]},
+    package_data={"petstore_client": ["py.typed"]},
 )

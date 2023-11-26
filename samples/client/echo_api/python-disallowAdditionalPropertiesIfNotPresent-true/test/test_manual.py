@@ -17,9 +17,9 @@ import datetime
 import base64
 import os
 
-import openapi_client
-from openapi_client.api.query_api import QueryApi # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.api.query_api import QueryApi # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 class TestManual(unittest.TestCase):
     """Manually written tests"""
@@ -38,8 +38,8 @@ class TestManual(unittest.TestCase):
         pass
 
     def testEnumRefString(self):
-        api_instance = openapi_client.QueryApi()
-        q = openapi_client.StringEnumRef("unclassified")
+        api_instance = echo_client_disallow_additional_properties_if_not_present.QueryApi()
+        q = echo_client_disallow_additional_properties_if_not_present.StringEnumRef("unclassified")
 
         # Test query parameter(s)
         api_response = api_instance.test_enum_ref_string(enum_ref_string_query=q)
@@ -48,7 +48,7 @@ class TestManual(unittest.TestCase):
 
 
     def testDateTimeQueryWithDateTimeFormat(self):
-        api_instance = openapi_client.QueryApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.QueryApi()
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
@@ -64,7 +64,7 @@ class TestManual(unittest.TestCase):
         api_instance.api_client.configuration.datetime_format = datetime_format_backup
 
     def testDateTimeQueryWithDateTime(self):
-        api_instance = openapi_client.QueryApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.QueryApi()
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
         date_query = '2013-10-20' # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
@@ -75,7 +75,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
 
     def testBinaryGif(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.BodyApi()
 
         # Test binary response
         api_response = api_instance.test_binary_gif()
@@ -83,12 +83,12 @@ class TestManual(unittest.TestCase):
 
     def testAdditionalPropertiesNotDefined(self):
         try:
-            n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
+            n = echo_client_disallow_additional_properties_if_not_present.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
         except ValueError as err:
             self.assertEqual("Error due to additional fields (not defined in NumberPropertiesOnly) in the input: float", str(err))
 
     def testApplicatinOctetStreamBinaryBodyParameter(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.BodyApi()
         binary_body = base64.b64decode(self.gif_base64)
         api_response = api_instance.test_body_application_octetstream_binary(binary_body)
         e = EchoServerResponseParser(api_response)
@@ -97,7 +97,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
     def testApplicatinOctetStreamBinaryBodyParameterWithFile(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.BodyApi()
         try:
             api_response = api_instance.test_body_application_octetstream_binary("invalid_file_path")
         except FileNotFoundError as err:
@@ -110,12 +110,12 @@ class TestManual(unittest.TestCase):
         self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
     def testBodyParameter(self):
-        n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
-        api_instance = openapi_client.BodyApi()
+        n = echo_client_disallow_additional_properties_if_not_present.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
+        api_instance = echo_client_disallow_additional_properties_if_not_present.BodyApi()
         api_response = api_instance.test_echo_body_pet_response_string(n)
         self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
 
-        t = openapi_client.Tag()
+        t = echo_client_disallow_additional_properties_if_not_present.Tag()
         api_response = api_instance.test_echo_body_tag_response_string(t)
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
@@ -126,7 +126,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
     def testAuthHttpBasic(self):
-        api_instance = openapi_client.AuthApi()
+        api_instance = echo_client_disallow_additional_properties_if_not_present.AuthApi()
         api_response = api_instance.test_auth_http_basic()
         e = EchoServerResponseParser(api_response)
         self.assertFalse("Authorization" in e.headers)
@@ -146,7 +146,7 @@ class TestManual(unittest.TestCase):
                     " \"photoUrls\": [\"string\"],\n"
                     " \"status\": \"available\",\n"
                     " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
-        pet = openapi_client.Pet.from_json(json_str)
+        pet = echo_client_disallow_additional_properties_if_not_present.Pet.from_json(json_str)
         self.assertEqual(pet.id, 1)
         self.assertEqual(pet.status, "available")
         self.assertEqual(pet.photo_urls, ["string"])
@@ -164,7 +164,7 @@ class TestManual(unittest.TestCase):
                           "tags": [{"id": 1, "name": "None"}], "status": "available"})
 
         # test from_dict
-        pet2 = openapi_client.Pet.from_dict(pet.to_dict())
+        pet2 = echo_client_disallow_additional_properties_if_not_present.Pet.from_dict(pet.to_dict())
         self.assertEqual(pet2.id, 1)
         self.assertEqual(pet2.status, "available")
         self.assertEqual(pet2.photo_urls, ["string"])

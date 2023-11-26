@@ -17,9 +17,9 @@ import datetime
 import base64
 import os
 
-import openapi_client
-from openapi_client.api.query_api import QueryApi # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.api.query_api import QueryApi # noqa: E501
+from echo_client.rest import ApiException
 
 class TestManual(unittest.TestCase):
     """Manually written tests"""
@@ -38,24 +38,24 @@ class TestManual(unittest.TestCase):
         pass
 
     def testPathParameters(self):
-        api_instance = openapi_client.PathApi()
+        api_instance = echo_client.PathApi()
         api_response = api_instance.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(
             path_string="string_value",
             path_integer=123,
             enum_nonref_string_path="success",
-            enum_ref_string_path=openapi_client.StringEnumRef.FAILURE,
+            enum_ref_string_path=echo_client.StringEnumRef.FAILURE,
         )
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/path/string/string_value/integer/123/success/failure")
 
     def testHeaderParameters(self):
-        api_instance = openapi_client.HeaderApi()
+        api_instance = echo_client.HeaderApi()
         api_response = api_instance.test_header_integer_boolean_string_enums(
             integer_header=123,
             boolean_header=True,
             string_header="string_value",
             enum_nonref_string_header="success",
-            enum_ref_string_header=openapi_client.StringEnumRef.FAILURE,
+            enum_ref_string_header=echo_client.StringEnumRef.FAILURE,
         )
         e = EchoServerResponseParser(api_response)
         expected_header = dict(
@@ -68,10 +68,10 @@ class TestManual(unittest.TestCase):
         self.assertDictContainsSubset(expected_header, e.headers)
 
     def testEnumQueryParameters(self):
-        api_instance = openapi_client.QueryApi()
+        api_instance = echo_client.QueryApi()
         api_response = api_instance.test_enum_ref_string(
             enum_nonref_string_query="success",
-            enum_ref_string_query=openapi_client.StringEnumRef("unclassified"),
+            enum_ref_string_query=echo_client.StringEnumRef("unclassified"),
         )
         e = EchoServerResponseParser(api_response)
         self.assertEqual(
@@ -81,7 +81,7 @@ class TestManual(unittest.TestCase):
 
 
     def testDateTimeQueryWithDateTimeFormat(self):
-        api_instance = openapi_client.QueryApi()
+        api_instance = echo_client.QueryApi()
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
@@ -97,7 +97,7 @@ class TestManual(unittest.TestCase):
         api_instance.api_client.configuration.datetime_format = datetime_format_backup
 
     def testDateTimeQueryWithDateTime(self):
-        api_instance = openapi_client.QueryApi()
+        api_instance = echo_client.QueryApi()
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
         date_query = '2013-10-20' # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
@@ -108,27 +108,27 @@ class TestManual(unittest.TestCase):
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
 
     def testBinaryGif(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client.BodyApi()
 
         # Test binary response
         api_response = api_instance.test_binary_gif()
         self.assertEqual((base64.b64encode(api_response)).decode("utf-8"), self.gif_base64)
 
     def testNumberPropertiesOnly(self):
-        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
+        n = echo_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
         self.assertEqual(n.number, 123)
         # TODO: pydantic v2: this field name override the default `float` type
         # self.assertEqual(n.float, 456)
         self.assertEqual(n.double, 34)
 
-        n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123.1, "float": 456.2, "double": 34.3}')
+        n = echo_client.NumberPropertiesOnly.from_json('{"number": 123.1, "float": 456.2, "double": 34.3}')
         self.assertEqual(n.number, 123.1)
         # TODO: pydantic v2: this field name override the default `float` type
         # self.assertEqual(n.float, 456.2)
         self.assertEqual(n.double, 34.3)
 
     def testApplicatinOctetStreamBinaryBodyParameter(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client.BodyApi()
         binary_body = base64.b64decode(self.gif_base64)
         api_response = api_instance.test_body_application_octetstream_binary(binary_body)
         e = EchoServerResponseParser(api_response)
@@ -137,7 +137,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
     def testApplicatinOctetStreamBinaryBodyParameterWithFile(self):
-        api_instance = openapi_client.BodyApi()
+        api_instance = echo_client.BodyApi()
         try:
             api_response = api_instance.test_body_application_octetstream_binary("invalid_file_path")
         except FileNotFoundError as err:
@@ -150,12 +150,12 @@ class TestManual(unittest.TestCase):
         self.assertEqual(bytes(e.body, "utf-8"), b'GIF89a\x01\x00\x01\x00\xef\xbf\xbd\x01\x00\xef\xbf\xbd\xef\xbf\xbd\xef\xbf\xbd\x00\x00\x00!\xef\xbf\xbd\x04\x01\n\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02L\x01\x00;')
 
     def testBodyParameter(self):
-        n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
-        api_instance = openapi_client.BodyApi()
+        n = echo_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
+        api_instance = echo_client.BodyApi()
         api_response = api_instance.test_echo_body_pet_response_string(n)
         self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
 
-        t = openapi_client.Tag()
+        t = echo_client.Tag()
         api_response = api_instance.test_echo_body_tag_response_string(t)
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
@@ -166,7 +166,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(api_response, "{}") # assertion to ensure {} is sent in the body
 
     def testAuthHttpBasic(self):
-        api_instance = openapi_client.AuthApi()
+        api_instance = echo_client.AuthApi()
         api_response = api_instance.test_auth_http_basic()
         e = EchoServerResponseParser(api_response)
         self.assertFalse("Authorization" in e.headers)
@@ -186,7 +186,7 @@ class TestManual(unittest.TestCase):
                     " \"photoUrls\": [\"string\"],\n"
                     " \"status\": \"available\",\n"
                     " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
-        pet = openapi_client.Pet.from_json(json_str)
+        pet = echo_client.Pet.from_json(json_str)
         self.assertEqual(pet.id, 1)
         self.assertEqual(pet.status, "available")
         self.assertEqual(pet.photo_urls, ["string"])
@@ -204,7 +204,7 @@ class TestManual(unittest.TestCase):
                           "tags": [{"id": 1, "name": "None"}], "status": "available"})
 
         # test from_dict
-        pet2 = openapi_client.Pet.from_dict(pet.to_dict())
+        pet2 = echo_client.Pet.from_dict(pet.to_dict())
         self.assertEqual(pet2.id, 1)
         self.assertEqual(pet2.status, "available")
         self.assertEqual(pet2.photo_urls, ["string"])
@@ -213,7 +213,7 @@ class TestManual(unittest.TestCase):
         self.assertEqual(pet2.category.id, 1)
 
     def test_parameters_to_url_query_boolean_value(self):
-        client = openapi_client.ApiClient()
+        client = echo_client.ApiClient()
         params = client.parameters_to_url_query([("boolean", True),], {})
         self.assertEqual(params, "boolean=true")
 

@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.pet import Pet  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.pet import Pet  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestPet(unittest.TestCase):
     """Pet unit test stubs"""
@@ -33,11 +33,11 @@ class TestPet(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.pet.Pet()  # noqa: E501
+        # model = petstore_client_aiohttp.models.pet.Pet()  # noqa: E501
         if include_optional :
             return Pet(
                 id = 56, 
-                category = petstore_api.models.category.Category(
+                category = petstore_client_aiohttp.models.category.Category(
                     id = 56, 
                     name = 'default-name', ), 
                 name = 'doggie', 
@@ -45,7 +45,7 @@ class TestPet(unittest.TestCase):
                     ''
                     ], 
                 tags = [
-                    petstore_api.models.tag.Tag(
+                    petstore_client_aiohttp.models.tag.Tag(
                         id = 56, 
                         name = '', )
                     ], 

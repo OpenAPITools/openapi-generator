@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestObjectToTestAdditionalProperties(unittest.TestCase):
     """ObjectToTestAdditionalProperties unit test stubs"""
@@ -35,7 +35,7 @@ class TestObjectToTestAdditionalProperties(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `ObjectToTestAdditionalProperties`
         """
-        model = petstore_api.models.object_to_test_additional_properties.ObjectToTestAdditionalProperties()  # noqa: E501
+        model = petstore_client_aiohttp.models.object_to_test_additional_properties.ObjectToTestAdditionalProperties()  # noqa: E501
         if include_optional :
             return ObjectToTestAdditionalProperties(
                 var_property = True

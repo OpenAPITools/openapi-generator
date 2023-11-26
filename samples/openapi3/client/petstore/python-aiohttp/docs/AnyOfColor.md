@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.any_of_color import AnyOfColor
+from petstore_client_aiohttp.models.any_of_color import AnyOfColor
 
 # TODO update the JSON string below
 json = "{}"

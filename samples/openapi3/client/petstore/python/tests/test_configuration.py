@@ -5,42 +5,42 @@
 """
 Run the tests.
 $ pip install -U pytest
-$ cd petstore_api-python
+$ cd petstore_client-python
 $ pytest
 """
 from __future__ import absolute_import
 
 import unittest
 
-import petstore_api
+import petstore_client
 
 
 class TestConfiguration(unittest.TestCase):
     """Animal unit test stubs"""
 
     def setUp(self):
-        self.config = petstore_api.Configuration()
+        self.config = petstore_client.Configuration()
 
     def tearDown(self):
         # reset Configuration
-        petstore_api.Configuration.set_default(None)
+        petstore_client.Configuration.set_default(None)
 
     def testConfiguration(self):
         # check that different instances use different dictionaries
-        c1 = petstore_api.Configuration()
-        c2 = petstore_api.Configuration()
+        c1 = petstore_client.Configuration()
+        c2 = petstore_client.Configuration()
         self.assertNotEqual(id(c1), id(c2))
         self.assertNotEqual(id(c1.api_key), id(c2.api_key))
         self.assertNotEqual(id(c1.api_key_prefix), id(c2.api_key_prefix))
 
     def testDefaultConfiguration(self):
         # prepare default configuration
-        c1 = petstore_api.Configuration(host="example.com")
+        c1 = petstore_client.Configuration(host="example.com")
         c1.debug = True
-        petstore_api.Configuration.set_default(c1)
+        petstore_client.Configuration.set_default(c1)
 
         # get default configuration
-        c2 = petstore_api.Configuration.get_default_copy()
+        c2 = petstore_client.Configuration.get_default_copy()
         self.assertEqual(c2.host, "example.com")
         self.assertTrue(c2.debug)
 
@@ -50,12 +50,12 @@ class TestConfiguration(unittest.TestCase):
 
     def testApiClientDefaultConfiguration(self):
         # ensure the default configuration is the same
-        p1 = petstore_api.PetApi()
-        p2 = petstore_api.PetApi()
+        p1 = petstore_client.PetApi()
+        p2 = petstore_client.PetApi()
         self.assertEqual(id(p1.api_client.configuration), id(p2.api_client.configuration))
 
     def testAccessTokenWhenConstructingConfiguration(self):
-        c1 = petstore_api.Configuration(access_token="12345")
+        c1 = petstore_client.Configuration(access_token="12345")
         self.assertEqual(c1.access_token, "12345")
 
     def test_get_host_settings(self):

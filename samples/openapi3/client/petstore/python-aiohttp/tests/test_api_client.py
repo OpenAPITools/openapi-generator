@@ -6,7 +6,7 @@ import unittest
 import weakref
 
 from tests.util import async_test
-import petstore_api
+import petstore_client_aiohttp
 
 
 class TestApiClient(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestApiClient(unittest.TestCase):
     @async_test
     async def test_context_manager_closes_client(self):
 
-        async with petstore_api.ApiClient() as client:
+        async with petstore_client_aiohttp.ApiClient() as client:
             # pool_manager
             self.assertFalse(client.rest_client.pool_manager.closed)
             rest_pool_ref = client.rest_client.pool_manager

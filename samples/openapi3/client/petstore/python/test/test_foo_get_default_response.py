@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.foo_get_default_response import FooGetDefaultResponse  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.foo_get_default_response import FooGetDefaultResponse  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestFooGetDefaultResponse(unittest.TestCase):
     """FooGetDefaultResponse unit test stubs"""
@@ -33,10 +33,10 @@ class TestFooGetDefaultResponse(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.foo_get_default_response.FooGetDefaultResponse()  # noqa: E501
+        # model = petstore_client.models.foo_get_default_response.FooGetDefaultResponse()  # noqa: E501
         if include_optional :
             return FooGetDefaultResponse(
-                string = petstore_api.models.foo.Foo(
+                string = petstore_client.models.foo.Foo(
                     bar = 'bar', )
             )
         else :

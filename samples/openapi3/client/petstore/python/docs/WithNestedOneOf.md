@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.with_nested_one_of import WithNestedOneOf
+from petstore_client.models.with_nested_one_of import WithNestedOneOf
 
 # TODO update the JSON string below
 json = "{}"

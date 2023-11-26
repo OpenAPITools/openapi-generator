@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.array_of_array_of_model import ArrayOfArrayOfModel  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestArrayOfArrayOfModel(unittest.TestCase):
     """ArrayOfArrayOfModel unit test stubs"""
@@ -35,12 +35,12 @@ class TestArrayOfArrayOfModel(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `ArrayOfArrayOfModel`
         """
-        model = petstore_api.models.array_of_array_of_model.ArrayOfArrayOfModel()  # noqa: E501
+        model = petstore_client.models.array_of_array_of_model.ArrayOfArrayOfModel()  # noqa: E501
         if include_optional :
             return ArrayOfArrayOfModel(
                 shop_id_to_org_online_lip_map = [
                     [
-                        petstore_api.models.tag.Tag(
+                        petstore_client.models.tag.Tag(
                             id = 56, 
                             name = '', )
                         ]

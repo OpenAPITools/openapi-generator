@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.nullable_class import NullableClass
+from petstore_client_aiohttp.models.nullable_class import NullableClass
 
 # TODO update the JSON string below
 json = "{}"

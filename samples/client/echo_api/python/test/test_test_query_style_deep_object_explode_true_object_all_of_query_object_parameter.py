@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter import TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter  # noqa: E501
+from echo_client.rest import ApiException
 
 class TestTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(unittest.TestCase):
     """TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter unit test stubs"""
@@ -36,7 +36,7 @@ class TestTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(uni
             optional params are included """
         # uncomment below to create an instance of `TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter`
         """
-        model = openapi_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter()  # noqa: E501
+        model = echo_client.models.test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter()  # noqa: E501
         if include_optional :
             return TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(
                 size = '', 

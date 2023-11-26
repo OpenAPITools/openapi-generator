@@ -4,13 +4,13 @@ from unittest.mock import patch, Mock
 
 import pytest
 
-import petstore_api
+import petstore_client
 
 
 class TestMultipleResponseTypes(unittest.TestCase):
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.fake_api = petstore_api.FakeApi(self.api_client)
+        self.api_client = petstore_client.ApiClient()
+        self.fake_api = petstore_client.FakeApi(self.api_client)
 
     def test_204(self):
         mock_resp = Mock()
@@ -19,7 +19,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
         mock_resp.getheaders.return_value = {}
 
         with patch(
-            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+            "petstore_client.api_client.ApiClient.call_api", return_value=mock_resp
         ):
             returned = self.fake_api.test_empty_and_non_empty_responses()
 
@@ -35,7 +35,7 @@ class TestMultipleResponseTypes(unittest.TestCase):
         )
 
         with patch(
-            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+            "petstore_client.api_client.ApiClient.call_api", return_value=mock_resp
         ):
             returned = self.fake_api.test_empty_and_non_empty_responses()
 
@@ -44,8 +44,8 @@ class TestMultipleResponseTypes(unittest.TestCase):
 
 class TestErrorResponsesWithModels(unittest.TestCase):
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.fake_api = petstore_api.FakeApi(self.api_client)
+        self.api_client = petstore_client.ApiClient()
+        self.fake_api = petstore_client.FakeApi(self.api_client)
 
     def test_400(self):
         mock_resp = Mock()
@@ -55,12 +55,12 @@ class TestErrorResponsesWithModels(unittest.TestCase):
         mock_resp.getheader.return_value = ""
 
         with patch(
-            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+            "petstore_client.api_client.ApiClient.call_api", return_value=mock_resp
         ):
-            with pytest.raises(petstore_api.exceptions.BadRequestException) as exc_info:
+            with pytest.raises(petstore_client.exceptions.BadRequestException) as exc_info:
                 self.fake_api.test_error_responses_with_model()
 
-        expected_resp = petstore_api.TestErrorResponsesWithModel400Response(
+        expected_resp = petstore_client.TestErrorResponsesWithModel400Response(
             reason400="400 reason"
         )
         assert exc_info.value.data == expected_resp
@@ -73,12 +73,12 @@ class TestErrorResponsesWithModels(unittest.TestCase):
         mock_resp.getheader.return_value = ""
 
         with patch(
-            "petstore_api.api_client.ApiClient.call_api", return_value=mock_resp
+            "petstore_client.api_client.ApiClient.call_api", return_value=mock_resp
         ):
-            with pytest.raises(petstore_api.exceptions.NotFoundException) as exc_info:
+            with pytest.raises(petstore_client.exceptions.NotFoundException) as exc_info:
                 self.fake_api.test_error_responses_with_model()
 
-        expected_resp = petstore_api.TestErrorResponsesWithModel404Response(
+        expected_resp = petstore_client.TestErrorResponsesWithModel404Response(
             reason404="404 reason"
         )
         assert exc_info.value.data == expected_resp

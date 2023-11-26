@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
+from petstore_client.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 
 # TODO update the JSON string below
 json = "{}"

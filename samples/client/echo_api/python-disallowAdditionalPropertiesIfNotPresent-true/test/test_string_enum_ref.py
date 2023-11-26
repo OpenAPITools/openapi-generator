@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.string_enum_ref import StringEnumRef  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.string_enum_ref import StringEnumRef  # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 class TestStringEnumRef(unittest.TestCase):
     """StringEnumRef unit test stubs"""

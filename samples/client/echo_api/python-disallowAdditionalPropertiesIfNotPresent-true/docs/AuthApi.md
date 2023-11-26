@@ -1,4 +1,4 @@
-# openapi_client.AuthApi
+# echo_client_disallow_additional_properties_if_not_present.AuthApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -22,13 +22,13 @@ To test HTTP basic authentication
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     host = "http://localhost:3000"
 )
 
@@ -38,15 +38,15 @@ configuration = openapi_client.Configuration(
 # satisfies your auth use case.
 
 # Configure HTTP basic authorization: http_auth
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     username = os.environ["USERNAME"],
     password = os.environ["PASSWORD"]
 )
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client_disallow_additional_properties_if_not_present.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.AuthApi(api_client)
+    api_instance = echo_client_disallow_additional_properties_if_not_present.AuthApi(api_client)
 
     try:
         # To test HTTP basic authentication
@@ -98,13 +98,13 @@ To test HTTP bearer authentication
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     host = "http://localhost:3000"
 )
 
@@ -114,14 +114,14 @@ configuration = openapi_client.Configuration(
 # satisfies your auth use case.
 
 # Configure Bearer authorization: http_bearer_auth
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     access_token = os.environ["BEARER_TOKEN"]
 )
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client_disallow_additional_properties_if_not_present.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.AuthApi(api_client)
+    api_instance = echo_client_disallow_additional_properties_if_not_present.AuthApi(api_client)
 
     try:
         # To test HTTP bearer authentication

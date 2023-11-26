@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.read_only_first import ReadOnlyFirst  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.read_only_first import ReadOnlyFirst  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestReadOnlyFirst(unittest.TestCase):
     """ReadOnlyFirst unit test stubs"""
@@ -33,7 +33,7 @@ class TestReadOnlyFirst(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.read_only_first.ReadOnlyFirst()  # noqa: E501
+        # model = petstore_client_aiohttp.models.read_only_first.ReadOnlyFirst()  # noqa: E501
         if include_optional :
             return ReadOnlyFirst(
                 bar = '', 

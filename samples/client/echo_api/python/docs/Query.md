@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.query import Query
+from echo_client.models.query import Query
 
 # TODO update the JSON string below
 json = "{}"

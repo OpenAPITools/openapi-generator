@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_api.models.list_class import ListClass  # noqa: E501
+from petstore_client.models.list_class import ListClass  # noqa: E501
 
 class TestListClass(unittest.TestCase):
     """ListClass unit test stubs"""

@@ -15,7 +15,7 @@
 
 import unittest
 
-from openapi_client.api.auth_api import AuthApi  # noqa: E501
+from echo_client.api.auth_api import AuthApi  # noqa: E501
 
 
 class TestAuthApi(unittest.TestCase):

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.parent_with_optional_dict import ParentWithOptionalDict
+from petstore_client.models.parent_with_optional_dict import ParentWithOptionalDict
 
 # TODO update the JSON string below
 json = "{}"

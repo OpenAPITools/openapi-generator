@@ -1,4 +1,4 @@
-# openapi_client.QueryApi
+# echo_client.QueryApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -27,24 +27,24 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.string_enum_ref import StringEnumRef
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.string_enum_ref import StringEnumRef
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
+    api_instance = echo_client.QueryApi(api_client)
     enum_nonref_string_query = 'enum_nonref_string_query_example' # str |  (optional)
-    enum_ref_string_query = openapi_client.StringEnumRef() # StringEnumRef |  (optional)
+    enum_ref_string_query = echo_client.StringEnumRef() # StringEnumRef |  (optional)
 
     try:
         # Test query parameter(s)
@@ -99,21 +99,21 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
+    api_instance = echo_client.QueryApi(api_client)
     datetime_query = '2013-10-20T19:20:30+01:00' # datetime |  (optional)
     date_query = '2013-10-20' # date |  (optional)
     string_query = 'string_query_example' # str |  (optional)
@@ -172,21 +172,21 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
+    api_instance = echo_client.QueryApi(api_client)
     integer_query = 56 # int |  (optional)
     boolean_query = True # bool |  (optional)
     string_query = 'string_query_example' # str |  (optional)
@@ -245,23 +245,23 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.pet import Pet
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.pet import Pet
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
-    query_object = openapi_client.Pet() # Pet |  (optional)
+    api_instance = echo_client.QueryApi(api_client)
+    query_object = echo_client.Pet() # Pet |  (optional)
 
     try:
         # Test query parameter(s)
@@ -315,22 +315,22 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
-    query_object = openapi_client.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() # TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter |  (optional)
+    api_instance = echo_client.QueryApi(api_client)
+    query_object = echo_client.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() # TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter |  (optional)
 
     try:
         # Test query parameter(s)
@@ -384,23 +384,23 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
-    query_object = openapi_client.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() # TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
+    api_instance = echo_client.QueryApi(api_client)
+    query_object = echo_client.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() # TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
 
     try:
         # Test query parameter(s)
@@ -454,23 +454,23 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.pet import Pet
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.pet import Pet
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
-    query_object = openapi_client.Pet() # Pet |  (optional)
+    api_instance = echo_client.QueryApi(api_client)
+    query_object = echo_client.Pet() # Pet |  (optional)
 
     try:
         # Test query parameter(s)
@@ -524,22 +524,22 @@ Test query parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.QueryApi(api_client)
-    query_object = openapi_client.DataQuery() # DataQuery |  (optional)
+    api_instance = echo_client.QueryApi(api_client)
+    query_object = echo_client.DataQuery() # DataQuery |  (optional)
 
     try:
         # Test query parameter(s)

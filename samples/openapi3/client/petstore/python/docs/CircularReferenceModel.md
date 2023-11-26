@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.circular_reference_model import CircularReferenceModel
+from petstore_client.models.circular_reference_model import CircularReferenceModel
 
 # TODO update the JSON string below
 json = "{}"

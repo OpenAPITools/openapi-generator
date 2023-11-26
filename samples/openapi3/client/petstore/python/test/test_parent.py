@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.parent import Parent  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.parent import Parent  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestParent(unittest.TestCase):
     """Parent unit test stubs"""
@@ -35,12 +35,12 @@ class TestParent(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `Parent`
         """
-        model = petstore_api.models.parent.Parent()  # noqa: E501
+        model = petstore_client.models.parent.Parent()  # noqa: E501
         if include_optional :
             return Parent(
                 optional_dict = {
-                    'key' : petstore_api.models.inner_dict_with_property.InnerDictWithProperty(
-                        a_property = petstore_api.models.a_property.aProperty(), )
+                    'key' : petstore_client.models.inner_dict_with_property.InnerDictWithProperty(
+                        a_property = petstore_client.models.a_property.aProperty(), )
                     }
             )
         else :

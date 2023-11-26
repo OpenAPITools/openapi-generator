@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
+from petstore_client_aiohttp.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 
 # TODO update the JSON string below
 json = "{}"

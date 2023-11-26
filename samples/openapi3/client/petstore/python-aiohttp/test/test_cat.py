@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.cat import Cat  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.cat import Cat  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestCat(unittest.TestCase):
     """Cat unit test stubs"""
@@ -33,7 +33,7 @@ class TestCat(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.cat.Cat()  # noqa: E501
+        # model = petstore_client_aiohttp.models.cat.Cat()  # noqa: E501
         if include_optional :
             return Cat(
                 declawed = True

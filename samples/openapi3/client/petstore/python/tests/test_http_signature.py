@@ -6,7 +6,7 @@
 Run the tests.
 $ docker pull swaggerapi/petstore
 $ docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
-$ cd petstore_api-python
+$ cd petstore_client-python
 $ pytest
 """
 
@@ -24,16 +24,16 @@ from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import ECC, RSA
 from Crypto.Signature import pkcs1_15, pss, DSS
 
-import petstore_api
-#from petstore_api.models import Category, Tag, Pet
-from petstore_api.api.pet_api import PetApi
-from petstore_api import Configuration, signing
-from petstore_api.rest import (
+import petstore_client
+#from petstore_client.models import Category, Tag, Pet
+from petstore_client.api.pet_api import PetApi
+from petstore_client import Configuration, signing
+from petstore_client.rest import (
     RESTClientObject,
     RESTResponse
 )
 
-from petstore_api.exceptions import (
+from petstore_client.exceptions import (
     ApiException,
     ApiValueError,
     ApiTypeError,
@@ -208,12 +208,12 @@ class PetApiTests(unittest.TestCase):
 
     @classmethod
     def setUpModels(cls):
-        cls.category = petstore_api.Category(name="dog")
+        cls.category = petstore_client.Category(name="dog")
         cls.category.id = id_gen()
-        cls.tag = petstore_api.Tag()
+        cls.tag = petstore_client.Tag()
         cls.tag.id = id_gen()
         cls.tag.name = "python-pet-tag"
-        cls.pet = petstore_api.Pet(
+        cls.pet = petstore_client.Pet(
             name="hello kity",
             photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"]
         )
@@ -281,7 +281,7 @@ class PetApiTests(unittest.TestCase):
         # the HTTP signature scheme.
         config.access_token = None
 
-        api_client = petstore_api.ApiClient(config)
+        api_client = petstore_client.ApiClient(config)
         pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
@@ -313,7 +313,7 @@ class PetApiTests(unittest.TestCase):
         # the HTTP signature scheme.
         config.access_token = None
 
-        api_client = petstore_api.ApiClient(config)
+        api_client = petstore_client.ApiClient(config)
         pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
@@ -350,7 +350,7 @@ class PetApiTests(unittest.TestCase):
         # the HTTP signature scheme.
         config.access_token = None
 
-        api_client = petstore_api.ApiClient(config)
+        api_client = petstore_client.ApiClient(config)
         pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
@@ -387,7 +387,7 @@ class PetApiTests(unittest.TestCase):
         # the HTTP signature scheme.
         config.access_token = None
 
-        api_client = petstore_api.ApiClient(config)
+        api_client = petstore_client.ApiClient(config)
         pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
@@ -424,7 +424,7 @@ class PetApiTests(unittest.TestCase):
         # the HTTP signature scheme.
         config.access_token = None
 
-        api_client = petstore_api.ApiClient(config)
+        api_client = petstore_client.ApiClient(config)
         pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)

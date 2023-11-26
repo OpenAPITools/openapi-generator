@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_api.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties  # noqa: E501
+from petstore_client.models.unnamed_dict_with_additional_string_list_properties import UnnamedDictWithAdditionalStringListProperties  # noqa: E501
 
 class TestUnnamedDictWithAdditionalStringListProperties(unittest.TestCase):
     """UnnamedDictWithAdditionalStringListProperties unit test stubs"""

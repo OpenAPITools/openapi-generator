@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestOuterEnumIntegerDefaultValue(unittest.TestCase):
     """OuterEnumIntegerDefaultValue unit test stubs"""

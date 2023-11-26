@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.special_model_name import SpecialModelName  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.special_model_name import SpecialModelName  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestSpecialModelName(unittest.TestCase):
     """SpecialModelName unit test stubs"""
@@ -33,7 +33,7 @@ class TestSpecialModelName(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.special_model_name.SpecialModelName()  # noqa: E501
+        # model = petstore_client_aiohttp.models.special_model_name.SpecialModelName()  # noqa: E501
         if include_optional :
             return SpecialModelName(
                 special_property_name = 56

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
+from petstore_client.models.inner_dict_with_property import InnerDictWithProperty
 
 # TODO update the JSON string below
 json = "{}"

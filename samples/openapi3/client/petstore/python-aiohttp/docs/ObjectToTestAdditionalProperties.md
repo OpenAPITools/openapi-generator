@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
+from petstore_client_aiohttp.models.object_to_test_additional_properties import ObjectToTestAdditionalProperties
 
 # TODO update the JSON string below
 json = "{}"

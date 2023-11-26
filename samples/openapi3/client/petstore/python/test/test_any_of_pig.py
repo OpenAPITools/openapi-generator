@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.any_of_pig import AnyOfPig  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.any_of_pig import AnyOfPig  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestAnyOfPig(unittest.TestCase):
     """AnyOfPig unit test stubs"""

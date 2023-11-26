@@ -1,4 +1,4 @@
-# openapi_client.PathApi
+# echo_client_disallow_additional_properties_if_not_present.PathApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -20,26 +20,26 @@ Test path parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.string_enum_ref import StringEnumRef
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.string_enum_ref import StringEnumRef
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client_disallow_additional_properties_if_not_present.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.PathApi(api_client)
+    api_instance = echo_client_disallow_additional_properties_if_not_present.PathApi(api_client)
     path_string = 'path_string_example' # str | 
     path_integer = 56 # int | 
     enum_nonref_string_path = 'enum_nonref_string_path_example' # str | 
-    enum_ref_string_path = openapi_client.StringEnumRef() # StringEnumRef | 
+    enum_ref_string_path = echo_client_disallow_additional_properties_if_not_present.StringEnumRef() # StringEnumRef | 
 
     try:
         # Test path parameter(s)

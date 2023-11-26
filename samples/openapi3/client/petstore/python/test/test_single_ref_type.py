@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.single_ref_type import SingleRefType  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.single_ref_type import SingleRefType  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestSingleRefType(unittest.TestCase):
     """SingleRefType unit test stubs"""
@@ -33,7 +33,7 @@ class TestSingleRefType(unittest.TestCase):
             include_option is a boolean, when False only required
             params are included, when True both required and
             optional params are included """
-        # model = petstore_api.models.single_ref_type.SingleRefType()  # noqa: E501
+        # model = petstore_client.models.single_ref_type.SingleRefType()  # noqa: E501
         if include_optional :
             return SingleRefType(
             )

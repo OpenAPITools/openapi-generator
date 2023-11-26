@@ -18,15 +18,15 @@ try:
 except ImportError:
     from mock import patch
 
-import petstore_api
-from petstore_api.api.fake_api import FakeApi  # noqa: E501
+import petstore_client
+from petstore_client.api.fake_api import FakeApi  # noqa: E501
 
 
 class TestFakeApi(unittest.TestCase):
     """FakeApi unit test stubs"""
 
     def setUp(self):
-        self.api = petstore_api.api.fake_api.FakeApi()  # noqa: E501
+        self.api = petstore_client.api.fake_api.FakeApi()  # noqa: E501
 
     def tearDown(self):
         pass
@@ -135,8 +135,8 @@ class TestFakeApi(unittest.TestCase):
 
         To test any optional parameter  # noqa: E501
         """
-        api = petstore_api.api.PetApi()
-        with patch("petstore_api.api_client.ApiClient.call_api") as mock_method:
+        api = petstore_client.api.PetApi()
+        with patch("petstore_client.api_client.ApiClient.call_api") as mock_method:
             value_headers = {"Header1": "value1"}
             api.find_pets_by_status(["available"], _headers=value_headers)
             args, _ = mock_method.call_args

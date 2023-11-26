@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
+from petstore_client_aiohttp.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 
 # TODO update the JSON string below
 json = "{}"

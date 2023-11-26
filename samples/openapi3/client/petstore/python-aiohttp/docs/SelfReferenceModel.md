@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.self_reference_model import SelfReferenceModel
+from petstore_client_aiohttp.models.self_reference_model import SelfReferenceModel
 
 # TODO update the JSON string below
 json = "{}"

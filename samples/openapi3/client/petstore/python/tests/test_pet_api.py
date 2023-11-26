@@ -7,16 +7,16 @@ Run the tests.
 $ docker pull swaggerapi/petstore
 $ docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
 $ pip install -U pytest
-$ cd petstore_api-python
+$ cd petstore_client-python
 $ pytest
 """
 
 import os
 import unittest
 
-import petstore_api
-from petstore_api import Configuration
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client import Configuration
+from petstore_client.rest import ApiException
 
 from .util import id_gen
 
@@ -58,25 +58,25 @@ class PetApiTests(unittest.TestCase):
         config = Configuration()
         config.host = HOST
         config.access_token = 'ACCESS_TOKEN'
-        self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        self.api_client = petstore_client.ApiClient(config)
+        self.pet_api = petstore_client.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
 
     def setUpModels(self):
-        self.category = petstore_api.Category(name="dog")
+        self.category = petstore_client.Category(name="dog")
         self.category.id = id_gen()
         # self.category.name = "dog"
-        self.tag = petstore_api.Tag()
+        self.tag = petstore_client.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_client.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
         self.pet.tags = [self.tag]
 
-        self.pet2 = petstore_api.Pet(name="superman 2", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet2 = petstore_client.Pet(name="superman 2", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet2.id = id_gen() + 1
         self.pet2.status = "available"
         self.pet2.category = self.category
@@ -109,8 +109,8 @@ class PetApiTests(unittest.TestCase):
 
     def test_separate_default_config_instances(self):
         # ensure the default api client is used
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = petstore_client.PetApi()
+        pet_api2 = petstore_client.PetApi()
         self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
         # ensure the default configuration is used
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))

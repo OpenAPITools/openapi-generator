@@ -1,4 +1,4 @@
-# petstore_api.UserApi
+# petstore_client_aiohttp.UserApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -27,23 +27,23 @@ This can only be done by the logged in user.
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.user import User
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.user import User
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    user = petstore_api.User() # User | Created user object
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
+    user = petstore_client_aiohttp.User() # User | Created user object
 
     try:
         # Create user
@@ -95,23 +95,23 @@ Creates list of users with given input array
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.user import User
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.user import User
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    user = [petstore_api.User()] # List[User] | List of user object
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
+    user = [petstore_client_aiohttp.User()] # List[User] | List of user object
 
     try:
         # Creates list of users with given input array
@@ -163,23 +163,23 @@ Creates list of users with given input array
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.user import User
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.user import User
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    user = [petstore_api.User()] # List[User] | List of user object
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
+    user = [petstore_client_aiohttp.User()] # List[User] | List of user object
 
     try:
         # Creates list of users with given input array
@@ -231,21 +231,21 @@ This can only be done by the logged in user.
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be deleted
 
     try:
@@ -299,22 +299,22 @@ Get user by user name
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.user import User
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.user import User
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
 
     try:
@@ -371,21 +371,21 @@ Logs user into the system
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
     username = 'username_example' # str | The user name for login
     password = 'password_example' # str | The password for login in clear text
 
@@ -443,21 +443,21 @@ Logs out current logged in user session
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
 
     try:
         # Logs out current logged in user session
@@ -506,24 +506,24 @@ This can only be done by the logged in user.
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.user import User
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.user import User
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = petstore_client_aiohttp.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted
-    user = petstore_api.User() # User | Updated user object
+    user = petstore_client_aiohttp.User() # User | Updated user object
 
     try:
         # Updated user

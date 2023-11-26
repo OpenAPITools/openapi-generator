@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.property_name_collision import PropertyNameCollision  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.property_name_collision import PropertyNameCollision  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestPropertyNameCollision(unittest.TestCase):
     """PropertyNameCollision unit test stubs"""
@@ -35,7 +35,7 @@ class TestPropertyNameCollision(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `PropertyNameCollision`
         """
-        model = petstore_api.models.property_name_collision.PropertyNameCollision()  # noqa: E501
+        model = petstore_client.models.property_name_collision.PropertyNameCollision()  # noqa: E501
         if include_optional :
             return PropertyNameCollision(
                 underscoreType = '', 

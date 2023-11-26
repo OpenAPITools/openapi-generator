@@ -1,4 +1,4 @@
-# petstore_api.StoreApi
+# petstore_client_aiohttp.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -23,21 +23,21 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = petstore_client_aiohttp.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
     try:
@@ -92,13 +92,13 @@ Returns a map of status codes to quantities
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -114,9 +114,9 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = petstore_client_aiohttp.StoreApi(api_client)
 
     try:
         # Returns pet inventories by status
@@ -167,22 +167,22 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.order import Order
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.order import Order
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = petstore_client_aiohttp.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
 
     try:
@@ -239,23 +239,23 @@ Place an order for a pet
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.order import Order
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.order import Order
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
-    order = petstore_api.Order() # Order | order placed for purchasing the pet
+    api_instance = petstore_client_aiohttp.StoreApi(api_client)
+    order = petstore_client_aiohttp.Order() # Order | order placed for purchasing the pet
 
     try:
         # Place an order for a pet

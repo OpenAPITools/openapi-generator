@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_client_aiohttp.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 
 # TODO update the JSON string below
 json = "{}"

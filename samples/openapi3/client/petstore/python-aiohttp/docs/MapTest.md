@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.map_test import MapTest
+from petstore_client_aiohttp.models.map_test import MapTest
 
 # TODO update the JSON string below
 json = "{}"

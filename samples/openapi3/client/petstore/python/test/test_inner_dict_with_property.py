@@ -17,9 +17,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.inner_dict_with_property import InnerDictWithProperty  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.inner_dict_with_property import InnerDictWithProperty  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestInnerDictWithProperty(unittest.TestCase):
     """InnerDictWithProperty unit test stubs"""
@@ -37,7 +37,7 @@ class TestInnerDictWithProperty(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `InnerDictWithProperty`
         """
-        model = petstore_api.models.inner_dict_with_property.InnerDictWithProperty()  # noqa: E501
+        model = petstore_client.models.inner_dict_with_property.InnerDictWithProperty()  # noqa: E501
         if include_optional :
             return InnerDictWithProperty(
                 a_property = None

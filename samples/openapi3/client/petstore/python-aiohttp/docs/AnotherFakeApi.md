@@ -1,4 +1,4 @@
-# petstore_api.AnotherFakeApi
+# petstore_client_aiohttp.AnotherFakeApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -20,23 +20,23 @@ To test special tags and operation ID starting with number
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.client import Client
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.client import Client
+from petstore_client_aiohttp.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client_aiohttp.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
 
 # Enter a context with an instance of the API client
-async with petstore_api.ApiClient(configuration) as api_client:
+async with petstore_client_aiohttp.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    client = petstore_api.Client() # Client | client model
+    api_instance = petstore_client_aiohttp.AnotherFakeApi(api_client)
+    client = petstore_client_aiohttp.Client() # Client | client model
 
     try:
         # To test special tags

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.any_of_pig import AnyOfPig
+from petstore_client.models.any_of_pig import AnyOfPig
 
 # TODO update the JSON string below
 json = "{}"

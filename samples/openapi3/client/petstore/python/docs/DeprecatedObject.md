@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.deprecated_object import DeprecatedObject
+from petstore_client.models.deprecated_object import DeprecatedObject
 
 # TODO update the JSON string below
 json = "{}"

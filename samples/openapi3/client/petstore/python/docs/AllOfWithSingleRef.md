@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
+from petstore_client.models.all_of_with_single_ref import AllOfWithSingleRef
 
 # TODO update the JSON string below
 json = "{}"

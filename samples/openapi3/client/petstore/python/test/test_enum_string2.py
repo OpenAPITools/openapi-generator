@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.enum_string2 import EnumString2  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.enum_string2 import EnumString2  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestEnumString2(unittest.TestCase):
     """EnumString2 unit test stubs"""

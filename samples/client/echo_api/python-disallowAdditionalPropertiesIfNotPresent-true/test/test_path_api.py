@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import openapi_client
-from openapi_client.api.path_api import PathApi  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.api.path_api import PathApi  # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 
 class TestPathApi(unittest.TestCase):
     """PathApi unit test stubs"""
 
     def setUp(self):
-        self.api = openapi_client.api.path_api.PathApi()  # noqa: E501
+        self.api = echo_client_disallow_additional_properties_if_not_present.api.path_api.PathApi()  # noqa: E501
 
     def tearDown(self):
         pass

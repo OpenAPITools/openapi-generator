@@ -15,16 +15,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import openapi_client
-from openapi_client.api.query_api import QueryApi  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.api.query_api import QueryApi  # noqa: E501
+from echo_client.rest import ApiException
 
 
 class TestQueryApi(unittest.TestCase):
     """QueryApi unit test stubs"""
 
     def setUp(self):
-        self.api = openapi_client.api.query_api.QueryApi()  # noqa: E501
+        self.api = echo_client.api.query_api.QueryApi()  # noqa: E501
 
     def tearDown(self):
         pass

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.tag import Tag
+from echo_client.models.tag import Tag
 
 # TODO update the JSON string below
 json = "{}"

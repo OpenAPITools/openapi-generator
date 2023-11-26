@@ -14,16 +14,16 @@ from __future__ import absolute_import
 
 import unittest
 
-import petstore_api
-from petstore_api.api.default_api import DefaultApi  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.api.default_api import DefaultApi  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 
 class TestDefaultApi(unittest.TestCase):
     """DefaultApi unit test stubs"""
 
     def setUp(self):
-        self.api = petstore_api.api.default_api.DefaultApi()  # noqa: E501
+        self.api = petstore_client_aiohttp.api.default_api.DefaultApi()  # noqa: E501
 
     def tearDown(self):
         pass

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.creature import Creature
+from petstore_client_aiohttp.models.creature import Creature
 
 # TODO update the JSON string below
 json = "{}"

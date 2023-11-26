@@ -21,7 +21,7 @@ from setuptools import setup, find_packages  # noqa: H301
 #
 # prerequisite: setuptools
 # http://pypi.python.org/pypi/setuptools
-NAME = "openapi-client"
+NAME = "echo-client"
 VERSION = "1.0.0"
 PYTHON_REQUIRES = ">=3.7"
 REQUIRES = [
@@ -47,5 +47,5 @@ setup(
     long_description="""\
     Echo Server API
     """,  # noqa: E501
-    package_data={"openapi_client": ["py.typed"]},
+    package_data={"echo_client": ["py.typed"]},
 )

@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_client.models.has_only_read_only import HasOnlyReadOnly
 
 # TODO update the JSON string below
 json = "{}"

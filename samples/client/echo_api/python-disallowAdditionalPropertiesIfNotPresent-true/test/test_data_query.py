@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.data_query import DataQuery  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.data_query import DataQuery  # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 class TestDataQuery(unittest.TestCase):
     """DataQuery unit test stubs"""
@@ -36,7 +36,7 @@ class TestDataQuery(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `DataQuery`
         """
-        model = openapi_client.models.data_query.DataQuery()  # noqa: E501
+        model = echo_client_disallow_additional_properties_if_not_present.models.data_query.DataQuery()  # noqa: E501
         if include_optional :
             return DataQuery(
                 suffix = '', 

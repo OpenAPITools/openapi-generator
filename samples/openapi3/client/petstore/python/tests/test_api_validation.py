@@ -5,7 +5,7 @@
 """
 Run the tests.
 $ pip install -U pytest
-$ cd petstore_api-python
+$ cd petstore_client-python
 $ pytest
 """
 
@@ -13,8 +13,8 @@ import os
 import sys
 import unittest
 
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.rest import ApiException
 from pydantic import BaseModel, ValidationError
 
 from .util import id_gen
@@ -23,18 +23,18 @@ from .util import id_gen
 class ApiExceptionTests(unittest.TestCase):
 
     def setUp(self):
-        self.api_client = petstore_api.ApiClient()
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        self.api_client = petstore_client.ApiClient()
+        self.pet_api = petstore_client.PetApi(self.api_client)
         self.setUpModels()
 
     def setUpModels(self):
-        self.category = petstore_api.Category(name="dog")
+        self.category = petstore_client.Category(name="dog")
         self.category.id = id_gen()
         self.category.name = "dog"
-        self.tag = petstore_api.Tag()
+        self.tag = petstore_client.Tag()
         self.tag.id = id_gen()
         self.tag.name = "blank"
-        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_client.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category

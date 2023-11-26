@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.query import Query  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.query import Query  # noqa: E501
+from echo_client.rest import ApiException
 
 class TestQuery(unittest.TestCase):
     """Query unit test stubs"""
@@ -36,7 +36,7 @@ class TestQuery(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `Query`
         """
-        model = openapi_client.models.query.Query()  # noqa: E501
+        model = echo_client.models.query.Query()  # noqa: E501
         if include_optional :
             return Query(
                 id = 56, 

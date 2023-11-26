@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+from petstore_client.models.file_schema_test_class import FileSchemaTestClass
 
 # TODO update the JSON string below
 json = "{}"

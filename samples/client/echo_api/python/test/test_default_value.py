@@ -16,9 +16,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.default_value import DefaultValue  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client
+from echo_client.models.default_value import DefaultValue  # noqa: E501
+from echo_client.rest import ApiException
 
 class TestDefaultValue(unittest.TestCase):
     """DefaultValue unit test stubs"""
@@ -36,7 +36,7 @@ class TestDefaultValue(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `DefaultValue`
         """
-        model = openapi_client.models.default_value.DefaultValue()  # noqa: E501
+        model = echo_client.models.default_value.DefaultValue()  # noqa: E501
         if include_optional :
             return DefaultValue(
                 array_string_enum_default = [

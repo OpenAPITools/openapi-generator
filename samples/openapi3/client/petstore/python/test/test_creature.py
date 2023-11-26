@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.creature import Creature  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.creature import Creature  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestCreature(unittest.TestCase):
     """Creature unit test stubs"""
@@ -35,16 +35,16 @@ class TestCreature(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `Creature`
         """
-        model = petstore_api.models.creature.Creature()  # noqa: E501
+        model = petstore_client.models.creature.Creature()  # noqa: E501
         if include_optional :
             return Creature(
-                info = petstore_api.models.creature_info.CreatureInfo(
+                info = petstore_client.models.creature_info.CreatureInfo(
                     name = '', ), 
                 type = ''
             )
         else :
             return Creature(
-                info = petstore_api.models.creature_info.CreatureInfo(
+                info = petstore_client.models.creature_info.CreatureInfo(
                     name = '', ),
                 type = '',
         )

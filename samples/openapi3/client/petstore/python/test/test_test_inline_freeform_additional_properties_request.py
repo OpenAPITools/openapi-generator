@@ -15,7 +15,7 @@
 import unittest
 import datetime
 
-from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest  # noqa: E501
+from petstore_client.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest  # noqa: E501
 
 class TestTestInlineFreeformAdditionalPropertiesRequest(unittest.TestCase):
     """TestInlineFreeformAdditionalPropertiesRequest unit test stubs"""

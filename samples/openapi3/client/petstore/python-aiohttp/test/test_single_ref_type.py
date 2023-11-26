@@ -15,9 +15,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.single_ref_type import SingleRefType  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.single_ref_type import SingleRefType  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestSingleRefType(unittest.TestCase):
     """SingleRefType unit test stubs"""

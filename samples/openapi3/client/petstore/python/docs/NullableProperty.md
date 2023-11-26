@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.nullable_property import NullableProperty
+from petstore_client.models.nullable_property import NullableProperty
 
 # TODO update the JSON string below
 json = "{}"

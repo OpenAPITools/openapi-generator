@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.additional_properties_any_type import AdditionalPropertiesAnyType  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp.models.additional_properties_any_type import AdditionalPropertiesAnyType  # noqa: E501
+from petstore_client_aiohttp.rest import ApiException
 
 class TestAdditionalPropertiesAnyType(unittest.TestCase):
     """AdditionalPropertiesAnyType unit test stubs"""
@@ -35,7 +35,7 @@ class TestAdditionalPropertiesAnyType(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `AdditionalPropertiesAnyType`
         """
-        model = petstore_api.models.additional_properties_any_type.AdditionalPropertiesAnyType()  # noqa: E501
+        model = petstore_client_aiohttp.models.additional_properties_any_type.AdditionalPropertiesAnyType()  # noqa: E501
         if include_optional :
             return AdditionalPropertiesAnyType(
                 name = ''

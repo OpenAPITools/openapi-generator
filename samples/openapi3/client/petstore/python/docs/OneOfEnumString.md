@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.one_of_enum_string import OneOfEnumString
+from petstore_client.models.one_of_enum_string import OneOfEnumString
 
 # TODO update the JSON string below
 json = "{}"

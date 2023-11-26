@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.data_query import DataQuery
+from echo_client.models.data_query import DataQuery
 
 # TODO update the JSON string below
 json = "{}"

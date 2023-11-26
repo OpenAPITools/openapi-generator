@@ -15,9 +15,9 @@
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.int_or_string import IntOrString  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.int_or_string import IntOrString  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestIntOrString(unittest.TestCase):
     """IntOrString unit test stubs"""
@@ -35,7 +35,7 @@ class TestIntOrString(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `IntOrString`
         """
-        model = petstore_api.models.int_or_string.IntOrString()  # noqa: E501
+        model = petstore_client.models.int_or_string.IntOrString()  # noqa: E501
         if include_optional :
             return IntOrString(
             )

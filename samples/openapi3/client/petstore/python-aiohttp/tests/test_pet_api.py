@@ -16,9 +16,9 @@ import asyncio
 import pytest
 import aiohttp
 
-import petstore_api
-from petstore_api import Configuration
-from petstore_api.rest import ApiException
+import petstore_client_aiohttp
+from petstore_client_aiohttp import Configuration
+from petstore_client_aiohttp.rest import ApiException
 
 from .util import id_gen, async_test
 
@@ -35,19 +35,19 @@ class TestPetApiTests(unittest.TestCase):
         config = Configuration()
         config.host = HOST
 
-        self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        self.api_client = petstore_client_aiohttp.ApiClient(config)
+        self.pet_api = petstore_client_aiohttp.PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
 
     def setUpModels(self):
-        self.category = petstore_api.Category(id=id_gen(), name="dog")
+        self.category = petstore_client_aiohttp.Category(id=id_gen(), name="dog")
         #self.category.id = id_gen()
         #self.category.name = "dog"
-        self.tag = petstore_api.Tag()
+        self.tag = petstore_client_aiohttp.Tag()
         self.tag.id = id_gen()
         self.tag.name = "openapi-generator-python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_client_aiohttp.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -59,13 +59,13 @@ class TestPetApiTests(unittest.TestCase):
         self.foo = os.path.join(self.test_file_dir, "foo.png")
 
     def test_separate_default_client_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = petstore_client_aiohttp.PetApi()
+        pet_api2 = petstore_client_aiohttp.PetApi()
         self.assertEqual(id(pet_api.api_client), id(pet_api2.api_client))
 
     def test_separate_default_config_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = petstore_client_aiohttp.PetApi()
+        pet_api2 = petstore_client_aiohttp.PetApi()
         self.assertEqual(id(pet_api.api_client.configuration), id(pet_api2.api_client.configuration))
 
     @async_test
@@ -211,10 +211,10 @@ class TestPetApiTests(unittest.TestCase):
         # set not-existent proxy and catch an error to verify that
         # the client library (aiohttp) tried to use it.
         config.proxy = 'http://localhost:8080/proxy'
-        async with petstore_api.ApiClient(config) as client:
-            pet_api = petstore_api.PetApi(client)
+        async with petstore_client_aiohttp.ApiClient(config) as client:
+            pet_api = petstore_client_aiohttp.PetApi(client)
 
-            with self.assertRaisesRegex(petstore_api.rest.aiohttp.client_exceptions.ClientProxyConnectionError,
+            with self.assertRaisesRegex(petstore_client_aiohttp.rest.aiohttp.client_exceptions.ClientProxyConnectionError,
                                         'Cannot connect to host localhost:8080'):
                 await pet_api.get_pet_by_id(self.pet.id)
 

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.property_name_collision import PropertyNameCollision
+from petstore_client_aiohttp.models.property_name_collision import PropertyNameCollision
 
 # TODO update the JSON string below
 json = "{}"

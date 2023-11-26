@@ -17,9 +17,9 @@ from __future__ import absolute_import
 import unittest
 import datetime
 
-import petstore_api
-from petstore_api.models.second_ref import SecondRef  # noqa: E501
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.second_ref import SecondRef  # noqa: E501
+from petstore_client.rest import ApiException
 
 class TestSecondRef(unittest.TestCase):
     """SecondRef unit test stubs"""
@@ -37,15 +37,15 @@ class TestSecondRef(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `SecondRef`
         """
-        model = petstore_api.models.second_ref.SecondRef()  # noqa: E501
+        model = petstore_client.models.second_ref.SecondRef()  # noqa: E501
         if include_optional :
             return SecondRef(
                 category = '', 
-                circular_ref = petstore_api.models.circular_reference_model.Circular-Reference-Model(
+                circular_ref = petstore_client.models.circular_reference_model.Circular-Reference-Model(
                     size = 56, 
-                    nested = petstore_api.models.first_ref.FirstRef(
+                    nested = petstore_client.models.first_ref.FirstRef(
                         category = '', 
-                        self_ref = petstore_api.models.second_ref.SecondRef(
+                        self_ref = petstore_client.models.second_ref.SecondRef(
                             category = '', ), ), )
             )
         else :

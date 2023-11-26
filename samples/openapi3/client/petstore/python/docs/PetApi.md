@@ -1,4 +1,4 @@
-# petstore_api.PetApi
+# petstore_client.PetApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -29,14 +29,14 @@ Add a new pet to the store
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.pet import Pet
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.pet import Pet
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -82,26 +82,26 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # signing algorithm and hash algorithm that matches the security policy of
 # the API server.
 #
-# See petstore_api.signing for a list of all supported parameters.
-from petstore_api import signing
+# See petstore_client.signing for a list of all supported parameters.
+from petstore_client import signing
 import datetime
 
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.HttpSigningConfiguration(
+    signing_info = petstore_client.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
-        signing_scheme = petstore_api.signing.SCHEME_HS2019,
-        signing_algorithm = petstore_api.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
-        hash_algorithm = petstore_api.signing.SCHEME_RSA_SHA256,
+        signing_scheme = petstore_client.signing.SCHEME_HS2019,
+        signing_algorithm = petstore_client.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+        hash_algorithm = petstore_client.signing.SCHEME_RSA_SHA256,
         signed_headers = [
-                            petstore_api.signing.HEADER_REQUEST_TARGET,
-                            petstore_api.signing.HEADER_CREATED,
-                            petstore_api.signing.HEADER_EXPIRES,
-                            petstore_api.signing.HEADER_HOST,
-                            petstore_api.signing.HEADER_DATE,
-                            petstore_api.signing.HEADER_DIGEST,
+                            petstore_client.signing.HEADER_REQUEST_TARGET,
+                            petstore_client.signing.HEADER_CREATED,
+                            petstore_client.signing.HEADER_EXPIRES,
+                            petstore_client.signing.HEADER_HOST,
+                            petstore_client.signing.HEADER_DATE,
+                            petstore_client.signing.HEADER_DIGEST,
                             'Content-Type',
                             'Content-Length',
                             'User-Agent'
@@ -111,10 +111,10 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
-    pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+    api_instance = petstore_client.PetApi(api_client)
+    pet = petstore_client.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Add a new pet to the store
@@ -168,13 +168,13 @@ Deletes a pet
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -186,9 +186,9 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     pet_id = 56 # int | Pet id to delete
     api_key = 'api_key_example' # str |  (optional)
 
@@ -245,14 +245,14 @@ Multiple status values can be provided with comma separated strings
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.pet import Pet
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.pet import Pet
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -298,26 +298,26 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # signing algorithm and hash algorithm that matches the security policy of
 # the API server.
 #
-# See petstore_api.signing for a list of all supported parameters.
-from petstore_api import signing
+# See petstore_client.signing for a list of all supported parameters.
+from petstore_client import signing
 import datetime
 
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.HttpSigningConfiguration(
+    signing_info = petstore_client.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
-        signing_scheme = petstore_api.signing.SCHEME_HS2019,
-        signing_algorithm = petstore_api.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
-        hash_algorithm = petstore_api.signing.SCHEME_RSA_SHA256,
+        signing_scheme = petstore_client.signing.SCHEME_HS2019,
+        signing_algorithm = petstore_client.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+        hash_algorithm = petstore_client.signing.SCHEME_RSA_SHA256,
         signed_headers = [
-                            petstore_api.signing.HEADER_REQUEST_TARGET,
-                            petstore_api.signing.HEADER_CREATED,
-                            petstore_api.signing.HEADER_EXPIRES,
-                            petstore_api.signing.HEADER_HOST,
-                            petstore_api.signing.HEADER_DATE,
-                            petstore_api.signing.HEADER_DIGEST,
+                            petstore_client.signing.HEADER_REQUEST_TARGET,
+                            petstore_client.signing.HEADER_CREATED,
+                            petstore_client.signing.HEADER_EXPIRES,
+                            petstore_client.signing.HEADER_HOST,
+                            petstore_client.signing.HEADER_DATE,
+                            petstore_client.signing.HEADER_DIGEST,
                             'Content-Type',
                             'Content-Length',
                             'User-Agent'
@@ -327,9 +327,9 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     status = ['status_example'] # List[str] | Status values that need to be considered for filter
 
     try:
@@ -386,14 +386,14 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.pet import Pet
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.pet import Pet
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -439,26 +439,26 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # signing algorithm and hash algorithm that matches the security policy of
 # the API server.
 #
-# See petstore_api.signing for a list of all supported parameters.
-from petstore_api import signing
+# See petstore_client.signing for a list of all supported parameters.
+from petstore_client import signing
 import datetime
 
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.HttpSigningConfiguration(
+    signing_info = petstore_client.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
-        signing_scheme = petstore_api.signing.SCHEME_HS2019,
-        signing_algorithm = petstore_api.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
-        hash_algorithm = petstore_api.signing.SCHEME_RSA_SHA256,
+        signing_scheme = petstore_client.signing.SCHEME_HS2019,
+        signing_algorithm = petstore_client.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+        hash_algorithm = petstore_client.signing.SCHEME_RSA_SHA256,
         signed_headers = [
-                            petstore_api.signing.HEADER_REQUEST_TARGET,
-                            petstore_api.signing.HEADER_CREATED,
-                            petstore_api.signing.HEADER_EXPIRES,
-                            petstore_api.signing.HEADER_HOST,
-                            petstore_api.signing.HEADER_DATE,
-                            petstore_api.signing.HEADER_DIGEST,
+                            petstore_client.signing.HEADER_REQUEST_TARGET,
+                            petstore_client.signing.HEADER_CREATED,
+                            petstore_client.signing.HEADER_EXPIRES,
+                            petstore_client.signing.HEADER_HOST,
+                            petstore_client.signing.HEADER_DATE,
+                            petstore_client.signing.HEADER_DIGEST,
                             'Content-Type',
                             'Content-Length',
                             'User-Agent'
@@ -468,9 +468,9 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     tags = ['tags_example'] # List[str] | Tags to filter by
 
     try:
@@ -527,14 +527,14 @@ Returns a single pet
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.pet import Pet
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.pet import Pet
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -550,9 +550,9 @@ configuration.api_key['api_key'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     pet_id = 56 # int | ID of pet to return
 
     try:
@@ -610,14 +610,14 @@ Update an existing pet
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.pet import Pet
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.pet import Pet
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -663,26 +663,26 @@ configuration.access_token = os.environ["ACCESS_TOKEN"]
 # signing algorithm and hash algorithm that matches the security policy of
 # the API server.
 #
-# See petstore_api.signing for a list of all supported parameters.
-from petstore_api import signing
+# See petstore_client.signing for a list of all supported parameters.
+from petstore_client import signing
 import datetime
 
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2",
-    signing_info = petstore_api.HttpSigningConfiguration(
+    signing_info = petstore_client.HttpSigningConfiguration(
         key_id = 'my-key-id',
         private_key_path = 'private_key.pem',
         private_key_passphrase = 'YOUR_PASSPHRASE',
-        signing_scheme = petstore_api.signing.SCHEME_HS2019,
-        signing_algorithm = petstore_api.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
-        hash_algorithm = petstore_api.signing.SCHEME_RSA_SHA256,
+        signing_scheme = petstore_client.signing.SCHEME_HS2019,
+        signing_algorithm = petstore_client.signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+        hash_algorithm = petstore_client.signing.SCHEME_RSA_SHA256,
         signed_headers = [
-                            petstore_api.signing.HEADER_REQUEST_TARGET,
-                            petstore_api.signing.HEADER_CREATED,
-                            petstore_api.signing.HEADER_EXPIRES,
-                            petstore_api.signing.HEADER_HOST,
-                            petstore_api.signing.HEADER_DATE,
-                            petstore_api.signing.HEADER_DIGEST,
+                            petstore_client.signing.HEADER_REQUEST_TARGET,
+                            petstore_client.signing.HEADER_CREATED,
+                            petstore_client.signing.HEADER_EXPIRES,
+                            petstore_client.signing.HEADER_HOST,
+                            petstore_client.signing.HEADER_DATE,
+                            petstore_client.signing.HEADER_DIGEST,
                             'Content-Type',
                             'Content-Length',
                             'User-Agent'
@@ -692,10 +692,10 @@ configuration = petstore_api.Configuration(
 )
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
-    pet = petstore_api.Pet() # Pet | Pet object that needs to be added to the store
+    api_instance = petstore_client.PetApi(api_client)
+    pet = petstore_client.Pet() # Pet | Pet object that needs to be added to the store
 
     try:
         # Update an existing pet
@@ -751,13 +751,13 @@ Updates a pet in the store with form data
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -769,9 +769,9 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     pet_id = 56 # int | ID of pet that needs to be updated
     name = 'name_example' # str | Updated name of the pet (optional)
     status = 'status_example' # str | Updated status of the pet (optional)
@@ -830,14 +830,14 @@ uploads an image
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.api_response import ApiResponse
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.api_response import ApiResponse
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -849,9 +849,9 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)
     file = None # bytearray | file to upload (optional)
@@ -911,14 +911,14 @@ uploads an image (required)
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.api_response import ApiResponse
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.api_response import ApiResponse
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -930,9 +930,9 @@ configuration = petstore_api.Configuration(
 configuration.access_token = os.environ["ACCESS_TOKEN"]
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.PetApi(api_client)
+    api_instance = petstore_client.PetApi(api_client)
     pet_id = 56 # int | ID of pet to update
     required_file = None # bytearray | file to upload
     additional_metadata = 'additional_metadata_example' # str | Additional data to pass to server (optional)

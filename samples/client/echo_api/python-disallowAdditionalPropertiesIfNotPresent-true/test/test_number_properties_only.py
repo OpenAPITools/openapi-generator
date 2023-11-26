@@ -16,9 +16,9 @@
 import unittest
 import datetime
 
-import openapi_client
-from openapi_client.models.number_properties_only import NumberPropertiesOnly  # noqa: E501
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.number_properties_only import NumberPropertiesOnly  # noqa: E501
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 
 class TestNumberPropertiesOnly(unittest.TestCase):
     """NumberPropertiesOnly unit test stubs"""
@@ -36,7 +36,7 @@ class TestNumberPropertiesOnly(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `NumberPropertiesOnly`
         """
-        model = openapi_client.models.number_properties_only.NumberPropertiesOnly()  # noqa: E501
+        model = echo_client_disallow_additional_properties_if_not_present.models.number_properties_only.NumberPropertiesOnly()  # noqa: E501
         if include_optional :
             return NumberPropertiesOnly(
                 number = 1.337, 

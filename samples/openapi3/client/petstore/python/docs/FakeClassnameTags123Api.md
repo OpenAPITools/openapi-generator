@@ -1,4 +1,4 @@
-# petstore_api.FakeClassnameTags123Api
+# petstore_client.FakeClassnameTags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -21,14 +21,14 @@ To test class name in snake case
 ```python
 import time
 import os
-import petstore_api
-from petstore_api.models.client import Client
-from petstore_api.rest import ApiException
+import petstore_client
+from petstore_client.models.client import Client
+from petstore_client.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
+configuration = petstore_client.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
@@ -44,10 +44,10 @@ configuration.api_key['api_key_query'] = os.environ["API_KEY"]
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeClassnameTags123Api(api_client)
-    client = petstore_api.Client() # Client | client model
+    api_instance = petstore_client.FakeClassnameTags123Api(api_client)
+    client = petstore_client.Client() # Client | client model
 
     try:
         # To test class name in snake case

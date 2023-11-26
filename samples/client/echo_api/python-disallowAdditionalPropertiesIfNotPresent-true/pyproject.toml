@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "openapi_client"
+name = "echo_client_disallow_additional_properties_if_not_present"
 version = "1.0.0"
 description = "Echo Server API"
 authors = ["OpenAPI Generator Community <team@openapitools.org>"]
@@ -7,7 +7,7 @@ license = "Apache 2.0"
 readme = "README.md"
 repository = "https://github.com/GIT_USER_ID/GIT_REPO_ID"
 keywords = ["OpenAPI", "OpenAPI-Generator", "Echo Server API"]
-include = ["openapi_client/py.typed"]
+include = ["echo_client_disallow_additional_properties_if_not_present/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.7"

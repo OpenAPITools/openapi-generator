@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from openapi_client.models.pet import Pet
+from echo_client.models.pet import Pet
 
 # TODO update the JSON string below
 json = "{}"

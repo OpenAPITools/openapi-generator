@@ -1,4 +1,4 @@
-# openapi_client.HeaderApi
+# echo_client_disallow_additional_properties_if_not_present.HeaderApi
 
 All URIs are relative to *http://localhost:3000*
 
@@ -20,27 +20,27 @@ Test header parameter(s)
 ```python
 import time
 import os
-import openapi_client
-from openapi_client.models.string_enum_ref import StringEnumRef
-from openapi_client.rest import ApiException
+import echo_client_disallow_additional_properties_if_not_present
+from echo_client_disallow_additional_properties_if_not_present.models.string_enum_ref import StringEnumRef
+from echo_client_disallow_additional_properties_if_not_present.rest import ApiException
 from pprint import pprint
 
 # Defining the host is optional and defaults to http://localhost:3000
 # See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
+configuration = echo_client_disallow_additional_properties_if_not_present.Configuration(
     host = "http://localhost:3000"
 )
 
 
 # Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
+with echo_client_disallow_additional_properties_if_not_present.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = openapi_client.HeaderApi(api_client)
+    api_instance = echo_client_disallow_additional_properties_if_not_present.HeaderApi(api_client)
     integer_header = 56 # int |  (optional)
     boolean_header = True # bool |  (optional)
     string_header = 'string_header_example' # str |  (optional)
     enum_nonref_string_header = 'enum_nonref_string_header_example' # str |  (optional)
-    enum_ref_string_header = openapi_client.StringEnumRef() # StringEnumRef |  (optional)
+    enum_ref_string_header = echo_client_disallow_additional_properties_if_not_present.StringEnumRef() # StringEnumRef |  (optional)
 
     try:
         # Test header parameter(s)

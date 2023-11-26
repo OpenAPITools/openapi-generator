@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.second_ref import SecondRef
+from petstore_client_aiohttp.models.second_ref import SecondRef
 
 # TODO update the JSON string below
 json = "{}"
