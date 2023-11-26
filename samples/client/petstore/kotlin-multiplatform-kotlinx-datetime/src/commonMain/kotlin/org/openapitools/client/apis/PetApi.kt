@@ -160,9 +160,8 @@ open class PetApi : ApiClient {
         ).wrap<FindPetsByStatusResponse>().map { value }
     }
 
-    @Serializable
+    @Serializable(FindPetsByStatusResponse.Companion::class)
     private class FindPetsByStatusResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByStatusResponse::class)
         companion object : KSerializer<FindPetsByStatusResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
@@ -204,9 +203,8 @@ open class PetApi : ApiClient {
         ).wrap<FindPetsByTagsResponse>().map { value }
     }
 
-    @Serializable
+    @Serializable(FindPetsByTagsResponse.Companion::class)
     private class FindPetsByTagsResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByTagsResponse::class)
         companion object : KSerializer<FindPetsByTagsResponse> {
             private val serializer: KSerializer<List<Pet>> = serializer<List<Pet>>()
             override val descriptor = serializer.descriptor
