@@ -1,11 +1,14 @@
-name: "Python Client: Petstore"
+name: "Python Clients"
 
 on:
   pull_request:
     paths:
+      - samples/client/echo_api/python/**
+      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true/**
       - samples/openapi3/client/petstore/python-aiohttp/**
       - samples/openapi3/client/petstore/python/**
-      - .github/workflows/samples-python-petstore.yaml
+      - tests/python/client/**
+      - .github/workflows/samples-python-client.yaml
 
 jobs:
   build:
@@ -20,9 +23,6 @@ jobs:
           - "3.9"
           - "3.10"
           - "3.11"
-        sample:
-          - samples/openapi3/client/petstore/python-aiohttp
-          - samples/openapi3/client/petstore/python
     services:
       petstore-api:
         image: swaggerapi/petstore
@@ -37,23 +37,15 @@ jobs:
         id: py
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-python-${{ steps.py.outputs.python-version }}-
-          path: |
-            ~/.cache/pypoetry/virtualenvs/
-            ~/.local/pipx/venvs/poetry/
-            .mypy_cache/
-
-      - name: Install poetry
-        run: pipx install --python '${{ steps.py.outputs.python-path }}' poetry
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+      - name: Run echo server on default port 3000
+        run: |
+          git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
+          (cd http-echo-server && npm install && npm start &)
 
       - name: Install
-        working-directory: ${{ matrix.sample }}
-        run: poetry install
+        run: tests/python/client/install_all.sh
 
       - name: Test
-        working-directory: ${{ matrix.sample }}
-        run: poetry run pytest -v
+        run: tests/python/client/run_tests.sh

@@ -1,0 +1,10 @@
+# Note: pip does not support paths relative to the requirements.txt, so it
+# must be running in this folder to resolve the relative paths correctly.
+-e ../../../samples/client/echo_api/python
+-r ../../../samples/client/echo_api/python/test-requirements.txt
+-e ../../../samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true
+-r ../../../samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true/test-requirements.txt
+-e ../../../samples/openapi3/client/petstore/python
+-r ../../../samples/openapi3/client/petstore/python/test-requirements.txt
+-e ../../../samples/openapi3/client/petstore/python-aiohttp
+-r ../../../samples/openapi3/client/petstore/python-aiohttp/test-requirements.txt

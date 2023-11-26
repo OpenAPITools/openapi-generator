@@ -102,9 +102,7 @@ elif [ "$NODE_INDEX" = "4" ]; then
   #pyenv install 2.7.14 #python2 no longer supported
   pyenv global 3.7.12
 
-  (cd samples/openapi3/client/petstore/python && mvn integration-test)
   (cd samples/openapi3/client/petstore/python-pydantic-v1 && mvn integration-test)
-  (cd samples/openapi3/client/petstore/python-aiohttp && mvn integration-test)
   (cd samples/openapi3/client/petstore/python-pydantic-v1-aiohttp && mvn integration-test)
 
 else
