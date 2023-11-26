@@ -284,10 +284,7 @@ namespace Org.OpenAPITools.Model
             writer.WriteString("className", zebra.ClassName);
 
             var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value);
-            if (typeRawValue != null)
-                writer.WriteString("type", typeRawValue);
-            else
-                writer.WriteNull("type");
+            writer.WriteString("type", typeRawValue);
         }
     }
 }

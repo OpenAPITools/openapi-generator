@@ -844,11 +844,7 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, EnumTest enumTest, JsonSerializerOptions jsonSerializerOptions)
         {
             var enumStringRequiredRawValue = EnumTest.EnumStringRequiredEnumToJsonValue(enumTest.EnumStringRequired);
-            if (enumStringRequiredRawValue != null)
-                writer.WriteString("enum_string_required", enumStringRequiredRawValue);
-            else
-                writer.WriteNull("enum_string_required");
-
+            writer.WriteString("enum_string_required", enumStringRequiredRawValue);
             if (enumTest.EnumIntegerOption.IsSet)
                 writer.WriteNumber("enum_integer", EnumTest.EnumIntegerEnumToJsonValue(enumTest.EnumIntegerOption.Value!.Value));
 
@@ -859,11 +855,7 @@ namespace UseSourceGeneration.Model
                 writer.WriteNumber("enum_number", EnumTest.EnumNumberEnumToJsonValue(enumTest.EnumNumberOption.Value!.Value));
 
             var enumStringRawValue = EnumTest.EnumStringEnumToJsonValue(enumTest.EnumStringOption.Value!.Value);
-            if (enumStringRawValue != null)
-                writer.WriteString("enum_string", enumStringRawValue);
-            else
-                writer.WriteNull("enum_string");
-
+            writer.WriteString("enum_string", enumStringRawValue);
             if (enumTest.OuterEnumOption.IsSet)
                 if (enumTest.OuterEnumOption!.Value != null)
                 {
