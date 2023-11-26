@@ -3,7 +3,8 @@ outputDir: samples/openapi3/client/petstore/python
 inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with-fake-endpoints-models-for-testing.yaml
 templateDir: modules/openapi-generator/src/main/resources/python
 additionalProperties:
-  packageName: petstore_api
+  packageName: petstore_client
+  projectName: petstore-client
   useOneOfDiscriminatorLookup: "true"
   disallowAdditionalPropertiesIfNotPresent: false
   mapNumberTo: StrictFloat

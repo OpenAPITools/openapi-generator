@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/python
 additionalProperties:
   hideGenerationTimestamp: "true"
   disallowAdditionalPropertiesIfNotPresent: "true"
+  packageName: echo_client_disallow_additional_properties_if_not_present
+  projectName: echo-client-disallow-additional-properties-if-not-present

@@ -4,5 +4,6 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/python/petstore-with
 templateDir: modules/openapi-generator/src/main/resources/python
 library: asyncio
 additionalProperties:
-  packageName: petstore_api
+  packageName: petstore_client_aiohttp
+  projectName: petstore-client-aiohttp
   mapNumberTo: float
