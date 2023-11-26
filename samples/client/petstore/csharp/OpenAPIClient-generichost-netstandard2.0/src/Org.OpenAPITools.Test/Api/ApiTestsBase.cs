@@ -72,6 +72,10 @@ namespace Org.OpenAPITools.Test.Api
                 HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
+
+                string oauthTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken1 = new OAuthToken(oauthTokenValue1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
             });
     }
 }

@@ -41,11 +41,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 options.AddTokens(httpSignatureToken{{-index}});
 
                 {{/httpSignatureMethods}}
-                {{#oAuthMethods}}
+                {{#oauthMethods}}
                 OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken{{-index}});
 
-                {{/oAuthMethods}}
+                {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
             })
             .Build();
@@ -75,11 +75,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 options.AddTokens(httpSignatureToken{{-index}});
 
                 {{/httpSignatureMethods}}
-                {{#oAuthMethods}}
+                {{#oauthMethods}}
                 OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
 
-                {{/oAuthMethods}}
+                {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
                 options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
@@ -112,11 +112,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
                     options.AddTokens(httpSignatureToken{{-index}});
 
                     {{/httpSignatureMethods}}
-                    {{#oAuthMethods}}
+                    {{#oauthMethods}}
                     OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken{{-index}});
 
-                    {{/oAuthMethods}}
+                    {{/oauthMethods}}
                     {{/lambda.trimTrailingWithNewLine}}
                 });
             })
@@ -149,11 +149,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
                     options.AddTokens(httpSignatureToken{{-index}});
 
                     {{/httpSignatureMethods}}
-                    {{#oAuthMethods}}
+                    {{#oauthMethods}}
                     OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken{{-index}});
 
-                    {{/oAuthMethods}}
+                    {{/oauthMethods}}
                     {{/lambda.trimTrailingWithNewLine}}
                     options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });

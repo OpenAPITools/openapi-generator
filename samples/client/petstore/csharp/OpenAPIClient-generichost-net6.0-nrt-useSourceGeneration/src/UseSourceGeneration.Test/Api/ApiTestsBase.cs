@@ -72,6 +72,10 @@ namespace UseSourceGeneration.Test.Api
                 HttpSigningConfiguration config1 = new("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken1 = new(config1, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken1);
+
+                string oauthTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken1 = new(oauthTokenValue1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
             });
     }
 }

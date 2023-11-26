@@ -54,11 +54,11 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 options.AddTokens(httpSignatureToken{{-index}});
 
                 {{/httpSignatureMethods}}
-                {{#oAuthMethods}}
+                {{#oauthMethods}}
                 string oauthTokenValue{{-index}} = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
                 OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}(oauthTokenValue{{-index}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken{{-index}});
-                {{/oAuthMethods}}
+                {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
             });
     }
