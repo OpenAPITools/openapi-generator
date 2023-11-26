@@ -388,11 +388,7 @@ namespace UseSourceGeneration.Model
                 writer.WriteNumber("id", pet.IdOption.Value!.Value);
 
             var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
-            if (statusRawValue != null)
-                writer.WriteString("status", statusRawValue);
-            else
-                writer.WriteNull("status");
-
+            writer.WriteString("status", statusRawValue);
             if (pet.TagsOption.IsSet)
             {
                 writer.WritePropertyName("tags");

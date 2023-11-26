@@ -5714,6 +5714,10 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        model.parent = toInstantiationType(schema);
+    }
+
     /**
      * Sets the value of the 'model.parent' property in CodegenModel, based on the value
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
@@ -5733,7 +5737,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema, false);
         addImport(model, property.complexType);
-        model.parent = toInstantiationType(schema);
+        addParentFromContainer(model, schema);
         final String instantiationType = instantiationTypes.get(property.containerType);
         if (instantiationType != null) {
             addImport(model, instantiationType);

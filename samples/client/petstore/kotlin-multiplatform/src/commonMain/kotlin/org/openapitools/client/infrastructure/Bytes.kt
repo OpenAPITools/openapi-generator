@@ -82,6 +82,7 @@ private fun ByteReadPacket.encodeBase64(): String = buildString {
  *
  * Taken from https://github.com/ktorio/ktor/blob/424d1d2cfaa3281302c60af9500f738c8c2fc846/ktor-utils/common/src/io/ktor/util/Base64.kt
  */
+@Suppress("DEPRECATION")
 private fun ByteReadPacket.decodeBase64Bytes(): Input = buildPacket {
     val data = ByteArray(4)
 

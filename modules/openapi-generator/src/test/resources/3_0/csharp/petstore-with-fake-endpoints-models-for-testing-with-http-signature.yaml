@@ -213,6 +213,7 @@ paths:
           description: Pet not found
       security:
         - api_key: []
+        - api_key_query: []
     post:
       tags:
         - pet
@@ -2549,6 +2550,8 @@ components:
               enum:
               - ChildCat
               default: ChildCat
+          required:
+          - pet_type
     ArrayOfEnums:
       type: array
       items:
