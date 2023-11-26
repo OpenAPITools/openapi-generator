@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Zebra
     /// </summary>
-    public partial class Zebra : Dictionary<String, Object>, IValidatableObject
+    public partial class Zebra : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, Option<TypeEnum?> type = default) : base()
+        public Zebra(string className, Option<TypeEnum?> type = default)
         {
             ClassName = className;
             TypeOption = type;
@@ -159,7 +159,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -173,16 +172,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

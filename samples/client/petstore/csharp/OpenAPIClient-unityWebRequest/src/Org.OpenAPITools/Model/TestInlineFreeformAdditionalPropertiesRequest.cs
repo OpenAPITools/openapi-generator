@@ -28,13 +28,13 @@ namespace Org.OpenAPITools.Model
     /// TestInlineFreeformAdditionalPropertiesRequest
     /// </summary>
     [DataContract(Name = "testInlineFreeformAdditionalProperties_request")]
-    public partial class TestInlineFreeformAdditionalPropertiesRequest : Dictionary<String, Object>, IEquatable<TestInlineFreeformAdditionalPropertiesRequest>
+    public partial class TestInlineFreeformAdditionalPropertiesRequest : IEquatable<TestInlineFreeformAdditionalPropertiesRequest>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string)) : base()
+        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
         {
             this.SomeProperty = someProperty;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -60,7 +60,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -71,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -97,7 +96,7 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return base.Equals(input) && 
+            return 
                 (
                     this.SomeProperty == input.SomeProperty ||
                     (this.SomeProperty != null &&
@@ -114,7 +113,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = base.GetHashCode();
+                int hashCode = 41;
                 if (this.SomeProperty != null)
                 {
                     hashCode = (hashCode * 59) + this.SomeProperty.GetHashCode();
