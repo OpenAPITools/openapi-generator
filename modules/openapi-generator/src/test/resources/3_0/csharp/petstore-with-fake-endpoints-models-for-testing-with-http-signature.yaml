@@ -2557,6 +2557,8 @@ components:
               enum:
               - ChildCat
               default: ChildCat
+          required:
+          - pet_type
     ArrayOfEnums:
       type: array
       items:

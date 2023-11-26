@@ -27,6 +27,7 @@ REQUIRES = [
     "urllib3 >= 1.25.3, < 2.1.0",
     "python-dateutil",
     "aiohttp >= 3.0.0",
+    "aiohttp-retry >= 2.8.3",
     "pem>=19.3.0",
     "pycryptodome>=3.9.0",
     "pydantic >= 2",

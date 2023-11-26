@@ -173,6 +173,8 @@ public interface CodegenConfig {
 
     Set<String> languageSpecificPrimitives();
 
+    Set<String> openapiGeneratorIgnoreList();
+
     Map<String, String> reservedWordsMappings();
 
     void preprocessOpenAPI(OpenAPI openAPI);
@@ -348,5 +350,7 @@ public interface CodegenConfig {
     boolean getAddSuffixToDuplicateOperationNicknames();
 
     boolean getUseOpenAPINormalizer();
+
+    Set<String> getOpenAPIGeneratorIgnoreList();
 
 }

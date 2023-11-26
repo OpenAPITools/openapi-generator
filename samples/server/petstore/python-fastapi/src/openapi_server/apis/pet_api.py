@@ -84,7 +84,7 @@ async def delete_pet(
     response_model_by_alias=True,
 )
 async def find_pets_by_status(
-    status: List[str] = Query(None, description="Status values that need to be considered for filter"),
+    status: List[str] = Query(None, description="Status values that need to be considered for filter", alias="status"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),
@@ -104,7 +104,7 @@ async def find_pets_by_status(
     response_model_by_alias=True,
 )
 async def find_pets_by_tags(
-    tags: List[str] = Query(None, description="Tags to filter by"),
+    tags: List[str] = Query(None, description="Tags to filter by", alias="tags"),
     token_petstore_auth: TokenModel = Security(
         get_token_petstore_auth, scopes=["read:pets"]
     ),

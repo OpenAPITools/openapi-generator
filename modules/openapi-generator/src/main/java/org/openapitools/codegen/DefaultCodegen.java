@@ -160,6 +160,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> instantiationTypes;
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
+    protected Set<String> openapiGeneratorIgnoreList = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
@@ -1209,6 +1210,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Set<String> languageSpecificPrimitives() {
         return languageSpecificPrimitives;
+    }
+
+    @Override
+    public Set<String> openapiGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
     }
 
     @Override
@@ -5708,6 +5714,10 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        model.parent = toInstantiationType(schema);
+    }
+
     /**
      * Sets the value of the 'model.parent' property in CodegenModel, based on the value
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
@@ -5727,7 +5737,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema, false);
         addImport(model, property.complexType);
-        model.parent = toInstantiationType(schema);
+        addParentFromContainer(model, schema);
         final String instantiationType = instantiationTypes.get(property.containerType);
         if (instantiationType != null) {
             addImport(model, instantiationType);
@@ -8316,6 +8326,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseOpenAPINormalizer() { return true; }
+
+    @Override
+    public Set<String> getOpenAPIGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
+    }
 
     /*
     A function to convert yaml or json ingested strings like property names

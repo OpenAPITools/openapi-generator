@@ -2492,6 +2492,8 @@ components:
             - ChildCat
             type: string
             x-enum-as-string: true
+        required:
+        - pet_type
         type: object
     ArrayOfEnums:
       items:

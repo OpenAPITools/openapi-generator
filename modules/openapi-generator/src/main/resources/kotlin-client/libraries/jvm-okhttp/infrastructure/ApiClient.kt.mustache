@@ -299,7 +299,12 @@ import com.squareup.moshi.adapter
                     {{/isKeyInQuery}}
                 }
             }
+        {{#isKeyInQuery}}
         }
+        {{/isKeyInQuery}}
+        {{#isKeyInHeader}}
+        }
+        {{/isKeyInHeader}}
         {{/isApiKey}}
         {{#isBasic}}
         {{#isBasicBasic}}
