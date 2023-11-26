@@ -262,6 +262,7 @@ paths:
           description: Pet not found
       security:
       - api_key: []
+      - api_key_query: []
       summary: Find pet by ID
       tags:
       - pet

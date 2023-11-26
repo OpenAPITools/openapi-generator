@@ -213,6 +213,7 @@ paths:
           description: Pet not found
       security:
         - api_key: []
+        - api_key_query: []
     post:
       tags:
         - pet
