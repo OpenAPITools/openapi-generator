@@ -306,6 +306,7 @@ paths:
                 additionalProperties:
                   format: int32
                   type: integer
+                type: object
           description: successful operation
       security:
       - api_key: []
@@ -709,6 +710,7 @@ components:
           default: false
           type: boolean
       title: Pet Order
+      type: object
       xml:
         name: Order
     Category:
@@ -724,6 +726,7 @@ components:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
           type: string
       title: Pet category
+      type: object
       xml:
         name: Category
     User:
@@ -758,6 +761,7 @@ components:
           format: int32
           type: integer
       title: a User
+      type: object
       xml:
         name: User
     Tag:
@@ -772,6 +776,7 @@ components:
         name:
           type: string
       title: Pet Tag
+      type: object
       xml:
         name: Tag
     Pet:
@@ -826,6 +831,7 @@ components:
       - name
       - photoUrls
       title: a Pet
+      type: object
       xml:
         name: Pet
     ApiResponse:
@@ -843,6 +849,7 @@ components:
         message:
           type: string
       title: An uploaded response
+      type: object
     StringOrInt:
       anyOf:
       - type: string
@@ -860,12 +867,14 @@ components:
       - properties:
           breed:
             type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - properties:
           declawed:
             type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -877,6 +886,7 @@ components:
           type: string
       required:
       - className
+      type: object
     simple_text:
       type: string
     updatePetWithForm_request:

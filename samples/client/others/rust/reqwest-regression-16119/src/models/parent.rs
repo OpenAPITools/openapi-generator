@@ -13,8 +13,8 @@
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Parent {
-    #[serde(rename = "child", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
-    pub child: Option<Option<::std::collections::HashMap<String, serde_json::Value>>>,
+    #[serde(rename = "child", skip_serializing_if = "Option::is_none")]
+    pub child: Option<::std::collections::HashMap<String, serde_json::Value>>,
 }
 
 impl Parent {
