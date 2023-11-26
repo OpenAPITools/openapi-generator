@@ -19,9 +19,6 @@ package org.openapitools.codegen.meta;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openapitools.codegen.Constants;
-import org.openapitools.codegen.Constants.*;
-
 /**
  * Represents metadata about a generator.
  */
@@ -103,7 +100,7 @@ public class GeneratorMetadata {
     public static final class Builder {
         private Stability stability;
         private String generationMessage;
-        private FeatureSet featureSet = Constants.UNSPECIFIED;
+        private FeatureSet featureSet = FeatureSet.UNSPECIFIED;
         private Map<String, FeatureSet> libraryFeatures = new HashMap<>();
 
         private Builder() {
@@ -130,7 +127,7 @@ public class GeneratorMetadata {
             if (featureSet != null) {
                 this.featureSet = featureSet;
             } else {
-                this.featureSet = Constants.UNSPECIFIED;
+                this.featureSet = FeatureSet.UNSPECIFIED;
             }
             return this;
         }
