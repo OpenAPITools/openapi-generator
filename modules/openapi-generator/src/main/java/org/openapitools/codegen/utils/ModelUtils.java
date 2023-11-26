@@ -408,6 +408,15 @@ public class ModelUtils {
     }
 
     /**
+     * Return the type of the schema, supporting both OpenAPI v3.0 (attribute type) and OpenAPI v3.1 (attribute types)
+     * @param schema
+     * @return
+     */
+    public static String getType(Schema schema) {
+        return schema.getType() == null && schema.getTypes() != null && schema.getTypes().size() == 1 ? (String)schema.getTypes().iterator().next() : schema.getType();
+    }
+
+    /**
      * Return true if the specified schema is type object
      * We can't use isObjectSchema because it requires properties to exist which is not required
      * We can't use isMap because it is true for AnyType use cases

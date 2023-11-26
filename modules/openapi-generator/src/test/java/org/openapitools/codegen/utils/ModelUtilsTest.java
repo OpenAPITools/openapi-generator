@@ -18,6 +18,7 @@
 package org.openapitools.codegen.utils;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.SpecVersion;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -294,4 +295,21 @@ public class ModelUtilsTest {
         String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
         Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
+
+    @Test
+    public void getType() {
+        Schema schema = new Schema()
+                .specVersion(SpecVersion.V30)
+                .type("integer");
+        Assert.assertEquals("integer", ModelUtils.getType(schema));
+    }
+
+    @Test
+    public void getTypeV31() {
+        Schema schema = new Schema()
+                .specVersion(SpecVersion.V31)
+                .types(new HashSet<>(Arrays.asList("integer")));
+        Assert.assertEquals("integer", ModelUtils.getType(schema));
+    }
+
 }
