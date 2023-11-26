@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - samples/client/echo_api/python/**
-      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent-true/**
+      - samples/client/echo_api/python-disallowAdditionalPropertiesIfNotPresent/**
       - samples/openapi3/client/petstore/python-aiohttp/**
       - samples/openapi3/client/petstore/python/**
       - tests/python/client/**
