@@ -262,6 +262,7 @@ paths:
           description: Pet not found
       security:
       - api_key: []
+      - api_key_query: []
       summary: Find pet by ID
       tags:
       - pet
@@ -2491,6 +2492,8 @@ components:
             - ChildCat
             type: string
             x-enum-as-string: true
+        required:
+        - pet_type
         type: object
     ArrayOfEnums:
       items:

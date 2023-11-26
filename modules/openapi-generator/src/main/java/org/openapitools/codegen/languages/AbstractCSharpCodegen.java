@@ -234,6 +234,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.setTypeMapping();
     }
 
+    @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        // we do not want to inherit simply because additionalProperties is true
+        // do nothing here
+    }
 
     @Override
     public void processOpts() {

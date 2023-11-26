@@ -104,9 +104,8 @@ open class UserApi : ApiClient {
         ).wrap()
     }
 
-    @Serializable
+    @Serializable(CreateUsersWithArrayInputRequest.Companion::class)
     private class CreateUsersWithArrayInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithArrayInputRequest::class)
         companion object : KSerializer<CreateUsersWithArrayInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
@@ -145,9 +144,8 @@ open class UserApi : ApiClient {
         ).wrap()
     }
 
-    @Serializable
+    @Serializable(CreateUsersWithListInputRequest.Companion::class)
     private class CreateUsersWithListInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithListInputRequest::class)
         companion object : KSerializer<CreateUsersWithListInputRequest> {
             private val serializer: KSerializer<List<User>> = serializer<List<User>>()
             override val descriptor = serializer.descriptor
