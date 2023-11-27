@@ -54,6 +54,24 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'AnyTypeProp'
+        /// </summary>
+        [Fact]
+        public void AnyTypePropTest()
+        {
+            // TODO unit test for the property 'AnyTypeProp'
+        }
+
+        /// <summary>
+        /// Test the property 'AnyTypePropNullable'
+        /// </summary>
+        [Fact]
+        public void AnyTypePropNullableTest()
+        {
+            // TODO unit test for the property 'AnyTypePropNullable'
+        }
+
+        /// <summary>
         /// Test the property 'Email'
         /// </summary>
         [Fact]
@@ -99,6 +117,15 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'ObjectWithNoDeclaredPropsNullable'
+        /// </summary>
+        [Fact]
+        public void ObjectWithNoDeclaredPropsNullableTest()
+        {
+            // TODO unit test for the property 'ObjectWithNoDeclaredPropsNullable'
+        }
+
+        /// <summary>
         /// Test the property 'Password'
         /// </summary>
         [Fact]
@@ -132,33 +159,6 @@ namespace UseSourceGeneration.Test.Model
         public void UsernameTest()
         {
             // TODO unit test for the property 'Username'
-        }
-
-        /// <summary>
-        /// Test the property 'AnyTypeProp'
-        /// </summary>
-        [Fact]
-        public void AnyTypePropTest()
-        {
-            // TODO unit test for the property 'AnyTypeProp'
-        }
-
-        /// <summary>
-        /// Test the property 'AnyTypePropNullable'
-        /// </summary>
-        [Fact]
-        public void AnyTypePropNullableTest()
-        {
-            // TODO unit test for the property 'AnyTypePropNullable'
-        }
-
-        /// <summary>
-        /// Test the property 'ObjectWithNoDeclaredPropsNullable'
-        /// </summary>
-        [Fact]
-        public void ObjectWithNoDeclaredPropsNullableTest()
-        {
-            // TODO unit test for the property 'ObjectWithNoDeclaredPropsNullable'
         }
     }
 }

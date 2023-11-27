@@ -7,6 +7,17 @@
 {{/nrt}}
 using System;
 using System.Collections.Generic;
+{{#net80OrLater}}
+{{#lambda.uniqueLines}}
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-set-cookie}}
+using System.Linq;
+{{/vendorExtensions.x-set-cookie}}
+{{/operation}}
+{{/operations}}
+{{/lambda.uniqueLines}}
+{{/net80OrLater}}
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -183,6 +194,19 @@ namespace {{packageName}}.{{apiPackage}}
         /// </summary>
         public TokenProvider<OAuthToken> OauthTokenProvider { get; }{{/hasOAuthMethods}}
 
+        {{#net80OrLater}}
+        {{#lambda.unique}}
+        {{#operation}}
+        {{#vendorExtensions.x-set-cookie}}
+        /// <summary>
+        /// The token cookie container
+        /// </summary>
+        public {{packageName}}.{{clientPackage}}.CookieContainer CookieContainer { get; }
+
+        {{/vendorExtensions.x-set-cookie}}
+        {{/operation}}
+        {{/lambda.unique}}
+        {{/net80OrLater}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
@@ -192,7 +216,8 @@ namespace {{packageName}}.{{apiPackage}}
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}},
-            TokenProvider<OAuthToken> oauthTokenProvider{{/hasOAuthMethods}})
+            TokenProvider<OAuthToken> oauthTokenProvider{{/hasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}},
+            {{packageName}}.{{clientPackage}}.CookieContainer cookieContainer{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}})
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             LoggerFactory = loggerFactory;
@@ -203,7 +228,8 @@ namespace {{packageName}}.{{apiPackage}}
             BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
             BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
             HttpSignatureTokenProvider = httpSignatureTokenProvider;{{/hasHttpSignatureMethods}}{{#hasOAuthMethods}}
-            OauthTokenProvider = oauthTokenProvider;{{/hasOAuthMethods}}
+            OauthTokenProvider = oauthTokenProvider;{{/hasOAuthMethods}}{{#net80OrLater}}{{#operation}}{{#lambda.uniqueLines}}{{#vendorExtensions.x-set-cookie}}
+            CookieContainer = cookieContainer;{{/vendorExtensions.x-set-cookie}}{{/lambda.uniqueLines}}{{/operation}}{{/net80OrLater}}
         }
         {{#operation}}
 
@@ -470,11 +496,14 @@ namespace {{packageName}}.{{apiPackage}}
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
                     {{/-first}}
                     {{#isApiKey}}
+                    {{^isKeyInCookie}}
                     ApiKeyToken apiKeyTokenLocalVar{{-index}} = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar{{-index}});{{#isKeyInHeader}}
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar{{-index}});
+                    {{#isKeyInHeader}}
                     apiKeyTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
 
                     {{/isKeyInHeader}}
+                    {{/isKeyInCookie}}
                     {{#isKeyInQuery}}
 
                     apiKeyTokenLocalVar{{-index}}.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "{{keyParamName}}");
@@ -593,6 +622,39 @@ namespace {{packageName}}.{{apiPackage}}
 
                         {{/-first}}
                         {{/authMethods}}
+                        {{#net80OrLater}}
+                        {{#responses}}
+                        {{#vendorExtensions.x-set-cookie}}
+                        if (httpResponseMessageLocalVar.StatusCode == (HttpStatusCode) {{code}} && httpResponseMessageLocalVar.Headers.TryGetValues("Set-Cookie", out var cookieHeadersLocalVar))
+                        {
+                            foreach(string cookieHeader in cookieHeadersLocalVar)
+                            {
+                                IList<Microsoft.Net.Http.Headers.SetCookieHeaderValue> setCookieHeaderValuesLocalVar = Microsoft.Net.Http.Headers.SetCookieHeaderValue.ParseList(cookieHeadersLocalVar.ToArray());
+
+                                foreach(Microsoft.Net.Http.Headers.SetCookieHeaderValue setCookieHeaderValueLocalVar in setCookieHeaderValuesLocalVar)
+                                {
+                                    Cookie cookieLocalVar = new Cookie(setCookieHeaderValueLocalVar.Name.ToString(), setCookieHeaderValueLocalVar.Value.ToString())
+                                    {
+                                        HttpOnly = setCookieHeaderValueLocalVar.HttpOnly
+                                    };
+
+                                    if (setCookieHeaderValueLocalVar.Expires.HasValue)
+                                        cookieLocalVar.Expires = setCookieHeaderValueLocalVar.Expires.Value.UtcDateTime;
+
+                                    if (setCookieHeaderValueLocalVar.Path.HasValue)
+                                        cookieLocalVar.Path = setCookieHeaderValueLocalVar.Path.Value;
+
+                                    if (setCookieHeaderValueLocalVar.Domain.HasValue)
+                                        cookieLocalVar.Domain = setCookieHeaderValueLocalVar.Domain.Value;
+
+                                    CookieContainer.Value.Add(new Uri($"{uriBuilderLocalVar.Scheme}://{uriBuilderLocalVar.Host}"), cookieLocalVar);
+                                }
+                            }
+                        }
+
+                        {{/vendorExtensions.x-set-cookie}}
+                        {{/responses}}
+                        {{/net80OrLater}}
                         return apiResponseLocalVar;
                     }
                 }

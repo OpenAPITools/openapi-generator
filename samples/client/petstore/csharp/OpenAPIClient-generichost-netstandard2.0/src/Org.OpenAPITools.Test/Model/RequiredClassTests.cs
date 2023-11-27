@@ -153,105 +153,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'NotRequiredNotnullableDateProp'
-        /// </summary>
-        [Fact]
-        public void NotRequiredNotnullableDatePropTest()
-        {
-            // TODO unit test for the property 'NotRequiredNotnullableDateProp'
-        }
-
-        /// <summary>
-        /// Test the property 'NotRequiredNotnullableintegerProp'
-        /// </summary>
-        [Fact]
-        public void NotRequiredNotnullableintegerPropTest()
-        {
-            // TODO unit test for the property 'NotRequiredNotnullableintegerProp'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableArrayOfString'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableArrayOfStringTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableArrayOfString'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableBooleanProp'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableBooleanPropTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableBooleanProp'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableDatetimeProp'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableDatetimePropTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableDatetimeProp'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableEnumInteger'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableEnumIntegerTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableEnumInteger'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableEnumIntegerOnly'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableEnumIntegerOnlyTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableEnumIntegerOnly'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableEnumString'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableEnumStringTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableEnumString'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableOuterEnumDefaultValue'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableOuterEnumDefaultValueTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableOuterEnumDefaultValue'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableStringProp'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableStringPropTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableStringProp'
-        }
-
-        /// <summary>
-        /// Test the property 'NotrequiredNotnullableUuid'
-        /// </summary>
-        [Fact]
-        public void NotrequiredNotnullableUuidTest()
-        {
-            // TODO unit test for the property 'NotrequiredNotnullableUuid'
-        }
-
-        /// <summary>
         /// Test the property 'RequiredNullableArrayOfString'
         /// </summary>
         [Fact]
@@ -351,6 +252,24 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'NotRequiredNotnullableDateProp'
+        /// </summary>
+        [Fact]
+        public void NotRequiredNotnullableDatePropTest()
+        {
+            // TODO unit test for the property 'NotRequiredNotnullableDateProp'
+        }
+
+        /// <summary>
+        /// Test the property 'NotRequiredNotnullableintegerProp'
+        /// </summary>
+        [Fact]
+        public void NotRequiredNotnullableintegerPropTest()
+        {
+            // TODO unit test for the property 'NotRequiredNotnullableintegerProp'
+        }
+
+        /// <summary>
         /// Test the property 'NotRequiredNullableDateProp'
         /// </summary>
         [Fact]
@@ -366,6 +285,87 @@ namespace Org.OpenAPITools.Test.Model
         public void NotRequiredNullableIntegerPropTest()
         {
             // TODO unit test for the property 'NotRequiredNullableIntegerProp'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableArrayOfString'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableArrayOfStringTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableArrayOfString'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableBooleanProp'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableBooleanPropTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableBooleanProp'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableDatetimeProp'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableDatetimePropTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableDatetimeProp'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableEnumInteger'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableEnumIntegerTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableEnumInteger'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableEnumIntegerOnly'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableEnumIntegerOnlyTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableEnumIntegerOnly'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableEnumString'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableEnumStringTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableEnumString'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableOuterEnumDefaultValue'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableOuterEnumDefaultValueTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableOuterEnumDefaultValue'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableStringProp'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableStringPropTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableStringProp'
+        }
+
+        /// <summary>
+        /// Test the property 'NotrequiredNotnullableUuid'
+        /// </summary>
+        [Fact]
+        public void NotrequiredNotnullableUuidTest()
+        {
+            // TODO unit test for the property 'NotrequiredNotnullableUuid'
         }
 
         /// <summary>
