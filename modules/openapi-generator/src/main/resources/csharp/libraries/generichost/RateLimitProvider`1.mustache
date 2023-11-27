@@ -35,6 +35,15 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
             foreach(TTokenBase token in _tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
 
+            {{#lambda.copy}}
+            BoundedChannelOptions options = new BoundedChannelOptions(_tokens.Length)
+            {
+                FullMode = BoundedChannelFullMode.DropWrite
+            };
+
+            AvailableTokens.Add(string.Empty, Channel.CreateBounded<TTokenBase>(options));
+            {{/lambda.copy}}
+            {{#hasApiKeyMethods}}
             if (container is TokenContainer<ApiKeyToken> apiKeyTokenContainer)
             {
                 string[] headers = apiKeyTokenContainer.Tokens.Select(t => t.Header).Distinct().ToArray();
@@ -51,13 +60,12 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
             }
             else
             {
-                BoundedChannelOptions options = new BoundedChannelOptions(_tokens.Length)
-                {
-                    FullMode = BoundedChannelFullMode.DropWrite
-                };
-
-                AvailableTokens.Add(string.Empty, Channel.CreateBounded<TTokenBase>(options));
+                {{#lambda.indent1}}{{#lambda.pasteLine}}{{/lambda.pasteLine}}{{/lambda.indent1}}
             }
+            {{/hasApiKeyMethods}}
+            {{^hasApiKeyMethods}}
+            {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+            {{/hasApiKeyMethods}}
 
             foreach(Channel<TTokenBase> tokens in AvailableTokens.Values)
                 for (int i = 0; i < _tokens.Length; i++)
@@ -66,7 +74,7 @@ namespace {{packageName}}.{{clientPackage}} {{^netStandard}}
 
         internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default{{^netstandard20OrLater}}(System.Threading.CancellationToken){{/netstandard20OrLater}})
         {
-            if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase>? tokens))
+            if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase>{{nrt?}} tokens))
                 throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
 
             return await tokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);

@@ -3245,10 +3245,9 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    BasicToken basicTokenLocalVar1 = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BasicToken basicTokenLocalVar1 = (BasicToken) await BasicTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(basicTokenLocalVar1);
 
@@ -3770,10 +3769,9 @@ namespace Org.OpenAPITools.Api
                         httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    BearerToken bearerTokenLocalVar1 = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BearerToken bearerTokenLocalVar1 = (BearerToken) await BearerTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(bearerTokenLocalVar1);
 
