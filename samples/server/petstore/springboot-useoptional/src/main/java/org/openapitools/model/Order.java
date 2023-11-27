@@ -25,14 +25,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order {
 
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  private Long petId;
+  private Optional<Long> petId = Optional.empty();
 
-  private Integer quantity;
+  private Optional<Integer> quantity = Optional.empty();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private Optional<OffsetDateTime> shipDate = Optional.empty();
 
   /**
    * Order Status
@@ -71,12 +71,12 @@ public class Order {
     }
   }
 
-  private StatusEnum status;
+  private Optional<StatusEnum> status = Optional.empty();
 
-  private Boolean complete = false;
+  private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -87,16 +87,16 @@ public class Order {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Order petId(Long petId) {
-    this.petId = petId;
+    this.petId = Optional.of(petId);
     return this;
   }
 
@@ -107,16 +107,16 @@ public class Order {
   
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
-  public Long getPetId() {
+  public Optional<Long> getPetId() {
     return petId;
   }
 
-  public void setPetId(Long petId) {
+  public void setPetId(Optional<Long> petId) {
     this.petId = petId;
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = quantity;
+    this.quantity = Optional.of(quantity);
     return this;
   }
 
@@ -127,16 +127,16 @@ public class Order {
   
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
-  public Integer getQuantity() {
+  public Optional<Integer> getQuantity() {
     return quantity;
   }
 
-  public void setQuantity(Integer quantity) {
+  public void setQuantity(Optional<Integer> quantity) {
     this.quantity = quantity;
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
+    this.shipDate = Optional.of(shipDate);
     return this;
   }
 
@@ -147,16 +147,16 @@ public class Order {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
-  public OffsetDateTime getShipDate() {
+  public Optional<OffsetDateTime> getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(Optional<OffsetDateTime> shipDate) {
     this.shipDate = shipDate;
   }
 
   public Order status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -167,16 +167,16 @@ public class Order {
   
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 
   public Order complete(Boolean complete) {
-    this.complete = complete;
+    this.complete = Optional.of(complete);
     return this;
   }
 
@@ -187,11 +187,11 @@ public class Order {
   
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
-  public Boolean getComplete() {
+  public Optional<Boolean> getComplete() {
     return complete;
   }
 
-  public void setComplete(Boolean complete) {
+  public void setComplete(Optional<Boolean> complete) {
     this.complete = complete;
   }
 

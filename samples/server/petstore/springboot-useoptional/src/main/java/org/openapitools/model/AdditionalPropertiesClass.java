@@ -53,11 +53,11 @@ public class AdditionalPropertiesClass {
   @Valid
   private Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
 
-  private Object anytype1;
+  private Optional<Object> anytype1 = Optional.empty();
 
   private JsonNullable<Object> anytype2 = JsonNullable.<Object>undefined();
 
-  private Object anytype3;
+  private Optional<Object> anytype3 = Optional.empty();
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -284,7 +284,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    this.anytype1 = anytype1;
+    this.anytype1 = Optional.of(anytype1);
     return this;
   }
 
@@ -295,11 +295,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_1")
-  public Object getAnytype1() {
+  public Optional<Object> getAnytype1() {
     return anytype1;
   }
 
-  public void setAnytype1(Object anytype1) {
+  public void setAnytype1(Optional<Object> anytype1) {
     this.anytype1 = anytype1;
   }
 
@@ -324,7 +324,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    this.anytype3 = anytype3;
+    this.anytype3 = Optional.of(anytype3);
     return this;
   }
 
@@ -335,11 +335,11 @@ public class AdditionalPropertiesClass {
   
   @ApiModelProperty(value = "")
   @JsonProperty("anytype_3")
-  public Object getAnytype3() {
+  public Optional<Object> getAnytype3() {
     return anytype3;
   }
 
-  public void setAnytype3(Object anytype3) {
+  public void setAnytype3(Optional<Object> anytype3) {
     this.anytype3 = anytype3;
   }
 

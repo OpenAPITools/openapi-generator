@@ -23,6 +23,19 @@ paths:
 
 components:
   schemas:
+    Zebra:
+      required:
+        - name
+        - age
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Marty'
+        age:
+          type: integer
+          example: 15
+          nullable: true
     Animal:
       required: 
         - name
@@ -69,7 +82,6 @@ components:
         stringMaxLength:
             type: string
             maxLength: 1
-
         stringEmail:
             type: string
             format: email
@@ -93,6 +105,9 @@ components:
         numberMax:
             type: number
             maximum: 10
+        zebra:
+          $ref: '#/components/schemas/Zebra'
+
         stringPatternNullable:
           nullable: true
           type: string

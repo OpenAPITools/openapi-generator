@@ -3211,7 +3211,7 @@ public class SpringCodegenTest {
                 .withType( "String" )
                 .toType()
                 .hasProperty("age")
-                .withType( "Integer" )
+                .withType( "JsonNullable<Integer>" )
                 .toType()
                 .hasProperty("alias")
                 .withType( "JsonNullable<String>" )
@@ -3257,6 +3257,9 @@ public class SpringCodegenTest {
                 .toType()
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("zebra")
+                .withType( "Zebra" )
                 .toType()
 
                 .hasProperty("stringPatternNullable")
@@ -3310,26 +3313,6 @@ public class SpringCodegenTest {
                 .doesNotHaveParameters()
                 .toFileAssert()
 
-                .assertMethod("age")
-                .hasReturnType("Animal")
-                .bodyContainsLines("this.age = age;", "return this;")
-                .hasParameter("age")
-                .withType("Integer")
-                .toMethod()
-                .toFileAssert()
-                // Setter method assertions
-                .assertMethod("setAge")
-                .hasReturnType("void")
-                .hasParameter("age")
-                .withType("Integer")
-                .toMethod()
-                .toFileAssert()
-                // Getter method assertions
-                .assertMethod("getAge")
-                .hasReturnType("Integer")
-                .doesNotHaveParameters()
-                .toFileAssert()
-
                 .assertMethod("colors")
                 .hasReturnType("Animal")
                 .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
@@ -3370,6 +3353,7 @@ public class SpringCodegenTest {
                 .doesNotHaveParameters()
                 .toFileAssert();
 
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "age", "JsonNullable<Integer>");
         assertJsonNullableMethod(javaFileAssert, String.class, "alias", "JsonNullable<String>");
         assertMethod(javaFileAssert, String.class, "color");
 
@@ -3384,6 +3368,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
 
         assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
         assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable", "JsonNullable<@Size(min = 1, max = 10) String>");
@@ -3396,6 +3381,7 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, "Zebra", "zebraNullable", "JsonNullable<Zebra>");
 
     }
 
@@ -3436,7 +3422,7 @@ public class SpringCodegenTest {
                 .withType( "String" )
                 .toType()
                 .hasProperty("age")
-                .withType( "Integer" )
+                .withType( "JsonNullable<Integer>" )
                 .toType()
                 .hasProperty("alias")
                 .withType( "JsonNullable<String>" )
@@ -3482,6 +3468,9 @@ public class SpringCodegenTest {
                 .toType()
                 .hasProperty("numberMax")
                 .withType( "Optional<@DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("zebra")
+                .withType( "Optional<Zebra>" )
                 .toType()
 
                 .hasProperty("stringPatternNullable")
@@ -3535,26 +3524,6 @@ public class SpringCodegenTest {
                 .doesNotHaveParameters()
                 .toFileAssert()
 
-                .assertMethod("age")
-                .hasReturnType("Animal")
-                .bodyContainsLines("this.age = age;", "return this;")
-                .hasParameter("age")
-                .withType("Integer")
-                .toMethod()
-                .toFileAssert()
-                // Setter method assertions
-                .assertMethod("setAge")
-                .hasReturnType("void")
-                .hasParameter("age")
-                .withType("Integer")
-                .toMethod()
-                .toFileAssert()
-                // Getter method assertions
-                .assertMethod("getAge")
-                .hasReturnType("Integer")
-                .doesNotHaveParameters()
-                .toFileAssert()
-
                 .assertMethod("colors")
                 .hasReturnType("Animal")
                 .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
@@ -3596,6 +3565,7 @@ public class SpringCodegenTest {
                 .toFileAssert();
 
             assertJsonNullableMethod(javaFileAssert, String.class, "alias", "JsonNullable<String>");
+            assertJsonNullableMethod(javaFileAssert, Integer.class, "age", "JsonNullable<Integer>");
             assertOptionalMethod(javaFileAssert, String.class, "color", "Optional<String>");
 
             assertOptionalMethod(javaFileAssert, String.class, "stringPattern", "Optional<@Pattern(regexp = \"[a-z]\") String>");
@@ -3609,6 +3579,7 @@ public class SpringCodegenTest {
             assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
             assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(\"1\") BigDecimal>");
             assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(\"10\") BigDecimal>");
+            assertOptionalMethod(javaFileAssert,"Zebra", "zebra", "Optional<Zebra>");
 
             assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
             assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable", "JsonNullable<@Size(min = 1, max = 10) String>");
@@ -3708,6 +3679,9 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("zebra")
+                .withType( "Zebra" )
+                .toType()
 
                 .hasProperty("stringPatternNullable")
                 .withType( "String" )
@@ -3834,6 +3808,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
 
         assertMethod(javaFileAssert, String.class, "stringPatternNullable");
         assertMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable");
@@ -3933,6 +3908,9 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("zebra")
+                .withType( "Zebra" )
+                .toType()
 
                 .hasProperty("stringPatternNullable")
                 .withType( "String" )
@@ -4059,6 +4037,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
         assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
 
         assertMethod(javaFileAssert, String.class, "stringPatternNullable");
         assertMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable");
@@ -4077,27 +4056,35 @@ public class SpringCodegenTest {
 
 
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
+        assertOptionalMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
+    }
+
+    private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
         assertWrapperMethod(javaFileAssert, "Optional", type, expectedName, getterReturnType);
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
+        assertJsonNullableMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
+    }
+
+    private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
         assertWrapperMethod(javaFileAssert, "JsonNullable", type, expectedName, getterReturnType);
     }
 
-    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, Class<?> type, String expectedName, String getterReturnType){
+    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
                 .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
-                .withType(type.getSimpleName())
+                .withType(type)
                 .toMethod()
                 .toFileAssert()
                 // Setter method assertions
                 .assertMethod("set"+methodName)
                 .hasReturnType("void")
                 .hasParameter(expectedName)
-                .withType(wrapperType+"<"+type.getSimpleName()+">")
+                .withType(wrapperType+"<"+type+">")
                 .toMethod()
                 .toFileAssert()
                 // Getter method assertions
@@ -4107,27 +4094,31 @@ public class SpringCodegenTest {
                 .toFileAssert();
     }
 
-    private void assertMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName){
+    private void assertMethod(JavaFileAssert javaFileAssert, String type, String expectedName){
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
                 .bodyContainsLines("this."+expectedName+" = "+ expectedName + ";", "return this;")
                 .hasParameter(expectedName)
-                .withType(type.getSimpleName())
+                .withType(type)
                 .toMethod()
                 .toFileAssert()
                 // Setter method assertions
                 .assertMethod("set"+methodName)
                 .hasReturnType("void")
                 .hasParameter(expectedName)
-                .withType(type.getSimpleName())
+                .withType(type)
                 .toMethod()
                 .toFileAssert()
                 // Getter method assertions
                 .assertMethod("get"+methodName)
-                .hasReturnType(type.getSimpleName())
+                .hasReturnType(type)
                 .doesNotHaveParameters()
                 .toFileAssert();
+    }
+
+    private void assertMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName){
+        assertMethod(javaFileAssert,type.getSimpleName(), expectedName);
     }
 
 
