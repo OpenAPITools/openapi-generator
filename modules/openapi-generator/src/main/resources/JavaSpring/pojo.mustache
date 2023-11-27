@@ -65,7 +65,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{^required}}{{#isNullable}}{{>nullableDataType}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{/required}}{{^required}}{{^isNullable}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/required}}
   {{/openApiNullable}}
   {{^openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
@@ -79,7 +79,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{^required}}{{#isNullable}}{{>nullableDataType}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{/required}}{{^required}}{{^isNullable}}{{>nullableDataType}} {{name}} = Optional.{{^defaultValue}}empty(){{/defaultValue}}{{#defaultValue}}of({{{.}}}){{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/required}}
   {{/openApiNullable}}
   {{^openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
@@ -103,7 +103,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{#vars}}
     {{#required}}
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    this.{{name}} = {{^required}}{{#isNullable}}JsonNullable.of({{/isNullable}}{{/required}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{^required}}{{#isNullable}}){{/isNullable}}{{/required}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
@@ -118,7 +118,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{! begin feature: fluent setter methods }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    this.{{name}} = {{^required}}{{#isNullable}}JsonNullable.of({{/isNullable}}{{/required}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{^required}}{{#isNullable}}){{/isNullable}}{{/required}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
@@ -130,9 +130,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     {{#openApiNullable}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
-      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{#isNullable}}){{/isNullable}};
+      this.{{name}} = {{^required}}{{#isNullable}}JsonNullable.of({{/isNullable}}{{/required}}{{{defaultValue}}}{{^defaultValue}}new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>(){{/defaultValue}}{{^required}}{{#isNullable}}){{/isNullable}}{{/required}};
     }
-    this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
+    this.{{name}}{{^required}}{{#isNullable}}.get(){{/isNullable}}{{/required}}.add({{name}}Item);
     {{/openApiNullable}}
     {{^openApiNullable}}
     if (this.{{name}} == null) {
