@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Channels;
 
-namespace UseSourceGeneration.Client 
+namespace UseSourceGeneration.Client
 {
     /// <summary>
     /// Provides a token to the api clients. Tokens will be rate limited based on the provided TimeSpan.

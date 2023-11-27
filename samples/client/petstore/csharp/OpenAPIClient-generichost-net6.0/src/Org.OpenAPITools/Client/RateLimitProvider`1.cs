@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Channels;
 
-namespace Org.OpenAPITools.Client 
+namespace Org.OpenAPITools.Client
 {
     /// <summary>
     /// Provides a token to the api clients. Tokens will be rate limited based on the provided TimeSpan.
