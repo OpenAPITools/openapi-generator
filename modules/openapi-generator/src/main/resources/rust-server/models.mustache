@@ -296,6 +296,19 @@ pub struct {{{classname}}} {
             range(min = {{minimum}}),
             {{/maximum}}
         {{/minimum}}
+        {{#maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}, max = {{maxLength}}),
+            {{/minItems}}
+            {{^minItems}}
+            length(max = {{maxItems}}),
+            {{/minItems}}
+        {{/maxItems}}
+        {{^maxItems}}
+            {{#minItems}}
+            length(min = {{minItems}}),
+            {{/minItems}}
+        {{/maxItems}}
         )]
 {{/hasValidation}}
 {{#required}}
