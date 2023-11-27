@@ -59,6 +59,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> enumNameMappings;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
+    private final Set<String> openapiGeneratorIgnoreList;
     private final Map<String, String> reservedWordsMappings;
     private final Map<String, String> serverVariables;
 
@@ -331,6 +332,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets openapi generator ignore list.
+     *
+     * @return the openapi generator ignore list
+     */
+    public Set<String> getOpenAPIGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
+    }
+
+    /**
      * Gets reserved word mappings. Values defined here define how a reserved word should be escaped.
      * <p>
      * If no mapping is present, the mapping is generally automatically applied to a default with prefixed underscore (<code>_name</code>). Note that
@@ -438,6 +448,7 @@ public final class GeneratorSettings implements Serializable {
         enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
+        openapiGeneratorIgnoreList = Collections.unmodifiableSet(builder.openapiGeneratorIgnoreList);
         reservedWordsMappings = Collections.unmodifiableMap(builder.reservedWordsMappings);
         serverVariables = Collections.unmodifiableMap(builder.serverVariables);
         gitHost = builder.gitHost;
@@ -516,6 +527,7 @@ public final class GeneratorSettings implements Serializable {
         enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
+        openapiGeneratorIgnoreList = Collections.unmodifiableSet(new HashSet<>(0));
         reservedWordsMappings = Collections.unmodifiableMap(new HashMap<>(0));
         serverVariables = Collections.unmodifiableMap(new HashMap<>(0));
     }
@@ -593,6 +605,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getLanguageSpecificPrimitives() != null) {
             builder.languageSpecificPrimitives.addAll(copy.getLanguageSpecificPrimitives());
         }
+        if (copy.getOpenAPIGeneratorIgnoreList() != null) {
+            builder.openapiGeneratorIgnoreList.addAll(copy.getOpenAPIGeneratorIgnoreList());
+        }
         if (copy.getReservedWordsMappings() != null) {
             builder.reservedWordsMappings.putAll(copy.getReservedWordsMappings());
         }
@@ -638,6 +653,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> enumNameMappings;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
+        private Set<String> openapiGeneratorIgnoreList;
         private Map<String, String> reservedWordsMappings;
         private Map<String, String> serverVariables;
         private String gitHost;
@@ -663,6 +679,7 @@ public final class GeneratorSettings implements Serializable {
             enumNameMappings = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
+            openapiGeneratorIgnoreList = new HashSet<>();
             reservedWordsMappings = new HashMap<>();
             serverVariables = new HashMap<>();
 
@@ -1138,6 +1155,31 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code openapiGeneratorIgnoreList} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param openapiGeneratorIgnoreList the {@code openapiGeneratorIgnoreList} to set
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPIGeneratorIgnoreList(Set<String> openapiGeneratorIgnoreList) {
+            this.openapiGeneratorIgnoreList = openapiGeneratorIgnoreList;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code openapiGeneratorIgnoreList} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param value The value of entry to set
+         * @return a reference to this Builder
+         */
+        public Builder withOpenAPIGeneratorIgnoreList(String value) {
+            if (this.openapiGeneratorIgnoreList == null) {
+                this.openapiGeneratorIgnoreList = new HashSet<>();
+            }
+            this.openapiGeneratorIgnoreList.add(value);
+            return this;
+        }
+
+        /**
          * Sets the {@code reservedWordsMappings} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param reservedWordsMappings the {@code reservedWordsMappings} to set
@@ -1266,6 +1308,7 @@ public final class GeneratorSettings implements Serializable {
                 ", additionalProperties=" + additionalProperties +
                 ", importMappings=" + importMappings +
                 ", languageSpecificPrimitives=" + languageSpecificPrimitives +
+                ", openapiGeneratorIgnoreList=" + openapiGeneratorIgnoreList +
                 ", reservedWordsMappings=" + reservedWordsMappings +
                 ", gitHost='" + gitHost + '\'' +
                 ", gitUserId='" + gitUserId + '\'' +
@@ -1305,6 +1348,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
                 Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
+                Objects.equals(getOpenAPIGeneratorIgnoreList(), that.getOpenAPIGeneratorIgnoreList()) &&
                 Objects.equals(getReservedWordsMappings(), that.getReservedWordsMappings()) &&
                 Objects.equals(getGitHost(), that.getGitHost()) &&
                 Objects.equals(getGitUserId(), that.getGitUserId()) &&
@@ -1341,6 +1385,7 @@ public final class GeneratorSettings implements Serializable {
                 getEnumNameMappings(),
                 getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
+                getOpenAPIGeneratorIgnoreList(),
                 getReservedWordsMappings(),
                 getGitHost(),
                 getGitUserId(),

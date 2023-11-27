@@ -24,37 +24,37 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public class DependencyInjectionTest
     {
-        private readonly IHost _hostUsingConfigureWithoutAClient = 
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+        private readonly IHost _hostUsingConfigureWithoutAClient =
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
             {
-                
+
             })
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
+            Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
             {
-                
+
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
             .Build();
 
         private readonly IHost _hostUsingAddWithoutAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureServices((host, services) =>
+            Host.CreateDefaultBuilder([]).ConfigureServices((host, services) =>
             {
                 services.AddApi(options =>
                 {
-                    
+
                 });
             })
             .Build();
 
         private readonly IHost _hostUsingAddWithAClient =
-            Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureServices((host, services) =>
+            Host.CreateDefaultBuilder([]).ConfigureServices((host, services) =>
             {
                 services.AddApi(options =>
                 {
-                    
+
                     options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });
             })

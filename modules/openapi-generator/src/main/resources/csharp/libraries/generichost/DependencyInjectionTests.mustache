@@ -17,7 +17,7 @@ namespace {{packageName}}.Test.{{apiPackage}}
     public class DependencyInjectionTest
     {
         private readonly IHost _hostUsingConfigureWithoutAClient =
-            Host.CreateDefaultBuilder([]).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
@@ -36,22 +36,22 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                 {{/httpBasicMethods}}
                 {{#httpSignatureMethods}}
-                HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, [], HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, {{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}new List<string>(){{/net80OrLater}}, HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken{{-index}} = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config{{-index}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken{{-index}});
 
                 {{/httpSignatureMethods}}
-                {{#oAuthMethods}}
+                {{#oauthMethods}}
                 OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken{{-index}});
 
-                {{/oAuthMethods}}
+                {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
             })
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
-            Host.CreateDefaultBuilder([]).Configure{{apiName}}((context, services, options) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).Configure{{apiName}}((context, services, options) =>
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
@@ -70,23 +70,23 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                 {{/httpBasicMethods}}
                 {{#httpSignatureMethods}}
-                HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, [], HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, {{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}new List<string>(){{/net80OrLater}}, HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                 HttpSignatureToken httpSignatureToken{{-index}} = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config{{-index}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(httpSignatureToken{{-index}});
 
                 {{/httpSignatureMethods}}
-                {{#oAuthMethods}}
+                {{#oauthMethods}}
                 OAuthToken oauthToken = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
 
-                {{/oAuthMethods}}
+                {{/oauthMethods}}
                 {{/lambda.trimTrailingWithNewLine}}
                 options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
             })
             .Build();
 
         private readonly IHost _hostUsingAddWithoutAClient =
-            Host.CreateDefaultBuilder([]).ConfigureServices((host, services) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).ConfigureServices((host, services) =>
             {
                 services.Add{{apiName}}(options =>
                 {
@@ -107,23 +107,23 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                     {{/httpBasicMethods}}
                     {{#httpSignatureMethods}}
-                    HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, [], HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, {{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}new List<string>(){{/net80OrLater}}, HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                     HttpSignatureToken httpSignatureToken{{-index}} = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config{{-index}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(httpSignatureToken{{-index}});
 
                     {{/httpSignatureMethods}}
-                    {{#oAuthMethods}}
+                    {{#oauthMethods}}
                     OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken{{-index}});
 
-                    {{/oAuthMethods}}
+                    {{/oauthMethods}}
                     {{/lambda.trimTrailingWithNewLine}}
                 });
             })
             .Build();
 
         private readonly IHost _hostUsingAddWithAClient =
-            Host.CreateDefaultBuilder([]).ConfigureServices((host, services) =>
+            Host.CreateDefaultBuilder({{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}Array.Empty<string>(){{/net80OrLater}}).ConfigureServices((host, services) =>
             {
                 services.Add{{apiName}}(options =>
                 {
@@ -144,16 +144,16 @@ namespace {{packageName}}.Test.{{apiPackage}}
 
                     {{/httpBasicMethods}}
                     {{#httpSignatureMethods}}
-                    HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, [], HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSigningConfiguration config{{-index}} = new{{^net70OrLater}} HttpSigningConfiguration{{/net70OrLater}}("<keyId>", "<keyFilePath>", null, {{#net80OrLater}}[]{{/net80OrLater}}{{^net80OrLater}}new List<string>(){{/net80OrLater}}, HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
                     HttpSignatureToken httpSignatureToken{{-index}} = new{{^net70OrLater}} HttpSignatureToken{{/net70OrLater}}(config{{-index}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(httpSignatureToken{{-index}});
 
                     {{/httpSignatureMethods}}
-                    {{#oAuthMethods}}
+                    {{#oauthMethods}}
                     OAuthToken oauthToken{{-index}} = new{{^net70OrLater}} OAuthToken{{/net70OrLater}}("token", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(oauthToken{{-index}});
 
-                    {{/oAuthMethods}}
+                    {{/oauthMethods}}
                     {{/lambda.trimTrailingWithNewLine}}
                     options.Add{{apiName}}HttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });

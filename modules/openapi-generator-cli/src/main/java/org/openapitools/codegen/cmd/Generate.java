@@ -161,6 +161,13 @@ public class Generate extends OpenApiGeneratorCommand {
     private List<String> languageSpecificPrimitives = new ArrayList<>();
 
     @Option(
+            name = {"--openapi-generator-ignore-list"},
+            title = ".openapi-generaotr-ignore list",
+            description = "specifies entries in the .openapi-generator-ignore file relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml"
+                    + " You can also have multiple occurrences of this option.")
+    private List<String> openapiGeneratorIgnoreList = new ArrayList<>();
+
+    @Option(
             name = {"--import-mappings"},
             title = "import mappings",
             description = "specifies mappings between a given class and the import that should be used for that class in the format of type=import,type=import."
@@ -504,6 +511,7 @@ public class Generate extends OpenApiGeneratorCommand {
         applyTypeMappingsKvpList(typeMappings, configurator);
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+        applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
         applyServerVariablesKvpList(serverVariableOverrides, configurator);
 

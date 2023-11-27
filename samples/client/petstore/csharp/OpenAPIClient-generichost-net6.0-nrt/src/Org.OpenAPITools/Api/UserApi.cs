@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -567,6 +568,11 @@ namespace Org.OpenAPITools.Api
         public TokenProvider<OAuthToken> OauthTokenProvider { get; }
 
         /// <summary>
+        /// The token cookie container
+        /// </summary>
+        public Org.OpenAPITools.Client.CookieContainer CookieContainer { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
@@ -575,7 +581,8 @@ namespace Org.OpenAPITools.Api
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+            TokenProvider<OAuthToken> oauthTokenProvider,
+            Org.OpenAPITools.Client.CookieContainer cookieContainer)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             LoggerFactory = loggerFactory;
@@ -587,6 +594,7 @@ namespace Org.OpenAPITools.Api
             BasicTokenProvider = basicTokenProvider;
             HttpSignatureTokenProvider = httpSignatureTokenProvider;
             OauthTokenProvider = oauthTokenProvider;
+            CookieContainer = cookieContainer;
         }
 
         partial void FormatCreateUser(User user);
@@ -1715,6 +1723,33 @@ namespace Org.OpenAPITools.Api
                         AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
                         Events.ExecuteOnLoginUser(apiResponseLocalVar);
+
+                        if (httpResponseMessageLocalVar.StatusCode == (HttpStatusCode) 200 && httpResponseMessageLocalVar.Headers.TryGetValues("Set-Cookie", out var cookieHeadersLocalVar))
+                        {
+                            foreach(string cookieHeader in cookieHeadersLocalVar)
+                            {
+                                IList<Microsoft.Net.Http.Headers.SetCookieHeaderValue> setCookieHeaderValuesLocalVar = Microsoft.Net.Http.Headers.SetCookieHeaderValue.ParseList(cookieHeadersLocalVar.ToArray());
+
+                                foreach(Microsoft.Net.Http.Headers.SetCookieHeaderValue setCookieHeaderValueLocalVar in setCookieHeaderValuesLocalVar)
+                                {
+                                    Cookie cookieLocalVar = new Cookie(setCookieHeaderValueLocalVar.Name.ToString(), setCookieHeaderValueLocalVar.Value.ToString())
+                                    {
+                                        HttpOnly = setCookieHeaderValueLocalVar.HttpOnly
+                                    };
+
+                                    if (setCookieHeaderValueLocalVar.Expires.HasValue)
+                                        cookieLocalVar.Expires = setCookieHeaderValueLocalVar.Expires.Value.UtcDateTime;
+
+                                    if (setCookieHeaderValueLocalVar.Path.HasValue)
+                                        cookieLocalVar.Path = setCookieHeaderValueLocalVar.Path.Value;
+
+                                    if (setCookieHeaderValueLocalVar.Domain.HasValue)
+                                        cookieLocalVar.Domain = setCookieHeaderValueLocalVar.Domain.Value;
+
+                                    CookieContainer.Value.Add(new Uri($"{uriBuilderLocalVar.Scheme}://{uriBuilderLocalVar.Host}"), cookieLocalVar);
+                                }
+                            }
+                        }
 
                         return apiResponseLocalVar;
                     }

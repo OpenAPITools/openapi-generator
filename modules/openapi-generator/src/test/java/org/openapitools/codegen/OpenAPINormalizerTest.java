@@ -243,6 +243,24 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSetTagsToOperationId() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_TAGS_TO_OPERATIONID", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "list");
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().get(0), "delete");
+    }
+
+    @Test
     public void testAddUnsignedToIntegerWithInvalidMaxValue() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml");
 

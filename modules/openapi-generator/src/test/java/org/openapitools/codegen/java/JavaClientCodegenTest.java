@@ -2722,4 +2722,28 @@ public class JavaClientCodegenTest {
         File apiFile = files.get("AllOfDatetime.java");
         assertEquals(apiFile, null);
     }
+
+    @Test
+    public void testOpenAPIGeneratorIgnoreListOption() throws IOException {
+        File output = Files.createTempDirectory("openapi_generator_ignore_list_test_folder").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allof_primitive.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
+        javaClientCodegen.setOutputDir(output.getAbsolutePath());
+        javaClientCodegen.setAutosetConstants(true);
+        javaClientCodegen.openapiGeneratorIgnoreList().add("README.md");
+        javaClientCodegen.openapiGeneratorIgnoreList().add("pom.xml");
+        clientOptInput.config(javaClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // make sure README.md and pom.xml are not generated
+        assertEquals(files.get("README.md"), null);
+        assertEquals(files.get("pom.xml"), null);
+    }
 }
