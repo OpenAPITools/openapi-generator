@@ -1459,84 +1459,15 @@ public class SpringCodegen extends AbstractJavaCodegen
     }
 
     private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
-        if (!useBeanValidation() || isResponseType(codegenProperty)) {
+        if (!useBeanValidation() || !codegenProperty.isModel || isResponseType(codegenProperty)) {
             return dataType;
         }
 
         if (StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" )) {
             return dataType;
         }
-
-        if (codegenProperty.isModel) {
-            return dataType.replace( "<", "<@Valid " );
-        }
-        String beanValidation = getPrimitiveBeanValidation(codegenProperty);
-        if(beanValidation == null) {
-            return dataType;
-        }
-        return dataType.replace( "<", "<" + beanValidation +" ");
+        return dataType.replace( "<", "<@Valid " );
     }
-
-    /**
-     * This method should be in sync with beanValidationCore.mustache
-     * @param codegenProperty the code property
-     * @return the bean validation semantic for container primitive types
-     */
-    private String getPrimitiveBeanValidation(CodegenProperty codegenProperty) {
-
-        if (StringUtils.isNotEmpty(codegenProperty.pattern) && !codegenProperty.isByteArray) {
-            return "@Pattern(regexp = \""+codegenProperty.pattern+"\")";
-        }
-
-        if (codegenProperty.minLength != null && codegenProperty.maxLength != null) {
-            return "@Size(min = " + codegenProperty.minLength + ", max = " + codegenProperty.maxLength + ")";
-        }
-
-        if (codegenProperty.minLength != null) {
-            return "@Size(min = " + codegenProperty.minLength + ")";
-        }
-
-        if (codegenProperty.maxLength != null) {
-            return "@Size(max = " + codegenProperty.maxLength + ")";
-        }
-
-
-        if (codegenProperty.isEmail) {
-            return "@" + additionalProperties.get(JAVAX_PACKAGE)+".validation.constraints.Email";
-        }
-
-
-       if (codegenProperty.isLong || codegenProperty.isInteger) {
-
-           if (StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)) {
-               return "@Min("+codegenProperty.minimum+") @Max("+codegenProperty.maximum+")";
-           }
-
-           if (StringUtils.isNotEmpty(codegenProperty.minimum)) {
-               return "@Min("+codegenProperty.minimum+")";
-           }
-
-           if (StringUtils.isNotEmpty(codegenProperty.maximum)) {
-               return "@Max("+codegenProperty.maximum+")";
-           }
-       }
-
-        if (StringUtils.isNotEmpty(codegenProperty.minimum) && StringUtils.isNotEmpty(codegenProperty.maximum)) {
-            return "@DecimalMin(value = \""+codegenProperty.minimum+"\", inclusive = false) @DecimalMax(value = \""+codegenProperty.maximum+"\", inclusive = false)";
-        }
-
-        if (StringUtils.isNotEmpty(codegenProperty.minimum)) {
-            return "@DecimalMin( value = \""+codegenProperty.minimum+"\", inclusive = false)";
-        }
-
-        if (StringUtils.isNotEmpty(codegenProperty.maximum)) {
-            return "@DecimalMax( value = \""+codegenProperty.maximum+"\", inclusive = false)";
-        }
-
-        return null;
-    }
-
-
 
     public void setResourceFolder( String resourceFolder ) {
         this.resourceFolder = resourceFolder;
