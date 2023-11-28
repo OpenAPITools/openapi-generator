@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.JavaClientCodegen.REST_TEMPLATE_LOGGING_LEVEL;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -1889,6 +1890,35 @@ public class JavaClientCodegenTest {
                 "ResponseEntity<org.springframework.core.io.Resource> resourceInResponseWithHttpInfo()",
                 "ParameterizedTypeReference<org.springframework.core.io.Resource> localReturnType = new"
                         + " ParameterizedTypeReference<org.springframework.core.io.Resource>()");
+    }
+
+    @Test
+    public void testRestTemplateNotDefaultLoggingLevel() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+        properties.put(JavaClientCodegen.REST_TEMPLATE_LOGGING_LEVEL, "info");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/issue13146_file_abstraction_response.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+    TestUtils.assertFileContains(
+        Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+        "log.info(\"URI: \" + request.getURI());");
     }
 
     public void testExtraAnnotations(String library) throws IOException {

@@ -103,6 +103,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String GENERATE_CLIENT_AS_BEAN = "generateClientAsBean";
 
+    public static final String REST_TEMPLATE_LOGGING_LEVEL = "restTemplateLoggingLevel";
+
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
@@ -138,6 +140,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean webclientBlockingOperations = false;
     protected boolean generateClientAsBean = false;
     protected boolean useEnumCaseInsensitive = false;
+    protected String restTemplateLoggingLevel = "debug";
+    protected Set<String> allowedLoggingLevels;
 
     private static class MpRestClientVersion {
         public final String rootPackage;
@@ -257,6 +261,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         serializationOptions.put(SERIALIZATION_LIBRARY_JSONB, "Use JSON-B as serialization library");
         serializationLibrary.setEnum(serializationOptions);
         cliOptions.add(serializationLibrary);
+        allowedLoggingLevels = new HashSet<>() {{
+            add("debug");
+            add("info");
+            add("trace");
+        }};
 
         // Ensure the OAS 3.x discriminator mappings include any descendent schemas that allOf
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
@@ -447,6 +456,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(WEBCLIENT_BLOCKING_OPERATIONS)) {
             this.webclientBlockingOperations = Boolean.parseBoolean(additionalProperties.get(WEBCLIENT_BLOCKING_OPERATIONS).toString());
         }
+
+        if (additionalProperties.containsKey(REST_TEMPLATE_LOGGING_LEVEL)) {
+            this.setRestTemplateLoggingLevel(additionalProperties.get(REST_TEMPLATE_LOGGING_LEVEL).toString());
+        }
+        additionalProperties.put(REST_TEMPLATE_LOGGING_LEVEL, restTemplateLoggingLevel);
 
         // add URL query deepObject support to native, apache-httpclient by default
         if (!additionalProperties.containsKey(SUPPORT_URL_QUERY)) {
@@ -1258,6 +1272,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.serializationLibrary = SERIALIZATION_LIBRARY_JSONB;
         } else {
             throw new IllegalArgumentException("Unexpected serializationLibrary value: " + serializationLibrary);
+        }
+    }
+
+    public void setRestTemplateLoggingLevel(String restTemplateLoggingLevel) {
+        String loggingLevel = restTemplateLoggingLevel.toLowerCase(Locale.ROOT);
+        if (allowedLoggingLevels.contains(loggingLevel)) {
+            this.restTemplateLoggingLevel = restTemplateLoggingLevel;
+        } else {
+            throw new IllegalArgumentException("Unexpected restTemplateLoggingLevel value: " + loggingLevel);
         }
     }
 

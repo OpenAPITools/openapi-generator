@@ -681,17 +681,17 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         private void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
-            log.info("URI: " + request.getURI());
-            log.info("HTTP Method: " + request.getMethod());
-            log.info("HTTP Headers: " + headersToString(request.getHeaders()));
-            log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
+            log.debug("URI: " + request.getURI());
+            log.debug("HTTP Method: " + request.getMethod());
+            log.debug("HTTP Headers: " + headersToString(request.getHeaders()));
+            log.debug("Request Body: " + new String(body, StandardCharsets.UTF_8));
         }
 
         private void logResponse(ClientHttpResponse response) throws IOException {
-            log.info("HTTP Status Code: " + response.getRawStatusCode());
-            log.info("Status Text: " + response.getStatusText());
-            log.info("HTTP Headers: " + headersToString(response.getHeaders()));
-            log.info("Response Body: " + bodyToString(response.getBody()));
+            log.debug("HTTP Status Code: " + response.getRawStatusCode());
+            log.debug("Status Text: " + response.getStatusText());
+            log.debug("HTTP Headers: " + headersToString(response.getHeaders()));
+            log.debug("Response Body: " + bodyToString(response.getBody()));
         }
 
         private String headersToString(HttpHeaders headers) {
