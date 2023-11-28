@@ -22,7 +22,7 @@ public class UnitTest1
             IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? "Token not found.";
-                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, "session", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
 
                 string bearerTokenValue = context.Configuration["<token>"] ?? "Token not found.";

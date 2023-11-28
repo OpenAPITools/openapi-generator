@@ -27,7 +27,7 @@ namespace UseSourceGeneration
         /// </summary>
         protected TTokenBase[] _tokens;
 
-        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default);
+        internal abstract System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default);
 
         /// <summary>
         /// Instantiates a TokenProvider.
