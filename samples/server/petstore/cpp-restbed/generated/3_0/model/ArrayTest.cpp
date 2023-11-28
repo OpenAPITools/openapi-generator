@@ -20,7 +20,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <regex>
-#include <algorithm>
 #include <boost/lexical_cast.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -70,13 +69,6 @@ ptree ArrayTest::toPropertyTree() const
 		pt.add_child("array_of_string", tmp_node);
 		tmp_node.clear();
 	}
-	// generate tree for Array_with_unique_items
-    tmp_node.clear();
-	if (!m_Array_with_unique_items.empty()) {
-        tmp_node = toPt(m_Array_with_unique_items);
-		pt.add_child("array_with_unique_items", tmp_node);
-		tmp_node.clear();
-	}
 	// generate tree for Array_array_of_integer
     tmp_node.clear();
 	if (!m_Array_array_of_integer.empty()) {
@@ -101,10 +93,6 @@ void ArrayTest::fromPropertyTree(ptree const &pt)
 	if (pt.get_child_optional("array_of_string")) {
         m_Array_of_string = fromPt<std::vector<std::string>>(pt.get_child("array_of_string"));
 	}
-	// push all items of Array_with_unique_items into member
-	if (pt.get_child_optional("array_with_unique_items")) {
-        m_Array_with_unique_items = fromPt<std::set<std::string>>(pt.get_child("array_with_unique_items"));
-	}
 	// push all items of Array_array_of_integer into member
 	if (pt.get_child_optional("array_array_of_integer")) {
         m_Array_array_of_integer = fromPt<std::vector<std::vector<int64_t>>>(pt.get_child("array_array_of_integer"));
@@ -123,25 +111,6 @@ std::vector<std::string> ArrayTest::getArrayOfString() const
 void ArrayTest::setArrayOfString(std::vector<std::string> value)
 {
     m_Array_of_string = value;
-}
-
-
-std::set<std::string> ArrayTest::getArrayWithUniqueItems() const
-{
-    return m_Array_with_unique_items;
-}
-
-void ArrayTest::setArrayWithUniqueItems(std::set<std::string> value)
-{
-    static const std::array<std::string, 3> allowedValues = {
-        "unique_item_1", "unique_item_2", "unique_item_3"
-    };
-
-    for (const auto &v: value) {
-        if (std::find(allowedValues.begin(), allowedValues.end(), v) == allowedValues.end()) {
-            throw std::runtime_error("Value " + boost::lexical_cast<std::string>(v) + " not allowed");
-        }
-    }
 }
 
 

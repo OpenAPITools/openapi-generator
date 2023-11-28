@@ -17,39 +17,14 @@ module Petstore
   class ArrayTest
     attr_accessor :array_of_string
 
-    attr_accessor :array_with_unique_items
-
     attr_accessor :array_array_of_integer
 
     attr_accessor :array_array_of_model
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'array_of_string' => :'array_of_string',
-        :'array_with_unique_items' => :'array_with_unique_items',
         :'array_array_of_integer' => :'array_array_of_integer',
         :'array_array_of_model' => :'array_array_of_model'
       }
@@ -64,7 +39,6 @@ module Petstore
     def self.openapi_types
       {
         :'array_of_string' => :'Array<String>',
-        :'array_with_unique_items' => :'Array<String>',
         :'array_array_of_integer' => :'Array<Array<Integer>>',
         :'array_array_of_model' => :'Array<Array<ReadOnlyFirst>>'
       }
@@ -94,12 +68,6 @@ module Petstore
       if attributes.key?(:'array_of_string')
         if (value = attributes[:'array_of_string']).is_a?(Array)
           self.array_of_string = value
-        end
-      end
-
-      if attributes.key?(:'array_with_unique_items')
-        if (value = attributes[:'array_with_unique_items']).is_a?(Array)
-          self.array_with_unique_items = value
         end
       end
 
@@ -165,7 +133,6 @@ module Petstore
       return true if self.equal?(o)
       self.class == o.class &&
           array_of_string == o.array_of_string &&
-          array_with_unique_items == o.array_with_unique_items &&
           array_array_of_integer == o.array_array_of_integer &&
           array_array_of_model == o.array_array_of_model
     end
@@ -179,7 +146,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [array_of_string, array_with_unique_items, array_array_of_integer, array_array_of_model].hash
+      [array_of_string, array_array_of_integer, array_array_of_model].hash
     end
 
     # Builds the object from hash

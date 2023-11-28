@@ -24,10 +24,8 @@
 #include <string>
 #include <vector>
 #include "ReadOnlyFirst.h"
-#include <set>
 #include <memory>
 #include <vector>
-#include <array>
 #include <boost/property_tree/ptree.hpp>
 #include "helpers.h"
 
@@ -70,12 +68,6 @@ public:
     /// <summary>
     /// 
     /// </summary>
-    std::set<std::string> getArrayWithUniqueItems() const;
-    void setArrayWithUniqueItems(std::set<std::string> value);
-
-    /// <summary>
-    /// 
-    /// </summary>
     std::vector<std::vector<int64_t>> getArrayArrayOfInteger() const;
     void setArrayArrayOfInteger(std::vector<std::vector<int64_t>> value);
 
@@ -87,7 +79,6 @@ public:
 
 protected:
     std::vector<std::string> m_Array_of_string;
-    std::set<std::string> m_Array_with_unique_items;
     std::vector<std::vector<int64_t>> m_Array_array_of_integer;
     std::vector<std::vector<ReadOnlyFirst>> m_Array_array_of_model;
 };

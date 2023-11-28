@@ -14,17 +14,12 @@ part 'array_test.g.dart';
 ///
 /// Properties:
 /// * [arrayOfString] 
-/// * [arrayWithUniqueItems] 
 /// * [arrayArrayOfInteger] 
 /// * [arrayArrayOfModel] 
 @BuiltValue()
 abstract class ArrayTest implements Built<ArrayTest, ArrayTestBuilder> {
   @BuiltValueField(wireName: r'array_of_string')
   BuiltList<String>? get arrayOfString;
-
-  @BuiltValueField(wireName: r'array_with_unique_items')
-  BuiltSet<ArrayTestArrayWithUniqueItemsEnum>? get arrayWithUniqueItems;
-  // enum arrayWithUniqueItemsEnum {  unique_item_1,  unique_item_2,  unique_item_3,  };
 
   @BuiltValueField(wireName: r'array_array_of_integer')
   BuiltList<BuiltList<int>>? get arrayArrayOfInteger;
@@ -60,13 +55,6 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
       yield serializers.serialize(
         object.arrayOfString,
         specifiedType: const FullType(BuiltList, [FullType(String)]),
-      );
-    }
-    if (object.arrayWithUniqueItems != null) {
-      yield r'array_with_unique_items';
-      yield serializers.serialize(
-        object.arrayWithUniqueItems,
-        specifiedType: const FullType(BuiltSet, [FullType(ArrayTestArrayWithUniqueItemsEnum)]),
       );
     }
     if (object.arrayArrayOfInteger != null) {
@@ -113,13 +101,6 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
           ) as BuiltList<String>;
           result.arrayOfString.replace(valueDes);
           break;
-        case r'array_with_unique_items':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(BuiltSet, [FullType(ArrayTestArrayWithUniqueItemsEnum)]),
-          ) as BuiltSet<ArrayTestArrayWithUniqueItemsEnum>;
-          result.arrayWithUniqueItems.replace(valueDes);
-          break;
         case r'array_array_of_integer':
           final valueDes = serializers.deserialize(
             value,
@@ -161,24 +142,5 @@ class _$ArrayTestSerializer implements PrimitiveSerializer<ArrayTest> {
     );
     return result.build();
   }
-}
-
-class ArrayTestArrayWithUniqueItemsEnum extends EnumClass {
-
-  @BuiltValueEnumConst(wireName: r'unique_item_1')
-  static const ArrayTestArrayWithUniqueItemsEnum n1 = _$arrayTestArrayWithUniqueItemsEnum_n1;
-  @BuiltValueEnumConst(wireName: r'unique_item_2')
-  static const ArrayTestArrayWithUniqueItemsEnum n2 = _$arrayTestArrayWithUniqueItemsEnum_n2;
-  @BuiltValueEnumConst(wireName: r'unique_item_3')
-  static const ArrayTestArrayWithUniqueItemsEnum n3 = _$arrayTestArrayWithUniqueItemsEnum_n3;
-  @BuiltValueEnumConst(wireName: r'unknown_default_open_api', fallback: true)
-  static const ArrayTestArrayWithUniqueItemsEnum unknownDefaultOpenApi = _$arrayTestArrayWithUniqueItemsEnum_unknownDefaultOpenApi;
-
-  static Serializer<ArrayTestArrayWithUniqueItemsEnum> get serializer => _$arrayTestArrayWithUniqueItemsEnumSerializer;
-
-  const ArrayTestArrayWithUniqueItemsEnum._(String name): super(name);
-
-  static BuiltSet<ArrayTestArrayWithUniqueItemsEnum> get values => _$arrayTestArrayWithUniqueItemsEnumValues;
-  static ArrayTestArrayWithUniqueItemsEnum valueOf(String name) => _$arrayTestArrayWithUniqueItemsEnumValueOf(name);
 }
 

@@ -1801,15 +1801,6 @@ components:
           maxItems: 3
           minItems: 0
           type: array
-        array_with_unique_items:
-          items:
-            enum:
-            - unique_item_1
-            - unique_item_2
-            - unique_item_3
-            type: string
-          type: array
-          uniqueItems: true
         array_array_of_integer:
           items:
             items:
