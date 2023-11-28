@@ -105,6 +105,10 @@ components:
         numberMax:
             type: number
             maximum: 10
+        stringDefault:
+          type: string
+          maxLength: 1
+          default: "ABC"
         zebra:
           $ref: '#/components/schemas/Zebra'
 
@@ -155,3 +159,8 @@ components:
           nullable: true
           type: number
           maximum: 10
+        stringDefaultNullable:
+          type: string
+          nullable: true
+          maxLength: 1
+          default: "ABC"

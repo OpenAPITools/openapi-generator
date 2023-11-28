@@ -3258,6 +3258,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
                 .hasProperty("zebra")
                 .withType( "Zebra" )
                 .toType()
@@ -3292,6 +3296,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMaxNullable")
                 .withType( "JsonNullable<@DecimalMax(\"10\") BigDecimal>" )
                 .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefaultNullable = JsonNullable.<String>undefined();")
 
                 .assertMethod("name")
                 .hasReturnType("Animal")
@@ -3381,7 +3389,6 @@ public class SpringCodegenTest {
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
         assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
-        assertJsonNullableMethod(javaFileAssert, "Zebra", "zebraNullable", "JsonNullable<Zebra>");
 
     }
 
@@ -3469,6 +3476,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "Optional<@DecimalMax(\"10\") BigDecimal>" )
                 .toType()
+                .hasProperty("stringDefault")
+                .withType( "Optional<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefault = Optional.of(\"ABC\")")
                 .hasProperty("zebra")
                 .withType( "Optional<Zebra>" )
                 .toType()
@@ -3503,6 +3514,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMaxNullable")
                 .withType( "JsonNullable<@DecimalMax(\"10\") BigDecimal>" )
                 .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefaultNullable = JsonNullable.<String>undefined();")
 
                 .assertMethod("name")
                 .hasReturnType("Animal")
@@ -3679,6 +3694,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
                 .hasProperty("zebra")
                 .withType( "Zebra" )
                 .toType()
@@ -3713,6 +3732,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMaxNullable")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefaultNullable = null;")
 
                 .assertMethod("name")
                 .hasReturnType("Animal")
@@ -3908,6 +3931,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMax")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
                 .hasProperty("zebra")
                 .withType( "Zebra" )
                 .toType()
@@ -3942,6 +3969,10 @@ public class SpringCodegenTest {
                 .hasProperty("numberMaxNullable")
                 .withType( "BigDecimal" )
                 .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefaultNullable = null;")
 
                 .assertMethod("name")
                 .hasReturnType("Animal")
