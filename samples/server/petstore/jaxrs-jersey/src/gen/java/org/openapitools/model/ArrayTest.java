@@ -16,11 +16,15 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
@@ -31,6 +35,7 @@ import javax.validation.Valid;
  */
 @JsonPropertyOrder({
   ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
+  ArrayTest.JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
@@ -39,6 +44,43 @@ public class ArrayTest   {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   private List<String> arrayOfString;
+
+  /**
+   * Gets or Sets arrayWithUniqueItems
+   */
+  public enum ArrayWithUniqueItemsEnum {
+    _1("unique_item_1"),
+    
+    _2("unique_item_2"),
+    
+    _3("unique_item_3");
+
+    private String value;
+
+    ArrayWithUniqueItemsEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ArrayWithUniqueItemsEnum fromValue(String value) {
+      for (ArrayWithUniqueItemsEnum b : ArrayWithUniqueItemsEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS = "array_with_unique_items";
+  @JsonProperty(JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS)
+  private Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
@@ -74,6 +116,35 @@ public class ArrayTest   {
 
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
+  }
+
+  public ArrayTest arrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
+    return this;
+  }
+
+  public ArrayTest addArrayWithUniqueItemsItem(ArrayWithUniqueItemsEnum arrayWithUniqueItemsItem) {
+    if (this.arrayWithUniqueItems == null) {
+      this.arrayWithUniqueItems = new LinkedHashSet<>();
+    }
+    this.arrayWithUniqueItems.add(arrayWithUniqueItemsItem);
+    return this;
+  }
+
+  /**
+   * Get arrayWithUniqueItems
+   * @return arrayWithUniqueItems
+   **/
+  @JsonProperty(value = "array_with_unique_items")
+  @ApiModelProperty(value = "")
+  
+  public Set<ArrayWithUniqueItemsEnum> getArrayWithUniqueItems() {
+    return arrayWithUniqueItems;
+  }
+
+  @JsonDeserialize(as = LinkedHashSet.class)
+  public void setArrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
   }
 
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
@@ -143,13 +214,14 @@ public class ArrayTest   {
     }
     ArrayTest arrayTest = (ArrayTest) o;
     return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(arrayWithUniqueItems, arrayTest.arrayWithUniqueItems) &&
         Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
         Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    return Objects.hash(arrayOfString, arrayWithUniqueItems, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
   @Override
@@ -158,6 +230,7 @@ public class ArrayTest   {
     sb.append("class ArrayTest {\n");
     
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+    sb.append("    arrayWithUniqueItems: ").append(toIndentedString(arrayWithUniqueItems)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
     sb.append("}");

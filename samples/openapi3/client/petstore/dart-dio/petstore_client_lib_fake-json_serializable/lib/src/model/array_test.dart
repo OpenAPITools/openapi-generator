@@ -21,6 +21,8 @@ class ArrayTest {
 
      this.arrayOfString,
 
+     this.arrayWithUniqueItems,
+
      this.arrayArrayOfInteger,
 
      this.arrayArrayOfModel,
@@ -35,6 +37,18 @@ class ArrayTest {
 
 
   final List<String>? arrayOfString;
+
+
+
+  @JsonKey(
+    
+    name: r'array_with_unique_items',
+    required: false,
+    includeIfNull: false
+  )
+
+
+  final Set<ArrayTestArrayWithUniqueItemsEnum>? arrayWithUniqueItems;
 
 
 
@@ -65,12 +79,14 @@ class ArrayTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
      other.arrayOfString == arrayOfString &&
+     other.arrayWithUniqueItems == arrayWithUniqueItems &&
      other.arrayArrayOfInteger == arrayArrayOfInteger &&
      other.arrayArrayOfModel == arrayArrayOfModel;
 
   @override
   int get hashCode =>
     arrayOfString.hashCode +
+    arrayWithUniqueItems.hashCode +
     arrayArrayOfInteger.hashCode +
     arrayArrayOfModel.hashCode;
 
@@ -84,4 +100,17 @@ class ArrayTest {
   }
 
 }
+
+
+enum ArrayTestArrayWithUniqueItemsEnum {
+  @JsonValue(r'unique_item_1')
+  n1,
+  @JsonValue(r'unique_item_2')
+  n2,
+  @JsonValue(r'unique_item_3')
+  n3,
+  @JsonValue(r'unknown_default_open_api')
+  unknownDefaultOpenApi,
+}
+
 

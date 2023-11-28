@@ -9,12 +9,14 @@ defmodule OpenapiPetstore.Model.ArrayTest do
   @derive Jason.Encoder
   defstruct [
     :array_of_string,
+    :array_with_unique_items,
     :array_array_of_integer,
     :array_array_of_model
   ]
 
   @type t :: %__MODULE__{
     :array_of_string => [String.t] | nil,
+    :array_with_unique_items => [String.t] | nil,
     :array_array_of_integer => [[integer()]] | nil,
     :array_array_of_model => [[OpenapiPetstore.Model.ReadOnlyFirst.t]] | nil
   }

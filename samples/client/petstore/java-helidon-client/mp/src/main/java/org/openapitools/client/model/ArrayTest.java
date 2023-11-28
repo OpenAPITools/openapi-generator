@@ -17,9 +17,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.ReadOnlyFirst;
 
 
@@ -28,6 +31,29 @@ import org.openapitools.client.model.ReadOnlyFirst;
 public class ArrayTest  {
   
   private List<String> arrayOfString = null;
+
+public enum ArrayWithUniqueItemsEnum {
+
+    _1(String.valueOf("unique_item_1")), _2(String.valueOf("unique_item_2")), _3(String.valueOf("unique_item_3"));
+
+    String value;
+
+    ArrayWithUniqueItemsEnum (String v) {
+        value = v;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+}
+
+  private Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems = null;
 
   private List<List<Long>> arrayArrayOfInteger = null;
 
@@ -55,6 +81,32 @@ public class ArrayTest  {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     this.arrayOfString.add(arrayOfStringItem);
+    return this;
+  }
+
+ /**
+   * Get arrayWithUniqueItems
+   * @return arrayWithUniqueItems
+  **/
+  public Set<ArrayWithUniqueItemsEnum> getArrayWithUniqueItems() {
+    return arrayWithUniqueItems;
+  }
+
+  /**
+    * Set arrayWithUniqueItems
+  **/
+    @JsonDeserialize(as = LinkedHashSet.class)
+  public void setArrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
+  }
+
+  public ArrayTest arrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
+    return this;
+  }
+
+  public ArrayTest addArrayWithUniqueItemsItem(ArrayWithUniqueItemsEnum arrayWithUniqueItemsItem) {
+    this.arrayWithUniqueItems.add(arrayWithUniqueItemsItem);
     return this;
   }
 
@@ -118,6 +170,7 @@ public class ArrayTest  {
     sb.append("class ArrayTest {\n");
     
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+    sb.append("    arrayWithUniqueItems: ").append(toIndentedString(arrayWithUniqueItems)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
     sb.append("}");

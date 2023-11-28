@@ -74,6 +74,7 @@ CREATE TABLE IF NOT EXISTS `ArrayOfNumberOnly` (
 
 CREATE TABLE IF NOT EXISTS `ArrayTest` (
   `array_of_string` JSON DEFAULT NULL,
+  `array_with_unique_items` JSON DEFAULT NULL,
   `array_array_of_integer` JSON DEFAULT NULL,
   `array_array_of_model` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

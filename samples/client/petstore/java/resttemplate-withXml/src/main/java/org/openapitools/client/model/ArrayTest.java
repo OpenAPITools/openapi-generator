@@ -20,9 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -36,6 +39,7 @@ import io.github.threetenjaxb.core.*;
  */
 @JsonPropertyOrder({
   ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
+  ArrayTest.JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
@@ -50,6 +54,55 @@ public class ArrayTest {
   // items.example= items.type=String
   @XmlElement(name = "arrayOfString")
   private List<String> arrayOfString;
+
+  /**
+   * Gets or Sets arrayWithUniqueItems
+   */
+  @XmlType(name="ArrayWithUniqueItemsEnum")
+  @XmlEnum(String.class)
+  public enum ArrayWithUniqueItemsEnum {
+    @XmlEnumValue("unique_item_1")
+    _1("unique_item_1"),
+    
+    @XmlEnumValue("unique_item_2")
+    _2("unique_item_2"),
+    
+    @XmlEnumValue("unique_item_3")
+    _3("unique_item_3");
+
+    private String value;
+
+    ArrayWithUniqueItemsEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ArrayWithUniqueItemsEnum fromValue(String value) {
+      for (ArrayWithUniqueItemsEnum b : ArrayWithUniqueItemsEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS = "array_with_unique_items";
+  // Is a container wrapped=false
+  // items.name=arrayWithUniqueItems items.baseName=arrayWithUniqueItems items.xmlName= items.xmlNamespace=
+  // items.example= items.type=String
+  @XmlElement(name = "arrayWithUniqueItems")
+  private Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   // Is a container wrapped=false
@@ -103,6 +156,45 @@ public class ArrayTest {
   @JacksonXmlElementWrapper(useWrapping = false)
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
+  }
+
+
+  public ArrayTest arrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
+    return this;
+  }
+
+  public ArrayTest addArrayWithUniqueItemsItem(ArrayWithUniqueItemsEnum arrayWithUniqueItemsItem) {
+    if (this.arrayWithUniqueItems == null) {
+      this.arrayWithUniqueItems = new LinkedHashSet<>();
+    }
+    this.arrayWithUniqueItems.add(arrayWithUniqueItemsItem);
+    return this;
+  }
+
+   /**
+   * Get arrayWithUniqueItems
+   * @return arrayWithUniqueItems
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_with_unique_items")
+  @JacksonXmlElementWrapper(useWrapping = false)
+
+  public Set<ArrayWithUniqueItemsEnum> getArrayWithUniqueItems() {
+    return arrayWithUniqueItems;
+  }
+
+
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "array_with_unique_items")
+  @JacksonXmlElementWrapper(useWrapping = false)
+  public void setArrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
   }
 
 
@@ -191,13 +283,14 @@ public class ArrayTest {
     }
     ArrayTest arrayTest = (ArrayTest) o;
     return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayWithUniqueItems, arrayTest.arrayWithUniqueItems) &&
         Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
         Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    return Objects.hash(arrayOfString, arrayWithUniqueItems, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
   @Override
@@ -205,6 +298,7 @@ public class ArrayTest {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayTest {\n");
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+    sb.append("    arrayWithUniqueItems: ").append(toIndentedString(arrayWithUniqueItems)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
     sb.append("}");

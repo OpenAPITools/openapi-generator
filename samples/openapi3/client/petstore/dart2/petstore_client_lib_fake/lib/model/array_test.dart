@@ -14,11 +14,14 @@ class ArrayTest {
   /// Returns a new [ArrayTest] instance.
   ArrayTest({
     this.arrayOfString = const [],
+    this.arrayWithUniqueItems = const {},
     this.arrayArrayOfInteger = const [],
     this.arrayArrayOfModel = const [],
   });
 
   List<String> arrayOfString;
+
+  Set<ArrayTestArrayWithUniqueItemsEnum> arrayWithUniqueItems;
 
   List<List<int>> arrayArrayOfInteger;
 
@@ -27,6 +30,7 @@ class ArrayTest {
   @override
   bool operator ==(Object other) => identical(this, other) || other is ArrayTest &&
     _deepEquality.equals(other.arrayOfString, arrayOfString) &&
+    _deepEquality.equals(other.arrayWithUniqueItems, arrayWithUniqueItems) &&
     _deepEquality.equals(other.arrayArrayOfInteger, arrayArrayOfInteger) &&
     _deepEquality.equals(other.arrayArrayOfModel, arrayArrayOfModel);
 
@@ -34,15 +38,17 @@ class ArrayTest {
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (arrayOfString.hashCode) +
+    (arrayWithUniqueItems.hashCode) +
     (arrayArrayOfInteger.hashCode) +
     (arrayArrayOfModel.hashCode);
 
   @override
-  String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
+  String toString() => 'ArrayTest[arrayOfString=$arrayOfString, arrayWithUniqueItems=$arrayWithUniqueItems, arrayArrayOfInteger=$arrayArrayOfInteger, arrayArrayOfModel=$arrayArrayOfModel]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
       json[r'array_of_string'] = this.arrayOfString;
+      json[r'array_with_unique_items'] = this.arrayWithUniqueItems.toList(growable: false);
       json[r'array_array_of_integer'] = this.arrayArrayOfInteger;
       json[r'array_array_of_model'] = this.arrayArrayOfModel;
     return json;
@@ -70,6 +76,7 @@ class ArrayTest {
         arrayOfString: json[r'array_of_string'] is Iterable
             ? (json[r'array_of_string'] as Iterable).cast<String>().toList(growable: false)
             : const [],
+        arrayWithUniqueItems: ArrayTestArrayWithUniqueItemsEnum.listFromJson(json[r'array_with_unique_items']).toSet(),
         arrayArrayOfInteger: json[r'array_array_of_integer'] is List
           ? (json[r'array_array_of_integer'] as List).map((e) =>
               e == null ? const  <int>[] : (e as List).cast<int>()
@@ -129,4 +136,81 @@ class ArrayTest {
   static const requiredKeys = <String>{
   };
 }
+
+
+class ArrayTestArrayWithUniqueItemsEnum {
+  /// Instantiate a new enum with the provided [value].
+  const ArrayTestArrayWithUniqueItemsEnum._(this.value);
+
+  /// The underlying value of this enum member.
+  final String value;
+
+  @override
+  String toString() => value;
+
+  String toJson() => value;
+
+  static const n1 = ArrayTestArrayWithUniqueItemsEnum._(r'unique_item_1');
+  static const n2 = ArrayTestArrayWithUniqueItemsEnum._(r'unique_item_2');
+  static const n3 = ArrayTestArrayWithUniqueItemsEnum._(r'unique_item_3');
+
+  /// List of all possible values in this [enum][ArrayTestArrayWithUniqueItemsEnum].
+  static const values = <ArrayTestArrayWithUniqueItemsEnum>[
+    n1,
+    n2,
+    n3,
+  ];
+
+  static ArrayTestArrayWithUniqueItemsEnum? fromJson(dynamic value) => ArrayTestArrayWithUniqueItemsEnumTypeTransformer().decode(value);
+
+  static List<ArrayTestArrayWithUniqueItemsEnum> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <ArrayTestArrayWithUniqueItemsEnum>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = ArrayTestArrayWithUniqueItemsEnum.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+}
+
+/// Transformation class that can [encode] an instance of [ArrayTestArrayWithUniqueItemsEnum] to String,
+/// and [decode] dynamic data back to [ArrayTestArrayWithUniqueItemsEnum].
+class ArrayTestArrayWithUniqueItemsEnumTypeTransformer {
+  factory ArrayTestArrayWithUniqueItemsEnumTypeTransformer() => _instance ??= const ArrayTestArrayWithUniqueItemsEnumTypeTransformer._();
+
+  const ArrayTestArrayWithUniqueItemsEnumTypeTransformer._();
+
+  String encode(ArrayTestArrayWithUniqueItemsEnum data) => data.value;
+
+  /// Decodes a [dynamic value][data] to a ArrayTestArrayWithUniqueItemsEnum.
+  ///
+  /// If [allowNull] is true and the [dynamic value][data] cannot be decoded successfully,
+  /// then null is returned. However, if [allowNull] is false and the [dynamic value][data]
+  /// cannot be decoded successfully, then an [UnimplementedError] is thrown.
+  ///
+  /// The [allowNull] is very handy when an API changes and a new enum value is added or removed,
+  /// and users are still using an old app with the old code.
+  ArrayTestArrayWithUniqueItemsEnum? decode(dynamic data, {bool allowNull = true}) {
+    if (data != null) {
+      switch (data) {
+        case r'unique_item_1': return ArrayTestArrayWithUniqueItemsEnum.n1;
+        case r'unique_item_2': return ArrayTestArrayWithUniqueItemsEnum.n2;
+        case r'unique_item_3': return ArrayTestArrayWithUniqueItemsEnum.n3;
+        default:
+          if (!allowNull) {
+            throw ArgumentError('Unknown enum value to decode: $data');
+          }
+      }
+    }
+    return null;
+  }
+
+  /// Singleton [ArrayTestArrayWithUniqueItemsEnumTypeTransformer] instance.
+  static ArrayTestArrayWithUniqueItemsEnumTypeTransformer? _instance;
+}
+
 

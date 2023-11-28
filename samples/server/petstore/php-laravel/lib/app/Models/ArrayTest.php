@@ -12,6 +12,9 @@ class ArrayTest {
     /** @var string[] $arrayOfString */
     public $arrayOfString = [];
 
+    /** @var string[] $arrayWithUniqueItems */
+    public $arrayWithUniqueItems = [];
+
     /** @var int[][] $arrayArrayOfInteger */
     public $arrayArrayOfInteger = [];
 

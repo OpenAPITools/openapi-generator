@@ -20,9 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -35,6 +38,7 @@ import java.util.StringJoiner;
  */
 @JsonPropertyOrder({
   ArrayTest.JSON_PROPERTY_ARRAY_OF_STRING,
+  ArrayTest.JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
@@ -42,6 +46,46 @@ import java.util.StringJoiner;
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString;
+
+  /**
+   * Gets or Sets arrayWithUniqueItems
+   */
+  public enum ArrayWithUniqueItemsEnum {
+    _1("unique_item_1"),
+    
+    _2("unique_item_2"),
+    
+    _3("unique_item_3");
+
+    private String value;
+
+    ArrayWithUniqueItemsEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ArrayWithUniqueItemsEnum fromValue(String value) {
+      for (ArrayWithUniqueItemsEnum b : ArrayWithUniqueItemsEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS = "array_with_unique_items";
+  private Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   private List<List<Long>> arrayArrayOfInteger;
@@ -83,6 +127,41 @@ public class ArrayTest {
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
+  }
+
+
+  public ArrayTest arrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
+    return this;
+  }
+
+  public ArrayTest addArrayWithUniqueItemsItem(ArrayWithUniqueItemsEnum arrayWithUniqueItemsItem) {
+    if (this.arrayWithUniqueItems == null) {
+      this.arrayWithUniqueItems = new LinkedHashSet<>();
+    }
+    this.arrayWithUniqueItems.add(arrayWithUniqueItemsItem);
+    return this;
+  }
+
+   /**
+   * Get arrayWithUniqueItems
+   * @return arrayWithUniqueItems
+  **/
+  @javax.annotation.Nullable
+  @JsonProperty(JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Set<ArrayWithUniqueItemsEnum> getArrayWithUniqueItems() {
+    return arrayWithUniqueItems;
+  }
+
+
+  @JsonDeserialize(as = LinkedHashSet.class)
+  @JsonProperty(JSON_PROPERTY_ARRAY_WITH_UNIQUE_ITEMS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setArrayWithUniqueItems(Set<ArrayWithUniqueItemsEnum> arrayWithUniqueItems) {
+    this.arrayWithUniqueItems = arrayWithUniqueItems;
   }
 
 
@@ -163,13 +242,14 @@ public class ArrayTest {
     }
     ArrayTest arrayTest = (ArrayTest) o;
     return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayWithUniqueItems, arrayTest.arrayWithUniqueItems) &&
         Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
         Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
+    return Objects.hash(arrayOfString, arrayWithUniqueItems, arrayArrayOfInteger, arrayArrayOfModel);
   }
 
   @Override
@@ -177,6 +257,7 @@ public class ArrayTest {
     StringBuilder sb = new StringBuilder();
     sb.append("class ArrayTest {\n");
     sb.append("    arrayOfString: ").append(toIndentedString(arrayOfString)).append("\n");
+    sb.append("    arrayWithUniqueItems: ").append(toIndentedString(arrayWithUniqueItems)).append("\n");
     sb.append("    arrayArrayOfInteger: ").append(toIndentedString(arrayArrayOfInteger)).append("\n");
     sb.append("    arrayArrayOfModel: ").append(toIndentedString(arrayArrayOfModel)).append("\n");
     sb.append("}");
@@ -238,6 +319,22 @@ public class ArrayTest {
           throw new RuntimeException(e);
         }
       }
+    }
+
+    // add `array_with_unique_items` to the URL query string
+    if (getArrayWithUniqueItems() != null) {
+      int i = 0;
+      for (String _item : getArrayWithUniqueItems()) {
+        try {
+          joiner.add(String.format("%sarray_with_unique_items%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(_item), "UTF-8").replaceAll("\\+", "%20")));
+        } catch (UnsupportedEncodingException e) {
+          // Should never happen, UTF-8 is always supported
+          throw new RuntimeException(e);
+        }
+      }
+      i++;
     }
 
     // add `array_array_of_integer` to the URL query string

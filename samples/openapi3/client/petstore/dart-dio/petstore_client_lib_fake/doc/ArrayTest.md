@@ -9,6 +9,7 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **arrayOfString** | **BuiltList&lt;String&gt;** |  | [optional] 
+**arrayWithUniqueItems** | **BuiltSet&lt;String&gt;** |  | [optional] 
 **arrayArrayOfInteger** | [**BuiltList&lt;BuiltList&lt;int&gt;&gt;**](BuiltList.md) |  | [optional] 
 **arrayArrayOfModel** | [**BuiltList&lt;BuiltList&lt;ReadOnlyFirst&gt;&gt;**](BuiltList.md) |  | [optional] 
 

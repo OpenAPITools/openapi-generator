@@ -9,6 +9,7 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **arrayOfString** | **List<String>** |  | [optional] [default to const []]
+**arrayWithUniqueItems** | **Set<String>** |  | [optional] [default to const {}]
 **arrayArrayOfInteger** | [**List<List<int>>**](List.md) |  | [optional] [default to const []]
 **arrayArrayOfModel** | [**List<List<ReadOnlyFirst>>**](List.md) |  | [optional] [default to const []]
 

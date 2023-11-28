@@ -227,6 +227,13 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'array_with_unique_items' => {
+        datatype => 'ARRAY[string]',
+        base_name => 'array_with_unique_items',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'array_array_of_integer' => {
         datatype => 'ARRAY[ARRAY[int]]',
         base_name => 'array_array_of_integer',
@@ -245,12 +252,14 @@ __PACKAGE__->method_documentation({
 
 __PACKAGE__->openapi_types( {
     'array_of_string' => 'ARRAY[string]',
+    'array_with_unique_items' => 'ARRAY[string]',
     'array_array_of_integer' => 'ARRAY[ARRAY[int]]',
     'array_array_of_model' => 'ARRAY[ARRAY[ReadOnlyFirst]]'
 } );
 
 __PACKAGE__->attribute_map( {
     'array_of_string' => 'array_of_string',
+    'array_with_unique_items' => 'array_with_unique_items',
     'array_array_of_integer' => 'array_array_of_integer',
     'array_array_of_model' => 'array_array_of_model'
 } );

@@ -9,6 +9,7 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **array_of_string** | **ARRAY[string]** |  | [optional] 
+**array_with_unique_items** | **ARRAY[string]** |  | [optional] 
 **array_array_of_integer** | **ARRAY[ARRAY[int]]** |  | [optional] 
 **array_array_of_model** | **ARRAY[ARRAY[ReadOnlyFirst]]** |  | [optional] 
 

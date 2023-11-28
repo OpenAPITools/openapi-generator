@@ -34,6 +34,12 @@ export interface ArrayTest {
     arrayOfString?: Array<string>;
     /**
      * 
+     * @type {Set<string>}
+     * @memberof ArrayTest
+     */
+    arrayWithUniqueItems?: Set<ArrayTestArrayWithUniqueItemsEnum>;
+    /**
+     * 
      * @type {Array<Array<number>>}
      * @memberof ArrayTest
      */
@@ -45,6 +51,18 @@ export interface ArrayTest {
      */
     arrayArrayOfModel?: Array<Array<ReadOnlyFirst>>;
 }
+
+
+/**
+ * @export
+ */
+export const ArrayTestArrayWithUniqueItemsEnum = {
+    _1: 'unique_item_1',
+    _2: 'unique_item_2',
+    _3: 'unique_item_3'
+} as const;
+export type ArrayTestArrayWithUniqueItemsEnum = typeof ArrayTestArrayWithUniqueItemsEnum[keyof typeof ArrayTestArrayWithUniqueItemsEnum];
+
 
 /**
  * Check if a given object implements the ArrayTest interface.
@@ -66,6 +84,7 @@ export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean):
     return {
         
         'arrayOfString': !exists(json, 'array_of_string') ? undefined : json['array_of_string'],
+        'arrayWithUniqueItems': !exists(json, 'array_with_unique_items') ? undefined : json['array_with_unique_items'],
         'arrayArrayOfInteger': !exists(json, 'array_array_of_integer') ? undefined : json['array_array_of_integer'],
         'arrayArrayOfModel': !exists(json, 'array_array_of_model') ? undefined : json['array_array_of_model'],
     };
@@ -81,6 +100,7 @@ export function ArrayTestToJSON(value?: ArrayTest | null): any {
     return {
         
         'array_of_string': value.arrayOfString,
+        'array_with_unique_items': value.arrayWithUniqueItems === undefined ? undefined : Array.from(value.arrayWithUniqueItems as Set<any>),
         'array_array_of_integer': value.arrayArrayOfInteger,
         'array_array_of_model': value.arrayArrayOfModel,
     };
