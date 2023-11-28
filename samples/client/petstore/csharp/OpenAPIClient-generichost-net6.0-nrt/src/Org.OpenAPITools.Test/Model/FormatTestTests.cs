@@ -54,15 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Binary'
-        /// </summary>
-        [Fact]
-        public void BinaryTest()
-        {
-            // TODO unit test for the property 'Binary'
-        }
-
-        /// <summary>
         /// Test the property 'VarByte'
         /// </summary>
         [Fact]
@@ -78,6 +69,33 @@ namespace Org.OpenAPITools.Test.Model
         public void DateTest()
         {
             // TODO unit test for the property 'Date'
+        }
+
+        /// <summary>
+        /// Test the property 'Number'
+        /// </summary>
+        [Fact]
+        public void NumberTest()
+        {
+            // TODO unit test for the property 'Number'
+        }
+
+        /// <summary>
+        /// Test the property 'Password'
+        /// </summary>
+        [Fact]
+        public void PasswordTest()
+        {
+            // TODO unit test for the property 'Password'
+        }
+
+        /// <summary>
+        /// Test the property 'Binary'
+        /// </summary>
+        [Fact]
+        public void BinaryTest()
+        {
+            // TODO unit test for the property 'Binary'
         }
 
         /// <summary>
@@ -141,24 +159,6 @@ namespace Org.OpenAPITools.Test.Model
         public void IntegerTest()
         {
             // TODO unit test for the property 'Integer'
-        }
-
-        /// <summary>
-        /// Test the property 'Number'
-        /// </summary>
-        [Fact]
-        public void NumberTest()
-        {
-            // TODO unit test for the property 'Number'
-        }
-
-        /// <summary>
-        /// Test the property 'Password'
-        /// </summary>
-        [Fact]
-        public void PasswordTest()
-        {
-            // TODO unit test for the property 'Password'
         }
 
         /// <summary>

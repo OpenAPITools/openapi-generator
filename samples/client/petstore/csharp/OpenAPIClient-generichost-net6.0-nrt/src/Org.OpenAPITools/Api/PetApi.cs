@@ -1674,6 +1674,7 @@ namespace Org.OpenAPITools.Api
 
                     ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
+
                     apiKeyTokenLocalVar2.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "api_key_query");
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
