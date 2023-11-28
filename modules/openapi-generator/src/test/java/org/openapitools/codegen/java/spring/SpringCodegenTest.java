@@ -3175,7 +3175,7 @@ public class SpringCodegenTest {
 
 
     @Test
-    public void testModelsWithJsonNullable() throws IOException {
+    public void testModelsWithNoneOptionalAndJsonNullable() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -3611,7 +3611,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testModelsWithOptional() throws IOException {
+    public void testModelsWithOptionalAndNoneJsonNullable() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -3859,7 +3859,7 @@ public class SpringCodegenTest {
         SpringCodegen codegen = new SpringCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setOpenApiNullable(false);
-        codegen.setUseOptional(true);
+        codegen.setUseOptional(false);
         codegen.setUseSpringBoot3(true);
 
         ClientOptInput input = new ClientOptInput();
@@ -4083,9 +4083,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable");
 
     }
-
-
-
+    
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
         assertOptionalMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
     }

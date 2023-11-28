@@ -103,7 +103,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{#vars}}
     {{#required}}
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
