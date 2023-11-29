@@ -638,13 +638,23 @@ components:
           type: array
           items:
             type: string
-          minItems: 1
           nullable: true
+        min_item_test:
+          type: array
+          items:
+            type: integer
+          minItems: 1
         max_item_test:
           type: array
           items:
             type: integer
           maxItems: 2
+        min_max_item_test:
+          type: array
+          items:
+            type: integer
+          minItems: 1
+          maxItems: 3
     StringEnum:
       type: string
       enum:

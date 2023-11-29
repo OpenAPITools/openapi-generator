@@ -1541,13 +1541,17 @@ pub struct NullableTest {
     pub nullable_with_no_default: Option<swagger::Nullable<String>>,
 
     #[serde(rename = "nullableArray")]
-    #[validate(
-            length(min = 1),
-        )]
     #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
     #[serde(default = "swagger::nullable_format::default_optional_nullable")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_array: Option<swagger::Nullable<Vec<String>>>,
+
+    #[serde(rename = "min_item_test")]
+    #[validate(
+            length(min = 1),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub min_item_test: Option<Vec<i32>>,
 
     #[serde(rename = "max_item_test")]
     #[validate(
@@ -1555,6 +1559,13 @@ pub struct NullableTest {
         )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub max_item_test: Option<Vec<i32>>,
+
+    #[serde(rename = "min_max_item_test")]
+    #[validate(
+            length(min = 1, max = 3),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub min_max_item_test: Option<Vec<i32>>,
 
 }
 
@@ -1568,7 +1579,9 @@ impl NullableTest {
             nullable_with_present_default: Some(swagger::Nullable::Present("default".to_string())),
             nullable_with_no_default: None,
             nullable_array: None,
+            min_item_test: None,
             max_item_test: None,
+            min_max_item_test: None,
         }
     }
 }
@@ -1616,10 +1629,26 @@ impl std::string::ToString for NullableTest {
             }),
 
 
+            self.min_item_test.as_ref().map(|min_item_test| {
+                [
+                    "min_item_test".to_string(),
+                    min_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+
+
             self.max_item_test.as_ref().map(|max_item_test| {
                 [
                     "max_item_test".to_string(),
                     max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+
+
+            self.min_max_item_test.as_ref().map(|min_max_item_test| {
+                [
+                    "min_max_item_test".to_string(),
+                    min_max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
 
@@ -1645,7 +1674,9 @@ impl std::str::FromStr for NullableTest {
             pub nullable_with_present_default: Vec<String>,
             pub nullable_with_no_default: Vec<String>,
             pub nullable_array: Vec<Vec<String>>,
+            pub min_item_test: Vec<Vec<i32>>,
             pub max_item_test: Vec<Vec<i32>>,
+            pub min_max_item_test: Vec<Vec<i32>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1668,7 +1699,9 @@ impl std::str::FromStr for NullableTest {
                     "nullableWithPresentDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
                     "nullableWithNoDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
                     "nullableArray" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    "min_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
                     "max_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    "min_max_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing NullableTest".to_string())
                 }
             }
@@ -1684,7 +1717,9 @@ impl std::str::FromStr for NullableTest {
             nullable_with_present_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
             nullable_with_no_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
             nullable_array: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            min_item_test: intermediate_rep.min_item_test.into_iter().next(),
             max_item_test: intermediate_rep.max_item_test.into_iter().next(),
+            min_max_item_test: intermediate_rep.min_max_item_test.into_iter().next(),
         })
     }
 }
