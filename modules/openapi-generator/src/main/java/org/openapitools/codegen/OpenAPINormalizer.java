@@ -221,10 +221,14 @@ public class OpenAPINormalizer {
                 }
             }
 
+            // normalize PathItem common parameters
+            normalizeParameters(path.getParameters());
+
             for (Operation operation : operations) {
+
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
-                normalizeParameters(operation);
+                normalizeParameters(operation.getParameters());
                 normalizeResponses(operation);
             }
         }
@@ -294,10 +298,9 @@ public class OpenAPINormalizer {
     /**
      * Normalizes schemas in parameters
      *
-     * @param operation target operation
+     * @param parameters List parameters
      */
-    private void normalizeParameters(Operation operation) {
-        List<Parameter> parameters = operation.getParameters();
+    private void normalizeParameters(List<Parameter> parameters) {
         if (parameters == null) {
             return;
         }
