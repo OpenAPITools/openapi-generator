@@ -652,7 +652,13 @@ components:
         nullableArray:
           items:
             type: string
+          minItems: 1
           nullable: true
+          type: array
+        max_item_test:
+          items:
+            type: integer
+          maxItems: 2
           type: array
       required:
       - nullable
