@@ -2436,6 +2436,47 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testDeprecatedPropertyJersey3() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.JERSEY3)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        // deprecated builder method
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" + " public BigDog declawed(Boolean declawed) {");
+
+        // deprecated getter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @jakarta.annotation.Nullable\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + "\n"
+                        + " public Boolean getDeclawed() {");
+        // deprecated setter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(Boolean declawed) {");
+
+        output.deleteOnExit();
+    }
+
     @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
     public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
         return new Object[][]{{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
