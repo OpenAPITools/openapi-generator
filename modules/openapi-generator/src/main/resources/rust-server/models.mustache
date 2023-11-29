@@ -298,7 +298,7 @@ pub struct {{{classname}}} {
         {{/minimum}}
         {{#maxItems}}
             {{#minItems}}
-            length(min = {{minItems}}, max = {{maxLength}}),
+            length(min = {{minItems}}, max = {{maxItems}}),
             {{/minItems}}
             {{^minItems}}
             length(max = {{maxItems}}),
