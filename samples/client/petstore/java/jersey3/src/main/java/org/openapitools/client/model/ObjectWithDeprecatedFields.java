@@ -45,12 +45,15 @@ public class ObjectWithDeprecatedFields {
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @Deprecated
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @Deprecated
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
+  @Deprecated
   private List<String> bars;
 
   public ObjectWithDeprecatedFields() { 
