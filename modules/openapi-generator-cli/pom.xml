@@ -129,7 +129,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <version>1.3.12</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.janino</groupId>
