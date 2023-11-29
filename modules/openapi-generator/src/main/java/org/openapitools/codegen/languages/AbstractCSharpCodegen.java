@@ -926,7 +926,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
                                     break;
                                 case "420":
-                                    postProcessResponseCode(response, "EnhanceYourCalm", httpStatusesWithReturn);
                                     break;
                                 case "421":
                                     postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
