@@ -925,8 +925,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 case "417":
                                     postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
                                     break;
-                                case "420":
-                                    break;
                                 case "421":
                                     postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
                                     break;
@@ -988,7 +986,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
                                     break;
                                 default:
-                                    throw new RuntimeException("Unhandled case: " + code);
+                                    postProcessResponseCode(response, "Status" + code, httpStatusesWithReturn);
                             }
                         }
                     }
