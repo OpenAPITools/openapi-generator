@@ -21,13 +21,22 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -63,23 +72,9 @@ import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.samskivert.mustache.Mustache;
-
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.tags.Tag;
-
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
-
-
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -1458,24 +1453,24 @@ public class SpringCodegen extends AbstractJavaCodegen
         return codegenParameter.isContainer && !codegenParameter.isMap;
     }
 
-    private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
-        if (!useBeanValidation() || isResponseType(codegenProperty)) {
-            return dataType;
-        }
-
-        if (StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" )) {
-            return dataType;
-        }
-
-        if (codegenProperty.isModel) {
-            return dataType.replace( "<", "<@Valid " );
-        }
-        String beanValidation = getPrimitiveBeanValidation(codegenProperty);
-        if(beanValidation == null) {
-            return dataType;
-        }
-        return dataType.replace( "<", "<" + beanValidation +" ");
+  private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
+    if (!useBeanValidation() || isResponseType(codegenProperty)) {
+      return dataType;
     }
+
+    if (StringUtils.isEmpty(dataType) || dataType.contains("@Valid")) {
+      return dataType;
+    }
+
+    if (codegenProperty.isModel) {
+      return dataType.replace("<", "<@Valid ");
+    }
+    String beanValidation = getPrimitiveBeanValidation(codegenProperty);
+    if (beanValidation == null) {
+      return dataType;
+    }
+    return dataType.replace("<", "<" + beanValidation + " ");
+  }
 
     /**
      * This method should be in sync with beanValidationCore.mustache
