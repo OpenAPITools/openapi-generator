@@ -80,13 +80,22 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{/vendorExtensions.x-field-extra-annotation}}
   {{#vendorExtensions.x-is-jackson-optional-nullable}}
   {{#isContainer}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();
   {{/isContainer}}
   {{^isContainer}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   private JsonNullable<{{{datatypeWithEnum}}}> {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
   {{/isContainer}}
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
   {{^vendorExtensions.x-is-jackson-optional-nullable}}
+  {{#deprecated}}
+  @Deprecated
+  {{/deprecated}}
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
   {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
