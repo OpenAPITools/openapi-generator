@@ -50,7 +50,7 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
+    implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
@@ -83,6 +83,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String OKHTTP_GSON = "okhttp-gson";
     public static final String RESTEASY = "resteasy";
     public static final String RESTTEMPLATE = "resttemplate";
+    public static final String RESTTEMPLATE_WITH_RETRIES = "resttemplate-with-retries";
     public static final String WEBCLIENT = "webclient";
     public static final String REST_ASSURED = "rest-assured";
     public static final String RETROFIT_2 = "retrofit2";
@@ -176,9 +177,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // TODO: Move GlobalFeature.ParameterizedServer to library: jersey after moving featureSet to generatorMetadata
         modifyFeatureSet(features -> features
-                .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
-                .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
+            .includeDocumentationFeatures(DocumentationFeature.Readme)
+            .includeGlobalFeatures(GlobalFeature.ParameterizedServer)
+            .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
                 SecurityFeature.OAuth2_ClientCredentials,
                 SecurityFeature.OAuth2_Password,
                 SecurityFeature.SignatureAuth)//jersey only
@@ -234,6 +235,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
+        supportedLibraries.put(RESTTEMPLATE_WITH_RETRIES, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x. With inbuilt retry logic");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(VERTX, "HTTP client: VertX client 3.x. JSON processing: Jackson 2.9.x");
@@ -362,11 +364,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             String mpRestClientVersion = (String) additionalProperties.get(MICROPROFILE_REST_CLIENT_VERSION);
             if (!mpRestClientVersions.containsKey(mpRestClientVersion)) {
                 throw new IllegalArgumentException(
-                        String.format(Locale.ROOT,
-                                "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
-                                mpRestClientVersion,
-                                String.join(", ", mpRestClientVersions.keySet())
-                        )
+                    String.format(Locale.ROOT,
+                        "Version %s of MicroProfile Rest Client is not supported or incorrect. Supported versions are %s",
+                        mpRestClientVersion,
+                        String.join(", ", mpRestClientVersions.keySet())
+                    )
                 );
             }
         }
@@ -493,11 +495,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
 
         // helper for client library that allow to parse/format java.time.OffsetDateTime or org.threeten.bp.OffsetDateTime
-        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(APACHE))) {
+        if (additionalProperties.containsKey("jsr310") && (isLibrary(WEBCLIENT) || isLibrary(VERTX) || isLibrary(RESTTEMPLATE) || isLibrary(RESTTEMPLATE_WITH_RETRIES) || isLibrary(RESTEASY) || isLibrary(MICROPROFILE) || isLibrary(JERSEY2) || isLibrary(JERSEY3) || isLibrary(APACHE))) {
             supportingFiles.add(new SupportingFile("JavaTimeFormatter.mustache", invokerFolder, "JavaTimeFormatter.java"));
         }
 
-        if (!(RESTTEMPLATE.equals(getLibrary()) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
+        if (!(RESTTEMPLATE.equals(getLibrary()) || RESTTEMPLATE_WITH_RETRIES.equals(getLibrary()) || isLibrary(REST_ASSURED) || isLibrary(NATIVE) || isLibrary(MICROPROFILE))) {
             supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
         }
 
@@ -514,15 +516,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
+            gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.properties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.jar",
-                gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
+            gradleWrapperPackage.replace(".", File.separator), "gradle-wrapper.jar"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         if (performBeanValidation) {
             supportingFiles.add(new SupportingFile("BeanValidationException.mustache", invokerFolder,
-                    "BeanValidationException.java"));
+                "BeanValidationException.java"));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
@@ -541,13 +543,13 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             reservedWords.remove("file");
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RESTTEMPLATE_WITH_RETRIES.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || WEBCLIENT.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("apiException.mustache", invokerFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
             supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         }
 
-        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
+        if (!(FEIGN.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary()) || RESTTEMPLATE_WITH_RETRIES.equals(getLibrary()) || RETROFIT_2.equals(getLibrary()) || GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
@@ -634,7 +636,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
-        } else if (RESTTEMPLATE.equals(getLibrary())) {
+        } else if (RESTTEMPLATE.equals(getLibrary()) || RESTTEMPLATE_WITH_RETRIES.equals(getLibrary())) {
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         } else if (WEBCLIENT.equals(getLibrary())) {
@@ -711,7 +713,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("play26/ApiClient.mustache", invokerFolder, "ApiClient.java"));
             supportingFiles.add(new SupportingFile("play26/Play26CallFactory.mustache", invokerFolder, "Play26CallFactory.java"));
             supportingFiles.add(new SupportingFile("play26/Play26CallAdapterFactory.mustache", invokerFolder,
-                    "Play26CallAdapterFactory.java"));
+                "Play26CallAdapterFactory.java"));
 
             supportingFiles.add(new SupportingFile("play-common/auth/ApiKeyAuth.mustache", authFolder, "ApiKeyAuth.java"));
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
@@ -759,7 +761,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
             // google-api-client doesn't use the OpenAPI auth, because it uses Google Credential directly (HttpRequestInitializer)
             if (!(GOOGLE_API_CLIENT.equals(getLibrary()) || REST_ASSURED.equals(getLibrary()) || usePlayWS
-                    || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
+                || NATIVE.equals(getLibrary()) || MICROPROFILE.equals(getLibrary()))) {
                 supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
                 supportingFiles.add(new SupportingFile("auth/OAuthFlow.mustache", authFolder, "OAuthFlow.java"));
             }
@@ -868,7 +870,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 if (op.produces != null) {
                     for (Map<String, String> produce : op.produces) {
                         if ("text/plain".equalsIgnoreCase(produce.get("mediaType").split(";")[0].trim())
-                                && "String".equals(op.returnType)) {
+                            && "String".equals(op.returnType)) {
                             op.vendorExtensions.put("x-java-text-plain-string", true);
                             continue;
                         }
@@ -1264,8 +1266,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void forceSerializationLibrary(String serializationLibrary) {
         if ((this.serializationLibrary != null) && !this.serializationLibrary.equalsIgnoreCase(serializationLibrary)) {
             LOGGER.warn(
-                    "The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
-                    this.serializationLibrary, getLibrary(), serializationLibrary);
+                "The configured serializationLibrary '{}', is not supported by the library: '{}', switching back to: {}",
+                this.serializationLibrary, getLibrary(), serializationLibrary);
         }
         setSerializationLibrary(serializationLibrary);
     }
