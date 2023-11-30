@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="lengthCm">lengthCm (required).</param>
         /// <param name="sweet">sweet.</param>
-        public BananaReq(decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public BananaReq(decimal lengthCm = default(decimal), bool? sweet = default(bool?))
         {
             this._LengthCm = lengthCm;
             this._Sweet = sweet;
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [DataMember(Name = "sweet", EmitDefaultValue = true)]
-        public bool Sweet
+        public bool? Sweet
         {
             get{ return _Sweet;}
             set
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
                 _flagSweet = true;
             }
         }
-        private bool _Sweet;
+        private bool? _Sweet;
         private bool _flagSweet;
 
         /// <summary>

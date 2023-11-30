@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
         /// <param name="varString">varString.</param>
-        public FooGetDefaultResponse(Foo varString = default(Foo))
+        public FooGetDefaultResponse(Foo? varString = default(Foo?))
         {
             this.VarString = varString;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarString
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo VarString { get; set; }
+        public Foo? VarString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

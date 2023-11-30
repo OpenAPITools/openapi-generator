@@ -63,7 +63,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [DataMember(Name = "snake_case", EmitDefaultValue = false)]
-        public int SnakeCase { get; private set; }
+        public int? SnakeCase { get; private set; }
 
         /// <summary>
         /// Returns false as SnakeCase should not be serialized given that it's read-only.
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123Number
         /// </summary>
         [DataMember(Name = "123Number", EmitDefaultValue = false)]
-        public int Var123Number { get; private set; }
+        public int? Var123Number { get; private set; }
 
         /// <summary>
         /// Returns false as Var123Number should not be serialized given that it's read-only.

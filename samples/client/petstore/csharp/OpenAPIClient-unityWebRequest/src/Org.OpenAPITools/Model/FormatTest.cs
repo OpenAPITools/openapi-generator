@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int? integer = default(int?), int? int32 = default(int?), uint? unsignedInteger = default(uint?), long? int64 = default(long?), ulong? unsignedLong = default(ulong?), decimal number = default(decimal), float? varFloat = default(float?), double? varDouble = default(double?), decimal? varDecimal = default(decimal?), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime? dateTime = default(DateTime?), Guid? uuid = default(Guid?), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -94,31 +94,31 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [DataMember(Name = "integer", EmitDefaultValue = false)]
-        public int Integer { get; set; }
+        public int? Integer { get; set; }
 
         /// <summary>
         /// Gets or Sets Int32
         /// </summary>
         [DataMember(Name = "int32", EmitDefaultValue = false)]
-        public int Int32 { get; set; }
+        public int? Int32 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [DataMember(Name = "unsigned_integer", EmitDefaultValue = false)]
-        public uint UnsignedInteger { get; set; }
+        public uint? UnsignedInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets Int64
         /// </summary>
         [DataMember(Name = "int64", EmitDefaultValue = false)]
-        public long Int64 { get; set; }
+        public long? Int64 { get; set; }
 
         /// <summary>
         /// Gets or Sets UnsignedLong
         /// </summary>
         [DataMember(Name = "unsigned_long", EmitDefaultValue = false)]
-        public ulong UnsignedLong { get; set; }
+        public ulong? UnsignedLong { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -130,19 +130,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarFloat
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float VarFloat { get; set; }
+        public float? VarFloat { get; set; }
 
         /// <summary>
         /// Gets or Sets VarDouble
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double VarDouble { get; set; }
+        public double? VarDouble { get; set; }
 
         /// <summary>
         /// Gets or Sets VarDecimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal VarDecimal { get; set; }
+        public decimal? VarDecimal { get; set; }
 
         /// <summary>
         /// Gets or Sets VarString
@@ -175,14 +175,14 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [DataMember(Name = "dateTime", EmitDefaultValue = false)]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [DataMember(Name = "uuid", EmitDefaultValue = false)]
-        public Guid Uuid { get; set; }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets Password

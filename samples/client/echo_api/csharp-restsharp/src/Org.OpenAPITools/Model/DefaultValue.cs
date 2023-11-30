@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayStringNullable">arrayStringNullable.</param>
         /// <param name="arrayStringExtensionNullable">arrayStringExtensionNullable.</param>
         /// <param name="stringNullable">stringNullable.</param>
-        public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault = default(List<StringEnumRef>), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string> arrayStringDefault = default(List<string>), List<int> arrayIntegerDefault = default(List<int>), List<string> arrayString = default(List<string>), List<string> arrayStringNullable = default(List<string>), List<string> arrayStringExtensionNullable = default(List<string>), string stringNullable = default(string))
+        public DefaultValue(List<StringEnumRef>? arrayStringEnumRefDefault = default(List<StringEnumRef>?), List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault = default(List<ArrayStringEnumDefaultEnum>), List<string>? arrayStringDefault = default(List<string>?), List<int>? arrayIntegerDefault = default(List<int>?), List<string>? arrayString = default(List<string>?), List<string>? arrayStringNullable = default(List<string>?), List<string>? arrayStringExtensionNullable = default(List<string>?), string? stringNullable = default(string?))
         {
             this.ArrayStringEnumRefDefault = arrayStringEnumRefDefault;
             this.ArrayStringEnumDefault = arrayStringEnumDefault;
@@ -84,49 +84,49 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayStringEnumRefDefault
         /// </summary>
         [DataMember(Name = "array_string_enum_ref_default", EmitDefaultValue = false)]
-        public List<StringEnumRef> ArrayStringEnumRefDefault { get; set; }
+        public List<StringEnumRef>? ArrayStringEnumRefDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringEnumDefault
         /// </summary>
         [DataMember(Name = "array_string_enum_default", EmitDefaultValue = false)]
-        public List<DefaultValue.ArrayStringEnumDefaultEnum> ArrayStringEnumDefault { get; set; }
+        public List<DefaultValue.ArrayStringEnumDefaultEnum>? ArrayStringEnumDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringDefault
         /// </summary>
         [DataMember(Name = "array_string_default", EmitDefaultValue = false)]
-        public List<string> ArrayStringDefault { get; set; }
+        public List<string>? ArrayStringDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayIntegerDefault
         /// </summary>
         [DataMember(Name = "array_integer_default", EmitDefaultValue = false)]
-        public List<int> ArrayIntegerDefault { get; set; }
+        public List<int>? ArrayIntegerDefault { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayString
         /// </summary>
         [DataMember(Name = "array_string", EmitDefaultValue = false)]
-        public List<string> ArrayString { get; set; }
+        public List<string>? ArrayString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringNullable
         /// </summary>
         [DataMember(Name = "array_string_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringNullable { get; set; }
+        public List<string>? ArrayStringNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayStringExtensionNullable
         /// </summary>
         [DataMember(Name = "array_string_extension_nullable", EmitDefaultValue = true)]
-        public List<string> ArrayStringExtensionNullable { get; set; }
+        public List<string>? ArrayStringExtensionNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets StringNullable
         /// </summary>
         [DataMember(Name = "string_nullable", EmitDefaultValue = true)]
-        public string StringNullable { get; set; }
+        public string? StringNullable { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

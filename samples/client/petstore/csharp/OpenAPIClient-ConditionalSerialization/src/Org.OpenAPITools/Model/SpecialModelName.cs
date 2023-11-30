@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
         /// <param name="varSpecialModelName">varSpecialModelName.</param>
-        public SpecialModelName(long specialPropertyName = default(long), string varSpecialModelName = default(string))
+        public SpecialModelName(long? specialPropertyName = default(long?), string varSpecialModelName = default(string))
         {
             this._SpecialPropertyName = specialPropertyName;
             if (this.SpecialPropertyName != null)
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
-        public long SpecialPropertyName
+        public long? SpecialPropertyName
         {
             get{ return _SpecialPropertyName;}
             set
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
                 _flagSpecialPropertyName = true;
             }
         }
-        private long _SpecialPropertyName;
+        private long? _SpecialPropertyName;
         private bool _flagSpecialPropertyName;
 
         /// <summary>

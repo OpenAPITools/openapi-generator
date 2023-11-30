@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter" /> class.
         /// </summary>
         /// <param name="values">values.</param>
-        public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string> values = default(List<string>))
+        public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<string>? values = default(List<string>?))
         {
             this.Values = values;
         }
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Values
         /// </summary>
         [DataMember(Name = "values", EmitDefaultValue = false)]
-        public List<string> Values { get; set; }
+        public List<string>? Values { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

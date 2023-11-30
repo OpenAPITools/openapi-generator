@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color.</param>
         /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string size = default(string), string color = default(string), long id = default(long), string name = default(string))
+        public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(string? size = default(string?), string? color = default(string?), long? id = default(long?), string? name = default(string?))
         {
             this.Size = size;
             this.Color = color;
@@ -51,27 +51,27 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Size
         /// </summary>
         [DataMember(Name = "size", EmitDefaultValue = false)]
-        public string Size { get; set; }
+        public string? Size { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         /// <example>1</example>
         [DataMember(Name = "id", EmitDefaultValue = false)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         /// <example>Dogs</example>
         [DataMember(Name = "name", EmitDefaultValue = false)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

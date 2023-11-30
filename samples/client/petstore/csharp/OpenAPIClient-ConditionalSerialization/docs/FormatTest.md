@@ -4,21 +4,21 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Integer** | **int** |  | [optional] 
-**Int32** | **int** |  | [optional] 
-**UnsignedInteger** | **uint** |  | [optional] 
-**Int64** | **long** |  | [optional] 
-**UnsignedLong** | **ulong** |  | [optional] 
+**Integer** | **int?** |  | [optional] 
+**Int32** | **int?** |  | [optional] 
+**UnsignedInteger** | **uint?** |  | [optional] 
+**Int64** | **long?** |  | [optional] 
+**UnsignedLong** | **ulong?** |  | [optional] 
 **Number** | **decimal** |  | 
-**VarFloat** | **float** |  | [optional] 
-**VarDouble** | **double** |  | [optional] 
-**VarDecimal** | **decimal** |  | [optional] 
+**VarFloat** | **float?** |  | [optional] 
+**VarDouble** | **double?** |  | [optional] 
+**VarDecimal** | **decimal?** |  | [optional] 
 **VarString** | **string** |  | [optional] 
 **VarByte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
 **Date** | **DateTime** |  | 
-**DateTime** | **DateTime** |  | [optional] 
-**Uuid** | **Guid** |  | [optional] 
+**DateTime** | **DateTime?** |  | [optional] 
+**Uuid** | **Guid?** |  | [optional] 
 **Password** | **string** |  | 
 **PatternWithDigits** | **string** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **PatternWithDigitsAndDelimiter** | **string** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
