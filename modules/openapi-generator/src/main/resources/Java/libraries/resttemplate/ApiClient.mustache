@@ -721,7 +721,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
+        ResponseEntity<T> responseEntity = makeServiceCallWithRetry(requestEntity, returnType, 3, 10);
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
@@ -873,5 +873,27 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             bufferedReader.close();
             return builder.toString();
         }
+
+        public ResponseEntity<T> makeServiceCallWithRetry(RequestEntity<Object> requestEntity, ParameterizedTypeReference<T> returnType, int maxAttempts, long waitTimeMillis) {
+                int attempts = 0;
+                ResponseEntity<String> response = null;
+
+                while (attempts < maxAttempts) {
+                    try {
+                        response = restTemplate.exchange(requestEntity, returnType);
+                        break;
+                    }
+                    catch (HttpServerErrorException ex) {
+                        if (ex.getStatusCode() != HttpStatus.SERVICE_UNAVAILABLE) {
+                            throw ex;
+                        }
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            try {
+                                Thread.sleep(waitTimeMillis);
+                            } catch (InterruptedException e) {
+                                Thread.currentThread().interrupt();
+                            }
+                        }
     }
 }
