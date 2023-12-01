@@ -51,6 +51,15 @@ paths:
               schema:
                 type: string
                 format: event-stream
+  /path/variant4:
+    post:
+      operationId: nonSSE
+      tags:
+        - sse
+      responses:
+        '200':
+          $ref: '#/components/responses/EventTypeResponse'
+
 components:
   schemas:
     EventType:
@@ -58,5 +67,17 @@ components:
       properties:
         attribute1:
           type: string
+
+  responses:
+    EventTypeResponse:
+      description: acknowledged
+      content:
+        text/event-stream:
+          schema:
+            type: array
+            format: event-stream
+            items:
+              $ref: '#/components/schemas/EventType'
+
 
   
