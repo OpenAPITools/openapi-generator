@@ -56,9 +56,9 @@ public class UserApiController extends Controller {
     @ApiAction
     public Result createUsersWithArrayInput(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
-        List<User> body;
+        List<@Valid User> body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<@Valid User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
@@ -73,9 +73,9 @@ public class UserApiController extends Controller {
     @ApiAction
     public Result createUsersWithListInput(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
-        List<User> body;
+        List<@Valid User> body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<@Valid User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);

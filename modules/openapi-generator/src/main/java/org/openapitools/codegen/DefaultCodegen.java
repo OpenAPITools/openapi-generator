@@ -4889,7 +4889,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenProperty cp = fromProperty("response", responseSchema, false);
+        // the response data types should not contains a bean validation annotation.
+        if (cp.dataType.contains("@")) {
+            cp.dataType = cp.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+        }
         r.dataType = getTypeDeclaration(responseSchema);
+        // the response data types should not contains a bean validation annotation.
+        if (r.dataType.contains("@")) {
+            r.dataType = r.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+        }
         r.returnProperty = cp;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {

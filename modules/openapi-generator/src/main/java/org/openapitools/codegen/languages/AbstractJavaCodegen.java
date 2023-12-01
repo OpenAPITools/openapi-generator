@@ -955,10 +955,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "";
         }
 
-        // adds '@Valid' also to response...
-//        if (items.get$ref() != null) {
-//            return "@Valid ";
-//        }
+        if (items.get$ref() != null) {
+            return "@Valid ";
+        }
 
         if (StringUtils.isNotEmpty(items.getPattern()) && !ModelUtils.isByteArraySchema(items)) {
             return String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", items.getPattern());

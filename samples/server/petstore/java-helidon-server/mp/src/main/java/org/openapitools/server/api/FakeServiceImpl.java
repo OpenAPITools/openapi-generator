@@ -143,7 +143,7 @@ public class FakeServiceImpl implements FakeService {
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    public void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString,@QueryParam("enum_query_string_array") List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString,@QueryParam("enum_query_integer") Integer enumQueryInteger,@QueryParam("enum_query_double") Double enumQueryDouble,@QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
+    public void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray,@HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString,@QueryParam("enum_query_string_array") List<String> enumQueryStringArray,@QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString,@QueryParam("enum_query_integer") Integer enumQueryInteger,@QueryParam("enum_query_double") Double enumQueryDouble,@QueryParam("enum_query_model_array") List<@Valid EnumClass> enumQueryModelArray,@FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray,@FormParam(value = "enum_form_string")  String enumFormString) {
     }
 
     @DELETE

@@ -166,10 +166,10 @@ public class JavaValidationArrayPrimitivesTest {
                 .toType();
     }
 
-    @DataProvider(name = "javaCodegensUsedBeenValidation")
-    public static Object[][] javaCodegensUsedBeenValidation() {
-        return new Object[][]{{
-                new JavaCXFClientCodegen(), assertWithValidationWithoutJsonNullable()},
+    @DataProvider(name = "javaCodegensUsedBeanValidation")
+    public static Object[][] javaCodegensUsedBeanValidation() {
+        return new Object[][]{
+                {new JavaCXFClientCodegen(), assertWithValidationWithoutJsonNullable()},
                 {new JavaClientCodegen(), assertWithValidationWithoutJsonNullable()},
                 {new JavaPlayFrameworkCodegen(), assertWithValidationWithoutJsonNullable()},
                 {new JavaMicronautClientCodegen(), assertWithValidationWithoutJsonNullable()},
@@ -184,7 +184,7 @@ public class JavaValidationArrayPrimitivesTest {
         };
     }
 
-    @Test(dataProvider = "javaCodegensUsedBeenValidation")
+    @Test(dataProvider = "javaCodegensUsedBeanValidation")
     public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue4947(final AbstractJavaCodegen codegen, final Consumer<Map<String, File>> asserts) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -337,10 +337,10 @@ public class JavaValidationArrayPrimitivesTest {
                 .toType();
     }
 
-    @DataProvider(name = "javaCodegensNotUsedBeenValidation")
-    public static Object[][] javaCodegensNotUsedBeenValidation() {
-        return new Object[][]{{
-                new JavaCXFClientCodegen(), assertWithoutValidationWithoutJsonNullable()},
+    @DataProvider(name = "javaCodegensNotUsedBeanValidation")
+    public static Object[][] javaCodegensNotUsedBeanValidation() {
+        return new Object[][]{
+                {new JavaCXFClientCodegen(), assertWithoutValidationWithoutJsonNullable()},
                 {new JavaClientCodegen(), assertWithoutValidationWithoutJsonNullable()},
                 {new JavaPlayFrameworkCodegen(), assertWithoutValidationWithoutJsonNullable()},
                 {new JavaMicronautClientCodegen(), assertWithoutValidationWithoutJsonNullable()},
@@ -355,7 +355,7 @@ public class JavaValidationArrayPrimitivesTest {
         };
     }
 
-    @Test(dataProvider = "javaCodegensNotUsedBeenValidation")
+    @Test(dataProvider = "javaCodegensNotUsedBeanValidation")
     public void shouldNotAddValidAnnotationIntoCollectionWhenBeanValidationIsNotEnabled_issue4947(final AbstractJavaCodegen codegen, final Consumer<Map<String, File>> asserts) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

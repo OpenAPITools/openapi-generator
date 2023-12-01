@@ -19,12 +19,12 @@ public class UserApiControllerImp  {
     }
 
     
-    public void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 
     
-    public void createUsersWithListInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 

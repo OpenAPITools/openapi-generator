@@ -30,7 +30,7 @@ public class Pet  implements Serializable {
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<Tag> tags;
+  private @Valid List<@Valid Tag> tags;
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -177,7 +177,7 @@ public class Pet  implements Serializable {
   }
   /**
    **/
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -190,7 +190,7 @@ public class Pet  implements Serializable {
   }
 
   @JsonProperty("tags")
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

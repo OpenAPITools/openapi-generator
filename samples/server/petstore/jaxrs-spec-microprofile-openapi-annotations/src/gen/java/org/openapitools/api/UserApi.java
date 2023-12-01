@@ -82,7 +82,7 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithArrayInput(@Valid @NotNull List<User> body) {
+    public Response createUsersWithArrayInput(@Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -96,7 +96,7 @@ public class UserApi {
                 
             })
         })
-    public Response createUsersWithListInput(@Valid @NotNull List<User> body) {
+    public Response createUsersWithListInput(@Valid @NotNull List<@Valid User> body) {
         return Response.ok().entity("magic!").build();
     }
 

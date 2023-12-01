@@ -19,12 +19,12 @@ public class UserApiControllerImp extends UserApiControllerImpInterface {
     }
 
     @Override
-    public void createUsersWithArrayInput(Http.Request request, List<User> body)  {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(Http.Request request, List<User> body)  {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body)  {
         //Do your magic!!!
     }
 
