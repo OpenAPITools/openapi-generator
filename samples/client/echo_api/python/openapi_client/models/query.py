@@ -41,9 +41,9 @@ class Query(BaseModel):
         if value is None:
             return value
 
-        for i in value:
-            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
-                raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
+            for i in value:
+            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED',):
+            raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return value
 
     model_config = {
