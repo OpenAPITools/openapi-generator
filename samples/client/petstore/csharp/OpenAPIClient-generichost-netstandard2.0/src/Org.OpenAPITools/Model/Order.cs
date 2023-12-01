@@ -390,10 +390,7 @@ namespace Org.OpenAPITools.Model
                 writer.WriteString("shipDate", order.ShipDateOption.Value.Value.ToString(ShipDateFormat));
 
             var statusRawValue = Order.StatusEnumToJsonValue(order.StatusOption.Value.Value);
-            if (statusRawValue != null)
-                writer.WriteString("status", statusRawValue);
-            else
-                writer.WriteNull("status");
+            writer.WriteString("status", statusRawValue);
         }
     }
 }

@@ -234,6 +234,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.setTypeMapping();
     }
 
+    @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        // we do not want to inherit simply because additionalProperties is true
+        // do nothing here
+    }
 
     @Override
     public void processOpts() {
@@ -439,7 +444,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("copy", copyLambda)
                 .put("paste", new PasteLambda(copyLambda, true, true, true, false))
                 .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false));
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("uniqueLines", new UniqueLambda("\n", false))
+                .put("unique", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -784,6 +791,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 Boolean isValueType = isValueType(response.returnProperty);
                                 response.vendorExtensions.put("x-is-value-type", isValueType);
                                 response.vendorExtensions.put("x-is-reference-type", !isValueType);
+                            }
+
+                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
+                                response.vendorExtensions.put("x-set-cookie", true);
+                                operation.vendorExtensions.put("x-set-cookie", true);
                             }
 
                             String code = response.code.toLowerCase(Locale.ROOT);
@@ -1651,6 +1663,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return adjustNamingStyle("Empty");
         }

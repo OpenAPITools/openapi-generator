@@ -54,6 +54,15 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Anytype1'
+        /// </summary>
+        [Fact]
+        public void Anytype1Test()
+        {
+            // TODO unit test for the property 'Anytype1'
+        }
+
+        /// <summary>
         /// Test the property 'EmptyMap'
         /// </summary>
         [Fact]
@@ -114,15 +123,6 @@ namespace Org.OpenAPITools.Test.Model
         public void MapWithUndeclaredPropertiesStringTest()
         {
             // TODO unit test for the property 'MapWithUndeclaredPropertiesString'
-        }
-
-        /// <summary>
-        /// Test the property 'Anytype1'
-        /// </summary>
-        [Fact]
-        public void Anytype1Test()
-        {
-            // TODO unit test for the property 'Anytype1'
         }
     }
 }

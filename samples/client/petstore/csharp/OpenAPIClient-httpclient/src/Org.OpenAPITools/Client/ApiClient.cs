@@ -107,12 +107,25 @@ namespace Org.OpenAPITools.Client
                 headers.Add(responseHeader.Key + "=" +  ClientUtils.ParameterToString(responseHeader.Value));
             }
 
+            // RFC 2183 & RFC 2616
+            var fileNameRegex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$", RegexOptions.IgnoreCase);
             if (type == typeof(byte[])) // return byte array
             {
                 return await response.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             }
             else if (type == typeof(FileParameter))
             {
+                if (headers != null) {
+                    foreach (var header in headers)
+                    {
+                        var match = fileNameRegex.Match(header.ToString());
+                        if (match.Success)
+                        {
+                            string fileName = ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
+                            return new FileParameter(fileName, await response.Content.ReadAsStreamAsync().ConfigureAwait(false));
+                        }
+                    }
+                }
                 return new FileParameter(await response.Content.ReadAsStreamAsync().ConfigureAwait(false));
             }
 
@@ -125,10 +138,10 @@ namespace Org.OpenAPITools.Client
                     var filePath = string.IsNullOrEmpty(_configuration.TempFolderPath)
                         ? Path.GetTempPath()
                         : _configuration.TempFolderPath;
-                    var regex = new Regex(@"Content-Disposition=.*filename=['""]?([^'""\s]+)['""]?$");
+
                     foreach (var header in headers)
                     {
-                        var match = regex.Match(header.ToString());
+                        var match = fileNameRegex.Match(header.ToString());
                         if (match.Success)
                         {
                             string fileName = filePath + ClientUtils.SanitizeFilename(match.Groups[1].Value.Replace("\"", "").Replace("'", ""));
