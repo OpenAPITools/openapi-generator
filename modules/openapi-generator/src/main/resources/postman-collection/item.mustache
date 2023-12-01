@@ -48,7 +48,8 @@
                                             {{#queryParams}}
                                             {
                                                 "key": "{{paramName}}",
-                                                "value": "{{example}}"
+                                                "value": "{{example}}",
+                                                "disabled": {{#required}}false{{/required}}{{^required}}true{{/required}}
                                             }{{^-last}},{{/-last}}
                                             {{/queryParams}}
                                         ]
