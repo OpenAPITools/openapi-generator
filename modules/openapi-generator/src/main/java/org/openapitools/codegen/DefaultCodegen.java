@@ -6651,6 +6651,7 @@ public class DefaultCodegen implements CodegenConfig {
                 ? findCommonPrefixOfVars(values).length()
                 : 0;
 
+        Set<String> enumNames = new HashSet<>();
         for (Object value : values) {
             Map<String, Object> enumVar = new HashMap<>();
             String enumName = truncateIdx == 0
@@ -6661,8 +6662,14 @@ public class DefaultCodegen implements CodegenConfig {
                 enumName = value.toString();
             }
 
-            final String finalEnumName = toEnumVarName(enumName, dataType);
-
+            String finalEnumName = toEnumVarName(enumName, dataType);
+            int counter = 0;
+            while (enumNames.contains(finalEnumName)) {
+                // Generated enum name already exists.
+                counter++;
+                finalEnumName = toEnumVarName(enumName + '_' + counter, dataType);
+            }
+            enumNames.add(finalEnumName);
             enumVar.put("name", finalEnumName);
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));

@@ -900,6 +900,28 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void postProcessModelsEnumWithDuplicateGeneratedName() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setRemoveEnumValuePrefix(false);
+        ModelsMap objs = codegenModel(Arrays.asList("GMT+12", "GMT-12", "GMT@12"));
+        CodegenModel cm = objs.getModels().get(0).getModel();
+
+        codegen.postProcessModelsEnum(objs);
+
+        List<Map<String, Object>> enumVars = (List<Map<String, Object>>) cm.getAllowableValues().get("enumVars");
+        Assert.assertNotNull(enumVars);
+        Assert.assertNotNull(enumVars.get(0));
+        Assert.assertEquals(enumVars.get(0).getOrDefault("name", ""), "GMT_12");
+        Assert.assertEquals(enumVars.get(0).getOrDefault("value", ""), "\"GMT+12\"");
+        Assert.assertNotNull(enumVars.get(1));
+        Assert.assertEquals(enumVars.get(1).getOrDefault("name", ""), "GMT_12_1");
+        Assert.assertEquals(enumVars.get(1).getOrDefault("value", ""), "\"GMT-12\"");
+        Assert.assertNotNull(enumVars.get(2));
+        Assert.assertEquals(enumVars.get(2).getOrDefault("name", ""), "GMT_12_2");
+        Assert.assertEquals(enumVars.get(2).getOrDefault("value", ""), "\"GMT@12\"");
+    }
+
+    @Test
     public void postProcessModelsEnumWithExtension() {
         final DefaultCodegen codegen = new DefaultCodegen();
         ModelsMap objs = codegenModelWithXEnumVarName();
