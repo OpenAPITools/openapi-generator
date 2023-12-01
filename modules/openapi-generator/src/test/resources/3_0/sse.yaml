@@ -53,7 +53,7 @@ paths:
                 format: event-stream
   /path/variant4:
     post:
-      operationId: nonSSE
+      operationId: sseVariant4
       tags:
         - sse
       responses:
