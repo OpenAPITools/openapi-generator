@@ -27,6 +27,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FilenameUtils;
@@ -1305,6 +1306,14 @@ public class DefaultGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
+                // Replacing reference by corresponding ApiResponse
+                for(String key : operation.getResponses().keySet()) {
+                    ApiResponse apiResponse = operation.getResponses().get(key);
+                    if(apiResponse.get$ref() != null) {
+                        operation.getResponses().put(key, ModelUtils.getReferencedApiResponse(openAPI, apiResponse));
+                    }
+                }
+
                 CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
                 codegenOperation.tags = new ArrayList<>(tags);
                 config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
