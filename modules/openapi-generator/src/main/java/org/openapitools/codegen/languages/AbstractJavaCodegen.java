@@ -975,7 +975,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return "";
     }
 
-    private static String getIntegerBeanValidation(Schema<?> items) {
+    private String getIntegerBeanValidation(Schema<?> items) {
         if (items.getMinimum() != null && items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
         }
@@ -990,7 +990,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return "";
     }
 
-    private static String getNumberBeanValidation(Schema<?> items) {
+    private String getNumberBeanValidation(Schema<?> items) {
         if (items.getMinimum() != null && items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
                     items.getMinimum(),
@@ -1030,6 +1030,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                             .replace("\"", "\\\""));
 
             validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", pattern);
+        }
+
+        if (ModelUtils.isEmailSchema(items)) {
+            return String.join("", "@Email ");
         }
 
         if (ModelUtils.isDecimalSchema(items)) {
