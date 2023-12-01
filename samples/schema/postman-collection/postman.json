@@ -285,7 +285,8 @@
                                         "query": [
                                             {
                                                 "key": "pUserId",
-                                                "value": "888"
+                                                "value": "888",
+                                                "disabled": false
                                             }
                                         ]
                                     },
