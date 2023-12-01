@@ -22,16 +22,6 @@ let primitives = [
                     "any"
                  ];
 
-const supportedMediaTypes: { [mediaType: string]: number } = {
-  "application/json": Infinity,
-  "application/json-patch+json": 1,
-  "application/merge-patch+json": 1,
-  "application/strategic-merge-patch+json": 1,
-  "application/octet-stream": 0,
-  "application/x-www-form-urlencoded": 0
-}
-
-
 let enumsMap: Set<string> = new Set<string>([
     {{#models}}
         {{#model}}
@@ -58,6 +48,45 @@ let typeMap: {[index: string]: any} = {
         {{/model}}
     {{/models}}
 }
+
+type MimeTypeDescriptor = {
+    type: string;
+    subtype: string;
+    subtypeTokens: string[];
+};
+
+const parseMimeType = (mimeType: string): MimeTypeDescriptor => {
+    const [type, subtype] = mimeType.split('/');
+    return {
+        type,
+        subtype,
+        subtypeTokens: subtype.split('+'),
+    };
+};
+
+type MimeTypePredicate = (mimeType: string) => boolean;
+
+const mimeTypePredicateFactory = (predicate: (descriptor: MimeTypeDescriptor) => boolean): MimeTypePredicate => (mimeType) => predicate(parseMimeType(mimeType));
+
+const mimeTypeSimplePredicateFactory = (type: string, subtype?: string): MimeTypePredicate => mimeTypePredicateFactory((descriptor) => {
+    if (descriptor.type !== type) return false;
+    if (subtype != null && descriptor.subtype !== subtype) return false;
+    return true;
+});
+
+const isTextLikeMimeType = mimeTypeSimplePredicateFactory('text');
+const isJsonMimeType = mimeTypeSimplePredicateFactory('application', 'json');
+const isJsonLikeMimeType = mimeTypePredicateFactory((descriptor) => descriptor.type === 'application' && descriptor.subtypeTokens.includes('json'));
+const isOctetStreamMimeType = mimeTypeSimplePredicateFactory('application', 'octet-stream');
+const isFormUrlencodedMimeType = mimeTypeSimplePredicateFactory('application', 'x-www-form-urlencoded');
+
+const supportedMimeTypePredicatesWithPriority: MimeTypePredicate[] = [
+    isJsonMimeType,
+    isJsonLikeMimeType,
+    isTextLikeMimeType,
+    isOctetStreamMimeType,
+    isFormUrlencodedMimeType,
+];
 
 export class ObjectSerializer {
     public static findCorrectType(data: any, expectedType: string) {
@@ -204,14 +233,15 @@ export class ObjectSerializer {
         }
 
         const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
-        let selectedMediaType: string | undefined = undefined;
-        let selectedRank: number = -Infinity;
-        for (const mediaType of normalMediaTypes) {
-            if (supportedMediaTypes[mediaType!] > selectedRank) {
-                selectedMediaType = mediaType;
-                selectedRank = supportedMediaTypes[mediaType!];
-            }
-        }
+
+        const supportedAndOrderedMediaTypes = supportedMimeTypePredicatesWithPriority.reduce<string[]>((result, predicate) => {
+            const filteredMediaTypes = normalMediaTypes.filter((mediaType): mediaType is Exclude<typeof mediaType, undefined> => {
+                return mediaType != null && predicate(mediaType);
+            });
+            return result.concat(filteredMediaTypes);
+        }, []);
+
+        const selectedMediaType: string | undefined = supportedAndOrderedMediaTypes[0];
 
         if (selectedMediaType === undefined) {
             throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
@@ -224,11 +254,11 @@ export class ObjectSerializer {
      * Convert data to a string according the given media type
      */
     public static stringify(data: any, mediaType: string): string {
-        if (mediaType === "text/plain") {
+        if (isTextLikeMimeType(mediaType)) {
             return String(data);
         }
 
-        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
+        if (isJsonLikeMimeType(mediaType)) {
             return JSON.stringify(data);
         }
 
@@ -243,16 +273,12 @@ export class ObjectSerializer {
             throw new Error("Cannot parse content. No Content-Type defined.");
         }
 
-        if (mediaType === "text/plain") {
+        if (isTextLikeMimeType(mediaType)) {
             return rawData;
         }
 
-        if (mediaType === "application/json" || mediaType === "application/json-patch+json" || mediaType === "application/merge-patch+json" || mediaType === "application/strategic-merge-patch+json") {
+        if (isJsonLikeMimeType(mediaType)) {
             return JSON.parse(rawData);
-        }
-
-        if (mediaType === "text/html") {
-            return rawData;
         }
 
         throw new Error("The mediaType " + mediaType + " is not supported by ObjectSerializer.parse.");
