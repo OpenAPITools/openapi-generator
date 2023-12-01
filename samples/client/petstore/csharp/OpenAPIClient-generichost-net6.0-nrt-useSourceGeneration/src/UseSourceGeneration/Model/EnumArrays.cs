@@ -334,10 +334,7 @@ namespace UseSourceGeneration.Model
                 JsonSerializer.Serialize(writer, enumArrays.ArrayEnum, jsonSerializerOptions);
             }
             var justSymbolRawValue = EnumArrays.JustSymbolEnumToJsonValue(enumArrays.JustSymbolOption.Value!.Value);
-            if (justSymbolRawValue != null)
-                writer.WriteString("just_symbol", justSymbolRawValue);
-            else
-                writer.WriteNull("just_symbol");
+            writer.WriteString("just_symbol", justSymbolRawValue);
         }
     }
 

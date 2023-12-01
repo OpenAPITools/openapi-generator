@@ -20,6 +20,7 @@ docs/StoreApi.md
 docs/Tag.md
 docs/TestingApi.md
 docs/TypeTesting.md
+docs/UniqueItemArrayTesting.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -46,4 +47,5 @@ src/models/pet.rs
 src/models/property_test.rs
 src/models/tag.rs
 src/models/type_testing.rs
+src/models/unique_item_array_testing.rs
 src/models/user.rs
