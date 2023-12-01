@@ -33,6 +33,7 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
@@ -959,51 +960,101 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "@Valid ";
         }
 
-        if (StringUtils.isNotEmpty(items.getPattern()) && !ModelUtils.isByteArraySchema(items)) {
-            return String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", items.getPattern());
+        if (ModelUtils.isStringSchema(items)) {
+            return getStringBeanValidation(items);
         }
 
-        if (items.getMinLength() != null && items.getMaxLength() != null) {
-            return String.format(Locale.ROOT, "@Size(min = %d, max = %d)", items.getMinLength(), items.getMaxLength());
+        if (ModelUtils.isNumberSchema(items)) {
+            return getNumberBeanValidation(items);
         }
 
-        if (items.getMinLength() != null) {
-            return String.format(Locale.ROOT, "@Size(min = %d)", items.getMinLength());
-        }
-
-        if (items.getMaxLength() != null) {
-            return String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength());
-        }
-
-        if (ModelUtils.isLongSchema(items) || ModelUtils.isIntegerSchema(items)) {
-            if (items.getMinimum() != null && items.getMaximum() != null) {
-                return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
-            }
-
-            if (items.getMinimum() != null) {
-                return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
-            }
-
-            if (items.getMaximum() != null) {
-                return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
-            }
-        }
-
-        if (items.getMinimum() != null && items.getMaximum() != null) {
-            return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = false) @DecimalMax(value = \"%s\", inclusive = false)",
-                    items.getMinimum(),
-                    items.getMaximum());
-        }
-
-        if (items.getMinimum() != null) {
-            return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = false)", items.getMinimum());
-        }
-
-        if (items.getMaximum() != null) {
-            return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = false)", items.getMaximum());
+        if (ModelUtils.isIntegerSchema(items)) {
+            return getIntegerBeanValidation(items);
         }
 
         return "";
+    }
+
+    private static String getIntegerBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private static String getNumberBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
+                    items.getMaximum(),
+                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = %s)",
+                    items.getMaximum(),
+                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        return "";
+    }
+
+    private String getStringBeanValidation(Schema<?> items) {
+        String validations = "";
+        if (ModelUtils.isByteArraySchema(items) || ModelUtils.isBinarySchema(items)) {
+            return validations;
+        }
+
+        if (StringUtils.isNotEmpty(items.getPattern())) {
+            final String pattern = escapeUnsafeCharacters(
+                    StringEscapeUtils.unescapeJava(
+                                    StringEscapeUtils.escapeJava(items.getPattern())
+                                            .replace("\\/", "/"))
+                            .replaceAll("[\\t\\n\\r]", " ")
+                            .replace("\\", "\\\\")
+                            .replace("\"", "\\\""));
+
+            validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", pattern);
+        }
+
+        if (ModelUtils.isDecimalSchema(items)) {
+            return String.join("", validations, getNumberBeanValidation(items));
+        }
+
+        if (items.getMinLength() != null && items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d, max = %d)", items.getMinLength(), items.getMaxLength()));
+        }
+
+        if (items.getMinLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d)", items.getMinLength()));
+        }
+
+        if (items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength()));
+        }
+
+        return validations;
     }
 
     @Override

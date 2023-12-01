@@ -81,14 +81,21 @@ components:
           items:
             type: number
             maximum: 10
-
+        stringPatternWithMin:
+          nullable: true
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 10
+            pattern: '^\d{3}-\d{2}-\d{4}$'
         stringPatternNullable:
           nullable: true
           type: array
           uniqueItems: true
           items:
             type: string
-            pattern: "[a-z]"
+            pattern: '^\d{3}-\d{2}-\d{4}$'
         stringMaxMinLengthNullable:
           nullable: true
           type: array
@@ -112,6 +119,15 @@ components:
           items:
             type: string
             maxLength: 1
+          maxItems: 10
+        stringNumbers:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            format: number
+            minimum: 1
+            maximum: 10
           maxItems: 10
         stringEmailNullable:
           nullable: true
@@ -157,3 +173,4 @@ components:
           items:
             type: number
             maximum: 10
+            exclusiveMaximum: true
