@@ -286,6 +286,7 @@
                                             {
                                                 "key": "pUserId",
                                                 "value": "888",
+                                                "description": "Query Id.",
                                                 "disabled": false
                                             }
                                         ]
