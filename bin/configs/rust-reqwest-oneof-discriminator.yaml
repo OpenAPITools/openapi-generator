@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/reqwest-oneof-discriminator
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOfDiscriminator.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: reqwest-oneof-discriminator

@@ -24,6 +24,14 @@ jobs:
           - samples/client/others/rust/
           - samples/client/petstore/rust/
           - samples/server/petstore/rust-server/
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
@@ -32,3 +40,8 @@ jobs:
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: cargo build
+      - name: Add petstore.swagger.io to /etc/hosts
+        run: echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: cargo test --no-fail-fast
