@@ -53,11 +53,11 @@ namespace UseSourceGeneration.Test.Api
             .ConfigureApi((context, services, options) =>
             {
                 string apiKeyTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                ApiKeyToken apiKeyToken1 = new(apiKeyTokenValue1, "api_key", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken1 = new(apiKeyTokenValue1, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
 
                 string apiKeyTokenValue2 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                ApiKeyToken apiKeyToken2 = new(apiKeyTokenValue2, "api_key_query", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken2 = new(apiKeyTokenValue2, ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken2);
 
                 string bearerTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");

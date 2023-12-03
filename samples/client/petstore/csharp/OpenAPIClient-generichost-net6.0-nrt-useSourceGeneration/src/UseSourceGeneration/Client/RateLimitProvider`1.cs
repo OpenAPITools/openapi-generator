@@ -36,11 +36,11 @@ namespace UseSourceGeneration.Client
 
             if (container is TokenContainer<ApiKeyToken> apiKeyTokenContainer)
             {
-                string[] headers = apiKeyTokenContainer.Tokens.Select(t => t.Header).Distinct().ToArray();
+                string[] headers = apiKeyTokenContainer.Tokens.Select(t => ClientUtils.ApiKeyHeaderToString(t.Header)).Distinct().ToArray();
 
                 foreach (string header in headers)
                 {
-                    BoundedChannelOptions options = new BoundedChannelOptions(apiKeyTokenContainer.Tokens.Count(t => t.Header.Equals(header)))
+                    BoundedChannelOptions options = new BoundedChannelOptions(apiKeyTokenContainer.Tokens.Count(t => ClientUtils.ApiKeyHeaderToString(t.Header).Equals(header)))
                     {
                         FullMode = BoundedChannelFullMode.DropWrite
                     };

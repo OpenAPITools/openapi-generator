@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Client
         /// <returns></returns>
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
+
         /// <summary>
         /// Returns true when deserialization succeeds.
         /// </summary>
