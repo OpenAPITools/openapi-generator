@@ -39,9 +39,3 @@ pub enum UniqueItemArray {
     Variant3,
 }
 
-impl Default for UniqueItemArray {
-    fn default() -> UniqueItemArray {
-        Self::Variant1
-    }
-}
-

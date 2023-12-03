@@ -32,12 +32,6 @@ impl ToString for Baz {
     }
 }
 
-impl Default for Baz {
-    fn default() -> Baz {
-        Self::A
-    }
-}
-
 
 
 
