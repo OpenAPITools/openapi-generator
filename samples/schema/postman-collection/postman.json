@@ -24,21 +24,25 @@
                                         {
                                             "key": "Content-Type",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode",
                                             "value": "code_one",
+                                            "description": "Code as header",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
                                             "value": "",
+                                            "description": "Code as header2",
                                             "disabled": true
                                         }
                                     ],
@@ -92,6 +96,7 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         }
                                     ],
@@ -140,16 +145,19 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode",
                                             "value": "code_one",
+                                            "description": "Code as header",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
                                             "value": "",
+                                            "description": "Code as header2",
                                             "disabled": true
                                         }
                                     ],
@@ -203,11 +211,13 @@
                                         {
                                             "key": "Content-Type",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         }
                                     ],
@@ -250,16 +260,19 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "Custom-Header",
                                             "value": "",
+                                            "description": "Custom HTTP header",
                                             "disabled": true
                                         },
                                         {
                                             "key": "Another-Custom-Header",
                                             "value": "abc",
+                                            "description": "Custom HTTP header with default",
                                             "disabled": false
                                         }
                                     ],
