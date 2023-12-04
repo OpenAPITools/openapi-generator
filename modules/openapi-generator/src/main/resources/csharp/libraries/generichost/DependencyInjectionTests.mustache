@@ -21,12 +21,12 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}($"<token>", "{{name}}", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
                 {{#httpBearerMethods}}
-                BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}($"<token>", timeout: TimeSpan.FromSeconds(1));
+                BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}("<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken{{-index}});
 
                 {{/httpBearerMethods}}
@@ -55,12 +55,12 @@ namespace {{packageName}}.Test.{{apiPackage}}
             {
                 {{#lambda.trimTrailingWithNewLine}}
                 {{#apiKeyMethods}}
-                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}($"<token>", "{{name}}", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken{{-index}});
 
                 {{/apiKeyMethods}}
                 {{#httpBearerMethods}}
-                BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}($"<token>", timeout: TimeSpan.FromSeconds(1));
+                BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}("<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken{{-index}});
 
                 {{/httpBearerMethods}}
@@ -92,12 +92,12 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}($"<token>", "{{name}}", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}
                     {{#httpBearerMethods}}
-                    BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}("<token>", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(bearerToken{{-index}});
 
                     {{/httpBearerMethods}}
@@ -129,12 +129,12 @@ namespace {{packageName}}.Test.{{apiPackage}}
                 {
                     {{#lambda.trimTrailingWithNewLine}}
                     {{#apiKeyMethods}}
-                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}($"<token>", "{{name}}", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken{{-index}} = new{{^net70OrLater}} ApiKeyToken{{/net70OrLater}}("<token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}}, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken{{-index}});
 
                     {{/apiKeyMethods}}
                     {{#httpBearerMethods}}
-                    BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    BearerToken bearerToken{{-index}} = new{{^net70OrLater}} BearerToken{{/net70OrLater}}("<token>", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(bearerToken{{-index}});
 
                     {{/httpBearerMethods}}

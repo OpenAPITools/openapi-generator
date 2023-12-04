@@ -81,7 +81,7 @@ namespace YourProject
           .Configure{{apiName}}((context, options) =>
           {
               {{#authMethods}}// the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
+              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.{{#lambda.titlecase}}{{name}}{{/lambda.titlecase}});
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
