@@ -990,6 +990,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
     }
 
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+    }
+
     // override to post-process any parameters
     @Override
     @SuppressWarnings("unused")
@@ -4889,15 +4895,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenProperty cp = fromProperty("response", responseSchema, false);
-        // the response data types should not contains a bean validation annotation.
-        if (cp.dataType.contains("@")) {
-            cp.dataType = cp.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
-        }
         r.dataType = getTypeDeclaration(responseSchema);
-        // the response data types should not contains a bean validation annotation.
-        if (r.dataType.contains("@")) {
-            r.dataType = r.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
-        }
         r.returnProperty = cp;
 
         if (!ModelUtils.isArraySchema(responseSchema)) {
@@ -4999,6 +4997,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        postProcessResponseWithProperty(r, cp);
         return r;
     }
 
