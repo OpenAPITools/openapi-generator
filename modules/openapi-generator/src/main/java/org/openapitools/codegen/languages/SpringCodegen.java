@@ -1420,15 +1420,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.requestMappingMode = requestMappingMode;
     }
 
-    @Override
-    public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
-        return super.fromParameter( parameter, imports );
-    }
-    @Override
-    public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
-        return super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
-    }
-
     public void setResourceFolder( String resourceFolder ) {
         this.resourceFolder = resourceFolder;
     }
