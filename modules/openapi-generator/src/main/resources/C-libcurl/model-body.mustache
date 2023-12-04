@@ -79,7 +79,7 @@ end:
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
     char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}}];
+    return {{name}}Array[{{name}}];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
@@ -102,8 +102,8 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{^isModel}}
     {{#isEnum}}
 char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}} - 1];
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
+    return {{name}}Array[{{name}} - 1];
 }
 
 {{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
@@ -821,7 +821,7 @@ fail:
             }
             localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
             {{/isNumeric}}
-		    {{/items}}
+            {{/items}}
             list_addElement({{{name}}}List , localMapKeyPair);
         }
     }
