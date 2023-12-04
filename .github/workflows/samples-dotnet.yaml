@@ -43,7 +43,7 @@ jobs:
           - samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: '8.0.x'
       - name: Build
