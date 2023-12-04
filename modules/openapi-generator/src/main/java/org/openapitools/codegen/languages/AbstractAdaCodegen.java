@@ -428,6 +428,10 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         String var;
         if (value.isEmpty()) {
             var = "EMPTY";
