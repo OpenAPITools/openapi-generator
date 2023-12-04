@@ -16,7 +16,7 @@ namespace UseSourceGeneration.Client
         /// <summary>
         /// The header that this token will be used with.
         /// </summary>
-        public string Header { get; }
+        public ClientUtils.ApiKeyHeader Header { get; }
 
         /// <summary>
         /// Constructs an ApiKeyToken object.
@@ -25,7 +25,7 @@ namespace UseSourceGeneration.Client
         /// <param name="header"></param>
         /// <param name="prefix"></param>
         /// <param name="timeout"></param>
-        public ApiKeyToken(string value, string header, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
+        public ApiKeyToken(string value, ClientUtils.ApiKeyHeader header, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
             Header = header;
             _raw = $"{ prefix }{ value }";
@@ -37,7 +37,7 @@ namespace UseSourceGeneration.Client
         /// <param name="request"></param>
         public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request)
         {
-            request.Headers.Add(Header, _raw);
+            request.Headers.Add(ClientUtils.ApiKeyHeaderToString(Header), _raw);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace UseSourceGeneration.Client
         /// <param name="parseQueryString"></param>
         public virtual void UseInQuery(System.Net.Http.HttpRequestMessage request, UriBuilder uriBuilder, System.Collections.Specialized.NameValueCollection parseQueryString)
         {
-            parseQueryString[Header] = Uri.EscapeDataString(_raw).ToString()!;
+            parseQueryString[ClientUtils.ApiKeyHeaderToString(Header)] = Uri.EscapeDataString(_raw).ToString()!;
         }
     }
 }

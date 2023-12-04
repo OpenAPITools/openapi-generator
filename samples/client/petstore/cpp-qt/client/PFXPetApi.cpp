@@ -316,8 +316,34 @@ void PFXPetApi::addPetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit addPetSignalE(error_type, error_str);
         emit addPetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit addPetSignalError(error_type, error_str);
+        emit addPetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -374,8 +400,34 @@ void PFXPetApi::allPetsCallback(PFXHttpRequestWorker *worker) {
         emit allPetsSignal(output);
         emit allPetsSignalFull(worker, output);
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit allPetsSignalE(output, error_type, error_str);
         emit allPetsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit allPetsSignalError(output, error_type, error_str);
+        emit allPetsSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -482,8 +534,34 @@ void PFXPetApi::deletePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit deletePetSignalE(error_type, error_str);
         emit deletePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit deletePetSignalError(error_type, error_str);
+        emit deletePetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -666,8 +744,34 @@ void PFXPetApi::findPetsByStatusCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit findPetsByStatusSignalE(output, error_type, error_str);
         emit findPetsByStatusSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit findPetsByStatusSignalError(output, error_type, error_str);
+        emit findPetsByStatusSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -850,8 +954,34 @@ void PFXPetApi::findPetsByTagsCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit findPetsByTagsSignalE(output, error_type, error_str);
         emit findPetsByTagsSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit findPetsByTagsSignalError(output, error_type, error_str);
+        emit findPetsByTagsSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -917,8 +1047,34 @@ void PFXPetApi::getPetByIdCallback(PFXHttpRequestWorker *worker) {
         emit getPetByIdSignal(output);
         emit getPetByIdSignalFull(worker, output);
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit getPetByIdSignalE(output, error_type, error_str);
         emit getPetByIdSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit getPetByIdSignalError(output, error_type, error_str);
+        emit getPetByIdSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -1010,8 +1166,34 @@ void PFXPetApi::updatePetCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit updatePetSignalE(error_type, error_str);
         emit updatePetSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit updatePetSignalError(error_type, error_str);
+        emit updatePetSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -1120,8 +1302,34 @@ void PFXPetApi::updatePetWithFormCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit updatePetWithFormSignalE(error_type, error_str);
         emit updatePetWithFormSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit updatePetWithFormSignalError(error_type, error_str);
+        emit updatePetWithFormSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -1231,8 +1439,34 @@ void PFXPetApi::uploadFileCallback(PFXHttpRequestWorker *worker) {
 
 
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit uploadFileSignalE(output, error_type, error_str);
         emit uploadFileSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit uploadFileSignalError(output, error_type, error_str);
+        emit uploadFileSignalErrorFull(worker, error_type, error_str);
     }
 }
 
