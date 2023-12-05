@@ -119,6 +119,61 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
+  /pet/searchPetWithManyFilters:
+    get:
+      description: Search endpoint
+      operationId: searchPet
+      parameters:
+      - description: age of the pet
+        explode: true
+        in: query
+        name: age
+        required: false
+        schema:
+          format: int64
+          nullable: true
+          type: integer
+        style: form
+      - description: Price of the pet
+        explode: true
+        in: query
+        name: price
+        required: false
+        schema:
+          nullable: true
+          type: number
+        style: form
+      - description: Find pets born after this date
+        explode: false
+        in: query
+        name: bornAfter
+        required: false
+        schema:
+          format: date-time
+          nullable: true
+          type: string
+        style: form
+      - description: Is the pet classified as old
+        explode: true
+        in: query
+        name: old
+        required: false
+        schema:
+          nullable: true
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/xml:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Pet'
+                type: array
+          description: successful operation
+      summary: Search Pets by filters
+      tags:
+      - pet
   /pet/findByTags:
     get:
       deprecated: true
@@ -153,6 +208,13 @@ paths:
         schema:
           format: date-time
           type: string
+        style: form
+      - explode: true
+        in: query
+        name: colour
+        required: false
+        schema:
+          $ref: '#/components/schemas/Colour'
         style: form
       responses:
         "200":
@@ -1185,6 +1247,12 @@ components:
       enum:
       - male
       - female
+      type: string
+    Colour:
+      enum:
+      - Blue
+      - White
+      nullable: true
       type: string
     ApiResponse:
       description: Describes the result of uploading an image resource
