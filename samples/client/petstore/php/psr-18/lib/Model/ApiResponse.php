@@ -82,8 +82,8 @@ class ApiResponse implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'code' => false,
-		'type' => false,
-		'message' => false
+        'type' => false,
+        'message' => false
     ];
 
     /**

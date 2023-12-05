@@ -130,7 +130,7 @@ class  AnotherFakeApi
 {
 public:
     explicit AnotherFakeApi(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~AnotherFakeApi();
+    virtual ~AnotherFakeApi();
 
     std::shared_ptr<AnotherFakeApiResources::Another_fakeDummyResource> getAnother_fakeDummyResource();
 
@@ -143,7 +143,7 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<AnotherFakeApiResources::Another_fakeDummyResource> m_spAnother_fakeDummyResource;
+    std::shared_ptr<AnotherFakeApiResources::Another_fakeDummyResource> m_spAnother_fakeDummyResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

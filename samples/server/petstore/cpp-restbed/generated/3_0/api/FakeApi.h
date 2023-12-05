@@ -1175,7 +1175,7 @@ class  FakeApi
 {
 public:
     explicit FakeApi(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~FakeApi();
+    virtual ~FakeApi();
 
     std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> getFakeBigDecimalMapResource();
     std::shared_ptr<FakeApiResources::FakeHealthResource> getFakeHealthResource();
@@ -1252,23 +1252,23 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> m_spFakeBigDecimalMapResource;
-	std::shared_ptr<FakeApiResources::FakeHealthResource> m_spFakeHealthResource;
-	std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> m_spFakeHttp_signature_testResource;
-	std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> m_spFakeOuterBooleanResource;
-	std::shared_ptr<FakeApiResources::FakeOuterCompositeResource> m_spFakeOuterCompositeResource;
-	std::shared_ptr<FakeApiResources::FakeOuterNumberResource> m_spFakeOuterNumberResource;
-	std::shared_ptr<FakeApiResources::FakeOuterStringResource> m_spFakeOuterStringResource;
-	std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> m_spFakePropertyEnum_intResource;
-	std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> m_spFakeBody_with_binaryResource;
-	std::shared_ptr<FakeApiResources::FakeBody_with_file_schemaResource> m_spFakeBody_with_file_schemaResource;
-	std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> m_spFakeBody_with_query_paramsResource;
-	std::shared_ptr<FakeApiResources::FakeResource> m_spFakeResource;
-	std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> m_spFakeInline_additionalPropertiesResource;
-	std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> m_spFakeInline_freeform_additionalPropertiesResource;
-	std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> m_spFakeJsonFormDataResource;
-	std::shared_ptr<FakeApiResources::FakeNullableResource> m_spFakeNullableResource;
-	std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> m_spFakeTest_query_parametersResource;
+    std::shared_ptr<FakeApiResources::FakeBigDecimalMapResource> m_spFakeBigDecimalMapResource;
+    std::shared_ptr<FakeApiResources::FakeHealthResource> m_spFakeHealthResource;
+    std::shared_ptr<FakeApiResources::FakeHttp_signature_testResource> m_spFakeHttp_signature_testResource;
+    std::shared_ptr<FakeApiResources::FakeOuterBooleanResource> m_spFakeOuterBooleanResource;
+    std::shared_ptr<FakeApiResources::FakeOuterCompositeResource> m_spFakeOuterCompositeResource;
+    std::shared_ptr<FakeApiResources::FakeOuterNumberResource> m_spFakeOuterNumberResource;
+    std::shared_ptr<FakeApiResources::FakeOuterStringResource> m_spFakeOuterStringResource;
+    std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> m_spFakePropertyEnum_intResource;
+    std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> m_spFakeBody_with_binaryResource;
+    std::shared_ptr<FakeApiResources::FakeBody_with_file_schemaResource> m_spFakeBody_with_file_schemaResource;
+    std::shared_ptr<FakeApiResources::FakeBody_with_query_paramsResource> m_spFakeBody_with_query_paramsResource;
+    std::shared_ptr<FakeApiResources::FakeResource> m_spFakeResource;
+    std::shared_ptr<FakeApiResources::FakeInline_additionalPropertiesResource> m_spFakeInline_additionalPropertiesResource;
+    std::shared_ptr<FakeApiResources::FakeInline_freeform_additionalPropertiesResource> m_spFakeInline_freeform_additionalPropertiesResource;
+    std::shared_ptr<FakeApiResources::FakeJsonFormDataResource> m_spFakeJsonFormDataResource;
+    std::shared_ptr<FakeApiResources::FakeNullableResource> m_spFakeNullableResource;
+    std::shared_ptr<FakeApiResources::FakeTest_query_parametersResource> m_spFakeTest_query_parametersResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

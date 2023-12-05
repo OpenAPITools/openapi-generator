@@ -88,11 +88,11 @@ class Pet implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'name' => false,
-		'category' => false,
-		'photo_urls' => false,
-		'tags' => false,
-		'status' => false
+        'name' => false,
+        'category' => false,
+        'photo_urls' => false,
+        'tags' => false,
+        'status' => false
     ];
 
     /**

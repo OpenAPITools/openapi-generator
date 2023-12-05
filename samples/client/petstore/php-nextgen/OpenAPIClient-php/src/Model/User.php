@@ -91,13 +91,13 @@ class User implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'username' => false,
-		'first_name' => false,
-		'last_name' => false,
-		'email' => false,
-		'password' => false,
-		'phone' => false,
-		'user_status' => false
+        'username' => false,
+        'first_name' => false,
+        'last_name' => false,
+        'email' => false,
+        'password' => false,
+        'phone' => false,
+        'user_status' => false
     ];
 
     /**

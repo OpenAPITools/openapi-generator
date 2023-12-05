@@ -80,7 +80,7 @@ class Query implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'outcomes' => false
+        'outcomes' => false
     ];
 
     /**

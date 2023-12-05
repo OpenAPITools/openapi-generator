@@ -87,11 +87,11 @@ class Order implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'pet_id' => false,
-		'quantity' => false,
-		'ship_date' => false,
-		'status' => false,
-		'complete' => false
+        'pet_id' => false,
+        'quantity' => false,
+        'ship_date' => false,
+        'status' => false,
+        'complete' => false
     ];
 
     /**

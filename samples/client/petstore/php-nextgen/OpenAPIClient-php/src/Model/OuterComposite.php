@@ -81,8 +81,8 @@ class OuterComposite implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'my_number' => false,
-		'my_string' => false,
-		'my_boolean' => false
+        'my_string' => false,
+        'my_boolean' => false
     ];
 
     /**

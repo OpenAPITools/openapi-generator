@@ -87,11 +87,11 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'small_camel' => false,
-		'capital_camel' => false,
-		'small_snake' => false,
-		'capital_snake' => false,
-		'sca_eth_flow_points' => false,
-		'att_name' => false
+        'capital_camel' => false,
+        'small_snake' => false,
+        'capital_snake' => false,
+        'sca_eth_flow_points' => false,
+        'att_name' => false
     ];
 
     /**

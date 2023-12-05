@@ -84,9 +84,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, \JsonSe
       */
     protected static array $openAPINullables = [
         'uuid' => false,
-		'id' => false,
-		'deprecated_ref' => false,
-		'bars' => false
+        'id' => false,
+        'deprecated_ref' => false,
+        'bars' => false
     ];
 
     /**

@@ -79,7 +79,7 @@ class ParentWithNullable implements ModelInterface, ArrayAccess, JsonSerializabl
       */
     protected static array $openAPINullables = [
         'type' => false,
-		'nullable_property' => true
+        'nullable_property' => true
     ];
 
     /**
