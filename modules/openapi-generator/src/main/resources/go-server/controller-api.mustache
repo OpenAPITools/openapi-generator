@@ -181,20 +181,20 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isDateTime}}
-	{{^isRef}}
+	{{^isEnumRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
 	if {{paramName}}Param == "" {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
-	{{/isRef}}
-	{{#isRef}}
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isRef}}
+	{{/isEnumRef}}
 	{{/isDateTime}}
 	{{/isInteger}}
 	{{/isLong}}
@@ -423,24 +423,24 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^required}}
 	var {{paramName}}Param {{dataType}}
 	if query.Has("{{baseName}}") {
-		{{^isRef}}
+		{{^isEnumRef}}
 		{{paramName}}Param = query.Get("{{baseName}}")
-		{{/isRef}}
-		{{#isRef}}
+		{{/isEnumRef}}
+		{{#isEnumRef}}
 		var err error
 		{{paramName}}Param, err = New{{dataType}}FromValue(query.Get("{{baseName}}"))
 		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
 		}
-		{{/isRef}}
+		{{/isEnumRef}}
 	}
 	{{/required}}
 	{{#required}}
-	{{^isRef}}
+	{{^isEnumRef}}
 	{{paramName}}Param := query.Get("{{baseName}}")
-	{{/isRef}}
-	{{#isRef}}
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	if !query.Has("{{baseName}}"){
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
@@ -450,7 +450,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isRef}}
+	{{/isEnumRef}}
 	{{/required}}
 	{{/defaultValue}}
 	{{/isDateTime}}
