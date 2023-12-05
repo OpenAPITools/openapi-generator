@@ -97,6 +97,11 @@ func (c *PetAPIController) Routes() Routes {
 			"/v2/pets/boolean/parsing",
 			c.GetPetsUsingBooleanQueryParameters,
 		},
+		"SearchPet": Route{
+			strings.ToUpper("Get"),
+			"/v2/pet/searchPetWithManyFilters",
+			c.SearchPet,
+		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
 			"/v2/pet",
@@ -257,7 +262,14 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 		bornBeforeParam = param
 	} else {
 	}
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
+	var colourParam Colour
+	if query.Has("colour") {
+		param := Colour(query.Get("colour"))
+
+		colourParam = param
+	} else {
+	}
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam, colourParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -374,6 +386,72 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		inactiveParam = param
 	}
 	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
+	// If an error occurred, encode the error with the status code
+	if err != nil {
+		c.errorHandler(w, r, err, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+}
+
+// SearchPet - Search Pets by filters
+func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
+	var ageParam *int64
+	if query.Has("age") {
+		param, err := parseNumericParameter[int64](
+			query.Get("age"),
+			WithParse[int64](parseInt64),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		ageParam = &param
+	} else {
+	}
+	var priceParam *float32
+	if query.Has("price") {
+		param, err := parseNumericParameter[float32](
+			query.Get("price"),
+			WithParse[float32](parseFloat32),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		priceParam = &param
+	} else {
+	}
+	var bornAfterParam *time.Time
+	if query.Has("bornAfter"){
+		param, err := parseTime(query.Get("bornAfter"))
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		bornAfterParam = &param
+	} else {
+	}
+	var oldParam *bool
+	if query.Has("old") {
+		param, err := parseBoolParameter(
+			query.Get("old"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		oldParam = &param
+	} else {
+	}
+	result, err := c.service.SearchPet(r.Context(), ageParam, priceParam, bornAfterParam, oldParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

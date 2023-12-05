@@ -83,7 +83,7 @@ func (s *PetAPIService) FindPetsByStatus(ctx context.Context, status []string) (
 
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
-func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string, bornAfter time.Time, bornBefore time.Time) (ImplResponse, error) {
+func (s *PetAPIService) FindPetsByTags(ctx context.Context, tags []string, bornAfter time.Time, bornBefore time.Time, colour Colour) (ImplResponse, error) {
 	// TODO - update FindPetsByTags with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 
@@ -150,6 +150,17 @@ func (s *PetAPIService) GetPetsUsingBooleanQueryParameters(ctx context.Context, 
 	// return Response(200, ApiResponse{}), nil
 
 	return Response(http.StatusNotImplemented, nil), errors.New("GetPetsUsingBooleanQueryParameters method not implemented")
+}
+
+// SearchPet - Search Pets by filters
+func (s *PetAPIService) SearchPet(ctx context.Context, age *int64, price *float32, bornAfter *time.Time, old *bool) (ImplResponse, error) {
+	// TODO - update SearchPet with the required logic for this service method.
+	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	// TODO: Uncomment the next line to return response Response(200, []Pet{}) or use other options such as http.Ok ...
+	// return Response(200, []Pet{}), nil
+
+	return Response(http.StatusNotImplemented, nil), errors.New("SearchPet method not implemented")
 }
 
 // UpdatePet - Update an existing pet
