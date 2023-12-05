@@ -81,7 +81,7 @@ class Model200Response implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'name' => false,
-		'class' => false
+        'class' => false
     ];
 
     /**

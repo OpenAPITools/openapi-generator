@@ -6,7 +6,7 @@
 
 char* statusorder_ToString(openapi_petstore_order_STATUS_e status) {
     char* statusArray[] =  { "NULL", "placed", "approved", "delivered" };
-	return statusArray[status];
+    return statusArray[status];
 }
 
 openapi_petstore_order_STATUS_e statusorder_FromString(char* status){

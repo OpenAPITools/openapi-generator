@@ -93,13 +93,13 @@ class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'array_string_enum_ref_default' => false,
-		'array_string_enum_default' => false,
-		'array_string_default' => false,
-		'array_integer_default' => false,
-		'array_string' => false,
-		'array_string_nullable' => true,
-		'array_string_extension_nullable' => true,
-		'string_nullable' => true
+        'array_string_enum_default' => false,
+        'array_string_default' => false,
+        'array_integer_default' => false,
+        'array_string' => false,
+        'array_string_nullable' => true,
+        'array_string_extension_nullable' => true,
+        'string_nullable' => true
     ];
 
     /**

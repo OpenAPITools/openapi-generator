@@ -79,7 +79,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, JsonSeri
       */
     protected static array $openAPINullables = [
         'map_property' => false,
-		'map_of_map_property' => false
+        'map_of_map_property' => false
     ];
 
     /**

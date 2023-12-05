@@ -80,7 +80,7 @@ class Bird implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'size' => false,
-		'color' => false
+        'color' => false
     ];
 
     /**

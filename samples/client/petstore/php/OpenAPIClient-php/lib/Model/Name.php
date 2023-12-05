@@ -85,9 +85,9 @@ class Name implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'name' => false,
-		'snake_case' => false,
-		'property' => false,
-		'_123_number' => false
+        'snake_case' => false,
+        'property' => false,
+        '_123_number' => false
     ];
 
     /**

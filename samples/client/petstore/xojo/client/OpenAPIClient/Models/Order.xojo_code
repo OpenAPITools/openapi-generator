@@ -34,13 +34,13 @@ Protected Class Order
 	#tag EndProperty
 
 
-	#tag Enum, Name = StatusEnum, Type = Integer, Flags = &h0
-		
+    #tag Enum, Name = StatusEnum, Type = Integer, Flags = &h0
+        
         Placed
         Approved
         Delivered
-		
-	#tag EndEnum
+        
+    #tag EndEnum
 
 
 	#tag Method, Flags = &h0

@@ -79,7 +79,7 @@ class Animal implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'class_name' => false,
-		'color' => false
+        'color' => false
     ];
 
     /**
