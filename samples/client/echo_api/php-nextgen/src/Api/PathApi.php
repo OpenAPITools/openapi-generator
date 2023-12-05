@@ -257,7 +257,7 @@ class PathApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }

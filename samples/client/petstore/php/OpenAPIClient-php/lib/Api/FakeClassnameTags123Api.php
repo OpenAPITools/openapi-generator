@@ -209,7 +209,7 @@ class FakeClassnameTags123Api
                                     $statusCode,
                                     $response->getHeaders(),
                                     $content
-                                 );
+                                );
                             }
                         }
                     }

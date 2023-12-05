@@ -1238,7 +1238,7 @@ class UserApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -1564,7 +1564,7 @@ class UserApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
