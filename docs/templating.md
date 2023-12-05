@@ -68,7 +68,7 @@ For OpenAPI Generator versions prior to 5.0, you will want to find the [resource
 embeddedTemplateDir = templateDir = "csharp-netcore";
 ```
 
-These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp-netcore](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp-netcore). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
+These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp-netcore](https://github.com/OpenAPITools/openapi-generator/tree/v4.3.1/modules/openapi-generator/src/main/resources/csharp-netcore). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
 
 **NOTE** If you have specific logic you'd like to modify such as modifying the generated README, you _only_ need to pull and modify this individual template. OpenAPI Generator will lookup templates in this order:
 
