@@ -740,7 +740,7 @@ public class ApiClient extends JavaTimeFormatter {
         private void logRequest(HttpRequest request, byte[] body) throws UnsupportedEncodingException {
             log.info("URI: " + request.getURI());
             log.info("HTTP Method: " + request.getMethod());
-            log.info("HTTP Headers: " + headersToString(request.getHeaders()));
+            log.debug("HTTP Headers: " + headersToString(request.getHeaders()));
             log.info("Request Body: " + new String(body, StandardCharsets.UTF_8));
         }
 
