@@ -786,7 +786,7 @@ public class PostmanCollectionCodegenTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-v2")
+                .setGeneratorName("postman-collection")
                 .setInputSpec("./src/test/resources/SampleProject.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
