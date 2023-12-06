@@ -244,7 +244,7 @@ class AuthApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -545,7 +545,7 @@ class AuthApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }

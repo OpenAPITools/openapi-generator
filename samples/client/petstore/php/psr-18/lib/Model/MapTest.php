@@ -84,9 +84,9 @@ class MapTest implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'map_map_of_string' => false,
-		'map_of_enum_string' => false,
-		'direct_map' => false,
-		'indirect_map' => false
+        'map_of_enum_string' => false,
+        'direct_map' => false,
+        'indirect_map' => false
     ];
 
     /**

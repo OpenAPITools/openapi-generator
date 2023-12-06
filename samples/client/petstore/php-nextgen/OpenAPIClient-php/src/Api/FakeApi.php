@@ -294,7 +294,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -587,7 +587,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -1162,7 +1162,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -1469,7 +1469,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -1776,7 +1776,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -2083,7 +2083,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -2390,7 +2390,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }
@@ -3438,7 +3438,7 @@ class FakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }

@@ -463,7 +463,7 @@ class  UserApi
 {
 public:
     explicit UserApi(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~UserApi();
+    virtual ~UserApi();
 
     std::shared_ptr<UserApiResources::UserResource> getUserResource();
     std::shared_ptr<UserApiResources::UserCreateWithArrayResource> getUserCreateWithArrayResource();
@@ -496,12 +496,12 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<UserApiResources::UserResource> m_spUserResource;
-	std::shared_ptr<UserApiResources::UserCreateWithArrayResource> m_spUserCreateWithArrayResource;
-	std::shared_ptr<UserApiResources::UserCreateWithListResource> m_spUserCreateWithListResource;
-	std::shared_ptr<UserApiResources::UserUsernameResource> m_spUserUsernameResource;
-	std::shared_ptr<UserApiResources::UserLoginResource> m_spUserLoginResource;
-	std::shared_ptr<UserApiResources::UserLogoutResource> m_spUserLogoutResource;
+    std::shared_ptr<UserApiResources::UserResource> m_spUserResource;
+    std::shared_ptr<UserApiResources::UserCreateWithArrayResource> m_spUserCreateWithArrayResource;
+    std::shared_ptr<UserApiResources::UserCreateWithListResource> m_spUserCreateWithListResource;
+    std::shared_ptr<UserApiResources::UserUsernameResource> m_spUserUsernameResource;
+    std::shared_ptr<UserApiResources::UserLoginResource> m_spUserLoginResource;
+    std::shared_ptr<UserApiResources::UserLogoutResource> m_spUserLogoutResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

@@ -81,8 +81,8 @@ class ArrayTest implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'array_of_string' => false,
-		'array_array_of_integer' => false,
-		'array_array_of_model' => false
+        'array_array_of_integer' => false,
+        'array_array_of_model' => false
     ];
 
     /**

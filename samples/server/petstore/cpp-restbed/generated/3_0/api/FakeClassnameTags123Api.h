@@ -130,7 +130,7 @@ class  FakeClassnameTags123Api
 {
 public:
     explicit FakeClassnameTags123Api(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~FakeClassnameTags123Api();
+    virtual ~FakeClassnameTags123Api();
 
     std::shared_ptr<FakeClassnameTags123ApiResources::Fake_classname_testResource> getFake_classname_testResource();
 
@@ -143,7 +143,7 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<FakeClassnameTags123ApiResources::Fake_classname_testResource> m_spFake_classname_testResource;
+    std::shared_ptr<FakeClassnameTags123ApiResources::Fake_classname_testResource> m_spFake_classname_testResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

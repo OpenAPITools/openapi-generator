@@ -82,8 +82,8 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
       */
     protected static array $openAPINullables = [
         'number' => false,
-		'float' => false,
-		'double' => false
+        'float' => false,
+        'double' => false
     ];
 
     /**

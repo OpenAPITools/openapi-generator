@@ -81,8 +81,8 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
       */
     protected static array $openAPINullables = [
         'uuid' => false,
-		'date_time' => false,
-		'map' => false
+        'date_time' => false,
+        'map' => false
     ];
 
     /**

@@ -24,7 +24,7 @@ void PetApiTests::findPetsByStatusTest() {
         }
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::findPetsByStatusSignalE, [&](QList<PFXPet>, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::findPetsByStatusSignalError, [&](QList<PFXPet>, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -47,7 +47,7 @@ void PetApiTests::createAndGetPetTest() {
         petCreated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::addPetSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::addPetSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -69,7 +69,7 @@ void PetApiTests::createAndGetPetTest() {
 //      QVERIFY(pet.getStatus().compare("freaky") == 0);
         petFetched = true;
     });
-    connect(&api, &PFXPetApi::getPetByIdSignalE, [&](PFXPet, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::getPetByIdSignalError, [&](PFXPet, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -92,7 +92,7 @@ void PetApiTests::updatePetTest() {
         petAdded = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::addPetSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::addPetSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -110,7 +110,7 @@ void PetApiTests::updatePetTest() {
         petToCheck = pet;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::getPetByIdSignalE, this, [&](PFXPet, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::getPetByIdSignalError, this, [&](PFXPet, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -126,7 +126,7 @@ void PetApiTests::updatePetTest() {
         petUpdated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::updatePetSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::updatePetSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -146,7 +146,7 @@ void PetApiTests::updatePetTest() {
         QVERIFY(pet.getStatus().compare(petToCheck.getStatus()) == 0);
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::getPetByIdSignalE, [&](PFXPet, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::getPetByIdSignalError, [&](PFXPet, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -170,7 +170,7 @@ void PetApiTests::updatePetWithFormTest() {
         petAdded = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::addPetSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::addPetSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -187,7 +187,7 @@ void PetApiTests::updatePetWithFormTest() {
         petToCheck = pet;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::getPetByIdSignalE, [&](PFXPet, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::getPetByIdSignalError, [&](PFXPet, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -203,7 +203,7 @@ void PetApiTests::updatePetWithFormTest() {
         petUpdated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::updatePetWithFormSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::updatePetWithFormSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -222,7 +222,7 @@ void PetApiTests::updatePetWithFormTest() {
 //      QVERIFY(pet.getName().compare(QString("gorilla")) == 0);
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXPetApi::getPetByIdSignalE, [&](PFXPet, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXPetApi::getPetByIdSignalError, [&](PFXPet, QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });

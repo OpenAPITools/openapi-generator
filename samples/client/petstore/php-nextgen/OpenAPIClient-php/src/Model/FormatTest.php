@@ -107,21 +107,21 @@ class FormatTest implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'integer' => false,
-		'int32' => false,
-		'int64' => false,
-		'number' => false,
-		'float' => false,
-		'double' => false,
-		'decimal' => false,
-		'string' => false,
-		'byte' => false,
-		'binary' => false,
-		'date' => false,
-		'date_time' => false,
-		'uuid' => false,
-		'password' => false,
-		'pattern_with_digits' => false,
-		'pattern_with_digits_and_delimiter' => false
+        'int32' => false,
+        'int64' => false,
+        'number' => false,
+        'float' => false,
+        'double' => false,
+        'decimal' => false,
+        'string' => false,
+        'byte' => false,
+        'binary' => false,
+        'date' => false,
+        'date_time' => false,
+        'uuid' => false,
+        'password' => false,
+        'pattern_with_digits' => false,
+        'pattern_with_digits_and_delimiter' => false
     ];
 
     /**

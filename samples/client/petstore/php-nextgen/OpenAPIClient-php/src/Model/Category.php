@@ -79,7 +79,7 @@ class Category implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'name' => false
+        'name' => false
     ];
 
     /**

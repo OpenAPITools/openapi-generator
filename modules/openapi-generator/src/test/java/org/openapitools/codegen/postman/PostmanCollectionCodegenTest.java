@@ -502,9 +502,9 @@ public class PostmanCollectionCodegenTest {
         TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
         TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
         // header without default value (disabled: true)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"disabled\": true");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"description\": \"Custom HTTP header\", \"disabled\": true");
         // header with default value (disabled: false)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"disabled\": false");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"description\": \"Custom HTTP header with default\", \"disabled\": false");
 
     }
 
@@ -754,5 +754,54 @@ public class PostmanCollectionCodegenTest {
         assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
         assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("default"));
     }
+
+    @Test
+    public void testRequiredQueryParameter() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+        // verify param pUserId is set as disabled=false
+        TestUtils.assertFileContains(path, "{ \"key\": \"pUserId\", \"value\": \"888\", \"description\": \"Query Id.\", \"disabled\": false");
+
+    }
+
+    @Test
+    public void testQueryParameterDescription() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-v2")
+                .setInputSpec("./src/test/resources/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+        // verify param pUserId is set as disabled=false
+        TestUtils.assertFileContains(path, "{ \"key\": \"pUserId\", \"value\": \"888\", \"description\": \"Query Id.\"");
+
+    }
+
 
 }

@@ -80,7 +80,7 @@ class HasOnlyReadOnly implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'bar' => false,
-		'foo' => false
+        'foo' => false
     ];
 
     /**

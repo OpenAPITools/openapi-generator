@@ -18,7 +18,7 @@ namespace OpenAPIClient_generichost_manual_tests
             IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? "Token not found.";
-                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, "session", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
 
                 string bearerTokenValue = context.Configuration["<token>"] ?? "Token not found.";
