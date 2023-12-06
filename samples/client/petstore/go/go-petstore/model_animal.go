@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"bytes"
 	"fmt"
 )
 
