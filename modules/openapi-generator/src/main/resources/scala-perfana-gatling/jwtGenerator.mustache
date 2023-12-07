@@ -1,0 +1,22 @@
+package {{ helperPackage}}
+
+import scalaj.http.{Http, HttpResponse}
+
+object JWTGenerator {
+
+  def getClientJwt: String = {
+    val body = s"""{"client_id": "load-test", "client_secret": "load-test-secret"}"""
+    val response: HttpResponse[String] = Http("http://idp.ah-acc.k8s.digitaldev.nl/secure/client-jwt")
+      .postData(body)
+      .timeout(connTimeoutMs = 3000, readTimeoutMs = 30000)
+      .header("Content-Type", "application/json")
+      .asString
+
+    response.code match {
+      case 200 => response.body
+      case _ => throw new RuntimeException(s"Failed to retrieve JWT from IDP. Response ${response.code}: ${response.body}")
+    }
+
+  }
+
+}

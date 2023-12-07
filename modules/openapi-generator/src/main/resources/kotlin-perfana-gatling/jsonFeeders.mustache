@@ -1,0 +1,22 @@
+package {{feederPackage}}
+
+import io.gatling.javaapi.core.CoreDsl.*
+
+object JsonFeeders {
+
+    // json feeders
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-body-feeder}}
+    val {{vendorExtensions.x-gatling-body-feeder}} = jsonFile("data/{{operationId}}-bodyParams.json").random()
+                    {{/vendorExtensions.x-gatling-body-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

@@ -1,0 +1,53 @@
+package {{ configurationPackage }}
+
+/**
+* Contains the configuration needed to build the Scenarios to run.
+*/
+
+import {{ helperPackage }}.ConfigurationDumper
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import io.gatling.http.protocol.HttpProtocolBuilder
+
+
+object TestConfiguration {
+
+    val targetBaseUrl: String = Option(System.getProperty("targetBaseUrl")).getOrElse("http://localhost:8080")
+
+    val testRunId = Option(System.getProperty("testRunId")).getOrElse("NO_TEST_RUN_ID")
+
+    val protocol = Option(System.getProperty("protocol")).getOrElse("http")
+
+    val isClosedSystemWorkload = Option(System.getProperty("closedSystemWorkload") == "true").getOrElse(false)
+
+    val initialConcurrentUsers : Int = Option(System.getProperty("initialConcurrentUsers")).map(f => f.toInt).getOrElse(1)
+
+    val targetConcurrentUsers : Int = Option(System.getProperty("targetConcurrentUsers")).map(f => f.toInt).getOrElse(1)
+
+    val initialUsersPerSecond : Double = Option(System.getProperty("initialUsersPerSecond")).map(f => f.toDouble).getOrElse(1)
+
+    val targetUsersPerSecond : Double = Option(System.getProperty("targetUsersPerSecond")).map(f => f.toDouble).getOrElse(1)
+
+    val rampupTimeInSeconds = Option(System.getProperty("rampupTimeInSeconds")).map(f => f.toInt).getOrElse(1)
+
+    val constantLoadTimeInSeconds = Option(System.getProperty("constantLoadTimeInSeconds")).map(f => f.toInt).getOrElse(60)
+
+    val proxyHost: Option[String] = Option(System.getProperty("proxy.host"))
+
+    val isDebugActive = System.getProperty("debug") == "true"
+
+    val useProxy = System.getProperty("useProxy") == "true"
+
+    val dbUrl: String = Option(System.getProperty("db.url")).getOrElse("jdbc://localhost:3306")
+
+    val dbUsername: String = Option(System.getProperty("db.username")).getOrElse("root")
+
+    val dbPassword: String = Option(System.getProperty("db.password")).getOrElse("perfana")
+
+    val scenarioName: Option[String] = Option(System.getProperty("scenario"))
+
+    // dump all configration to log
+
+    val dump = ConfigurationDumper.values // just here to dump config before code below is instantiated
+
+}

@@ -1,0 +1,78 @@
+package {{ setUpPackage }}
+
+
+import {{ configurationPackage }}.*
+import {{ helperPackage }}.ConfigurationDumper.dumpConfig
+import io.gatling.javaapi.core.CoreDsl.*
+import io.gatling.javaapi.core.PopulationBuilder
+import io.gatling.javaapi.core.ScenarioBuilder
+import io.gatling.javaapi.core.Simulation
+
+
+/**
+* This Simulation class is responsible for putting all configuration item together and run the simulation
+*/
+
+class {{ simulationClassName }} : Simulation() {
+
+    init {
+        /**
+         * The runnableScenarios list will contain injected versions of all of the scenarios that need to be run.
+         * This list is constructed by configuring the scenarios in the baseScenario and optionally prepending the
+         * list with some auxiliary scenarios when they are needed.
+         */
+
+        val runnableScenarios = configureBaseScenarios(listOf(ScenarioConfiguration.baseScenarios))
+        setUp(runnableScenarios)
+            .protocols(HttpProtocolConfiguration.httpProtocol)
+            .maxDuration(TestConfiguration.rampupTimeInSeconds + TestConfiguration.constantLoadTimeInSeconds)
+    }
+
+    override fun before() {
+        dumpConfig()
+        println("Simulation is about to start! ")
+    }
+
+    override fun after() {
+        println("Simulation is finished!")
+    }
+
+    /**
+     * Recurses over the list of scenarios passed into the function and sets them up with the required users, ramp-up,
+     * etc.
+     *
+     * @param scenarios the list of Scenarios to initialize
+     * @return a list of PopulationBuilders, ready to be simulated
+     */
+    fun configureBaseScenarios(scenarios: List<ScenarioBuilder>): List<PopulationBuilder> =
+        scenarios.map { sc ->
+            when {
+                TestConfiguration.isDebugActive -> setupSingleDebugScenario(sc)
+                else -> setupSingleScenario(sc)
+            }
+        }
+
+    /**
+     * Injects the required debug settings into a single ScenarioBuilder.
+     *
+     * @param scn the Scenario to initialize
+     * @return the initialized PopulationBuilder
+     */
+
+    fun setupSingleDebugScenario(scn: ScenarioBuilder): PopulationBuilder = scn.injectOpen(
+        atOnceUsers(1)
+    ).disablePauses()
+
+    /**
+     * Injects the required settings into a single ScenarioBuilder.
+     *
+     * @param scn the Scenario to initialize
+     * @return the initialized PopulationBuilder
+     */
+    fun setupSingleScenario(scn: ScenarioBuilder): PopulationBuilder = scn.injectOpen(
+        rampUsersPerSec(TestConfiguration.initialUsersPerSecond).to(TestConfiguration.targetUsersPerSecond)
+            .during(TestConfiguration.rampupTimeInSeconds),
+        constantUsersPerSec(TestConfiguration.targetUsersPerSecond).during(TestConfiguration.constantLoadTimeInSeconds)
+    ).exponentialPauses()
+
+}

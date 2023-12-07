@@ -1,0 +1,39 @@
+package {{feederPackage}}
+
+import io.gatling.javaapi.jdbc.JdbcDsl.*
+
+object JdbcFeeders {
+
+
+    // jdbc feeders
+    val dbUrl: String = System.getProperty("db.url") ?: "jdbc://localhost:3306"
+    val dbUsername: String = System.getProperty("db.username") ?: "root"
+    val dbPassword: String = System.getProperty("db.password") ?: "perfana"
+    
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-query-database-feeder}}
+    val {{vendorExtensions.x-gatling-query-database-feeder}} = jdbcFeeder(dbUrl, dbUsername, dbPassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-query-database-feeder}}
+                    {{#vendorExtensions.x-gatling-header-database-feeder}}
+    val {{vendorExtensions.x-gatling-header-database-feeder}} = jdbcFeeder(dbUrl, dbUsername, dbPassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-header-database-feeder}}
+                    {{#vendorExtensions.x-gatling-form-database-feeder}}
+    val {{vendorExtensions.x-gatling-form-database-feeder}} = jdbcFeeder(dbUrl, dbUsername, dbPassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-form-database-feeder}}
+                    {{#vendorExtensions.x-gatling-path-database-feeder}}
+    val {{vendorExtensions.x-gatling-path-database-feeder}} = jdbcFeeder(dbUrl, dbUsername, dbPassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-path-database-feeder}}
+                    {{#vendorExtensions.x-gatling-body-database-feeder}}
+    val {{vendorExtensions.x-gatling-body-database-feeder}} = jdbcFeeder(dbUrl, dbUsername, dbPassword, "<query>").random()
+                    {{/vendorExtensions.x-gatling-body-database-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

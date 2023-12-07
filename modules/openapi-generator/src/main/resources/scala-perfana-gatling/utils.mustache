@@ -1,0 +1,26 @@
+package {{ helperPackage}}
+
+import java.util.Properties
+
+import {{ configurationPackage }}._
+import com.jayway.jsonpath.JsonPath
+import io.gatling.commons.validation.Validation
+import io.gatling.core.Predef._
+import io.gatling.http.Predef.Response
+import io.netty.handler.codec.http.HttpResponseStatus
+import org.apache.commons.lang3.StringUtils
+
+object Utils {
+    def dumpInfo(response:Response, session: Session): Validation[Response] = {
+        val shouldDump = response.status != HttpResponseStatus.OK || TestConfiguration.isDebugActive
+        if (shouldDump) {
+            val body = response.body.string
+            val abbr = StringUtils.abbreviate(body, 240)
+            println(
+            s"HTTP status code: ${response.status.code()}, " +
+            s"response body length ${body.length}, " + s"body (showing max 240 characters): ${abbr}" )
+        }
+        response
+    }
+
+}

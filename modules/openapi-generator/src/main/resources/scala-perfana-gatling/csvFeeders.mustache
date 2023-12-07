@@ -1,0 +1,39 @@
+package {{feederPackage}}
+
+
+
+import io.gatling.core.Predef._
+import io.gatling.http.Predef._
+import java.io.File
+
+object CsvFeeders {
+
+    def getCurrentDirectory = new File("").getAbsolutePath
+
+    def userDataDirectory = getCurrentDirectory + "/src/test/resources/data"
+
+    // csv feeders
+
+    {{#apiInfo}}
+        {{#apis}}
+            {{#operations}}
+                {{#operation}}
+                    {{#vendorExtensions.x-gatling-query-feeder}}
+    val {{vendorExtensions.x-gatling-query-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-queryParams.csv").random
+                    {{/vendorExtensions.x-gatling-query-feeder}}
+                    {{#vendorExtensions.x-gatling-header-feeder}}
+    val {{vendorExtensions.x-gatling-header-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-headerParams.csv").random
+                    {{/vendorExtensions.x-gatling-header-feeder}}
+                    {{#vendorExtensions.x-gatling-form-feeder}}
+    val {{vendorExtensions.x-gatling-form-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-formParams.csv").random
+                    {{/vendorExtensions.x-gatling-form-feeder}}
+                    {{#vendorExtensions.x-gatling-path-feeder}}
+    val {{vendorExtensions.x-gatling-path-feeder}} = csv(userDataDirectory + File.separator + "{{operationId}}-pathParams.csv").random
+                    {{/vendorExtensions.x-gatling-path-feeder}}
+                {{/operation}}
+            {{/operations}}
+        {{/apis}}
+    {{/apiInfo}}
+
+
+}

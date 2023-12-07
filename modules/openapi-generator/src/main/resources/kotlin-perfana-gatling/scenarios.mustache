@@ -1,0 +1,71 @@
+package {{ setUpPackage }}
+
+
+import {{ configurationPackage }}.*
+import {{ apiPackage }}.*
+import {{ feederPackage }}.*
+import {{ helperPackage }}.*
+import io.gatling.javaapi.core.Choice
+import io.gatling.javaapi.core.CoreDsl.exec
+import io.gatling.javaapi.core.CoreDsl.scenario
+
+/**
+* This object collects the Scenarios in the project for use in the Simulation.
+* If you create new scenarios, make sure to add them to ScenarioConfiguration too
+*/
+
+object Scenarios {
+
+    /**
+    * These are the scenarios run in 'normal' mode. Change the randomSwitch percentages to emulate your production-like workload distribution
+    * Define the number of transactions per second and test duration in the profile section of the pom.xml for your load, stress and endurance tests.
+    * As per default the JWTGenerator is active and creates JWT Tokens for members that exists in the acc environment using:  http://idp.ah-acc.k8s.digitaldev.nl/secure/test-member-jwt
+    * If you remove "session.getString("memberId")" then the generator will create tokens for clients against this url: http://idp.ah-acc.k8s.digitaldev.nl/secure/client-jwt
+    */
+
+
+    val acceptanceTestScenario = scenario("Acceptance test")
+        .feed(MemberIdFeeders.memberIdFeeder)
+        .exec { session ->
+                session.set("testRunId", TestConfiguration.testRunId)
+            }
+            .exec { session ->
+                session.set("jwt", JWTGenerator.getToken(session.getString("memberId")))
+            }
+
+        .randomSwitch().on(
+
+            {{#apiInfo}}
+                {{#apis}}
+                    {{#operations}}
+                        {{#operation}}
+            Choice.withWeight(2.0, exec({{classname}}.{{operationId}}Scn)),
+                        {{/operation}}
+                    {{/operations}}
+                {{/apis}}
+            {{/apiInfo}}
+       )
+
+    /**
+    * These are the scenarios run in 'debug' mode. The purpose of the debug mode is to iterate through all the requests just once to validate that they work as intended.
+    * As per default the JWTGenerator is active and creates JWT Tokens for members that exists in the acc environment
+    */
+
+    val debugScenario = scenario("Debug test")
+        .feed(MemberIdFeeders.memberIdSmallFeeder)
+        .exec { session ->
+            session.set("testRunId", TestConfiguration.testRunId)
+        }
+        .exec { session ->
+            session.set("jwt", JWTGenerator.getToken(session.getString("memberId")))
+        }
+        {{#apiInfo}}
+            {{#apis}}
+                {{#operations}}
+                    {{#operation}}
+            .exec({{ classname }}.{{operationId}}Scn)
+                    {{/operation}}
+                {{/operations}}
+            {{/apis}}
+        {{/apiInfo}}
+}

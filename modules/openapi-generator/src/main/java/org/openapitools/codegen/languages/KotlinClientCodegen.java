@@ -86,7 +86,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
-    protected String dateLibrary = DateLibrary.JAVA8.value;
+    protected String dateLibraryValue = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
     protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava = false;
@@ -199,7 +199,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         dateOptions.put(DateLibrary.JAVA8.value, "Java 8 native JSR310 (jvm only, preferred for jdk 1.8+)");
         dateOptions.put(DateLibrary.JAVA8_LOCALDATETIME.value, "Java 8 native JSR310 (jvm only, for legacy app only)");
         dateLibrary.setEnum(dateOptions);
-        dateLibrary.setDefault(this.dateLibrary);
+        dateLibrary.setDefault(this.dateLibraryValue);
         cliOptions.add(dateLibrary);
 
         CliOption collectionType = new CliOption(COLLECTION_TYPE, "Option. Collection type to use");
@@ -319,7 +319,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
 
     public void setDateLibrary(String library) {
-        this.dateLibrary = library;
+        this.dateLibraryValue = library;
     }
 
     public void setRequestDateConverter(String converter) {
@@ -492,12 +492,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processDateLibrary() {
-        if (DateLibrary.THREETENBP.value.equals(dateLibrary) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibrary)) {
-            processThreeTenBpDate(dateLibrary);
-        } else if (DateLibrary.STRING.value.equals(dateLibrary)) {
+        if (DateLibrary.THREETENBP.value.equals(dateLibraryValue) || DateLibrary.THREETENBP_LOCALDATETIME.value.equals(dateLibraryValue)) {
+            processThreeTenBpDate(dateLibraryValue);
+        } else if (DateLibrary.STRING.value.equals(dateLibraryValue)) {
             processStringDate();
-        } else if (DateLibrary.JAVA8.value.equals(dateLibrary) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibrary)) {
-            processJava8Date(dateLibrary);
+        } else if (DateLibrary.JAVA8.value.equals(dateLibraryValue) || DateLibrary.JAVA8_LOCALDATETIME.value.equals(dateLibraryValue)) {
+            processJava8Date(dateLibraryValue);
         }
     }
 
@@ -921,14 +921,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     @Override
+    public String toEnumName(CodegenProperty property) {
+        return formatIdentifier(stripPackageName(property.baseName), true);
+    }
+
+    @Override
     public void postProcess() {
         System.out.println("################################################################################");
         System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
         System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
         System.out.println("################################################################################");
     }
 }

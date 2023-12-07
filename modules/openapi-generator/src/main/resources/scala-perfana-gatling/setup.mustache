@@ -1,0 +1,100 @@
+package {{ setUpPackage }}
+
+
+import {{ configurationPackage }}._
+
+import io.gatling.core.Predef._
+import io.gatling.jms.Predef._
+import io.gatling.core.structure.{PopulationBuilder, ScenarioBuilder}
+
+import scala.concurrent.duration._
+
+
+/**
+* This Simulation class is responsible for putting all configuration item together and run the simulation
+*/
+
+class {{ simulationClassName }} extends Simulation {
+
+    /**
+    * The runnableScenarios list will contain injected versions of all of the scenarios that need to be run.
+    * This list is constructed by configuring the scenarios in the baseScenario and optionally prepending the
+    * list with some auxiliary scenarios when they are needed.
+    */
+    
+    val runnableScenarios: List[PopulationBuilder] = configureBaseScenarios(List(ScenarioConfiguration.baseScenario))
+    
+    
+    /**
+    * Recurses over the list of scenarios passed into the function and sets them up with the required users, ramp-up,
+    * etc.
+    *
+    * @param scenarios the list of Scenarios to initialize
+    * @return a list of PopulationBuilders, ready to be simulated
+    */
+
+    def configureBaseScenarios(scenarios: List[ScenarioBuilder]): List[PopulationBuilder] = scenarios match {
+
+        case Nil => Nil
+        case sc :: scs => (
+        if (TestConfiguration.isDebugActive) setupSingleDebugScenario(sc)
+        else if (TestConfiguration.isClosedSystemWorkload) setupSingleClosedScenario(sc)
+        else setupSingleScenario(sc)) :: configureBaseScenarios(scs)
+    }
+    
+    /**
+    * Injects the required debug settings into a single ScenarioBuilder.
+    *
+    * @param scn the Scenario to initialize
+    * @return the initialized PopulationBuilder
+    */
+
+    def setupSingleDebugScenario(scn: ScenarioBuilder): PopulationBuilder = scn.inject(
+        atOnceUsers(1)
+    ).disablePauses
+    
+    /**
+    * Injects the required settings into a single ScenarioBuilder, close system injectionmodel.
+    *
+    * @param scn the Scenario to initialize
+    * @return the initialized PopulationBuilder
+    */
+    
+    def setupSingleClosedScenario(scn: ScenarioBuilder): PopulationBuilder = scn.inject(
+        
+        rampConcurrentUsers(TestConfiguration.initialConcurrentUsers) to (TestConfiguration.targetConcurrentUsers) during (TestConfiguration.rampupTimeInSeconds),
+        constantConcurrentUsers(TestConfiguration.targetConcurrentUsers) during (TestConfiguration.constantLoadTimeInSeconds)
+        
+    ).exponentialPauses
+    
+    /**
+    * Injects the required settings into a single ScenarioBuilder.
+    *
+    * @param scn the Scenario to initialize
+    * @return the initialized PopulationBuilder
+    */
+   
+    def setupSingleScenario(scn: ScenarioBuilder): PopulationBuilder = scn.inject(
+    
+        rampUsersPerSec(TestConfiguration.initialUsersPerSecond) to (TestConfiguration.targetUsersPerSecond) during (TestConfiguration.rampupTimeInSeconds),
+        constantUsersPerSec(TestConfiguration.targetUsersPerSecond) during (TestConfiguration.constantLoadTimeInSeconds)
+    
+    ).exponentialPauses
+    
+    
+    before {
+    println("Simulation is about to start! ")
+    }
+    
+    // Go!
+    setUp(runnableScenarios)
+    .protocols(HttpProtocolConfiguration.httpProtocol)
+    .maxDuration(TestConfiguration.rampupTimeInSeconds + TestConfiguration.constantLoadTimeInSeconds)
+    
+    
+    after {
+    println("Simulation is finished!")
+    }
+
+
+}
