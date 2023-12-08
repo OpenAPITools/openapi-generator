@@ -40,7 +40,7 @@ enum OuterEnum: string
 
     case APPROVED = 'approved';
 
-    case DELIVERED = 'delivered';
+    case SHIPPED = 'delivered';
 
 }
 

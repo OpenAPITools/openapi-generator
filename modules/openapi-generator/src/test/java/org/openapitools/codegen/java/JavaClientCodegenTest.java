@@ -2436,6 +2436,47 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testDeprecatedPropertyJersey3() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.JERSEY3)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        // deprecated builder method
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" + " public BigDog declawed(Boolean declawed) {");
+
+        // deprecated getter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @jakarta.annotation.Nullable\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + "\n"
+                        + " public Boolean getDeclawed() {");
+        // deprecated setter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(Boolean declawed) {");
+
+        output.deleteOnExit();
+    }
+
     @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
     public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
         return new Object[][]{{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
@@ -2721,5 +2762,29 @@ public class JavaClientCodegenTest {
 
         File apiFile = files.get("AllOfDatetime.java");
         assertEquals(apiFile, null);
+    }
+
+    @Test
+    public void testOpenAPIGeneratorIgnoreListOption() throws IOException {
+        File output = Files.createTempDirectory("openapi_generator_ignore_list_test_folder").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allof_primitive.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
+        javaClientCodegen.setOutputDir(output.getAbsolutePath());
+        javaClientCodegen.setAutosetConstants(true);
+        javaClientCodegen.openapiGeneratorIgnoreList().add("README.md");
+        javaClientCodegen.openapiGeneratorIgnoreList().add("pom.xml");
+        clientOptInput.config(javaClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // make sure README.md and pom.xml are not generated
+        assertEquals(files.get("README.md"), null);
+        assertEquals(files.get("pom.xml"), null);
     }
 }

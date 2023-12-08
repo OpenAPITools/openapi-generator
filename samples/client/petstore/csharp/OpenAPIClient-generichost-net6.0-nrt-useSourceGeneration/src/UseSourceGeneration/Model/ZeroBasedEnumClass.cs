@@ -236,10 +236,7 @@ namespace UseSourceGeneration.Model
         public void WriteProperties(ref Utf8JsonWriter writer, ZeroBasedEnumClass zeroBasedEnumClass, JsonSerializerOptions jsonSerializerOptions)
         {
             var zeroBasedEnumRawValue = ZeroBasedEnumClass.ZeroBasedEnumEnumToJsonValue(zeroBasedEnumClass.ZeroBasedEnumOption.Value!.Value);
-            if (zeroBasedEnumRawValue != null)
-                writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
-            else
-                writer.WriteNull("ZeroBasedEnum");
+            writer.WriteString("ZeroBasedEnum", zeroBasedEnumRawValue);
         }
     }
 

@@ -12,7 +12,7 @@ interface SerializerInterface
      *
      * @return string
      */
-     public function serialize($data, string $format): string;
+    public function serialize($data, string $format): string;
 
     /**
      * Deserializes the given data to the specified type.

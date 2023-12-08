@@ -80,7 +80,7 @@ class EnumArrays implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'just_symbol' => false,
-		'array_enum' => false
+        'array_enum' => false
     ];
 
     /**

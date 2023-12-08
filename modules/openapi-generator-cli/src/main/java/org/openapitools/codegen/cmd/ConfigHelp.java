@@ -101,6 +101,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--language-specific-primitive"}, title = "language specific primitives", description = "displays the language specific primitives (types which require no additional imports, or which may conflict with user defined model names)")
     private Boolean languageSpecificPrimitives;
 
+    @Option(name = {"--openapi-generator-ignore-list"}, title = "openapi generator ignore list", description = "displays the openapi generator ignore list")
+    private Boolean openapiGeneratorIgnoreList;
+
     @Option(name = {"--reserved-words"}, title = "language specific reserved words", description = "displays the reserved words which may result in renamed model or property names")
     private Boolean reservedWords;
 
@@ -584,6 +587,13 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
             sb.append(newline).append("LANGUAGE PRIMITIVES").append(newline).append(newline);
             String[] arr = config.languageSpecificPrimitives().stream().sorted().toArray(String[]::new);
+            writePlainTextFromArray(sb, arr, optIndent);
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(openapiGeneratorIgnoreList)) {
+            sb.append(newline).append("OPENAPI GENERATOR IGNORE LIST").append(newline).append(newline);
+            String[] arr = config.openapiGeneratorIgnoreList().stream().sorted().toArray(String[]::new);
             writePlainTextFromArray(sb, arr, optIndent);
             sb.append(newline);
         }

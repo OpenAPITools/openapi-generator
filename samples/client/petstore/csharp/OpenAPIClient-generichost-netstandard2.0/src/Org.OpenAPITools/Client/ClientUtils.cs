@@ -53,6 +53,40 @@ namespace Org.OpenAPITools.Client
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
         /// <summary>
+        /// An enum of headers
+        /// </summary>
+        public enum ApiKeyHeader
+        {
+            /// <summary>
+            /// The api_key header
+            /// </summary>
+            Api_key,
+            /// <summary>
+            /// The api_key_query header
+            /// </summary>
+            Api_key_query
+        }
+
+        /// <summary>
+        /// Converte an ApiKeyHeader to a string
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException"></exception>
+        public static string ApiKeyHeaderToString(ApiKeyHeader value)
+        {
+            switch(value)
+            {
+                case ApiKeyHeader.Api_key:
+                    return "api_key";
+                case ApiKeyHeader.Api_key_query:
+                    return "api_key_query";
+                default:
+                    throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader));
+            }
+        }
+
+        /// <summary>
         /// Returns true when deserialization succeeds.
         /// </summary>
         /// <typeparam name="T"></typeparam>

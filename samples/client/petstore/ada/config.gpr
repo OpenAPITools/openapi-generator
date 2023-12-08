@@ -45,7 +45,7 @@ abstract project Config is
          when "debug" =>
             for Default_Switches ("Ada") use ("-E");
 
-	 when others =>
+         when others =>
             for Default_Switches ("Ada") use ("-E");
 
       end case;
@@ -64,12 +64,12 @@ abstract project Config is
 
          when "coverage" =>
             for Default_Switches ("ada") use ("-fprofile-arcs");
-	 
-	 when others =>
-	    null;
+
+         when others =>
+            null;
       end case;
 
-   end linker;        
+   end linker;
  
    package Ide is
       for VCS_Kind use "git";

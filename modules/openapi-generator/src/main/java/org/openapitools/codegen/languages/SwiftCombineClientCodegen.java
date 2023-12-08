@@ -575,6 +575,10 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "empty";
         }
@@ -630,6 +634,10 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = toModelName(property.name);
 
         // Ensure that the enum type doesn't match a reserved word or

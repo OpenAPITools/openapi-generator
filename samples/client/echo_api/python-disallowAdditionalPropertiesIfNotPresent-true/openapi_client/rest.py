@@ -88,6 +88,9 @@ class RESTClientObject:
         if configuration.socket_options is not None:
             addition_pool_args['socket_options'] = configuration.socket_options
 
+        if configuration.connection_pool_maxsize is not None:
+            addition_pool_args['maxsize'] = configuration.connection_pool_maxsize
+
         # https pool manager
         if configuration.proxy:
             if is_socks_proxy_url(configuration.proxy):

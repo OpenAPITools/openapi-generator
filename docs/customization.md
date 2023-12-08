@@ -266,6 +266,11 @@ Upon first code generation, you may also pass the CLI option `--ignore-file-over
 
 Editor support for `.openapi-generator-ignore` files is available in IntelliJ via the [.ignore plugin](https://plugins.jetbrains.com/plugin/7495--ignore).
 
+One may want to pre-populate `.openapi-generator-ignore` with a list of entries during the code generation process and the global/general option `openapiGeneatorIgnoreList` (e.g. --openapi-generator-ignore-list in CLI) can do exactly that. For example,
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g spring -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/spring --additional-properties useTags=true --openapi-generator-ignore-list "README.md,pom.xml,docs/*.md,src/main/java/org/openapitools/model/*"
+```
+
 ## Customizing the generator
 
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:

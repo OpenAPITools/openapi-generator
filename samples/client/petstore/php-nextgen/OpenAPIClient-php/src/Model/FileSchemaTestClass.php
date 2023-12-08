@@ -79,7 +79,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess, JsonSerializab
       */
     protected static array $openAPINullables = [
         'file' => false,
-		'files' => false
+        'files' => false
     ];
 
     /**

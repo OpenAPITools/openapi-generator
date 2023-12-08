@@ -87,11 +87,11 @@ class Order implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'pet_id' => false,
-		'quantity' => false,
-		'ship_date' => false,
-		'status' => false,
-		'complete' => false
+        'pet_id' => false,
+        'quantity' => false,
+        'ship_date' => false,
+        'status' => false,
+        'complete' => false
     ];
 
     /**
@@ -259,7 +259,7 @@ class Order implements ModelInterface, ArrayAccess, JsonSerializable
 
     public const STATUS_PLACED = 'placed';
     public const STATUS_APPROVED = 'approved';
-    public const STATUS_DELIVERED = 'delivered';
+    public const STATUS_SHIPPED = 'delivered';
 
     /**
      * Gets allowable values of the enum
@@ -271,7 +271,7 @@ class Order implements ModelInterface, ArrayAccess, JsonSerializable
         return [
             self::STATUS_PLACED,
             self::STATUS_APPROVED,
-            self::STATUS_DELIVERED,
+            self::STATUS_SHIPPED,
         ];
     }
 
