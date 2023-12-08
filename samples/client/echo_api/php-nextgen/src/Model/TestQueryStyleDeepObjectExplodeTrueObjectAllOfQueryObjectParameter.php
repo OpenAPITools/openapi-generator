@@ -84,9 +84,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
       */
     protected static array $openAPINullables = [
         'size' => false,
-		'color' => false,
-		'id' => false,
-		'name' => false
+        'color' => false,
+        'id' => false,
+        'name' => false
     ];
 
     /**

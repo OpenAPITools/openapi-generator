@@ -15,6 +15,7 @@
 
 import copy
 import logging
+import multiprocessing
 import sys
 import urllib3
 
@@ -164,6 +165,13 @@ conf = openapi_client.Configuration(
            Set this to the SNI value expected by the server.
         """
 
+        self.connection_pool_maxsize = multiprocessing.cpu_count() * 5
+        """urllib3 connection pool's maximum number of connections saved
+           per pool. urllib3 uses 1 connection as default value, but this is
+           not the best value when you are making a lot of possibly parallel
+           requests to the same host, which is often the case here.
+           cpu_count * 5 is used as default value to increase performance.
+        """
 
         self.proxy = None
         """Proxy URL

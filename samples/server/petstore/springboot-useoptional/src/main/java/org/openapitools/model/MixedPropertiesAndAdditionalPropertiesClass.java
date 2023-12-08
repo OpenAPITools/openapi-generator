@@ -28,16 +28,16 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
 
-  private UUID uuid;
+  private Optional<UUID> uuid = Optional.empty();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime dateTime;
+  private Optional<OffsetDateTime> dateTime = Optional.empty();
 
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    this.uuid = uuid;
+    this.uuid = Optional.of(uuid);
     return this;
   }
 
@@ -48,16 +48,16 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
-  public UUID getUuid() {
+  public Optional<UUID> getUuid() {
     return uuid;
   }
 
-  public void setUuid(UUID uuid) {
+  public void setUuid(Optional<UUID> uuid) {
     this.uuid = uuid;
   }
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    this.dateTime = dateTime;
+    this.dateTime = Optional.of(dateTime);
     return this;
   }
 
@@ -68,11 +68,11 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
-  public OffsetDateTime getDateTime() {
+  public Optional<OffsetDateTime> getDateTime() {
     return dateTime;
   }
 
-  public void setDateTime(OffsetDateTime dateTime) {
+  public void setDateTime(Optional<OffsetDateTime> dateTime) {
     this.dateTime = dateTime;
   }
 

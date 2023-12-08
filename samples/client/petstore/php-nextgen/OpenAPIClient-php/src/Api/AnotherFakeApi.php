@@ -244,7 +244,7 @@ class AnotherFakeApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }

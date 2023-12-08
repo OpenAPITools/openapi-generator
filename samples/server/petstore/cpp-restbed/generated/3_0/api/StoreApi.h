@@ -266,7 +266,7 @@ class  StoreApi
 {
 public:
     explicit StoreApi(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~StoreApi();
+    virtual ~StoreApi();
 
     std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> getStoreOrderOrder_idResource();
     std::shared_ptr<StoreApiResources::StoreInventoryResource> getStoreInventoryResource();
@@ -287,9 +287,9 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> m_spStoreOrderOrder_idResource;
-	std::shared_ptr<StoreApiResources::StoreInventoryResource> m_spStoreInventoryResource;
-	std::shared_ptr<StoreApiResources::StoreOrderResource> m_spStoreOrderResource;
+    std::shared_ptr<StoreApiResources::StoreOrderOrder_idResource> m_spStoreOrderOrder_idResource;
+    std::shared_ptr<StoreApiResources::StoreInventoryResource> m_spStoreInventoryResource;
+    std::shared_ptr<StoreApiResources::StoreOrderResource> m_spStoreOrderResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

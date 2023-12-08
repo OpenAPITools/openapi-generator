@@ -84,9 +84,9 @@ class PropertyNameMapping implements ModelInterface, ArrayAccess, \JsonSerializa
       */
     protected static array $openAPINullables = [
         'http_debug_operation' => false,
-		'underscore_type' => false,
-		'type' => false,
-		'type_with_underscore' => false
+        'underscore_type' => false,
+        'type' => false,
+        'type_with_underscore' => false
     ];
 
     /**

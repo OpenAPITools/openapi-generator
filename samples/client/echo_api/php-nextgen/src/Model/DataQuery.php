@@ -76,8 +76,8 @@ class DataQuery extends Query
       */
     protected static array $openAPINullables = [
         'suffix' => false,
-		'text' => false,
-		'date' => false
+        'text' => false,
+        'date' => false
     ];
 
     /**

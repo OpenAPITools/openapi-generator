@@ -261,7 +261,7 @@ class HeaderApi
                             $statusCode,
                             $response->getHeaders(),
                             $content
-                         );
+                        );
                     }
                 }
             }

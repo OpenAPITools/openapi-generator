@@ -22,10 +22,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Client {
 
-  private String client;
+  private Optional<String> client = Optional.empty();
 
   public Client client(String client) {
-    this.client = client;
+    this.client = Optional.of(client);
     return this;
   }
 
@@ -36,11 +36,11 @@ public class Client {
   
   @ApiModelProperty(value = "")
   @JsonProperty("client")
-  public String getClient() {
+  public Optional<String> getClient() {
     return client;
   }
 
-  public void setClient(String client) {
+  public void setClient(Optional<String> client) {
     this.client = client;
   }
 
