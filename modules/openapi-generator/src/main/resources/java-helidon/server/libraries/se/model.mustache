@@ -2,6 +2,10 @@ package {{package}};
 
 {{#imports}}import {{import}};
 {{/imports}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
 {{#models}}
 {{#model}}{{#isEnum}}
 {{>enumOuterClass}}{{/isEnum}}{{^isEnum}}

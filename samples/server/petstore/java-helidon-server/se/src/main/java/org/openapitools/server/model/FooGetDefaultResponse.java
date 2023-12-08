@@ -2,6 +2,8 @@ package org.openapitools.server.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import org.openapitools.server.model.Foo;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 

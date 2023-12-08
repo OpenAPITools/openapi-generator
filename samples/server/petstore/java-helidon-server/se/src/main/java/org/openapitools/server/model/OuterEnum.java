@@ -1,5 +1,7 @@
 package org.openapitools.server.model;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;

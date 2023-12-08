@@ -1,6 +1,8 @@
 package org.openapitools.server.model;
 
 import org.openapitools.jackson.nullable.JsonNullable;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 
 /**

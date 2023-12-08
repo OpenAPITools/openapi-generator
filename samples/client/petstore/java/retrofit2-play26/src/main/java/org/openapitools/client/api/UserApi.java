@@ -12,6 +12,9 @@ import okhttp3.MultipartBody;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
