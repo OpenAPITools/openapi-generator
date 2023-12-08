@@ -725,7 +725,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
         ResponseEntity<T> responseEntity = null;
         int attempts = 0;
         int maxAttempts = 3;
-        int waitTimeMillis = 10l;
+        long waitTimeMillis = 10l;
         while (attempts < maxAttempts) {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
