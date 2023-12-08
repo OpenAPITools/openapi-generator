@@ -15,6 +15,7 @@ import java.io.InputStream;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class UserApiService {
     public abstract Response createUser(User user,SecurityContext securityContext) throws NotFoundException;
