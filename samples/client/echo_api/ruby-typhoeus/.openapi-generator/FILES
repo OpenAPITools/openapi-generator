@@ -47,6 +47,4 @@ lib/openapi_client/models/test_query_style_deep_object_explode_true_object_all_o
 lib/openapi_client/models/test_query_style_form_explode_true_array_string_query_object_parameter.rb
 lib/openapi_client/version.rb
 openapi_client.gemspec
-spec/api_client_spec.rb
-spec/configuration_spec.rb
 spec/spec_helper.rb
