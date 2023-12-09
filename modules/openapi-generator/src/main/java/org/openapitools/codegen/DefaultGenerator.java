@@ -783,7 +783,10 @@ public class DefaultGenerator implements Generator {
         try {
             LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
             new File(config.outputFolder()).mkdirs();
-            ignoreFile.createNewFile();
+            if (!ignoreFile.createNewFile()) {
+                throw new RuntimeException("Failed to create the file .openapi-generator-ignore: " + ignoreFileNameTarget);
+            }
+
             String header = String.join("\n",
                     "# IMPORTANT: this file is generated with the option `openapiGeneratorIgnoreList` enabled",
                     "# (--openapi-generator-ignore-list in CLI for example) so the entries below are pre-populated based",
