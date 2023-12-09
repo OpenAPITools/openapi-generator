@@ -188,14 +188,16 @@ module Petstore
         chunk.force_encoding(encoding)
         tempfile.write(chunk)
       end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
+      # run the request to ensure the tempfile is created successfully before returning it
+      request.run
+      if tempfile
+        tempfile.close
+        @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
+      else
+        fail ApiError.new("Failed to create the tempfile based on the HTTP response from the server: #{request.inspect}") 
       end
 
       tempfile
