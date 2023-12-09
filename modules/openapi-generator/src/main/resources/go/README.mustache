@@ -143,8 +143,8 @@ Example
 
 ```go
 auth := context.WithValue(context.Background(), {{packageName}}.ContextBasicAuth, {{packageName}}.BasicAuth{
-    UserName: "username",
-    Password: "password",
+	UserName: "username",
+	Password: "password",
 })
 r, err := client.Service.Operation(auth, args)
 ```
