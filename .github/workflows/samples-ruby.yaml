@@ -30,6 +30,7 @@ jobs:
           ruby-version: 3.0
           bundler-cache: true
       - name: Install bundle
+        working-directory: ${{ matrix.sample }}
         run: bundle install
       - name: Run rspec
         working-directory: ${{ matrix.sample }}
