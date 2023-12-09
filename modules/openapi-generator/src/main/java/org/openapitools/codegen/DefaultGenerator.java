@@ -1594,7 +1594,7 @@ public class DefaultGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
+            if (security != null) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {
