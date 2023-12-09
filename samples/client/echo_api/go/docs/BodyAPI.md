@@ -29,23 +29,23 @@ Test binary (gif) response body
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestBinaryGif(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBinaryGif``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestBinaryGif`: *os.File
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBinaryGif`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestBinaryGif(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBinaryGif``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestBinaryGif`: *os.File
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBinaryGif`: %v\n", resp)
 }
 ```
 
@@ -90,24 +90,24 @@ Test body parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    body := os.NewFile(1234, "some_file") // *os.File |  (optional)
+	body := os.NewFile(1234, "some_file") // *os.File |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestBodyApplicationOctetstreamBinary(context.Background()).Body(body).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBodyApplicationOctetstreamBinary``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestBodyApplicationOctetstreamBinary`: string
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBodyApplicationOctetstreamBinary`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestBodyApplicationOctetstreamBinary(context.Background()).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBodyApplicationOctetstreamBinary``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestBodyApplicationOctetstreamBinary`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBodyApplicationOctetstreamBinary`: %v\n", resp)
 }
 ```
 
@@ -156,24 +156,24 @@ Test array of binary in multipart mime
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    files := []*os.File{"TODO"} // []*os.File | 
+	files := []*os.File{"TODO"} // []*os.File | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestBodyMultipartFormdataArrayOfBinary(context.Background()).Files(files).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBodyMultipartFormdataArrayOfBinary``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestBodyMultipartFormdataArrayOfBinary`: string
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBodyMultipartFormdataArrayOfBinary`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestBodyMultipartFormdataArrayOfBinary(context.Background()).Files(files).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBodyMultipartFormdataArrayOfBinary``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestBodyMultipartFormdataArrayOfBinary`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBodyMultipartFormdataArrayOfBinary`: %v\n", resp)
 }
 ```
 
@@ -222,24 +222,24 @@ Test body parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
+	pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestEchoBodyAllOfPet(context.Background()).Pet(pet).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyAllOfPet``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEchoBodyAllOfPet`: Pet
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyAllOfPet`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyAllOfPet(context.Background()).Pet(pet).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyAllOfPet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyAllOfPet`: Pet
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyAllOfPet`: %v\n", resp)
 }
 ```
 
@@ -288,24 +288,24 @@ Test free form object
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    body := map[string]interface{}{ ... } // map[string]interface{} | Free form object (optional)
+	body := map[string]interface{}{ ... } // map[string]interface{} | Free form object (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestEchoBodyFreeFormObjectResponseString(context.Background()).Body(body).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyFreeFormObjectResponseString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEchoBodyFreeFormObjectResponseString`: string
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyFreeFormObjectResponseString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyFreeFormObjectResponseString(context.Background()).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyFreeFormObjectResponseString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyFreeFormObjectResponseString`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyFreeFormObjectResponseString`: %v\n", resp)
 }
 ```
 
@@ -354,24 +354,24 @@ Test body parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
+	pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestEchoBodyPet(context.Background()).Pet(pet).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyPet``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEchoBodyPet`: Pet
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyPet`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyPet(context.Background()).Pet(pet).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyPet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyPet`: Pet
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyPet`: %v\n", resp)
 }
 ```
 
@@ -420,24 +420,24 @@ Test empty response body
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
+	pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestEchoBodyPetResponseString(context.Background()).Pet(pet).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyPetResponseString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEchoBodyPetResponseString`: string
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyPetResponseString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyPetResponseString(context.Background()).Pet(pet).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyPetResponseString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyPetResponseString`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyPetResponseString`: %v\n", resp)
 }
 ```
 
@@ -486,24 +486,24 @@ Test empty json (request body)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    tag := *openapiclient.NewTag() // Tag | Tag object (optional)
+	tag := *openapiclient.NewTag() // Tag | Tag object (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.BodyAPI.TestEchoBodyTagResponseString(context.Background()).Tag(tag).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyTagResponseString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEchoBodyTagResponseString`: string
-    fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyTagResponseString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestEchoBodyTagResponseString(context.Background()).Tag(tag).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestEchoBodyTagResponseString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEchoBodyTagResponseString`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestEchoBodyTagResponseString`: %v\n", resp)
 }
 ```
 
