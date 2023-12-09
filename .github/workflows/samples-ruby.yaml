@@ -1,0 +1,36 @@
+name: Samples Ruby 
+
+on:
+  push:
+    paths:
+      - 'samples/client/echo_api/ruby-httpx/**'
+      - 'samples/client/echo_api/ruby-faraday/**'
+      - 'samples/client/echo_api/ruby-typhoeus/**'
+  pull_request:
+    paths:
+      - 'samples/client/echo_api/ruby-httpx/**'
+      - 'samples/client/echo_api/ruby-faraday/**'
+      - 'samples/client/echo_api/ruby-typhoeus/**'
+
+jobs:
+  build:
+    name: Build Ruby
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          - 'samples/client/echo_api/ruby-httpx/'
+          - 'samples/client/echo_api/ruby-faraday/'
+          - 'samples/client/echo_api/ruby-typhoeus/'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+      - name: Install bundle
+        run: bundle install
+      - name: Run rspec
+        working-directory: ${{ matrix.sample }}
+        run: rspec
