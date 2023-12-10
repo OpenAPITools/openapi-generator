@@ -136,6 +136,24 @@ paths:
             type: string
           type: array
         style: form
+      - description: Find pets born after this date
+        explode: false
+        in: query
+        name: bornAfter
+        required: true
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - description: Find pets born before this date
+        explode: false
+        in: query
+        name: bornBefore
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -707,6 +725,64 @@ paths:
       summary: uploads images (array of files)
       tags:
       - pet
+  /pets/boolean/parsing:
+    get:
+      operationId: GetPetsUsingBooleanQueryParameters
+      parameters:
+      - explode: true
+        in: query
+        name: expr
+        required: true
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: grouping
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: inactive
+        required: false
+        schema:
+          default: false
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Get the pets by only using boolean query parameters
+      tags:
+      - pet
+  /pets/byTime/{createdTime}:
+    get:
+      operationId: GetPetsByTime
+      parameters:
+      - explode: false
+        in: path
+        name: createdTime
+        required: true
+        schema:
+          format: date-time
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Get the pets by time
+      tags:
+      - pet
 components:
   requestBodies:
     UserArray:
@@ -1140,6 +1216,11 @@ components:
         additionalMetadata:
           description: Additional data to pass to server
           type: string
+        extraOptionalMetadata:
+          description: More data to pass to server
+          items:
+            type: string
+          type: array
         file:
           description: file to upload
           format: binary

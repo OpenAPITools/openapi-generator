@@ -12,6 +12,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // checks if the EnumTest type satisfies the MappedNullable interface at compile time
@@ -25,6 +26,8 @@ type EnumTest struct {
 	EnumNumber *float64 `json:"enum_number,omitempty"`
 	OuterEnum *OuterEnum `json:"outerEnum,omitempty"`
 }
+
+type _EnumTest EnumTest
 
 // NewEnumTest instantiates a new EnumTest object
 // This constructor will assign default values to properties that have it defined,
@@ -220,6 +223,41 @@ func (o EnumTest) ToMap() (map[string]interface{}, error) {
 		toSerialize["outerEnum"] = o.OuterEnum
 	}
 	return toSerialize, nil
+}
+
+func (o *EnumTest) UnmarshalJSON(bytes []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"enum_string_required",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(bytes, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varEnumTest := _EnumTest{}
+
+	err = json.Unmarshal(bytes, &varEnumTest)
+
+	if err != nil {
+		return err
+	}
+
+	*o = EnumTest(varEnumTest)
+
+	return err
 }
 
 type NullableEnumTest struct {

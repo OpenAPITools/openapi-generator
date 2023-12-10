@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,14 +28,15 @@ except ImportError:
 
 class ModelReturn(BaseModel):
     """
-    Model for testing reserved words  # noqa: E501
-    """
+    Model for testing reserved words
+    """ # noqa: E501
     var_return: Optional[StrictInt] = Field(default=None, alias="return")
     __properties: ClassVar[List[str]] = ["return"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -73,7 +73,7 @@ class ModelReturn(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ModelReturn from a dict"""
         if obj is None:
             return None

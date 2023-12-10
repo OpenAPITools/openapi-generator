@@ -61,7 +61,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   }
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(List<String> values) {
-    
     this.values = values;
     return this;
   }
@@ -82,7 +81,6 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
   public List<String> getValues() {
     return values;
   }
-
 
   public void setValues(List<String> values) {
     this.values = values;

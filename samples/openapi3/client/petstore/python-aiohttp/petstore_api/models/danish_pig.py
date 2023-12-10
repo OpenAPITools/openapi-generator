@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-
+from typing import Any, ClassVar, Dict, List
 from pydantic import BaseModel, StrictInt, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,14 +29,15 @@ except ImportError:
 class DanishPig(BaseModel):
     """
     DanishPig
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     size: StrictInt
     __properties: ClassVar[List[str]] = ["className", "size"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -74,7 +74,7 @@ class DanishPig(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of DanishPig from a dict"""
         if obj is None:
             return None

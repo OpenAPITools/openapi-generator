@@ -929,7 +929,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     typingImports.add("Union");
                     Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
                     for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getMappingName());
+                        postponedModelImports.add(mappedModel.getModelName());
                     }
                 }
             }
@@ -946,15 +946,16 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
-            // if model_generic.mustache is used and support additionalProperties
-            if (model.oneOf.isEmpty() && model.anyOf.isEmpty()
-                    && !model.isEnum
-                    && !this.disallowAdditionalPropertiesIfNotPresent) {
-                typingImports.add("Dict");
-                typingImports.add("List");
-                typingImports.add("Any");
+            // if model_generic.mustache is used
+            if (model.oneOf.isEmpty() && model.anyOf.isEmpty() && !model.isEnum) {
                 typingImports.add("ClassVar");
+                typingImports.add("Dict");
+                typingImports.add("Any");
+                if(this.disallowAdditionalPropertiesIfNotPresent || model.isAdditionalPropertiesTrue) {
+                    typingImports.add("List");
+                }
             }
+
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
@@ -2023,16 +2024,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             return new PythonType(cp.getDataType());
         }
 
-        private PythonType freeFormType(IJsonSchemaValidationProperties cp) {
-            typingImports.add("Dict");
-            typingImports.add("Any");
-            typingImports.add("Union");
-            PythonType pt = new PythonType("Union");
-            pt.addTypeParam(new PythonType("str"));
-            pt.addTypeParam(new PythonType("Any"));
-            return pt;
-        }
-
         private PythonType modelType(IJsonSchemaValidationProperties cp) {
             // add model prefix
             hasModelsToImport = true;
@@ -2055,7 +2046,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
             if (cp.getIsArray()) {
                 return arrayType(cp);
-            } else if (cp.getIsMap()) {
+            } else if (cp.getIsMap() || cp.getIsFreeFormObject()) {
                 return mapType(cp);
             } else if (cp.getIsString()) {
                 return stringType(cp);
@@ -2075,8 +2066,6 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 return dateType(cp);
             } else if (cp.getIsUuid()) {
                 return uuidType(cp);
-            } else if (cp.getIsFreeFormObject()) { // type: object
-                return freeFormType(cp);
             }
 
             return null;

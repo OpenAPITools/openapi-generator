@@ -24,10 +24,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelName {
 
-  private Long $specialPropertyName;
+  private Optional<Long> $specialPropertyName = Optional.empty();
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    this.$specialPropertyName = $specialPropertyName;
+    this.$specialPropertyName = Optional.of($specialPropertyName);
     return this;
   }
 
@@ -38,11 +38,11 @@ public class SpecialModelName {
   
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
-  public Long get$SpecialPropertyName() {
+  public Optional<Long> get$SpecialPropertyName() {
     return $specialPropertyName;
   }
 
-  public void set$SpecialPropertyName(Long $specialPropertyName) {
+  public void set$SpecialPropertyName(Optional<Long> $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 

@@ -80,6 +80,11 @@ public class OpenAPINormalizer {
     final String SET_TAGS_FOR_ALL_OPERATIONS = "SET_TAGS_FOR_ALL_OPERATIONS";
     String setTagsForAllOperations;
 
+    // when set to true, tags in all operations will be set to operationId or "default" if operationId
+    // is empty
+    final String SET_TAGS_TO_OPERATIONID = "SET_TAGS_TO_OPERATIONID";
+    String setTagsToOperationId;
+
     // when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1)
     // by adding x-unsigned to the schema
     final String ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE = "ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE";
@@ -117,6 +122,7 @@ public class OpenAPINormalizer {
         ruleNames.add(SIMPLIFY_BOOLEAN_ENUM);
         ruleNames.add(KEEP_ONLY_FIRST_TAG_IN_OPERATION);
         ruleNames.add(SET_TAGS_FOR_ALL_OPERATIONS);
+        ruleNames.add(SET_TAGS_TO_OPERATIONID);
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
@@ -188,7 +194,7 @@ public class OpenAPINormalizer {
         }
 
         normalizePaths();
-        normalizeComponents();
+        normalizeComponentsSchemas();
     }
 
     /**
@@ -215,10 +221,14 @@ public class OpenAPINormalizer {
                 }
             }
 
+            // normalize PathItem common parameters
+            normalizeParameters(path.getParameters());
+
             for (Operation operation : operations) {
+
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
-                normalizeParameters(operation);
+                normalizeParameters(operation.getParameters());
                 normalizeResponses(operation);
             }
         }
@@ -233,6 +243,8 @@ public class OpenAPINormalizer {
         processKeepOnlyFirstTagInOperation(operation);
 
         processSetTagsForAllOperations(operation);
+
+        processSetTagsToOperationId(operation);
     }
 
     /**
@@ -286,10 +298,9 @@ public class OpenAPINormalizer {
     /**
      * Normalizes schemas in parameters
      *
-     * @param operation target operation
+     * @param parameters List parameters
      */
-    private void normalizeParameters(Operation operation) {
-        List<Parameter> parameters = operation.getParameters();
+    private void normalizeParameters(List<Parameter> parameters) {
         if (parameters == null) {
             return;
         }
@@ -319,9 +330,8 @@ public class OpenAPINormalizer {
             if (responsesEntry.getValue() == null) {
                 continue;
             } else {
-                normalizeContent(responsesEntry.getValue().getContent());
-                normalizeHeaders(responsesEntry.getValue().getHeaders());
-
+                normalizeContent(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getContent());
+                normalizeHeaders(ModelUtils.getReferencedApiResponse(openAPI, responsesEntry.getValue()).getHeaders());
             }
         }
     }
@@ -346,7 +356,7 @@ public class OpenAPINormalizer {
     /**
      * Normalizes schemas in components
      */
-    private void normalizeComponents() {
+    private void normalizeComponentsSchemas() {
         Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         if (schemas == null) {
             return;
@@ -618,6 +628,24 @@ public class OpenAPINormalizer {
 
         operation.setTags(null);
         operation.addTagsItem(setTagsForAllOperations);
+    }
+
+    /**
+     * Set the tag name to operationId (or "default" if operationId is empty)
+     *
+     * @param operation Operation
+     */
+    private void processSetTagsToOperationId(Operation operation) {
+        if (!getRule(SET_TAGS_TO_OPERATIONID)) {
+            return;
+        }
+
+        operation.setTags(null);
+        if (StringUtils.isNotEmpty(operation.getOperationId())) {
+            operation.addTagsItem(operation.getOperationId());
+        } else { // default to "default" if operationId is empty
+            operation.addTagsItem("default");
+        }
     }
 
     /**

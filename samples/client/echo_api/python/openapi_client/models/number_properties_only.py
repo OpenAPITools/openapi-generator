@@ -19,11 +19,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel, StrictFloat, StrictInt
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -32,7 +31,7 @@ except ImportError:
 class NumberPropertiesOnly(BaseModel):
     """
     NumberPropertiesOnly
-    """
+    """ # noqa: E501
     number: Optional[Union[StrictFloat, StrictInt]] = None
     var_float: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="float")
     double: Optional[Union[Annotated[float, Field(le=50.2, strict=True, ge=0.8)], Annotated[int, Field(le=50, strict=True, ge=1)]]] = None
@@ -40,7 +39,8 @@ class NumberPropertiesOnly(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -77,7 +77,7 @@ class NumberPropertiesOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of NumberPropertiesOnly from a dict"""
         if obj is None:
             return None

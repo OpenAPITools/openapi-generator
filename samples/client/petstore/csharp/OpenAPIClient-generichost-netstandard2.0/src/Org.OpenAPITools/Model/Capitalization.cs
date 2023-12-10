@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,55 +39,97 @@ namespace Org.OpenAPITools.Model
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(string aTTNAME, string capitalCamel, string capitalSnake, string sCAETHFlowPoints, string smallCamel, string smallSnake)
+        public Capitalization(Option<string> aTTNAME = default, Option<string> capitalCamel = default, Option<string> capitalSnake = default, Option<string> sCAETHFlowPoints = default, Option<string> smallCamel = default, Option<string> smallSnake = default)
         {
-            ATT_NAME = aTTNAME;
-            CapitalCamel = capitalCamel;
-            CapitalSnake = capitalSnake;
-            SCAETHFlowPoints = sCAETHFlowPoints;
-            SmallCamel = smallCamel;
-            SmallSnake = smallSnake;
+            ATT_NAMEOption = aTTNAME;
+            CapitalCamelOption = capitalCamel;
+            CapitalSnakeOption = capitalSnake;
+            SCAETHFlowPointsOption = sCAETHFlowPoints;
+            SmallCamelOption = smallCamel;
+            SmallSnakeOption = smallSnake;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of ATT_NAME
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> ATT_NAMEOption { get; private set; }
+
+        /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get; set; }
+        public string ATT_NAME { get { return this. ATT_NAMEOption; } set { this.ATT_NAMEOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of CapitalCamel
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> CapitalCamelOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string CapitalCamel { get; set; }
+        public string CapitalCamel { get { return this. CapitalCamelOption; } set { this.CapitalCamelOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of CapitalSnake
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> CapitalSnakeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string CapitalSnake { get; set; }
+        public string CapitalSnake { get { return this. CapitalSnakeOption; } set { this.CapitalSnakeOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of SCAETHFlowPoints
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> SCAETHFlowPointsOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string SCAETHFlowPoints { get; set; }
+        public string SCAETHFlowPoints { get { return this. SCAETHFlowPointsOption; } set { this.SCAETHFlowPointsOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of SmallCamel
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> SmallCamelOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get; set; }
+        public string SmallCamel { get { return this. SmallCamelOption; } set { this.SmallCamelOption = new Option<string>(value); } }
+
+        /// <summary>
+        /// Used to track the state of SmallSnake
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> SmallSnakeOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get; set; }
+        public string SmallSnake { get { return this. SmallSnakeOption; } set { this.SmallSnakeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -146,12 +189,12 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string aTTNAME = default;
-            string capitalCamel = default;
-            string capitalSnake = default;
-            string sCAETHFlowPoints = default;
-            string smallCamel = default;
-            string smallSnake = default;
+            Option<string> aTTNAME = default;
+            Option<string> capitalCamel = default;
+            Option<string> capitalSnake = default;
+            Option<string> sCAETHFlowPoints = default;
+            Option<string> smallCamel = default;
+            Option<string> smallSnake = default;
 
             while (utf8JsonReader.Read())
             {
@@ -169,22 +212,22 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ATT_NAME":
-                            aTTNAME = utf8JsonReader.GetString();
+                            aTTNAME = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "CapitalCamel":
-                            capitalCamel = utf8JsonReader.GetString();
+                            capitalCamel = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "Capital_Snake":
-                            capitalSnake = utf8JsonReader.GetString();
+                            capitalSnake = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "SCA_ETH_Flow_Points":
-                            sCAETHFlowPoints = utf8JsonReader.GetString();
+                            sCAETHFlowPoints = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "smallCamel":
-                            smallCamel = utf8JsonReader.GetString();
+                            smallCamel = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "small_Snake":
-                            smallSnake = utf8JsonReader.GetString();
+                            smallSnake = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -192,23 +235,23 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (aTTNAME == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is required for class Capitalization.");
+            if (aTTNAME.IsSet && aTTNAME.Value == null)
+                throw new ArgumentNullException(nameof(aTTNAME), "Property is not nullable for class Capitalization.");
 
-            if (capitalCamel == null)
-                throw new ArgumentNullException(nameof(capitalCamel), "Property is required for class Capitalization.");
+            if (capitalCamel.IsSet && capitalCamel.Value == null)
+                throw new ArgumentNullException(nameof(capitalCamel), "Property is not nullable for class Capitalization.");
 
-            if (capitalSnake == null)
-                throw new ArgumentNullException(nameof(capitalSnake), "Property is required for class Capitalization.");
+            if (capitalSnake.IsSet && capitalSnake.Value == null)
+                throw new ArgumentNullException(nameof(capitalSnake), "Property is not nullable for class Capitalization.");
 
-            if (sCAETHFlowPoints == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is required for class Capitalization.");
+            if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
+                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is not nullable for class Capitalization.");
 
-            if (smallCamel == null)
-                throw new ArgumentNullException(nameof(smallCamel), "Property is required for class Capitalization.");
+            if (smallCamel.IsSet && smallCamel.Value == null)
+                throw new ArgumentNullException(nameof(smallCamel), "Property is not nullable for class Capitalization.");
 
-            if (smallSnake == null)
-                throw new ArgumentNullException(nameof(smallSnake), "Property is required for class Capitalization.");
+            if (smallSnake.IsSet && smallSnake.Value == null)
+                throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
 
             return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
         }
@@ -237,12 +280,41 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Capitalization capitalization, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
-            writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
-            writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
-            writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
-            writer.WriteString("smallCamel", capitalization.SmallCamel);
-            writer.WriteString("small_Snake", capitalization.SmallSnake);
+            if (capitalization.ATT_NAMEOption.IsSet && capitalization.ATT_NAME == null)
+                throw new ArgumentNullException(nameof(capitalization.ATT_NAME), "Property is required for class Capitalization.");
+
+            if (capitalization.CapitalCamelOption.IsSet && capitalization.CapitalCamel == null)
+                throw new ArgumentNullException(nameof(capitalization.CapitalCamel), "Property is required for class Capitalization.");
+
+            if (capitalization.CapitalSnakeOption.IsSet && capitalization.CapitalSnake == null)
+                throw new ArgumentNullException(nameof(capitalization.CapitalSnake), "Property is required for class Capitalization.");
+
+            if (capitalization.SCAETHFlowPointsOption.IsSet && capitalization.SCAETHFlowPoints == null)
+                throw new ArgumentNullException(nameof(capitalization.SCAETHFlowPoints), "Property is required for class Capitalization.");
+
+            if (capitalization.SmallCamelOption.IsSet && capitalization.SmallCamel == null)
+                throw new ArgumentNullException(nameof(capitalization.SmallCamel), "Property is required for class Capitalization.");
+
+            if (capitalization.SmallSnakeOption.IsSet && capitalization.SmallSnake == null)
+                throw new ArgumentNullException(nameof(capitalization.SmallSnake), "Property is required for class Capitalization.");
+
+            if (capitalization.ATT_NAMEOption.IsSet)
+                writer.WriteString("ATT_NAME", capitalization.ATT_NAME);
+
+            if (capitalization.CapitalCamelOption.IsSet)
+                writer.WriteString("CapitalCamel", capitalization.CapitalCamel);
+
+            if (capitalization.CapitalSnakeOption.IsSet)
+                writer.WriteString("Capital_Snake", capitalization.CapitalSnake);
+
+            if (capitalization.SCAETHFlowPointsOption.IsSet)
+                writer.WriteString("SCA_ETH_Flow_Points", capitalization.SCAETHFlowPoints);
+
+            if (capitalization.SmallCamelOption.IsSet)
+                writer.WriteString("smallCamel", capitalization.SmallCamel);
+
+            if (capitalization.SmallSnakeOption.IsSet)
+                writer.WriteString("small_Snake", capitalization.SmallSnake);
         }
     }
 }

@@ -276,7 +276,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// The <see cref="IGetUserByNameApiResponse"/>
     /// </summary>
-    public interface IGetUserByNameApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.User>
+    public interface IGetUserByNameApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.User>, ICustomHttpStatusCode599<Org.OpenAPITools.Model.User>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -295,6 +295,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 598 CustomHttpStatusCode598
+        /// </summary>
+        /// <returns></returns>
+        bool IsCustomHttpStatusCode598 { get; }
+
+        /// <summary>
+        /// Returns true if the response is 599 CustomHttpStatusCode599
+        /// </summary>
+        /// <returns></returns>
+        bool IsCustomHttpStatusCode599 { get; }
     }
 
     /// <summary>
@@ -1553,6 +1565,50 @@ namespace Org.OpenAPITools.Api
             /// </summary>
             /// <returns></returns>
             public bool IsNotFound => 404 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 598 CustomHttpStatusCode598
+            /// </summary>
+            /// <returns></returns>
+            public bool IsCustomHttpStatusCode598 => 598 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 599 CustomHttpStatusCode599
+            /// </summary>
+            /// <returns></returns>
+            public bool IsCustomHttpStatusCode599 => 599 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 599 CustomHttpStatusCode599
+            /// </summary>
+            /// <returns></returns>
+            public Org.OpenAPITools.Model.User CustomHttpStatusCode599()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsCustomHttpStatusCode599
+                    ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.User>(RawContent, _jsonSerializerOptions)
+                    : default;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 599 CustomHttpStatusCode599 and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryCustomHttpStatusCode599(out Org.OpenAPITools.Model.User result)
+            {
+                result = null;
+
+                try
+                {
+                    result = CustomHttpStatusCode599();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)599);
+                }
+
+                return result != null;
+            }
 
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {

@@ -50,6 +50,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     protected boolean structPrefix = false;
     protected boolean generateInterfaces = false;
     protected boolean withGoMod = false;
+    protected boolean generateMarshalJSON = true;
 
     protected String packageName = "openapi";
     protected Set<String> numberTypes;
@@ -279,6 +280,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toModelFilename(String name) {
+        // Obtain the model name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            name = modelNameMapping.get(name);
+        }
         name = toModel("model_" + name);
 
         if (isReservedFilename(name)) {
@@ -294,6 +299,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public String toModel(String name, boolean doUnderscore) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         if (!StringUtils.isEmpty(modelNamePrefix)) {
             name = modelNamePrefix + "_" + name;
         }
@@ -667,7 +677,12 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 model.isNullable = true;
                 model.anyOf.remove("nil");
             }
+
+            if (generateMarshalJSON) {
+                model.vendorExtensions.put("x-go-generate-marshal-json", true);
+            }
         }
+
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = objs.getImports();
         if (recursiveImports == null)
@@ -735,6 +750,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -769,6 +788,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum
@@ -807,6 +830,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     public void setWithGoMod(boolean withGoMod) {
         this.withGoMod = withGoMod;
+    }
+
+    public void setGenerateMarshalJSON(boolean generateMarshalJSON) {
+        this.generateMarshalJSON = generateMarshalJSON;
     }
 
     @Override

@@ -38,26 +38,40 @@ namespace UseSourceGeneration.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(string bar, string baz)
+        public ReadOnlyFirst(Option<string?> bar = default, Option<string?> baz = default)
         {
-            Bar = bar;
-            Baz = baz;
+            BarOption = bar;
+            BazOption = baz;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Bar
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> BarOption { get; }
+
+        /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get; }
+        public string? Bar { get { return this. BarOption; } }
+
+        /// <summary>
+        /// Used to track the state of Baz
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> BazOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string Baz { get; set; }
+        public string? Baz { get { return this. BazOption; } set { this.BazOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,7 +123,9 @@ namespace UseSourceGeneration.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = (hashCode * 59) + Bar.GetHashCode();
+                if (Bar != null)
+                    hashCode = (hashCode * 59) + Bar.GetHashCode();
+
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -149,8 +165,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? bar = default;
-            string? baz = default;
+            Option<string?> bar = default;
+            Option<string?> baz = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,10 +184,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = utf8JsonReader.GetString();
+                            bar = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "baz":
-                            baz = utf8JsonReader.GetString();
+                            baz = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -179,11 +195,11 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (bar == null)
-                throw new ArgumentNullException(nameof(bar), "Property is required for class ReadOnlyFirst.");
+            if (bar.IsSet && bar.Value == null)
+                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
 
-            if (baz == null)
-                throw new ArgumentNullException(nameof(baz), "Property is required for class ReadOnlyFirst.");
+            if (baz.IsSet && baz.Value == null)
+                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
 
             return new ReadOnlyFirst(bar, baz);
         }
@@ -212,8 +228,17 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("bar", readOnlyFirst.Bar);
-            writer.WriteString("baz", readOnlyFirst.Baz);
+            if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
+                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
+
+            if (readOnlyFirst.BazOption.IsSet && readOnlyFirst.Baz == null)
+                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
+
+            if (readOnlyFirst.BarOption.IsSet)
+                writer.WriteString("bar", readOnlyFirst.Bar);
+
+            if (readOnlyFirst.BazOption.IsSet)
+                writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
 

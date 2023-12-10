@@ -11,7 +11,7 @@ wrapper {
 buildscript {
     ext.kotlin_version = '1.8.10'
     {{#jvm-ktor}}
-    ext.ktor_version = '2.1.3'
+    ext.ktor_version = '2.2.3'
     {{/jvm-ktor}}
     {{#jvm-retrofit2}}
     ext.retrofitVersion = '2.9.0'
@@ -181,6 +181,9 @@ dependencies {
     {{#threetenbp}}
     implementation "org.threeten:threetenbp:1.6.8"
     {{/threetenbp}}
+    {{#kotlinx-datetime}}
+    implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+    {{/kotlinx-datetime}}
     {{#jvm-retrofit2}}
     {{#hasOAuthMethods}}
     implementation "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.2"

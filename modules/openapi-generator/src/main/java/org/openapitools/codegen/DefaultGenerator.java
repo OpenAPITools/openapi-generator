@@ -36,12 +36,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
-import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.model.ApiInfoMap;
@@ -65,6 +63,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -99,6 +98,8 @@ public class DefaultGenerator implements Generator {
     protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
+    private String generatorCheck = "spring";
+    private String templateCheck = "apiController.mustache";
 
 
     public DefaultGenerator() {
@@ -606,7 +607,7 @@ public class DefaultGenerator implements Generator {
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
+        String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
         }
@@ -694,14 +695,23 @@ public class DefaultGenerator implements Generator {
                 addAuthenticationSwitches(operation);
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
-                    File written;
+                    File written = null;
                     if (config.templateOutputDirs().containsKey(templateName)) {
                         String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
                         String filename = config.apiFilename(templateName, tag, outputDir);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        // do not overwrite apiController file for spring server
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
+                        }
                     } else {
                         String filename = config.apiFilename(templateName, tag);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
+                        }
                     }
                     if (written != null) {
                         files.add(written);
@@ -752,12 +762,87 @@ public class DefaultGenerator implements Generator {
 
     }
 
+    // checking if apiController file is already existed for spring generator
+    private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate) {
+        File apiFile = new File(filename);
+        return !(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate));
+    }
+
+    /*
+     * Generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled.
+     */
+    private void generateOpenAPIGeneratorIgnoreFile() {
+        if (config.getOpenAPIGeneratorIgnoreList() == null || config.getOpenAPIGeneratorIgnoreList().isEmpty()) {
+            return;
+        }
+
+        final String openapiGeneratorIgnore = ".openapi-generator-ignore";
+        String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
+        File ignoreFile = new File(ignoreFileNameTarget);
+        // use the entries provided by the users to pre-populate .openapi-generator-ignore
+        try {
+            LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
+            new File(config.outputFolder()).mkdirs();
+            if (!ignoreFile.createNewFile()) {
+                throw new RuntimeException("Failed to create the file .openapi-generator-ignore: " + ignoreFileNameTarget);
+            }
+
+            String header = String.join("\n",
+                    "# IMPORTANT: this file is generated with the option `openapiGeneratorIgnoreList` enabled",
+                    "# (--openapi-generator-ignore-list in CLI for example) so the entries below are pre-populated based",
+                    "# on the input provided by the users and this file will be overwritten every time when the option is",
+                    "# enabled (which is the exact opposite of the default behaviour to not overwrite",
+                    "# .openapi-generator-ignore if the file exists).",
+                    "",
+                    "# OpenAPI Generator Ignore",
+                    "# Generated by openapi-generator https://github.com/openapitools/openapi-generator",
+                    "",
+                    "# Use this file to prevent files from being overwritten by the generator.",
+                    "# The patterns follow closely to .gitignore or .dockerignore.",
+                    "",
+                    "# As an example, the C# client generator defines ApiClient.cs.",
+                    "# You can make changes and tell OpenAPI Generator to ignore just this file by uncommenting the following line:",
+                    "#ApiClient.cs",
+                    "",
+                    "# You can match any string of characters against a directory, file or extension with a single asterisk (*):",
+                    "#foo/*/qux",
+                    "# The above matches foo/bar/qux and foo/baz/qux, but not foo/bar/baz/qux",
+                    "",
+                    "# You can recursively match patterns against a directory, file or extension with a double asterisk (**):",
+                    "#foo/**/qux",
+                    "# This matches foo/bar/qux, foo/baz/qux, and foo/bar/baz/qux",
+                    "",
+                    "# You can also negate patterns with an exclamation (!).",
+                    "# For example, you can ignore all files in a docs folder with the file extension .md:",
+                    "#docs/*.md",
+                    "# Then explicitly reverse the ignore rule for a single file:",
+                    "#!docs/README.md",
+                    "",
+                    "# The following entries are pre-populated based on the input obtained via",
+                    "# the option `openapiGeneratorIgnoreList` (--openapi-generator-ignore-list in CLI for example).",
+                    "");
+            Writer fileWriter = Files.newBufferedWriter(ignoreFile.toPath(), StandardCharsets.UTF_8);
+            fileWriter.write(header);
+            // add entries provided by the users
+            for (String entry : config.getOpenAPIGeneratorIgnoreList()) {
+                fileWriter.write(entry);
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+            // re-create ignore processor based on the newly-created .openapi-generator-ignore
+            this.ignoreProcessor = new CodegenIgnoreProcessor(ignoreFile);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to generate .openapi-generator-ignore when the option `openapiGeneratorIgnoreList` is enabled: ", e);
+        }
+    }
+
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
         if (!generateSupportingFiles) {
             // TODO: process these anyway and report via dryRun?
             LOGGER.info("Skipping generation of supporting files.");
             return;
         }
+
         Set<String> supportingFilesToGenerate = null;
         String supportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
@@ -802,27 +887,30 @@ public class DefaultGenerator implements Generator {
 
         // Consider .openapi-generator-ignore a supporting file
         // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
-        final String openapiGeneratorIgnore = ".openapi-generator-ignore";
-        String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
-        File ignoreFile = new File(ignoreFileNameTarget);
-        if (generateMetadata) {
-            try {
-                boolean shouldGenerate = !ignoreFile.exists();
-                if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
-                }
-                File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
-                if (written != null) {
-                    files.add(written);
-                    if (config.isEnablePostProcessFile() && !dryRun) {
-                        config.postProcessFile(written, "openapi-generator-ignore");
+        // and the option openapiGeneratorIgnoreList is not set
+        if (config.openapiGeneratorIgnoreList() == null || config.openapiGeneratorIgnoreList().isEmpty()) {
+            final String openapiGeneratorIgnore = ".openapi-generator-ignore";
+            String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
+            File ignoreFile = new File(ignoreFileNameTarget);
+            if (generateMetadata) {
+                try {
+                    boolean shouldGenerate = !ignoreFile.exists();
+                    if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                        shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
                     }
+                    File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "openapi-generator-ignore");
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
+            } else {
+                this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
             }
-        } else {
-            this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
         }
 
         generateVersionMetadata(files);
@@ -966,6 +1054,9 @@ public class DefaultGenerator implements Generator {
         config.processOpenAPI(openAPI);
 
         processUserDefinedTemplates();
+
+        // generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled
+        generateOpenAPIGeneratorIgnoreFile();
 
         List<File> files = new ArrayList<>();
         // models
@@ -1506,7 +1597,7 @@ public class DefaultGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
+            if (security != null) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {

@@ -132,7 +132,7 @@ import okhttp3.MediaType.Companion.toMediaType
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder{{^kotlinx_serialization}}, serializerBuilder{{/kotlinx_serialization}}) {
         authNames.forEach { authName ->
-            val auth = when (authName) { {{#authMethods}}
+            val auth: Interceptor? = when (authName) { {{#authMethods}}
                 {{#isBasicBasic}}"{{name}}" -> HttpBasicAuth()
                 {{/isBasicBasic}}{{#isBasicBearer}}"{{name}}" -> HttpBearerAuth("{{scheme}}")
                 {{/isBasicBearer}}{{#isApiKey}}"{{name}}" -> ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}")

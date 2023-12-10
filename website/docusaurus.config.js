@@ -56,8 +56,8 @@ const docusaurusConfig = {
     },
 
     algolia: {
-      appId: 'MVE1LN4DBI',
-      apiKey: '3c3f7f355de15fa3f392264b2e7a5300',
+      appId: '51ITDG8FYN',
+      apiKey: '68eb9329427345f267486fd4f2d67b89',
       indexName: 'openapi-generator',
     },
 

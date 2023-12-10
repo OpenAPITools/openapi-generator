@@ -351,6 +351,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> modelNameMappings;
 
     /**
+     * A map of enum names and the new names
+     */
+    @Parameter(name = "enumNameMappings", property = "openapi.generator.maven.plugin.enumNameMappings")
+    private List<String> enumNameMappings;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -367,6 +373,12 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "languageSpecificPrimitives", property = "openapi.generator.maven.plugin.languageSpecificPrimitives")
     private List<String> languageSpecificPrimitives;
+
+    /**
+     * A list of openapi-generator-ignore entries
+     */
+    @Parameter(name = "openapiGeneratorIgnoreList", property = "openapi.generator.maven.plugin.openapiGeneratorIgnoreList")
+    private List<String> openapiGeneratorIgnoreList;
 
     /**
      * A map of additional properties that can be referenced by the mustache templates
@@ -777,6 +789,12 @@ public class CodeGenMojo extends AbstractMojo {
                             .get("language-specific-primitives").toString(), configurator);
                 }
 
+                // Retained for backwards-compatibility with configOptions -> openapi-generator-ignore-list
+                if (openapiGeneratorIgnoreList == null && configOptions.containsKey("openapi-generator-ignore-list")) {
+                    applyOpenAPIGeneratorIgnoreListCsv(configOptions
+                            .get("openapi-generator-ignore-list").toString(), configurator);
+                }
+
                 // Retained for backwards-compatibility with configOptions -> additional-properties
                 if (additionalProperties == null && configOptions.containsKey("additional-properties")) {
                     applyAdditionalPropertiesKvp(configOptions.get("additional-properties").toString(),
@@ -834,6 +852,11 @@ public class CodeGenMojo extends AbstractMojo {
                 applyModelNameMappingsKvpList(modelNameMappings, configurator);
             }
 
+            // Apply Enum Name Mappings
+            if (enumNameMappings != null && (configOptions == null || !configOptions.containsKey("enum-name-mappings"))) {
+                applyEnumNameMappingsKvpList(enumNameMappings, configurator);
+            }
+
             // Apply OpenAPI normalizer rules
             if (openapiNormalizer != null && (configOptions == null || !configOptions.containsKey("openapi-normalizer"))) {
                 applyOpenAPINormalizerKvpList(openapiNormalizer, configurator);
@@ -848,6 +871,12 @@ public class CodeGenMojo extends AbstractMojo {
             if (languageSpecificPrimitives != null
                     && (configOptions == null || !configOptions.containsKey("language-specific-primitives"))) {
                 applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
+            }
+
+            // Apply Language Specific Primitives
+            if (openapiGeneratorIgnoreList != null
+                    && (configOptions == null || !configOptions.containsKey("openapi-generator-ignore-list"))) {
+                applyOpenAPIGeneratorIgnoreListCsvList(openapiGeneratorIgnoreList, configurator);
             }
 
             // Apply Additional Properties
@@ -903,6 +932,7 @@ public class CodeGenMojo extends AbstractMojo {
                 return;
             }
             adjustAdditionalProperties(config);
+            GlobalSettings.log();
             new DefaultGenerator(dryRun).opts(input).generate();
 
             if (buildContext != null) {

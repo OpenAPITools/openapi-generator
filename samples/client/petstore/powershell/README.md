@@ -196,7 +196,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key
+- **API key parameter name**: api_key_name
 - **Location**: HTTP header
 
 <a id="api_key_query"></a>
@@ -204,7 +204,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key_query
+- **API key parameter name**: api_key_query_name
 - **Location**: URL query string
 
 <a id="http_basic_test"></a>

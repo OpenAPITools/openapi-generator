@@ -12,6 +12,9 @@
     Do not edit the class manually.
 """  # noqa: E501
 
+from typing import Any, Optional
+
+from typing_extensions import Self
 
 class OpenApiException(Exception):
     """The base exception class for all OpenAPIExceptions"""
@@ -102,17 +105,56 @@ class ApiKeyError(OpenApiException, KeyError):
 
 class ApiException(OpenApiException):
 
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
+    def __init__(
+        self, 
+        status=None, 
+        reason=None, 
+        http_resp=None,
+        *,
+        body: Optional[str] = None,
+        data: Optional[Any] = None,
+    ) -> None:
+        self.status = status
+        self.reason = reason
+        self.body = body
+        self.data = data
+        self.headers = None
+
         if http_resp:
-            self.status = http_resp.status
-            self.reason = http_resp.reason
-            self.body = http_resp.data
+            if self.status is None:
+                self.status = http_resp.status
+            if self.reason is None:
+                self.reason = http_resp.reason
+            if self.body is None:
+                try:
+                    self.body = http_resp.data.decode('utf-8')
+                except Exception:
+                    pass
             self.headers = http_resp.getheaders()
-        else:
-            self.status = status
-            self.reason = reason
-            self.body = None
-            self.headers = None
+
+    @classmethod
+    def from_response(
+        cls, 
+        *, 
+        http_resp, 
+        body: Optional[str], 
+        data: Optional[Any],
+    ) -> Self:
+        if http_resp.status == 400:
+            raise BadRequestException(http_resp=http_resp, body=body, data=data)
+
+        if http_resp.status == 401:
+            raise UnauthorizedException(http_resp=http_resp, body=body, data=data)
+
+        if http_resp.status == 403:
+            raise ForbiddenException(http_resp=http_resp, body=body, data=data)
+
+        if http_resp.status == 404:
+            raise NotFoundException(http_resp=http_resp, body=body, data=data)
+
+        if 500 <= http_resp.status <= 599:
+            raise ServiceException(http_resp=http_resp, body=body, data=data)
+        raise ApiException(http_resp=http_resp, body=body, data=data)
 
     def __str__(self):
         """Custom error messages for exception"""
@@ -122,38 +164,30 @@ class ApiException(OpenApiException):
             error_message += "HTTP response headers: {0}\n".format(
                 self.headers)
 
-        if self.body:
-            error_message += "HTTP response body: {0}\n".format(self.body)
+        if self.data or self.body:
+            error_message += "HTTP response body: {0}\n".format(self.data or self.body)
 
         return error_message
 
-class BadRequestException(ApiException):
 
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(BadRequestException, self).__init__(status, reason, http_resp)
+class BadRequestException(ApiException):
+    pass
+
 
 class NotFoundException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(NotFoundException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class UnauthorizedException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(UnauthorizedException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class ForbiddenException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(ForbiddenException, self).__init__(status, reason, http_resp)
+    pass
 
 
 class ServiceException(ApiException):
-
-    def __init__(self, status=None, reason=None, http_resp=None) -> None:
-        super(ServiceException, self).__init__(status, reason, http_resp)
+    pass
 
 
 def render_path(path_to_item):

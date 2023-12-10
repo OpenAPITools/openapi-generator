@@ -23,7 +23,6 @@ from pydantic import BaseModel, StrictInt, StrictStr
 from pydantic import Field
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -32,7 +31,7 @@ except ImportError:
 class ArrayTest(BaseModel):
     """
     ArrayTest
-    """
+    """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
@@ -41,7 +40,8 @@ class ArrayTest(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -94,7 +94,7 @@ class ArrayTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None

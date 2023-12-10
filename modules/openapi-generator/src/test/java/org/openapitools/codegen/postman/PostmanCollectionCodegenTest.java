@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.models.tags.Tag;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openapitools.codegen.*;
@@ -16,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -158,7 +161,9 @@ public class PostmanCollectionCodegenTest {
                 "key\": \"groupId\", \"value\": \"1\", \"type\": \"number\"");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -193,7 +198,9 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "{{MY_VAR_NAME}}");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -300,7 +307,10 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         // verify request name (from path)
-        assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
+
     }
 
     @Test
@@ -352,20 +362,6 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "\"auth\": { \"type\": \"basic\", \"basic\": [");
         // check auth apiKey NOT found
         assertFileNotContains(path, "\"auth\": { \"type\": \"apikey\", \"apikey\": [");
-    }
-
-    @Test
-    public void doubleCurlyBraces() {
-        String str = "/api/{var}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
-    }
-
-    @Test
-    public void doubleCurlyBracesNoChanges() {
-        String str = "/api/{{var}}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
     }
 
     @Test
@@ -506,9 +502,9 @@ public class PostmanCollectionCodegenTest {
         TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
         TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
         // header without default value (disabled: true)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"disabled\": true");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"description\": \"Custom HTTP header\", \"disabled\": true");
         // header with default value (disabled: false)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"disabled\": false");
+        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"description\": \"Custom HTTP header with default\", \"disabled\": false");
 
     }
 
@@ -689,5 +685,123 @@ public class PostmanCollectionCodegenTest {
         assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
 
     }
+
+    @Test
+    public void testAddToList()  {
+
+        PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        postmanCollectionCodegen.addToList(operationUsers);
+
+        CodegenOperation operationGroups = new CodegenOperation();
+        operationGroups.path = "/groups";
+        postmanCollectionCodegen.addToList(operationGroups);
+
+        CodegenOperation operationUserId = new CodegenOperation();
+        operationUserId.path = "/users/{id}";
+        postmanCollectionCodegen.addToList(operationUserId);
+
+        assertEquals(3, postmanCollectionCodegen.codegenOperationsList.size());
+        // verify order
+        assertEquals("/groups", postmanCollectionCodegen.codegenOperationsList.get(0).path);
+        assertEquals("/users", postmanCollectionCodegen.codegenOperationsList.get(1).path);
+        assertEquals("/users/{id}", postmanCollectionCodegen.codegenOperationsList.get(2).path);
+    }
+
+    @Test
+    public void testAddToMap() {
+
+        PostmanCollectionCodegen postmanV2Generator = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        operationUsers.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationUsers);
+
+        CodegenOperation operationGroups = new CodegenOperation();
+        operationGroups.path = "/groups";
+        operationGroups.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationGroups);
+
+        CodegenOperation operationUserId = new CodegenOperation();
+        operationUserId.path = "/users/{id}";
+        operationUserId.tags = new ArrayList<>(Arrays.asList(new Tag().name("basic")));
+        postmanV2Generator.addToMap(operationUserId);
+
+        // verify tag 'basic'
+        assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("basic"));
+
+        List<CodegenOperation> operations = postmanV2Generator.codegenOperationsByTag.get("basic");
+        // verify order
+        assertEquals("/groups", operations.get(0).path);
+        assertEquals("/users", operations.get(1).path);
+        assertEquals("/users/{id}", operations.get(2).path);
+    }
+
+    @Test
+    public void testAddToMapUsingDefaultTag() {
+
+        PostmanCollectionCodegen postmanV2Generator = new PostmanCollectionCodegen();
+
+        CodegenOperation operationUsers = new CodegenOperation();
+        operationUsers.path = "/users";
+        postmanV2Generator.addToMap(operationUsers);
+
+        // verify tag 'default' is used
+        assertEquals(1, postmanV2Generator.codegenOperationsByTag.size());
+        assertEquals(true, postmanV2Generator.codegenOperationsByTag.containsKey("default"));
+    }
+
+    @Test
+    public void testRequiredQueryParameter() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-collection")
+                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+        // verify param pUserId is set as disabled=false
+        TestUtils.assertFileContains(path, "{ \"key\": \"pUserId\", \"value\": \"888\", \"description\": \"Query Id.\", \"disabled\": false");
+
+    }
+
+    @Test
+    public void testQueryParameterDescription() throws IOException {
+
+        File output = Files.createTempDirectory("postmantest_").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("postman-v2")
+                .setInputSpec("./src/test/resources/SampleProject.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        System.out.println(files);
+        files.forEach(File::deleteOnExit);
+
+        Path path = Paths.get(output + "/postman.json");
+        TestUtils.assertFileExists(path);
+        // verify param pUserId is set as disabled=false
+        TestUtils.assertFileContains(path, "{ \"key\": \"pUserId\", \"value\": \"888\", \"description\": \"Query Id.\"");
+
+    }
+
 
 }

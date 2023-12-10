@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,13 +29,14 @@ except ImportError:
 class SpecialModelName(BaseModel):
     """
     SpecialModelName
-    """
+    """ # noqa: E501
     special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
     __properties: ClassVar[List[str]] = ["$special[property.name]"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -73,7 +73,7 @@ class SpecialModelName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of SpecialModelName from a dict"""
         if obj is None:
             return None

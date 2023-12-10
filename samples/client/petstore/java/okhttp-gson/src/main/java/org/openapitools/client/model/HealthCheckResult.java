@@ -60,7 +60,6 @@ public class HealthCheckResult {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
-    
     this.nullableMessage = nullableMessage;
     return this;
   }
@@ -73,7 +72,6 @@ public class HealthCheckResult {
   public String getNullableMessage() {
     return nullableMessage;
   }
-
 
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = nullableMessage;

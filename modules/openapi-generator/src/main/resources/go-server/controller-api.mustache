@@ -168,21 +168,34 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isInteger}}
+	{{#isDateTime}}
+	{{paramName}}Param, err := parseTime({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/isDateTime}}
 	{{^isNumber}}
 	{{^isFloat}}
 	{{^isDouble}}
 	{{^isLong}}
 	{{^isInteger}}
-	{{^isEnumOrRef}}
+	{{^isDateTime}}
+	{{^isEnumRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
-	{{/isEnumOrRef}}
-	{{#isEnumOrRef}}
+	if {{paramName}}Param == "" {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isEnumOrRef}}
+	{{/isEnumRef}}
+	{{/isDateTime}}
 	{{/isInteger}}
 	{{/isLong}}
 	{{/isDouble}}
@@ -190,6 +203,26 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isNumber}}
 	{{/isPathParam}}
 	{{#isQueryParam}}
+	{{#isDateTime}}
+	{{#required}}
+	if !query.Has("{{baseName}}"){
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/required}}
+	{{^required}}
+	{{paramName}}Param, err := parseTime(query.Get("{{baseName}}"))
+	if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+	}
+	{{/required}}
+	{{/isDateTime}}
 	{{#isNumber}}
 	{{paramName}}Param, err := parseNumericParameter[float32](
 		query.Get("{{baseName}}"),{{#defaultValue}}
@@ -268,7 +301,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		WithParse[bool](parseBool),{{/required}}{{/defaultValue}}
 	)
 	if err != nil {
-		w.WriteHeader(500)
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	{{/isBoolean}}
@@ -333,6 +366,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/items.isInteger}}
+	{{#items.isDateTime}}
+	{{paramName}}Param, err := parseTimes(query.Get("{{baseName"}}))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	{{/items.isDateTime}}
 	{{^items.isNumber}}
 	{{^items.isFloat}}
 	{{^items.isDouble}}
@@ -372,6 +412,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isBoolean}}
 	{{^isArray}}
+	{{^isDateTime}}
 	{{#defaultValue}}
 	{{paramName}}Param := "{{defaultValue}}"
 	if query.Has("{{baseName}}") {
@@ -382,24 +423,24 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^required}}
 	var {{paramName}}Param {{dataType}}
 	if query.Has("{{baseName}}") {
-		{{^isEnumOrRef}}
+		{{^isEnumRef}}
 		{{paramName}}Param = query.Get("{{baseName}}")
-		{{/isEnumOrRef}}
-		{{#isEnumOrRef}}
+		{{/isEnumRef}}
+		{{#isEnumRef}}
 		var err error
 		{{paramName}}Param, err = New{{dataType}}FromValue(query.Get("{{baseName}}"))
 		if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
 		}
-		{{/isEnumOrRef}}
+		{{/isEnumRef}}
 	}
 	{{/required}}
 	{{#required}}
-	{{^isEnumOrRef}}
+	{{^isEnumRef}}
 	{{paramName}}Param := query.Get("{{baseName}}")
-	{{/isEnumOrRef}}
-	{{#isEnumOrRef}}
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	if !query.Has("{{baseName}}"){
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
@@ -409,9 +450,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isEnumOrRef}}
+	{{/isEnumRef}}
 	{{/required}}
 	{{/defaultValue}}
+	{{/isDateTime}}
 	{{/isArray}}
 	{{/isBoolean}}
 	{{/isInteger}}
@@ -459,7 +501,12 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/isArray}}{{/isInteger}}
 	{{^isFile}}
 	{{^isLong}}
+	{{#isArray}}
+	{{paramName}}Param := strings.Split(r.FormValue("{{baseName}}"), ",")
+	{{/isArray}}
+	{{^isArray}}
 	{{paramName}}Param := r.FormValue("{{baseName}}")
+	{{/isArray}}
 	{{/isLong}}
 	{{/isFile}}
 	{{/isFormParam}}

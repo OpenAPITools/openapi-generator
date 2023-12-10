@@ -31,9 +31,9 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  private Category category;
+  private Optional<Category> category = Optional.empty();
 
   private String name;
 
@@ -81,7 +81,7 @@ public class Pet {
   }
 
   @Deprecated
-  private StatusEnum status;
+  private Optional<StatusEnum> status = Optional.empty();
 
   public Pet() {
     super();
@@ -96,7 +96,7 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -107,16 +107,16 @@ public class Pet {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = category;
+    this.category = Optional.of(category);
     return this;
   }
 
@@ -127,11 +127,11 @@ public class Pet {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Category getCategory() {
+  public Optional<Category> getCategory() {
     return category;
   }
 
-  public void setCategory(Category category) {
+  public void setCategory(Optional<Category> category) {
     this.category = category;
   }
 
@@ -213,7 +213,7 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = status;
+    this.status = Optional.of(status);
     return this;
   }
 
@@ -226,7 +226,7 @@ public class Pet {
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
-  public StatusEnum getStatus() {
+  public Optional<StatusEnum> getStatus() {
     return status;
   }
 
@@ -234,7 +234,7 @@ public class Pet {
    * @deprecated
   */
   @Deprecated
-  public void setStatus(StatusEnum status) {
+  public void setStatus(Optional<StatusEnum> status) {
     this.status = status;
   }
 

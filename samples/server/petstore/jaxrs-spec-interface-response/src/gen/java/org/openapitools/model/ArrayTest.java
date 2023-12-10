@@ -3,6 +3,7 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import java.io.Serializable;
@@ -21,9 +22,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ArrayTest  implements Serializable {
-  private @Valid List<String> arrayOfString = null;
-  private @Valid List<List<Long>> arrayArrayOfInteger = null;
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private @Valid List<String> arrayOfString;
+  private @Valid List<List<Long>> arrayArrayOfInteger;
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   /**
    **/

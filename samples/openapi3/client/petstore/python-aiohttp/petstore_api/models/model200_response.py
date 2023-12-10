@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,15 +28,16 @@ except ImportError:
 
 class Model200Response(BaseModel):
     """
-    Model for testing model name starting with number  # noqa: E501
-    """
+    Model for testing model name starting with number
+    """ # noqa: E501
     name: Optional[StrictInt] = None
     var_class: Optional[StrictStr] = Field(default=None, alias="class")
     __properties: ClassVar[List[str]] = ["name", "class"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -74,7 +74,7 @@ class Model200Response(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Model200Response from a dict"""
         if obj is None:
             return None

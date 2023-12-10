@@ -67,7 +67,6 @@ public class PropertyNameCollision {
   }
 
   public PropertyNameCollision underscoreType(String underscoreType) {
-    
     this.underscoreType = underscoreType;
     return this;
   }
@@ -81,14 +80,12 @@ public class PropertyNameCollision {
     return underscoreType;
   }
 
-
   public void setUnderscoreType(String underscoreType) {
     this.underscoreType = underscoreType;
   }
 
 
   public PropertyNameCollision type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -102,14 +99,12 @@ public class PropertyNameCollision {
     return type;
   }
 
-
   public void setType(String type) {
     this.type = type;
   }
 
 
   public PropertyNameCollision typeWithUnderscore(String typeWithUnderscore) {
-    
     this.typeWithUnderscore = typeWithUnderscore;
     return this;
   }
@@ -122,7 +117,6 @@ public class PropertyNameCollision {
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }
-
 
   public void setTypeWithUnderscore(String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;

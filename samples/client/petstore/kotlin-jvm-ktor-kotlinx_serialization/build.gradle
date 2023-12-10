@@ -8,7 +8,7 @@ wrapper {
 
 buildscript {
     ext.kotlin_version = '1.8.10'
-    ext.ktor_version = '2.1.3'
+    ext.ktor_version = '2.2.3'
     ext.spotless_version = "6.13.0"
 
     repositories {

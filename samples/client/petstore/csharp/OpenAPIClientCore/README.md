@@ -233,6 +233,7 @@ Class | Method | HTTP request | Description
  - [Model.Quadrilateral](docs/Quadrilateral.md)
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Model.RequiredClass](docs/RequiredClass.md)
  - [Model.Return](docs/Return.md)
  - [Model.RolesReportsHash](docs/RolesReportsHash.md)
  - [Model.RolesReportsHashRole](docs/RolesReportsHashRole.md)

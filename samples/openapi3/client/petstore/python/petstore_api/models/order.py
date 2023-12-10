@@ -21,7 +21,6 @@ from datetime import datetime
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictInt, StrictStr, field_validator
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class Order(BaseModel):
     """
     Order
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     pet_id: Optional[StrictInt] = Field(default=None, alias="petId")
     quantity: Optional[StrictInt] = None
@@ -52,7 +51,8 @@ class Order(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -96,7 +96,7 @@ class Order(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Order from a dict"""
         if obj is None:
             return None

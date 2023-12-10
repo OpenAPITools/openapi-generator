@@ -155,6 +155,8 @@ public interface CodegenConfig {
 
     Map<String, String> modelNameMapping();
 
+    Map<String, String> enumNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
@@ -170,6 +172,8 @@ public interface CodegenConfig {
     Map<String, String> modelDocTemplateFiles();
 
     Set<String> languageSpecificPrimitives();
+
+    Set<String> openapiGeneratorIgnoreList();
 
     Map<String, String> reservedWordsMappings();
 
@@ -346,5 +350,7 @@ public interface CodegenConfig {
     boolean getAddSuffixToDuplicateOperationNicknames();
 
     boolean getUseOpenAPINormalizer();
+
+    Set<String> getOpenAPIGeneratorIgnoreList();
 
 }

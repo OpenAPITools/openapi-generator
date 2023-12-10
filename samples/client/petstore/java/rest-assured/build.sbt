@@ -14,7 +14,7 @@ lazy val root = (project in file(".")).
       "io.rest-assured" % "scala-support" % "4.5.1",
       "com.google.code.findbugs" % "jsr305" % "3.0.2",
       "com.google.code.gson" % "gson" % "2.8.9",
-      "io.gsonfire" % "gson-fire" % "1.8.5" % "compile",
+      "io.gsonfire" % "gson-fire" % "1.9.0" % "compile",
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
       "jakarta.validation" % "jakarta.validation-api" % "2.0.2" % "compile",
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",

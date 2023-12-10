@@ -28,7 +28,7 @@ public enum EnumClass {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumClass fromString(String s) {
+    public static EnumClass fromString(String s) {
       for (EnumClass b : EnumClass.values()) {
         // using Objects.toString() to be safe if value type non-object type
         // because types like 'int' etc. will be auto-boxed
@@ -37,8 +37,8 @@ public enum EnumClass {
         }
       }
       throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
   @Override
   @JsonValue
   public String toString() {

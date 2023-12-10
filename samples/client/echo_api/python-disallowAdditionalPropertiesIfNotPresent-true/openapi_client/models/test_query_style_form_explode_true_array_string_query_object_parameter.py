@@ -19,9 +19,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,13 +29,14 @@ except ImportError:
 class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
     """
     TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
-    """
+    """ # noqa: E501
     values: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["values"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -73,7 +73,7 @@ class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter from a dict"""
         if obj is None:
             return None

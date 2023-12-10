@@ -61,7 +61,6 @@ public class ModelFile implements Parcelable {
   }
 
   public ModelFile sourceURI(String sourceURI) {
-    
     this.sourceURI = sourceURI;
     return this;
   }
@@ -74,7 +73,6 @@ public class ModelFile implements Parcelable {
   public String getSourceURI() {
     return sourceURI;
   }
-
 
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
