@@ -90,9 +90,9 @@ public class ApiClient extends JavaTimeFormatter {
 
     private DateFormat dateFormat;
 
-    private maxAttempts = 3;
+    private int maxAttempts = 3;
 
-    long waitTimeMillis = 10l;
+    private long waitTimeMillis = 10l;
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
