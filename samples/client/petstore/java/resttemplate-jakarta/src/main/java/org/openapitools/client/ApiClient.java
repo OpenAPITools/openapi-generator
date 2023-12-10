@@ -22,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -87,6 +88,10 @@ public class ApiClient extends JavaTimeFormatter {
 
     private DateFormat dateFormat;
 
+    private maxAttempts = 3;
+
+    long waitTimeMillis = 10l;
+
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
         init();
@@ -133,6 +138,46 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+
+    /**
+     * Get the max attempts for retry
+     *
+     * @return int the max attempts
+     */
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    /**
+     * Set the max attemtps for retry
+     *
+     * @param maxAttempts the max attempts for retry
+     * @return ApiClient this client
+     */
+    public ApiClient setMaxAttempts(int maxAttempts) {
+        this.maxAttempts = maxAttempts;
+        return this;
+    }
+
+    /**
+     * Get the wait time in milliseconds
+     *
+     * @return long wait time in milliseconds
+     */
+    public long getWaitTimeMillis() {
+        return waitTimeMillis;
+    }
+
+    /**
+     * Set the wait time in milliseconds
+     *
+     * @param waitTimeMillis the wait time in milliseconds
+     * @return ApiClient this client
+     */
+    public ApiClient setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis = waitTimeMillis;
         return this;
     }
 
@@ -629,7 +674,27 @@ public class ApiClient extends JavaTimeFormatter {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
+        ResponseEntity<T> responseEntity = null;
+        int attempts = 0;
+        while (attempts < maxAttempts) {
+            try {
+                responseEntity = restTemplate.exchange(requestEntity, returnType);
+                // request succeeded, no need to retry
+                break;
+            } catch (HttpServerErrorException ex) {
+                if (ex.getStatusCode() != HttpStatus.SERVICE_UNAVAILABLE) {
+                    throw ex;
+                }
+                attempts++;
+                if (attempts < maxAttempts) {
+                    try {
+                        Thread.sleep(waitTimeMillis);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;

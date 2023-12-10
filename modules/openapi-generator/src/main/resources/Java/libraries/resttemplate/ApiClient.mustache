@@ -114,6 +114,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     private DateFormat dateFormat;
 
+    private int maxAttempts = 3;
+
+    private long waitTimeMillis = 10l;
+
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
         init();
@@ -165,6 +169,46 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+
+    /**
+     * Get the max attempts for retry
+     *
+     * @return int the max attempts
+     */
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    /**
+     * Set the max attemtps for retry
+     *
+     * @param maxAttempts the max attempts for retry
+     * @return ApiClient this client
+     */
+    public ApiClient setMaxAttempts(int maxAttempts) {
+        this.maxAttempts = maxAttempts;
+        return this;
+    }
+
+    /**
+     * Get the wait time in milliseconds
+     *
+     * @return long wait time in milliseconds
+     */
+    public long getWaitTimeMillis() {
+        return waitTimeMillis;
+    }
+
+    /**
+     * Set the wait time in milliseconds
+     *
+     * @param waitTimeMillis the wait time in milliseconds
+     * @return ApiClient this client
+     */
+    public ApiClient setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis = waitTimeMillis;
         return this;
     }
 
@@ -724,14 +768,12 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         ResponseEntity<T> responseEntity = null;
         int attempts = 0;
-        int maxAttempts = 3;
-        long waitTimeMillis = 10l;
         while (attempts < maxAttempts) {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
+                // request succeeded, no need to retry
                 break;
-                }
-            catch (HttpServerErrorException ex) {
+            } catch (HttpServerErrorException ex) {
                 if (ex.getStatusCode() != HttpStatus.SERVICE_UNAVAILABLE) {
                     throw ex;
                 }
@@ -739,10 +781,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                 if (attempts < maxAttempts) {
                     try {
                         Thread.sleep(waitTimeMillis);
-                        }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
-                        }
+                    }
                 }
             }
         }
