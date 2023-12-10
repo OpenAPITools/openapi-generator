@@ -65,6 +65,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
     protected static final String JVM_VERTX = "jvm-vertx";
+    protected static final String JVM_SPRING = "jvm-spring";
     protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
     protected static final String JVM_SPRING_RESTCLIENT = "jvm-spring-restclient";
 
@@ -459,10 +460,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
             case JVM_SPRING_WEBCLIENT:
-                processJVMSpringWebClientLibrary(infrastructureFolder);
+                processJvmSpringWebClientLibrary(infrastructureFolder);
                 break;
             case JVM_SPRING_RESTCLIENT:
-                processJVMSpringRestClientLibrary(infrastructureFolder);
+                processJvmSpringRestClientLibrary(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -751,7 +752,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
     }
 
-    private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
+    private void proccessJvmSpring(final String infrastructureFolder) {
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
             throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
         }
@@ -759,19 +760,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
 
+        additionalProperties.put(JVM_SPRING, true);
         additionalProperties.put(JVM, true);
+    }
+
+    private void processJvmSpringWebClientLibrary(final String infrastructureFolder) {
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
+            throw new RuntimeException("This library muse use spring boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        }
+
+        proccessJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
     }
 
-    private void processJVMSpringRestClientLibrary(final String infrastructureFolder) {
-        if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
-            throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
-        }
-
-        commonJvmMultiplatformSupportingFiles(infrastructureFolder);
-        addSupportingSerializerAdapters(infrastructureFolder);
-
-        additionalProperties.put(JVM, true);
+    private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
+        proccessJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_RESTCLIENT, true);
     }
 

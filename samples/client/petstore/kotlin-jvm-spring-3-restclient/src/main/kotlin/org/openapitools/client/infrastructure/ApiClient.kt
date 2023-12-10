@@ -1,4 +1,4 @@
-package {{packageName}}.infrastructure;
+package org.openapitools.client.infrastructure;
 
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
@@ -55,18 +55,11 @@ open class ApiClient(protected val client: RestClient) {
 }
 
 inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        {{#toJson}}
         /*
         .replace("\"", "") converts the json object string to an actual string for the query parameter.
         The moshi or gson adapter allows a more generic solution instead of trying to use a native
         formatter. It also easily allows to provide a simple way to define a custom date format pattern
         inside a gson/moshi adapter.
         */
-        {{#jackson}}
         return Serializer.jacksonObjectMapper.writeValueAsString(value).replace("\"", "")
-        {{/jackson}}
-        {{/toJson}}
-        {{^toJson}}
-        return value.toString()
-        {{/toJson}}
     }
