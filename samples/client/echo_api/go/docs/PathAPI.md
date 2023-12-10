@@ -22,27 +22,27 @@ Test path parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    pathString := "pathString_example" // string | 
-    pathInteger := int32(56) // int32 | 
-    enumNonrefStringPath := "enumNonrefStringPath_example" // string | 
-    enumRefStringPath := openapiclient.StringEnumRef("success") // StringEnumRef | 
+	pathString := "pathString_example" // string | 
+	pathInteger := int32(56) // int32 | 
+	enumNonrefStringPath := "enumNonrefStringPath_example" // string | 
+	enumRefStringPath := openapiclient.StringEnumRef("success") // StringEnumRef | 
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(context.Background(), pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: string
-    fmt.Fprintf(os.Stdout, "Response from `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(context.Background(), pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: string
+	fmt.Fprintf(os.Stdout, "Response from `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: %v\n", resp)
 }
 ```
 

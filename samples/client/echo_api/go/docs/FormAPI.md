@@ -23,26 +23,26 @@ Test form parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    integerForm := int32(56) // int32 |  (optional)
-    booleanForm := true // bool |  (optional)
-    stringForm := "stringForm_example" // string |  (optional)
+	integerForm := int32(56) // int32 |  (optional)
+	booleanForm := true // bool |  (optional)
+	stringForm := "stringForm_example" // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FormAPI.TestFormIntegerBooleanString(context.Background()).IntegerForm(integerForm).BooleanForm(booleanForm).StringForm(stringForm).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FormAPI.TestFormIntegerBooleanString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestFormIntegerBooleanString`: string
-    fmt.Fprintf(os.Stdout, "Response from `FormAPI.TestFormIntegerBooleanString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FormAPI.TestFormIntegerBooleanString(context.Background()).IntegerForm(integerForm).BooleanForm(booleanForm).StringForm(stringForm).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FormAPI.TestFormIntegerBooleanString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestFormIntegerBooleanString`: string
+	fmt.Fprintf(os.Stdout, "Response from `FormAPI.TestFormIntegerBooleanString`: %v\n", resp)
 }
 ```
 
@@ -93,29 +93,29 @@ Test form parameter(s) for oneOf schema
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    form1 := "form1_example" // string |  (optional)
-    form2 := int32(56) // int32 |  (optional)
-    form3 := "form3_example" // string |  (optional)
-    form4 := true // bool |  (optional)
-    id := int64(789) // int64 |  (optional)
-    name := "name_example" // string |  (optional)
+	form1 := "form1_example" // string |  (optional)
+	form2 := int32(56) // int32 |  (optional)
+	form3 := "form3_example" // string |  (optional)
+	form4 := true // bool |  (optional)
+	id := int64(789) // int64 |  (optional)
+	name := "name_example" // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.FormAPI.TestFormOneof(context.Background()).Form1(form1).Form2(form2).Form3(form3).Form4(form4).Id(id).Name(name).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `FormAPI.TestFormOneof``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestFormOneof`: string
-    fmt.Fprintf(os.Stdout, "Response from `FormAPI.TestFormOneof`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FormAPI.TestFormOneof(context.Background()).Form1(form1).Form2(form2).Form3(form3).Form4(form4).Id(id).Name(name).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FormAPI.TestFormOneof``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestFormOneof`: string
+	fmt.Fprintf(os.Stdout, "Response from `FormAPI.TestFormOneof`: %v\n", resp)
 }
 ```
 
