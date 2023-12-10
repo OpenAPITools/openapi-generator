@@ -37,6 +37,9 @@ buildscript {
     {{/useSpringBoot3}}
     ext.reactor_version = "3.5.6"
     {{/jvm-spring-webclient}}
+    {{#jvm-spring-restclient}}
+    ext.spring_boot_version = "3.1.0"
+    {{/jvm-spring-restclient}}
     ext.spotless_version = "6.13.0"
 
     repositories {
@@ -113,6 +116,13 @@ kotlin {
     }
 }
 {{/useSpringBoot3}}{{/jvm-spring-webclient}}
+{{#jvm-spring-restclient}}
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+{{/jvm-spring-restclient}}
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     {{^doNotUseRxAndCoroutines}}
@@ -164,6 +174,9 @@ dependencies {
     {{#jvm-spring-webclient}}
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor:reactor-core:$reactor_version"
+    {{/jvm-spring-webclient}}
+    {{#jvm-spring-webclient}}
+    implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     {{/jvm-spring-webclient}}
     {{#threetenbp}}
     implementation "org.threeten:threetenbp:1.6.8"

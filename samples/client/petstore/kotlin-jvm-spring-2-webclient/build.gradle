@@ -61,5 +61,6 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.3"
     implementation "org.springframework.boot:spring-boot-starter-webflux:$spring_boot_version"
     implementation "io.projectreactor:reactor-core:$reactor_version"
+    implementation "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
 }
