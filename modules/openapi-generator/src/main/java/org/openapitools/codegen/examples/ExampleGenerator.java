@@ -225,17 +225,7 @@ public class ExampleGenerator {
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
         if (property == null) {
-            // for "any type" (empty property), e.g.
-            //   "components": {
-            //    "schemas": {
-            //      "GithubWebhook": {
-            //        "type": "object",
-            //        "properties": {
-            //          "pull_request": {}
-            //        }
-            //      }
-            //    }
-            //  }
+            LOGGER.error("Property schema shouldn't be null. Please report the issue to the openapi-generator team.");
             return "";
         }
         LOGGER.debug("Resolving example for property {}...", property);
