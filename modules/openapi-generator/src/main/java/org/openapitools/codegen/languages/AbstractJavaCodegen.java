@@ -946,6 +946,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.getTypeDeclaration(target);
     }
 
+    /**
+     * This method stand for resolve bean validation for container(array, set).
+     * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
+     *
+     * @param items type
+     * @return BeanValidation for declared type in container(array, set)
+     */
     private String getBeanValidation(Schema<?> items) {
         if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
             return "";

@@ -8,8 +8,8 @@ import org.openapitools.server.model.OuterEnum;
 import org.openapitools.server.model.OuterEnumDefaultValue;
 import org.openapitools.server.model.OuterEnumInteger;
 import org.openapitools.server.model.OuterEnumIntegerDefaultValue;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 

@@ -3,8 +3,8 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 {{#useBeanValidation}}
-import {{javaxPackage}}.validation.constraints.*;
-import {{javaxPackage}}.validation.Valid;
+import {{rootJavaEEPackage}}.validation.constraints.*;
+import {{rootJavaEEPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}{{#isEnum}}

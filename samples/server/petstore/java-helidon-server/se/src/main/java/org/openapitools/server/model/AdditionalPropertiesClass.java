@@ -2,8 +2,8 @@ package org.openapitools.server.model;
 
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 

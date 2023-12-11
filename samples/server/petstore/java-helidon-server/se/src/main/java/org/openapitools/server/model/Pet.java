@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.server.model.Category;
 import org.openapitools.server.model.Tag;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 
