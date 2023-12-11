@@ -1864,6 +1864,8 @@ public class JavaClientCodegenTest {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
         properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+        properties.put(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, 3);
+        properties.put(CodegenConstants.WAIT_TIME_OF_THREAD, 13l);
 
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
