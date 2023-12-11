@@ -19,11 +19,9 @@ package org.openapitools.codegen.languages;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
-import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -1570,33 +1568,30 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/15867
     @Override
-    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> models, CodegenModel composedModel, List<CodegenProperty> composedOfProperties) {
         if (!GENERICHOST.equals(getLibrary())) {
             return;
         }
 
-        String discriminatorName = model.discriminator == null
+        String discriminatorName = composedModel.discriminator == null
                 ? null
-                : model.discriminator.getPropertyName();
+                : composedModel.discriminator.getPropertyName();
 
-        for (CodegenProperty oneOfProperty : composedProperties) {
-            String ref = oneOfProperty.getRef();
-            if (ref != null) {
-                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
-                    CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
-                    if (ref.endsWith("/" + composedModel.name)) {
-                        for (CodegenProperty composedProperty : composedModel.allVars) {
-                            if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
-                                continue;
-                            }
-                            model.vars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.allVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.readOnlyVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.nonNullableVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.optionalVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.parentRequiredVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.readWriteVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.requiredVars.removeIf(v -> v.name.equals(composedProperty.name));
+        for (CodegenProperty composedOfProperty : composedOfProperties) {
+            String reference = composedOfProperty.getRef();
+            if (reference != null) {
+                for (String modelName : models.keySet()) {
+                    CodegenModel model = ModelUtils.getModelByName(modelName, models);
+                    if (reference.endsWith("/" + model.name)) {
+                        for (CodegenProperty referencedModelProperty : model.allVars) {
+                            composedModel.vars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.allVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.readOnlyVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.nonNullableVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.optionalVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.parentRequiredVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.readWriteVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
+                            composedModel.requiredVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
                         }
                     }
                 }

@@ -532,12 +532,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
      *
-     * @param objs Current state of codegen object model.
+     * @param models Current state of codegen object model.
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> models) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(models);
 
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
@@ -558,8 +558,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
 
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+        for (Map.Entry<String, ModelsMap> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
@@ -574,7 +574,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
-                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
+                    removePropertiesDeclaredInComposedTypes(models, model, anyOf);
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -584,7 +584,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
-                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
+                    removePropertiesDeclaredInComposedTypes(models, model, oneOf);
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -645,7 +645,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return isMutatable;
     }
 
-    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> models, CodegenModel composedModel, List<CodegenProperty> composedOfProperties) {
     }
 
     private String patchPropertyName(CodegenModel model, String value) {
