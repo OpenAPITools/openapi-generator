@@ -879,6 +879,9 @@ components:
       - className
     simple_text:
       type: string
+    any_type_test:
+      properties:
+        any_type_property: {}
     updatePetWithForm_request:
       properties:
         name:
