@@ -274,7 +274,7 @@ public class BodyApi {
      * @return Pet
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Pet> testEchoBodyPet(Pet pet) throws RestClientException {
+    public Pet testEchoBodyPet(Pet pet) throws RestClientException {
         return testEchoBodyPetWithHttpInfo(pet).getBody();
     }
 
