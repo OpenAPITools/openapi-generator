@@ -224,6 +224,20 @@ public class ExampleGenerator {
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
+        if (property == null) {
+            // for "any type" (empty property), e.g.
+            //   "components": {
+            //    "schemas": {
+            //      "GithubWebhook": {
+            //        "type": "object",
+            //        "properties": {
+            //          "pull_request": {}
+            //        }
+            //      }
+            //    }
+            //  }
+            return "";
+        }
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
             LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
