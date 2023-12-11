@@ -106,6 +106,10 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
+    private int maxAttemptsForRetry = {{maxAttemptsForRetry}};
+
+    private long waitTimeMillis = {{waitTimeMillis}};
+
     private String basePath = "{{basePath}}";
 
     private RestTemplate restTemplate;
@@ -724,19 +728,14 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
         ResponseEntity<T> responseEntity = null;
         int attempts = 0;
-        int maxAttempts = 3;
-        long waitTimeMillis = 10l;
-        while (attempts < maxAttempts) {
+        while (attempts < maxAttemptsForRetry) {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
                 }
             catch (HttpServerErrorException ex) {
-                if (ex.getStatusCode() != HttpStatus.SERVICE_UNAVAILABLE) {
-                    throw ex;
-                }
                 attempts++;
-                if (attempts < maxAttempts) {
+                if (attempts < maxAttemptsForRetry) {
                     try {
                         Thread.sleep(waitTimeMillis);
                         }
