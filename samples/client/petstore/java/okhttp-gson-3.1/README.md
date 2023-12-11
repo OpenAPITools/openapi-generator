@@ -140,6 +140,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Animal](docs/Animal.md)
+ - [AnyTypeTest](docs/AnyTypeTest.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [Dog](docs/Dog.md)
