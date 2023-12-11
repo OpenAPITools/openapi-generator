@@ -102,7 +102,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<@Valid User> body = Arrays.asList(); // List<@Valid User> | List of user object
         try {
             apiInstance.createUsersWithArrayInput(body);
         } catch (ApiException e) {
@@ -121,7 +121,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
+| **body** | [**List&lt;@Valid User&gt;**](User.md)| List of user object | |
 
 ### Return type
 
@@ -165,7 +165,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(); // List<User> | List of user object
+        List<@Valid User> body = Arrays.asList(); // List<@Valid User> | List of user object
         try {
             apiInstance.createUsersWithListInput(body);
         } catch (ApiException e) {
@@ -184,7 +184,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **body** | [**List&lt;User&gt;**](User.md)| List of user object | |
+| **body** | [**List&lt;@Valid User&gt;**](User.md)| List of user object | |
 
 ### Return type
 

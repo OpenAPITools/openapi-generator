@@ -998,6 +998,12 @@ public class DefaultCodegen implements CodegenConfig {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
     }
 
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+    }
+
     // override to post-process any parameters
     @Override
     @SuppressWarnings("unused")
@@ -4999,6 +5005,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        postProcessResponseWithProperty(r, cp);
         return r;
     }
 

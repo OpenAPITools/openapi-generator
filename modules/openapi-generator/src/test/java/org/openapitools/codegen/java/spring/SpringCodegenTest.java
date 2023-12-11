@@ -946,7 +946,7 @@ public class SpringCodegenTest {
               .withType( "Map<String, Object>" )
               .toType()
               .hasProperty("response")
-              .withType( "JsonNullable<Set<ResponseTest2>>" )
+              .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )
               .toType()
               .hasProperty("nullableDtos")
               .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )

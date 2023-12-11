@@ -224,6 +224,8 @@ public interface CodegenConfig {
 
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
 
+    void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property);
+
     void postProcessParameter(CodegenParameter parameter);
 
     String modelFilename(String templateName, String modelName);
