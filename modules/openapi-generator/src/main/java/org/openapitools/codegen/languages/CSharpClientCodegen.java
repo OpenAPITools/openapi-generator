@@ -18,9 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
@@ -36,9 +36,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -1593,6 +1590,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                             composedModel.readWriteVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
                             composedModel.requiredVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
                         }
+                        break;
                     }
                 }
             }
