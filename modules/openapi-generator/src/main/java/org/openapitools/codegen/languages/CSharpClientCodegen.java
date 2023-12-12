@@ -1570,10 +1570,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             return;
         }
 
-        String discriminatorName = composedModel.discriminator == null
-                ? null
-                : composedModel.discriminator.getPropertyName();
-
         for (CodegenProperty composedOfProperty : composedOfProperties) {
             String reference = composedOfProperty.getRef();
             if (reference != null) {

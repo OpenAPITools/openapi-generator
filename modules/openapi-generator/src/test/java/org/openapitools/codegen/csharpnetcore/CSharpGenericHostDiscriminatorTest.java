@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.openapitools.codegen.DefaultGeneratorTestUtil.generateModels;
-import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertEqualsNoOrder;
 
 public class CSharpGenericHostDiscriminatorTest {
@@ -43,10 +43,11 @@ public class CSharpGenericHostDiscriminatorTest {
         Map<String, CodegenModel> generatedModels = generateModels(generator);
 
         CodegenModel fruit = generatedModels.get("FruitReqDisc");
-        assertEquals(fruit.allVars.size(), 0);
+        List<String> actualVariables = fruit.allVars.stream().map(var -> var.baseName).collect(toList());
+        assertEqualsNoOrder(actualVariables, emptyList());
 
         CodegenModel apple = generatedModels.get("AppleReqDisc");
-        List<String> actualVariables = apple.allVars.stream().map(var -> var.baseName).collect(toList());
+        actualVariables = apple.allVars.stream().map(var -> var.baseName).collect(toList());
         assertEqualsNoOrder(actualVariables, asList("seeds", "fruitType"));
 
         CodegenModel banana = generatedModels.get("BananaReqDisc");
