@@ -80,9 +80,9 @@ public class ApiClient extends JavaTimeFormatter {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
-    private int maxAttemptsForRetry = 3;
+    private int maxAttemptsForRetry = 1;
 
-    private long waitTimeMillis = 10l;
+    private long waitTimeMillis = 10;
 
     private String basePath = "http://petstore.swagger.io/v2";
 
@@ -680,7 +680,7 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-            } catch (HttpServerErrorException ex) {
+                } catch (HttpServerErrorException ex) {
                 attempts++;
                 if (attempts < maxAttemptsForRetry) {
                     try {

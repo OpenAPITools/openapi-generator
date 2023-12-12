@@ -80,9 +80,9 @@ public class ApiClient extends JavaTimeFormatter {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
-    private int maxAttemptsForRetry = 3;
+    private int maxAttemptsForRetry = 1;
 
-    private long waitTimeMillis = 10l;
+    private long waitTimeMillis = 10;
 
     private String basePath = "http://localhost:3000";
 
@@ -180,6 +180,7 @@ public class ApiClient extends JavaTimeFormatter {
         this.waitTimeMillis = waitTimeMillis;
         return this;
     }
+
     /**
      * Get authentications (key: authentication name, value: authentication).
      *
