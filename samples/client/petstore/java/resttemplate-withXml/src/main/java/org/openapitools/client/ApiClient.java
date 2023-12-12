@@ -755,6 +755,10 @@ public class ApiClient extends JavaTimeFormatter {
             }
         }
 
+        if (responseEntity == null) {
+            throw new RestClientException("API returned " + responseEntity.getStatusCode() + " and it wasn't handled by the RestTemplate error handler");
+        }
+
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
         } else {
