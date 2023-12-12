@@ -80,6 +80,10 @@ public class ApiClient extends JavaTimeFormatter {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
+    private int maxAttemptsForRetry = 3;
+
+    private long waitTimeMillis = 10l;
+
     private String basePath = "http://localhost:3000";
 
     private RestTemplate restTemplate;
@@ -87,10 +91,6 @@ public class ApiClient extends JavaTimeFormatter {
     private Map<String, Authentication> authentications;
 
     private DateFormat dateFormat;
-
-    private int maxAttempts = 3;
-
-    private long waitTimeMillis = 10l;
 
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
@@ -146,18 +146,18 @@ public class ApiClient extends JavaTimeFormatter {
      *
      * @return int the max attempts
      */
-    public int getMaxAttempts() {
-        return maxAttempts;
+    public int getMaxAttemptsForRetry() {
+        return maxAttemptsForRetry;
     }
 
     /**
-     * Set the max attemtps for retry
+     * Set the max attempts for retry
      *
-     * @param maxAttempts the max attempts for retry
+     * @param getMaxAttemptsForRetry the max attempts for retry
      * @return ApiClient this client
      */
-    public ApiClient setMaxAttempts(int maxAttempts) {
-        this.maxAttempts = maxAttempts;
+    public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry = maxAttemptsForRetry;
         return this;
     }
 
@@ -180,7 +180,6 @@ public class ApiClient extends JavaTimeFormatter {
         this.waitTimeMillis = waitTimeMillis;
         return this;
     }
-
     /**
      * Get authentications (key: authentication name, value: authentication).
      *
@@ -684,17 +683,13 @@ public class ApiClient extends JavaTimeFormatter {
 
         ResponseEntity<T> responseEntity = null;
         int attempts = 0;
-        while (attempts < maxAttempts) {
+        while (attempts < maxAttemptsForRetry) {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
-                // request succeeded, no need to retry
                 break;
-            } catch (HttpServerErrorException ex) {
-                if (ex.getStatusCode() != HttpStatus.SERVICE_UNAVAILABLE) {
-                    throw ex;
-                }
+                } catch (HttpServerErrorException ex) {
                 attempts++;
-                if (attempts < maxAttempts) {
+                if (attempts < maxAttemptsForRetry) {
                     try {
                         Thread.sleep(waitTimeMillis);
                     } catch (InterruptedException e) {

@@ -118,10 +118,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
 
     private DateFormat dateFormat;
 
-    private int maxAttempts = 3;
-
-    private long waitTimeMillis = 10l;
-
     public ApiClient() {
         this.restTemplate = buildRestTemplate();
         init();
@@ -173,6 +169,46 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+
+    /**
+     * Get the max attempts for retry
+     *
+     * @return int the max attempts
+     */
+    public int getMaxAttemptsForRetry() {
+        return maxAttemptsForRetry;
+    }
+
+    /**
+     * Set the max attempts for retry
+     *
+     * @param getMaxAttemptsForRetry the max attempts for retry
+     * @return ApiClient this client
+     */
+    public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry = maxAttemptsForRetry;
+        return this;
+    }
+
+    /**
+     * Get the wait time in milliseconds
+     *
+     * @return long wait time in milliseconds
+     */
+    public long getWaitTimeMillis() {
+        return waitTimeMillis;
+    }
+
+    /**
+     * Set the wait time in milliseconds
+     *
+     * @param waitTimeMillis the wait time in milliseconds
+     * @return ApiClient this client
+     */
+    public ApiClient setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis = waitTimeMillis;
         return this;
     }
 
@@ -736,8 +772,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-                }
-            catch (HttpServerErrorException ex) {
+                } catch (HttpServerErrorException ex) {
                 attempts++;
                 if (attempts < maxAttemptsForRetry) {
                     try {
