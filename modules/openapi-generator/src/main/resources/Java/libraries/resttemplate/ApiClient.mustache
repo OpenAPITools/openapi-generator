@@ -772,7 +772,7 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-                } catch (HttpServerErrorException ex) {
+            } catch (HttpServerErrorException ex) {
                 attempts++;
                 if (attempts < maxAttemptsForRetry) {
                     try {

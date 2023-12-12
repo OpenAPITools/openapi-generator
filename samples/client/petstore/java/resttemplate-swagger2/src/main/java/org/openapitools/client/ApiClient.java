@@ -680,7 +680,7 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-                } catch (HttpServerErrorException ex) {
+            } catch (HttpServerErrorException ex) {
                 attempts++;
                 if (attempts < maxAttemptsForRetry) {
                     try {
