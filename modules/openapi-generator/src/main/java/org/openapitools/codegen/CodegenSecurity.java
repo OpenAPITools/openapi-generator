@@ -93,7 +93,7 @@ public class CodegenSecurity {
         // Since OAS 3.1.0, security scheme types other than "oauth2" and "openIdConnect" may have a list of role names
         // which are required for the execution, but are not otherwise defined or exchanged in-band.
         // In such cases, no filtering is performed.
-        if (!(isOAuth || isOpenId)) {
+        if (!(Boolean.TRUE.equals(isOAuth) || Boolean.TRUE.equals(isOpenId))) {
             filteredSecurity.scopes = filterScopes.stream()
                 .map(s -> new HashMap<String, Object>(Map.of("scope", s)))
                 .collect(Collectors.toList());
