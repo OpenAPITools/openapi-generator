@@ -435,9 +435,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
 
-    public String getDiscriminatorValue() {
-        return !hasDiscriminatorWithNonEmptyMapping && getIsClassnameSanitized()? name: null;
-    }
     public ExternalDocumentation getExternalDocumentation() {
         return externalDocumentation;
     }
