@@ -81,6 +81,30 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
+      - description: Entity type
+        explode: false
+        in: path
+        name: inlineEnumPath
+        required: false
+        schema:
+          enum:
+          - OPTION_1
+          - OPTION_2
+          - OPTION_3
+          type: string
+        style: simple
+      - description: Entity type
+        explode: true
+        in: query
+        name: inlineEnum
+        required: false
+        schema:
+          enum:
+          - OPTION_1
+          - OPTION_2
+          - OPTION_3
+          type: string
+        style: form
       - deprecated: true
         description: Status values that need to be considered for filter
         explode: false
