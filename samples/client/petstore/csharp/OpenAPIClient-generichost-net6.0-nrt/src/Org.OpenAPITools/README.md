@@ -69,42 +69,7 @@ namespace YourProject
           .ConfigureApi((context, options) =>
           {
               // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Petstore_auth);
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Api_key);
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Api_key_query);
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Http_basic_test);
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Bearer_test);
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Http_signature_test);
+              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Authorization);
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider

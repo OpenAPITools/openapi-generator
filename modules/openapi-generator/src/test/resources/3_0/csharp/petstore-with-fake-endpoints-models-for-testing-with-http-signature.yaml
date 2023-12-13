@@ -539,6 +539,14 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+        '598':
+          description: Not a real HTTP status code
+        '599':
+          description: Not a real HTTP status code with a return object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
     put:
       tags:
         - user

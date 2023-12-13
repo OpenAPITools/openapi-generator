@@ -2787,4 +2787,85 @@ public class JavaClientCodegenTest {
         assertEquals(files.get("README.md"), null);
         assertEquals(files.get("pom.xml"), null);
     }
+
+    @Test
+    public void testRestTemplateHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.RESTTEMPLATE, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    @Test
+    public void testOkHttpGsonHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))",
+            "jsonWriter.value(enumeration.getValue().toASCIIString())",
+            "URI value =  URI.create(jsonReader.nextString())",
+            "URI value = URI.create(jsonElement.getAsString())"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))",
+            "jsonWriter.value(enumeration.getValue().toASCIIString())",
+            "URI value = URI.create(jsonReader.nextString())",
+            "URI value = URI.create(jsonElement.getAsString())"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.OKHTTP_GSON, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    @Test
+    public void testMicroprofileHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))",
+            "generator.write(obj.value.toASCIIString())"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.MICROPROFILE, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    private void testHandleURIEnum(String library, String[] expectedInnerEnumLines, String[] expectedEnumLines) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                        .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // enum
+        File modelFile = files.get("Metadata.java");
+        assertNotNull(modelFile);
+        JavaFileAssert.assertThat(modelFile).fileContains(expectedEnumLines);
+
+        // Inner enum
+        File apiFile = files.get("V1SchemasGetDefaultResponse.java");
+        assertNotNull(apiFile);
+        JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
+    }
 }

@@ -55,13 +55,19 @@ type ApiHandleFunctions struct {
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{
-	{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+	return []Route{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 		{
 			"{{operationId}}",
 			http.Method{{httpMethod}},
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			handleFunctions.{{classname}}.{{operationId}},
-		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}{{#webhooks}}{{#operations}}{{#operation}}
+		// webhook handler (adjust path accordingly)
+		{
+			"{{operationId}}",
+			http.Method{{httpMethod}},
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			handleFunctions.{{classname}}.{{operationId}},
+		},{{/operation}}{{/operations}}{{/webhooks}}
 	}
 }

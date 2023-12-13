@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * Model for testing model name same as property name
  */

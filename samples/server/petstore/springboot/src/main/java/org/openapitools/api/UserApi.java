@@ -85,7 +85,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<UserDto> userDto
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -115,7 +115,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<UserDto> userDto
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid UserDto> userDto
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

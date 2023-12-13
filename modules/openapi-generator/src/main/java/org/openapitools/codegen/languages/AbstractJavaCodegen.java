@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import io.swagger.models.Model;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -34,7 +33,9 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -930,7 +931,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -943,6 +944,128 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
+    }
+
+    /**
+     * This method stand for resolve bean validation for container(array, set).
+     * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
+     *
+     * @param items type
+     * @return BeanValidation for declared type in container(array, set)
+     */
+    private String getBeanValidation(Schema<?> items) {
+        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
+            return "";
+        }
+
+        if (ModelUtils.isTypeObjectSchema(items)) {
+            // prevents generation '@Valid' for Object
+            return "";
+        }
+
+        if (items.get$ref() != null) {
+            return "@Valid ";
+        }
+
+        if (ModelUtils.isStringSchema(items)) {
+            return getStringBeanValidation(items);
+        }
+
+        if (ModelUtils.isNumberSchema(items)) {
+            return getNumberBeanValidation(items);
+        }
+
+        if (ModelUtils.isIntegerSchema(items)) {
+            return getIntegerBeanValidation(items);
+        }
+
+        return "";
+    }
+
+    private String getIntegerBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private String getNumberBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
+                    items.getMaximum(),
+                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = %s)",
+                    items.getMaximum(),
+                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        return "";
+    }
+
+    private String getStringBeanValidation(Schema<?> items) {
+        String validations = "";
+        if (ModelUtils.isByteArraySchema(items) || ModelUtils.isBinarySchema(items)) {
+            return validations;
+        }
+
+        if (StringUtils.isNotEmpty(items.getPattern())) {
+            final String pattern = escapeUnsafeCharacters(
+                    StringEscapeUtils.unescapeJava(
+                                    StringEscapeUtils.escapeJava(items.getPattern())
+                                            .replace("\\/", "/"))
+                            .replaceAll("[\\t\\n\\r]", " ")
+                            .replace("\\", "\\\\")
+                            .replace("\"", "\\\""));
+
+            validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", pattern);
+        }
+
+        if (ModelUtils.isEmailSchema(items)) {
+            return String.join("", "@Email ");
+        }
+
+        if (ModelUtils.isDecimalSchema(items)) {
+            return String.join("", validations, getNumberBeanValidation(items));
+        }
+
+        if (items.getMinLength() != null && items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d, max = %d)", items.getMinLength(), items.getMaxLength()));
+        }
+
+        if (items.getMinLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d)", items.getMinLength()));
+        }
+
+        if (items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength()));
+        }
+
+        return validations;
     }
 
     @Override
@@ -1508,6 +1631,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // if data type happens to be the same as the property name and both are upper case
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
+        }
+    }
+
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+        if (response == null || property == null || response.dataType == null || property.dataType == null) {
+            return;
+        }
+
+        // the response data types should not contains a bean validation annotation.
+        if (property.dataType.contains("@")) {
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+        }
+        // the response data types should not contains a bean validation annotation.
+        if (response.dataType.contains("@")) {
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
         }
     }
 
@@ -2289,7 +2427,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         operation.hasParams = !operation.allParams.isEmpty();
     }
-    
+
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
         return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }

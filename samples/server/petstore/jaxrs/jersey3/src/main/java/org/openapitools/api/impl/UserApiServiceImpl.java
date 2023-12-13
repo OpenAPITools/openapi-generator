@@ -14,6 +14,7 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class UserApiServiceImpl extends UserApiService {
     @Override
@@ -22,12 +23,12 @@ public class UserApiServiceImpl extends UserApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithArrayInput(List<User> user, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithArrayInput(List<@Valid User> user, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response createUsersWithListInput(List<User> user, SecurityContext securityContext) throws NotFoundException {
+    public Response createUsersWithListInput(List<@Valid User> user, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

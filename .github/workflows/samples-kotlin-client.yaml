@@ -63,6 +63,7 @@ jobs:
           - samples/client/petstore/kotlin-jvm-vertx-moshi
           - samples/client/petstore/kotlin-jvm-spring-2-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-webclient
+          - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/petstore/kotlin-spring-cloud
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests

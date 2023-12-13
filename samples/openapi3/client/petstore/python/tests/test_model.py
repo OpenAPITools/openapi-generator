@@ -392,6 +392,9 @@ class ModelTests(unittest.TestCase):
         a.pattern_with_digits_and_delimiter = "image_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
+        # test sanitize for serializaation with SecretStr (format: password)
+        self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+
     def test_inline_enum_validator(self):
         self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
