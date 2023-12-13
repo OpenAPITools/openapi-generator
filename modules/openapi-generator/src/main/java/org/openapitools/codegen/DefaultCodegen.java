@@ -133,7 +133,7 @@ public class DefaultCodegen implements CodegenConfig {
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
                         SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth are not yet 100% supported
+                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML

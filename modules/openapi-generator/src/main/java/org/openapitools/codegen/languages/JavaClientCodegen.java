@@ -184,7 +184,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
                 SecurityFeature.OAuth2_ClientCredentials,
                 SecurityFeature.OAuth2_Password,
-                SecurityFeature.SignatureAuth)//jersey only
+                SecurityFeature.SignatureAuth,//jersey only
+                SecurityFeature.AWSV4Signature)//okhttp-gson only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
