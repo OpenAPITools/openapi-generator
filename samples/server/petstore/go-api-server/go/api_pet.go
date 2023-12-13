@@ -230,7 +230,10 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	}
 	var inlineEnumParam string
 	if query.Has("inlineEnum") {
-		inlineEnumParam = query.Get("inlineEnum")
+		param := query.Get("inlineEnum")
+
+		inlineEnumParam = param
+	} else {
 	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam)
 	// If an error occurred, encode the error with the status code
