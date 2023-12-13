@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: example
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                example:
+                  $ref: '#/components/schemas/example'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    example:
+      type: object
+      properties:
+        map:
+          $ref: '#/components/schemas/genericmap'
+        array:
+          $ref: '#/components/schemas/genericarray'
+      required:
+        - map
+        - array
+    genericmap:
+      type: object
+      additionalProperties:
+        type: string
+    genericarray:
+      type: array
+      items:
+        $ref: '#/components/schemas/item'
+    item:
+      type: object
+      properties:
+        property:
+          type: string

@@ -4388,4 +4388,35 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
+
+    @Test
+    public void shouldGenerateRequiredAttributesWithSpecificConstructor_issue15072() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setInputSpec("src/test/resources/bugs/issue_15072.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"))
+                .setGenerateAliasAsModel(true);
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Example.java"))
+                .hasProperty("map")
+                .withType("Genericmap")
+                .asString().isEqualTo("private Genericmap map = new Genericmap();");
+        JavaFileAssert.assertThat(files.get("Example.java"))
+                .hasProperty("array")
+                .withType("Genericarray")
+                .asString().isEqualTo("private Genericarray array = new Genericarray();");
+    }
 }
