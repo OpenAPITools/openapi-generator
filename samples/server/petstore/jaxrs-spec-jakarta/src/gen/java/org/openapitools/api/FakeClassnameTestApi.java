@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 @Api(description = "the fake_classname_test API")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FakeClassnameTestApi {
+   public static final String PATH = "/fake_classname_test";
 
     @PATCH
     @Consumes({ "application/json" })
