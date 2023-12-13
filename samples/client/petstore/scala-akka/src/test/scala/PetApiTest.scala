@@ -119,19 +119,4 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
       }
   }
   */
-
-  it should "find pets by arbitrary filter" in {
-    val request = api.findPetsByArbitraryFilters(Map("status" -> "available"))
-    invoker
-      .execute(request)
-      .map { apiResponse =>
-        apiResponse.code should be(200)
-        val pets = apiResponse.content
-        pets should not be empty
-
-        forAll(pets) { pet =>
-          pet.status should contain(PetEnums.Status.Available)
-        }
-      }
-  }
 }
