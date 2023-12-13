@@ -213,7 +213,16 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	if query.Has("status") {
 		statusParam = strings.Split(query.Get("status"), ",")
 	}
-	result, err := c.service.FindPetsByStatus(r.Context(), statusParam)
+	inlineEnumPathParam := chi.URLParam(r, "inlineEnumPath")
+	if inlineEnumPathParam == "" {
+		c.errorHandler(w, r, &RequiredError{"inlineEnumPath"}, nil)
+		return
+	}
+	var inlineEnumParam string
+	if query.Has("inlineEnum") {
+		inlineEnumParam = query.Get("inlineEnum")
+	}
+	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
