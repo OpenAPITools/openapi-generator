@@ -59,7 +59,7 @@ data class Pet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold,unknownDefaultOpenApi
+     * Values: available,pending,sold,unknown_default_open_api
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "available") available("available"),
