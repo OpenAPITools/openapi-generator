@@ -692,6 +692,10 @@ public class ApiClient extends JavaTimeFormatter {
             }
         }
 
+        if (responseEntity == null) {
+            throw new RestClientException("API returned HttpServerErrorException");
+        }
+
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
         } else {
