@@ -418,7 +418,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
+        if (discriminator != null && (!discriminator.getMappedModels().isEmpty() || this.vendorExtensions.containsKey("x-discriminator-value"))) {
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }
     }
@@ -435,6 +435,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return discriminator == null ? null : discriminator.getPropertyName();
     }
 
+    public String getDiscriminatorValue() {
+        return !hasDiscriminatorWithNonEmptyMapping && getIsClassnameSanitized()? name: null;
+    }
     public ExternalDocumentation getExternalDocumentation() {
         return externalDocumentation;
     }

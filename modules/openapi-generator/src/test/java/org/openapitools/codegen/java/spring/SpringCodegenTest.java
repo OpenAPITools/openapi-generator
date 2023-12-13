@@ -45,6 +45,23 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -55,7 +72,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
@@ -80,16 +96,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class SpringCodegenTest {
 
@@ -3329,5 +3335,45 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    @Test
+    public void testXDiscriminatorValue_issue17343() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_17343.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNameSuffix("Dto");
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("DogItemDto.java")).assertTypeAnnotations()
+                .doesNotContainsWithName("JsonTypeName");
+        JavaFileAssert.assertThat(files.get("CatItemDto.java")).assertTypeAnnotations()
+            .doesNotContainsWithName("JsonTypeName");
+        JavaFileAssert.assertThat(files.get("PetItemDto.java"))
+                .assertTypeAnnotations()
+                .contains(new SingleMemberAnnotationExpr(new Name("JsonSubTypes"),
+                    new ArrayInitializerExpr(NodeList.nodeList(
+                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
+                            NodeList.nodeList(
+                                new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("CatItemDto"))),
+                                new MemberValuePair("name", new StringLiteralExpr("CAT"))
+                        )),
+                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
+                           NodeList.nodeList(
+                                   new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("DogItemDto"))),
+                                   new MemberValuePair("name", new StringLiteralExpr("DOG"))
+                   )))
+            )));
     }
 }
