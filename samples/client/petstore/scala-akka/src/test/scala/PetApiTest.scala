@@ -87,7 +87,6 @@ class PetApiTest extends AsyncFlatSpec with Matchers {
 
   it should "find pets by status" in {
     val request = api.findPetsByStatus(List("available"))
-
     invoker
       .execute(request)
       .map { apiResponse =>

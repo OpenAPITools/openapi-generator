@@ -185,20 +185,20 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isLong}}
 	{{^isInteger}}
 	{{^isDateTime}}
-	{{^isEnumOrRef}}
+	{{^isEnumRef}}
 	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
 	if {{paramName}}Param == "" {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
-	{{/isEnumOrRef}}
-	{{#isEnumOrRef}}
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	{{/isEnumOrRef}}
+	{{/isEnumRef}}
 	{{/isDateTime}}
 	{{/isInteger}}
 	{{/isLong}}

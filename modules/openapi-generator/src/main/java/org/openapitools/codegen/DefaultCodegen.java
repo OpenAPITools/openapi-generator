@@ -60,6 +60,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -132,7 +133,7 @@ public class DefaultCodegen implements CodegenConfig {
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
                         SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth are not yet 100% supported
+                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML
@@ -980,6 +981,13 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @Override
     @SuppressWarnings("static-method")
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        return objs;
+    }
+
+    // override with any special post-processing
+    @Override
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         return objs;
     }
@@ -988,6 +996,12 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+    }
+
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
     }
 
     // override to post-process any parameters
@@ -3037,6 +3051,9 @@ public class DefaultCodegen implements CodegenConfig {
             // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
             model.setIsString(false);
             model.setIsUuid(true);
+        } else if (ModelUtils.isURISchema(schema)) {
+            model.setIsString(false);
+            model.setIsUri(true);
         }
     }
 
@@ -4991,6 +5008,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        postProcessResponseWithProperty(r, cp);
         return r;
     }
 

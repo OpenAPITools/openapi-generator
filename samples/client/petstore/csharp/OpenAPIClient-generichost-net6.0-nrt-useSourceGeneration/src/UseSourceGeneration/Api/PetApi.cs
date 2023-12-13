@@ -90,7 +90,7 @@ namespace UseSourceGeneration.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByStatusApiResponse"/>&gt;</returns>
         Task<IFindPetsByStatusApiResponse> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
@@ -101,7 +101,7 @@ namespace UseSourceGeneration.Api
         /// <remarks>
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
-        /// <param name="status">Status values that need to be considered for filter</param>
+        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByStatusApiResponse"/>?&gt;</returns>
         Task<IFindPetsByStatusApiResponse?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
@@ -116,6 +116,7 @@ namespace UseSourceGeneration.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByTagsApiResponse"/>&gt;</returns>
+        [Obsolete]
         Task<IFindPetsByTagsApiResponse> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -127,6 +128,7 @@ namespace UseSourceGeneration.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByTagsApiResponse"/>?&gt;</returns>
+        [Obsolete]
         Task<IFindPetsByTagsApiResponse?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>

@@ -15,6 +15,75 @@ package body Samples.Petstore.Models is
 
    use Swagger.Streams;
 
+
+   function To_AnotherStatus_Type (Value : in String) return Samples.Petstore.Models.AnotherStatus_Type is
+   begin
+      if Value = "available" then
+         return AVAILABLE;
+      end if;
+      if Value = "pending" then
+         return PENDING;
+      end if;
+      if Value = "sold" then
+         return UNAVAILABLE;
+      end if;
+      raise Constraint_Error;
+   end To_AnotherStatus_Type;
+
+   function To_String (Value : in Samples.Petstore.Models.AnotherStatus_Type) return String is
+   begin
+      case Value is
+         when AVAILABLE =>
+            return "available";
+
+         when PENDING =>
+            return "pending";
+
+         when UNAVAILABLE =>
+            return "sold";
+
+      end case;
+   end To_String;
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Samples.Petstore.Models.AnotherStatus_Type) is
+   begin
+      Into.Write_Entity (Name, To_String (Value));   end Serialize;
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in AnotherStatus_Type_Vectors.Vector) is
+   begin
+      Into.Start_Array (Name);
+      for Item of Value loop
+         Serialize (Into, "", Item);
+      end loop;
+      Into.End_Array (Name);
+   end Serialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Samples.Petstore.Models.AnotherStatus_Type) is
+      Object : Swagger.Value_Type;
+   begin
+      Swagger.Streams.Deserialize (From, Name, Object);
+      Value := To_AnotherStatus_Type (Swagger.To_String (Object));
+   end Deserialize;
+
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : in out AnotherStatus_Type_Vectors.Vector) is
+      List : Swagger.Value_Array_Type;
+      Item : Samples.Petstore.Models.AnotherStatus_Type;
+   begin
+      Value.Clear;
+      Swagger.Streams.Deserialize (From, Name, List);
+      for Data of List loop
+         Deserialize (Data, "", Item);
+         Value.Append (Item);
+      end loop;
+   end Deserialize;
+
    procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
                         Name  : in String;
                         Value : in Samples.Petstore.Models.ApiResponse_Type) is

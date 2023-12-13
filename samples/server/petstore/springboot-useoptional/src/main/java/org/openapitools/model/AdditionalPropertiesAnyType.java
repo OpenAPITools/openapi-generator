@@ -26,10 +26,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesAnyType {
 
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesAnyType name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -40,11 +40,11 @@ public class AdditionalPropertiesAnyType {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public Optional<String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
     /**

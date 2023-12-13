@@ -41,7 +41,7 @@ public class Pet  {
 
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = null;
 
 public enum StatusEnum {
 
@@ -187,18 +187,18 @@ public enum StatusEnum {
    * Get tags
    * @return tags
   **/
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
   /**
     * Set tags
   **/
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }

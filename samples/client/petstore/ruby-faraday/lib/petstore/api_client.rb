@@ -52,7 +52,7 @@ module Petstore
       stream = nil
       begin
         response = connection(opts).public_send(http_method.to_sym.downcase) do |req|
-          build_request(http_method, path, req, opts)
+          request = build_request(http_method, path, req, opts)
           stream = download_file(request) if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
         end
 
@@ -79,7 +79,7 @@ module Petstore
       end
 
       if opts[:return_type] == 'File' || opts[:return_type] == 'Binary'
-        data = deserialize_file(stream)
+        data = deserialize_file(response, stream)
       elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else

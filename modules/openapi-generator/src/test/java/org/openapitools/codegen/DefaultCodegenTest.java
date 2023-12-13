@@ -51,6 +51,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -2571,6 +2572,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOpenIdConnectSecuritySchemes() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_17376.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 1);
+        assertEquals(securities.get(0).name, "Our Identity service");
+    }
+
+    @Test
     public void testItemsPresent() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7613.yaml");
         final DefaultCodegen codegen = new DefaultCodegen();
@@ -4808,4 +4822,18 @@ public class DefaultCodegenTest {
         Assert.assertTrue(codegen.isXmlMimeType("application/xml"));
         Assert.assertTrue(codegen.isXmlMimeType("application/rss+xml"));
     }
+
+    @Test
+    public void testWebhooks() throws IOException {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/webhooks.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Operation operation = openAPI.getWebhooks().get("newPet").getPost();
+        CodegenOperation co = codegen.fromOperation("newPet", "get", operation, null);
+
+        Assert.assertEquals(co.path, "/newPet");
+        Assert.assertEquals(co.operationId, "newPetGet");
+    }
+
 }

@@ -986,7 +986,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
                                     break;
                                 default:
-                                    throw new RuntimeException("Unhandled case: " + code);
+                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
                             }
                         }
                     }

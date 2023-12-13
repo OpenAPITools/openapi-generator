@@ -22,24 +22,24 @@ Add a new pet to the store
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
+	pet := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet | Pet object that needs to be added to the store
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PetAPI.AddPet(context.Background()).Pet(pet).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.AddPet``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `AddPet`: Pet
-    fmt.Fprintf(os.Stdout, "Response from `PetAPI.AddPet`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PetAPI.AddPet(context.Background()).Pet(pet).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PetAPI.AddPet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `AddPet`: Pet
+	fmt.Fprintf(os.Stdout, "Response from `PetAPI.AddPet`: %v\n", resp)
 }
 ```
 
