@@ -122,6 +122,13 @@ public class ModelUtils {
         return null;
     }
 
+    public static CodegenModel getModelByReference(final String reference, final Map<String, ModelsMap> models)
+    {
+        String[] referenceParts = reference.split("/");
+        String modelName = referenceParts[referenceParts.length - 1];
+        return getModelByName(modelName, models);
+    }
+
     /**
      * Return the list of all schemas in the 'components/schemas' section used in the openAPI specification
      *

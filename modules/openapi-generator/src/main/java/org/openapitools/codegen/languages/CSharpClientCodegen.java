@@ -1565,32 +1565,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/15867
     @Override
-    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> models, CodegenModel composedModel, List<CodegenProperty> composedOfProperties) {
+    protected void removePropertiesAlreadyDeclaredInSubModel(Map<String, ModelsMap> models, CodegenModel superModel) {
         if (!GENERICHOST.equals(getLibrary())) {
             return;
         }
 
-        for (CodegenProperty composedOfProperty : composedOfProperties) {
-            String reference = composedOfProperty.getRef();
-            if (reference != null) {
-                for (String modelName : models.keySet()) {
-                    CodegenModel model = ModelUtils.getModelByName(modelName, models);
-                    if (reference.endsWith("/" + model.name)) {
-                        for (CodegenProperty referencedModelProperty : model.allVars) {
-                            composedModel.vars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.allVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.readOnlyVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.nonNullableVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.optionalVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.parentRequiredVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.readWriteVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                            composedModel.requiredVars.removeIf(v -> v.name.equals(referencedModelProperty.name));
-                        }
-                        break;
-                    }
-                }
-            }
-        }
+        getSubModels(models, superModel)
+            .flatMap(subModel -> subModel.allVars.stream())
+            .map(subModelVar -> subModelVar.name)
+            .forEach(subModelVarName -> {
+                superModel.vars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.allVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.readOnlyVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.nonNullableVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.optionalVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.parentRequiredVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.readWriteVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.requiredVars.removeIf(v -> v.name.equals(subModelVarName));
+            });
     }
 
     /**
