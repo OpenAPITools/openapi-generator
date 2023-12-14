@@ -676,7 +676,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // Start removing properties from the root, since the root doesn't know which properties to remove if an intermediate is already cleaned
         // assumes no cyclic references
         getSuperModels(models, model)
-            .forEach(referrerModel -> removePropertiesAlreadyDeclaredInSubModelHierarchy(models, referrerModel));
+            .forEach(superModel -> removePropertiesAlreadyDeclaredInSubModelHierarchy(models, superModel));
 
         removePropertiesAlreadyDeclaredInSubModel(models, model);
     }
