@@ -33,7 +33,7 @@ using namespace test_namespace;
 class Example : public QObject {
     Q_OBJECT
     PFXPet create();
-public slots:
+public Q_SLOTS:
    void exampleFunction1();
 };
 
