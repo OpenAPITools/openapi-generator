@@ -20,18 +20,31 @@ components:
     example:
       type: object
       properties:
-        map:
-          $ref: '#/components/schemas/genericmap'
-        array:
-          $ref: '#/components/schemas/genericarray'
+        aliasmap:
+          $ref: '#/components/schemas/aliasmap'
+        aliasarray:
+          $ref: '#/components/schemas/aliasarray'
+        simplearray:
+          type: array
+          items:
+            type: string
+        simplemap:
+          type: object
+          additionalProperties:
+            type: string
       required:
-        - map
-        - array
-    genericmap:
+        - aliasmap
+        - aliasarray
+        - simplearray
+        - simplemap
+    aliasmap:
       type: object
       additionalProperties:
-        type: string
-    genericarray:
+        type: object
+        properties:
+          type:
+            type: string
+    aliasarray:
       type: array
       items:
         $ref: '#/components/schemas/item'

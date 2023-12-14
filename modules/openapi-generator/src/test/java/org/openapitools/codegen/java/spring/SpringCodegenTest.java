@@ -4411,12 +4411,20 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("Example.java"))
-                .hasProperty("map")
-                .withType("Genericmap")
-                .asString().isEqualTo("private Genericmap map = new Genericmap();");
+                .hasProperty("aliasmap")
+                .withType("Aliasmap")
+                .asString().isEqualTo("private Aliasmap aliasmap = new Aliasmap();");
         JavaFileAssert.assertThat(files.get("Example.java"))
-                .hasProperty("array")
-                .withType("Genericarray")
-                .asString().isEqualTo("private Genericarray array = new Genericarray();");
+                .hasProperty("aliasarray")
+                .withType("Aliasarray")
+                .asString().isEqualTo("private Aliasarray aliasarray = new Aliasarray();");
+        JavaFileAssert.assertThat(files.get("Example.java"))
+                .hasProperty("simplearray")
+                .withType("List<String>")
+                .asString().isEqualTo("@Valid\nprivate List<String> simplearray = new ArrayList<>();");
+        JavaFileAssert.assertThat(files.get("Example.java"))
+                .hasProperty("simplemap")
+                .withType("Map<String, String>")
+                .asString().isEqualTo("@Valid\nprivate Map<String, String> simplemap = new HashMap<>();");
     }
 }

@@ -1167,7 +1167,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (cp.isNullable || !cp.required || containerDefaultToNull) {
                     return null;
                 } else {
-                    if (ModelUtils.isGenerateAliasAsModel() && cp.defaultValue == null) {
+                    if (ModelUtils.isGenerateAliasAsModel() && cp.containerTypeMapped == null) {
                         return "new " + cp.dataType + "()";
                     }
                     if (ModelUtils.isSet(schema)) {
@@ -1198,7 +1198,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            if (ModelUtils.isGenerateAliasAsModel() && cp.defaultValue == null) {
+            if (ModelUtils.isGenerateAliasAsModel() && cp.containerTypeMapped == null) {
                 return "new " + cp.dataType + "()";
             }
 
