@@ -35,11 +35,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="triangle"></param>
-        /// <param name="shapeType">shapeType</param>
-        public Shape(Triangle triangle, string shapeType)
+        internal Shape(Triangle triangle)
         {
             Triangle = triangle;
-            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -47,11 +45,9 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
         /// <param name="quadrilateral"></param>
-        /// <param name="shapeType">shapeType</param>
-        public Shape(Quadrilateral quadrilateral, string shapeType)
+        internal Shape(Quadrilateral quadrilateral)
         {
             Quadrilateral = quadrilateral;
-            ShapeType = shapeType;
             OnCreated();
         }
 
@@ -68,12 +64,6 @@ namespace Org.OpenAPITools.Model
         public Quadrilateral? Quadrilateral { get; set; }
 
         /// <summary>
-        /// Gets or Sets ShapeType
-        /// </summary>
-        [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -87,7 +77,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Shape {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -135,8 +124,6 @@ namespace Org.OpenAPITools.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -186,26 +173,17 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "shapeType":
-                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class Shape.", nameof(shapeType));
-
-            if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
-
             if (quadrilateral != null)
-                return new Shape(quadrilateral, shapeType.Value!);
+                return new Shape(quadrilateral);
 
             if (triangle != null)
-                return new Shape(triangle, shapeType.Value!);
+                return new Shape(triangle);
 
             throw new JsonException();
         }
@@ -244,10 +222,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shape.ShapeType == null)
-                throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
 
-            writer.WriteString("shapeType", shape.ShapeType);
         }
     }
 }

@@ -36,11 +36,9 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="equilateralTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(EquilateralTriangle equilateralTriangle, string triangleType)
+        internal Triangle(EquilateralTriangle equilateralTriangle)
         {
             EquilateralTriangle = equilateralTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -48,11 +46,9 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="isoscelesTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(IsoscelesTriangle isoscelesTriangle, string triangleType)
+        internal Triangle(IsoscelesTriangle isoscelesTriangle)
         {
             IsoscelesTriangle = isoscelesTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -60,11 +56,9 @@ namespace UseSourceGeneration.Model
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         /// <param name="scaleneTriangle"></param>
-        /// <param name="triangleType">triangleType</param>
-        public Triangle(ScaleneTriangle scaleneTriangle, string triangleType)
+        internal Triangle(ScaleneTriangle scaleneTriangle)
         {
             ScaleneTriangle = scaleneTriangle;
-            TriangleType = triangleType;
             OnCreated();
         }
 
@@ -86,12 +80,6 @@ namespace UseSourceGeneration.Model
         public ScaleneTriangle? ScaleneTriangle { get; set; }
 
         /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
-
-        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -105,7 +93,6 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -153,8 +140,6 @@ namespace UseSourceGeneration.Model
                 throw new JsonException();
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
-
-            Option<string?> triangleType = default;
 
             EquilateralTriangle? equilateralTriangle = null;
             IsoscelesTriangle? isoscelesTriangle = null;
@@ -210,29 +195,20 @@ namespace UseSourceGeneration.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "triangleType":
-                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
-                            break;
                         default:
                             break;
                     }
                 }
             }
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
-
-            if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
-
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType.Value!);
+                return new Triangle(equilateralTriangle);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType.Value!);
+                return new Triangle(isoscelesTriangle);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType.Value!);
+                return new Triangle(scaleneTriangle);
 
             throw new JsonException();
         }
@@ -276,10 +252,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
 
-            writer.WriteString("triangleType", triangle.TriangleType);
         }
     }
 
