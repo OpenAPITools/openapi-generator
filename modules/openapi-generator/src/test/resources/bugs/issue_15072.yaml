@@ -40,10 +40,7 @@ components:
     aliasmap:
       type: object
       additionalProperties:
-        type: object
-        properties:
-          type:
-            type: string
+        type: string
     aliasarray:
       type: array
       items:

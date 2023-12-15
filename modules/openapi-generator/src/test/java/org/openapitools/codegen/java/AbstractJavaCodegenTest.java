@@ -648,79 +648,86 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void toDefaultValueGenerateAliasModelTest() {
-        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+    public void toDefaultValueGenerateAliasModelFalseTest() {
+        P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
-        // Create an alias to an array schema
-        Schema<?> aliasArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
-        Schema<?> aliasMapSchema = new ObjectSchema().additionalProperties(new ObjectSchema().addProperty("type", new StringSchema()));
+        Schema<?> arraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        Schema<?> mapSchema = new ObjectSchema().additionalProperties(new ObjectSchema().addProperty("type", new StringSchema()));
         codegen.setOpenAPI(new OpenAPI().components(new Components()
-                .addSchemas("AliasArray", aliasArraySchema)
-                .addSchemas("AliasMap", aliasMapSchema)));
+                .addSchemas("AliasArray", arraySchema)
+                .addSchemas("AliasMap", mapSchema)));
+        Schema<?> aliasArraySchema = new Schema().$ref("#/components/schemas/AliasArray");
+        Schema<?> aliasMapSchema = new Schema().$ref("#/components/schemas/AliasMap");
 
         // alias array attribute
-        // Create an array schema with item type set to the array alias
-        Schema<?> schema = new ObjectSchema().addProperty("aliasarray", aliasArraySchema);
-
         // not required
-        CodegenProperty property = codegen.fromProperty("aliasarray", schema, false, true);
-
         ModelUtils.setGenerateAliasAsModel(false);
+        CodegenProperty property = codegen.fromProperty("aliasarray", aliasArraySchema, false, true);
         String defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
         Assert.assertNull(defaultValue);
 
-        ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
-        Assert.assertNull(defaultValue);
-
         // required
-        property = codegen.fromProperty("aliasarray", schema, true, true);
-
         ModelUtils.setGenerateAliasAsModel(false);
+        property = codegen.fromProperty("aliasarray", aliasArraySchema, true, true);
         defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
         Assert.assertEquals(defaultValue, "new ArrayList<>()");
 
-        ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
-        Assert.assertEquals(defaultValue, "new Object()"); //fromProperty creates datatype = Object
-
-        property.setDataType("AliasArray"); //fromProperty isn't creating AliasTypes
-        ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
-        Assert.assertEquals(defaultValue, "new AliasArray()");
-
         // alias map
-        schema = new ObjectSchema().addProperty("aliasmap", aliasMapSchema);
         // nullable
-        property = codegen.fromProperty("aliasmap", schema, false, true);
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, false, true);
         property.isNullable = true;
-
         ModelUtils.setGenerateAliasAsModel(false);
         defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
         Assert.assertNull(defaultValue);
 
+        // not nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, true, true);
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
+        Assert.assertEquals(defaultValue, "new HashMap<>()");
+    }
+
+    @Test
+    public void toDefaultValueGenerateAliasModelTrueTest() {
+        P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> arraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        Schema<?> mapSchema = new ObjectSchema().additionalProperties(new ObjectSchema().addProperty("type", new StringSchema()));
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("AliasArray", arraySchema)
+                .addSchemas("AliasMap", mapSchema)));
+        Schema<?> aliasArraySchema = new Schema().$ref("#/components/schemas/AliasArray");
+        Schema<?> aliasMapSchema = new Schema().$ref("#/components/schemas/AliasMap");
+
+        // alias array attribute
+        // not required
+        ModelUtils.setGenerateAliasAsModel(true);
+        CodegenProperty property = codegen.fromProperty("aliasarray", aliasArraySchema, false, true);
+        String defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertNull(defaultValue);
+
+        // required
+        ModelUtils.setGenerateAliasAsModel(true);
+        property = codegen.fromProperty("aliasarray", aliasArraySchema, true, true);
+        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertEquals(defaultValue, "new AliasArray()");
+
+        // alias map
+        // nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, false, true);
+        property.isNullable = true;
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
         Assert.assertNull(defaultValue);
 
         // not nullable
-        property = codegen.fromProperty("aliasmap", schema, true, true);
-
-        ModelUtils.setGenerateAliasAsModel(false);
-        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
-        Assert.assertEquals(defaultValue, "new HashMap<>()");
-
-        ModelUtils.setGenerateAliasAsModel(true);
-        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
-        Assert.assertEquals(defaultValue, "new Object()"); //fromProperty creates datatype = Object
-
-        property.setDataType("AliasMap"); //fromProperty isn't creating AliasTypes
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, true, true);
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
         Assert.assertEquals(defaultValue, "new AliasMap()");
     }
 
-        @Test
+    @Test
     public void dateDefaultValueIsIsoDate() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
