@@ -178,7 +178,7 @@ public interface {{classname}} {
         }{{#hasAuthMethods}},
         security = {
             {{#authMethods}}
-            @SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/isOAuth}}){{^-last}},{{/-last}}
+            @SecurityRequirement(name = "{{name}}"{{#scopes.0}}, scopes={ {{#scopes}}"{{scope}}"{{^-last}}, {{/-last}}{{/scopes}} }{{/scopes.0}}){{^-last}},{{/-last}}
             {{/authMethods}}
         }{{/hasAuthMethods}}{{#externalDocs}},
         externalDocs = @ExternalDocumentation(description = "{{externalDocs.description}}", url = "{{externalDocs.url}}"){{/externalDocs}}
@@ -196,16 +196,16 @@ public interface {{classname}} {
         responseContainer = "{{{.}}}"{{/returnContainer}}{{#hasAuthMethods}},
         authorizations = {
         {{#authMethods}}
-        {{#isOAuth}}
+        {{#scopes.0}}
             @Authorization(value = "{{name}}", scopes = {
             {{#scopes}}
                 @AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{^-last}},{{/-last}}
             {{/scopes}}
             }){{^-last}},{{/-last}}
-        {{/isOAuth}}
-        {{^isOAuth}}
+        {{/scopes.0}}
+        {{^scopes.0}}
             @Authorization(value = "{{name}}"){{^-last}},{{/-last}}
-        {{/isOAuth}}
+        {{/scopes.0}}
         {{/authMethods}} }{{/hasAuthMethods}}
     )
     @ApiResponses({

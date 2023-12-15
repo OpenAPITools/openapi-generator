@@ -911,8 +911,18 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if (schema == null || schema.getTypes() == null) {
+        if (schema == null) {
             return null;
+        }
+
+        if (schema instanceof JsonSchema &&
+                schema.get$schema() == null &&
+                schema.getTypes() == null && schema.getType() == null) {
+            // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
+            // components:
+            //  schemas:
+            //    any_type: {}
+            return new Schema();
         }
 
         // process null

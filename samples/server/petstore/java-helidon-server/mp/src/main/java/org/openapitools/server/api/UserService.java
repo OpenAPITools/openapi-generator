@@ -35,12 +35,12 @@ public interface UserService {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    void createUsersWithArrayInput(@Valid @NotNull List<User> user);
+    void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user);
 
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    void createUsersWithListInput(@Valid @NotNull List<User> user);
+    void createUsersWithListInput(@Valid @NotNull List<@Valid User> user);
 
     @DELETE
     @Path("/{username}")
