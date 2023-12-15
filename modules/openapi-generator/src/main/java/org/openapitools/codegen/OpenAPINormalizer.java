@@ -109,7 +109,6 @@ public class OpenAPINormalizer {
         this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
-            LOGGER.info("Disabled all rules in OpenAPI Normalizer (DISABLE_ALL=true)");
             this.disableAll = true;
             return; // skip the rest
         }
@@ -306,6 +305,11 @@ public class OpenAPINormalizer {
         }
 
         for (Parameter parameter : parameters) {
+            // dereference parameter
+            if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+            }
+
             if (parameter.getSchema() == null) {
                 continue;
             } else {

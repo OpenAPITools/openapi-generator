@@ -135,6 +135,4 @@ lib/petstore/models/whale.rb
 lib/petstore/models/zebra.rb
 lib/petstore/version.rb
 petstore.gemspec
-spec/api_client_spec.rb
-spec/configuration_spec.rb
 spec/spec_helper.rb
