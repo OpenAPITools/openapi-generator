@@ -44,6 +44,15 @@ type MimeTypeDescriptor = {
     subtypeTokens: string[];
 };
 
+/**
+ * Every mime-type consists of a type, subtype, and optional parameters.
+ * The subtype can be composite, including information about the content format.
+ * For example: `application/json-patch+json`, `application/merge-patch+json`.
+ *
+ * This helper transforms a string mime-type into an internal representation.
+ * This simplifies the implementation of predicates that in turn define common rules for parsing or stringifying
+ * the payload.
+ */
 const parseMimeType = (mimeType: string): MimeTypeDescriptor => {
     const [type, subtype] = mimeType.split('/');
     return {
@@ -55,20 +64,24 @@ const parseMimeType = (mimeType: string): MimeTypeDescriptor => {
 
 type MimeTypePredicate = (mimeType: string) => boolean;
 
+// This factory creates a predicate function that checks a string mime-type against defined rules.
 const mimeTypePredicateFactory = (predicate: (descriptor: MimeTypeDescriptor) => boolean): MimeTypePredicate => (mimeType) => predicate(parseMimeType(mimeType));
 
+// Use this factory when you need to define a simple predicate based only on type and, if applicable, subtype.
 const mimeTypeSimplePredicateFactory = (type: string, subtype?: string): MimeTypePredicate => mimeTypePredicateFactory((descriptor) => {
     if (descriptor.type !== type) return false;
     if (subtype != null && descriptor.subtype !== subtype) return false;
     return true;
 });
 
+// Creating a set of named predicates that will help us determine how to handle different mime-types
 const isTextLikeMimeType = mimeTypeSimplePredicateFactory('text');
 const isJsonMimeType = mimeTypeSimplePredicateFactory('application', 'json');
-const isJsonLikeMimeType = mimeTypePredicateFactory((descriptor) => descriptor.type === 'application' && descriptor.subtypeTokens.includes('json'));
+const isJsonLikeMimeType = mimeTypePredicateFactory((descriptor) => descriptor.type === 'application' && descriptor.subtypeTokens.some((item) => item === 'json'));
 const isOctetStreamMimeType = mimeTypeSimplePredicateFactory('application', 'octet-stream');
 const isFormUrlencodedMimeType = mimeTypeSimplePredicateFactory('application', 'x-www-form-urlencoded');
 
+// Defining a list of mime-types in the order of prioritization for handling.
 const supportedMimeTypePredicatesWithPriority: MimeTypePredicate[] = [
     isJsonMimeType,
     isJsonLikeMimeType,
@@ -223,20 +236,15 @@ export class ObjectSerializer {
 
         const normalMediaTypes = mediaTypes.map(this.normalizeMediaType);
 
-        const supportedAndOrderedMediaTypes = supportedMimeTypePredicatesWithPriority.reduce<string[]>((result, predicate) => {
-            const filteredMediaTypes = normalMediaTypes.filter((mediaType): mediaType is Exclude<typeof mediaType, undefined> => {
-                return mediaType != null && predicate(mediaType);
-            });
-            return result.concat(filteredMediaTypes);
-        }, []);
-
-        const selectedMediaType: string | undefined = supportedAndOrderedMediaTypes[0];
-
-        if (selectedMediaType === undefined) {
-            throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
+        for (const predicate of supportedMimeTypePredicatesWithPriority) {
+            for (const mediaType of normalMediaTypes) {
+                if (mediaType != null && predicate(mediaType)) {
+                    return mediaType;
+                }
+            }
         }
 
-        return selectedMediaType!;
+        throw new Error("None of the given media types are supported: " + mediaTypes.join(", "));
     }
 
     /**
