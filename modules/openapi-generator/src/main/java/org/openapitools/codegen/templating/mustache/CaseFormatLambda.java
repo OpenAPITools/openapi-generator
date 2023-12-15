@@ -40,10 +40,6 @@ public class CaseFormatLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
         String text = initialFormat.converterTo(targetFormat).convert(fragment.execute());
-        if (generator != null && generator.reservedWords().contains(text)) {
-            text = generator.escapeReservedWord(text);
-        }
-
         if (text != null) {
             writer.write(text);
         }
