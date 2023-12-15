@@ -646,16 +646,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return isMutatable;
     }
 
-    protected final Stream<CodegenModel> getSubModels(Map<String, ModelsMap> models, CodegenModel model)
-    {
-        Stream<CodegenProperty> anyOf = Stream.empty();
-        Stream<CodegenProperty> oneOf = Stream.empty();
-        if(model.getComposedSchemas() != null && model.getComposedSchemas().getAnyOf() != null) {
-            anyOf = model.getComposedSchemas().getAnyOf().stream();
-        }
-        if(model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null) {
-            oneOf = model.getComposedSchemas().getOneOf().stream();
-        }
+    protected final Stream<CodegenModel> getSubModels(Map<String, ModelsMap> models, CodegenModel model) {
+        Stream<CodegenProperty> anyOf = model.getComposedSchemas() != null && model.getComposedSchemas().getAnyOf() != null
+                ? model.getComposedSchemas().getAnyOf().stream()
+                : Stream.empty();
+        Stream<CodegenProperty> oneOf = model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null
+                ? model.getComposedSchemas().getOneOf().stream()
+                : Stream.empty();
 
         return Streams.concat(anyOf, oneOf)
                 .map(CodegenProperty::getRef)
@@ -663,16 +660,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .map(reference -> ModelUtils.getModelByReference(reference, models));
     }
 
-    private Stream<CodegenModel> getSuperModels(Map<String, ModelsMap> models, CodegenModel subject)
-    {
+    private Stream<CodegenModel> getSuperModels(Map<String, ModelsMap> models, CodegenModel subject) {
         // no backreference, so have to loop over models to find the ones pointing to me
         return models.keySet().stream()
                 .map(name -> ModelUtils.getModelByName(name, models))
                 .filter(model -> getSubModels(models, model).anyMatch(subModel -> subModel == subject));
     }
 
-    private void removePropertiesAlreadyDeclaredInSubModelHierarchy(Map<String, ModelsMap> models, CodegenModel model)
-    {
+    private void removePropertiesAlreadyDeclaredInSubModelHierarchy(Map<String, ModelsMap> models, CodegenModel model) {
         // Start removing properties from the root, since the root doesn't know which properties to remove if an intermediate is already cleaned
         // assumes no cyclic references
         getSuperModels(models, model)
@@ -681,8 +676,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         removePropertiesAlreadyDeclaredInSubModel(models, model);
     }
 
-    protected void removePropertiesAlreadyDeclaredInSubModel(Map<String, ModelsMap> models, CodegenModel composedModel)
-    { }
+    protected void removePropertiesAlreadyDeclaredInSubModel(Map<String, ModelsMap> models, CodegenModel composedModel) {
+    }
 
     private String patchPropertyName(CodegenModel model, String value) {
         // the casing will be wrong if we just set the name to escapeReservedWord
