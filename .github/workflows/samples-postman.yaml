@@ -25,8 +25,8 @@ jobs:
       - name: Install
         working-directory: ${{ matrix.sample }}
         run: |
-          pip install -r requirements.txt
-          pip install -r test-requirements.txt
+          pip install -r python/requirements.txt
+          pip install -r python/test-requirements.txt
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: python -m pytest
