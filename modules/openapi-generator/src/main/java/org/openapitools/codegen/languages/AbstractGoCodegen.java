@@ -586,6 +586,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return objs;
     }
 
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
     private void setExportParameterName(List<CodegenParameter> codegenParameters) {
         for (CodegenParameter param : codegenParameters) {
             char nameFirstChar = param.paramName.charAt(0);
