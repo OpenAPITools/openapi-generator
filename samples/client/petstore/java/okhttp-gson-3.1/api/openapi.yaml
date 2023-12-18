@@ -641,7 +641,32 @@ paths:
       tags:
       - fake
       x-accepts: text/plain
+  /ref/ref_to_parameter:
+    get:
+      operationId: ref_to_ref_parameter
+      parameters:
+      - $ref: '#/components/parameters/ref_to_uuid'
+      responses:
+        "200":
+          $ref: '#/components/responses/ref'
+      tags:
+      - fake
+      x-accepts: text/plain
+    parameters:
+    - $ref: '#/components/parameters/ref_to_uuid'
 components:
+  parameters:
+    ref_to_uuid:
+      description: to test ref to parameter (uuid)
+      explode: false
+      in: header
+      name: ref_to_uuid
+      required: true
+      schema:
+        example: 61864654-6e6b-4152-a62f-795fdd606bc2
+        format: uuid
+        type: string
+      style: simple
   requestBodies:
     UserArray:
       content:
@@ -879,6 +904,9 @@ components:
       - className
     simple_text:
       type: string
+    any_type_test:
+      properties:
+        any_type_property: {}
     updatePetWithForm_request:
       properties:
         name:

@@ -65,7 +65,9 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
     protected static final String JVM_VERTX = "jvm-vertx";
+    protected static final String JVM_SPRING = "jvm-spring";
     protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
+    protected static final String JVM_SPRING_RESTCLIENT = "jvm-spring-restclient";
 
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
@@ -221,6 +223,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
         supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0. (DEPRECATED: this option will be remove in 7.x release)");
         supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
+        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 RestClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
@@ -457,7 +460,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
             case JVM_SPRING_WEBCLIENT:
-                processJVMSpringWebClientLibrary(infrastructureFolder);
+                processJvmSpringWebClientLibrary(infrastructureFolder);
+                break;
+            case JVM_SPRING_RESTCLIENT:
+                processJvmSpringRestClientLibrary(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -746,7 +752,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
     }
 
-    private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
+    private void proccessJvmSpring(final String infrastructureFolder) {
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
             throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
         }
@@ -754,8 +760,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
 
+        additionalProperties.put(JVM_SPRING, true);
         additionalProperties.put(JVM, true);
+    }
+
+    private void processJvmSpringWebClientLibrary(final String infrastructureFolder) {
+        proccessJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
+    }
+
+    private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
+            throw new RuntimeException("This library muse use spring boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        }
+
+        proccessJvmSpring(infrastructureFolder);
+        additionalProperties.put(JVM_SPRING_RESTCLIENT, true);
     }
 
     private void processMultiplatformLibrary(final String infrastructureFolder) {

@@ -55,7 +55,7 @@ public class Pet {
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -216,7 +216,7 @@ public class Pet {
   }
 
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     
     this.tags = tags;
     return this;
@@ -238,12 +238,12 @@ public class Pet {
   @Valid
 
 
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

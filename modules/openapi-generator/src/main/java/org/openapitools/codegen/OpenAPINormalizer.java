@@ -109,7 +109,6 @@ public class OpenAPINormalizer {
         this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
-            LOGGER.info("Disabled all rules in OpenAPI Normalizer (DISABLE_ALL=true)");
             this.disableAll = true;
             return; // skip the rest
         }
@@ -306,6 +305,11 @@ public class OpenAPINormalizer {
         }
 
         for (Parameter parameter : parameters) {
+            // dereference parameter
+            if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+            }
+
             if (parameter.getSchema() == null) {
                 continue;
             } else {
@@ -911,8 +915,18 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if (schema == null || schema.getTypes() == null) {
+        if (schema == null) {
             return null;
+        }
+
+        if (schema instanceof JsonSchema &&
+                schema.get$schema() == null &&
+                schema.getTypes() == null && schema.getType() == null) {
+            // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
+            // components:
+            //  schemas:
+            //    any_type: {}
+            return new Schema();
         }
 
         // process null

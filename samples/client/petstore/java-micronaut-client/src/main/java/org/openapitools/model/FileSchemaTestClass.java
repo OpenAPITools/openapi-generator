@@ -40,7 +40,7 @@ public class FileSchemaTestClass {
     private ModelFile _file;
 
     public static final String JSON_PROPERTY_FILES = "files";
-    private List<ModelFile> files = null;
+    private List<@Valid ModelFile> files = null;
 
     public FileSchemaTestClass() {
     }
@@ -67,7 +67,7 @@ public class FileSchemaTestClass {
         this._file = _file;
     }
 
-    public FileSchemaTestClass files(List<ModelFile> files) {
+    public FileSchemaTestClass files(List<@Valid ModelFile> files) {
         this.files = files;
         return this;
     }
@@ -87,13 +87,13 @@ public class FileSchemaTestClass {
     @Nullable
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<ModelFile> getFiles() {
+    public List<@Valid ModelFile> getFiles() {
         return files;
     }
 
     @JsonProperty(JSON_PROPERTY_FILES)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setFiles(List<ModelFile> files) {
+    public void setFiles(List<@Valid ModelFile> files) {
         this.files = files;
     }
 

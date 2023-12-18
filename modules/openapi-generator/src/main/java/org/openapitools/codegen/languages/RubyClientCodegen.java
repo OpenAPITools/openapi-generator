@@ -301,10 +301,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
                 .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
-                .doNotOverwrite());
 
         // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
         additionalProperties.put("lambdaFixHeaderKey", new Mustache.Lambda() {
@@ -412,6 +408,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
+        }
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
         }
 
         // memoization

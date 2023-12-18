@@ -996,6 +996,7 @@ Here is a list of template creators:
    * Kotlin (MultiPlatform): @andrewemery
    * Kotlin (Volley): @alisters
    * Kotlin (jvm-spring-webclient): @stefankoppier
+   * Kotlin (jvm-spring-restclient): @stefankoppier
    * Lua: @daurnimator
    * N4JS: @mmews-n4
    * Nim: @hokamoto

@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    public void createUsersWithArrayInput(@Valid @NotNull List<User> user) {
+    public void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
     }
 
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    public void createUsersWithListInput(@Valid @NotNull List<User> user) {
+    public void createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
     }
 
     @DELETE

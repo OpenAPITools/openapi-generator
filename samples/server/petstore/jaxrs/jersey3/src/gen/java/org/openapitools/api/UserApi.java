@@ -78,7 +78,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithArrayInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithArrayInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
@@ -90,7 +90,7 @@ public class UserApi  {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Void.class))),
             }, tags={ "user", }) 
-    public Response createUsersWithListInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<User> user,@Context SecurityContext securityContext)
+    public Response createUsersWithListInput(@Schema(description = "List of user object", required = true) @NotNull @Valid  List<@Valid User> user,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.createUsersWithListInput(user, securityContext);
     }
