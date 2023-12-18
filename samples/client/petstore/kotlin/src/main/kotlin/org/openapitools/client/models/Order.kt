@@ -48,7 +48,7 @@ data class Order (
 
     /* Order Status */
     @Json(name = "status")
-    val status: Order.Status? = null,
+    val status: org.openapitools.client.models.Order.Status? = null,
 
     @Json(name = "complete")
     val complete: kotlin.Boolean? = false

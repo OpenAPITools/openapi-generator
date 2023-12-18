@@ -45,7 +45,7 @@ data class Pet(
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status") val status: org.openapitools.model.Pet.Status? = null
 ) {
 
     /**

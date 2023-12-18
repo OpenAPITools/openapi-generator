@@ -38,7 +38,7 @@ data class Order(
     @get:JsonProperty("shipDate") var shipDate: java.time.OffsetDateTime? = null,
 
     @Schema(example = "null", description = "Order Status")
-    @get:JsonProperty("status") var status: Order.Status? = null,
+    @get:JsonProperty("status") var status: org.openapitools.model.Order.Status? = null,
 
     @Schema(example = "null", description = "")
     @get:JsonProperty("complete") var complete: kotlin.Boolean? = false

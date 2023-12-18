@@ -30,7 +30,7 @@ import java.io.Serializable
 data class ModelWithEnumPropertyHavingDefault (
 
     @Json(name = "propertyName")
-    val propertyName: ModelWithEnumPropertyHavingDefault.PropertyName = PropertyName.vALUE
+    val propertyName: org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName = PropertyName.vALUE
 
 ) : Serializable {
     companion object {

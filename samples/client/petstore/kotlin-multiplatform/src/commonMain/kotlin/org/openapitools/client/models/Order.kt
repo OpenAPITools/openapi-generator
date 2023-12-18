@@ -43,7 +43,7 @@ data class Order (
     @SerialName(value = "shipDate") val shipDate: kotlinx.datetime.Instant? = null,
 
     /* Order Status */
-    @SerialName(value = "status") val status: Order.Status? = null,
+    @SerialName(value = "status") val status: org.openapitools.client.models.Order.Status? = null,
 
     @SerialName(value = "complete") val complete: kotlin.Boolean? = false
 

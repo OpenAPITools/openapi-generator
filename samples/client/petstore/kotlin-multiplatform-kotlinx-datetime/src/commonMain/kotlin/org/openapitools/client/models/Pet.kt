@@ -47,7 +47,7 @@ data class Pet (
     @SerialName(value = "tags") val tags: kotlin.collections.List<Tag>? = null,
 
     /* pet status in the store */
-    @SerialName(value = "status") val status: Pet.Status? = null
+    @SerialName(value = "status") val status: org.openapitools.client.models.Pet.Status? = null
 
 ) {
 

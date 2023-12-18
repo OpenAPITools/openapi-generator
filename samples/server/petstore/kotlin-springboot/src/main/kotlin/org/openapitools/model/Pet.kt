@@ -38,7 +38,7 @@ data class Pet(
     @field:Valid
     @get:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status") val status: org.openapitools.model.Pet.Status? = null
 ) {
 
     /**

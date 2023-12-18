@@ -53,7 +53,7 @@ data class Pet (
 
     /* pet status in the store */
     @SerializedName("status")
-    val status: Pet.Status? = null
+    val status: org.openapitools.client.models.Pet.Status? = null
 
 ): ITransformForStorage<PetRoomModel> {
     companion object { }

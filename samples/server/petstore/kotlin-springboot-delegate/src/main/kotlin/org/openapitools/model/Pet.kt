@@ -46,7 +46,7 @@ data class Pet(
 
     @Schema(example = "null", description = "pet status in the store")
     @Deprecated(message = "")
-    @get:JsonProperty("status") val status: Pet.Status? = null
+    @get:JsonProperty("status") val status: org.openapitools.model.Pet.Status? = null
 ) {
 
     /**

@@ -40,7 +40,7 @@ data class OrderRoomModel (
     var shipDate: java.time.OffsetDateTime? = null,
     var complete: kotlin.Boolean? = null,
     
-    var status: Order.Status? = null,
+    var status: org.openapitools.client.models.Order.Status? = null,
     ) {
 
     companion object { }

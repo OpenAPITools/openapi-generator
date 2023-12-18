@@ -52,7 +52,7 @@ data class Pet (
     /* pet status in the store */
     @SerializedName("status")
     @Deprecated(message = "This property is deprecated.")
-    val status: Pet.Status? = null
+    val status: org.openapitools.client.models.Pet.Status? = null
 
 ) {
 

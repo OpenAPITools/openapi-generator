@@ -44,11 +44,11 @@ data class PropertyOfDay (
 
     /* Days of week */
     @Json(name = "daysOfWeek")
-    val daysOfWeek: PropertyOfDay.DaysOfWeek? = null,
+    val daysOfWeek: org.openapitools.client.models.PropertyOfDay.DaysOfWeek? = null,
 
     /* Month of year */
     @Json(name = "monthOfYear")
-    val monthOfYear: PropertyOfDay.MonthOfYear? = null,
+    val monthOfYear: org.openapitools.client.models.PropertyOfDay.MonthOfYear? = null,
 
     /* Day of year */
     @Json(name = "dayOfYear")
@@ -56,7 +56,7 @@ data class PropertyOfDay (
 
     /* Holiday types */
     @Json(name = "holidayTypes")
-    val holidayTypes: PropertyOfDay.HolidayTypes? = null
+    val holidayTypes: org.openapitools.client.models.PropertyOfDay.HolidayTypes? = null
 
 ) : Serializable {
     companion object {

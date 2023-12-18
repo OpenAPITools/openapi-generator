@@ -45,7 +45,7 @@ data class Pet(
     @get:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
-    @get:JsonProperty("status") var status: Pet.Status? = null
+    @get:JsonProperty("status") var status: org.openapitools.model.Pet.Status? = null
 ) {
 
     /**

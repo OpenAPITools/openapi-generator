@@ -52,7 +52,7 @@ data class Pet (
 
     /* pet status in the store */
     @Json(name = "status")
-    var status: Pet.Status? = null
+    var status: org.openapitools.client.models.Pet.Status? = null
 
 ) {
 

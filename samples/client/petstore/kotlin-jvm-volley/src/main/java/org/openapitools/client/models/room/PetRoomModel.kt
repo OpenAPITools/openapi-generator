@@ -39,7 +39,7 @@ data class PetRoomModel (
     var id: kotlin.Long? = null,
     var category: Category? = null,
     
-    var status: Pet.Status? = null,
+    var status: org.openapitools.client.models.Pet.Status? = null,
     ) {
 
     @Ignore
