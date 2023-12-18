@@ -410,6 +410,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return schemaMapping.get(name);
         }
 
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
