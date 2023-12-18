@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -345,6 +346,7 @@ public class DefaultValue {
   public void setStringNullable(String stringNullable) {
     this.stringNullable = stringNullable;
   }
+
 
   @Override
   public boolean equals(Object o) {

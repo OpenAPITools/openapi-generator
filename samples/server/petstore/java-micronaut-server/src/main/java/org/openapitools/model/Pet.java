@@ -15,6 +15,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -55,7 +56,7 @@ public class Pet {
     private List<String> photoUrls = new ArrayList<>();
 
     public static final String JSON_PROPERTY_TAGS = "tags";
-    private List<Tag> tags = null;
+    private List<@Valid Tag> tags = null;
 
     /**
      * pet status in the store
@@ -197,7 +198,7 @@ public class Pet {
         this.photoUrls = photoUrls;
     }
 
-    public Pet tags(List<Tag> tags) {
+    public Pet tags(List<@Valid Tag> tags) {
         this.tags = tags;
         return this;
     }
@@ -218,13 +219,13 @@ public class Pet {
     @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<Tag> getTags() {
+    public List<@Valid Tag> getTags() {
         return tags;
     }
 
     @JsonProperty(JSON_PROPERTY_TAGS)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<@Valid Tag> tags) {
         this.tags = tags;
     }
 

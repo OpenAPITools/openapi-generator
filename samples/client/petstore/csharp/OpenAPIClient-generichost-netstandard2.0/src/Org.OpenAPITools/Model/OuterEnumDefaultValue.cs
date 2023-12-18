@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -56,13 +57,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumDefaultValue FromString(string value)
         {
-            if (value == "placed")
+            if (value.Equals("placed"))
                 return OuterEnumDefaultValue.Placed;
 
-            if (value == "approved")
+            if (value.Equals("approved"))
                 return OuterEnumDefaultValue.Approved;
 
-            if (value == "delivered")
+            if (value.Equals("delivered"))
                 return OuterEnumDefaultValue.Delivered;
 
             throw new NotImplementedException($"Could not convert value to type OuterEnumDefaultValue: '{value}'");
@@ -75,13 +76,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumDefaultValue? FromStringOrDefault(string value)
         {
-            if (value == "placed")
+            if (value.Equals("placed"))
                 return OuterEnumDefaultValue.Placed;
 
-            if (value == "approved")
+            if (value.Equals("approved"))
                 return OuterEnumDefaultValue.Approved;
 
-            if (value == "delivered")
+            if (value.Equals("delivered"))
                 return OuterEnumDefaultValue.Delivered;
 
             return null;
@@ -184,5 +185,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnumDefaultValue?.ToString() ?? "null");
         }
     }
-
 }

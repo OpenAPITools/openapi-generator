@@ -21,6 +21,7 @@ import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -640,6 +641,42 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/inline-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, requestInit) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );

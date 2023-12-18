@@ -10,47 +10,32 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// CreateUser - Create user
-func CreateUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// CreateUsersWithArrayInput - Creates list of users with given input array
-func CreateUsersWithArrayInput(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// CreateUsersWithListInput - Creates list of users with given input array
-func CreateUsersWithListInput(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// DeleteUser - Delete user
-func DeleteUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// GetUserByName - Get user by user name
-func GetUserByName(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// LoginUser - Logs user into the system
-func LoginUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// LogoutUser - Logs out current logged in user session
-func LogoutUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
-}
-
-// UpdateUser - Updated user
-func UpdateUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type UserAPI struct {
+	// Post /v2/user
+	// Create user
+	CreateUser gin.HandlerFunc
+	// Post /v2/user/createWithArray
+	// Creates list of users with given input array
+	CreateUsersWithArrayInput gin.HandlerFunc
+	// Post /v2/user/createWithList
+	// Creates list of users with given input array
+	CreateUsersWithListInput gin.HandlerFunc
+	// Delete /v2/user/:username
+	// Delete user
+	DeleteUser gin.HandlerFunc
+	// Get /v2/user/:username
+	// Get user by user name
+	GetUserByName gin.HandlerFunc
+	// Get /v2/user/login
+	// Logs user into the system
+	LoginUser gin.HandlerFunc
+	// Get /v2/user/logout
+	// Logs out current logged in user session
+	LogoutUser gin.HandlerFunc
+	// Put /v2/user/:username
+	// Updated user
+	UpdateUser gin.HandlerFunc
 }

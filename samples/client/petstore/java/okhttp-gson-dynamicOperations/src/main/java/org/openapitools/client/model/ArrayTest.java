@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 
@@ -45,7 +45,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -71,7 +70,6 @@ public class ArrayTest {
   }
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
-    
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -93,14 +91,12 @@ public class ArrayTest {
     return arrayOfString;
   }
 
-
   public void setArrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
   }
 
 
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -122,14 +118,12 @@ public class ArrayTest {
     return arrayArrayOfInteger;
   }
 
-
   public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -150,7 +144,6 @@ public class ArrayTest {
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
-
 
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
@@ -227,9 +220,9 @@ public class ArrayTest {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!ArrayTest.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `ArrayTest` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }

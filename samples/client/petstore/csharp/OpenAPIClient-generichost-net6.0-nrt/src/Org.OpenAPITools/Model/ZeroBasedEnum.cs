@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -53,10 +54,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static ZeroBasedEnum FromString(string value)
         {
-            if (value == "unknown")
+            if (value.Equals("unknown"))
                 return ZeroBasedEnum.Unknown;
 
-            if (value == "notUnknown")
+            if (value.Equals("notUnknown"))
                 return ZeroBasedEnum.NotUnknown;
 
             throw new NotImplementedException($"Could not convert value to type ZeroBasedEnum: '{value}'");
@@ -69,10 +70,10 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static ZeroBasedEnum? FromStringOrDefault(string value)
         {
-            if (value == "unknown")
+            if (value.Equals("unknown"))
                 return ZeroBasedEnum.Unknown;
 
-            if (value == "notUnknown")
+            if (value.Equals("notUnknown"))
                 return ZeroBasedEnum.NotUnknown;
 
             return null;
@@ -172,5 +173,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(zeroBasedEnum?.ToString() ?? "null");
         }
     }
-
 }

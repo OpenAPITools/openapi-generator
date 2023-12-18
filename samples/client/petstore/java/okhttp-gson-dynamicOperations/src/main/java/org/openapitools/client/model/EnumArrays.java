@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -99,6 +98,11 @@ public class EnumArrays {
         return JustSymbolEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      JustSymbolEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_JUST_SYMBOL = "just_symbol";
@@ -150,6 +154,11 @@ public class EnumArrays {
         return ArrayEnumEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ArrayEnumEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_ENUM = "array_enum";
@@ -160,7 +169,6 @@ public class EnumArrays {
   }
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -174,14 +182,12 @@ public class EnumArrays {
     return justSymbol;
   }
 
-
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
 
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
-    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -202,7 +208,6 @@ public class EnumArrays {
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
-
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -276,9 +281,9 @@ public class EnumArrays {
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!EnumArrays.openapiFields.contains(entry.getKey())) {
           throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `EnumArrays` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
@@ -286,6 +291,10 @@ public class EnumArrays {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) && !jsonObj.get("just_symbol").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `just_symbol` to be a primitive type in the JSON string but got `%s`", jsonObj.get("just_symbol").toString()));
+      }
+      // validate the optional field `just_symbol`
+      if (jsonObj.get("just_symbol") != null && !jsonObj.get("just_symbol").isJsonNull()) {
+        JustSymbolEnum.validateJsonElement(jsonObj.get("just_symbol"));
       }
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_enum") != null && !jsonObj.get("array_enum").isJsonNull() && !jsonObj.get("array_enum").isJsonArray()) {

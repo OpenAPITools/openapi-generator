@@ -56,12 +56,12 @@ public class CatDto extends AnimalDto {
 
 
   public CatDto className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public CatDto color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
   @Override

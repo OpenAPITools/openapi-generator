@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -216,6 +217,9 @@ public class Pet  {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -251,6 +255,9 @@ public class Pet  {
   }
 
   public Pet addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
     this.tags.add(tagsItem);
     return this;
   }

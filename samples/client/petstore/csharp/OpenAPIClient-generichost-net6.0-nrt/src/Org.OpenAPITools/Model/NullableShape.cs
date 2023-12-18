@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="triangle"></param>
         /// <param name="shapeType">shapeType</param>
-        [JsonConstructor]
         public NullableShape(Triangle triangle, string shapeType)
         {
             Triangle = triangle;
@@ -48,7 +48,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="quadrilateral"></param>
         /// <param name="shapeType">shapeType</param>
-        [JsonConstructor]
         public NullableShape(Quadrilateral quadrilateral, string shapeType)
         {
             Quadrilateral = quadrilateral;
@@ -137,7 +136,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
+            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -153,9 +152,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName?.Equals("shapeType") ?? false)
+                    if (localVarJsonPropertyName?.Equals("shapeType") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("Quadrilateral") ?? false)
@@ -182,13 +181,13 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -196,14 +195,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class NullableShape.");
+            if (!shapeType.IsSet)
+                throw new ArgumentException("Property is required for class NullableShape.", nameof(shapeType));
+
+            if (shapeType.IsSet && shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class NullableShape.");
 
             if (quadrilateral != null)
-                return new NullableShape(quadrilateral, shapeType);
+                return new NullableShape(quadrilateral, shapeType.Value!);
 
             if (triangle != null)
-                return new NullableShape(triangle, shapeType);
+                return new NullableShape(triangle, shapeType.Value!);
 
             throw new JsonException();
         }
@@ -242,6 +244,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableShape nullableShape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (nullableShape.ShapeType == null)
+                throw new ArgumentNullException(nameof(nullableShape.ShapeType), "Property is required for class NullableShape.");
+
             writer.WriteString("shapeType", nullableShape.ShapeType);
         }
     }

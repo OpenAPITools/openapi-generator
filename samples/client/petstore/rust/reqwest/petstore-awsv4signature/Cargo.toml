@@ -16,4 +16,6 @@ uuid = { version = "^1.0", features = ["serde", "v4"] }
 aws-sigv4 = "0.3.0"
 http = "0.2.5"
 secrecy = "0.8.0"
-reqwest = "~0.9"
+[dependencies.reqwest]
+version = "^0.11"
+features = ["json", "blocking", "multipart"]

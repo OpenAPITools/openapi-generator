@@ -30,16 +30,16 @@ import javax.annotation.Generated;
 public class ContainerDefaultValueDto {
 
   @Valid
-  private JsonNullable<List<String>> nullableArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArray = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableRequiredArray = JsonNullable.<List<String>>undefined();
 
   @Valid
   private List<String> requiredArray = new ArrayList<>();
 
   @Valid
-  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
   public ContainerDefaultValueDto() {
     super();

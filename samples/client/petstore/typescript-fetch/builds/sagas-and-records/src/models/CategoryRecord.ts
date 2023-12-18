@@ -67,8 +67,8 @@ class CategoryRecordUtils extends ApiRecordUtils<Category, CategoryRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }

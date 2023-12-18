@@ -20,12 +20,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category {
 
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  private String name;
+  private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name = Optional.empty();
 
   public Category id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -35,16 +35,16 @@ public class Category {
   */
   
   @JsonProperty("id")
-  public Long getId() {
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Category name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -52,13 +52,13 @@ public class Category {
    * Get name
    * @return name
   */
-  @Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
+  
   @JsonProperty("name")
-  public String getName() {
+  public Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

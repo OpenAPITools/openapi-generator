@@ -512,9 +512,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toParamName(String name) {
-        // obtain the name from nameMapping directly if provided
-        if (nameMapping.containsKey(name)) {
-            return nameMapping.get(name);
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
         }
 
         name = sanitizeName(name, "[^\\w$]");
@@ -557,6 +557,11 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String fullModelName = name;
         fullModelName = addPrefix(fullModelName, modelNamePrefix);
         fullModelName = addSuffix(fullModelName, modelNameSuffix);
@@ -630,6 +635,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         } else if (ModelUtils.isBinarySchema(p)) {
             return "ArrayBuffer";
         }
+
         return super.getTypeDeclaration(p);
     }
 
@@ -754,6 +760,17 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String getSchemaType(Schema p) {
+        // check if $ref is a model and modelNameMapping is used
+        if (StringUtils.isNotBlank(p.get$ref())) {
+            Schema unaliasSchema = unaliasSchema(p);
+            Schema actualSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema);
+            String modelName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
+
+            if (ModelUtils.isModel(actualSchema) && modelNameMapping.containsKey(modelName)) {
+                return toModelName(modelNameMapping.get(modelName));
+            }
+        }
+
         String openAPIType = super.getSchemaType(p);
         String type = null;
         if (ModelUtils.isComposedSchema(p)) {
@@ -1118,21 +1135,21 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAnyOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
 
         return String.join(" | ", types);
     }
 
     @Override
-    public String toAllOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAllOfName(List<String> names, Schema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getAllOf());
 
         return String.join(" & ", types);

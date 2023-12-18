@@ -206,9 +206,13 @@ func (o PropertyNameMapping) ToMap() (map[string]interface{}, error) {
 func (o *PropertyNameMapping) UnmarshalJSON(bytes []byte) (err error) {
 	varPropertyNameMapping := _PropertyNameMapping{}
 
-	if err = json.Unmarshal(bytes, &varPropertyNameMapping); err == nil {
-		*o = PropertyNameMapping(varPropertyNameMapping)
+	err = json.Unmarshal(bytes, &varPropertyNameMapping)
+
+	if err != nil {
+		return err
 	}
+
+	*o = PropertyNameMapping(varPropertyNameMapping)
 
 	additionalProperties := make(map[string]interface{})
 

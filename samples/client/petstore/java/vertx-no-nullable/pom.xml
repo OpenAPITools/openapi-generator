@@ -265,8 +265,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <vertx-version>3.5.2</vertx-version>
-        <jackson-version>2.13.4</jackson-version>
-        <jackson-databind>2.13.4.2</jackson-databind>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind>2.15.2</jackson-databind>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>4.13.2</junit-version>

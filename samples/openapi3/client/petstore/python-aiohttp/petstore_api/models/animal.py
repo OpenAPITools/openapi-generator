@@ -18,33 +18,39 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
-from pydantic import BaseModel, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Animal(BaseModel):
     """
     Animal
-    """
-    class_name: StrictStr = Field(..., alias="className")
+    """ # noqa: E501
+    class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
-    __properties = ["className", "color"]
+    __properties: ClassVar[List[str]] = ["className", "color"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+        "protected_namespaces": (),
+    }
+
 
     # JSON field name that stores the object type
-    __discriminator_property_name = 'className'
+    __discriminator_property_name: ClassVar[List[str]] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map = {
-        'Cat': 'Cat',
-        'Dog': 'Dog'
+    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
+        'Cat': 'Cat','Dog': 'Dog'
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -54,27 +60,38 @@ class Animal(BaseModel):
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union(Cat, Dog):
+    def from_json(cls, json_str: str) -> Union[Self, Self]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union(Cat, Dog):
+    def from_dict(cls, obj: Dict) -> Union[Self, Self]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -88,5 +105,6 @@ class Animal(BaseModel):
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-Animal.update_forward_refs()
+# TODO: Rewrite to not use raise_errors
+Animal.model_rebuild(raise_errors=False)
 

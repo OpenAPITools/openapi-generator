@@ -38,6 +38,7 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
         protected const val FormDataMediaType = "multipart/form-data"
         protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
         protected const val XmlMediaType = "application/xml"
+        protected const val OctetMediaType = "application/octet-stream"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
@@ -111,8 +112,10 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
+            mediaType == OctetMediaType && content is ByteArray ->
+                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
         }
 
     @OptIn(ExperimentalStdlibApi::class)
@@ -132,13 +135,16 @@ internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = de
             }
             return tempFile as T
         }
-        val bodyContent = body.string()
-        if (bodyContent.isEmpty()) {
-            return null
-        }
+
         return when {
-            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+            mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
+                val bodyContent = body.string()
+                if (bodyContent.isEmpty()) {
+                    return null
+                }
                 Serializer.moshi.adapter<T>().fromJson(bodyContent)
+            }
+            mediaType == OctetMediaType -> body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }

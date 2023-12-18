@@ -36,12 +36,12 @@ class TestAnimal(unittest.TestCase):
         # model = petstore_api.models.animal.Animal()  # noqa: E501
         if include_optional :
             return Animal(
-                class_name = '', 
+                className = '', 
                 color = 'red'
             )
         else :
             return Animal(
-                class_name = '',
+                className = '',
         )
 
     def testAnimal(self):

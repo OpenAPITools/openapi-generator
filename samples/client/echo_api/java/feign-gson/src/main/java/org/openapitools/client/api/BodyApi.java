@@ -102,6 +102,35 @@ public interface BodyApi extends ApiClient.Api {
 
 
   /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return Pet
+   */
+  @RequestLine("POST /echo/body/allOf/Pet")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  Pet testEchoBodyAllOfPet(Pet pet);
+
+  /**
+   * Test body parameter(s)
+   * Similar to <code>testEchoBodyAllOfPet</code> but it also returns the http response headers .
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/allOf/Pet")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet);
+
+
+
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)

@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**TestsPathStringPathStringIntegerPathInteger**](PathApi.md#testspathstringpathstringintegerpathinteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s) |
+| [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
-<a id="testspathstringpathstringintegerpathinteger"></a>
-# **TestsPathStringPathStringIntegerPathInteger**
-> string TestsPathStringPathStringIntegerPathInteger (string pathString, int pathInteger)
+<a id="testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath"></a>
+# **TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
+> string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath (string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath)
 
 Test path parameter(s)
 
@@ -24,7 +24,7 @@ using Org.OpenAPITools.Model;
 
 namespace Example
 {
-    public class TestsPathStringPathStringIntegerPathIntegerExample
+    public class TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExample
     {
         public static void Main()
         {
@@ -33,16 +33,18 @@ namespace Example
             var apiInstance = new PathApi(config);
             var pathString = "pathString_example";  // string | 
             var pathInteger = 56;  // int | 
+            var enumNonrefStringPath = "success";  // string | 
+            var enumRefStringPath = new StringEnumRef(); // StringEnumRef | 
 
             try
             {
                 // Test path parameter(s)
-                string result = apiInstance.TestsPathStringPathStringIntegerPathInteger(pathString, pathInteger);
+                string result = apiInstance.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathInteger: " + e.Message);
+                Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -51,21 +53,21 @@ namespace Example
 }
 ```
 
-#### Using the TestsPathStringPathStringIntegerPathIntegerWithHttpInfo variant
+#### Using the TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Test path parameter(s)
-    ApiResponse<string> response = apiInstance.TestsPathStringPathStringIntegerPathIntegerWithHttpInfo(pathString, pathInteger);
+    ApiResponse<string> response = apiInstance.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathIntegerWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }
@@ -77,6 +79,8 @@ catch (ApiException e)
 |------|------|-------------|-------|
 | **pathString** | **string** |  |  |
 | **pathInteger** | **int** |  |  |
+| **enumNonrefStringPath** | **string** |  |  |
+| **enumRefStringPath** | [**StringEnumRef**](StringEnumRef.md) |  |  |
 
 ### Return type
 

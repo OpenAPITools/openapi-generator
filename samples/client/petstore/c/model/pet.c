@@ -6,7 +6,7 @@
 
 char* statuspet_ToString(openapi_petstore_pet_STATUS_e status) {
     char* statusArray[] =  { "NULL", "available", "pending", "sold" };
-	return statusArray[status];
+    return statusArray[status];
 }
 
 openapi_petstore_pet_STATUS_e statuspet_FromString(char* status){

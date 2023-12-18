@@ -1013,6 +1013,14 @@ paths:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
+      parameters:
+      - description: to test uuid example value
+        in: header
+        name: uuid_test
+        required: true
+        schema:
+          format: uuid
+          type: string
       requestBody:
         content:
           application/json:

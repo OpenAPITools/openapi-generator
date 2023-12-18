@@ -129,11 +129,25 @@ $router->get('/v2/fake/http-signature-test', 'FakeApi@fakeHttpSignatureTest');
 $router->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditionalProperties');
 
 /**
+ * post testInlineFreeformAdditionalProperties
+ * Summary: test inline free-form additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/inline-freeform-additionalProperties', 'FakeApi@testInlineFreeformAdditionalProperties');
+
+/**
  * get testJsonFormData
  * Summary: test json serialization of form data
  * Notes: 
  */
 $router->get('/v2/fake/jsonFormData', 'FakeApi@testJsonFormData');
+
+/**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+ */
+$router->post('/v2/fake/nullable', 'FakeApi@testNullable');
 
 /**
  * post fakeOuterBooleanSerialize

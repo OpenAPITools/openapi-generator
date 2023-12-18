@@ -25,7 +25,9 @@ Method | HTTP request | Description
 [**testEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**testInlineFreeformAdditionalProperties**](FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**testJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testNullable**](FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [**testQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 
 
@@ -756,6 +758,48 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **testInlineFreeformAdditionalProperties**
+> testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest)
+
+test inline free-form additionalProperties
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getFakeApi();
+final TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = ; // TestInlineFreeformAdditionalPropertiesRequest | request body
+
+try {
+    api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+} catch on DioException (e) {
+    print('Exception when calling FakeApi->testInlineFreeformAdditionalProperties: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **testInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **testJsonFormData**
 > testJsonFormData(param, param2)
 
@@ -796,6 +840,48 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **testNullable**
+> testNullable(childWithNullable)
+
+test nullable parent property
+
+
+
+### Example
+```dart
+import 'package:openapi/api.dart';
+
+final api = Openapi().getFakeApi();
+final ChildWithNullable childWithNullable = ; // ChildWithNullable | request body
+
+try {
+    api.testNullable(childWithNullable);
+} catch on DioException (e) {
+    print('Exception when calling FakeApi->testNullable: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **childWithNullable** | [**ChildWithNullable**](ChildWithNullable.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

@@ -20,6 +20,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -31,6 +32,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 
@@ -1326,6 +1328,77 @@ if (booleanGroup != null)
   }
 
   /**
+   * test inline free-form additionalProperties
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+    this.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, Collections.emptyMap());
+  }
+
+
+  /**
+   * test inline free-form additionalProperties
+   * 
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = testInlineFreeformAdditionalPropertiesRequest;
+    
+    // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+    if (testInlineFreeformAdditionalPropertiesRequest == null) {
+      throw new ApiException(400, "Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/inline-freeform-additionalProperties";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        null
+    );
+  }
+
+  /**
    * test json serialization of form data
    * 
    * @param param field1 (required)
@@ -1393,6 +1466,77 @@ if (param2 != null)
     apiClient.invokeAPI(
         localVarPath,
         "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        null
+    );
+  }
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   * @throws ApiException if fails to make API call
+   */
+  public void testNullable(ChildWithNullable childWithNullable) throws ApiException {
+    this.testNullable(childWithNullable, Collections.emptyMap());
+  }
+
+
+  /**
+   * test nullable parent property
+   * 
+   * @param childWithNullable request body (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void testNullable(ChildWithNullable childWithNullable, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = childWithNullable;
+    
+    // verify the required parameter 'childWithNullable' is set
+    if (childWithNullable == null) {
+      throw new ApiException(400, "Missing the required parameter 'childWithNullable' when calling testNullable");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/fake/nullable";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    apiClient.invokeAPI(
+        localVarPath,
+        "POST",
         localVarQueryParams,
         localVarCollectionQueryParams,
         localVarQueryStringJoiner.toString(),

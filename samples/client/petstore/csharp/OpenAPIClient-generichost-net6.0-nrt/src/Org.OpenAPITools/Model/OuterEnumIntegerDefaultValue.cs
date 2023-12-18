@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -58,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumIntegerDefaultValue FromString(string value)
         {
-            if (value == (0).ToString())
+            if (value.Equals((0).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_0;
 
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_1;
 
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_2;
 
             throw new NotImplementedException($"Could not convert value to type OuterEnumIntegerDefaultValue: '{value}'");
@@ -77,13 +78,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static OuterEnumIntegerDefaultValue? FromStringOrDefault(string value)
         {
-            if (value == (0).ToString())
+            if (value.Equals((0).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_0;
 
-            if (value == (1).ToString())
+            if (value.Equals((1).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_1;
 
-            if (value == (2).ToString())
+            if (value.Equals((2).ToString()))
                 return OuterEnumIntegerDefaultValue.NUMBER_2;
 
             return null;
@@ -177,5 +178,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(outerEnumIntegerDefaultValue?.ToString() ?? "null");
         }
     }
-
 }

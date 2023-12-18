@@ -2,7 +2,7 @@
 {{#isOAuth}}
 spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.enabled=false
 spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id=set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-client-id
-{{#scopes}}{{#-first}}spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.scopes={{/-first}}{{scope}}{{^-last}},{{/-last}}{{/scopes}}
+{{#scopes}}{{#-first}}spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.scope={{/-first}}{{scope}}{{^-last}},{{/-last}}{{/scopes}}
     {{#isCode}}
 spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type=authorization_code
 spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.redirect-uri=set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-redirect-uri

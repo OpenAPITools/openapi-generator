@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ModelFile;
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FileSchemaTestClass  implements Serializable {
   private @Valid ModelFile _file;
-  private @Valid List<ModelFile> files;
+  private @Valid List<@Valid ModelFile> files;
 
   protected FileSchemaTestClass(FileSchemaTestClassBuilder<?, ?> b) {
     this._file = b._file;
@@ -51,7 +52,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   /**
    **/
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -64,7 +65,7 @@ public class FileSchemaTestClass  implements Serializable {
   }
 
   @JsonProperty("files")
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 
@@ -145,7 +146,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static abstract class FileSchemaTestClassBuilder<C extends FileSchemaTestClass, B extends FileSchemaTestClassBuilder<C, B>>  {
     private ModelFile _file;
-    private List<ModelFile> files;
+    private List<@Valid ModelFile> files;
     protected abstract B self();
 
     public abstract C build();
@@ -154,7 +155,7 @@ public class FileSchemaTestClass  implements Serializable {
       this._file = _file;
       return self();
     }
-    public B files(List<ModelFile> files) {
+    public B files(List<@Valid ModelFile> files) {
       this.files = files;
       return self();
     }

@@ -224,6 +224,10 @@ public class ExampleGenerator {
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
+        if (property == null) {
+            LOGGER.error("Property schema shouldn't be null. Please report the issue to the openapi-generator team.");
+            return "";
+        }
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
             LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
@@ -287,10 +291,8 @@ public class ExampleGenerator {
             return "https://openapi-generator.tech";
         } else if (ModelUtils.isStringSchema(property)) {
             LOGGER.debug("String property");
-            String defaultValue = (String) property.getDefault();
-            if (defaultValue != null && !defaultValue.isEmpty()) {
-                LOGGER.debug("Default value found: '{}'", defaultValue);
-                return defaultValue;
+            if (property.getDefault() != null) {
+                return String.valueOf(property.getDefault());
             }
             List<String> enumValues = property.getEnum();
             if (enumValues != null && !enumValues.isEmpty()) {

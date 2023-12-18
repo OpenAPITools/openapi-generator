@@ -1069,6 +1069,56 @@ class FakeApi {
     }
   }
 
+  /// test inline free-form additionalProperties
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
+  ///   request body
+  Future<Response> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/inline-freeform-additionalProperties';
+
+    // ignore: prefer_final_locals
+    Object? postBody = testInlineFreeformAdditionalPropertiesRequest;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test inline free-form additionalProperties
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [TestInlineFreeformAdditionalPropertiesRequest] testInlineFreeformAdditionalPropertiesRequest (required):
+  ///   request body
+  Future<void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest,) async {
+    final response = await testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// test json serialization of form data
   ///
   /// 
@@ -1126,6 +1176,56 @@ class FakeApi {
   ///   field2
   Future<void> testJsonFormData(String param, String param2,) async {
     final response = await testJsonFormDataWithHttpInfo(param, param2,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<Response> testNullableWithHttpInfo(ChildWithNullable childWithNullable,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/nullable';
+
+    // ignore: prefer_final_locals
+    Object? postBody = childWithNullable;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test nullable parent property
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [ChildWithNullable] childWithNullable (required):
+  ///   request body
+  Future<void> testNullable(ChildWithNullable childWithNullable,) async {
+    final response = await testNullableWithHttpInfo(childWithNullable,);
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

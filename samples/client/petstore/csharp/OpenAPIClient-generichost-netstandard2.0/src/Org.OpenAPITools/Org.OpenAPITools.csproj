@@ -20,10 +20,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CompareNETObjects" Version="4.61.0" />
+    <PackageReference Include="CompareNETObjects" Version="4.82.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 

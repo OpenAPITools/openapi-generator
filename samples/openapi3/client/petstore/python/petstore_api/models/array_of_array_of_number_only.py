@@ -18,42 +18,61 @@ import re  # noqa: F401
 import json
 
 
-from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field, StrictFloat, conlist
+from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictFloat
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ArrayOfArrayOfNumberOnly(BaseModel):
     """
     ArrayOfArrayOfNumberOnly
-    """
-    array_array_number: Optional[conlist(conlist(StrictFloat))] = Field(None, alias="ArrayArrayNumber")
+    """ # noqa: E501
+    array_array_number: Optional[List[List[StrictFloat]]] = Field(default=None, alias="ArrayArrayNumber")
     additional_properties: Dict[str, Any] = {}
-    __properties = ["ArrayArrayNumber"]
+    __properties: ClassVar[List[str]] = ["ArrayArrayNumber"]
 
-    class Config:
-        """Pydantic configuration"""
-        allow_population_by_field_name = True
-        validate_assignment = True
+    model_config = {
+        "populate_by_name": True,
+        "validate_assignment": True,
+        "protected_namespaces": (),
+    }
+
 
     def to_str(self) -> str:
         """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.dict(by_alias=True))
+        return pprint.pformat(self.model_dump(by_alias=True))
 
     def to_json(self) -> str:
         """Returns the JSON representation of the model using alias"""
+        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> ArrayOfArrayOfNumberOnly:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.dict(by_alias=True,
-                          exclude={
-                            "additional_properties"
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        * Fields in `self.additional_properties` are added to the output dict.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+                "additional_properties",
+            },
+            exclude_none=True,
+        )
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
@@ -62,16 +81,16 @@ class ArrayOfArrayOfNumberOnly(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> ArrayOfArrayOfNumberOnly:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ArrayOfArrayOfNumberOnly from a dict"""
         if obj is None:
             return None
 
         if not isinstance(obj, dict):
-            return ArrayOfArrayOfNumberOnly.parse_obj(obj)
+            return cls.model_validate(obj)
 
-        _obj = ArrayOfArrayOfNumberOnly.parse_obj({
-            "array_array_number": obj.get("ArrayArrayNumber")
+        _obj = cls.model_validate({
+            "ArrayArrayNumber": obj.get("ArrayArrayNumber")
         })
         # store additional fields in additional_properties
         for _key in obj.keys():

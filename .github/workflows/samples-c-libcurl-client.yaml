@@ -13,7 +13,7 @@ jobs:
     name: Build c libcurl client
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Prepare
         run: |
           sudo apt-get update

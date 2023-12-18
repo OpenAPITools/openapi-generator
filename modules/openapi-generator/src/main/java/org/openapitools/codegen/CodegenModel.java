@@ -177,6 +177,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
     private boolean isUuid;
+    private boolean isUri;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
 
@@ -979,6 +980,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
 
+    public boolean getIsUri() { return isUri; }
+
+    public void setIsUri(boolean isUri) { this.isUri = isUri; }
+
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
@@ -997,6 +1002,82 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public void setHasMultipleTypes(boolean hasMultipleTypes) {
         this.hasMultipleTypes = hasMultipleTypes;
+    }
+
+    @Override
+    public boolean getIsFloat() {
+        return isFloat;
+    }
+
+    @Override
+    public void setIsFloat(boolean isFloat) {
+        this.isFloat = isFloat;
+    }
+
+    @Override
+    public boolean getIsDouble() {
+        return isDouble;
+    }
+
+    @Override
+    public void setIsDouble(boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    @Override
+    public boolean getIsInteger() {
+        return isInteger;
+    }
+
+    @Override
+    public void setIsInteger(boolean isInteger) {
+        this.isInteger = isInteger;
+    }
+
+    @Override
+    public boolean getIsLong() {
+        return isLong;
+    }
+
+    @Override
+    public void setIsLong(boolean isLong) {
+        this.isLong = isLong;
+    }
+
+    @Override
+    public boolean getIsBinary() {
+        return false;
+    }
+
+    @Override
+    public void setIsBinary(boolean isBinary) {}
+
+    @Override
+    public boolean getIsByteArray() {
+        return false;
+    }
+
+    @Override
+    public void setIsByteArray(boolean isByteArray) {}
+
+    @Override
+    public boolean getIsDecimal() {
+        return isDecimal;
+    }
+
+    @Override
+    public void setIsDecimal(boolean isDecimal) {
+        this.isDecimal = isDecimal;
+    }
+
+    @Override
+    public boolean getIsEnum() {
+        return isEnum;
+    }
+
+    @Override
+    public void setIsEnum(boolean isEnum) {
+        this.isEnum = isEnum;
     }
 
     @Override
@@ -1036,6 +1117,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 isUuid == that.getIsUuid() &&
+                isUri == that.getIsUri() &&
                 isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
                 isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
                 getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
@@ -1123,7 +1205,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, isUri, requiredVarsMap, ref,
                 uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
                 format, dependentRequired, contains);
     }
@@ -1224,6 +1306,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isUUID=").append(isUuid);
+        sb.append(", isURI=").append(isUri);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);

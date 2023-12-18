@@ -1,7 +1,7 @@
 {{#hasImports}}
 {{#oneOf}}
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
-    {{{.}}},
     instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,

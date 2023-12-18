@@ -105,6 +105,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new OuterEnumIntegerNullableJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueJsonConverter());
             _jsonOptions.Converters.Add(new OuterEnumIntegerDefaultValueNullableJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestJsonConverter());
+            _jsonOptions.Converters.Add(new OuterEnumTestNullableJsonConverter());
             _jsonOptions.Converters.Add(new ParentPetJsonConverter());
             _jsonOptions.Converters.Add(new PetJsonConverter());
             _jsonOptions.Converters.Add(new PigJsonConverter());
@@ -112,6 +114,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
+            _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -124,6 +127,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());
@@ -132,7 +136,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new ZeroBasedEnumJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumNullableJsonConverter());
             _jsonOptions.Converters.Add(new ZeroBasedEnumClassJsonConverter());
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new(_jsonOptions);
+            _services.AddSingleton(jsonSerializerOptionsProvider);
             _services.AddSingleton<IApiFactory, ApiFactory>();
             _services.AddSingleton<AnotherFakeApiEvents>();
             _services.AddTransient<IAnotherFakeApi, AnotherFakeApi>();

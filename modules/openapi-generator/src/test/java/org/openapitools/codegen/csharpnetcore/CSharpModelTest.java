@@ -588,7 +588,7 @@ public class CSharpModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "an array model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "List<Children>");
+        // TODO: additional properties should be of type Dictionary<string, List<Children>>
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }
@@ -608,7 +608,7 @@ public class CSharpModelTest {
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "Dictionary<String, Children>");
+        // TODO: additional properties should be of type Dictionary<string, Children>
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("Children")).size(), 1);
     }

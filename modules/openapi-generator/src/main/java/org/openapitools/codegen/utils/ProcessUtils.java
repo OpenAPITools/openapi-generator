@@ -9,6 +9,7 @@ import org.openapitools.codegen.model.ModelMap;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class ProcessUtils {
@@ -306,7 +307,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "bearer".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }
@@ -325,7 +326,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "basic".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }
@@ -344,7 +345,7 @@ public class ProcessUtils {
         final Map<String, SecurityScheme> securitySchemes = getSecuritySchemes(openAPI);
         if (securitySchemes != null) {
             for (Map.Entry<String, SecurityScheme> scheme : securitySchemes.entrySet()) {
-                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme())) {
+                if (SecurityScheme.Type.HTTP.equals(scheme.getValue().getType()) && "signature".equals(scheme.getValue().getScheme().strip().toLowerCase(Locale.ROOT))) {
                     return true;
                 }
             }

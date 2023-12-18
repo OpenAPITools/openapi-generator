@@ -6,6 +6,11 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
+docs/AllOfModelArrayAnyOf.md
+docs/AllOfModelArrayAnyOfAllOfAttributes.md
+docs/AllOfModelArrayAnyOfAllOfAttributesC.md
+docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md
+docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/Apple.md
@@ -89,6 +94,7 @@ docs/SimpleQuadrilateral.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Triangle.md
 docs/TriangleInterface.md
 docs/User.md
@@ -104,7 +110,6 @@ gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
-pom.xml
 settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiCallback.java
@@ -138,6 +143,11 @@ src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOf.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributes.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributesC.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
@@ -215,6 +225,7 @@ src/main/java/org/openapitools/client/model/ShapeOrNull.java
 src/main/java/org/openapitools/client/model/SimpleQuadrilateral.java
 src/main/java/org/openapitools/client/model/SpecialModelName.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/TestInlineFreeformAdditionalPropertiesRequest.java
 src/main/java/org/openapitools/client/model/Triangle.java
 src/main/java/org/openapitools/client/model/TriangleInterface.java
 src/main/java/org/openapitools/client/model/User.java

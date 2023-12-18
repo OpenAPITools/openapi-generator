@@ -394,6 +394,30 @@ class FakeApi extends Controller
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
     }
     /**
+     * Operation testInlineFreeformAdditionalProperties
+     *
+     * test inline free-form additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testInlineFreeformAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['test_inline_freeform_additional_properties_request'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $test_inline_freeform_additional_properties_request when calling testInlineFreeformAdditionalProperties');
+        }
+        $test_inline_freeform_additional_properties_request = $input['test_inline_freeform_additional_properties_request'];
+
+
+        return response('How about implementing testInlineFreeformAdditionalProperties as a post method ?');
+    }
+    /**
      * Operation testJsonFormData
      *
      * test json serialization of form data.
@@ -421,6 +445,30 @@ class FakeApi extends Controller
 
 
         return response('How about implementing testJsonFormData as a get method ?');
+    }
+    /**
+     * Operation testNullable
+     *
+     * test nullable parent property.
+     *
+     *
+     * @return Http response
+     */
+    public function testNullable()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['child_with_nullable'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $child_with_nullable when calling testNullable');
+        }
+        $child_with_nullable = $input['child_with_nullable'];
+
+
+        return response('How about implementing testNullable as a post method ?');
     }
     /**
      * Operation fakeOuterBooleanSerialize

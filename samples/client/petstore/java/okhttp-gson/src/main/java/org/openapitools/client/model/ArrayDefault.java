@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -66,7 +65,6 @@ public class ArrayDefault {
   }
 
   public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
-    
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -88,14 +86,12 @@ public class ArrayDefault {
     return withDefaultEmptyBracket;
   }
 
-
   public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
   }
 
 
   public ArrayDefault withoutDefault(List<String> withoutDefault) {
-    
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -116,7 +112,6 @@ public class ArrayDefault {
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }
-
 
   public void setWithoutDefault(List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;

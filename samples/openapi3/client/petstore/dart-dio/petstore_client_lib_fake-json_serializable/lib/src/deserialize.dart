@@ -8,6 +8,7 @@ import 'package:openapi/src/model/array_test.dart';
 import 'package:openapi/src/model/capitalization.dart';
 import 'package:openapi/src/model/cat.dart';
 import 'package:openapi/src/model/category.dart';
+import 'package:openapi/src/model/child_with_nullable.dart';
 import 'package:openapi/src/model/class_model.dart';
 import 'package:openapi/src/model/deprecated_object.dart';
 import 'package:openapi/src/model/dog.dart';
@@ -34,10 +35,12 @@ import 'package:openapi/src/model/object_with_deprecated_fields.dart';
 import 'package:openapi/src/model/order.dart';
 import 'package:openapi/src/model/outer_composite.dart';
 import 'package:openapi/src/model/outer_object_with_enum_property.dart';
+import 'package:openapi/src/model/parent_with_nullable.dart';
 import 'package:openapi/src/model/pet.dart';
 import 'package:openapi/src/model/read_only_first.dart';
 import 'package:openapi/src/model/special_model_name.dart';
 import 'package:openapi/src/model/tag.dart';
+import 'package:openapi/src/model/test_inline_freeform_additional_properties_request.dart';
 import 'package:openapi/src/model/user.dart';
 
 final _regList = RegExp(r'^List<(.*)>$');
@@ -78,6 +81,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return Cat.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Category':
           return Category.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ChildWithNullable':
+          return ChildWithNullable.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ClassModel':
           return ClassModel.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'DeprecatedObject':
@@ -145,6 +150,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           
         case 'OuterObjectWithEnumProperty':
           return OuterObjectWithEnumProperty.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'ParentWithNullable':
+          return ParentWithNullable.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Pet':
           return Pet.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'ReadOnlyFirst':
@@ -156,6 +163,8 @@ final _regMap = RegExp(r'^Map<String,(.*)>$');
           return SpecialModelName.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'Tag':
           return Tag.fromJson(value as Map<String, dynamic>) as ReturnType;
+        case 'TestInlineFreeformAdditionalPropertiesRequest':
+          return TestInlineFreeformAdditionalPropertiesRequest.fromJson(value as Map<String, dynamic>) as ReturnType;
         case 'User':
           return User.fromJson(value as Map<String, dynamic>) as ReturnType;
         default:

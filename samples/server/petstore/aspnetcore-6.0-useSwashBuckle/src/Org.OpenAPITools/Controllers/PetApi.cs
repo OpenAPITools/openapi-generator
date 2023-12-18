@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Controllers
         [HttpDelete]
         [Route("/v2/pet/{petId}")]
         [ValidateModelState]
-        public abstract IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader]string apiKey);
+        public abstract IActionResult DeletePet([FromRoute (Name = "petId")][Required]long petId, [FromHeader (Name = "api_key")]string apiKey);
 
         /// <summary>
         /// Finds Pets by status

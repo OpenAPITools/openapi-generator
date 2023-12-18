@@ -78,6 +78,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_48_OR_LATER = "net48OrLater";
     protected static final String NET_60_OR_LATER = "net60OrLater";
     protected static final String NET_70_OR_LATER = "net70OrLater";
+    protected static final String NET_80_OR_LATER = "net80OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -91,7 +92,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_6_0,
-            FrameworkStrategy.NET_7_0
+            FrameworkStrategy.NET_7_0,
+            FrameworkStrategy.NET_8_0
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -114,7 +116,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsFileParameters = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
-    protected boolean equatable = Boolean.TRUE;
+    protected boolean equatable = Boolean.FALSE;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
@@ -322,6 +324,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.EQUATABLE_DESC,
                 this.equatable);
 
+        addSwitch("useSourceGeneration",
+                "Use source generation where available (only `generichost` library supports this option).",
+                this.getUseSourceGeneration());
+
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
@@ -450,14 +456,13 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
             Collections.sort(codegenModel.parentVars, propertyComparatorByName);
 
-            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
-            Collections.sort(codegenModel.vars, comparator);
-            Collections.sort(codegenModel.allVars, comparator);
-            Collections.sort(codegenModel.requiredVars, comparator);
-            Collections.sort(codegenModel.optionalVars, comparator);
-            Collections.sort(codegenModel.readOnlyVars, comparator);
-            Collections.sort(codegenModel.readWriteVars, comparator);
-            Collections.sort(codegenModel.parentVars, comparator);
+            Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
         }
 
         return codegenModel;
@@ -470,24 +475,12 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if ((one.defaultValue == null) == (another.defaultValue == null))
+            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
                 return 0;
-            else if (one.defaultValue == null)
-                return -1;
-            else
-                return 1;
-        }
-    };
-
-    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
-        @Override
-        public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable)
-                return 0;
-            else if (Boolean.FALSE.equals(one.isNullable))
+            else if (!one.isNullable && one.required && one.defaultValue == null)
                 return -1;
             else
                 return 1;
@@ -788,6 +781,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
+        syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -853,6 +847,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
         this.setTypeMapping();
+    }
+
+    @Override
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        if (useSourceGeneration && !this.additionalProperties.containsKey(NET_70_OR_LATER)) {
+            throw new RuntimeException("Source generation is only compatible with .Net 7 or later.");
+        }
+        this.useSourceGeneration = useSourceGeneration;
     }
 
     public void setClientPackage(String clientPackage) {
@@ -1175,6 +1177,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         if (value.length() == 0) {
             return "Empty";
         }
@@ -1328,6 +1334,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
+        static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0", "net8.0", Boolean.FALSE) {
+        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1451,8 +1459,19 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
                 properties.put(NET_70_OR_LATER, true);
+            } else if (strategies.stream().anyMatch(p -> "net8.0".equals(p.name))) {
+                properties.put(NET_STANDARD_14_OR_LATER, true);
+                properties.put(NET_STANDARD_15_OR_LATER, true);
+                properties.put(NET_STANDARD_16_OR_LATER, true);
+                properties.put(NET_STANDARD_20_OR_LATER, true);
+                properties.put(NET_STANDARD_21_OR_LATER, true);
+                properties.put(NET_47_OR_LATER, true);
+                properties.put(NET_48_OR_LATER, true);
+                properties.put(NET_60_OR_LATER, true);
+                properties.put(NET_70_OR_LATER, true);
+                properties.put(NET_80_OR_LATER, true);
             } else {
-                throw new RuntimeException("Unhanlded case");
+                throw new RuntimeException("Unhandled case");
             }
         }
     }
@@ -1618,7 +1637,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }

@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// Drawing
     /// </summary>
     [DataContract(Name = "Drawing")]
-    public partial class Drawing : Dictionary<String, Fruit>, IEquatable<Drawing>
+    public partial class Drawing : IEquatable<Drawing>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
+        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
         {
             this.MainShape = mainShape;
             this.ShapeOrNull = shapeOrNull;
@@ -84,7 +84,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Drawing {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  MainShape: ").Append(MainShape).Append("\n");
             sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
             sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
@@ -98,7 +97,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -124,22 +123,22 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return base.Equals(input) && 
+            return 
                 (
                     this.MainShape == input.MainShape ||
                     (this.MainShape != null &&
                     this.MainShape.Equals(input.MainShape))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ShapeOrNull == input.ShapeOrNull ||
                     (this.ShapeOrNull != null &&
                     this.ShapeOrNull.Equals(input.ShapeOrNull))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.NullableShape == input.NullableShape ||
                     (this.NullableShape != null &&
                     this.NullableShape.Equals(input.NullableShape))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.Shapes == input.Shapes ||
                     this.Shapes != null &&
@@ -157,7 +156,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = base.GetHashCode();
+                int hashCode = 41;
                 if (this.MainShape != null)
                 {
                     hashCode = (hashCode * 59) + this.MainShape.GetHashCode();

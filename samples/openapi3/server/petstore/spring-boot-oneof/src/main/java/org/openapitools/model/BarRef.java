@@ -39,37 +39,37 @@ public class BarRef extends EntityRef implements BarRefOrValue {
 
 
   public BarRef name(String name) {
-    super.setName(name);
+    super.name(name);
     return this;
   }
 
   public BarRef atReferredType(String atReferredType) {
-    super.setAtReferredType(atReferredType);
+    super.atReferredType(atReferredType);
     return this;
   }
 
   public BarRef href(String href) {
-    super.setHref(href);
+    super.href(href);
     return this;
   }
 
   public BarRef id(String id) {
-    super.setId(id);
+    super.id(id);
     return this;
   }
 
   public BarRef atSchemaLocation(String atSchemaLocation) {
-    super.setAtSchemaLocation(atSchemaLocation);
+    super.atSchemaLocation(atSchemaLocation);
     return this;
   }
 
   public BarRef atBaseType(String atBaseType) {
-    super.setAtBaseType(atBaseType);
+    super.atBaseType(atBaseType);
     return this;
   }
 
   public BarRef atType(String atType) {
-    super.setAtType(atType);
+    super.atType(atType);
     return this;
   }
   @Override

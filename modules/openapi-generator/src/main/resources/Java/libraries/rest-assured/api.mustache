@@ -32,6 +32,11 @@ import io.swagger.v3.oas.annotations.responses.*;
 import io.swagger.v3.oas.annotations.security.*;
 {{/swagger2AnnotationLibrary}}
 
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;

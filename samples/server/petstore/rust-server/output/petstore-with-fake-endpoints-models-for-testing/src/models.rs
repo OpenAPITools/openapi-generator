@@ -178,7 +178,7 @@ impl std::string::ToString for Animal {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -463,7 +463,7 @@ impl std::string::ToString for ApiResponse {
         let params: Vec<Option<String>> = vec![
 
             self.code.as_ref().map(|code| {
-                vec![
+                [
                     "code".to_string(),
                     code.to_string(),
                 ].join(",")
@@ -471,7 +471,7 @@ impl std::string::ToString for ApiResponse {
 
 
             self.r#type.as_ref().map(|r#type| {
-                vec![
+                [
                     "type".to_string(),
                     r#type.to_string(),
                 ].join(",")
@@ -479,7 +479,7 @@ impl std::string::ToString for ApiResponse {
 
 
             self.message.as_ref().map(|message| {
-                vec![
+                [
                     "message".to_string(),
                     message.to_string(),
                 ].join(",")
@@ -746,7 +746,7 @@ impl std::string::ToString for ArrayOfNumberOnly {
         let params: Vec<Option<String>> = vec![
 
             self.array_number.as_ref().map(|array_number| {
-                vec![
+                [
                     "ArrayNumber".to_string(),
                     array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -894,7 +894,7 @@ impl std::string::ToString for ArrayTest {
         let params: Vec<Option<String>> = vec![
 
             self.array_of_string.as_ref().map(|array_of_string| {
-                vec![
+                [
                     "array_of_string".to_string(),
                     array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -906,7 +906,7 @@ impl std::string::ToString for ArrayTest {
 
 
             self.array_of_enum.as_ref().map(|array_of_enum| {
-                vec![
+                [
                     "array_of_enum".to_string(),
                     array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -1073,7 +1073,7 @@ impl std::string::ToString for Capitalization {
         let params: Vec<Option<String>> = vec![
 
             self.small_camel.as_ref().map(|small_camel| {
-                vec![
+                [
                     "smallCamel".to_string(),
                     small_camel.to_string(),
                 ].join(",")
@@ -1081,7 +1081,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.capital_camel.as_ref().map(|capital_camel| {
-                vec![
+                [
                     "CapitalCamel".to_string(),
                     capital_camel.to_string(),
                 ].join(",")
@@ -1089,7 +1089,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.small_snake.as_ref().map(|small_snake| {
-                vec![
+                [
                     "small_Snake".to_string(),
                     small_snake.to_string(),
                 ].join(",")
@@ -1097,7 +1097,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.capital_snake.as_ref().map(|capital_snake| {
-                vec![
+                [
                     "Capital_Snake".to_string(),
                     capital_snake.to_string(),
                 ].join(",")
@@ -1105,7 +1105,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.sca_eth_flow_points.as_ref().map(|sca_eth_flow_points| {
-                vec![
+                [
                     "SCA_ETH_Flow_Points".to_string(),
                     sca_eth_flow_points.to_string(),
                 ].join(",")
@@ -1113,7 +1113,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.att_name.as_ref().map(|att_name| {
-                vec![
+                [
                     "ATT_NAME".to_string(),
                     att_name.to_string(),
                 ].join(",")
@@ -1279,7 +1279,7 @@ impl std::string::ToString for Cat {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -1287,7 +1287,7 @@ impl std::string::ToString for Cat {
 
 
             self.declawed.as_ref().map(|declawed| {
-                vec![
+                [
                     "declawed".to_string(),
                     declawed.to_string(),
                 ].join(",")
@@ -1434,7 +1434,7 @@ impl std::string::ToString for Category {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -1442,7 +1442,7 @@ impl std::string::ToString for Category {
 
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -1580,7 +1580,7 @@ impl std::string::ToString for ClassModel {
         let params: Vec<Option<String>> = vec![
 
             self._class.as_ref().map(|_class| {
-                vec![
+                [
                     "_class".to_string(),
                     _class.to_string(),
                 ].join(",")
@@ -1713,7 +1713,7 @@ impl std::string::ToString for Client {
         let params: Vec<Option<String>> = vec![
 
             self.client.as_ref().map(|client| {
-                vec![
+                [
                     "client".to_string(),
                     client.to_string(),
                 ].join(",")
@@ -1859,7 +1859,7 @@ impl std::string::ToString for Dog {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -1867,7 +1867,7 @@ impl std::string::ToString for Dog {
 
 
             self.breed.as_ref().map(|breed| {
-                vec![
+                [
                     "breed".to_string(),
                     breed.to_string(),
                 ].join(",")
@@ -2009,7 +2009,7 @@ impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRigh
         let params: Vec<Option<String>> = vec![
 
             self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
-                vec![
+                [
                     "$special[property.name]".to_string(),
                     dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
                 ].join(",")
@@ -2155,7 +2155,7 @@ impl std::string::ToString for EnumArrays {
         let params: Vec<Option<String>> = vec![
 
             self.just_symbol.as_ref().map(|just_symbol| {
-                vec![
+                [
                     "just_symbol".to_string(),
                     just_symbol.to_string(),
                 ].join(",")
@@ -2163,7 +2163,7 @@ impl std::string::ToString for EnumArrays {
 
 
             self.array_enum.as_ref().map(|array_enum| {
-                vec![
+                [
                     "array_enum".to_string(),
                     array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -2375,7 +2375,7 @@ impl std::string::ToString for EnumTest {
         let params: Vec<Option<String>> = vec![
 
             self.enum_string.as_ref().map(|enum_string| {
-                vec![
+                [
                     "enum_string".to_string(),
                     enum_string.to_string(),
                 ].join(",")
@@ -2387,7 +2387,7 @@ impl std::string::ToString for EnumTest {
 
 
             self.enum_integer.as_ref().map(|enum_integer| {
-                vec![
+                [
                     "enum_integer".to_string(),
                     enum_integer.to_string(),
                 ].join(",")
@@ -2395,7 +2395,7 @@ impl std::string::ToString for EnumTest {
 
 
             self.enum_number.as_ref().map(|enum_number| {
-                vec![
+                [
                     "enum_number".to_string(),
                     enum_number.to_string(),
                 ].join(",")
@@ -2578,7 +2578,7 @@ pub struct FormatTest {
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
-    pub date: chrono::DateTime::<chrono::Utc>,
+    pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -2613,7 +2613,7 @@ fn validate_byte_formattest_byte(
 
 impl FormatTest {
     #[allow(clippy::new_without_default)]
-    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime::<chrono::Utc>, password: String, ) -> FormatTest {
+    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::naive::NaiveDate, password: String, ) -> FormatTest {
         FormatTest {
             integer: None,
             int32: None,
@@ -2640,7 +2640,7 @@ impl std::string::ToString for FormatTest {
         let params: Vec<Option<String>> = vec![
 
             self.integer.as_ref().map(|integer| {
-                vec![
+                [
                     "integer".to_string(),
                     integer.to_string(),
                 ].join(",")
@@ -2648,7 +2648,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.int32.as_ref().map(|int32| {
-                vec![
+                [
                     "int32".to_string(),
                     int32.to_string(),
                 ].join(",")
@@ -2656,7 +2656,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.int64.as_ref().map(|int64| {
-                vec![
+                [
                     "int64".to_string(),
                     int64.to_string(),
                 ].join(",")
@@ -2668,7 +2668,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.float.as_ref().map(|float| {
-                vec![
+                [
                     "float".to_string(),
                     float.to_string(),
                 ].join(",")
@@ -2676,7 +2676,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.double.as_ref().map(|double| {
-                vec![
+                [
                     "double".to_string(),
                     double.to_string(),
                 ].join(",")
@@ -2684,7 +2684,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.string.as_ref().map(|string| {
-                vec![
+                [
                     "string".to_string(),
                     string.to_string(),
                 ].join(",")
@@ -2732,7 +2732,7 @@ impl std::str::FromStr for FormatTest {
             pub string: Vec<String>,
             pub byte: Vec<swagger::ByteArray>,
             pub binary: Vec<swagger::ByteArray>,
-            pub date: Vec<chrono::DateTime::<chrono::Utc>>,
+            pub date: Vec<chrono::naive::NaiveDate>,
             pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub uuid: Vec<uuid::Uuid>,
             pub password: Vec<String>,
@@ -2770,7 +2770,7 @@ impl std::str::FromStr for FormatTest {
                     "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     #[allow(clippy::redundant_clone)]
-                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "date" => intermediate_rep.date.push(<chrono::naive::NaiveDate as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
@@ -2884,7 +2884,7 @@ impl std::string::ToString for HasOnlyReadOnly {
         let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
-                vec![
+                [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
@@ -2892,7 +2892,7 @@ impl std::string::ToString for HasOnlyReadOnly {
 
 
             self.foo.as_ref().map(|foo| {
-                vec![
+                [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
@@ -3029,7 +3029,7 @@ impl std::string::ToString for List {
         let params: Vec<Option<String>> = vec![
 
             self.param_123_list.as_ref().map(|param_123_list| {
-                vec![
+                [
                     "123-list".to_string(),
                     param_123_list.to_string(),
                 ].join(",")
@@ -3468,7 +3468,7 @@ impl std::string::ToString for Model200Response {
         let params: Vec<Option<String>> = vec![
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -3476,7 +3476,7 @@ impl std::string::ToString for Model200Response {
 
 
             self.class.as_ref().map(|class| {
-                vec![
+                [
                     "class".to_string(),
                     class.to_string(),
                 ].join(",")
@@ -3633,7 +3633,7 @@ impl std::string::ToString for Name {
 
 
             self.snake_case.as_ref().map(|snake_case| {
-                vec![
+                [
                     "snake_case".to_string(),
                     snake_case.to_string(),
                 ].join(",")
@@ -3641,7 +3641,7 @@ impl std::string::ToString for Name {
 
 
             self.property.as_ref().map(|property| {
-                vec![
+                [
                     "property".to_string(),
                     property.to_string(),
                 ].join(",")
@@ -3649,7 +3649,7 @@ impl std::string::ToString for Name {
 
 
             self.param_123_number.as_ref().map(|param_123_number| {
-                vec![
+                [
                     "123Number".to_string(),
                     param_123_number.to_string(),
                 ].join(",")
@@ -3794,7 +3794,7 @@ impl std::string::ToString for NumberOnly {
         let params: Vec<Option<String>> = vec![
 
             self.just_number.as_ref().map(|just_number| {
-                vec![
+                [
                     "JustNumber".to_string(),
                     just_number.to_string(),
                 ].join(",")
@@ -4141,7 +4141,7 @@ impl std::string::ToString for Order {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -4149,7 +4149,7 @@ impl std::string::ToString for Order {
 
 
             self.pet_id.as_ref().map(|pet_id| {
-                vec![
+                [
                     "petId".to_string(),
                     pet_id.to_string(),
                 ].join(",")
@@ -4157,7 +4157,7 @@ impl std::string::ToString for Order {
 
 
             self.quantity.as_ref().map(|quantity| {
-                vec![
+                [
                     "quantity".to_string(),
                     quantity.to_string(),
                 ].join(",")
@@ -4167,7 +4167,7 @@ impl std::string::ToString for Order {
 
 
             self.status.as_ref().map(|status| {
-                vec![
+                [
                     "status".to_string(),
                     status.to_string(),
                 ].join(",")
@@ -4175,7 +4175,7 @@ impl std::string::ToString for Order {
 
 
             self.complete.as_ref().map(|complete| {
-                vec![
+                [
                     "complete".to_string(),
                     complete.to_string(),
                 ].join(",")
@@ -4377,7 +4377,7 @@ impl std::string::ToString for OuterComposite {
         let params: Vec<Option<String>> = vec![
 
             self.my_number.as_ref().map(|my_number| {
-                vec![
+                [
                     "my_number".to_string(),
                     my_number.to_string(),
                 ].join(",")
@@ -4385,7 +4385,7 @@ impl std::string::ToString for OuterComposite {
 
 
             self.my_string.as_ref().map(|my_string| {
-                vec![
+                [
                     "my_string".to_string(),
                     my_string.to_string(),
                 ].join(",")
@@ -4393,7 +4393,7 @@ impl std::string::ToString for OuterComposite {
 
 
             self.my_boolean.as_ref().map(|my_boolean| {
-                vec![
+                [
                     "my_boolean".to_string(),
                     my_boolean.to_string(),
                 ].join(",")
@@ -4699,7 +4699,7 @@ impl std::string::ToString for Pet {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -4719,7 +4719,7 @@ impl std::string::ToString for Pet {
 
 
             self.status.as_ref().map(|status| {
-                vec![
+                [
                     "status".to_string(),
                     status.to_string(),
                 ].join(",")
@@ -4875,7 +4875,7 @@ impl std::string::ToString for ReadOnlyFirst {
         let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
-                vec![
+                [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
@@ -4883,7 +4883,7 @@ impl std::string::ToString for ReadOnlyFirst {
 
 
             self.baz.as_ref().map(|baz| {
-                vec![
+                [
                     "baz".to_string(),
                     baz.to_string(),
                 ].join(",")
@@ -5022,7 +5022,7 @@ impl std::string::ToString for Return {
         let params: Vec<Option<String>> = vec![
 
             self.r#return.as_ref().map(|r#return| {
-                vec![
+                [
                     "return".to_string(),
                     r#return.to_string(),
                 ].join(",")
@@ -5161,7 +5161,7 @@ impl std::string::ToString for Tag {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -5169,7 +5169,7 @@ impl std::string::ToString for Tag {
 
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -5343,7 +5343,7 @@ impl std::string::ToString for User {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -5351,7 +5351,7 @@ impl std::string::ToString for User {
 
 
             self.username.as_ref().map(|username| {
-                vec![
+                [
                     "username".to_string(),
                     username.to_string(),
                 ].join(",")
@@ -5359,7 +5359,7 @@ impl std::string::ToString for User {
 
 
             self.first_name.as_ref().map(|first_name| {
-                vec![
+                [
                     "firstName".to_string(),
                     first_name.to_string(),
                 ].join(",")
@@ -5367,7 +5367,7 @@ impl std::string::ToString for User {
 
 
             self.last_name.as_ref().map(|last_name| {
-                vec![
+                [
                     "lastName".to_string(),
                     last_name.to_string(),
                 ].join(",")
@@ -5375,7 +5375,7 @@ impl std::string::ToString for User {
 
 
             self.email.as_ref().map(|email| {
-                vec![
+                [
                     "email".to_string(),
                     email.to_string(),
                 ].join(",")
@@ -5383,7 +5383,7 @@ impl std::string::ToString for User {
 
 
             self.password.as_ref().map(|password| {
-                vec![
+                [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
@@ -5391,7 +5391,7 @@ impl std::string::ToString for User {
 
 
             self.phone.as_ref().map(|phone| {
-                vec![
+                [
                     "phone".to_string(),
                     phone.to_string(),
                 ].join(",")
@@ -5399,7 +5399,7 @@ impl std::string::ToString for User {
 
 
             self.user_status.as_ref().map(|user_status| {
-                vec![
+                [
                     "userStatus".to_string(),
                     user_status.to_string(),
                 ].join(",")

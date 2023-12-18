@@ -279,9 +279,13 @@ func (o Capitalization) ToMap() (map[string]interface{}, error) {
 func (o *Capitalization) UnmarshalJSON(bytes []byte) (err error) {
 	varCapitalization := _Capitalization{}
 
-	if err = json.Unmarshal(bytes, &varCapitalization); err == nil {
-		*o = Capitalization(varCapitalization)
+	err = json.Unmarshal(bytes, &varCapitalization)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Capitalization(varCapitalization)
 
 	additionalProperties := make(map[string]interface{})
 

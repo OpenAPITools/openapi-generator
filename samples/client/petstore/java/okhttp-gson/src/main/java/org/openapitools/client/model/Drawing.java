@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
@@ -49,7 +49,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -79,7 +78,6 @@ public class Drawing {
   }
 
   public Drawing mainShape(Shape mainShape) {
-    
     this.mainShape = mainShape;
     return this;
   }
@@ -93,14 +91,12 @@ public class Drawing {
     return mainShape;
   }
 
-
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -114,14 +110,12 @@ public class Drawing {
     return shapeOrNull;
   }
 
-
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
 
 
   public Drawing nullableShape(NullableShape nullableShape) {
-    
     this.nullableShape = nullableShape;
     return this;
   }
@@ -135,14 +129,12 @@ public class Drawing {
     return nullableShape;
   }
 
-
   public void setNullableShape(NullableShape nullableShape) {
     this.nullableShape = nullableShape;
   }
 
 
   public Drawing shapes(List<Shape> shapes) {
-    
     this.shapes = shapes;
     return this;
   }
@@ -163,7 +155,6 @@ public class Drawing {
   public List<Shape> getShapes() {
     return shapes;
   }
-
 
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;

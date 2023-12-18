@@ -57,54 +57,43 @@ commands: # a reusable command with parameters
       - run: docker ps -a
       - run: sleep 30
       - run: cat /etc/hosts
-      # Test
-      - run: ./mvnw --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      - run: export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m"
       - run:
           name: "Setup custom environment variables"
           command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV
       - run: ./CI/circle_parallel.sh
       # Save dependency cache
-      - save_cache:
-          key: source-v2-{{ .Branch }}-{{ .Revision }}
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/.nvm
-            - ~/.pyenv
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
-      # save "default" cache using the key "source-v2-"
-      - save_cache:
-          key: source-v2-
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/.nvm
-            - ~/.pyenv
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
+      #- save_cache:
+      #    key: source-v2-{{ .Branch }}-{{ .Revision }}
+      #    paths:
+      #      # This is a broad list of cache paths to include many possible development environments
+      #      # You can probably delete some of these entries
+      #      - ~/.m2
+      #      - ~/.ivy2
+      #      - ~/.sbt
+      #      - ~/.bundle
+      #      - ~/.go_workspace
+      #      - ~/.gradle
+      #      - ".git"
+      #      - ~/.stack
+      #      - ~/R
+      ## save "default" cache using the key "source-v2-"
+      #- save_cache:
+      #    key: source-v2-
+      #    paths:
+      #      # This is a broad list of cache paths to include many possible development environments
+      #      # You can probably delete some of these entries
+      #      - vendor/bundle
+      #      - ~/.m2
+      #      - ~/.ivy2
+      #      - ~/.sbt
+      #      - ~/.bundle
+      #      - ~/.go_workspace
+      #      - ~/.gradle
+      #      - ~/.cache/bower
+      #      - ".git"
+      #      - ~/.stack
+      #      - ~/R
       # Teardown
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
       # Save test results

@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -64,7 +63,6 @@ public class Apple {
   }
 
   public Apple cultivar(String cultivar) {
-    
     this.cultivar = cultivar;
     return this;
   }
@@ -78,14 +76,12 @@ public class Apple {
     return cultivar;
   }
 
-
   public void setCultivar(String cultivar) {
     this.cultivar = cultivar;
   }
 
 
   public Apple origin(String origin) {
-    
     this.origin = origin;
     return this;
   }
@@ -98,7 +94,6 @@ public class Apple {
   public String getOrigin() {
     return origin;
   }
-
 
   public void setOrigin(String origin) {
     this.origin = origin;

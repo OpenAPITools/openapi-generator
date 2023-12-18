@@ -3,6 +3,7 @@
 Model for testing model name starting with number
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **name** | **int** |  | [optional] 

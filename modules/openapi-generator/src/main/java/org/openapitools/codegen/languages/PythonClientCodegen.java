@@ -130,21 +130,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
 
-        // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        // pydantic keyword
-                        "schema", "base64", "json",
-                        "date",
-                        // @property
-                        "property",
-                        // python reserved words
-                        "and", "del", "from", "not", "while", "as", "elif", "global", "or", "with",
-                        "assert", "else", "if", "pass", "yield", "break", "except", "import",
-                        "print", "class", "exec", "in", "raise", "continue", "finally", "is",
-                        "return", "def", "for", "lambda", "try", "self", "nonlocal", "None", "True",
-                        "False", "async", "await"));
-
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
                 .defaultValue("openapi_client"));
@@ -462,20 +447,6 @@ public class PythonClientCodegen extends AbstractPythonCodegen implements Codege
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
-    }
-
-
-    /**
-     * checks if the data should be classified as "string" in enum
-     * e.g. double in C# needs to be double-quoted (e.g. "2.8") by treating it as a string
-     * In the future, we may rename this function to "isEnumString"
-     *
-     * @param dataType data type
-     * @return true if it's a enum string
-     */
-    @Override
-    public boolean isDataTypeString(String dataType) {
-        return "str".equals(dataType);
     }
 
     @Override

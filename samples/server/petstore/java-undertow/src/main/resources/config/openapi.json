@@ -1,5 +1,5 @@
 {
-  "openapi" : "3.0.1",
+  "openapi" : "3.0.0",
   "info" : {
     "description" : "This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.",
     "license" : {
@@ -8,6 +8,10 @@
     },
     "title" : "OpenAPI Petstore",
     "version" : "1.0.0"
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Swagger",
+    "url" : "http://swagger.io"
   },
   "servers" : [ {
     "url" : "http://petstore.swagger.io/v2"
@@ -25,26 +29,28 @@
   "paths" : {
     "/pet" : {
       "post" : {
+        "description" : "",
         "operationId" : "addPet",
         "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            }
-          },
-          "description" : "Pet object that needs to be added to the store",
-          "required" : true
+          "$ref" : "#/components/requestBodies/Pet"
         },
         "responses" : {
+          "200" : {
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Pet"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Pet"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
           "405" : {
-            "content" : { },
             "description" : "Invalid input"
           }
         },
@@ -53,39 +59,42 @@
         } ],
         "summary" : "Add a new pet to the store",
         "tags" : [ "pet" ],
-        "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       },
       "put" : {
+        "description" : "",
+        "externalDocs" : {
+          "description" : "API documentation for the updatePet operation",
+          "url" : "http://petstore.swagger.io/v2/doc/updatePet"
+        },
         "operationId" : "updatePet",
         "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            },
-            "application/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Pet"
-              }
-            }
-          },
-          "description" : "Pet object that needs to be added to the store",
-          "required" : true
+          "$ref" : "#/components/requestBodies/Pet"
         },
         "responses" : {
+          "200" : {
+            "content" : {
+              "application/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Pet"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Pet"
+                }
+              }
+            },
+            "description" : "successful operation"
+          },
           "400" : {
-            "content" : { },
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "Pet not found"
           },
           "405" : {
-            "content" : { },
             "description" : "Validation exception"
           }
         },
@@ -94,7 +103,6 @@
         } ],
         "summary" : "Update an existing pet",
         "tags" : [ "pet" ],
-        "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
@@ -104,6 +112,7 @@
         "description" : "Multiple status values can be provided with comma separated strings",
         "operationId" : "findPetsByStatus",
         "parameters" : [ {
+          "deprecated" : true,
           "description" : "Status values that need to be considered for filter",
           "explode" : false,
           "in" : "query",
@@ -142,12 +151,11 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid status value"
           }
         },
         "security" : [ {
-          "petstore_auth" : [ "write:pets", "read:pets" ]
+          "petstore_auth" : [ "read:pets" ]
         } ],
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
@@ -196,12 +204,11 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid tag value"
           }
         },
         "security" : [ {
-          "petstore_auth" : [ "write:pets", "read:pets" ]
+          "petstore_auth" : [ "read:pets" ]
         } ],
         "summary" : "Finds Pets by tags",
         "tags" : [ "pet" ],
@@ -210,26 +217,31 @@
     },
     "/pet/{petId}" : {
       "delete" : {
+        "description" : "",
         "operationId" : "deletePet",
         "parameters" : [ {
+          "explode" : false,
           "in" : "header",
           "name" : "api_key",
+          "required" : false,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         }, {
           "description" : "Pet id to delete",
+          "explode" : false,
           "in" : "path",
           "name" : "petId",
           "required" : true,
           "schema" : {
             "format" : "int64",
             "type" : "integer"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "400" : {
-            "content" : { },
             "description" : "Invalid pet value"
           }
         },
@@ -245,13 +257,15 @@
         "operationId" : "getPetById",
         "parameters" : [ {
           "description" : "ID of pet to return",
+          "explode" : false,
           "in" : "path",
           "name" : "petId",
           "required" : true,
           "schema" : {
             "format" : "int64",
             "type" : "integer"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
@@ -270,11 +284,9 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "Pet not found"
           }
         },
@@ -286,16 +298,19 @@
         "x-accepts" : "application/json"
       },
       "post" : {
+        "description" : "",
         "operationId" : "updatePetWithForm",
         "parameters" : [ {
           "description" : "ID of pet that needs to be updated",
+          "explode" : false,
           "in" : "path",
           "name" : "petId",
           "required" : true,
           "schema" : {
             "format" : "int64",
             "type" : "integer"
-          }
+          },
+          "style" : "simple"
         } ],
         "requestBody" : {
           "content" : {
@@ -308,7 +323,6 @@
         },
         "responses" : {
           "405" : {
-            "content" : { },
             "description" : "Invalid input"
           }
         },
@@ -323,16 +337,19 @@
     },
     "/pet/{petId}/uploadImage" : {
       "post" : {
+        "description" : "",
         "operationId" : "uploadFile",
         "parameters" : [ {
           "description" : "ID of pet to update",
+          "explode" : false,
           "in" : "path",
           "name" : "petId",
           "required" : true,
           "schema" : {
             "format" : "int64",
             "type" : "integer"
-          }
+          },
+          "style" : "simple"
         } ],
         "requestBody" : {
           "content" : {
@@ -394,10 +411,11 @@
     },
     "/store/order" : {
       "post" : {
+        "description" : "",
         "operationId" : "placeOrder",
         "requestBody" : {
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Order"
               }
@@ -423,14 +441,12 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid Order"
           }
         },
         "summary" : "Place an order for a pet",
         "tags" : [ "store" ],
-        "x-codegen-request-body-name" : "body",
-        "x-content-type" : "*/*",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
@@ -440,20 +456,20 @@
         "operationId" : "deleteOrder",
         "parameters" : [ {
           "description" : "ID of the order that needs to be deleted",
+          "explode" : false,
           "in" : "path",
           "name" : "orderId",
           "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "400" : {
-            "content" : { },
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "Order not found"
           }
         },
@@ -466,6 +482,7 @@
         "operationId" : "getOrderById",
         "parameters" : [ {
           "description" : "ID of pet that needs to be fetched",
+          "explode" : false,
           "in" : "path",
           "name" : "orderId",
           "required" : true,
@@ -474,7 +491,8 @@
             "maximum" : 5,
             "minimum" : 1,
             "type" : "integer"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
@@ -493,11 +511,9 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid ID supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "Order not found"
           }
         },
@@ -512,7 +528,7 @@
         "operationId" : "createUser",
         "requestBody" : {
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/User"
               }
@@ -523,96 +539,85 @@
         },
         "responses" : {
           "default" : {
-            "content" : { },
             "description" : "successful operation"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Create user",
         "tags" : [ "user" ],
-        "x-codegen-request-body-name" : "body",
-        "x-content-type" : "*/*",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
     "/user/createWithArray" : {
       "post" : {
+        "description" : "",
         "operationId" : "createUsersWithArrayInput",
         "requestBody" : {
-          "content" : {
-            "*/*" : {
-              "schema" : {
-                "items" : {
-                  "$ref" : "#/components/schemas/User"
-                },
-                "type" : "array"
-              }
-            }
-          },
-          "description" : "List of user object",
-          "required" : true
+          "$ref" : "#/components/requestBodies/UserArray"
         },
         "responses" : {
           "default" : {
-            "content" : { },
             "description" : "successful operation"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
-        "x-codegen-request-body-name" : "body",
-        "x-content-type" : "*/*",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
     "/user/createWithList" : {
       "post" : {
+        "description" : "",
         "operationId" : "createUsersWithListInput",
         "requestBody" : {
-          "content" : {
-            "*/*" : {
-              "schema" : {
-                "items" : {
-                  "$ref" : "#/components/schemas/User"
-                },
-                "type" : "array"
-              }
-            }
-          },
-          "description" : "List of user object",
-          "required" : true
+          "$ref" : "#/components/requestBodies/UserArray"
         },
         "responses" : {
           "default" : {
-            "content" : { },
             "description" : "successful operation"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Creates list of users with given input array",
         "tags" : [ "user" ],
-        "x-codegen-request-body-name" : "body",
-        "x-content-type" : "*/*",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     },
     "/user/login" : {
       "get" : {
+        "description" : "",
         "operationId" : "loginUser",
         "parameters" : [ {
           "description" : "The user name for login",
+          "explode" : true,
           "in" : "query",
           "name" : "username",
           "required" : true,
           "schema" : {
+            "pattern" : "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$",
             "type" : "string"
-          }
+          },
+          "style" : "form"
         }, {
           "description" : "The password for login in clear text",
+          "explode" : true,
           "in" : "query",
           "name" : "password",
           "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "form"
         } ],
         "responses" : {
           "200" : {
@@ -630,24 +635,36 @@
             },
             "description" : "successful operation",
             "headers" : {
+              "Set-Cookie" : {
+                "description" : "Cookie authentication key for use with the `api_key` apiKey authentication.",
+                "explode" : false,
+                "schema" : {
+                  "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly",
+                  "type" : "string"
+                },
+                "style" : "simple"
+              },
               "X-Rate-Limit" : {
                 "description" : "calls per hour allowed by the user",
+                "explode" : false,
                 "schema" : {
                   "format" : "int32",
                   "type" : "integer"
-                }
+                },
+                "style" : "simple"
               },
               "X-Expires-After" : {
                 "description" : "date in UTC when token expires",
+                "explode" : false,
                 "schema" : {
                   "format" : "date-time",
                   "type" : "string"
-                }
+                },
+                "style" : "simple"
               }
             }
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid username/password supplied"
           }
         },
@@ -658,13 +675,16 @@
     },
     "/user/logout" : {
       "get" : {
+        "description" : "",
         "operationId" : "logoutUser",
         "responses" : {
           "default" : {
-            "content" : { },
             "description" : "successful operation"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Logs out current logged in user session",
         "tags" : [ "user" ],
         "x-accepts" : "application/json"
@@ -676,37 +696,43 @@
         "operationId" : "deleteUser",
         "parameters" : [ {
           "description" : "The name that needs to be deleted",
+          "explode" : false,
           "in" : "path",
           "name" : "username",
           "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "400" : {
-            "content" : { },
             "description" : "Invalid username supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "User not found"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Delete user",
         "tags" : [ "user" ],
         "x-accepts" : "application/json"
       },
       "get" : {
+        "description" : "",
         "operationId" : "getUserByName",
         "parameters" : [ {
           "description" : "The name that needs to be fetched. Use user1 for testing.",
+          "explode" : false,
           "in" : "path",
           "name" : "username",
           "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         } ],
         "responses" : {
           "200" : {
@@ -725,11 +751,9 @@
             "description" : "successful operation"
           },
           "400" : {
-            "content" : { },
             "description" : "Invalid username supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "User not found"
           }
         },
@@ -742,16 +766,18 @@
         "operationId" : "updateUser",
         "parameters" : [ {
           "description" : "name that need to be deleted",
+          "explode" : false,
           "in" : "path",
           "name" : "username",
           "required" : true,
           "schema" : {
             "type" : "string"
-          }
+          },
+          "style" : "simple"
         } ],
         "requestBody" : {
           "content" : {
-            "*/*" : {
+            "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/User"
               }
@@ -762,23 +788,55 @@
         },
         "responses" : {
           "400" : {
-            "content" : { },
             "description" : "Invalid user supplied"
           },
           "404" : {
-            "content" : { },
             "description" : "User not found"
           }
         },
+        "security" : [ {
+          "api_key" : [ ]
+        } ],
         "summary" : "Updated user",
         "tags" : [ "user" ],
-        "x-codegen-request-body-name" : "body",
-        "x-content-type" : "*/*",
+        "x-content-type" : "application/json",
         "x-accepts" : "application/json"
       }
     }
   },
   "components" : {
+    "requestBodies" : {
+      "UserArray" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "items" : {
+                "$ref" : "#/components/schemas/User"
+              },
+              "type" : "array"
+            }
+          }
+        },
+        "description" : "List of user object",
+        "required" : true
+      },
+      "Pet" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Pet"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Pet"
+            }
+          }
+        },
+        "description" : "Pet object that needs to be added to the store",
+        "required" : true
+      }
+    },
     "schemas" : {
       "Order" : {
         "description" : "An order for a pets from the pet store",
@@ -835,6 +893,7 @@
             "type" : "integer"
           },
           "name" : {
+            "pattern" : "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$",
             "type" : "string"
           }
         },
@@ -964,6 +1023,7 @@
             }
           },
           "status" : {
+            "deprecated" : true,
             "description" : "pet status in the store",
             "enum" : [ "available", "pending", "sold" ],
             "type" : "string"
@@ -1045,6 +1105,5 @@
         "type" : "apiKey"
       }
     }
-  },
-  "x-original-swagger-version" : "2.0"
+  }
 }

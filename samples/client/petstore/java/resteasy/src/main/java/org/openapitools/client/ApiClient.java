@@ -31,6 +31,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -85,6 +86,7 @@ public class ApiClient extends JavaTimeFormatter {
     authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
     authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -491,15 +493,16 @@ public class ApiClient extends JavaTimeFormatter {
         if (param.getValue() instanceof File) {
           File file = (File) param.getValue();
           try {
-            multipart.addFormData(param.getValue().toString(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+            multipart.addFormData(param.getKey(),new FileInputStream(file),MediaType.APPLICATION_OCTET_STREAM_TYPE);
           } catch (FileNotFoundException e) {
             throw new ApiException("Could not serialize multipart/form-data "+e.getMessage());
           }
         } else {
-          multipart.addFormData(param.getValue().toString(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
+          multipart.addFormData(param.getKey(),param.getValue().toString(),MediaType.APPLICATION_OCTET_STREAM_TYPE);
         }
       }
-      entity = Entity.entity(multipart.getFormData(), MediaType.MULTIPART_FORM_DATA_TYPE);
+      GenericEntity<MultipartFormDataOutput> genericEntity = new GenericEntity<MultipartFormDataOutput>(multipart) { };
+      entity = Entity.entity(genericEntity, MediaType.MULTIPART_FORM_DATA_TYPE);
     } else if (contentType.startsWith("application/x-www-form-urlencoded")) {
       Form form = new Form();
       for (Entry<String, Object> param: formParams.entrySet()) {
