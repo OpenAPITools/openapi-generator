@@ -573,6 +573,10 @@ public class OpenAPINormalizer {
             return;
         }
 
+        if (schema.getAllOf().size() == 1) {
+            return;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
