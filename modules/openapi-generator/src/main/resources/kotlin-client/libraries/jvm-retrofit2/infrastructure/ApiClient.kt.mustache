@@ -51,6 +51,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 {{#jackson}}
 import com.fasterxml.jackson.databind.ObjectMapper
+import retrofit2.converter.jackson.JacksonConverterFactory
 {{/jackson}}
 
 {{#kotlinx_serialization}}
@@ -88,6 +89,9 @@ import okhttp3.MediaType.Companion.toMediaType
         {{#kotlinx_serialization}}
         kotlinxSerializationJson.asConverterFactory("application/json".toMediaType()),
         {{/kotlinx_serialization}}
+        {{#jackson}}
+        JacksonConverterFactory.create(),
+        {{/jackson}}
     )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
