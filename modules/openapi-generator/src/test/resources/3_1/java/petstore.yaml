@@ -842,3 +842,8 @@ components:
     any_type_test:
       properties:
         any_type_property: {}
+        array_prop:
+          type: array
+          description: test array in 3.1 spec
+          items:
+            type: string

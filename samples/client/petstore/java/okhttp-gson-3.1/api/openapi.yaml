@@ -907,6 +907,11 @@ components:
     any_type_test:
       properties:
         any_type_property: {}
+        array_prop:
+          description: test array in 3.1 spec
+          items:
+            type: string
+          type: array
     updatePetWithForm_request:
       properties:
         name:

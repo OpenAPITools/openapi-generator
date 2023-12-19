@@ -940,6 +940,17 @@ public class OpenAPINormalizer {
             String type = String.valueOf(schema.getTypes().iterator().next());
             if ("array".equals(type)) {
                 ArraySchema as = new ArraySchema();
+                as.setDescription(schema.getDescription());
+                as.setDefault(schema.getDefault());
+                if (schema.getExample() != null) {
+                    as.setExample(schema.getExample());
+                }
+                if (schema.getExamples() != null) {
+                    as.setExamples(schema.getExamples());
+                }
+                as.setMinItems(schema.getMinItems());
+                as.setMaxItems(schema.getMaxItems());
+                as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
                 // `items` is also a json schema
                 if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
