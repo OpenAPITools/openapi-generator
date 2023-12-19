@@ -1,0 +1,4 @@
+project:
+  maven:
+    skipSonar: true
+
