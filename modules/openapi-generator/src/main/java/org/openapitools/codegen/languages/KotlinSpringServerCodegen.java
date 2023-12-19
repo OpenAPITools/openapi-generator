@@ -744,8 +744,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("jackson", "true");
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaEscapeInNormalString",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }
