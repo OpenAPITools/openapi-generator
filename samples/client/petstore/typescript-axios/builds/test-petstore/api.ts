@@ -1107,16 +1107,16 @@ export interface NullableClass {
     'object_nullable_prop'?: { [key: string]: object; } | null;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    'object_and_items_nullable_prop'?: { [key: string]: object; } | null;
+    'object_and_items_nullable_prop'?: { [key: string]: object | null; } | null;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    'object_items_nullable'?: { [key: string]: object; };
+    'object_items_nullable'?: { [key: string]: object | null; };
 }
 /**
  * @type NullableShape
