@@ -454,6 +454,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         this.srcBasePath = srcBasePath;
     }
 
+    public void setTestBasePath(String testBasePath) {
+        this.testBasePath = testBasePath;
+    }
+
     public void setParameterNamingConvention(String variableNamingConvention) {
         this.variableNamingConvention = variableNamingConvention;
     }
@@ -512,7 +516,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         name = name.replaceAll("[^\\w\\\\]+", "_"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         // remove dollar sign
-        name = name.replaceAll("$", "");
+        name = name.replace("$", "");
 
         // model name cannot use reserved keyword
         if (isReservedWord(name)) {
@@ -738,6 +742,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -774,6 +782,10 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toGenericName(property.name)).toUpperCase(Locale.ROOT);
 
         // remove [] for array or map of enum

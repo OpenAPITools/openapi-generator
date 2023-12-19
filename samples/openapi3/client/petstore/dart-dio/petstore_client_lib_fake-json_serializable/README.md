@@ -83,7 +83,9 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testEnumParameters**](doc/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 [*FakeApi*](doc/FakeApi.md) | [**testGroupParameters**](doc/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [*FakeApi*](doc/FakeApi.md) | [**testInlineAdditionalProperties**](doc/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[*FakeApi*](doc/FakeApi.md) | [**testInlineFreeformAdditionalProperties**](doc/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
+[*FakeApi*](doc/FakeApi.md) | [**testNullable**](doc/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
@@ -121,6 +123,7 @@ Class | Method | HTTP request | Description
  - [Capitalization](doc/Capitalization.md)
  - [Cat](doc/Cat.md)
  - [Category](doc/Category.md)
+ - [ChildWithNullable](doc/ChildWithNullable.md)
  - [ClassModel](doc/ClassModel.md)
  - [DeprecatedObject](doc/DeprecatedObject.md)
  - [Dog](doc/Dog.md)
@@ -152,11 +155,13 @@ Class | Method | HTTP request | Description
  - [OuterEnumInteger](doc/OuterEnumInteger.md)
  - [OuterEnumIntegerDefaultValue](doc/OuterEnumIntegerDefaultValue.md)
  - [OuterObjectWithEnumProperty](doc/OuterObjectWithEnumProperty.md)
+ - [ParentWithNullable](doc/ParentWithNullable.md)
  - [Pet](doc/Pet.md)
  - [ReadOnlyFirst](doc/ReadOnlyFirst.md)
  - [SingleRefType](doc/SingleRefType.md)
  - [SpecialModelName](doc/SpecialModelName.md)
  - [Tag](doc/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](doc/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [User](doc/User.md)
 
 

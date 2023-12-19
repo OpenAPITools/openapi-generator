@@ -96,14 +96,19 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fake_return_list_of_objects**](docs/FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
+*FakeApi* | [**fake_uuid_example**](docs/FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_date_time_query_parameter**](docs/FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
+*FakeApi* | [**test_empty_and_non_empty_responses**](docs/FakeApi.md#test_empty_and_non_empty_responses) | **POST** /fake/empty_and_non_empty_responses | test empty and non-empty responses
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**test_error_responses_with_model**](docs/FakeApi.md#test_error_responses_with_model) | **POST** /fake/error_responses_with_model | test error responses with model
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -132,7 +137,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
+ - [AdditionalPropertiesWithDescriptionOnly](docs/AdditionalPropertiesWithDescriptionOnly.md)
  - [AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [Animal](docs/Animal.md)
  - [AnyOfColor](docs/AnyOfColor.md)
@@ -171,7 +179,7 @@ Class | Method | HTTP request | Description
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
  - [IntOrString](docs/IntOrString.md)
- - [List](docs/List.md)
+ - [ListClass](docs/ListClass.md)
  - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -204,7 +212,12 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [TestErrorResponsesWithModel400Response](docs/TestErrorResponsesWithModel400Response.md)
+ - [TestErrorResponsesWithModel404Response](docs/TestErrorResponsesWithModel404Response.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Tiger](docs/Tiger.md)
+ - [UnnamedDictWithAdditionalModelListProperties](docs/UnnamedDictWithAdditionalModelListProperties.md)
+ - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
  - [User](docs/User.md)
  - [WithNestedOneOf](docs/WithNestedOneOf.md)
 

@@ -89,6 +89,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
     @Option(name = {"--model-name-mappings"}, title = "model name mappings", description = "displays the model name mappings (none)")
     private Boolean modelNameMappings;
 
+    @Option(name = {"--enum-name-mappings"}, title = "enum name mappings", description = "displays the enum name mappings (none)")
+    private Boolean enumNameMappings;
+
     @Option(name = {"--openapi-normalizer"}, title = "openapi normalizer rules", description = "displays the OpenAPI normalizer rules (none)")
     private Boolean openapiNormalizer;
 
@@ -97,6 +100,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
 
     @Option(name = {"--language-specific-primitive"}, title = "language specific primitives", description = "displays the language specific primitives (types which require no additional imports, or which may conflict with user defined model names)")
     private Boolean languageSpecificPrimitives;
+
+    @Option(name = {"--openapi-generator-ignore-list"}, title = "openapi generator ignore list", description = "displays the openapi generator ignore list")
+    private Boolean openapiGeneratorIgnoreList;
 
     @Option(name = {"--reserved-words"}, title = "language specific reserved words", description = "displays the reserved words which may result in renamed model or property names")
     private Boolean reservedWords;
@@ -542,6 +548,18 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append(newline);
         }
 
+        if (Boolean.TRUE.equals(enumNameMappings)) {
+            sb.append(newline).append("ENUM NAME MAPPING").append(newline).append(newline);
+            Map<String, String> map = config.enumNameMapping()
+                    .entrySet()
+                    .stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> {
+                        throw new IllegalStateException(String.format(Locale.ROOT, "Duplicated options! %s and %s", a, b));
+                    }, TreeMap::new));
+            writePlainTextFromMap(sb, map, optIndent, optNestedIndent, "enum name", "Mapped to");
+            sb.append(newline);
+        }
+
         if (Boolean.TRUE.equals(openapiNormalizer)) {
             sb.append(newline).append("OPENAPI NORMALIZER RULES").append(newline).append(newline);
             Map<String, String> map = config.openapiNormalizer()
@@ -569,6 +587,13 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
         if (Boolean.TRUE.equals(languageSpecificPrimitives)) {
             sb.append(newline).append("LANGUAGE PRIMITIVES").append(newline).append(newline);
             String[] arr = config.languageSpecificPrimitives().stream().sorted().toArray(String[]::new);
+            writePlainTextFromArray(sb, arr, optIndent);
+            sb.append(newline);
+        }
+
+        if (Boolean.TRUE.equals(openapiGeneratorIgnoreList)) {
+            sb.append(newline).append("OPENAPI GENERATOR IGNORE LIST").append(newline).append(newline);
+            String[] arr = config.openapiGeneratorIgnoreList().stream().sorted().toArray(String[]::new);
             writePlainTextFromArray(sb, arr, optIndent);
             sb.append(newline);
         }

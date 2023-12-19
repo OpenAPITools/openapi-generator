@@ -42,6 +42,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
     public static final String ARTIFACTURL_VALUE = "https://anotherUrl.com";
     public static final String DEVELOPER_ORGANIZATION_VALUE = "openapi generator contributors";
     public static final String COMPOSER_PACKAGE_NAME_VALUE = "package/name";
+    public static final String LIBRARY_VALUE = "psr-18";
 
     @Override
     public String getLanguage() {
@@ -72,6 +73,7 @@ public class PhpClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_URL, ARTIFACTURL_VALUE)
                 .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
                 .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
+                .put(CodegenConstants.LIBRARY, LIBRARY_VALUE)
                 .build();
     }
 

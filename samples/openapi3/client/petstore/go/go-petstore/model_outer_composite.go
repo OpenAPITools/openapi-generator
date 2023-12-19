@@ -170,9 +170,13 @@ func (o OuterComposite) ToMap() (map[string]interface{}, error) {
 func (o *OuterComposite) UnmarshalJSON(bytes []byte) (err error) {
 	varOuterComposite := _OuterComposite{}
 
-	if err = json.Unmarshal(bytes, &varOuterComposite); err == nil {
-		*o = OuterComposite(varOuterComposite)
+	err = json.Unmarshal(bytes, &varOuterComposite)
+
+	if err != nil {
+		return err
 	}
+
+	*o = OuterComposite(varOuterComposite)
 
 	additionalProperties := make(map[string]interface{})
 

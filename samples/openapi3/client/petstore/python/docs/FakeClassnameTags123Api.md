@@ -17,6 +17,7 @@ To test class name in snake case
 ### Example
 
 * Api Key Authentication (api_key_query):
+
 ```python
 import time
 import os
@@ -61,6 +62,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -79,6 +81,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

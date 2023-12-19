@@ -21,6 +21,8 @@ public interface PathHandlerInterface {
     /**
      * <p>Add a new pet to the store</p>
      *
+     * <p></p>
+     *
      * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/pet" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
@@ -30,9 +32,12 @@ public interface PathHandlerInterface {
      * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
      * <ul>
+     * <li><b>200 (success)</b>: successful operation</li>
      * <li><b>405 (client error)</b>: Invalid input</li>
      * </ul>
      */
@@ -41,6 +46,8 @@ public interface PathHandlerInterface {
 
     /**
      * <p>Deletes a pet</p>
+     *
+     * <p></p>
      *
      * <p><b>Endpoint</b>: {@link Methods#DELETE DELETE} "/v2/pet/{petId}" (<i>privileged: true</i>)</p>
      *
@@ -175,6 +182,8 @@ public interface PathHandlerInterface {
     /**
      * <p>Update an existing pet</p>
      *
+     * <p></p>
+     *
      * <p><b>Endpoint</b>: {@link Methods#PUT PUT} "/v2/pet" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
@@ -184,9 +193,12 @@ public interface PathHandlerInterface {
      * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}, {isXml=true, mediaType=application/xml}]</p>
      * <p><b>Payload</b>: {@link Pet} (<i>required: true</i>)</p>
      *
+     * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
+     * <p><b>Returns</b>: {@link Pet}</p>
      *
      * <p><b>Responses</b>:</p>
      * <ul>
+     * <li><b>200 (success)</b>: successful operation</li>
      * <li><b>400 (client error)</b>: Invalid ID supplied</li>
      * <li><b>404 (client error)</b>: Pet not found</li>
      * <li><b>405 (client error)</b>: Validation exception</li>
@@ -197,6 +209,8 @@ public interface PathHandlerInterface {
 
     /**
      * <p>Updates a pet in the store with form data</p>
+     *
+     * <p></p>
      *
      * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/pet/{petId}" (<i>privileged: true</i>)</p>
      *
@@ -244,6 +258,8 @@ public interface PathHandlerInterface {
 
     /**
      * <p>uploads an image</p>
+     *
+     * <p></p>
      *
      * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/pet/{petId}/uploadImage" (<i>privileged: true</i>)</p>
      *
@@ -375,11 +391,16 @@ public interface PathHandlerInterface {
     /**
      * <p>Place an order for a pet</p>
      *
+     * <p></p>
+     *
      * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/store/order" (<i>privileged: false</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * </ul>
+     *
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}]</p>
+     * <p><b>Payload</b>: {@link Order} (<i>required: true</i>)</p>
      *
      * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
      * <p><b>Returns</b>: {@link Order}</p>
@@ -398,11 +419,14 @@ public interface PathHandlerInterface {
      *
      * <p>This can only be done by the logged in user.</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user" (<i>privileged: false</i>)</p>
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * </ul>
+     *
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}]</p>
+     * <p><b>Payload</b>: {@link User} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>
@@ -416,11 +440,16 @@ public interface PathHandlerInterface {
     /**
      * <p>Creates list of users with given input array</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user/createWithArray" (<i>privileged: false</i>)</p>
+     * <p></p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user/createWithArray" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * </ul>
+     *
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}]</p>
+     * <p><b>Payload</b>: {@link java.util.List List} of {@link User} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>
@@ -434,11 +463,16 @@ public interface PathHandlerInterface {
     /**
      * <p>Creates list of users with given input array</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user/createWithList" (<i>privileged: false</i>)</p>
+     * <p></p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#POST POST} "/v2/user/createWithList" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
      * </ul>
+     *
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}]</p>
+     * <p><b>Payload</b>: {@link java.util.List List} of {@link User} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>
@@ -454,7 +488,7 @@ public interface PathHandlerInterface {
      *
      * <p>This can only be done by the logged in user.</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#DELETE DELETE} "/v2/user/{username}" (<i>privileged: false</i>)</p>
+     * <p><b>Endpoint</b>: {@link Methods#DELETE DELETE} "/v2/user/{username}" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
@@ -481,6 +515,8 @@ public interface PathHandlerInterface {
 
     /**
      * <p>Get user by user name</p>
+     *
+     * <p></p>
      *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/user/{username}" (<i>privileged: false</i>)</p>
      *
@@ -513,6 +549,8 @@ public interface PathHandlerInterface {
     /**
      * <p>Logs user into the system</p>
      *
+     * <p></p>
+     *
      * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/user/login" (<i>privileged: false</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
@@ -536,12 +574,15 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * </ul>
-     * <p><b>Response headers</b>: [CodegenProperty{openApiType='integer', baseName='X-Rate-Limit', complexType='null', getter='getxRateLimit', setter='setxRateLimit', description='calls per hour allowed by the user', dataType='Integer', datatypeWithEnum='Integer', dataFormat='int32', name='xRateLimit', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Rate-Limit;', baseType='Integer', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='calls per hour allowed by the user', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "integer",
-  "format" : "int32"
+     * <p><b>Response headers</b>: [CodegenProperty{openApiType='string', baseName='Set-Cookie', complexType='null', getter='getSetCookie', setter='setSetCookie', description='Cookie authentication key for use with the `api_key` apiKey authentication.', dataType='String', datatypeWithEnum='String', dataFormat='null', name='setCookie', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.Set-Cookie;', baseType='String', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='Cookie authentication key for use with the `api_key` apiKey authentication.', maxLength=null, minLength=null, pattern='null', example='AUTH_KEY=abcde12345; Path=/; HttpOnly', jsonSchema='{
+  "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly",
+  "type" : "string"
+}', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=true, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='SetCookie', nameInSnakeCase='SET_COOKIE', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=null, dependentRequired=null, contains=null}, CodegenProperty{openApiType='integer', baseName='X-Rate-Limit', complexType='null', getter='getxRateLimit', setter='setxRateLimit', description='calls per hour allowed by the user', dataType='Integer', datatypeWithEnum='Integer', dataFormat='int32', name='xRateLimit', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Rate-Limit;', baseType='Integer', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='calls per hour allowed by the user', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
+  "format" : "int32",
+  "type" : "integer"
 }', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=true, isModel=false, isContainer=false, isString=false, isNumeric=true, isInteger=true, isShort=true, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=false, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XRateLimit', nameInSnakeCase='X_RATE_LIMIT', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=int32, dependentRequired=null, contains=null}, CodegenProperty{openApiType='string', baseName='X-Expires-After', complexType='Date', getter='getxExpiresAfter', setter='setxExpiresAfter', description='date in UTC when token expires', dataType='Date', datatypeWithEnum='Date', dataFormat='date-time', name='xExpiresAfter', min='null', max='null', defaultValue='null', defaultValueWithParam=' = data.X-Expires-After;', baseType='Date', containerType='null', containerTypeMapped='null', title='null', unescapedDescription='date in UTC when token expires', maxLength=null, minLength=null, pattern='null', example='null', jsonSchema='{
-  "type" : "string",
-  "format" : "date-time"
+  "format" : "date-time",
+  "type" : "string"
 }', minimum='null', maximum='null', exclusiveMinimum=false, exclusiveMaximum=false, required=false, deprecated=false, hasMoreNonReadOnly=false, isPrimitiveType=false, isModel=false, isContainer=false, isString=false, isNumeric=false, isInteger=false, isShort=false, isLong=false, isUnboundedInteger=false, isNumber=false, isFloat=false, isDouble=false, isDecimal=false, isByteArray=false, isBinary=false, isFile=false, isBoolean=false, isDate=false, isDateTime=true, isUuid=false, isUri=false, isEmail=false, isPassword=false, isFreeFormObject=false, isArray=false, isMap=false, isEnum=false, isInnerEnum=false, isEnumRef=false, isAnyType=false, isReadOnly=false, isWriteOnly=false, isNullable=false, isSelfReference=false, isCircularReference=false, isDiscriminator=false, isNew=false, isOverridden=null, _enum=null, allowableValues=null, items=null, additionalProperties=null, vars=[], requiredVars=[], mostInnerItems=null, vendorExtensions={}, hasValidation=false, isInherited=false, discriminatorValue='null', nameInCamelCase='XExpiresAfter', nameInSnakeCase='X_EXPIRES_AFTER', enumName='null', maxItems=null, minItems=null, maxProperties=null, minProperties=null, uniqueItems=false, uniqueItemsBoolean=null, multipleOf=null, isXmlAttribute=false, xmlPrefix='null', xmlName='null', xmlNamespace='null', isXmlWrapped=false, isNull=false, isVoid=false, getAdditionalPropertiesIsAnyType=false, getHasVars=false, getHasRequired=false, getHasDiscriminatorWithNonEmptyMapping=false, composedSchemas=null, hasMultipleTypes=false, requiredVarsMap=null, ref=null, schemaIsFromAdditionalProperties=false, isBooleanSchemaTrue=false, isBooleanSchemaFalse=false, format=date-time, dependentRequired=null, contains=null}]</p>
      *
      * <p><b>Produces</b>: [{isXml=true, mediaType=application/xml}, {isJson=true, mediaType=application/json}]</p>
@@ -559,7 +600,9 @@ public interface PathHandlerInterface {
     /**
      * <p>Logs out current logged in user session</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/user/logout" (<i>privileged: false</i>)</p>
+     * <p></p>
+     *
+     * <p><b>Endpoint</b>: {@link Methods#GET GET} "/v2/user/logout" (<i>privileged: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>
@@ -575,7 +618,7 @@ public interface PathHandlerInterface {
      *
      * <p>This can only be done by the logged in user.</p>
      *
-     * <p><b>Endpoint</b>: {@link Methods#PUT PUT} "/v2/user/{username}" (<i>privileged: false</i>)</p>
+     * <p><b>Endpoint</b>: {@link Methods#PUT PUT} "/v2/user/{username}" (<i>privileged: true</i>)</p>
      *
      * <p><b>Request parameters</b>:</p>
      * <ul>
@@ -589,6 +632,9 @@ public interface PathHandlerInterface {
      * </p>
      * </li>
      * </ul>
+     *
+     * <p><b>Consumes</b>: [{isJson=true, mediaType=application/json}]</p>
+     * <p><b>Payload</b>: {@link User} (<i>required: true</i>)</p>
      *
      *
      * <p><b>Responses</b>:</p>

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.math.BigDecimal;
 
 
@@ -84,8 +83,8 @@ public class Scalar extends AbstractOpenApiSchema {
                     }
                     // check if the actual instance is of the type `BigDecimal`
                     if (value.getActualInstance() instanceof BigDecimal) {
-                      JsonPrimitive primitive = adapterBigDecimal.toJsonTree((BigDecimal)value.getActualInstance()).getAsJsonPrimitive();
-                      elementAdapter.write(out, primitive);
+                      JsonElement element = adapterBigDecimal.toJsonTree((BigDecimal)value.getActualInstance());
+                      elementAdapter.write(out, element);
                       return;
                     }
                     // check if the actual instance is of the type `Boolean`
@@ -200,7 +199,6 @@ public class Scalar extends AbstractOpenApiSchema {
      * BigDecimal, Boolean, String
      *
      * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {

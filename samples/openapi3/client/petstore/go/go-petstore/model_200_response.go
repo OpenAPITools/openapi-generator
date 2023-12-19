@@ -134,9 +134,13 @@ func (o Model200Response) ToMap() (map[string]interface{}, error) {
 func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {
 	varModel200Response := _Model200Response{}
 
-	if err = json.Unmarshal(bytes, &varModel200Response); err == nil {
-		*o = Model200Response(varModel200Response)
+	err = json.Unmarshal(bytes, &varModel200Response)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Model200Response(varModel200Response)
 
 	additionalProperties := make(map[string]interface{})
 

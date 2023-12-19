@@ -295,7 +295,7 @@ impl std::string::ToString for AnotherXmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -815,7 +815,7 @@ impl std::string::ToString for DuplicateXmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -1233,7 +1233,7 @@ impl std::string::ToString for MultigetGet201Response {
         let params: Vec<Option<String>> = vec![
 
             self.foo.as_ref().map(|foo| {
-                vec![
+                [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
@@ -1546,6 +1546,27 @@ pub struct NullableTest {
     #[serde(skip_serializing_if="Option::is_none")]
     pub nullable_array: Option<swagger::Nullable<Vec<String>>>,
 
+    #[serde(rename = "min_item_test")]
+    #[validate(
+            length(min = 1),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub min_item_test: Option<Vec<i32>>,
+
+    #[serde(rename = "max_item_test")]
+    #[validate(
+            length(max = 2),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub max_item_test: Option<Vec<i32>>,
+
+    #[serde(rename = "min_max_item_test")]
+    #[validate(
+            length(min = 1, max = 3),
+        )]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub min_max_item_test: Option<Vec<i32>>,
+
 }
 
 
@@ -1558,6 +1579,9 @@ impl NullableTest {
             nullable_with_present_default: Some(swagger::Nullable::Present("default".to_string())),
             nullable_with_no_default: None,
             nullable_array: None,
+            min_item_test: None,
+            max_item_test: None,
+            min_max_item_test: None,
         }
     }
 }
@@ -1574,7 +1598,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_null_default.as_ref().map(|nullable_with_null_default| {
-                vec![
+                [
                     "nullableWithNullDefault".to_string(),
                     nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1582,7 +1606,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_present_default.as_ref().map(|nullable_with_present_default| {
-                vec![
+                [
                     "nullableWithPresentDefault".to_string(),
                     nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1590,7 +1614,7 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_with_no_default.as_ref().map(|nullable_with_no_default| {
-                vec![
+                [
                     "nullableWithNoDefault".to_string(),
                     nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -1598,9 +1622,33 @@ impl std::string::ToString for NullableTest {
 
 
             self.nullable_array.as_ref().map(|nullable_array| {
-                vec![
+                [
                     "nullableArray".to_string(),
                     nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
+                ].join(",")
+            }),
+
+
+            self.min_item_test.as_ref().map(|min_item_test| {
+                [
+                    "min_item_test".to_string(),
+                    min_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+
+
+            self.max_item_test.as_ref().map(|max_item_test| {
+                [
+                    "max_item_test".to_string(),
+                    max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
+                ].join(",")
+            }),
+
+
+            self.min_max_item_test.as_ref().map(|min_max_item_test| {
+                [
+                    "min_max_item_test".to_string(),
+                    min_max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
 
@@ -1626,6 +1674,9 @@ impl std::str::FromStr for NullableTest {
             pub nullable_with_present_default: Vec<String>,
             pub nullable_with_no_default: Vec<String>,
             pub nullable_array: Vec<Vec<String>>,
+            pub min_item_test: Vec<Vec<i32>>,
+            pub max_item_test: Vec<Vec<i32>>,
+            pub min_max_item_test: Vec<Vec<i32>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -1648,6 +1699,9 @@ impl std::str::FromStr for NullableTest {
                     "nullableWithPresentDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
                     "nullableWithNoDefault" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in NullableTest".to_string()),
                     "nullableArray" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    "min_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    "max_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
+                    "min_max_item_test" => return std::result::Result::Err("Parsing a container in this style is not supported in NullableTest".to_string()),
                     _ => return std::result::Result::Err("Unexpected key while parsing NullableTest".to_string())
                 }
             }
@@ -1663,6 +1717,9 @@ impl std::str::FromStr for NullableTest {
             nullable_with_present_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
             nullable_with_no_default: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
             nullable_array: std::result::Result::Err("Nullable types not supported in NullableTest".to_string())?,
+            min_item_test: intermediate_rep.min_item_test.into_iter().next(),
+            max_item_test: intermediate_rep.max_item_test.into_iter().next(),
+            min_max_item_test: intermediate_rep.min_max_item_test.into_iter().next(),
         })
     }
 }
@@ -1750,7 +1807,7 @@ impl std::string::ToString for ObjectHeader {
 
 
             self.optional_object_header.as_ref().map(|optional_object_header| {
-                vec![
+                [
                     "optionalObjectHeader".to_string(),
                     optional_object_header.to_string(),
                 ].join(",")
@@ -1895,7 +1952,7 @@ impl std::string::ToString for ObjectParam {
 
 
             self.optional_param.as_ref().map(|optional_param| {
-                vec![
+                [
                     "optionalParam".to_string(),
                     optional_param.to_string(),
                 ].join(",")
@@ -2189,7 +2246,7 @@ impl std::string::ToString for ObjectWithArrayOfObjects {
         let params: Vec<Option<String>> = vec![
 
             self.object_array.as_ref().map(|object_array| {
-                vec![
+                [
                     "objectArray".to_string(),
                     object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -2963,7 +3020,7 @@ impl std::string::ToString for XmlObject {
         let params: Vec<Option<String>> = vec![
 
             self.inner_string.as_ref().map(|inner_string| {
-                vec![
+                [
                     "innerString".to_string(),
                     inner_string.to_string(),
                 ].join(",")
@@ -2971,7 +3028,7 @@ impl std::string::ToString for XmlObject {
 
 
             self.other_inner_rename.as_ref().map(|other_inner_rename| {
-                vec![
+                [
                     "other_inner_rename".to_string(),
                     other_inner_rename.to_string(),
                 ].join(",")

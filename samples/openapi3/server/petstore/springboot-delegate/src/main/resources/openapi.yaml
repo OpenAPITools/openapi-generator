@@ -986,6 +986,27 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/nullable:
+    post:
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test nullable parent property
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1085,6 +1106,23 @@ paths:
       tags:
       - fake
       x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
+  /fake/response-with-example:
+    get:
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
+          description: Success
+      tags:
+      - fake
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1845,6 +1883,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - ChildWithNullable
+          type: string
+        nullableProperty:
+          nullable: true
+          type: string
+      type: object
+    ChildWithNullable:
+      allOf:
+      - $ref: '#/components/schemas/ParentWithNullable'
+      - properties:
+          otherProperty:
+            type: string
+        type: object
     StringBooleanMap:
       additionalProperties:
         type: boolean
@@ -2168,6 +2225,14 @@ components:
           type: string
         property name with spaces:
           type: string
+      type: object
+    NullableMapProperty:
+      properties:
+        languageValues:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
       type: object
     updatePetWithForm_request:
       properties:

@@ -63,8 +63,11 @@ interface StoreApiInterface
      *
      * @return void
      */
-    public function deleteOrder(string $orderId, int &$responseCode, array &$responseHeaders): void;
-
+    public function deleteOrder(
+        string $orderId,
+        int &$responseCode,
+        array &$responseHeaders
+    ): void;
 
     /**
      * Operation getInventory
@@ -76,8 +79,10 @@ interface StoreApiInterface
      *
      * @return array|object|null
      */
-    public function getInventory(int &$responseCode, array &$responseHeaders): array|object|null;
-
+    public function getInventory(
+        int &$responseCode,
+        array &$responseHeaders
+    ): array|object|null;
 
     /**
      * Operation getOrderById
@@ -90,8 +95,11 @@ interface StoreApiInterface
      *
      * @return array|object|null
      */
-    public function getOrderById(int $orderId, int &$responseCode, array &$responseHeaders): array|object|null;
-
+    public function getOrderById(
+        int $orderId,
+        int &$responseCode,
+        array &$responseHeaders
+    ): array|object|null;
 
     /**
      * Operation placeOrder
@@ -104,6 +112,9 @@ interface StoreApiInterface
      *
      * @return array|object|null
      */
-    public function placeOrder(Order $order, int &$responseCode, array &$responseHeaders): array|object|null;
-
+    public function placeOrder(
+        Order $order,
+        int &$responseCode,
+        array &$responseHeaders
+    ): array|object|null;
 }

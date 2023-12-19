@@ -113,6 +113,7 @@ Class | Method | HTTP request | Description
  - [DanishPig](docs/DanishPig.md)
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
+ - [DummyModel](docs/DummyModel.md)
  - [FormatTest](docs/FormatTest.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)

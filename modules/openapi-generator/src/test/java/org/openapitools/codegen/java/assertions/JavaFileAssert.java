@@ -72,6 +72,19 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
         return this;
     }
 
+    public JavaFileAssert assertNoMethod(final String methodName, final String... paramTypes) {
+        List<MethodDeclaration> methods = paramTypes.length == 0
+            ? actual.getType(0).getMethodsByName(methodName)
+            : actual.getType(0).getMethodsBySignature(methodName, paramTypes);
+        String message = paramTypes.length == 0
+            ? "Expected not to find a single method %s, but found " + methods.size()
+            : "Expected not to find a method %s with parameter(s) %s, but found " + methods.size();
+        Assertions.assertThat(methods)
+            .withFailMessage(message, methodName, Arrays.toString(paramTypes))
+            .isEmpty();
+        return this;
+    }
+
     public MethodAssert assertMethod(final String methodName, final String... paramTypes) {
         List<MethodDeclaration> methods = paramTypes.length == 0
             ? actual.getType(0).getMethodsByName(methodName)

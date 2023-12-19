@@ -113,17 +113,6 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
-  @Override
-  public BigCat className(String className) {
-    this.setClassName(className);
-    return this;
-  }
-
-  @Override
-  public BigCat color(String color) {
-    this.setColor(color);
-    return this;
-  }
 
   @Override
   public boolean equals(Object o) {

@@ -28,6 +28,9 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -204,10 +207,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
+        public CreateUsersWithArrayInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -265,10 +268,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
+        public CreateUsersWithListInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }

@@ -44,6 +44,23 @@ public class ClassModel  {
 
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ClassModel classModel = (ClassModel) o;
+    return Objects.equals(propertyClass, classModel.propertyClass);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(propertyClass);
+  }
+
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClassModel {\n");

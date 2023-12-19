@@ -26,7 +26,7 @@ class FooGetDefaultResponse {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FooGetDefaultResponse &&
-     other.string == string;
+    other.string == string;
 
   @override
   int get hashCode =>

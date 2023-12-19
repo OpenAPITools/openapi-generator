@@ -16,3 +16,4 @@ additionalProperties:
   packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
   hideGenerationTimestamp: "true"
   targetFramework: net6.0
+  equatable: true

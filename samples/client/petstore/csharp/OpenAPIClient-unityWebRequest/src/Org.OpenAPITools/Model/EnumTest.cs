@@ -52,7 +52,37 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             [EnumMember(Value = "")]
-            Empty = 3
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            [EnumMember(Value = "Value\twith tab")]
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            [EnumMember(Value = "Value with \" quote")]
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            [EnumMember(Value = "Value with escaped \" quote")]
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            [EnumMember(Value = "Duplicate\nvalue")]
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            [EnumMember(Value = "Duplicate\r\nvalue")]
+            Duplicatevalue2 = 8
         }
 
 
@@ -83,7 +113,37 @@ namespace Org.OpenAPITools.Model
             /// Enum Empty for value: 
             /// </summary>
             [EnumMember(Value = "")]
-            Empty = 3
+            Empty = 3,
+
+            /// <summary>
+            /// Enum ValuewithTab for value: Value\twith tab
+            /// </summary>
+            [EnumMember(Value = "Value\twith tab")]
+            ValuewithTab = 4,
+
+            /// <summary>
+            /// Enum ValueWithQuote for value: Value with \&quot; quote
+            /// </summary>
+            [EnumMember(Value = "Value with \" quote")]
+            ValueWithQuote = 5,
+
+            /// <summary>
+            /// Enum ValueWithEscapedQuote for value: Value with escaped \&quot; quote
+            /// </summary>
+            [EnumMember(Value = "Value with escaped \" quote")]
+            ValueWithEscapedQuote = 6,
+
+            /// <summary>
+            /// Enum Duplicatevalue for value: Duplicate\nvalue
+            /// </summary>
+            [EnumMember(Value = "Duplicate\nvalue")]
+            Duplicatevalue = 7,
+
+            /// <summary>
+            /// Enum Duplicatevalue2 for value: Duplicate\r\nvalue
+            /// </summary>
+            [EnumMember(Value = "Duplicate\r\nvalue")]
+            Duplicatevalue2 = 8
         }
 
 

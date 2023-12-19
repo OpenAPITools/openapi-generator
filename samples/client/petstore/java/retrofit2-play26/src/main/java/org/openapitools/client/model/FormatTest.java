@@ -196,6 +196,7 @@ public class FormatTest {
   **/
   @javax.annotation.Nonnull
   @NotNull
+  @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -477,6 +478,7 @@ public class FormatTest {
    * @return bigDecimal
   **/
   @javax.annotation.Nullable
+  @Valid
 
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -538,7 +540,7 @@ public class FormatTest {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
     sb.append("}");
     return sb.toString();

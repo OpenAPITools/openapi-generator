@@ -57,9 +57,9 @@ if(hasProperty('target') && target == 'android') {
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
             task.description = "Create jar artifact for ${variant.name}"
             task.dependsOn variant.javaCompile
-            task.from variant.javaCompile.destinationDir
-            task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-            task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+            task.from variant.javaCompile.destinationDirectory
+            task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+            task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
             artifacts.add('archives', task);
         }
     }
@@ -102,7 +102,7 @@ ext {
     jakarta_annotation_version = "1.3.5"
     swagger_annotations_version = "1.5.22"
     junit_version = "4.13.2"
-    json_fire_version = "1.8.0"
+    json_fire_version = "1.9.0"
 }
 
 dependencies {

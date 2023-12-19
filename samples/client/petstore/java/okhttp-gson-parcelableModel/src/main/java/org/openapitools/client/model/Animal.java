@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -67,7 +66,6 @@ public class Animal implements Parcelable {
   }
 
   public Animal className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -81,14 +79,12 @@ public class Animal implements Parcelable {
     return className;
   }
 
-
   public void setClassName(String className) {
     this.className = className;
   }
 
 
   public Animal color(String color) {
-    
     this.color = color;
     return this;
   }
@@ -101,7 +97,6 @@ public class Animal implements Parcelable {
   public String getColor() {
     return color;
   }
-
 
   public void setColor(String color) {
     this.color = color;

@@ -60,7 +60,7 @@ class JmsSerializer implements SerializerInterface
     private function deserializeString($data, string $type)
     {
         // Figure out if we have an array format
-        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(int|string)>/i', $type, $matches)) {
+        if (1 === preg_match('/array<(csv|ssv|tsv|pipes),(.*)>/i', $type, $matches)) {
             return $this->deserializeArrayString($matches[1], $matches[2], $data);
         }
 
@@ -73,6 +73,13 @@ class JmsSerializer implements SerializerInterface
 
                 if (is_numeric($data)) {
                     return $data + 0;
+                }
+
+                break;
+            case 'double':
+            case 'float':
+                if (is_float($data) || is_numeric($data)) {
+                    return (float) $data;
                 }
 
                 break;
@@ -97,7 +104,21 @@ class JmsSerializer implements SerializerInterface
             case '\DateTime':
                 return is_null($data) ? null :new DateTime($data);
             default:
-                throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                if (!class_exists($type)) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $reflectionClass = new \ReflectionClass($type);
+                if (!$reflectionClass->implementsInterface('\BackedENum')) {
+                    throw new RuntimeException(sprintf("Type %s is unsupported", $type));
+                }
+
+                $enum = $type::tryFrom($data);
+                if (!$enum) {
+                    throw new RuntimeException(sprintf("Unknown %s value in %s enum", $data, $type));
+                }
+
+                return $enum;
         }
 
         // If we end up here, just return data

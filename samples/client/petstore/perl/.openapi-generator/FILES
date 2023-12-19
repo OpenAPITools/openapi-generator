@@ -13,10 +13,11 @@ docs/ArrayTest.md
 docs/Capitalization.md
 docs/Cat.md
 docs/Category.md
+docs/ChildWithNullable.md
 docs/ClassModel.md
 docs/Client.md
 docs/DefaultApi.md
-docs/DeprecatedObject.md
+docs/DeprecatedModel.md
 docs/Dog.md
 docs/EnumArrays.md
 docs/EnumClass.md
@@ -47,6 +48,7 @@ docs/OuterEnumDefaultValue.md
 docs/OuterEnumInteger.md
 docs/OuterEnumIntegerDefaultValue.md
 docs/OuterObjectWithEnumProperty.md
+docs/ParentWithNullable.md
 docs/Pet.md
 docs/PetApi.md
 docs/ReadOnlyFirst.md
@@ -54,6 +56,7 @@ docs/SingleRefType.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -74,9 +77,10 @@ lib/WWW/OpenAPIClient/Object/ArrayTest.pm
 lib/WWW/OpenAPIClient/Object/Capitalization.pm
 lib/WWW/OpenAPIClient/Object/Cat.pm
 lib/WWW/OpenAPIClient/Object/Category.pm
+lib/WWW/OpenAPIClient/Object/ChildWithNullable.pm
 lib/WWW/OpenAPIClient/Object/ClassModel.pm
 lib/WWW/OpenAPIClient/Object/Client.pm
-lib/WWW/OpenAPIClient/Object/DeprecatedObject.pm
+lib/WWW/OpenAPIClient/Object/DeprecatedModel.pm
 lib/WWW/OpenAPIClient/Object/Dog.pm
 lib/WWW/OpenAPIClient/Object/EnumArrays.pm
 lib/WWW/OpenAPIClient/Object/EnumClass.pm
@@ -105,11 +109,13 @@ lib/WWW/OpenAPIClient/Object/OuterEnumDefaultValue.pm
 lib/WWW/OpenAPIClient/Object/OuterEnumInteger.pm
 lib/WWW/OpenAPIClient/Object/OuterEnumIntegerDefaultValue.pm
 lib/WWW/OpenAPIClient/Object/OuterObjectWithEnumProperty.pm
+lib/WWW/OpenAPIClient/Object/ParentWithNullable.pm
 lib/WWW/OpenAPIClient/Object/Pet.pm
 lib/WWW/OpenAPIClient/Object/ReadOnlyFirst.pm
 lib/WWW/OpenAPIClient/Object/SingleRefType.pm
 lib/WWW/OpenAPIClient/Object/SpecialModelName.pm
 lib/WWW/OpenAPIClient/Object/Tag.pm
+lib/WWW/OpenAPIClient/Object/TestInlineFreeformAdditionalPropertiesRequest.pm
 lib/WWW/OpenAPIClient/Object/User.pm
 lib/WWW/OpenAPIClient/PetApi.pm
 lib/WWW/OpenAPIClient/Role.pm

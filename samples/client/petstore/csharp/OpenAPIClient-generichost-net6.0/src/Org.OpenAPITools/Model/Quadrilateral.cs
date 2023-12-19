@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,7 +34,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="simpleQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
-        [JsonConstructor]
         public Quadrilateral(SimpleQuadrilateral simpleQuadrilateral, string quadrilateralType)
         {
             SimpleQuadrilateral = simpleQuadrilateral;
@@ -46,7 +46,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="complexQuadrilateral"></param>
         /// <param name="quadrilateralType">quadrilateralType</param>
-        [JsonConstructor]
         public Quadrilateral(ComplexQuadrilateral complexQuadrilateral, string quadrilateralType)
         {
             ComplexQuadrilateral = complexQuadrilateral;
@@ -135,7 +134,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string quadrilateralType = default;
+            Option<string> quadrilateralType = default;
 
             ComplexQuadrilateral complexQuadrilateral = null;
             SimpleQuadrilateral simpleQuadrilateral = null;
@@ -151,9 +150,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName.Equals("quadrilateralType"))
+                    if (localVarJsonPropertyName.Equals("quadrilateralType"))
                     {
                         string discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator.Equals("ComplexQuadrilateral"))
@@ -180,13 +179,13 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string propertyName = utf8JsonReader.GetString();
+                    string localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = utf8JsonReader.GetString();
+                            quadrilateralType = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -194,14 +193,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (quadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class Quadrilateral.");
+            if (!quadrilateralType.IsSet)
+                throw new ArgumentException("Property is required for class Quadrilateral.", nameof(quadrilateralType));
+
+            if (quadrilateralType.IsSet && quadrilateralType.Value == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class Quadrilateral.");
 
             if (complexQuadrilateral != null)
-                return new Quadrilateral(complexQuadrilateral, quadrilateralType);
+                return new Quadrilateral(complexQuadrilateral, quadrilateralType.Value);
 
             if (simpleQuadrilateral != null)
-                return new Quadrilateral(simpleQuadrilateral, quadrilateralType);
+                return new Quadrilateral(simpleQuadrilateral, quadrilateralType.Value);
 
             throw new JsonException();
         }
@@ -240,6 +242,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Quadrilateral quadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (quadrilateral.QuadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateral.QuadrilateralType), "Property is required for class Quadrilateral.");
+
             writer.WriteString("quadrilateralType", quadrilateral.QuadrilateralType);
         }
     }

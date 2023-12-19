@@ -72,8 +72,8 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }

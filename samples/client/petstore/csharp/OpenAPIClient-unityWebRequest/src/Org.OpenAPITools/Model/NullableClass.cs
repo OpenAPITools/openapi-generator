@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// NullableClass
     /// </summary>
     [DataContract(Name = "NullableClass")]
-    public partial class NullableClass : Dictionary<String, Object>, IEquatable<NullableClass>
+    public partial class NullableClass : IEquatable<NullableClass>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp.</param>
         /// <param name="objectAndItemsNullableProp">objectAndItemsNullableProp.</param>
         /// <param name="objectItemsNullable">objectItemsNullable.</param>
-        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>)) : base()
+        public NullableClass(int? integerProp = default(int?), decimal? numberProp = default(decimal?), bool? booleanProp = default(bool?), string stringProp = default(string), DateTime? dateProp = default(DateTime?), DateTime? datetimeProp = default(DateTime?), List<Object> arrayNullableProp = default(List<Object>), List<Object> arrayAndItemsNullableProp = default(List<Object>), List<Object> arrayItemsNullable = default(List<Object>), Dictionary<string, Object> objectNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectAndItemsNullableProp = default(Dictionary<string, Object>), Dictionary<string, Object> objectItemsNullable = default(Dictionary<string, Object>))
         {
             this.IntegerProp = integerProp;
             this.NumberProp = numberProp;
@@ -59,6 +59,7 @@ namespace Org.OpenAPITools.Model
             this.ObjectNullableProp = objectNullableProp;
             this.ObjectAndItemsNullableProp = objectAndItemsNullableProp;
             this.ObjectItemsNullable = objectItemsNullable;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -135,6 +136,12 @@ namespace Org.OpenAPITools.Model
         public Dictionary<string, Object> ObjectItemsNullable { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -142,7 +149,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  IntegerProp: ").Append(IntegerProp).Append("\n");
             sb.Append("  NumberProp: ").Append(NumberProp).Append("\n");
             sb.Append("  BooleanProp: ").Append(BooleanProp).Append("\n");
@@ -155,6 +161,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ObjectNullableProp: ").Append(ObjectNullableProp).Append("\n");
             sb.Append("  ObjectAndItemsNullableProp: ").Append(ObjectAndItemsNullableProp).Append("\n");
             sb.Append("  ObjectItemsNullable: ").Append(ObjectItemsNullable).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -163,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -189,73 +196,74 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return base.Equals(input) && 
+            return 
                 (
                     this.IntegerProp == input.IntegerProp ||
                     (this.IntegerProp != null &&
                     this.IntegerProp.Equals(input.IntegerProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.NumberProp == input.NumberProp ||
                     (this.NumberProp != null &&
                     this.NumberProp.Equals(input.NumberProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.BooleanProp == input.BooleanProp ||
                     (this.BooleanProp != null &&
                     this.BooleanProp.Equals(input.BooleanProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.StringProp == input.StringProp ||
                     (this.StringProp != null &&
                     this.StringProp.Equals(input.StringProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.DateProp == input.DateProp ||
                     (this.DateProp != null &&
                     this.DateProp.Equals(input.DateProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.DatetimeProp == input.DatetimeProp ||
                     (this.DatetimeProp != null &&
                     this.DatetimeProp.Equals(input.DatetimeProp))
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ArrayNullableProp == input.ArrayNullableProp ||
                     this.ArrayNullableProp != null &&
                     input.ArrayNullableProp != null &&
                     this.ArrayNullableProp.SequenceEqual(input.ArrayNullableProp)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ArrayAndItemsNullableProp == input.ArrayAndItemsNullableProp ||
                     this.ArrayAndItemsNullableProp != null &&
                     input.ArrayAndItemsNullableProp != null &&
                     this.ArrayAndItemsNullableProp.SequenceEqual(input.ArrayAndItemsNullableProp)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ArrayItemsNullable == input.ArrayItemsNullable ||
                     this.ArrayItemsNullable != null &&
                     input.ArrayItemsNullable != null &&
                     this.ArrayItemsNullable.SequenceEqual(input.ArrayItemsNullable)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ObjectNullableProp == input.ObjectNullableProp ||
                     this.ObjectNullableProp != null &&
                     input.ObjectNullableProp != null &&
                     this.ObjectNullableProp.SequenceEqual(input.ObjectNullableProp)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ObjectAndItemsNullableProp == input.ObjectAndItemsNullableProp ||
                     this.ObjectAndItemsNullableProp != null &&
                     input.ObjectAndItemsNullableProp != null &&
                     this.ObjectAndItemsNullableProp.SequenceEqual(input.ObjectAndItemsNullableProp)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ObjectItemsNullable == input.ObjectItemsNullable ||
                     this.ObjectItemsNullable != null &&
                     input.ObjectItemsNullable != null &&
                     this.ObjectItemsNullable.SequenceEqual(input.ObjectItemsNullable)
-                );
+                )
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -266,7 +274,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = base.GetHashCode();
+                int hashCode = 41;
                 if (this.IntegerProp != null)
                 {
                     hashCode = (hashCode * 59) + this.IntegerProp.GetHashCode();
@@ -314,6 +322,10 @@ namespace Org.OpenAPITools.Model
                 if (this.ObjectItemsNullable != null)
                 {
                     hashCode = (hashCode * 59) + this.ObjectItemsNullable.GetHashCode();
+                }
+                if (this.AdditionalProperties != null)
+                {
+                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import org.openapitools.client.model.NewPetCategoryInlineAllofAllOfCategoryTag;
 
 import com.google.gson.Gson;
@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -69,7 +68,6 @@ public class NewPetCategoryInlineAllof {
   }
 
   public NewPetCategoryInlineAllof id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -83,14 +81,12 @@ public class NewPetCategoryInlineAllof {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public NewPetCategoryInlineAllof name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -104,14 +100,12 @@ public class NewPetCategoryInlineAllof {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public NewPetCategoryInlineAllof categoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
-    
     this.categoryTag = categoryTag;
     return this;
   }
@@ -124,7 +118,6 @@ public class NewPetCategoryInlineAllof {
   public NewPetCategoryInlineAllofAllOfCategoryTag getCategoryTag() {
     return categoryTag;
   }
-
 
   public void setCategoryTag(NewPetCategoryInlineAllofAllOfCategoryTag categoryTag) {
     this.categoryTag = categoryTag;

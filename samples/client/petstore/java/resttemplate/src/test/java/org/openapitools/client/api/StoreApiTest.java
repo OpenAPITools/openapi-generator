@@ -17,6 +17,8 @@ import org.openapitools.client.model.Order;
 import org.junit.Test;
 import org.junit.Ignore;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -88,8 +90,8 @@ public class StoreApiTest {
      */
     @Test
     public void placeOrderTest() {
-        Order body = null;
-        Order response = api.placeOrder(body);
+        Order order = null;
+        Order response = api.placeOrder(order);
 
         // TODO: test validations
     }

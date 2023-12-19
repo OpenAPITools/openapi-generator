@@ -61,6 +61,28 @@ public class CustomTest {
     }
 
     /**
+     * Test allOf body parameter(s)
+     * <p>
+     * Test allOf body parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testEchoBodyAllOfPet() throws ApiException {
+        Pet queryObject = new Pet().id(12345L).name("Hello World").
+                photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
+
+        Pet p = bodyApi.testEchoBodyAllOfPet(queryObject);
+        Assert.assertNotNull(p);
+        Assert.assertEquals("Hello World", p.getName());
+        Assert.assertEquals(Long.valueOf(12345L), p.getId());
+
+        // response is empty body
+        Pet p2 = bodyApi.testEchoBodyPet(null);
+        Assert.assertNull(p2);
+    }
+
+    /**
      * Test query parameter(s)
      * <p>
      * Test query parameter(s)
@@ -282,6 +304,18 @@ public class CustomTest {
         org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
         Assert.assertEquals("/form/integer/boolean/string", p.path);
         Assert.assertEquals("3b\ninteger_form=1337&boolean_form=true&string_form=Hello+World\n0\n\n", p.body);
+    }
+
+    @Test
+    public void testFormOneOf() throws ApiException {
+        String form1 = "form1_example"; // String | 
+        Integer form2 = 56; // Integer | 
+        String form3 = "form3  example"; // String | 
+        Boolean form4 = true;
+        String response = formApi.testFormOneof(form1, form2, form3, form4, null, null);
+        org.openapitools.client.EchoServerResponseParser p = new org.openapitools.client.EchoServerResponseParser(response);
+        Assert.assertEquals("/form/oneof", p.path);
+        Assert.assertEquals("3c\nform1=form1_example&form2=56&form3=form3++example&form4=true\n0\n\n", p.body);
     }
 
     @Test

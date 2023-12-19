@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -67,7 +66,6 @@ public class Tag {
   }
 
   public Tag id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -82,14 +80,12 @@ public class Tag {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Tag name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -103,7 +99,6 @@ public class Tag {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

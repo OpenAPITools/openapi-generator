@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -25,8 +24,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Query;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -49,7 +49,7 @@ public class DataQuery extends Query {
   private String text;
 
   public static final String JSON_PROPERTY_DATE = "date";
-  private OffsetDateTime date;
+  private Instant date;
 
   public DataQuery() { 
   }
@@ -104,7 +104,7 @@ public class DataQuery extends Query {
   }
 
 
-  public DataQuery date(OffsetDateTime date) {
+  public DataQuery date(Instant date) {
     this.date = date;
     return this;
   }
@@ -117,14 +117,14 @@ public class DataQuery extends Query {
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public OffsetDateTime getDate() {
+  public Instant getDate() {
     return date;
   }
 
 
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setDate(OffsetDateTime date) {
+  public void setDate(Instant date) {
     this.date = date;
   }
 

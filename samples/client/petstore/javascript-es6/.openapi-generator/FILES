@@ -31,7 +31,7 @@ docs/Foo.md
 docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
-docs/HealthCheckResult.md
+docs/HealthCheckStatus.md
 docs/List.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
@@ -58,6 +58,7 @@ docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringOrBoolean.md
 docs/Tag.md
+docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -97,7 +98,7 @@ src/model/Foo.js
 src/model/FooGetDefaultResponse.js
 src/model/FormatTest.js
 src/model/HasOnlyReadOnly.js
-src/model/HealthCheckResult.js
+src/model/HealthCheckStatus.js
 src/model/List.js
 src/model/MapTest.js
 src/model/MixedPropertiesAndAdditionalPropertiesClass.js
@@ -122,4 +123,5 @@ src/model/Return.js
 src/model/SpecialModelName.js
 src/model/StringOrBoolean.js
 src/model/Tag.js
+src/model/TestInlineFreeformAdditionalPropertiesRequest.js
 src/model/User.js

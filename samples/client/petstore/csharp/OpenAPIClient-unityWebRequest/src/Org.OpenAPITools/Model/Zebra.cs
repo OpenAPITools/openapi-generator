@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// Zebra
     /// </summary>
     [DataContract(Name = "zebra")]
-    public partial class Zebra : Dictionary<String, Object>, IEquatable<Zebra>
+    public partial class Zebra : IEquatable<Zebra>
     {
         /// <summary>
         /// Defines Type
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
+        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string))
         {
             // to ensure "className" is required (not null)
             if (className == null)
@@ -106,7 +106,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -118,7 +117,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public string ToJson()
+        public virtual string ToJson()
         {
             return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
         }
@@ -144,11 +143,11 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return base.Equals(input) && 
+            return 
                 (
                     this.Type == input.Type ||
                     this.Type.Equals(input.Type)
-                ) && base.Equals(input) && 
+                ) && 
                 (
                     this.ClassName == input.ClassName ||
                     (this.ClassName != null &&
@@ -165,7 +164,7 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = base.GetHashCode();
+                int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Type.GetHashCode();
                 if (this.ClassName != null)
                 {

@@ -9,10 +9,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.features.SchemaSupportFeature;
 import org.openapitools.codegen.utils.ModelUtils;
+
+import io.swagger.v3.oas.models.media.Schema;
 
 public interface IJsonSchemaValidationProperties {
     CodegenProperty getContains();
@@ -222,6 +223,46 @@ public interface IJsonSchemaValidationProperties {
     void setFormat(String format);
 
     String getFormat();
+
+    void setDataType(String dataType);
+
+    String getDataType();
+
+    void setIsFloat(boolean isFloat);
+
+    boolean getIsFloat();
+
+    void setIsDouble(boolean isDouble);
+
+    boolean getIsDouble();
+
+    void setIsInteger(boolean isDouble);
+
+    boolean getIsInteger();
+
+    void setIsLong(boolean isLong);
+
+    boolean getIsLong();
+
+    void setIsBinary(boolean isBinary);
+
+    boolean getIsBinary();
+
+    void setIsByteArray(boolean isByteArray);
+
+    boolean getIsByteArray();
+
+    void setIsDecimal(boolean isDecimal);
+
+    boolean getIsDecimal();
+
+    void setIsUuid(boolean isUuid);
+
+    boolean getIsUuid();
+
+    void setIsEnum(boolean isEnum);
+
+    boolean getIsEnum();
 
     /**
      * Syncs all the schema's type properties into the IJsonSchemaValidationProperties instance

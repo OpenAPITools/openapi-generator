@@ -22,14 +22,14 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("AdditionalPropertiesClass")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class AdditionalPropertiesClass  implements Serializable {
-  private @Valid Map<String, String> mapString = null;
-  private @Valid Map<String, BigDecimal> mapNumber = null;
-  private @Valid Map<String, Integer> mapInteger = null;
-  private @Valid Map<String, Boolean> mapBoolean = null;
-  private @Valid Map<String, List<Integer>> mapArrayInteger = null;
-  private @Valid Map<String, List<Object>> mapArrayAnytype = null;
-  private @Valid Map<String, Map<String, String>> mapMapString = null;
-  private @Valid Map<String, Map<String, Object>> mapMapAnytype = null;
+  private @Valid Map<String, String> mapString = new HashMap<>();
+  private @Valid Map<String, BigDecimal> mapNumber = new HashMap<>();
+  private @Valid Map<String, Integer> mapInteger = new HashMap<>();
+  private @Valid Map<String, Boolean> mapBoolean = new HashMap<>();
+  private @Valid Map<String, List<Integer>> mapArrayInteger = new HashMap<>();
+  private @Valid Map<String, List<Object>> mapArrayAnytype = new HashMap<>();
+  private @Valid Map<String, Map<String, String>> mapMapString = new HashMap<>();
+  private @Valid Map<String, Map<String, Object>> mapMapAnytype = new HashMap<>();
   private @Valid Object anytype1;
   private @Valid Object anytype2;
   private @Valid Object anytype3;

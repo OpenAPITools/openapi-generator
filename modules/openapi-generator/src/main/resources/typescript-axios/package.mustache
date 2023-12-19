@@ -22,11 +22,11 @@
   "sideEffects": false,
 {{/supportsES6}}
   "scripts": {
-    "build": "tsc {{#supportsES6}}&& tsc -p tsconfig.esm.json{{/supportsES6}}",
+    "build": "tsc{{#supportsES6}} && tsc -p tsconfig.esm.json{{/supportsES6}}",
     "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^1.6.1"
   },
   "devDependencies": {
     "@types/node": "^12.11.5",

@@ -1,6 +1,7 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
 import org.openapitools.server.model.FakeBigDecimalMap200Response;
@@ -16,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 import java.util.logging.Logger;
 
@@ -93,7 +95,15 @@ public class FakeServiceImpl implements FakeService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
     public void testJsonFormData(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void testNullable(ServerRequest request, ServerResponse response, ChildWithNullable childWithNullable) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

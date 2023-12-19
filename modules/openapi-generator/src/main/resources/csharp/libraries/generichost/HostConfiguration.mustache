@@ -46,7 +46,31 @@ namespace {{packageName}}.{{clientPackage}}
             {{/isEnum}}
             {{/model}}
             {{/models}}
-            _services.AddSingleton(new JsonSerializerOptionsProvider(_jsonOptions));
+            JsonSerializerOptionsProvider jsonSerializerOptionsProvider = new{{^net60OrLater}} JsonSerializerOptionsProvider{{/net60OrLater}}(_jsonOptions);
+            _services.AddSingleton(jsonSerializerOptionsProvider);
+            {{#useSourceGeneration}}
+
+            {{#models}}
+            {{#-first}}
+            _jsonOptions.TypeInfoResolver = System.Text.Json.Serialization.Metadata.JsonTypeInfoResolver.Combine(
+            {{/-first}}
+            {{/models}}
+                {{#lambda.joinLinesWithComma}}
+                {{#models}}
+                {{#model}}
+                new {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}SerializationContext(){{#-last}},{{/-last}}
+                {{/model}}
+                {{/models}}
+                {{/lambda.joinLinesWithComma}}
+            {{#models}}
+            {{#-last}}
+
+                new System.Text.Json.Serialization.Metadata.DefaultJsonTypeInfoResolver()
+            );
+            {{/-last}}
+            {{/models}}
+
+            {{/useSourceGeneration}}
             _services.AddSingleton<IApiFactory, ApiFactory>();{{#apiInfo}}{{#apis}}
             _services.AddSingleton<{{classname}}Events>();
             _services.AddTransient<{{interfacePrefix}}{{classname}}, {{classname}}>();{{/apis}}{{/apiInfo}}

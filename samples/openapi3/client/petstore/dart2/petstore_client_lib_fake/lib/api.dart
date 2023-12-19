@@ -14,6 +14,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
@@ -45,6 +46,7 @@ part 'model/array_test.dart';
 part 'model/capitalization.dart';
 part 'model/cat.dart';
 part 'model/category.dart';
+part 'model/child_with_nullable.dart';
 part 'model/class_model.dart';
 part 'model/deprecated_object.dart';
 part 'model/dog.dart';
@@ -76,21 +78,26 @@ part 'model/outer_enum_default_value.dart';
 part 'model/outer_enum_integer.dart';
 part 'model/outer_enum_integer_default_value.dart';
 part 'model/outer_object_with_enum_property.dart';
+part 'model/parent_with_nullable.dart';
 part 'model/pet.dart';
 part 'model/read_only_first.dart';
 part 'model/single_ref_type.dart';
 part 'model/special_model_name.dart';
 part 'model/tag.dart';
+part 'model/test_inline_freeform_additional_properties_request.dart';
 part 'model/user.dart';
 
 
+/// An [ApiClient] instance that uses the default values obtained from
+/// the OpenAPI specification file.
+var defaultApiClient = ApiClient();
+
 const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
 const _dateEpochMarker = 'epoch';
+const _deepEquality = DeepCollectionEquality();
 final _dateFormatter = DateFormat('yyyy-MM-dd');
 final _regList = RegExp(r'^List<(.*)>$');
 final _regSet = RegExp(r'^Set<(.*)>$');
 final _regMap = RegExp(r'^Map<String,(.*)>$');
-
-ApiClient defaultApiClient = ApiClient();
 
 bool _isEpochMarker(String? pattern) => pattern == _dateEpochMarker || pattern == '/$_dateEpochMarker/';

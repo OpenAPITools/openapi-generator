@@ -40,10 +40,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -57,6 +59,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
     protected boolean nullReferenceTypesFlag = false;
+    protected boolean useSourceGeneration = false;
 
     protected String modelPropertyNaming = CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.PascalCase.name();
 
@@ -82,6 +85,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String sourceFolder = "src";
     protected String invalidNamePrefix = "var";
+    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -132,7 +136,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "Client", "client", "parameter", "Configuration", "Version",
+                        "Client", "client", "parameter", "Configuration", "Version", "Environment",
+                        "TimeZone", "OperatingSystem",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
@@ -146,7 +151,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "foreach", "goto", "if", "implicit", "in", "int", "interface", "internal", "is", "lock",
                         "long", "namespace", "new", "null", "object", "operator", "out", "override", "params",
                         "private", "protected", "public", "readonly", "ref", "return", "sbyte", "sealed",
-                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "this", "throw",
+                        "short", "sizeof", "stackalloc", "static", "string", "struct", "switch", "system", "this", "throw",
                         "true", "try", "typeof", "uint", "ulong", "unchecked", "unsafe", "ushort", "using",
                         "virtual", "void", "volatile", "while")
         );
@@ -229,6 +234,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.setTypeMapping();
     }
 
+    @Override
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        // we do not want to inherit simply because additionalProperties is true
+        // do nothing here
+    }
 
     @Override
     public void processOpts() {
@@ -389,6 +399,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
+            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
+        }
+
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
 
@@ -409,17 +423,30 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
+        CopyLambda copyLambda = new CopyLambda();
+
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
-                .put("required", new RequiredParameterLambda().generator(this))
+                .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
+                .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
+                .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
+                .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
-                .put("trimTrailingWhiteSpace", new TrimTrailingWhiteSpaceLambda())
+                .put("trimTrailingWithNewLine", new TrimTrailingWhiteSpaceLambda(true))
+                .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
-                .put("indent3", new IndentedLambda(12, " "))
-                .put("indent4", new IndentedLambda(16, " "));
+                .put("indent1", new IndentedLambda(4, " ", false, true))
+                .put("indent3", new IndentedLambda(12, " ", false, true))
+                .put("indent4", new IndentedLambda(16, " ", false, true))
+                .put("copy", copyLambda)
+                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
+                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
+                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
+                .put("uniqueLines", new UniqueLambda("\n", false))
+                .put("unique", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -521,7 +548,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             // GrandparentAnimal has a discriminator, but no oneOf nor anyOf
             // modules\openapi-generator\src\test\resources\3_0\csharp\petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
             model.setHasDiscriminatorWithNonEmptyMapping(
-                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.anyOf != null && model.oneOf.size() > 0)) &&
+                    ((model.anyOf != null && model.anyOf.size() > 0) || (model.oneOf != null && model.oneOf.size() > 0)) &&
                             model.discriminator != null &&
                             model.discriminator.getMappedModels() != null &&
                             model.discriminator.getMappedModels().size() > 0);
@@ -541,7 +568,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 if (allOf != null) {
                     for (CodegenProperty property : allOf) {
                         property.name = patchPropertyName(model, property.baseType);
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -551,7 +578,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
 
@@ -561,7 +588,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
-                        patchPropertyVendorExtensinos(property);
+                        patchPropertyVendorExtensions(property);
                     }
                 }
             }
@@ -636,7 +663,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return value;
     }
 
-    private void patchPropertyVendorExtensinos(CodegenProperty property) {
+    private void patchPropertyVendorExtensions(CodegenProperty property) {
         Boolean isValueType = isValueType(property);
         property.vendorExtensions.put("x-is-value-type", isValueType);
         property.vendorExtensions.put("x-is-reference-type", !isValueType);
@@ -656,20 +683,25 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             property.isPrimitiveType = true;
         }
 
-        patchPropertyVendorExtensinos(property);
+        patchPropertyVendorExtensions(property);
 
         String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
 
-        // fix incorrect data types for maps of maps
-        if (property.datatypeWithEnum.endsWith(", List>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", List>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
-        if (property.datatypeWithEnum.endsWith(", Dictionary>") && property.items != null) {
-            property.datatypeWithEnum = property.datatypeWithEnum.replace(", Dictionary>", ", " + property.items.datatypeWithEnum + ">");
-            property.dataType = property.datatypeWithEnum;
-        }
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            // fix incorrect data types for maps of maps
+            if (property.datatypeWithEnum.contains(", " + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace(", " + nestedType + ">", ", " + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+
+            if (property.datatypeWithEnum.contains("<" + nestedType + ">") && property.items != null) {
+                property.datatypeWithEnum = property.datatypeWithEnum.replace("<" + nestedType + ">", "<" + property.items.datatypeWithEnum + ">");
+                property.dataType = property.datatypeWithEnum;
+            }
+        });
 
         // HOTFIX: https://github.com/OpenAPITools/openapi-generator/issues/14944
         if (property.datatypeWithEnum.equals("decimal")) {
@@ -729,24 +761,242 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+    private void postProcessResponseCode(CodegenResponse response, String status, Set<String> httpStatusesWithReturn) {
+        response.vendorExtensions.put("x-http-status", status);
+        if (response.dataType != null) {
+            httpStatusesWithReturn.add(status);
+        }
+    }
+
     @Override
+    @SuppressWarnings("unchecked")
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
+
+        Set<String> httpStatusesWithReturn = additionalProperties.get("x-http-statuses-with-return") instanceof Set<?>
+                ? (Set<String>) additionalProperties.get("x-http-statuses-with-return")
+                : new HashSet<String>();
+
+        additionalProperties.put("x-http-statuses-with-return", httpStatusesWithReturn);
+
         if (objs != null) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
                 List<CodegenOperation> ops = operations.getOperation();
                 for (CodegenOperation operation : ops) {
+                    if (operation.responses != null) {
+                        for (CodegenResponse response : operation.responses) {
+
+                            if (response.returnProperty != null) {
+                                Boolean isValueType = isValueType(response.returnProperty);
+                                response.vendorExtensions.put("x-is-value-type", isValueType);
+                                response.vendorExtensions.put("x-is-reference-type", !isValueType);
+                            }
+
+                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
+                                response.vendorExtensions.put("x-set-cookie", true);
+                                operation.vendorExtensions.put("x-set-cookie", true);
+                            }
+
+                            String code = response.code.toLowerCase(Locale.ROOT);
+                            switch(code) {
+                                case "default":
+                                case "0":
+                                    postProcessResponseCode(response, "Default", httpStatusesWithReturn);
+                                    response.vendorExtensions.put("x-http-status-is-default", true);
+                                    if (operation.responses.stream().count() == 1) {
+                                        response.vendorExtensions.put("x-only-default", true);
+                                    }
+                                    break;
+                                case "100":
+                                    postProcessResponseCode(response, "Continue", httpStatusesWithReturn);
+                                    break;
+                                case "101":
+                                    postProcessResponseCode(response, "SwitchingProtocols", httpStatusesWithReturn);
+                                    break;
+                                case "102":
+                                    postProcessResponseCode(response, "Processing", httpStatusesWithReturn);
+                                    break;
+                                case "103":
+                                    postProcessResponseCode(response, "EarlyHints", httpStatusesWithReturn);
+                                    break;
+                                case "200":
+                                    postProcessResponseCode(response, "Ok", httpStatusesWithReturn);
+                                    break;
+                                case "201":
+                                    postProcessResponseCode(response, "Created", httpStatusesWithReturn);
+                                    break;
+                                case "202":
+                                    postProcessResponseCode(response, "Accepted", httpStatusesWithReturn);
+                                    break;
+                                case "203":
+                                    postProcessResponseCode(response, "NonAuthoritativeInformation", httpStatusesWithReturn);
+                                    break;
+                                case "204":
+                                    postProcessResponseCode(response, "NoContent", httpStatusesWithReturn);
+                                    break;
+                                case "205":
+                                    postProcessResponseCode(response, "ResetContent", httpStatusesWithReturn);
+                                    break;
+                                case "206":
+                                    postProcessResponseCode(response, "PartialContent", httpStatusesWithReturn);
+                                    break;
+                                case "207":
+                                    postProcessResponseCode(response, "MultiStatus", httpStatusesWithReturn);
+                                    break;
+                                case "208":
+                                    postProcessResponseCode(response, "AlreadyImported", httpStatusesWithReturn);
+                                    break;
+                                case "226":
+                                    postProcessResponseCode(response, "IMUsed", httpStatusesWithReturn);
+                                    break;
+                                case "300":
+                                    postProcessResponseCode(response, "MultipleChoices", httpStatusesWithReturn);
+                                    break;
+                                case "301":
+                                    postProcessResponseCode(response, "MovedPermanently", httpStatusesWithReturn);
+                                    break;
+                                case "302":
+                                    postProcessResponseCode(response, "Found", httpStatusesWithReturn);
+                                    break;
+                                case "303":
+                                    postProcessResponseCode(response, "SeeOther", httpStatusesWithReturn);
+                                    break;
+                                case "304":
+                                    postProcessResponseCode(response, "NotModified", httpStatusesWithReturn);
+                                    break;
+                                case "307":
+                                    postProcessResponseCode(response, "TemporaryRedirect", httpStatusesWithReturn);
+                                    break;
+                                case "308":
+                                    postProcessResponseCode(response, "PermanentRedirect", httpStatusesWithReturn);
+                                    break;
+                                case "400":
+                                    postProcessResponseCode(response, "BadRequest", httpStatusesWithReturn);
+                                    break;
+                                case "401":
+                                    postProcessResponseCode(response, "Unauthorized", httpStatusesWithReturn);
+                                    break;
+                                case "402":
+                                    postProcessResponseCode(response, "PaymentRequired", httpStatusesWithReturn);
+                                    break;
+                                case "403":
+                                    postProcessResponseCode(response, "Forbidden", httpStatusesWithReturn);
+                                    break;
+                                case "404":
+                                    postProcessResponseCode(response, "NotFound", httpStatusesWithReturn);
+                                    break;
+                                case "405":
+                                    postProcessResponseCode(response, "MethodNotAllowed", httpStatusesWithReturn);
+                                    break;
+                                case "406":
+                                    postProcessResponseCode(response, "NotAcceptable", httpStatusesWithReturn);
+                                    break;
+                                case "407":
+                                    postProcessResponseCode(response, "ProxyAuthenticationRequired", httpStatusesWithReturn);
+                                    break;
+                                case "408":
+                                    postProcessResponseCode(response, "RequestTimeout", httpStatusesWithReturn);
+                                    break;
+                                case "409":
+                                    postProcessResponseCode(response, "Conflict", httpStatusesWithReturn);
+                                    break;
+                                case "410":
+                                    postProcessResponseCode(response, "Gone", httpStatusesWithReturn);
+                                    break;
+                                case "411":
+                                    postProcessResponseCode(response, "LengthRequired", httpStatusesWithReturn);
+                                    break;
+                                case "412":
+                                    postProcessResponseCode(response, "PreconditionFailed", httpStatusesWithReturn);
+                                    break;
+                                case "413":
+                                    postProcessResponseCode(response, "ContentTooLarge", httpStatusesWithReturn);
+                                    break;
+                                case "414":
+                                    postProcessResponseCode(response, "URITooLong", httpStatusesWithReturn);
+                                    break;
+                                case "415":
+                                    postProcessResponseCode(response, "UnsupportedMediaType", httpStatusesWithReturn);
+                                    break;
+                                case "416":
+                                    postProcessResponseCode(response, "RangeNotSatisfiable", httpStatusesWithReturn);
+                                    break;
+                                case "417":
+                                    postProcessResponseCode(response, "ExpectationFailed", httpStatusesWithReturn);
+                                    break;
+                                case "421":
+                                    postProcessResponseCode(response, "MisdirectedRequest", httpStatusesWithReturn);
+                                    break;
+                                case "422":
+                                    postProcessResponseCode(response, "UnprocessableContent", httpStatusesWithReturn);
+                                    break;
+                                case "423":
+                                    postProcessResponseCode(response, "Locked", httpStatusesWithReturn);
+                                    break;
+                                case "424":
+                                    postProcessResponseCode(response, "FailedDependency", httpStatusesWithReturn);
+                                    break;
+                                case "425":
+                                    postProcessResponseCode(response, "TooEarly", httpStatusesWithReturn);
+                                    break;
+                                case "426":
+                                    postProcessResponseCode(response, "UpgradeRequired", httpStatusesWithReturn);
+                                    break;
+                                case "428":
+                                    postProcessResponseCode(response, "PreconditionRequired", httpStatusesWithReturn);
+                                    break;
+                                case "429":
+                                    postProcessResponseCode(response, "TooManyRequests", httpStatusesWithReturn);
+                                    break;
+                                case "431":
+                                    postProcessResponseCode(response, "RequestHeaderFieldsTooLong", httpStatusesWithReturn);
+                                    break;
+                                case "451":
+                                    postProcessResponseCode(response, "UnavailableForLegalReasons", httpStatusesWithReturn);
+                                    break;
+                                case "500":
+                                    postProcessResponseCode(response, "InternalServerError", httpStatusesWithReturn);
+                                    break;
+                                case "501":
+                                    postProcessResponseCode(response, "NotImplemented", httpStatusesWithReturn);
+                                    break;
+                                case "502":
+                                    postProcessResponseCode(response, "BadGateway", httpStatusesWithReturn);
+                                    break;
+                                case "503":
+                                    postProcessResponseCode(response, "ServiceUnavailable", httpStatusesWithReturn);
+                                    break;
+                                case "504":
+                                    postProcessResponseCode(response, "GatewayTimeout", httpStatusesWithReturn);
+                                    break;
+                                case "505":
+                                    postProcessResponseCode(response, "HttpVersionNotSupported", httpStatusesWithReturn);
+                                    break;
+                                case "506":
+                                    postProcessResponseCode(response, "VariantAlsoNegotiates", httpStatusesWithReturn);
+                                    break;
+                                case "507":
+                                    postProcessResponseCode(response, "InsufficientStorage", httpStatusesWithReturn);
+                                    break;
+                                case "508":
+                                    postProcessResponseCode(response, "LoopDetected", httpStatusesWithReturn);
+                                    break;
+                                case "511":
+                                    postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
+                                    break;
+                                default:
+                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
+                            }
+                        }
+                    }
 
                     // Check return types for collection
                     if (operation.returnType != null) {
-                        String typeMapping;
                         int namespaceEnd = operation.returnType.lastIndexOf(".");
-                        if (namespaceEnd > 0) {
-                            typeMapping = operation.returnType.substring(namespaceEnd);
-                        } else {
-                            typeMapping = operation.returnType;
-                        }
+                        String typeMapping = namespaceEnd > 0
+                                ? operation.returnType.substring(namespaceEnd)
+                                : operation.returnType;
 
                         if (this.collectionTypes.contains(typeMapping)) {
                             operation.isArray = true;
@@ -894,7 +1144,23 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected void processOperation(CodegenOperation operation) {
-        // default noop
+        String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
+
+        Arrays.stream(nestedTypes).forEach(nestedType -> {
+            if (operation.returnProperty != null && operation.returnType.contains("<" + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace("<" + nestedType + ">", "<" + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+
+            if (operation.returnProperty != null && operation.returnType.contains(", " + nestedType + ">") && operation.returnProperty.items != null) {
+                String nestedReturnType = operation.returnProperty.items.dataType;
+                operation.returnType = operation.returnType.replace(", " + nestedType + ">", ", " + nestedReturnType + ">");
+                operation.returnProperty.dataType = operation.returnType;
+                operation.returnProperty.datatypeWithEnum = operation.returnType;
+            }
+        });
     }
 
     protected void updateCodegenParameterEnumLegacy(CodegenParameter parameter, CodegenModel model) {
@@ -1330,6 +1596,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return this.nullReferenceTypesFlag;
     }
 
+    public void setUseSourceGeneration(final Boolean useSourceGeneration) {
+        this.useSourceGeneration = useSourceGeneration;
+    }
+
+    public boolean getUseSourceGeneration() {
+        return this.useSourceGeneration;
+    }
+
     public void setInterfacePrefix(final String interfacePrefix) {
         this.interfacePrefix = interfacePrefix;
     }
@@ -1350,6 +1624,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.supportNullable = supportNullable;
     }
 
+    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
+        return this.enumPropertyNaming;
+    }
+
+    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
+        try {
+            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
+        } catch (IllegalArgumentException ex) {
+            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
+            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
+                sb.append("\n  ").append(t.name());
+            }
+            throw new RuntimeException(sb.toString());
+        }
+    }
+
     @Override
     public String toEnumValue(String value, String datatype) {
         // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
@@ -1362,18 +1652,28 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             return value;
         }
 
-        return escapeText(value);
+        final String partiallyEscaped = value
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\r", "\\r")
+                .replaceAll("(?<!\\\\)\"", "\\\\\"");
+
+        return escapeUnsafeCharacters(partiallyEscaped);
     }
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
-            return "Empty";
+            return adjustNamingStyle("Empty");
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return camelize(getSymbolName(name));
+            return adjustNamingStyle(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -1381,12 +1681,39 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = camelize(enumName) + this.enumValueSuffix;
+        enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
+        }
+    }
+
+    /**
+     * Adjust the naming style of a given name based on the enumPropertyNaming option.
+     *
+     * @param name The original name
+     * @return The adjusted name
+     */
+    private String adjustNamingStyle(String name)
+    {
+        switch (getEnumPropertyNaming()) {
+            case original:
+                return name;
+            case camelCase:
+                // NOTE: Removes hyphens and underscores
+                return camelize(name, LOWERCASE_FIRST_LETTER);
+            case PascalCase:
+                // NOTE: Removes hyphens and underscores
+                return camelize(name);
+            case snake_case:
+                // NOTE: Removes hyphens
+                return underscore(name);
+            case UPPERCASE:
+                return underscore(name).toUpperCase(Locale.ROOT);
+            default:
+                return name;
         }
     }
 
@@ -1584,6 +1911,56 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 // Restore interrupted state
                 Thread.currentThread().interrupt();
             }
+        }
+    }
+
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+    }
+
+    /*
+     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
+     */
+    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
+        if (pattern != null) {
+            // check if the pattern has any modifiers
+            // gmiyuvsd - ecma modifiers
+            // l - legacy modifier provided by this library, provides a way to opt out of culture invariant
+            // nx - c# modifiers https://learn.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-options
+            Pattern hasModifiers = Pattern.compile(".*/[gmiyuvsdlnx]+$");
+
+            int end = hasModifiers.matcher(pattern).find()
+                ? pattern.lastIndexOf('/')
+                : pattern.length() - 1;
+
+            int start = pattern.startsWith("/")
+                ? 1
+                : 0;
+
+            Map<Character, String> optionsMap = new HashMap();
+            optionsMap.put('i', "IgnoreCase");
+            optionsMap.put('m', "Multiline");
+            optionsMap.put('s', "SingleLine");
+            optionsMap.put('n', "ExplicitCapture");
+            optionsMap.put('x', "IgnorePatternWhitespace");
+
+            List<String> modifiers = new ArrayList<String>();
+            modifiers.add("CultureInvariant");
+
+            for (char c : pattern.substring(end).toCharArray()) {
+                if (optionsMap.containsKey(c)) {
+                    modifiers.add(optionsMap.get(c));
+                } else if (c == 'l'){
+                    modifiers.remove("CultureInvariant");
+                } else {
+                    vendorExtensions.put("x-modifier-" + c, c);
+                }
+            }
+
+            String regex = pattern.substring(start, end).replace("'", "\'").replace("\"", "\"\"");
+            vendorExtensions.put("x-regex", regex);
+            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 
