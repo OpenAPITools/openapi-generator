@@ -937,7 +937,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray){ // if array
+                        if (cp.isArray || cp.isMap){ // if array
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
                             modelImports.add(cp.getDataType());
