@@ -1381,7 +1381,7 @@ public class JavaModelTest {
                 .setGeneratorName("java")
                 .setLibrary("rest-assured")
                 .addAdditionalProperty("java8", "true")
-                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "Type")
+                .addAdditionalProperty(JavaClientCodegen.SKIP_FLUENT_SETTERS, "Type")
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());
@@ -1416,7 +1416,7 @@ public class JavaModelTest {
                 .setGeneratorName("java")
                 .setLibrary("rest-assured")
                 .addAdditionalProperty("java8", "true")
-                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "true")
+                .addAdditionalProperty(JavaClientCodegen.SKIP_FLUENT_SETTERS, "true")
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());
@@ -1483,7 +1483,7 @@ public class JavaModelTest {
                 .setGeneratorName("java")
                 .setLibrary("rest-assured")
                 .addAdditionalProperty("java8", "true")
-                .addAdditionalProperty(CodegenConstants.SKIP_FLUENT_SETTERS, "Type,Type1")
+                .addAdditionalProperty(JavaClientCodegen.SKIP_FLUENT_SETTERS, "Type,Type1")
                 .addAdditionalProperty(CodegenConstants.SERIALIZABLE_MODEL, true)
                 .setInputSpec(inputSpec)
                 .setOutputDir(output.getAbsolutePath());

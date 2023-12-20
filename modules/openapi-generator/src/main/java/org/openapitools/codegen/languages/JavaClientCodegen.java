@@ -39,7 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +62,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String ASYNC_NATIVE = "asyncNative";
     public static final String CONFIG_KEY = "configKey";
     public static final String PARCELABLE_MODEL = "parcelableModel";
+    public static final String SKIP_FLUENT_SETTERS = "skipFluentSetters";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
