@@ -1088,7 +1088,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 || "float".equals(mapNumberTo)) {
             this.mapNumberTo = mapNumberTo;
         } else {
-            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
+            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictFloat or float");
         }
     }
 
