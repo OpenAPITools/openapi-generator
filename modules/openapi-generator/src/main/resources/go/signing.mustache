@@ -139,7 +139,7 @@ func (h *HttpSignatureAuth) ContextWithValue(ctx context.Context) (context.Conte
 		return nil, fmt.Errorf("private key path must be specified")
 	}
 	if len(h.PrivateKeyPath) > 0 && h.PrivateKeyReader != nil{
-		return nil, fmt.Errorf("Specify either PrivateKeyPath or PrivateKeyReader")
+		return nil, fmt.Errorf("Specify only one of PrivateKeyPath or PrivateKeyReader")
 	}
 	if _, ok := supportedSigningSchemes[h.SigningScheme]; !ok {
 		return nil, fmt.Errorf("invalid signing scheme: '%v'", h.SigningScheme)
