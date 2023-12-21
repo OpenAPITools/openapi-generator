@@ -748,7 +748,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             }
 
             for (CodegenProperty cp : codegenProperties) {
-                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.dataType)))) {
+                if (!addedTimeImport && ("time.Time".equals(cp.dataType) || (cp.items != null && "time.Time".equals(cp.items.complexType)))) {
                     imports.add(createMapping("import", "time"));
                     addedTimeImport = true;
                 }
