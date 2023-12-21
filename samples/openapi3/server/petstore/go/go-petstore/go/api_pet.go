@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"os"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -270,10 +271,15 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-	fileParam, err := ReadFormFileToTempFile(r, "file")
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
+	var fileParam *os.File
+	{
+		param, err := ReadFormFileToTempFile(r, "file")
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		fileParam = param
 	}
 	
 	
