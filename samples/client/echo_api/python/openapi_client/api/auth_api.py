@@ -239,7 +239,6 @@ class AuthApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -483,7 +482,6 @@ class AuthApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}

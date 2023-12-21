@@ -262,7 +262,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -546,7 +545,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -804,7 +802,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
             'status': 'csv',
         }
 
@@ -1074,7 +1071,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
             'tags': 'csv',
         }
 
@@ -1344,7 +1340,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1613,7 +1608,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1910,7 +1904,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -2206,7 +2199,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -2508,7 +2500,6 @@ class PetApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}

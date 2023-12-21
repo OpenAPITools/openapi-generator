@@ -260,7 +260,6 @@ class UserApi:
         _host = _hosts[_host_index]
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -522,7 +521,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
             'User': '',
         }
 
@@ -785,7 +783,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
             'User': '',
         }
 
@@ -1054,7 +1051,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1312,7 +1308,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1587,7 +1582,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1836,7 +1830,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -2102,7 +2095,6 @@ class UserApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
