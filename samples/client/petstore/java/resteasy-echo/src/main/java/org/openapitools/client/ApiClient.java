@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package org.openapitools.client;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,40 +23,36 @@ import java.util.Map.Entry;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-{{#jsr310}}
 import java.time.OffsetDateTime;
-{{/jsr310}}
 
-import {{javaxPackage}}.ws.rs.client.Client;
-import {{javaxPackage}}.ws.rs.client.ClientBuilder;
-import {{javaxPackage}}.ws.rs.client.Entity;
-import {{javaxPackage}}.ws.rs.client.Invocation;
-import {{javaxPackage}}.ws.rs.client.WebTarget;
-import {{javaxPackage}}.ws.rs.core.Form;
-import {{javaxPackage}}.ws.rs.core.GenericEntity;
-import {{javaxPackage}}.ws.rs.core.GenericType;
-import {{javaxPackage}}.ws.rs.core.MediaType;
-import {{javaxPackage}}.ws.rs.core.Response;
-import {{javaxPackage}}.ws.rs.core.Response.Status;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.client.jaxrs.internal.ClientConfiguration;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataOutput;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
-import {{invokerPackage}}.auth.Authentication;
-import {{invokerPackage}}.auth.HttpBasicAuth;
-import {{invokerPackage}}.auth.HttpBearerAuth;
-import {{invokerPackage}}.auth.ApiKeyAuth;
-{{#hasOAuthMethods}}
-import {{invokerPackage}}.auth.OAuth;
-{{/hasOAuthMethods}}
+import org.openapitools.client.auth.Authentication;
+import org.openapitools.client.auth.HttpBasicAuth;
+import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.ApiKeyAuth;
+import org.openapitools.client.auth.OAuth;
 
-{{>generatedAnnotation}}
-public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
-  private String basePath = "{{{basePath}}}";
+  private String basePath = "http://localhost:3000";
   private boolean debugging = false;
 
   private Client httpClient;
@@ -82,14 +78,15 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     this.json.setDateFormat((DateFormat) dateFormat.clone());
 
     // Set default User-Agent.
-    setUserAgent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/java{{/httpUserAgent}}");
+    setUserAgent("OpenAPI-Generator/1.0.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
-    authentications = new HashMap<String, Authentication>();{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
-    authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+    authentications = new HashMap<String, Authentication>();
+    authentications.put("petstore_auth", new OAuth());
+    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+    authentications.put("http_basic_test", new HttpBasicAuth());
+    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -210,7 +207,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     throw new RuntimeException("No API key authentication configured!");
   }
 
-  {{#hasOAuthMethods}}
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken the access token
@@ -225,7 +221,6 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
-  {{/hasOAuthMethods}}
   /**
    * Set the User-Agent header's value (by adding to the default header map).
    * @param userAgent the User-Agent header value
@@ -338,9 +333,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
       return "";
     } else if (param instanceof Date) {
       return formatDate((Date) param);
-    } {{#jsr310}}else if (param instanceof OffsetDateTime) {
+    } else if (param instanceof OffsetDateTime) {
       return formatOffsetDateTime((OffsetDateTime) param);
-    } {{/jsr310}}else if (param instanceof Collection) {
+    } else if (param instanceof Collection) {
       StringBuilder b = new StringBuilder();
       for(Object o : (Collection)param) {
         if(b.length() > 0) {
