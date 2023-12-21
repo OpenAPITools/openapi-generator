@@ -2272,6 +2272,30 @@ public class JavaClientCodegenTest {
                                 + " objectParam.getSomeInteger()));");
     }
 
+    @Test
+    public void shouldProperlyExplodeWebClientQueryParameters() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.WEBCLIENT
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchRequestCreation")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                                + " regularParam));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                                + " objectParam.getSomeString()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                                + " objectParam.getSomeBoolean()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                                + " objectParam.getSomeInteger()));");
+    }
+
     private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
         return generateFromContract(pathToSpecification, library, new HashMap<>());
     }
