@@ -1512,6 +1512,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             if (model.parentModel != null && model.parentModel.allVars.stream().anyMatch(v -> v.baseName.equals(property.baseName))) {
                 property.isInherited = true;
             }
+
+            String setterKeyword;
+            if (!property.isReadOnly) {
+                setterKeyword = "set";
+            } else {
+                setterKeyword = "init";
+            }
+            property.vendorExtensions.put("x-csharp-setter-keyword", setterKeyword);
         }
     }
 
