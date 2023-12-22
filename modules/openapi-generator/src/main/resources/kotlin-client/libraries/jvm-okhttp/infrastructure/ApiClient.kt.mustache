@@ -75,7 +75,7 @@ import com.squareup.moshi.adapter
 {{/moshi}}
 
 {{#jvm-okhttp4}}
-val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+{{#nonPublicApi}}internal {{/nonPublicApi}} val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 {{/jvm-okhttp4}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {

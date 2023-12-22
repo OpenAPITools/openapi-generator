@@ -28,7 +28,7 @@ import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 import com.squareup.moshi.adapter
 
-val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {

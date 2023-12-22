@@ -29,7 +29,7 @@ import java.util.Locale
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 
-val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {

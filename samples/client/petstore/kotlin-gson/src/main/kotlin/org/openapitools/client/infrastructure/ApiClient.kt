@@ -28,7 +28,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.google.gson.reflect.TypeToken
 
-val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {

@@ -28,7 +28,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.squareup.moshi.adapter
 
-val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+internal  val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 internal open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     internal companion object {
