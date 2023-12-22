@@ -499,8 +499,14 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 addedFmtImport = true;
             }
 
-            if (!addedFmtImport && model.hasRequired) {
-                imports.add(createMapping("import", "fmt"));
+            if (model.hasRequired) {
+                if (!model.isAdditionalPropertiesTrue) {
+                    imports.add(createMapping("import", "bytes"));
+                }
+
+                if (!addedFmtImport) {
+                    imports.add(createMapping("import", "fmt"));
+                }
             }
 
             // additionalProperties: true and parent
