@@ -97,8 +97,11 @@ class {{classname}}:
         {{/servers.0}}
 
         _collection_formats: Dict[str, str] = {
-            {{#allParams}}{{#isArray}}
-            '{{baseName}}': '{{collectionFormat}}',{{/isArray}}{{/allParams}}
+            {{#allParams}}
+            {{#isArray}}
+            '{{baseName}}': '{{collectionFormat}}',
+            {{/isArray}}
+            {{/allParams}}
         }
 
         _path_params: Dict[str, str] = {}

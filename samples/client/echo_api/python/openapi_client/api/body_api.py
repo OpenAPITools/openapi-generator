@@ -247,7 +247,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -503,7 +502,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -779,7 +777,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
             'files': 'csv',
         }
 
@@ -1051,7 +1048,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1322,7 +1318,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1593,7 +1588,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -1864,7 +1858,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
@@ -2135,7 +2128,6 @@ class BodyApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
-            
         }
 
         _path_params: Dict[str, str] = {}
