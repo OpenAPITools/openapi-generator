@@ -52,6 +52,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |useSourceGeneration|Use source generation where available (only `generichost` library supports this option).| |false|
 |validatable|Generates self-validatable models.| |true|
 |zeroBasedEnums|Enumerations with string values will start from 0 when true, 1 when false. If not set, enumerations with string values will start from 0 if the first value is 'unknown', case insensitive.| |null|
+|useObjectInitializerApproach|Adds the required keyword to required properties, the init keyword to required readonly properties and creates a parameterless constructor (only `generichost` library supports this option).| |false|
 
 ## IMPORT MAPPING
 

@@ -15,9 +15,11 @@
         {{#allVars}}
         /// <param name="{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}">{{description}}{{^description}}{{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{/description}}{{#defaultValue}} (default to {{.}}){{/defaultValue}}</param>
         {{/allVars}}
+        {{#useObjectInitializerApproach}}
         {{#hasRequired}}
         [SetsRequiredMembers]
         {{/hasRequired}}
+        {{/useObjectInitializerApproach}}
         {{#model.vendorExtensions.x-model-is-mutatable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutatable}}{{^model.vendorExtensions.x-model-is-mutatable}}internal{{/model.vendorExtensions.x-model-is-mutatable}} {{classname}}({{#lambda.joinWithComma}}{{{dataType}}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}  {{#model.composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{dataType}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}  {{/model.composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{#parentModel.composedSchemas.oneOf}}{{#lambda.camelcase_param}}{{parent}}{{/lambda.camelcase_param}}.{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}  {{/parentModel.composedSchemas.oneOf}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
@@ -52,9 +54,11 @@
         {{^composedSchemas.anyOf}}
         [JsonConstructor]
         {{/composedSchemas.anyOf}}
+        {{#useObjectInitializerApproach}}
         {{#hasRequired}}
         [SetsRequiredMembers]
         {{/hasRequired}}
+        {{/useObjectInitializerApproach}}
         {{#model.vendorExtensions.x-model-is-mutatable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutatable}}{{^model.vendorExtensions.x-model-is-mutatable}}internal{{/model.vendorExtensions.x-model-is-mutatable}} {{classname}}({{#lambda.joinWithComma}}{{#composedSchemas.anyOf}}{{^required}}Option<{{/required}}{{{name}}}{{>NullConditionalProperty}}{{^required}}>{{/required}} {{#lambda.camelcase_param}}{{baseType}}{{/lambda.camelcase_param}}  {{/composedSchemas.anyOf}}{{>ModelSignature}}{{/lambda.joinWithComma}}){{#parent}} : base({{#lambda.joinWithComma}}{{>ModelBaseSignature}}{{/lambda.joinWithComma}}){{/parent}}
         {
             {{#composedSchemas.anyOf}}
@@ -74,6 +78,7 @@
         }
 
         {{/composedSchemas.oneOf}}
+        {{#useObjectInitializerApproach}}
         {{#hasRequired}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class to be used with object initializers.
@@ -81,6 +86,7 @@
         {{#model.vendorExtensions.x-model-is-mutatable}}{{>visibility}}{{/model.vendorExtensions.x-model-is-mutatable}}{{^model.vendorExtensions.x-model-is-mutatable}}internal{{/model.vendorExtensions.x-model-is-mutatable}} {{classname}}() {}
 
         {{/hasRequired}}
+        {{/useObjectInitializerApproach}}
         partial void OnCreated();
 
         {{#vars}}
@@ -213,7 +219,7 @@
         {{#deprecated}}
         [Obsolete]
         {{/deprecated}}
-        public{{^isReadOnly}}{{#required}} required{{/required}}{{/isReadOnly}} {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{#vendorExtensions.x-csharp-setter-keyword}}{{.}}; {{/vendorExtensions.x-csharp-setter-keyword}}}{{/required}}{{^required}}{ get { return this. {{name}}Option; } {{#vendorExtensions.x-csharp-setter-keyword}}{{.}} { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-csharp-setter-keyword}}}{{/required}}
+        public{{#useObjectInitializerApproach}}{{^isReadOnly}}{{#required}} required{{/required}}{{/isReadOnly}}{{/useObjectInitializerApproach}} {{{datatypeWithEnum}}}{{#lambda.first}}{{#isNullable}}{{>NullConditionalProperty}}  {{/isNullable}}{{^required}}{{nrt?}}{{^nrt}}{{#vendorExtensions.x-is-value-type}}?{{/vendorExtensions.x-is-value-type}}{{/nrt}}  {{/required}}{{/lambda.first}} {{name}} {{#required}}{ get; {{#vendorExtensions.x-csharp-setter-keyword}}{{.}}; {{/vendorExtensions.x-csharp-setter-keyword}}}{{/required}}{{^required}}{ get { return this. {{name}}Option; } {{#vendorExtensions.x-csharp-setter-keyword}}{{.}} { this.{{name}}Option = new{{^net70OrLater}} Option<{{{datatypeWithEnum}}}{{>NullConditionalProperty}}>{{/net70OrLater}}(value); } {{/vendorExtensions.x-csharp-setter-keyword}}}{{/required}}
 
         {{/isInherited}}
         {{/isEnum}}
