@@ -74,6 +74,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Boolean</li>
 <li>Collection</li>
+<li>DateOnly</li>
+<li>DateOnly?</li>
 <li>DateTime</li>
 <li>DateTime?</li>
 <li>DateTimeOffset</li>

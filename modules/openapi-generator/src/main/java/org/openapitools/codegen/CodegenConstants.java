@@ -156,6 +156,9 @@ public class CodegenConstants {
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
 
+    public static final String USE_DATEONLY = "useDateOnly";
+    public static final String USE_DATEONLY_DESC = "Use DateOnly to model date properties";
+
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
 

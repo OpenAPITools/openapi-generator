@@ -264,6 +264,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
 
+        addSwitch(CodegenConstants.USE_DATEONLY,
+                CodegenConstants.USE_DATEONLY_DESC,
+                this.useDateOnlyFlag);
+
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 this.useCollection);

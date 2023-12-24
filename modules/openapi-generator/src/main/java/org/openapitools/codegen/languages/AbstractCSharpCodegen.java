@@ -55,6 +55,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
+    protected boolean useDateOnlyFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
@@ -186,6 +187,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTime",
                         "DateTimeOffset?",
                         "DateTimeOffset",
+                        "DateOnly?",
+                        "DateOnly",
                         "Boolean",
                         "Double",
                         "Decimal",
@@ -231,6 +234,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
+        this.setTypeMapping();
+    }
+
+    public void useDateOnly(boolean flag) {
+        this.useDateOnlyFlag = flag;
         this.setTypeMapping();
     }
 
@@ -352,6 +360,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
         } else {
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
+        }
+
+        // {{uesDateOnly}}
+        if (additionalProperties.containsKey(CodegenConstants.USE_DATEONLY)) {
+            useDateOnly(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATEONLY));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_DATEONLY, useDateOnlyFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
@@ -2012,7 +2027,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
-        typeMapping.put("date", "DateTime");
+        typeMapping.put("date", this.useDateOnlyFlag ? "DateOnly" : "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");
