@@ -46,7 +46,6 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
-import org.openapitools.client.auth.OAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
@@ -78,15 +77,12 @@ public class ApiClient extends JavaTimeFormatter {
     this.json.setDateFormat((DateFormat) dateFormat.clone());
 
     // Set default User-Agent.
-    setUserAgent("OpenAPI-Generator/1.0.0/java");
+    setUserAgent("OpenAPI-Generator/0.1.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
-    authentications.put("petstore_auth", new OAuth());
-    authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
-    authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
-    authentications.put("http_basic_test", new HttpBasicAuth());
-    authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+    authentications.put("http_auth", new HttpBasicAuth());
+    authentications.put("http_bearer_auth", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
   }
@@ -205,20 +201,6 @@ public class ApiClient extends JavaTimeFormatter {
       }
     }
     throw new RuntimeException("No API key authentication configured!");
-  }
-
-  /**
-   * Helper method to set access token for the first OAuth2 authentication.
-   * @param accessToken the access token
-   */
-  public void setAccessToken(String accessToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof OAuth) {
-        ((OAuth) auth).setAccessToken(accessToken);
-        return;
-      }
-    }
-    throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
   /**
