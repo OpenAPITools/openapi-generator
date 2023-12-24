@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**TestBinaryGif**](BodyAPI.md#TestBinaryGif) | **Post** /binary/gif | Test binary (gif) response body
 [**TestBodyApplicationOctetstreamBinary**](BodyAPI.md#TestBodyApplicationOctetstreamBinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 [**TestBodyMultipartFormdataArrayOfBinary**](BodyAPI.md#TestBodyMultipartFormdataArrayOfBinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+[**TestBodyMultipartFormdataSingleBinary**](BodyAPI.md#TestBodyMultipartFormdataSingleBinary) | **Post** /body/application/octetstream/single_binary | Test single binary in multipart mime
 [**TestEchoBodyAllOfPet**](BodyAPI.md#TestEchoBodyAllOfPet) | **Post** /echo/body/allOf/Pet | Test body parameter(s)
 [**TestEchoBodyFreeFormObjectResponseString**](BodyAPI.md#TestEchoBodyFreeFormObjectResponseString) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 [**TestEchoBodyPet**](BodyAPI.md#TestEchoBodyPet) | **Post** /echo/body/Pet | Test body parameter(s)
@@ -189,6 +190,72 @@ Other parameters are passed through a pointer to a apiTestBodyMultipartFormdataA
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **files** | **[]*os.File** |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
+- **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestBodyMultipartFormdataSingleBinary
+
+> string TestBodyMultipartFormdataSingleBinary(ctx).MyFile(myFile).Execute()
+
+Test single binary in multipart mime
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	myFile := os.NewFile(1234, "some_file") // *os.File |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.BodyAPI.TestBodyMultipartFormdataSingleBinary(context.Background()).MyFile(myFile).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `BodyAPI.TestBodyMultipartFormdataSingleBinary``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestBodyMultipartFormdataSingleBinary`: string
+	fmt.Fprintf(os.Stdout, "Response from `BodyAPI.TestBodyMultipartFormdataSingleBinary`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestBodyMultipartFormdataSingleBinaryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **myFile** | ***os.File** |  | 
 
 ### Return type
 
