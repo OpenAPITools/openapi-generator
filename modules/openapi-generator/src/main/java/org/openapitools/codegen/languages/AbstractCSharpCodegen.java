@@ -362,7 +362,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
-        // {{uesDateOnly}}
+        // {{useDateOnly}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATEONLY)) {
             useDateOnly(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATEONLY));
         } else {
