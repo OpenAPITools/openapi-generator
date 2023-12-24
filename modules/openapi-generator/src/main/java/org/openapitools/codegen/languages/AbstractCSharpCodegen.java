@@ -1835,16 +1835,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
             example = "System.Text.Encoding.ASCII.GetBytes(\"" + escapeText(example) + "\")";
         } else if (p.isDate) {
+            String dateType = this.useDateOnlyFlag ? "DateOnly" : "DateTime";
             if (example == null) {
-                example = "DateTime.Parse(\"2013-10-20\")";
+                example = dateType + ".Parse(\"2013-10-20\")";
             } else {
-                example = "DateTime.Parse(\"" + example + "\")";
+                example = dateType + ".Parse(\"" + example + "\")";
             }
         } else if (p.isDateTime) {
+            String dateType = this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime";
             if (example == null) {
-                example = "DateTime.Parse(\"2013-10-20T19:20:30+01:00\")";
+                example = dateType + ".Parse(\"2013-10-20T19:20:30+01:00\")";
             } else {
-                example = "DateTime.Parse(\"" + example + "\")";
+                example = dateType + ".Parse(\"" + example + "\")";
             }
         } else if (p.isDecimal) {
             if (example == null) {
