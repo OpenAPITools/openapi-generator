@@ -209,6 +209,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
+        addSwitch(CodegenConstants.USE_DATEONLY,
+                CodegenConstants.USE_DATEONLY_DESC,
+                useDateOnlyFlag);
+
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
