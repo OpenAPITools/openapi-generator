@@ -42,7 +42,7 @@ class Color(BaseModel):
     oneof_schema_2_validator: Optional[Annotated[List[Annotated[int, Field(le=255, strict=True, ge=0)]], Field(min_length=4, max_length=4)]] = Field(default=None, description="RGBA four element array with values 0-255.")
     # data type: str
     oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
-    actual_instance: Optional[Union[List[int], str]] = None
+    actual_instance: Union[List[int], str, None]
     one_of_schemas: List[str] = Literal["List[int]", "str"]
 
     model_config = {

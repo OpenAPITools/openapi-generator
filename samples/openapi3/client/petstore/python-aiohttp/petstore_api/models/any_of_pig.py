@@ -42,7 +42,7 @@ class AnyOfPig(BaseModel):
     # data type: DanishPig
     anyof_schema_2_validator: Optional[DanishPig] = None
     if TYPE_CHECKING:
-        actual_instance: Optional[Union[BasquePig, DanishPig]] = None
+        actual_instance: Union[BasquePig, DanishPig]
     else:
         actual_instance: Any = None
     any_of_schemas: List[str] = Literal[ANYOFPIG_ANY_OF_SCHEMAS]

@@ -40,7 +40,7 @@ class Pig(BaseModel):
     oneof_schema_1_validator: Optional[BasquePig] = None
     # data type: DanishPig
     oneof_schema_2_validator: Optional[DanishPig] = None
-    actual_instance: Optional[Union[BasquePig, DanishPig]] = None
+    actual_instance: Union[BasquePig, DanishPig]
     one_of_schemas: List[str] = Literal["BasquePig", "DanishPig"]
 
     model_config = {
