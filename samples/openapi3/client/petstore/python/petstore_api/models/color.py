@@ -105,6 +105,7 @@ class Color(BaseModel):
         """Returns the object represented by the json string"""
         instance = cls.model_construct()
         if json_str is None:
+            instance.actual_instance = None
             return instance
 
         error_messages = []

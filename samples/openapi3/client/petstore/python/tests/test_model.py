@@ -78,39 +78,27 @@ class ModelTests(unittest.TestCase):
         self.assertFalse(self.pet1 == self.pet2)
 
     def test_oneof_schema_2_validator(self):
-        new_color = petstore_api.Color()
         array_of_integers = [12, 34, 56]
 
         try:
-            new_color.oneof_schema_2_validator = array_of_integers
-            self.fail(f"Should have failed: {new_color.oneof_schema_2_validator}")
+            new_color = petstore_api.Color(oneof_schema_2_validator=array_of_integers)
+            self.fail(f"Should have failed: {new_color.actual_instance}")
         except ValueError as e:
             self.assertTrue("List should have at least 4 items after validation, not 3" in str(e))
 
     def test_oneOf_array_of_integers(self):
-        # test new Color 
-        new_color = petstore_api.Color()
-        self.assertEqual("null", new_color.to_json())
-        self.assertEqual(None, new_color.actual_instance)
 
         # test the oneof schema validator
         json_str = '[12,34,56]'
         array_of_integers = json.loads(json_str)
         # no error should be thrown
-        new_color.oneof_schema_1_validator = array_of_integers
-        new_color.actual_instance = array_of_integers
-        new_color.actual_instance = None
+        petstore_api.Color(array_of_integers)
 
-        # test the oneof schema validator with invalid input 
+        # test the oneof schema validator with invalid input
         json_str = '[12,34,56120938]'
         array_of_integers = json.loads(json_str)
         try:
-            new_color.oneof_schema_1_validator = array_of_integers
-        except ValueError as e:
-            self.assertTrue("Input should be less than or equal to 255" in str(e))
-
-        try:
-            new_color.actual_instance = array_of_integers
+            petstore_api.Color(array_of_integers)
         except ValueError as e:
             self.assertTrue("Input should be less than or equal to 255" in str(e))
 
@@ -162,11 +150,13 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(constructor1.actual_instance, enum_string1)
         constructor2 = petstore_api.OneOfEnumString(enum_string1)
         self.assertEqual(constructor2.actual_instance, enum_string1)
-        constructor3 = petstore_api.OneOfEnumString()
-        self.assertEqual(constructor3.actual_instance, None)
+        try:
+            constructor3 = petstore_api.OneOfEnumString()
+        except ValueError as e:
+            self.assertTrue("actual_instance\n  Field required" in str(e))
 
     def test_anyOf_array_of_integers(self):
-        # test new Color 
+        # test new Color
         new_color = petstore_api.AnyOfColor()
         self.assertEqual("null", new_color.to_json())
         self.assertEqual(None, new_color.actual_instance)
@@ -178,7 +168,7 @@ class ModelTests(unittest.TestCase):
         new_color.anyof_schema_1_validator = array_of_integers
         new_color.actual_instance = array_of_integers
 
-        # test the oneof schema validator with invalid input 
+        # test the oneof schema validator with invalid input
         json_str = '[12,34,56120938]'
         array_of_integers = json.loads(json_str)
         try:
@@ -204,19 +194,16 @@ class ModelTests(unittest.TestCase):
     def test_oneOf(self):
         # test new Pig
         bp = petstore_api.BasquePig.from_dict({"className": "BasquePig", "color": "red"})
-        new_pig = petstore_api.Pig()
-        self.assertEqual("null", new_pig.to_json())
-        self.assertEqual(None, new_pig.actual_instance)
-        new_pig2 = petstore_api.Pig(actual_instance=bp)
+        new_pig = petstore_api.Pig(actual_instance=bp)
+        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig.to_json())
+        new_pig2 = petstore_api.Pig(bp)
         self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig2.to_json())
-        new_pig3 = petstore_api.Pig(bp)
-        self.assertEqual('{"className": "BasquePig", "color": "red"}', new_pig3.to_json())
         try:
-            new_pig4 = petstore_api.Pig(bp, actual_instance=bp)
+            new_pig3 = petstore_api.Pig(bp, actual_instance=bp)
         except ValueError as e:
             self.assertTrue("If position argument is used, keyword argument cannot be used.", str(e))
         try:
-            new_pig5 = petstore_api.Pig(bp, bp)
+            new_pig4 = petstore_api.Pig(bp, bp)
         except ValueError as e:
             self.assertTrue("If position argument is used, only 1 is allowed to set `actual_instance`", str(e))
 
@@ -410,14 +397,14 @@ class ModelTests(unittest.TestCase):
         hex_color = "#00FF00"
 
         # These should all pass
-        color = petstore_api.Color(oneof_schema_1_validator=rgb)
-        self.assertEqual(rgb, color.oneof_schema_1_validator)
+        color = petstore_api.Color(rgb)
+        self.assertEqual(rgb, color.actual_instance)
 
-        color = petstore_api.Color(oneof_schema_2_validator=rgba)
-        self.assertEqual(rgba, color.oneof_schema_2_validator)
+        color = petstore_api.Color(rgba)
+        self.assertEqual(rgba, rgba)
 
-        color = petstore_api.Color(oneof_schema_3_validator=hex_color)
-        self.assertEqual(hex_color, color.oneof_schema_3_validator)
+        color = petstore_api.Color(hex_color)
+        self.assertEqual(hex_color, color.actual_instance)
 
         try:
             petstore_api.Color(oneof_schema_1_validator=rgba)
@@ -489,14 +476,14 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(h.to_json(), '{"NullableMessage": null}')
 
         #import json
-        #dictionary ={ 
-        #  "id": "04", 
-        #  "name": "sunil", 
+        #dictionary ={
+        #  "id": "04",
+        #  "name": "sunil",
         #  "department": None
-        #} 
-        #      
-        ## Serializing json  
-        #json_object = json.dumps(dictionary) 
+        #}
+        #
+        ## Serializing json
+        #json_object = json.dumps(dictionary)
         #self.assertEqual(json_object, "")
 
     def test_inline_enum_default(self):
