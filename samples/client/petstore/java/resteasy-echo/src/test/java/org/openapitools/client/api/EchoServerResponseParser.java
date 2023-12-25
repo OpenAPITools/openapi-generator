@@ -21,17 +21,14 @@ public class EchoServerResponseParser {
     public String path; // e.g. /query/style_form/explode_true/object?id=12345
     public String protocol; // e.g. HTTP/1.1
     public java.util.HashMap<String, String> headers = new java.util.HashMap<>();
-    public String body; // e.g. <html><head></head><body>Hello World!</body></html>
 
     public EchoServerResponseParser(String response) {
         if (response == null) {
             throw new RuntimeException("Echo server response cannot be null");
         }
 
-        Iterable<String> lines = response.lines()::iterator;
+        String[] lines = response.split("\n");
         boolean firstLine = true;
-        boolean bodyStart = false;
-        StringBuilder bodyBuilder = new StringBuilder();
 
         for (String line : lines) {
             if (firstLine) {
@@ -43,16 +40,6 @@ public class EchoServerResponseParser {
                 continue;
             }
 
-            if (bodyStart) {
-                bodyBuilder.append(line);
-                bodyBuilder.append("\n");
-            }
-
-            if (line.isEmpty()) {
-                bodyStart = true;
-                continue;
-            }
-
             // store the header key-value pair in headers
             String[] keyValue = line.split(": ");
             if (keyValue.length == 2) { // skip blank line, non key-value pair
@@ -60,6 +47,5 @@ public class EchoServerResponseParser {
             }
         }
 
-        body = bodyBuilder.toString();
     }
 }
