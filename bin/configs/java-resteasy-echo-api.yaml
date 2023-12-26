@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/client/petstore/java/resteasy-echo
+outputDir: samples/client/echo_api/java/resteasy
 inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java
 additionalProperties:
