@@ -64,7 +64,7 @@ public class HealthCheckResult   {
       return false;
     }
     HealthCheckResult healthCheckResult = (HealthCheckResult) o;
-    return Objects.equals(nullableMessage, healthCheckResult.nullableMessage);
+    return Objects.equals(this.nullableMessage, healthCheckResult.nullableMessage);
   }
 
   @Override
