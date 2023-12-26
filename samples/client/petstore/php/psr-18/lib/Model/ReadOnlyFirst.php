@@ -80,7 +80,7 @@ class ReadOnlyFirst implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'bar' => false,
-		'baz' => false
+        'baz' => false
     ];
 
     /**

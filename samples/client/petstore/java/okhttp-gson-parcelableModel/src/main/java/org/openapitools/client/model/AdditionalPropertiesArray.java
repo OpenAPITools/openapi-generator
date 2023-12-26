@@ -62,7 +62,6 @@ public class AdditionalPropertiesArray implements Parcelable {
   }
 
   public AdditionalPropertiesArray name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -75,7 +74,6 @@ public class AdditionalPropertiesArray implements Parcelable {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

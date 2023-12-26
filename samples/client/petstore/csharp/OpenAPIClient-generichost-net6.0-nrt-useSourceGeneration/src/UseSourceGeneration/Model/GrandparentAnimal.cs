@@ -114,7 +114,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? petType = default;
+            Option<string?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,7 +132,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = utf8JsonReader.GetString();
+                            petType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -140,10 +140,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (petType == null)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class GrandparentAnimal.");
+            if (!petType.IsSet)
+                throw new ArgumentException("Property is required for class GrandparentAnimal.", nameof(petType));
 
-            return new GrandparentAnimal(petType);
+            if (petType.IsSet && petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
+
+            return new GrandparentAnimal(petType.Value!);
         }
 
         /// <summary>
@@ -170,6 +173,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (grandparentAnimal.PetType == null)
+                throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
+
             writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }

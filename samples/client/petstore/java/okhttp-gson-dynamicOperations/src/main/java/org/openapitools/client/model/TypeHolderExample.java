@@ -82,7 +82,6 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -96,14 +95,12 @@ public class TypeHolderExample {
     return stringItem;
   }
 
-
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
 
   public TypeHolderExample numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -117,14 +114,12 @@ public class TypeHolderExample {
     return numberItem;
   }
 
-
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
 
   public TypeHolderExample floatItem(Float floatItem) {
-    
     this.floatItem = floatItem;
     return this;
   }
@@ -138,14 +133,12 @@ public class TypeHolderExample {
     return floatItem;
   }
 
-
   public void setFloatItem(Float floatItem) {
     this.floatItem = floatItem;
   }
 
 
   public TypeHolderExample integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -159,14 +152,12 @@ public class TypeHolderExample {
     return integerItem;
   }
 
-
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
 
   public TypeHolderExample boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -180,14 +171,12 @@ public class TypeHolderExample {
     return boolItem;
   }
 
-
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -208,7 +197,6 @@ public class TypeHolderExample {
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
-
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;

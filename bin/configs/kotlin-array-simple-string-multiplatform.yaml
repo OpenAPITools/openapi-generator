@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-array-simple-string-multiplatform
   library: multiplatform
+  dateLibrary: kotlinx-datetime

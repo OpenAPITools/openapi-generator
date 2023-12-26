@@ -20,7 +20,6 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class FirstRef(BaseModel):
     """
     FirstRef
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
     additional_properties: Dict[str, Any] = {}
@@ -37,7 +36,8 @@ class FirstRef(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -84,7 +84,7 @@ class FirstRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FirstRef from a dict"""
         if obj is None:
             return None
@@ -104,9 +104,6 @@ class FirstRef(BaseModel):
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # FirstRef.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+FirstRef.model_rebuild(raise_errors=False)
 

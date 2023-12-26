@@ -12,6 +12,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -279,7 +280,7 @@ namespace Org.OpenAPITools.Api
     /// <summary>
     /// The <see cref="IGetUserByNameApiResponse"/>
     /// </summary>
-    public interface IGetUserByNameApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.User?>
+    public interface IGetUserByNameApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<Org.OpenAPITools.Model.User?>, ICustomHttpStatusCode599<Org.OpenAPITools.Model.User?>
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -298,6 +299,18 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <returns></returns>
         bool IsNotFound { get; }
+
+        /// <summary>
+        /// Returns true if the response is 598 CustomHttpStatusCode598
+        /// </summary>
+        /// <returns></returns>
+        bool IsCustomHttpStatusCode598 { get; }
+
+        /// <summary>
+        /// Returns true if the response is 599 CustomHttpStatusCode599
+        /// </summary>
+        /// <returns></returns>
+        bool IsCustomHttpStatusCode599 { get; }
     }
 
     /// <summary>
@@ -567,6 +580,11 @@ namespace Org.OpenAPITools.Api
         public TokenProvider<OAuthToken> OauthTokenProvider { get; }
 
         /// <summary>
+        /// The token cookie container
+        /// </summary>
+        public Org.OpenAPITools.Client.CookieContainer CookieContainer { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UserApi"/> class.
         /// </summary>
         /// <returns></returns>
@@ -575,7 +593,8 @@ namespace Org.OpenAPITools.Api
             TokenProvider<BearerToken> bearerTokenProvider,
             TokenProvider<BasicToken> basicTokenProvider,
             TokenProvider<HttpSignatureToken> httpSignatureTokenProvider,
-            TokenProvider<OAuthToken> oauthTokenProvider)
+            TokenProvider<OAuthToken> oauthTokenProvider,
+            Org.OpenAPITools.Client.CookieContainer cookieContainer)
         {
             _jsonSerializerOptions = jsonSerializerOptionsProvider.Options;
             LoggerFactory = loggerFactory;
@@ -587,6 +606,7 @@ namespace Org.OpenAPITools.Api
             BasicTokenProvider = basicTokenProvider;
             HttpSignatureTokenProvider = httpSignatureTokenProvider;
             OauthTokenProvider = oauthTokenProvider;
+            CookieContainer = cookieContainer;
         }
 
         partial void FormatCreateUser(User user);
@@ -1559,6 +1579,50 @@ namespace Org.OpenAPITools.Api
             /// <returns></returns>
             public bool IsNotFound => 404 == (int)StatusCode;
 
+            /// <summary>
+            /// Returns true if the response is 598 CustomHttpStatusCode598
+            /// </summary>
+            /// <returns></returns>
+            public bool IsCustomHttpStatusCode598 => 598 == (int)StatusCode;
+
+            /// <summary>
+            /// Returns true if the response is 599 CustomHttpStatusCode599
+            /// </summary>
+            /// <returns></returns>
+            public bool IsCustomHttpStatusCode599 => 599 == (int)StatusCode;
+
+            /// <summary>
+            /// Deserializes the response if the response is 599 CustomHttpStatusCode599
+            /// </summary>
+            /// <returns></returns>
+            public Org.OpenAPITools.Model.User? CustomHttpStatusCode599()
+            {
+                // This logic may be modified with the AsModel.mustache template
+                return IsCustomHttpStatusCode599
+                    ? System.Text.Json.JsonSerializer.Deserialize<Org.OpenAPITools.Model.User>(RawContent, _jsonSerializerOptions)
+                    : null;
+            }
+
+            /// <summary>
+            /// Returns true if the response is 599 CustomHttpStatusCode599 and the deserialized response is not null
+            /// </summary>
+            /// <param name="result"></param>
+            /// <returns></returns>
+            public bool TryCustomHttpStatusCode599([NotNullWhen(true)]out Org.OpenAPITools.Model.User? result)
+            {
+                result = null;
+
+                try
+                {
+                    result = CustomHttpStatusCode599();
+                } catch (Exception e)
+                {
+                    OnDeserializationErrorDefaultImplementation(e, (HttpStatusCode)599);
+                }
+
+                return result != null;
+            }
+
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
                 bool suppressDefaultLog = false;
@@ -1715,6 +1779,33 @@ namespace Org.OpenAPITools.Api
                         AfterLoginUserDefaultImplementation(apiResponseLocalVar, username, password);
 
                         Events.ExecuteOnLoginUser(apiResponseLocalVar);
+
+                        if (httpResponseMessageLocalVar.StatusCode == (HttpStatusCode) 200 && httpResponseMessageLocalVar.Headers.TryGetValues("Set-Cookie", out var cookieHeadersLocalVar))
+                        {
+                            foreach(string cookieHeader in cookieHeadersLocalVar)
+                            {
+                                IList<Microsoft.Net.Http.Headers.SetCookieHeaderValue> setCookieHeaderValuesLocalVar = Microsoft.Net.Http.Headers.SetCookieHeaderValue.ParseList(cookieHeadersLocalVar.ToArray());
+
+                                foreach(Microsoft.Net.Http.Headers.SetCookieHeaderValue setCookieHeaderValueLocalVar in setCookieHeaderValuesLocalVar)
+                                {
+                                    Cookie cookieLocalVar = new Cookie(setCookieHeaderValueLocalVar.Name.ToString(), setCookieHeaderValueLocalVar.Value.ToString())
+                                    {
+                                        HttpOnly = setCookieHeaderValueLocalVar.HttpOnly
+                                    };
+
+                                    if (setCookieHeaderValueLocalVar.Expires.HasValue)
+                                        cookieLocalVar.Expires = setCookieHeaderValueLocalVar.Expires.Value.UtcDateTime;
+
+                                    if (setCookieHeaderValueLocalVar.Path.HasValue)
+                                        cookieLocalVar.Path = setCookieHeaderValueLocalVar.Path.Value;
+
+                                    if (setCookieHeaderValueLocalVar.Domain.HasValue)
+                                        cookieLocalVar.Domain = setCookieHeaderValueLocalVar.Domain.Value;
+
+                                    CookieContainer.Value.Add(new Uri($"{uriBuilderLocalVar.Scheme}://{uriBuilderLocalVar.Host}"), cookieLocalVar);
+                                }
+                            }
+                        }
 
                         return apiResponseLocalVar;
                     }

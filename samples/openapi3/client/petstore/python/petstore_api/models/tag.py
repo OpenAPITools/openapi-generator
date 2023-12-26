@@ -20,7 +20,6 @@ import json
 
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -29,7 +28,7 @@ except ImportError:
 class Tag(BaseModel):
     """
     Tag
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
     additional_properties: Dict[str, Any] = {}
@@ -37,7 +36,8 @@ class Tag(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -81,7 +81,7 @@ class Tag(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Tag from a dict"""
         if obj is None:
             return None

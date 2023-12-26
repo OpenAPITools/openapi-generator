@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -38,7 +37,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * DefaultValue Class Doc Comment
  *
- * @category Class
  * @description to test the default value of properties
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
@@ -95,13 +93,13 @@ class DefaultValue implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'array_string_enum_ref_default' => false,
-		'array_string_enum_default' => false,
-		'array_string_default' => false,
-		'array_integer_default' => false,
-		'array_string' => false,
-		'array_string_nullable' => true,
-		'array_string_extension_nullable' => true,
-		'string_nullable' => true
+        'array_string_enum_default' => false,
+        'array_string_default' => false,
+        'array_integer_default' => false,
+        'array_string' => false,
+        'array_string_nullable' => true,
+        'array_string_extension_nullable' => true,
+        'string_nullable' => true
     ];
 
     /**

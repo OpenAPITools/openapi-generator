@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -32,7 +31,6 @@ namespace OpenAPI\Client\Model;
 /**
  * DataQuery Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -78,8 +76,8 @@ class DataQuery extends Query
       */
     protected static array $openAPINullables = [
         'suffix' => false,
-		'text' => false,
-		'date' => false
+        'text' => false,
+        'date' => false
     ];
 
     /**

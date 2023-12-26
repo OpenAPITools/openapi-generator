@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Animal(string className, string color = @"red")
+        public Animal(string className, Option<string> color = default)
         {
             ClassName = className;
-            Color = color;
+            ColorOption = color;
             OnCreated();
         }
 
@@ -50,10 +51,17 @@ namespace Org.OpenAPITools.Model
         public string ClassName { get; set; }
 
         /// <summary>
+        /// Used to track the state of Color
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> ColorOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get; set; }
+        public string Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -119,8 +127,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string className = default;
-            string color = default;
+            Option<string> className = default;
+            Option<string> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -138,10 +146,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -149,13 +157,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Animal.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Animal.", nameof(className));
 
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class Animal.");
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Animal.");
 
-            return new Animal(className, color);
+            if (color.IsSet && color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Animal.");
+
+            return new Animal(className.Value, color);
         }
 
         /// <summary>
@@ -182,8 +193,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Animal animal, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (animal.ClassName == null)
+                throw new ArgumentNullException(nameof(animal.ClassName), "Property is required for class Animal.");
+
+            if (animal.ColorOption.IsSet && animal.Color == null)
+                throw new ArgumentNullException(nameof(animal.Color), "Property is required for class Animal.");
+
             writer.WriteString("className", animal.ClassName);
-            writer.WriteString("color", animal.Color);
+
+            if (animal.ColorOption.IsSet)
+                writer.WriteString("color", animal.Color);
         }
     }
 }

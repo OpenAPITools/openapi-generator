@@ -197,6 +197,8 @@ void Fake_classname_testResource::handler_PATCH_internal(const std::shared_ptr<r
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 

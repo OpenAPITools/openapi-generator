@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -31,7 +30,6 @@ namespace OpenAPI\Client\Model;
 /**
  * OuterEnumDefaultValue Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -42,7 +40,7 @@ enum OuterEnumDefaultValue: string
 
     case APPROVED = 'approved';
 
-    case DELIVERED = 'delivered';
+    case SHIPPED = 'delivered';
 
 }
 

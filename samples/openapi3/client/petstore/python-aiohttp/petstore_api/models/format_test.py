@@ -18,12 +18,11 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validator
 from decimal import Decimal
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -32,7 +31,7 @@ except ImportError:
 class FormatTest(BaseModel):
     """
     FormatTest
-    """
+    """ # noqa: E501
     integer: Optional[Annotated[int, Field(le=100, strict=True, ge=10)]] = None
     int32: Optional[Annotated[int, Field(le=200, strict=True, ge=20)]] = None
     int64: Optional[StrictInt] = None
@@ -94,7 +93,8 @@ class FormatTest(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -131,7 +131,7 @@ class FormatTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None

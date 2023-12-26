@@ -80,7 +80,7 @@ class AllOfWithSingleRef implements ModelInterface, ArrayAccess, \JsonSerializab
       */
     protected static array $openAPINullables = [
         'username' => false,
-		'single_ref_type' => false
+        'single_ref_type' => false
     ];
 
     /**

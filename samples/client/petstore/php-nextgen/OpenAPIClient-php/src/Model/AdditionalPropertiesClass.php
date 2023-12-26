@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * AdditionalPropertiesClass Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -81,7 +79,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess, JsonSeri
       */
     protected static array $openAPINullables = [
         'map_property' => false,
-		'map_of_map_property' => false
+        'map_of_map_property' => false
     ];
 
     /**

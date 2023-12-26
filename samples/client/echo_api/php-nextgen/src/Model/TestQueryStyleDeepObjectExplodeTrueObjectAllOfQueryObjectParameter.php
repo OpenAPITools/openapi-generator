@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -38,7 +37,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -86,9 +84,9 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter impleme
       */
     protected static array $openAPINullables = [
         'size' => false,
-		'color' => false,
-		'id' => false,
-		'name' => false
+        'color' => false,
+        'id' => false,
+        'name' => false
     ];
 
     /**

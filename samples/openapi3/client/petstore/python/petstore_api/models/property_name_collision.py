@@ -21,7 +21,6 @@ import json
 from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
-    """
+    """ # noqa: E501
     underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
     type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
@@ -39,7 +38,8 @@ class PropertyNameCollision(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -83,7 +83,7 @@ class PropertyNameCollision(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of PropertyNameCollision from a dict"""
         if obj is None:
             return None

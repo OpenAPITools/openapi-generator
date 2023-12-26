@@ -9,3 +9,4 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   useOneOfDiscriminatorLookup: true
   targetFramework: net48
+  equatable: true

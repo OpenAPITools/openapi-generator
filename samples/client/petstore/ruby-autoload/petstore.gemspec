@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.description = "This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\"
   s.license     = "Unlicense"
   s.required_ruby_version = ">= 2.7"
+  s.metadata    = {}
 
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
 

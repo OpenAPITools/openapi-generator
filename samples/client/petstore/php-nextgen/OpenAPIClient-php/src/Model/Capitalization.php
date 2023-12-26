@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * Capitalization Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -89,11 +87,11 @@ class Capitalization implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'small_camel' => false,
-		'capital_camel' => false,
-		'small_snake' => false,
-		'capital_snake' => false,
-		'sca_eth_flow_points' => false,
-		'att_name' => false
+        'capital_camel' => false,
+        'small_snake' => false,
+        'capital_snake' => false,
+        'sca_eth_flow_points' => false,
+        'att_name' => false
     ];
 
     /**

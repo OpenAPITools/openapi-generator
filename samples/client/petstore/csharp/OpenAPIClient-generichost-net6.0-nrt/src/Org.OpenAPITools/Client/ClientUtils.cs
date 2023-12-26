@@ -40,7 +40,9 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            ComparisonConfig comparisonConfig = new();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            compareLogic = new(comparisonConfig);
         }
 
         /// <summary>
@@ -51,6 +53,37 @@ namespace Org.OpenAPITools.Client
         /// <param name="e"></param>
         /// <returns></returns>
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
+
+        /// <summary>
+        /// An enum of headers
+        /// </summary>
+        public enum ApiKeyHeader
+        {
+            /// <summary>
+            /// The api_key header
+            /// </summary>
+            Api_key,
+            /// <summary>
+            /// The api_key_query header
+            /// </summary>
+            Api_key_query
+        }
+
+        /// <summary>
+        /// Converte an ApiKeyHeader to a string
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException"></exception>
+        public static string ApiKeyHeaderToString(ApiKeyHeader value)
+        {
+            return value switch
+            {
+                ApiKeyHeader.Api_key => "api_key",
+                ApiKeyHeader.Api_key_query => "api_key_query",
+                _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
+            };
+        }
 
         /// <summary>
         /// Returns true when deserialization succeeds.
@@ -141,6 +174,8 @@ namespace Org.OpenAPITools.Client
                 return EnumArrays.JustSymbolEnumToJsonValue(enumArraysJustSymbolEnum);
             if (obj is EnumClass enumClass)
                 return EnumClassValueConverter.ToJsonValue(enumClass);
+            if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
+                return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
             if (obj is EnumTest.EnumIntegerEnum enumTestEnumIntegerEnum)
                 return EnumTest.EnumIntegerEnumToJsonValue(enumTestEnumIntegerEnum).ToString();
             if (obj is EnumTest.EnumIntegerOnlyEnum enumTestEnumIntegerOnlyEnum)
@@ -149,8 +184,6 @@ namespace Org.OpenAPITools.Client
                 return EnumTest.EnumNumberEnumToJsonValue(enumTestEnumNumberEnum).ToString();
             if (obj is EnumTest.EnumStringEnum enumTestEnumStringEnum)
                 return EnumTest.EnumStringEnumToJsonValue(enumTestEnumStringEnum);
-            if (obj is EnumTest.EnumStringRequiredEnum enumTestEnumStringRequiredEnum)
-                return EnumTest.EnumStringRequiredEnumToJsonValue(enumTestEnumStringRequiredEnum);
             if (obj is MapTest.InnerEnum mapTestInnerEnum)
                 return MapTest.InnerEnumToJsonValue(mapTestInnerEnum);
             if (obj is Order.StatusEnum orderStatusEnum)
@@ -167,6 +200,30 @@ namespace Org.OpenAPITools.Client
                 return OuterEnumTestValueConverter.ToJsonValue(outerEnumTest);
             if (obj is Pet.StatusEnum petStatusEnum)
                 return Pet.StatusEnumToJsonValue(petStatusEnum);
+            if (obj is RequiredClass.RequiredNotnullableEnumIntegerEnum requiredClassRequiredNotnullableEnumIntegerEnum)
+                return RequiredClass.RequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassRequiredNotnullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.RequiredNotnullableEnumIntegerOnlyEnum requiredClassRequiredNotnullableEnumIntegerOnlyEnum)
+                return RequiredClass.RequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNotnullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.RequiredNotnullableEnumStringEnum requiredClassRequiredNotnullableEnumStringEnum)
+                return RequiredClass.RequiredNotnullableEnumStringEnumToJsonValue(requiredClassRequiredNotnullableEnumStringEnum);
+            if (obj is RequiredClass.RequiredNullableEnumIntegerEnum requiredClassRequiredNullableEnumIntegerEnum)
+                return RequiredClass.RequiredNullableEnumIntegerEnumToJsonValue(requiredClassRequiredNullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumIntegerOnlyEnum requiredClassRequiredNullableEnumIntegerOnlyEnum)
+                return RequiredClass.RequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassRequiredNullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.RequiredNullableEnumStringEnum requiredClassRequiredNullableEnumStringEnum)
+                return RequiredClass.RequiredNullableEnumStringEnumToJsonValue(requiredClassRequiredNullableEnumStringEnum);
+            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerEnum requiredClassNotrequiredNotnullableEnumIntegerEnum)
+                return RequiredClass.NotrequiredNotnullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnum requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum)
+                return RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNotnullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNotnullableEnumStringEnum requiredClassNotrequiredNotnullableEnumStringEnum)
+                return RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClassNotrequiredNotnullableEnumStringEnum);
+            if (obj is RequiredClass.NotrequiredNullableEnumIntegerEnum requiredClassNotrequiredNullableEnumIntegerEnum)
+                return RequiredClass.NotrequiredNullableEnumIntegerEnumToJsonValue(requiredClassNotrequiredNullableEnumIntegerEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNullableEnumIntegerOnlyEnum requiredClassNotrequiredNullableEnumIntegerOnlyEnum)
+                return RequiredClass.NotrequiredNullableEnumIntegerOnlyEnumToJsonValue(requiredClassNotrequiredNullableEnumIntegerOnlyEnum).ToString();
+            if (obj is RequiredClass.NotrequiredNullableEnumStringEnum requiredClassNotrequiredNullableEnumStringEnum)
+                return RequiredClass.NotrequiredNullableEnumStringEnumToJsonValue(requiredClassNotrequiredNullableEnumStringEnum);
             if (obj is Zebra.TypeEnum zebraTypeEnum)
                 return Zebra.TypeEnumToJsonValue(zebraTypeEnum);
             if (obj is ZeroBasedEnum zeroBasedEnum)

@@ -26,6 +26,7 @@ import java.time.OffsetTime
 import java.util.Locale
 import com.squareup.moshi.adapter
 
+
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
@@ -217,6 +218,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
+        @Suppress("UNNECESSARY_SAFE_CALL")
         return when {
             response.isRedirect -> Redirection(
                 response.code(),

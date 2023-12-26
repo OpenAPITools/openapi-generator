@@ -63,7 +63,6 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
   }
 
   public NewPetCategoryInlineAllofAllOfCategoryTag id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -77,14 +76,12 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public NewPetCategoryInlineAllofAllOfCategoryTag name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -97,7 +94,6 @@ public class NewPetCategoryInlineAllofAllOfCategoryTag {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

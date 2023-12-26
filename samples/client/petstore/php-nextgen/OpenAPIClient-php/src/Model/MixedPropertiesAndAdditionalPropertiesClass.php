@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -83,8 +81,8 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
       */
     protected static array $openAPINullables = [
         'uuid' => false,
-		'date_time' => false,
-		'map' => false
+        'date_time' => false,
+        'map' => false
     ];
 
     /**

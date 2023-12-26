@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * Name Class Doc Comment
  *
- * @category Class
  * @description Model for testing model name same as property name
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
@@ -86,9 +84,9 @@ class Name implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'name' => false,
-		'snake_case' => false,
-		'property' => false,
-		'_123_number' => false
+        'snake_case' => false,
+        'property' => false,
+        '_123_number' => false
     ];
 
     /**

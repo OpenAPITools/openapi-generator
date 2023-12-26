@@ -84,7 +84,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithArrayInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     );
 
 
@@ -114,7 +114,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithListInput(
-        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<User> user
+        @ApiParam(value = "List of user object", required = true) @Valid @RequestBody List<@Valid User> user
     );
 
 

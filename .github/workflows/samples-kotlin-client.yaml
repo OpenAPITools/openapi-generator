@@ -31,14 +31,17 @@ jobs:
           - samples/client/petstore/kotlin-jvm-volley
           - samples/client/petstore/kotlin-moshi-codegen
           - samples/client/petstore/kotlin-multiplatform
+          - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
           - samples/client/petstore/kotlin-okhttp3
           - samples/client/petstore/kotlin-retrofit2
           - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
+          - samples/client/petstore/kotlin-retrofit2-jackson
           - samples/client/petstore/kotlin-retrofit2-rx3
           - samples/client/petstore/kotlin-string
           - samples/client/petstore/kotlin-threetenbp
+          - samples/client/petstore/kotlin-kotlinx-datetime
           - samples/client/petstore/kotlin-uppercase-enum
           - samples/client/petstore/kotlin-default-values-jvm-okhttp3
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
@@ -61,12 +64,13 @@ jobs:
           - samples/client/petstore/kotlin-jvm-vertx-moshi
           - samples/client/petstore/kotlin-jvm-spring-2-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-webclient
+          - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/petstore/kotlin-spring-cloud
           - samples/client/petstore/kotlin-name-parameter-mappings
           - samples/client/others/kotlin-jvm-okhttp-parameter-tests
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 8

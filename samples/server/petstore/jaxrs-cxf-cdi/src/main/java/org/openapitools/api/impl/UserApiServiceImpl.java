@@ -24,12 +24,12 @@ public class UserApiServiceImpl implements UserApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response createUsersWithArrayInput(List<User> user, SecurityContext securityContext) {
+      public Response createUsersWithArrayInput(List<@Valid User> user, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response createUsersWithListInput(List<User> user, SecurityContext securityContext) {
+      public Response createUsersWithListInput(List<@Valid User> user, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }

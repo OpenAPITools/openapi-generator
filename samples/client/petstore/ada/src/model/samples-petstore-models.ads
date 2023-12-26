@@ -14,6 +14,32 @@ package Samples.Petstore.Models is
    pragma Style_Checks ("-bmrIu");
 
 
+
+   type AnotherStatus_Type is (AVAILABLE,PENDING,UNAVAILABLE);
+
+   function To_AnotherStatus_Type (Value : in String) return Samples.Petstore.Models.AnotherStatus_Type;
+
+   function To_String (Value : in AnotherStatus_Type) return String;
+
+
+   package AnotherStatus_Type_Vectors is
+      new Ada.Containers.Vectors (Index_Type   => Positive,
+                                  Element_Type => Samples.Petstore.Models.AnotherStatus_Type);
+
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in Samples.Petstore.Models.AnotherStatus_Type);
+   procedure Serialize (Into  : in out Swagger.Streams.Output_Stream'Class;
+                        Name  : in String;
+                        Value : in AnotherStatus_Type_Vectors.Vector);
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : out Samples.Petstore.Models.AnotherStatus_Type);
+   procedure Deserialize (From  : in Swagger.Value_Type;
+                          Name  : in String;
+                          Value : in out AnotherStatus_Type_Vectors.Vector);
+
+
    --  ------------------------------
    --  An uploaded response
    --  Describes the result of uploading an image resource

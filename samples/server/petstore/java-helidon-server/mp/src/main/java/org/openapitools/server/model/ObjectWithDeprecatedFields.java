@@ -34,7 +34,7 @@ public class ObjectWithDeprecatedFields  {
 
   private DeprecatedObject deprecatedRef;
 
-  private List<String> bars = null;
+  private List<@Valid String> bars = null;
 
  /**
    * Get uuid
@@ -106,18 +106,18 @@ public class ObjectWithDeprecatedFields  {
    * @deprecated
   **/
   @Deprecated
-  public List<String> getBars() {
+  public List<@Valid String> getBars() {
     return bars;
   }
 
   /**
     * Set bars
   **/
-  public void setBars(List<String> bars) {
+  public void setBars(List<@Valid String> bars) {
     this.bars = bars;
   }
 
-  public ObjectWithDeprecatedFields bars(List<String> bars) {
+  public ObjectWithDeprecatedFields bars(List<@Valid String> bars) {
     this.bars = bars;
     return this;
   }

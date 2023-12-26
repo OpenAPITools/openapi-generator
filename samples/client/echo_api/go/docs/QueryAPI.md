@@ -29,25 +29,25 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    enumNonrefStringQuery := "enumNonrefStringQuery_example" // string |  (optional)
-    enumRefStringQuery := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
+	enumNonrefStringQuery := "enumNonrefStringQuery_example" // string |  (optional)
+	enumRefStringQuery := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestEnumRefString(context.Background()).EnumNonrefStringQuery(enumNonrefStringQuery).EnumRefStringQuery(enumRefStringQuery).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestEnumRefString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestEnumRefString`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestEnumRefString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestEnumRefString(context.Background()).EnumNonrefStringQuery(enumNonrefStringQuery).EnumRefStringQuery(enumRefStringQuery).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestEnumRefString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestEnumRefString`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestEnumRefString`: %v\n", resp)
 }
 ```
 
@@ -97,27 +97,27 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
+	"context"
+	"fmt"
+	"os"
     "time"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    datetimeQuery := time.Now() // time.Time |  (optional)
-    dateQuery := time.Now() // string |  (optional)
-    stringQuery := "stringQuery_example" // string |  (optional)
+	datetimeQuery := time.Now() // time.Time |  (optional)
+	dateQuery := time.Now() // string |  (optional)
+	stringQuery := "stringQuery_example" // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryDatetimeDateString(context.Background()).DatetimeQuery(datetimeQuery).DateQuery(dateQuery).StringQuery(stringQuery).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryDatetimeDateString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryDatetimeDateString`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryDatetimeDateString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryDatetimeDateString(context.Background()).DatetimeQuery(datetimeQuery).DateQuery(dateQuery).StringQuery(stringQuery).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryDatetimeDateString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryDatetimeDateString`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryDatetimeDateString`: %v\n", resp)
 }
 ```
 
@@ -168,26 +168,26 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    integerQuery := int32(56) // int32 |  (optional)
-    booleanQuery := true // bool |  (optional)
-    stringQuery := "stringQuery_example" // string |  (optional)
+	integerQuery := int32(56) // int32 |  (optional)
+	booleanQuery := true // bool |  (optional)
+	stringQuery := "stringQuery_example" // string |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryIntegerBooleanString(context.Background()).IntegerQuery(integerQuery).BooleanQuery(booleanQuery).StringQuery(stringQuery).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryIntegerBooleanString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryIntegerBooleanString`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryIntegerBooleanString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryIntegerBooleanString(context.Background()).IntegerQuery(integerQuery).BooleanQuery(booleanQuery).StringQuery(stringQuery).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryIntegerBooleanString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryIntegerBooleanString`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryIntegerBooleanString`: %v\n", resp)
 }
 ```
 
@@ -238,24 +238,24 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    queryObject := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
+	queryObject := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject(context.Background()).QueryObject(queryObject).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryStyleDeepObjectExplodeTrueObject`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleDeepObjectExplodeTrueObject`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObject`: %v\n", resp)
 }
 ```
 
@@ -304,24 +304,24 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    queryObject := *openapiclient.NewTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter |  (optional)
+	queryObject := *openapiclient.NewTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf(context.Background()).QueryObject(queryObject).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryStyleDeepObjectExplodeTrueObjectAllOf`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleDeepObjectExplodeTrueObjectAllOf`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleDeepObjectExplodeTrueObjectAllOf`: %v\n", resp)
 }
 ```
 
@@ -370,24 +370,24 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    queryObject := *openapiclient.NewTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
+	queryObject := *openapiclient.NewTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueArrayString(context.Background()).QueryObject(queryObject).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueArrayString``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryStyleFormExplodeTrueArrayString`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueArrayString`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueArrayString(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueArrayString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleFormExplodeTrueArrayString`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueArrayString`: %v\n", resp)
 }
 ```
 
@@ -436,24 +436,24 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    queryObject := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
+	queryObject := *openapiclient.NewPet("doggie", []string{"PhotoUrls_example"}) // Pet |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueObject(context.Background()).QueryObject(queryObject).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueObject``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryStyleFormExplodeTrueObject`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueObject`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueObject(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueObject``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleFormExplodeTrueObject`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueObject`: %v\n", resp)
 }
 ```
 
@@ -502,24 +502,24 @@ Test query parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    queryObject := *openapiclient.NewDataQuery() // DataQuery |  (optional)
+	queryObject := *openapiclient.NewDataQuery() // DataQuery |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf(context.Background()).QueryObject(queryObject).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestQueryStyleFormExplodeTrueObjectAllOf`: string
-    fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleFormExplodeTrueObjectAllOf`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeTrueObjectAllOf`: %v\n", resp)
 }
 ```
 

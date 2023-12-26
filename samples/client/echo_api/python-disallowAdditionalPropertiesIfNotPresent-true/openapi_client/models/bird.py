@@ -19,9 +19,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,14 +29,15 @@ except ImportError:
 class Bird(BaseModel):
     """
     Bird
-    """
+    """ # noqa: E501
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["size", "color"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -74,7 +74,7 @@ class Bird(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Bird from a dict"""
         if obj is None:
             return None

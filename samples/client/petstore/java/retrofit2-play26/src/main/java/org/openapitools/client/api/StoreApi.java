@@ -11,6 +11,9 @@ import okhttp3.MultipartBody;
 
 import org.openapitools.client.model.Order;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

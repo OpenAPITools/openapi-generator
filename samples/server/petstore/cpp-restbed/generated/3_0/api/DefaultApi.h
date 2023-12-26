@@ -130,7 +130,7 @@ class  DefaultApi
 {
 public:
     explicit DefaultApi(std::shared_ptr<restbed::Service> const& restbedService);
-	virtual ~DefaultApi();
+    virtual ~DefaultApi();
 
     std::shared_ptr<DefaultApiResources::FooResource> getFooResource();
 
@@ -143,7 +143,7 @@ public:
     virtual std::shared_ptr<restbed::Service> service();
 
 protected:
-	std::shared_ptr<DefaultApiResources::FooResource> m_spFooResource;
+    std::shared_ptr<DefaultApiResources::FooResource> m_spFooResource;
 
 private:
     std::shared_ptr<restbed::Service> m_service;

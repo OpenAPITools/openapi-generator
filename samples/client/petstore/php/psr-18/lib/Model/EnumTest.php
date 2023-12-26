@@ -92,13 +92,13 @@ class EnumTest implements ModelInterface, ArrayAccess, \JsonSerializable
       */
     protected static array $openAPINullables = [
         'enum_string' => false,
-		'enum_string_required' => false,
-		'enum_integer' => false,
-		'enum_number' => false,
-		'outer_enum' => true,
-		'outer_enum_integer' => false,
-		'outer_enum_default_value' => false,
-		'outer_enum_integer_default_value' => false
+        'enum_string_required' => false,
+        'enum_integer' => false,
+        'enum_number' => false,
+        'outer_enum' => true,
+        'outer_enum_integer' => false,
+        'outer_enum_default_value' => false,
+        'outer_enum_integer_default_value' => false
     ];
 
     /**

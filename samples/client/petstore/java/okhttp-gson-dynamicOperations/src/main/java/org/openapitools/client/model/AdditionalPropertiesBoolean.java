@@ -59,7 +59,6 @@ public class AdditionalPropertiesBoolean {
   }
 
   public AdditionalPropertiesBoolean name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -72,7 +71,6 @@ public class AdditionalPropertiesBoolean {
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;

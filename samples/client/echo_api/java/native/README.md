@@ -106,12 +106,18 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**testAuthHttpBasic**](docs/AuthApi.md#testAuthHttpBasic) | **POST** /auth/http/basic | To test HTTP basic authentication
 *AuthApi* | [**testAuthHttpBasicWithHttpInfo**](docs/AuthApi.md#testAuthHttpBasicWithHttpInfo) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**testAuthHttpBearer**](docs/AuthApi.md#testAuthHttpBearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication
+*AuthApi* | [**testAuthHttpBearerWithHttpInfo**](docs/AuthApi.md#testAuthHttpBearerWithHttpInfo) | **POST** /auth/http/bearer | To test HTTP bearer authentication
 *BodyApi* | [**testBinaryGif**](docs/BodyApi.md#testBinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBinaryGifWithHttpInfo**](docs/BodyApi.md#testBinaryGifWithHttpInfo) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**testBodyApplicationOctetstreamBinaryWithHttpInfo**](docs/BodyApi.md#testBodyApplicationOctetstreamBinaryWithHttpInfo) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**testBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testBodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 *BodyApi* | [**testBodyMultipartFormdataArrayOfBinaryWithHttpInfo**](docs/BodyApi.md#testBodyMultipartFormdataArrayOfBinaryWithHttpInfo) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**testBodyMultipartFormdataSingleBinary**](docs/BodyApi.md#testBodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
+*BodyApi* | [**testBodyMultipartFormdataSingleBinaryWithHttpInfo**](docs/BodyApi.md#testBodyMultipartFormdataSingleBinaryWithHttpInfo) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
+*BodyApi* | [**testEchoBodyAllOfPet**](docs/BodyApi.md#testEchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
+*BodyApi* | [**testEchoBodyAllOfPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyAllOfPetWithHttpInfo) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseStringWithHttpInfo) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
@@ -171,6 +177,12 @@ Authentication schemes defined for the API:
 
 
 - **Type**: HTTP basic authentication
+
+<a id="http_bearer_auth"></a>
+### http_bearer_auth
+
+
+- **Type**: HTTP Bearer Token authentication
 
 
 ## Recommendation

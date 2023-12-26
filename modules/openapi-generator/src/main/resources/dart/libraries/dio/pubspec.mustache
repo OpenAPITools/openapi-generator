@@ -10,7 +10,7 @@ publish_to: {{.}}
 {{/pubPublishTo}}
 
 environment:
-  sdk: '>=2.15.0 <3.0.0'
+  sdk: '>={{#useJsonSerializable}}2.17.0{{/useJsonSerializable}}{{^useJsonSerializable}}2.15.0{{/useJsonSerializable}} <3.0.0'
 
 dependencies:
   dio: '^5.2.0'

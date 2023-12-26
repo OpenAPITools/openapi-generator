@@ -80,7 +80,7 @@ class FakeBigDecimalMap200Response implements ModelInterface, ArrayAccess, \Json
       */
     protected static array $openAPINullables = [
         'some_id' => false,
-		'some_map' => false
+        'some_map' => false
     ];
 
     /**

@@ -191,6 +191,8 @@ void FooResource::handler_GET_internal(const std::shared_ptr<restbed::Session> s
         return;
     }
     defaultSessionClose(session, status_code, result);
+    
+    
 }
 
 

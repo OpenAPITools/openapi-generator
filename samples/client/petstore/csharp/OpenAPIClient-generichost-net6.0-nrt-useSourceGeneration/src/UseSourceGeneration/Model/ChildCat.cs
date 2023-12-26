@@ -38,9 +38,9 @@ namespace UseSourceGeneration.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(string name, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
+        public ChildCat(Option<string?> name = default, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
-            Name = name;
+            NameOption = name;
             PetType = petType;
             OnCreated();
         }
@@ -106,10 +106,17 @@ namespace UseSourceGeneration.Model
         public new PetTypeEnum PetType { get; set; }
 
         /// <summary>
+        /// Used to track the state of Name
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> NameOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -149,8 +156,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? name = default;
-            ChildCat.PetTypeEnum? petType = default;
+            Option<string?> name = default;
+            Option<ChildCat.PetTypeEnum?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -168,13 +175,12 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "pet_type":
                             string? petTypeRawValue = utf8JsonReader.GetString();
-                            petType = petTypeRawValue == null
-                                ? null
-                                : ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue);
+                            if (petTypeRawValue != null)
+                                petType = new Option<ChildCat.PetTypeEnum?>(ChildCat.PetTypeEnumFromStringOrDefault(petTypeRawValue));
                             break;
                         default:
                             break;
@@ -182,13 +188,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class ChildCat.");
+            if (!petType.IsSet)
+                throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
 
-            if (petType == null)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class ChildCat.");
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
 
-            return new ChildCat(name, petType.Value);
+            if (petType.IsSet && petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
+
+            return new ChildCat(name, petType.Value!.Value!);
         }
 
         /// <summary>
@@ -215,13 +224,14 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ChildCat childCat, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("name", childCat.Name);
+            if (childCat.NameOption.IsSet && childCat.Name == null)
+                throw new ArgumentNullException(nameof(childCat.Name), "Property is required for class ChildCat.");
+
+            if (childCat.NameOption.IsSet)
+                writer.WriteString("name", childCat.Name);
 
             var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
-            if (petTypeRawValue != null)
-                writer.WriteString("pet_type", petTypeRawValue);
-            else
-                writer.WriteNull("pet_type");
+            writer.WriteString("pet_type", petTypeRawValue);
         }
     }
 

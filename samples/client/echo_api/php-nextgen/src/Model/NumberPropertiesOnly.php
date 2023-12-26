@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -38,7 +37,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * NumberPropertiesOnly Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -84,8 +82,8 @@ class NumberPropertiesOnly implements ModelInterface, ArrayAccess, JsonSerializa
       */
     protected static array $openAPINullables = [
         'number' => false,
-		'float' => false,
-		'double' => false
+        'float' => false,
+        'double' => false
     ];
 
     /**

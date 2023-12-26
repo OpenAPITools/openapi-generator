@@ -137,7 +137,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? shapeType = default;
+            Option<string?> shapeType = default;
 
             Quadrilateral? quadrilateral = null;
             Triangle? triangle = null;
@@ -188,7 +188,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = utf8JsonReader.GetString();
+                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -196,14 +196,17 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (shapeType == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is required for class Shape.");
+            if (!shapeType.IsSet)
+                throw new ArgumentException("Property is required for class Shape.", nameof(shapeType));
+
+            if (shapeType.IsSet && shapeType.Value == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class Shape.");
 
             if (quadrilateral != null)
-                return new Shape(quadrilateral, shapeType);
+                return new Shape(quadrilateral, shapeType.Value!);
 
             if (triangle != null)
-                return new Shape(triangle, shapeType);
+                return new Shape(triangle, shapeType.Value!);
 
             throw new JsonException();
         }
@@ -242,6 +245,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Shape shape, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (shape.ShapeType == null)
+                throw new ArgumentNullException(nameof(shape.ShapeType), "Property is required for class Shape.");
+
             writer.WriteString("shapeType", shape.ShapeType);
         }
     }

@@ -18,11 +18,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import Dict, List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.tag import Tag
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,13 +30,14 @@ except ImportError:
 class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel
-    """
+    """ # noqa: E501
     shop_id_to_org_online_lip_map: Optional[Dict[str, List[Tag]]] = Field(default=None, alias="shopIdToOrgOnlineLipMap")
     __properties: ClassVar[List[str]] = ["shopIdToOrgOnlineLipMap"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -83,7 +83,7 @@ class MapOfArrayOfModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of MapOfArrayOfModel from a dict"""
         if obj is None:
             return None

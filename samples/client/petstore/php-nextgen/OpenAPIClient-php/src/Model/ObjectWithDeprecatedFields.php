@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * ObjectWithDeprecatedFields Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -85,9 +83,9 @@ class ObjectWithDeprecatedFields implements ModelInterface, ArrayAccess, JsonSer
       */
     protected static array $openAPINullables = [
         'uuid' => false,
-		'id' => false,
-		'deprecated_ref' => false,
-		'bars' => false
+        'id' => false,
+        'deprecated_ref' => false,
+        'bars' => false
     ];
 
     /**

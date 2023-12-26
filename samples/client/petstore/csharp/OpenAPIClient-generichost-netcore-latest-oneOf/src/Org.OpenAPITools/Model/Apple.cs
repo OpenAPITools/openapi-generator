@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,19 +36,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="kind">kind</param>
         [JsonConstructor]
-        public Apple(string kind)
+        public Apple(Option<string?> kind = default)
         {
-            Kind = kind;
+            KindOption = kind;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Kind
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> KindOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string Kind { get; set; }
+        public string? Kind { get { return this. KindOption; } set { this.KindOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +110,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? kind = default;
+            Option<string?> kind = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,7 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "kind":
-                            kind = utf8JsonReader.GetString();
+                            kind = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -128,8 +136,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (kind == null)
-                throw new ArgumentNullException(nameof(kind), "Property is required for class Apple.");
+            if (kind.IsSet && kind.Value == null)
+                throw new ArgumentNullException(nameof(kind), "Property is not nullable for class Apple.");
 
             return new Apple(kind);
         }
@@ -158,7 +166,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Apple apple, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("kind", apple.Kind);
+            if (apple.KindOption.IsSet && apple.Kind == null)
+                throw new ArgumentNullException(nameof(apple.Kind), "Property is required for class Apple.");
+
+            if (apple.KindOption.IsSet)
+                writer.WriteString("kind", apple.Kind);
         }
     }
 }

@@ -18,13 +18,12 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
 from petstore_api.models.category import Category
 from petstore_api.models.tag import Tag
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -33,7 +32,7 @@ except ImportError:
 class Pet(BaseModel):
     """
     Pet
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = None
     category: Optional[Category] = None
     name: StrictStr
@@ -54,7 +53,8 @@ class Pet(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -101,7 +101,7 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None

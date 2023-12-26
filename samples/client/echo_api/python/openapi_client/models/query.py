@@ -19,10 +19,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,7 +30,7 @@ except ImportError:
 class Query(BaseModel):
     """
     Query
-    """
+    """ # noqa: E501
     id: Optional[StrictInt] = Field(default=None, description="Query")
     outcomes: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["id", "outcomes"]
@@ -49,7 +48,8 @@ class Query(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -86,7 +86,7 @@ class Query(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Query from a dict"""
 
 

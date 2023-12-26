@@ -209,6 +209,13 @@ module OpenapiClient
             key: 'Authorization',
             value: basic_auth_token
           },
+        'http_bearer_auth' =>
+          {
+            type: 'bearer',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token_with_refresh}"
+          },
       }
     end
 

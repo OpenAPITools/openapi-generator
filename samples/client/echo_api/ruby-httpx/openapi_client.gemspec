@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
   s.description = "Echo Server API"
   s.license     = "Unlicense"
   s.required_ruby_version = ">= 2.7"
+  s.metadata    = {}
 
   s.add_runtime_dependency 'httpx', '~> 1.0', '>= 1.0.0'
 

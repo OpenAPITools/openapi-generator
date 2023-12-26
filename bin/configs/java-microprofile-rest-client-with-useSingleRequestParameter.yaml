@@ -1,0 +1,10 @@
+generatorName: java
+outputDir: samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
+library: microprofile
+inputSpec: modules/openapi-generator/src/test/resources/3_1/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: microprofile-rest-client
+  configKey: petstore
+  useSingleRequestParameter: true
+  microprofileRestClientVersion:  "3.0"

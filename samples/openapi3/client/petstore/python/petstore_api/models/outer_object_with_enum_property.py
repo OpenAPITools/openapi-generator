@@ -22,7 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,7 +30,7 @@ except ImportError:
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty
-    """
+    """ # noqa: E501
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger
     additional_properties: Dict[str, Any] = {}
@@ -39,7 +38,8 @@ class OuterObjectWithEnumProperty(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -88,7 +88,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None

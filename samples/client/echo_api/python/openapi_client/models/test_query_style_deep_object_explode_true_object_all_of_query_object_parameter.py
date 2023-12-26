@@ -19,9 +19,8 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,7 +29,7 @@ except ImportError:
 class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseModel):
     """
     TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
-    """
+    """ # noqa: E501
     size: Optional[StrictStr] = None
     color: Optional[StrictStr] = None
     id: Optional[StrictInt] = None
@@ -39,7 +38,8 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -76,7 +76,7 @@ class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(BaseMod
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a dict"""
         if obj is None:
             return None

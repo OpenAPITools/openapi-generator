@@ -18,11 +18,10 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, field_validator
 from pydantic import Field
 from typing_extensions import Annotated
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -31,7 +30,7 @@ except ImportError:
 class NullableProperty(BaseModel):
     """
     NullableProperty
-    """
+    """ # noqa: E501
     id: StrictInt
     name: Optional[Annotated[str, Field(strict=True)]]
     __properties: ClassVar[List[str]] = ["id", "name"]
@@ -48,7 +47,8 @@ class NullableProperty(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -90,7 +90,7 @@ class NullableProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of NullableProperty from a dict"""
         if obj is None:
             return None

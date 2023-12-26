@@ -4,7 +4,6 @@
  *
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -37,7 +36,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * NullableClass Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -101,17 +99,17 @@ class NullableClass implements ModelInterface, ArrayAccess, JsonSerializable
       */
     protected static array $openAPINullables = [
         'integer_prop' => true,
-		'number_prop' => true,
-		'boolean_prop' => true,
-		'string_prop' => true,
-		'date_prop' => true,
-		'datetime_prop' => true,
-		'array_nullable_prop' => true,
-		'array_and_items_nullable_prop' => true,
-		'array_items_nullable' => false,
-		'object_nullable_prop' => true,
-		'object_and_items_nullable_prop' => true,
-		'object_items_nullable' => false
+        'number_prop' => true,
+        'boolean_prop' => true,
+        'string_prop' => true,
+        'date_prop' => true,
+        'datetime_prop' => true,
+        'array_nullable_prop' => true,
+        'array_and_items_nullable_prop' => true,
+        'array_items_nullable' => false,
+        'object_nullable_prop' => true,
+        'object_and_items_nullable_prop' => true,
+        'object_items_nullable' => false
     ];
 
     /**

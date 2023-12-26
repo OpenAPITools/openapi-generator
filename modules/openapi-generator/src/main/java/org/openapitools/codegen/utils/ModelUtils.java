@@ -198,7 +198,7 @@ public class ModelUtils {
         List<String> schemasUsedInOtherCases = new ArrayList<String>();
 
         visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
+            if (s != null && s.get$ref() != null) {
                 String ref = getSimpleRef(s.get$ref());
                 if ("application/x-www-form-urlencoded".equalsIgnoreCase(t) ||
                         "multipart/form-data".equalsIgnoreCase(t)) {
@@ -320,6 +320,10 @@ public class ModelUtils {
      * @param visitor        the visitor function which is invoked for every visited schema.
      */
     private static void visitSchema(OpenAPI openAPI, Schema schema, String mimeType, List<String> visitedSchemas, OpenAPISchemaVisitor visitor) {
+        if (schema == null) {
+            return;
+        }
+
         visitor.visit(schema, mimeType);
         if (schema.get$ref() != null) {
             String ref = getSimpleRef(schema.get$ref());
@@ -710,7 +714,7 @@ public class ModelUtils {
         return (schema != null) &&
                 // has properties
                 ((null != schema.getProperties() && !schema.getProperties().isEmpty())
-                // composed schema is a model, consider very simple ObjectSchema a model
+                        // composed schema is a model, consider very simple ObjectSchema a model
                         || isComposedSchema(schema)
                         || schema instanceof ObjectSchema);
     }
@@ -1005,11 +1009,17 @@ public class ModelUtils {
     /**
      * Return the first defined Schema for a ApiResponse
      *
-     * @param response api response of the operation
+     * @param openAPI OpenAPI spec.
+     * @param response API response of the operation
      * @return firstSchema
      */
-    public static Schema getSchemaFromResponse(ApiResponse response) {
-        return getSchemaFromContent(response.getContent());
+    public static Schema getSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
+        ApiResponse result = getReferencedApiResponse(openAPI, response);
+        if (result == null) {
+            return null;
+        } else {
+            return getSchemaFromContent(result.getContent());
+        }
     }
 
     /**
@@ -1734,7 +1744,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema '"+ schema.getType() +"'. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + schema.getType() +"'. Ignoring!");
         });
     }
 
@@ -1838,7 +1848,7 @@ public class ModelUtils {
      * @return true if allOf is not empty
      */
     public static boolean hasAllOf(Schema schema) {
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (schema != null && schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
             return true;
         }
 
@@ -1954,7 +1964,6 @@ public class ModelUtils {
      * Returns true if the schema is a parent (with discriminator).
      *
      * @param schema the schema.
-     *
      * @return true if the schema is a parent.
      */
     public static boolean isParent(Schema schema) {

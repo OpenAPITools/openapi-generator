@@ -3,7 +3,6 @@
  * HeaderApi
  * PHP version 8.1
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -45,7 +44,6 @@ use OpenAPI\Client\ObjectSerializer;
 /**
  * HeaderApi Class Doc Comment
  *
- * @category Class
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -137,7 +135,7 @@ class HeaderApi
      * @param  StringEnumRef|null $enum_ref_string_header enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return string
      */
@@ -166,7 +164,7 @@ class HeaderApi
      * @param  StringEnumRef|null $enum_ref_string_header (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testHeaderIntegerBooleanStringEnums'] to see the possible values for this operation
      *
-     * @throws ApiException on non-2xx response
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
      * @throws InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
@@ -223,7 +221,19 @@ class HeaderApi
                     } else {
                         $content = (string) $response->getBody();
                         if ('string' !== 'string') {
-                            $content = json_decode($content);
+                            try {
+                                $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                            } catch (\JsonException $exception) {
+                                throw new ApiException(
+                                    sprintf(
+                                        'Error JSON decoding server response (%s)',
+                                        $request->getUri()
+                                    ),
+                                    $statusCode,
+                                    $response->getHeaders(),
+                                    $content
+                                );
+                            }
                         }
                     }
 
@@ -240,7 +250,19 @@ class HeaderApi
             } else {
                 $content = (string) $response->getBody();
                 if ($returnType !== 'string') {
-                    $content = json_decode($content);
+                    try {
+                        $content = json_decode($content, false, 512, JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $exception) {
+                        throw new ApiException(
+                            sprintf(
+                                'Error JSON decoding server response (%s)',
+                                $request->getUri()
+                            ),
+                            $statusCode,
+                            $response->getHeaders(),
+                            $content
+                        );
+                    }
                 }
             }
 

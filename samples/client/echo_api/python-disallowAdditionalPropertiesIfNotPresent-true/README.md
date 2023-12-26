@@ -95,9 +95,12 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**test_auth_http_basic**](docs/AuthApi.md#test_auth_http_basic) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**test_auth_http_bearer**](docs/AuthApi.md#test_auth_http_bearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication
 *BodyApi* | [**test_binary_gif**](docs/BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**test_body_application_octetstream_binary**](docs/BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**test_body_multipart_formdata_array_of_binary**](docs/BodyApi.md#test_body_multipart_formdata_array_of_binary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**test_body_multipart_formdata_single_binary**](docs/BodyApi.md#test_body_multipart_formdata_single_binary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
+*BodyApi* | [**test_echo_body_all_of_pet**](docs/BodyApi.md#test_echo_body_all_of_pet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**test_echo_body_free_form_object_response_string**](docs/BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**test_echo_body_pet**](docs/BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**test_echo_body_pet_response_string**](docs/BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -140,6 +143,11 @@ Authentication schemes defined for the API:
 ### http_auth
 
 - **Type**: HTTP basic authentication
+
+<a id="http_bearer_auth"></a>
+### http_bearer_auth
+
+- **Type**: Bearer authentication
 
 
 ## Author
