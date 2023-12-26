@@ -477,7 +477,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
   -g java \
   -t modules/openapi-generator/src/main/resources/Java \
-  --additional-properties artifactId=petstore-okhttp-gson,hideGenerationTimestamp:true \
+  --additional-properties artifactId=petstore-okhttp-gson,hideGenerationTimestamp=true \
   -o samples/client/petstore/java/okhttp-gson
 ```
 
