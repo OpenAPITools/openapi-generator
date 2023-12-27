@@ -197,6 +197,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     private final static Map<String, String> statusToResponse = new HashMap<>();
+
     static {
         statusToResponse.put("100", "Continue");
 
@@ -557,7 +558,7 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         OperationMap operations = objs.getOperations();
 
         List<CodegenOperation> operationList = operations.getOperation();
-        Set<CodegenSecurity> allAuth = new HashSet<>();
+        Set<String> allAuth = new HashSet<>();
         Map<String, List<String>> opsByAuth = new HashMap<>();
 
         for (CodegenOperation op : operationList) {
@@ -606,7 +607,9 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
             }
 
             if (op.authMethods != null) {
-                allAuth.addAll(op.authMethods);
+                for (CodegenSecurity cs: op.authMethods) {
+                    allAuth.add(cs.name);
+                }
                 List<Map<String, Object>> authDup = new ArrayList<>();
                 for (CodegenSecurity authMeth: op.authMethods) {
                     Map<String, Object> vals = new HashMap<>();

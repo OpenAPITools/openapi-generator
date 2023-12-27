@@ -20,7 +20,7 @@ final case class API [
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-  delegate{{classname}}: {{classname}}Delegate[F{{#allAuth}}, {{name}}{{/allAuth}}],
+  delegate{{classname}}: {{classname}}Delegate[F{{#allAuth}}, {{.}}{{/allAuth}}],
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
