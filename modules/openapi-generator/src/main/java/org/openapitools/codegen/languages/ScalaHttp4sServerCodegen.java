@@ -196,6 +196,31 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         inlineSchemaOption.put("REFACTOR_ALLOF_INLINE_SCHEMAS", "true");
     }
 
+    private final static Map<String, String> locationStatusToResponse = new HashMap<>();
+    static {
+        locationStatusToResponse.put("300", "MultipleChoices");
+        locationStatusToResponse.put("301", "MovedPermanently");
+        locationStatusToResponse.put("302", "Found");
+        locationStatusToResponse.put("303", "SeeOther");
+        locationStatusToResponse.put("307", "TemporaryRedirect");
+        locationStatusToResponse.put("308", "PermanentRedirect");
+    }
+
+    private final static Map<String, String> wwwAuthStatusToResponse = new HashMap<>();
+    static {
+        wwwAuthStatusToResponse.put("401", "Unauthorized");
+    }
+
+    private final static Map<String, String> allowStatusToResponse = new HashMap<>();
+    static {
+        allowStatusToResponse.put("405", "MethodNotAllowed");
+    }
+
+    private final static Map<String, String> proxyAuthStatusToResponse = new HashMap<>();
+    static {
+        proxyAuthStatusToResponse.put("407", "ProxyAuthenticationRequired");
+    }
+
     private final static Map<String, String> statusToResponse = new HashMap<>();
 
     static {
@@ -217,23 +242,14 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
         statusToResponse.put("208", "AlreadyReported");
         statusToResponse.put("226", "IMUsed");
 
-        statusToResponse.put("300", "MultipleChoices");
-        statusToResponse.put("301", "MovedPermanently");
-        statusToResponse.put("302", "Found");
-        statusToResponse.put("303", "SeeOther");
         statusToResponse.put("304", "NotModified");
         statusToResponse.put("305", "UseProxy");
-        statusToResponse.put("307", "TemporaryRedirect");
-        statusToResponse.put("308", "PermanentRedirect");
 
         statusToResponse.put("400", "BadRequest");
-        statusToResponse.put("401", "Unauthorized");
         statusToResponse.put("402", "PaymentRequired");
         statusToResponse.put("403", "Forbidden");
         statusToResponse.put("404", "NotFound");
-        statusToResponse.put("405", "MethodNotAllowed");
         statusToResponse.put("406", "NotAcceptable");
-        statusToResponse.put("407", "ProxyAuthenticationRequired");
         statusToResponse.put("408", "RequestTimeout");
         statusToResponse.put("409", "Conflict");
         statusToResponse.put("410", "Gone");
@@ -581,16 +597,41 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
                 }
             }
 
-
             // decide wat methods do we need in responses:
             for (CodegenResponse resp: op.responses) {
                 if (resp.code.equals("0"))
                     resp.code = "200"; // 200 by default
-                String responseName = statusToResponse.get(resp.code);
-                if (responseName == null)
-                    throw new IllegalArgumentException("unsupported status " + resp.code);
 
-                resp.vendorExtensions.put("x-response", responseName); // json resp
+                String responseName;
+
+                responseName = locationStatusToResponse.get(resp.code);
+                if (responseName != null) {
+                    resp.vendorExtensions.put("x-response-location", true);
+                } else {
+                    responseName = wwwAuthStatusToResponse.get(resp.code);
+                    if (responseName != null) {
+                        resp.vendorExtensions.put("x-response-www-auth", true);
+                    } else {
+                        responseName = allowStatusToResponse.get(resp.code);
+                        if (responseName != null) {
+                            resp.vendorExtensions.put("x-response-allow", true);
+                        } else {
+                            responseName = proxyAuthStatusToResponse.get(resp.code);
+                            if (responseName != null) {
+                                resp.vendorExtensions.put("x-response-proxy-auth", true);
+                            } else {
+                                responseName = statusToResponse.get(resp.code);
+                                if (responseName != null) {
+                                    resp.vendorExtensions.put("x-response-standard", true);
+                                } else {
+                                    throw new IllegalArgumentException("unsupported status " + resp.code);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                resp.vendorExtensions.put("x-response", responseName);
 
                 if (resp.getContent() == null) {
                     resp.vendorExtensions.put("x-generic-response", true); // non json resp

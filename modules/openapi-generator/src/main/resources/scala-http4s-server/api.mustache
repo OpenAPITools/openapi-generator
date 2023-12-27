@@ -97,12 +97,46 @@ final case class {{classname}}Routes[
 
     val responses: {{operationId}}Responses[F] = new {{operationId}}Responses[F] {
     {{#responses}}
+      {{#vendorExtensions.x-response-location}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(location: Location, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(location, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(location: Location): F[Response[F]] = {{vendorExtensions.x-response}}(location)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-location}}
+      {{#vendorExtensions.x-response-www-auth}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(authenticate: `WWW-Authenticate`, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(authenticate: `WWW-Authenticate`): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-www-auth}}
+      {{#vendorExtensions.x-response-allow}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(allow: Allow, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(allow, value)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(allow: Allow): F[Response[F]] = {{vendorExtensions.x-response}}(allow)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-allow}}
+      {{#vendorExtensions.x-response-proxy-auth}}
+      {{#vendorExtensions.x-json-response}}
+      def resp{{code}}(authenticate: `Proxy-Authenticate`, value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(value, authenticate)
+      {{/vendorExtensions.x-json-response}}
+      {{#vendorExtensions.x-generic-response}}
+      def resp{{code}}(authenticate: `Proxy-Authenticate`): F[Response[F]] = {{vendorExtensions.x-response}}(authenticate)
+      {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-proxy-auth}}
+      {{#vendorExtensions.x-response-standard}}
       {{#vendorExtensions.x-json-response}}
       def resp{{code}}(value: {{{dataType}}}): F[Response[F]] = {{vendorExtensions.x-response}}(value)
       {{/vendorExtensions.x-json-response}}
       {{#vendorExtensions.x-generic-response}}
       def resp{{code}}(): F[Response[F]] = {{vendorExtensions.x-response}}()
       {{/vendorExtensions.x-generic-response}}
+      {{/vendorExtensions.x-response-standard}}
     {{/responses}}
     }
   }
@@ -122,12 +156,46 @@ object {{classname}}Delegate {
 {{#operation}}
   trait {{operationId}}Responses[F[_]] {
   {{#responses}}
+    {{#vendorExtensions.x-response-location}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(location: Location, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(location: Location): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-location}}
+    {{#vendorExtensions.x-response-www-auth}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(authenticate: `WWW-Authenticate`, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(authenticate: `WWW-Authenticate`): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-www-auth}}
+    {{#vendorExtensions.x-response-allow}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(allow: Allow, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(allow: Allow): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-allow}}
+    {{#vendorExtensions.x-response-proxy-auth}}
+    {{#vendorExtensions.x-json-response}}
+    def resp{{code}}(authenticate: `Proxy-Authenticate`, value: {{{dataType}}}): F[Response[F]]
+    {{/vendorExtensions.x-json-response}}
+    {{#vendorExtensions.x-generic-response}}
+    def resp{{code}}(authenticate: `Proxy-Authenticate`): F[Response[F]]
+    {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-proxy-auth}}
+    {{#vendorExtensions.x-response-standard}}
     {{#vendorExtensions.x-json-response}}
     def resp{{code}}(value: {{{dataType}}}): F[Response[F]]
     {{/vendorExtensions.x-json-response}}
     {{#vendorExtensions.x-generic-response}}
     def resp{{code}}(): F[Response[F]]
     {{/vendorExtensions.x-generic-response}}
+    {{/vendorExtensions.x-response-standard}}
   {{/responses}}
   }
 
