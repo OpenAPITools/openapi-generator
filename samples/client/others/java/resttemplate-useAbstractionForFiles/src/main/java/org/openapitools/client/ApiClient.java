@@ -640,11 +640,10 @@ public class ApiClient extends JavaTimeFormatter {
                         Thread.currentThread().interrupt();
                     }
                 }
+                else {
+                    throw ex;
+                }
             }
-        }
-
-        if (responseEntity == null) {
-            throw new RestClientException("API returned HttpServerErrorException");
         }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
