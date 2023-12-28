@@ -3,7 +3,9 @@ package {{modelPackage}}
 import java.time._
 
 import io.circe.refined._
-import io.circe.generic.JsonCodec
+import io.circe.syntax._
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
 
 {{#imports}}
 import {{.}}
@@ -81,12 +83,15 @@ object {{classname}} {
 {{/vendorExtensions.x-isSealedTrait}}
 
 {{^vendorExtensions.x-isSealedTrait}}
-@JsonCodec
 case class {{classname}}(
 {{#vars}}
   {{name}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
 {{/vars}}
 ){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
+object {{classname}} {
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = deriveEncoder[{{classname}}].mapJson(_.dropNullValues)
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = deriveDecoder[{{classname}}]
+}
 {{/vendorExtensions.x-isSealedTrait}}
 
 {{/model}}
