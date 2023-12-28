@@ -22,6 +22,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -631,20 +632,29 @@ public class ApiClient extends JavaTimeFormatter {
             try {
                 responseEntity = restTemplate.exchange(requestEntity, returnType);
                 break;
-            } catch (HttpServerErrorException ex) {
-                attempts++;
-                if (attempts < maxAttemptsForRetry) {
-                    try {
-                        Thread.sleep(waitTimeMillis);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+            } catch (HttpServerErrorException | HttpClientErrorException ex) {
+                if (ex instanceof HttpServerErrorException
+                        || ((HttpClientErrorException) ex)
+                        .getStatusCode()
+                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                    attempts++;
+                    if (attempts < maxAttemptsForRetry) {
+                        try {
+                            Thread.sleep(waitTimeMillis);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    } else {
+                        throw ex;
                     }
+                } else {
+                    throw ex;
                 }
             }
         }
 
         if (responseEntity == null) {
-            throw new RestClientException("API returned HttpServerErrorException");
+            throw new RestClientException("ResponseEntity is null");
         }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
