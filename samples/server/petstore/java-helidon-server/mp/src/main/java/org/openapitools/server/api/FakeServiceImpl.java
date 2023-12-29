@@ -110,6 +110,12 @@ public class FakeServiceImpl implements FakeService {
         return result;
     }
 
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    public void testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+    }
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })

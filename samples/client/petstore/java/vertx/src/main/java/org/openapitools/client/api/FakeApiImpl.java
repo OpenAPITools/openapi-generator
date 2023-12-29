@@ -406,6 +406,54 @@ public class FakeApiImpl implements FakeApi {
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
+    * test referenced additionalProperties
+    * 
+        * @param requestBody request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        testAdditionalPropertiesReference(requestBody, null, resultHandler);
+    }
+
+    /**
+    * test referenced additionalProperties
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        Object localVarBody = requestBody;
+        
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            resultHandler.handle(ApiException.fail(400, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference"));
+            return;
+        }
+        
+        // create path and map variables
+        String localVarPath = "/fake/additionalProperties-reference";
+
+        // query params
+        List<Pair> localVarQueryParams = new ArrayList<>();
+
+        // header params
+        MultiMap localVarHeaderParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // cookie params
+        MultiMap localVarCookieParams = MultiMap.caseInsensitiveMultiMap();
+        
+        // form params
+        // TODO: sending files within multipart/form-data is not supported yet (because of vertx web-client)
+        Map<String, Object> localVarFormParams = new HashMap<>();
+        
+        String[] localVarAccepts = {  };
+        String[] localVarContentTypes = { "application/json" };
+        String[] localVarAuthNames = new String[] {  };
+
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+    /**
     * 
     * For this test, the body has to be a binary file.
         * @param body image to upload (required)

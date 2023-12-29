@@ -440,6 +440,56 @@ class FakeApi {
     return null;
   }
 
+  /// test referenced additionalProperties
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, Object>] requestBody (required):
+  ///   request body
+  Future<Response> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/additionalProperties-reference';
+
+    // ignore: prefer_final_locals
+    Object? postBody = requestBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test referenced additionalProperties
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, Object>] requestBody (required):
+  ///   request body
+  Future<void> testAdditionalPropertiesReference(Map<String, Object> requestBody,) async {
+    final response = await testAdditionalPropertiesReferenceWithHttpInfo(requestBody,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
   /// For this test, the body has to be a binary file.
   ///
   /// Note: This method returns the HTTP [Response].
