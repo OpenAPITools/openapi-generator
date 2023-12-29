@@ -66,7 +66,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/user"
+            path = "/user",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -101,7 +101,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/user/createWithArray"
+            path = "/user/createWithArray",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -136,7 +136,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/user/createWithList"
+            path = "/user/createWithList",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -166,12 +166,12 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val params = mutableMapOf<String, Any>(
-            username to username.toString()
+            "username" to username.toString(),
         )
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}"
+            path = "/user/{username}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -202,12 +202,12 @@ class UserApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
-            username to username.toString()
+            "username" to username.toString(),
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}"
+            path = "/user/{username}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -246,7 +246,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/login"
+            path = "/user/login",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -280,7 +280,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/logout"
+            path = "/user/logout",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -311,12 +311,12 @@ class UserApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
         val params = mutableMapOf<String, Any>(
-            username to username.toString()
+            "username" to username.toString(),
         )
 
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}"
+            path = "/user/{username}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,

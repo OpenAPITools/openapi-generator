@@ -61,12 +61,12 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val params = mutableMapOf<String, Any>(
-            orderId to orderId.toString()
+            "orderId" to orderId.toString(),
         )
 
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}"
+            path = "/store/order/{orderId}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -101,7 +101,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/inventory"
+            path = "/store/inventory",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -132,12 +132,12 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
-            orderId to orderId.toString()
+            "orderId" to orderId.toString(),
         )
 
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}"
+            path = "/store/order/{orderId}",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
@@ -173,7 +173,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
 
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/store/order"
+            path = "/store/order",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
