@@ -100,7 +100,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
         val params = mutableMapOf<String, Any>(
-            "petId" to petId.toString(),
+            "petId" to petId,
         )
 
         return RequestConfig(
@@ -224,7 +224,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
-            "petId" to petId.toString(),
+            "petId" to petId,
         )
 
         return RequestConfig(
@@ -298,7 +298,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
         val params = mutableMapOf<String, Any>(
-            "petId" to petId.toString(),
+            "petId" to petId,
         )
 
         return RequestConfig(
@@ -336,7 +336,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/json"
 
         val params = mutableMapOf<String, Any>(
-            "petId" to petId.toString(),
+            "petId" to petId,
         )
 
         return RequestConfig(

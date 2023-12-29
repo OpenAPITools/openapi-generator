@@ -61,7 +61,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val params = mutableMapOf<String, Any>(
-            "orderId" to orderId.toString(),
+            "orderId" to orderId,
         )
 
         return RequestConfig(
@@ -132,7 +132,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
-            "orderId" to orderId.toString(),
+            "orderId" to orderId,
         )
 
         return RequestConfig(

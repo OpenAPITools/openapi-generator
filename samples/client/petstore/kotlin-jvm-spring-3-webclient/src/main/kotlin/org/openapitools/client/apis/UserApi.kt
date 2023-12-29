@@ -166,7 +166,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
         val params = mutableMapOf<String, Any>(
-            "username" to username.toString(),
+            "username" to username,
         )
 
         return RequestConfig(
@@ -202,7 +202,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
         val params = mutableMapOf<String, Any>(
-            "username" to username.toString(),
+            "username" to username,
         )
 
         return RequestConfig(
@@ -311,7 +311,7 @@ class UserApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         
         val params = mutableMapOf<String, Any>(
-            "username" to username.toString(),
+            "username" to username,
         )
 
         return RequestConfig(
