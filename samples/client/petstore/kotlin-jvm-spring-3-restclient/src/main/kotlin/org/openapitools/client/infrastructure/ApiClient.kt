@@ -4,9 +4,9 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.web.util.UriUtils
 import org.springframework.web.client.RestClient
 import org.springframework.http.ResponseEntity
+import org.springframework.util.LinkedMultiValueMap
 
 open class ApiClient(protected val client: RestClient) {
 
@@ -37,11 +37,10 @@ open class ApiClient(protected val client: RestClient) {
 
     private fun <I> RestClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
         uri { builder ->
-            builder.path(requestConfig.path).apply {
-                requestConfig.query.forEach { (name, value) ->
-                    queryParam(name, value)
-                }
-            }.build()
+            builder
+                .path(requestConfig.path)
+                .queryParams(LinkedMultiValueMap(requestConfig.query))
+                .build(requestConfig.params)
         }
 
     private fun <I> RestClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =
