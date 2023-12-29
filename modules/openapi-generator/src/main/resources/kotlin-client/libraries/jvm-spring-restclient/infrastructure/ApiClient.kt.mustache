@@ -32,9 +32,6 @@ open class ApiClient(protected val client: RestClient) {
             }
         }
 
-    protected fun encodeURIComponent(uriComponent: kotlin.String) =
-        UriUtils.encodeFragment(uriComponent, Charsets.UTF_8)
-
     private fun <I> RestClient.method(requestConfig: RequestConfig<I>)=
         method(HttpMethod.valueOf(requestConfig.method.name))
 

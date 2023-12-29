@@ -13,6 +13,8 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 {{/jackson}}
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
+import org.springframework.util.LinkedMultiValueMap
+
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -122,9 +124,16 @@ import {{packageName}}.infrastructure.*
         {{/consumes}}{{/hasConsumes}}{{/hasFormParams}}{{#hasProduces}}localVariableHeaders["Accept"] = "{{#produces}}{{{mediaType}}}{{^-last}}, {{/-last}}{{/produces}}"
 {{/hasProduces}}
 
+        val params = mutableMapOf<String, Any>(
+        {{#pathParams}}
+            "{{baseName}}" to {{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}{{/isContainer}},
+        {{/pathParams}}
+        )
+
         return RequestConfig(
             method = RequestMethod.{{httpMethod}},
-            path = "{{path}}"{{#pathParams}}.replace("{"+"{{baseName}}"+"}", encodeURIComponent({{#isContainer}}{{paramName}}.joinToString(","){{/isContainer}}{{^isContainer}}{{{paramName}}}{{#isEnum}}.value{{/isEnum}}.toString(){{/isContainer}})){{/pathParams}},
+            path = "{{path}}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = {{#hasAuthMethods}}true{{/hasAuthMethods}}{{^hasAuthMethods}}false{{/hasAuthMethods}},
