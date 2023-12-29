@@ -351,15 +351,36 @@ public class ExampleGenerator {
             return schema.getExample();
         } else if (schema.getProperties() != null) {
             LOGGER.debug("Creating example from model values");
-            for (Object propertyName : schema.getProperties().keySet()) {
-                Schema property = (Schema) schema.getProperties().get(propertyName.toString());
-                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            traverseSchemaProperties(mediaType, schema, processedModels, values);
+            schema.setExample(values);
+            return schema.getExample();
+        } else if (ModelUtils.isAllOf(schema) || ModelUtils.isAllOfWithProperties(schema)) {
+            LOGGER.debug("Resolving allOf model '{}' to example", name);
+            List<Schema> interfaces = schema.getAllOf();
+            for (Schema composed : interfaces) {
+                traverseSchemaProperties(mediaType, composed, processedModels, values);
+                if (composed.get$ref() != null) {
+                    String ref = ModelUtils.getSimpleRef(composed.get$ref());
+                    Schema resolved = ModelUtils.getSchema(openAPI, ref);
+                    if (resolved != null) {
+                        traverseSchemaProperties(mediaType, resolved, processedModels, values);
+                    }
+                }
             }
             schema.setExample(values);
             return schema.getExample();
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
+        }
+    }
+
+    private void traverseSchemaProperties(String mediaType, Schema schema, Set<String> processedModels, Map<String, Object> values) {
+        if (schema.getProperties() != null) {
+            for (Object propertyName : schema.getProperties().keySet()) {
+                Schema property = (Schema) schema.getProperties().get(propertyName.toString());
+                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+            }
         }
     }
 }
