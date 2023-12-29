@@ -397,7 +397,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{^required}}
 
                     if ({{paramName}}.IsSet)
-                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString()) }";
+                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString() }";
                     {{#-last}}
 
                     {{/-last}}
