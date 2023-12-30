@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -36,11 +37,17 @@ namespace Org.OpenAPITools.Model
         /// <param name="breed">breed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Dog(string className, Option<string> breed = default, Option<string> color = default) : base(className, color)
         {
             BreedOption = breed;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Dog" /> class to be used with object initializers.
+        /// </summary>
+        public Dog() {}
 
         partial void OnCreated();
 

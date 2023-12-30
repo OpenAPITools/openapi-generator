@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -52,6 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public FormatTest(byte[] varByte, DateTime date, decimal number, string password, Option<System.IO.Stream> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> varDecimal = default, Option<double?> varDouble = default, Option<float?> varFloat = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string> patternWithBackslash = default, Option<string> patternWithDigits = default, Option<string> patternWithDigitsAndDelimiter = default, Option<string> varString = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             VarByte = varByte;
@@ -76,32 +78,37 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormatTest" /> class to be used with object initializers.
+        /// </summary>
+        public FormatTest() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets VarByte
         /// </summary>
         [JsonPropertyName("byte")]
-        public byte[] VarByte { get; set; }
+        public required byte[] VarByte { get; set; }
 
         /// <summary>
         /// Gets or Sets Date
         /// </summary>
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
-        public DateTime Date { get; set; }
+        public required DateTime Date { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
         /// </summary>
         [JsonPropertyName("number")]
-        public decimal Number { get; set; }
+        public required decimal Number { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get; set; }
+        public required string Password { get; set; }
 
         /// <summary>
         /// Used to track the state of Binary

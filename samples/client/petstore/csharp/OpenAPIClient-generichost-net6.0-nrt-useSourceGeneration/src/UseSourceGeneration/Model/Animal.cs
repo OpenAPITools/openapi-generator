@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="className">className</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Animal(string className, Option<string?> color = default)
         {
             ClassName = className;
@@ -45,13 +47,18 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Animal" /> class to be used with object initializers.
+        /// </summary>
+        public Animal() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public required string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of Color

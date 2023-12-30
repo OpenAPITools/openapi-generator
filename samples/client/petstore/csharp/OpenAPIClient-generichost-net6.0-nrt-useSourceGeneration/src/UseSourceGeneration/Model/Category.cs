@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,12 +39,18 @@ namespace UseSourceGeneration.Model
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Category(Option<long?> id = default, string name = @"default-name")
         {
             IdOption = id;
             Name = name;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Category" /> class to be used with object initializers.
+        /// </summary>
+        public Category() {}
 
         partial void OnCreated();
 
@@ -64,7 +71,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

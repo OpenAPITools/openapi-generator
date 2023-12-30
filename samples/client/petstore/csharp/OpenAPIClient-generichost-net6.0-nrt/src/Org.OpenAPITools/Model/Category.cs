@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -37,12 +38,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Category(Option<long?> id = default, string name = @"default-name")
         {
             IdOption = id;
             Name = name;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Category" /> class to be used with object initializers.
+        /// </summary>
+        public Category() {}
 
         partial void OnCreated();
 
@@ -63,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

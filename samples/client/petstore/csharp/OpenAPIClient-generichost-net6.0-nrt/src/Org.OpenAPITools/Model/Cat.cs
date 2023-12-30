@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -38,11 +39,17 @@ namespace Org.OpenAPITools.Model
         /// <param name="color">color (default to &quot;red&quot;)</param>
         /// <param name="declawed">declawed</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Cat(string className, Option<string?> color = default, Option<bool?> declawed = default) : base(className, color)
         {
             DeclawedOption = declawed;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Cat" /> class to be used with object initializers.
+        /// </summary>
+        public Cat() {}
 
         partial void OnCreated();
 

@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -48,6 +49,11 @@ namespace Org.OpenAPITools.Model
             BananaReq = bananaReq;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FruitReq" /> class to be used with object initializers.
+        /// </summary>
+        public FruitReq() {}
 
         partial void OnCreated();
 

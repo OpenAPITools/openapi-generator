@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public IsoscelesTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -45,19 +47,24 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IsoscelesTriangle" /> class to be used with object initializers.
+        /// </summary>
+        public IsoscelesTriangle() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public required string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public required string TriangleType { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

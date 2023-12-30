@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -37,11 +38,17 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="quadrilateralType">quadrilateralType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public QuadrilateralInterface(string quadrilateralType)
         {
             QuadrilateralType = quadrilateralType;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuadrilateralInterface" /> class to be used with object initializers.
+        /// </summary>
+        public QuadrilateralInterface() {}
 
         partial void OnCreated();
 
@@ -49,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        public required string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

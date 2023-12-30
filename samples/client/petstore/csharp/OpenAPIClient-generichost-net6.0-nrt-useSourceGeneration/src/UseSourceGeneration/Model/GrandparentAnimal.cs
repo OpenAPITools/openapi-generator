@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -37,11 +38,17 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="petType">petType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public GrandparentAnimal(string petType)
         {
             PetType = petType;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GrandparentAnimal" /> class to be used with object initializers.
+        /// </summary>
+        public GrandparentAnimal() {}
 
         partial void OnCreated();
 
@@ -49,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public string PetType { get; set; }
+        public required string PetType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -53,6 +54,11 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Shape" /> class to be used with object initializers.
+        /// </summary>
+        public Shape() {}
+
         partial void OnCreated();
 
         /// <summary>
@@ -69,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public required string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

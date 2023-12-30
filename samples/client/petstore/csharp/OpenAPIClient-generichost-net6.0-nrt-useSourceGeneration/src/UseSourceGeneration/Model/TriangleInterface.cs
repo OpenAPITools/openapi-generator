@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -37,11 +38,17 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public TriangleInterface(string triangleType)
         {
             TriangleType = triangleType;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TriangleInterface" /> class to be used with object initializers.
+        /// </summary>
+        public TriangleInterface() {}
 
         partial void OnCreated();
 
@@ -49,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public required string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -55,6 +56,11 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pig" /> class to be used with object initializers.
+        /// </summary>
+        public Pig() {}
+
         partial void OnCreated();
 
         /// <summary>
@@ -71,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public required string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

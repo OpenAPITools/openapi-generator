@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -39,6 +40,7 @@ namespace UseSourceGeneration.Model
         /// <param name="hasBaleen">hasBaleen</param>
         /// <param name="hasTeeth">hasTeeth</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Whale(string className, Option<bool?> hasBaleen = default, Option<bool?> hasTeeth = default)
         {
             ClassName = className;
@@ -47,13 +49,18 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Whale" /> class to be used with object initializers.
+        /// </summary>
+        public Whale() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public required string ClassName { get; set; }
 
         /// <summary>
         /// Used to track the state of HasBaleen

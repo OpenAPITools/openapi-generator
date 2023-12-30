@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -41,6 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Pet(string name, List<string> photoUrls, Option<Category?> category = default, Option<long?> id = default, Option<StatusEnum?> status = default, Option<List<Tag>?> tags = default)
         {
             Name = name;
@@ -51,6 +53,11 @@ namespace Org.OpenAPITools.Model
             TagsOption = tags;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pet" /> class to be used with object initializers.
+        /// </summary>
+        public Pet() {}
 
         partial void OnCreated();
 
@@ -154,13 +161,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>doggie</example>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PhotoUrls
         /// </summary>
         [JsonPropertyName("photoUrls")]
-        public List<string> PhotoUrls { get; set; }
+        public required List<string> PhotoUrls { get; set; }
 
         /// <summary>
         /// Used to track the state of Category
