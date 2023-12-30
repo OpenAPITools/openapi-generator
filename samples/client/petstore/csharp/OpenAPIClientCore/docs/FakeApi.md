@@ -810,7 +810,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string? varString = null, System.IO.Stream? binary = null, DateTime? date = null, DateTime? dateTime = null, string? password = null, string? callback = null)
+> void TestEndpointParameters (decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = null, int? int32 = null, long? int64 = null, float? varFloat = null, string? varString = null, System.IO.Stream? binary = null, DateOnly? date = null, DateTime? dateTime = null, string? password = null, string? callback = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -847,7 +847,7 @@ namespace Example
             var varFloat = 3.4F;  // float? | None (optional) 
             var varString = "varString_example";  // string? | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? | None (optional) 
-            var date = DateTime.Parse("2013-10-20");  // DateTime? | None (optional) 
+            var date = DateOnly.Parse("2013-10-20");  // DateOnly? | None (optional) 
             var dateTime = DateTime.Parse(""2010-02-01T10:20:10.111110+01:00"");  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = "password_example";  // string? | None (optional) 
             var callback = "callback_example";  // string? | None (optional) 
@@ -899,7 +899,7 @@ catch (ApiException e)
 | **varFloat** | **float?** | None | [optional]  |
 | **varString** | **string?** | None | [optional]  |
 | **binary** | **System.IO.Stream?****System.IO.Stream?** | None | [optional]  |
-| **date** | **DateTime?** | None | [optional]  |
+| **date** | **DateOnly?** | None | [optional]  |
 | **dateTime** | **DateTime?** | None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;] |
 | **password** | **string?** | None | [optional]  |
 | **callback** | **string?** | None | [optional]  |

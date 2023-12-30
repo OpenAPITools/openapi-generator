@@ -265,7 +265,7 @@ namespace UseSourceGeneration.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -289,7 +289,7 @@ namespace UseSourceGeneration.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>?&gt;</returns>
-        Task<ITestEndpointParametersApiResponse?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestEndpointParametersApiResponse?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// To test enum parameters
@@ -2999,25 +2999,29 @@ namespace UseSourceGeneration.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref Option<DateTime> date, ref Option<System.IO.Stream> binary, ref Option<float> varFloat, ref Option<int> integer, ref Option<int> int32, ref Option<long> int64, ref Option<string> varString, ref Option<string> password, ref Option<string> callback, ref Option<DateTime> dateTime);
+        partial void FormatTestEndpointParameters(ref byte[] varByte, ref decimal number, ref double varDouble, ref string patternWithoutDelimiter, ref Option<DateOnly> date, ref Option<System.IO.Stream> binary, ref Option<float> varFloat, ref Option<int> integer, ref Option<int> int32, ref Option<long> int64, ref Option<string> varString, ref Option<string> password, ref Option<string> callback, ref Option<DateTime> dateTime);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
         /// <param name="varByte"></param>
         /// <param name="patternWithoutDelimiter"></param>
+        /// <param name="date"></param>
         /// <param name="binary"></param>
         /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(byte[] varByte, string patternWithoutDelimiter, Option<System.IO.Stream> binary, Option<string> varString, Option<string> password, Option<string> callback)
+        private void ValidateTestEndpointParameters(byte[] varByte, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<string> varString, Option<string> password, Option<string> callback)
         {
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte));
 
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
+
+            if (date.IsSet && date.Value == null)
+                throw new ArgumentNullException(nameof(date));
 
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary));
@@ -3050,7 +3054,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
+        private void AfterTestEndpointParametersDefaultImplementation(ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
             AfterTestEndpointParameters(ref suppressDefaultLog, apiResponseLocalVar, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
@@ -3077,7 +3081,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void AfterTestEndpointParameters(ref bool suppressDefaultLog, ITestEndpointParametersApiResponse apiResponseLocalVar, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -3099,7 +3103,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
+        private void OnErrorTestEndpointParametersDefaultImplementation(Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime)
         {
             bool suppressDefaultLog = false;
             OnErrorTestEndpointParameters(ref suppressDefaultLog, exception, pathFormat, path, varByte, number, varDouble, patternWithoutDelimiter, date, binary, varFloat, integer, int32, int64, varString, password, callback, dateTime);
@@ -3128,7 +3132,7 @@ namespace UseSourceGeneration.Api
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <param name="dateTime"></param>
-        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
+        partial void OnErrorTestEndpointParameters(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<float> varFloat, Option<int> integer, Option<int> int32, Option<long> int64, Option<string> varString, Option<string> password, Option<string> callback, Option<DateTime> dateTime);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트  Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -3149,7 +3153,7 @@ namespace UseSourceGeneration.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse?> TestEndpointParametersOrDefaultAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
@@ -3181,13 +3185,13 @@ namespace UseSourceGeneration.Api
         /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestEndpointParametersApiResponse"/>&gt;</returns>
-        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateTime> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestEndpointParametersApiResponse> TestEndpointParametersAsync(byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, Option<DateOnly> date = default, Option<System.IO.Stream> binary = default, Option<float> varFloat = default, Option<int> integer = default, Option<int> int32 = default, Option<long> int64 = default, Option<string> varString = default, Option<string> password = default, Option<string> callback = default, Option<DateTime> dateTime = default, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateTestEndpointParameters(varByte, patternWithoutDelimiter, binary, varString, password, callback);
+                ValidateTestEndpointParameters(varByte, patternWithoutDelimiter, date, binary, varString, password, callback);
 
                 FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 

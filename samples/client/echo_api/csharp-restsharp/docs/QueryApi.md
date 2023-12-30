@@ -108,7 +108,7 @@ No authorization required
 
 <a id="testquerydatetimedatestring"></a>
 # **TestQueryDatetimeDateString**
-> string TestQueryDatetimeDateString (DateTime? datetimeQuery = null, DateTime? dateQuery = null, string? stringQuery = null)
+> string TestQueryDatetimeDateString (DateTime? datetimeQuery = null, DateOnly? dateQuery = null, string? stringQuery = null)
 
 Test query parameter(s)
 
@@ -132,7 +132,7 @@ namespace Example
             config.BasePath = "http://localhost:3000";
             var apiInstance = new QueryApi(config);
             var datetimeQuery = DateTime.Parse("2013-10-20T19:20:30+01:00");  // DateTime? |  (optional) 
-            var dateQuery = DateTime.Parse("2013-10-20");  // DateTime? |  (optional) 
+            var dateQuery = DateOnly.Parse("2013-10-20");  // DateOnly? |  (optional) 
             var stringQuery = "stringQuery_example";  // string? |  (optional) 
 
             try
@@ -177,7 +177,7 @@ catch (ApiException e)
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
 | **datetimeQuery** | **DateTime?** |  | [optional]  |
-| **dateQuery** | **DateTime?** |  | [optional]  |
+| **dateQuery** | **DateOnly?** |  | [optional]  |
 | **stringQuery** | **string?** |  | [optional]  |
 
 ### Return type

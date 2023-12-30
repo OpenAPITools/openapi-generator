@@ -55,7 +55,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
-    protected boolean useDateOnlyFlag = false;
+    protected boolean useDateTimeForDateFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
@@ -237,8 +237,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.setTypeMapping();
     }
 
-    public void useDateOnly(boolean flag) {
-        this.useDateOnlyFlag = flag;
+    public void useDateTimeForDate(boolean flag) {
+        this.useDateTimeForDateFlag = flag;
         this.setTypeMapping();
     }
 
@@ -362,11 +362,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
-        // {{useDateOnly}}
-        if (additionalProperties.containsKey(CodegenConstants.USE_DATEONLY)) {
-            useDateOnly(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATEONLY));
+        // {{useDateTimeForDate}}
+        if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_FOR_DATE)) {
+            useDateTimeForDate(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_FOR_DATE));
         } else {
-            additionalProperties.put(CodegenConstants.USE_DATEONLY, useDateOnlyFlag);
+            additionalProperties.put(CodegenConstants.USE_DATETIME_FOR_DATE, useDateTimeForDateFlag);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
@@ -1771,6 +1771,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
+    protected boolean useNet60OrLater() { return false; }
+
+    private boolean useDateOnly() {
+        return useNet60OrLater() && !useDateTimeForDateFlag;
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -1835,7 +1841,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
             example = "System.Text.Encoding.ASCII.GetBytes(\"" + escapeText(example) + "\")";
         } else if (p.isDate) {
-            String dateType = this.useDateOnlyFlag ? "DateOnly" : "DateTime";
+            String dateType = this.useDateOnly() ? "DateOnly" : "DateTime";
             if (example == null) {
                 example = dateType + ".Parse(\"2013-10-20\")";
             } else {
@@ -2029,7 +2035,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
-        typeMapping.put("date", this.useDateOnlyFlag ? "DateOnly" : "DateTime");
+        typeMapping.put("date", this.useDateOnly() ? "DateOnly" : "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");

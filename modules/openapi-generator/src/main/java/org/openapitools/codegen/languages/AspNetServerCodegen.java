@@ -52,6 +52,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     public static final String BUILD_TARGET = "buildTarget";
     public static final String MODEL_CLASS_MODIFIER = "modelClassModifier";
     public static final String TARGET_FRAMEWORK = "targetFramework";
+    public static final String NET_60_OR_LATER = "net60OrLater";
 
     public static final String PROJECT_SDK = "projectSdk";
     public static final String SDK_WEB = "Microsoft.NET.Sdk.Web";
@@ -209,9 +210,9 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_DATEONLY,
-                CodegenConstants.USE_DATEONLY_DESC,
-                useDateOnlyFlag);
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
 
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
@@ -464,6 +465,11 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("Formatters" + File.separator + "InputFormatterStream.mustache", packageFolder + File.separator + "Formatters", "InputFormatterStream.cs"));
 
         this.setTypeMapping();
+    }
+
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     public void setPackageGuid(String packageGuid) {
@@ -786,6 +792,14 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
                 additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             }
             additionalProperties.put(TARGET_FRAMEWORK, "netcoreapp" + aspnetCoreVersion);
+        }
+
+        setAddititonalPropertyForFramework();
+    }
+
+    private void setAddititonalPropertyForFramework() {
+        if (((String)additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
+            additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
 

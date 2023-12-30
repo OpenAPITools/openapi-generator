@@ -264,9 +264,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_DATEONLY,
-                CodegenConstants.USE_DATEONLY_DESC,
-                this.useDateOnlyFlag);
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
 
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
@@ -361,6 +361,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return GENERICHOST.equals(getLibrary())
                 ? super.getValueTypes()
                 : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override

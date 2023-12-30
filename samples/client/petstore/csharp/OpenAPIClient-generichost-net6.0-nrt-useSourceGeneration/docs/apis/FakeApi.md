@@ -810,7 +810,7 @@ No authorization required
 
 <a id="testendpointparameters"></a>
 # **TestEndpointParameters**
-> void TestEndpointParameters (byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateTime date = null, System.IO.Stream binary = null, float varFloat = null, int integer = null, int int32 = null, long int64 = null, string varString = null, string password = null, string callback = null, DateTime dateTime = null)
+> void TestEndpointParameters (byte[] varByte, decimal number, double varDouble, string patternWithoutDelimiter, DateOnly date = null, System.IO.Stream binary = null, float varFloat = null, int integer = null, int int32 = null, long int64 = null, string varString = null, string password = null, string callback = null, DateTime dateTime = null)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -841,7 +841,7 @@ namespace Example
             var number = 8.14D;  // decimal | None
             var varDouble = 1.2D;  // double | None
             var patternWithoutDelimiter = "patternWithoutDelimiter_example";  // string | None
-            var date = DateTime.Parse("2013-10-20");  // DateTime | None (optional) 
+            var date = DateOnly.Parse("2013-10-20");  // DateOnly | None (optional) 
             var binary = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream | None (optional) 
             var varFloat = 3.4F;  // float | None (optional) 
             var integer = 56;  // int | None (optional) 
@@ -893,7 +893,7 @@ catch (ApiException e)
 | **number** | **decimal** | None |  |
 | **varDouble** | **double** | None |  |
 | **patternWithoutDelimiter** | **string** | None |  |
-| **date** | **DateTime** | None | [optional]  |
+| **date** | **DateOnly** | None | [optional]  |
 | **binary** | **System.IO.Stream****System.IO.Stream** | None | [optional]  |
 | **varFloat** | **float** | None | [optional]  |
 | **integer** | **int** | None | [optional]  |
