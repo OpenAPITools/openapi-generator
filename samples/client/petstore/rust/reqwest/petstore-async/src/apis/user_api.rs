@@ -12,6 +12,8 @@
 use reqwest;
 
 use crate::apis::ResponseContent;
+use crate::models::User;
+use crate::models::User;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`create_user`]
