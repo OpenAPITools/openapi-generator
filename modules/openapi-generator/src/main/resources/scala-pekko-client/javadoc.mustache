@@ -1,0 +1,25 @@
+{{#notes}}
+{{{.}}}
+
+{{/notes}}
+Expected answers:
+{{#responses}}
+  code {{code}} : {{{dataType}}} {{#message}}({{{.}}}){{/message}}
+  {{#headers}}
+             {{#-first}}
+             Headers :
+             {{/-first}}
+               {{{baseName}}} - {{{description}}}
+  {{/headers}}
+{{/responses}}
+{{#authMethods.0}}
+
+Available security schemes:
+{{#authMethods}}
+  {{name}} ({{type}})
+{{/authMethods}}
+{{/authMethods.0}}
+
+{{#allParams}}
+@param {{{paramName}}} {{{description}}}
+{{/allParams}}

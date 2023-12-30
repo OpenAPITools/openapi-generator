@@ -97,3 +97,8 @@ components:
           type: string
       required:
         - isParent
+    allOfWithSingleItem:
+      description: allOf with a single item
+      nullable: true
+      allOf:
+        - $ref: '#/components/schemas/AnotherParent'

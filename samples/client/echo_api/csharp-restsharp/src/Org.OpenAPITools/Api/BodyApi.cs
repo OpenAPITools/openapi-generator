@@ -95,6 +95,29 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfo(List<System.IO.Stream> files, int operationIndex = 0);
         /// <summary>
+        /// Test single binary in multipart mime
+        /// </summary>
+        /// <remarks>
+        /// Test single binary in multipart mime
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        string TestBodyMultipartFormdataSingleBinary(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0);
+
+        /// <summary>
+        /// Test single binary in multipart mime
+        /// </summary>
+        /// <remarks>
+        /// Test single binary in multipart mime
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        ApiResponse<string> TestBodyMultipartFormdataSingleBinaryWithHttpInfo(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0);
+        /// <summary>
         /// Test body parameter(s)
         /// </summary>
         /// <remarks>
@@ -291,6 +314,31 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> TestBodyMultipartFormdataArrayOfBinaryWithHttpInfoAsync(List<System.IO.Stream> files, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
+        /// Test single binary in multipart mime
+        /// </summary>
+        /// <remarks>
+        /// Test single binary in multipart mime
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        System.Threading.Tasks.Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Test single binary in multipart mime
+        /// </summary>
+        /// <remarks>
+        /// Test single binary in multipart mime
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        System.Threading.Tasks.Task<ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test body parameter(s)
         /// </summary>
@@ -939,6 +987,146 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataArrayOfBinary", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test single binary in multipart mime Test single binary in multipart mime
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>string</returns>
+        public string TestBodyMultipartFormdataSingleBinary(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test single binary in multipart mime Test single binary in multipart mime
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of string</returns>
+        public Org.OpenAPITools.Client.ApiResponse<string> TestBodyMultipartFormdataSingleBinaryWithHttpInfo(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0)
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (myFile != null)
+            {
+                localVarRequestOptions.FileParameters.Add("my-file", myFile);
+            }
+
+            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataSingleBinary";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<string>("/body/application/octetstream/single_binary", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataSingleBinary", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Test single binary in multipart mime Test single binary in multipart mime
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of string</returns>
+        public async System.Threading.Tasks.Task<string> TestBodyMultipartFormdataSingleBinaryAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(myFile, operationIndex, cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Test single binary in multipart mime Test single binary in multipart mime
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="myFile"> (optional)</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (string)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestBodyMultipartFormdataSingleBinaryWithHttpInfoAsync(System.IO.Stream? myFile = default(System.IO.Stream?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "multipart/form-data"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+                "text/plain"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            if (myFile != null)
+            {
+                localVarRequestOptions.FileParameters.Add("my-file", myFile);
+            }
+
+            localVarRequestOptions.Operation = "BodyApi.TestBodyMultipartFormdataSingleBinary";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/body/application/octetstream/single_binary", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestBodyMultipartFormdataSingleBinary", localVarResponse);
                 if (_exception != null)
                 {
                     throw _exception;

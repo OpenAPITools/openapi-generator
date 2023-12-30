@@ -56,6 +56,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**Test-BinaryGif**](docs/BodyApi.md#Test-BinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**Test-BodyApplicationOctetstreamBinary**](docs/BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**Test-BodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**Test-BodyMultipartFormdataSingleBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
 *BodyApi* | [**Test-EchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#Test-EchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**Test-EchoBodyPet**](docs/BodyApi.md#Test-EchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**Test-EchoBodyPetResponseString**](docs/BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body

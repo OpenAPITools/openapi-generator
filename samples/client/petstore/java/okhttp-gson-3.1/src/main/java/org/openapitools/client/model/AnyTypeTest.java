@@ -20,7 +20,9 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -56,6 +58,10 @@ public class AnyTypeTest {
   @SerializedName(SERIALIZED_NAME_ANY_TYPE_PROPERTY)
   private Object anyTypeProperty = null;
 
+  public static final String SERIALIZED_NAME_ARRAY_PROP = "array_prop";
+  @SerializedName(SERIALIZED_NAME_ARRAY_PROP)
+  private List<String> arrayProp;
+
   public AnyTypeTest() {
   }
 
@@ -75,6 +81,33 @@ public class AnyTypeTest {
 
   public void setAnyTypeProperty(Object anyTypeProperty) {
     this.anyTypeProperty = anyTypeProperty;
+  }
+
+
+  public AnyTypeTest arrayProp(List<String> arrayProp) {
+    this.arrayProp = arrayProp;
+    return this;
+  }
+
+  public AnyTypeTest addArrayPropItem(String arrayPropItem) {
+    if (this.arrayProp == null) {
+      this.arrayProp = new ArrayList<>();
+    }
+    this.arrayProp.add(arrayPropItem);
+    return this;
+  }
+
+   /**
+   * test array in 3.1 spec
+   * @return arrayProp
+  **/
+  @javax.annotation.Nullable
+  public List<String> getArrayProp() {
+    return arrayProp;
+  }
+
+  public void setArrayProp(List<String> arrayProp) {
+    this.arrayProp = arrayProp;
   }
 
   /**
@@ -132,7 +165,8 @@ public class AnyTypeTest {
       return false;
     }
     AnyTypeTest anyTypeTest = (AnyTypeTest) o;
-    return Objects.equals(this.anyTypeProperty, anyTypeTest.anyTypeProperty)&&
+    return Objects.equals(this.anyTypeProperty, anyTypeTest.anyTypeProperty) &&
+        Objects.equals(this.arrayProp, anyTypeTest.arrayProp)&&
         Objects.equals(this.additionalProperties, anyTypeTest.additionalProperties);
   }
 
@@ -142,7 +176,7 @@ public class AnyTypeTest {
 
   @Override
   public int hashCode() {
-    return Objects.hash(anyTypeProperty, additionalProperties);
+    return Objects.hash(anyTypeProperty, arrayProp, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -157,6 +191,7 @@ public class AnyTypeTest {
     StringBuilder sb = new StringBuilder();
     sb.append("class AnyTypeTest {\n");
     sb.append("    anyTypeProperty: ").append(toIndentedString(anyTypeProperty)).append("\n");
+    sb.append("    arrayProp: ").append(toIndentedString(arrayProp)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
@@ -181,6 +216,7 @@ public class AnyTypeTest {
     // a set of all properties/fields (JSON key names)
     openapiFields = new HashSet<String>();
     openapiFields.add("any_type_property");
+    openapiFields.add("array_prop");
 
     // a set of required properties/fields (JSON key names)
     openapiRequiredFields = new HashSet<String>();
@@ -199,6 +235,10 @@ public class AnyTypeTest {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
+      // ensure the optional json data is an array if present
+      if (jsonObj.get("array_prop") != null && !jsonObj.get("array_prop").isJsonNull() && !jsonObj.get("array_prop").isJsonArray()) {
+        throw new IllegalArgumentException(String.format("Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
+      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

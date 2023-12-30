@@ -49,7 +49,7 @@ public class ArrayOfNumberOnly  {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override
