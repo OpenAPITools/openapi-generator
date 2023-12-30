@@ -1773,7 +1773,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean useNet60OrLater() { return false; }
 
-    private boolean useDateOnly() {
+    protected boolean useDateOnly() {
         return useNet60OrLater() && !useDateTimeForDateFlag;
     }
 

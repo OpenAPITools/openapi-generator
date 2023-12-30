@@ -114,6 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
+    protected boolean supportsDateOnly = Boolean.FALSE;
 
     protected boolean validatable = Boolean.TRUE;
     protected boolean equatable = Boolean.FALSE;
@@ -791,6 +792,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
+        syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -852,6 +854,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
+        if (useDateOnly()) {
+            setSupportsDateOnly(true);
+            additionalProperties.put("supportsDateOnly", true);
+        }
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
@@ -1099,6 +1105,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsFileParameters(Boolean supportsFileParameters) {
         this.supportsFileParameters = supportsFileParameters;
+    }
+
+    public void setSupportsDateOnly(Boolean supportsDateOnly) {
+        this.supportsDateOnly = supportsDateOnly;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

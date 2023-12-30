@@ -189,7 +189,6 @@ namespace UseSourceGeneration.Model
         }
     }
 
-
     /// <summary>
     /// The EnumClassSerializationContext
     /// </summary>

@@ -551,7 +551,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

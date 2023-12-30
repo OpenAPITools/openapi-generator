@@ -340,7 +340,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                dateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

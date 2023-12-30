@@ -259,7 +259,6 @@ namespace UseSourceGeneration.Model
         }
     }
 
-
     /// <summary>
     /// The OuterEnumTestSerializationContext
     /// </summary>

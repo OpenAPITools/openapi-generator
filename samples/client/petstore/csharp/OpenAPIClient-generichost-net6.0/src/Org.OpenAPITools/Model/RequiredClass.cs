@@ -1826,7 +1826,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "required_not_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                requiredNotNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1879,7 +1879,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "required_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                requiredNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1916,7 +1916,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "not_required_notnullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                notRequiredNotnullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_notnullableinteger_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1924,7 +1924,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "not_required_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                notRequiredNullableDateProp = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_nullable_integer_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
