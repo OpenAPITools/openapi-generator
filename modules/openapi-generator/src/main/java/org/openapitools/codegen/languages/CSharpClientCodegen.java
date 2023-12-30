@@ -328,10 +328,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 "Use source generation where available (only `generichost` library supports this option).",
                 this.getUseSourceGeneration());
 
-        addSwitch("useObjectInitializerApproach",
-                "Adds the required keyword to required properties, the init keyword to required readonly properties and creates a parameterless constructor (only `generichost` library supports this option).",
-                this.getUseObjectInitializerApproach());
-
         supportedLibraries.put(GENERICHOST, "HttpClient with Generic Host dependency injection (https://docs.microsoft.com/en-us/dotnet/core/extensions/generic-host) "
                 + "(Experimental. Subject to breaking changes without notice.)");
         supportedLibraries.put(HTTPCLIENT, "HttpClient (https://docs.microsoft.com/en-us/dotnet/api/system.net.http.httpclient) "
@@ -786,7 +782,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
-        syncBooleanProperty(additionalProperties, "useObjectInitializerApproach", this::setUseObjectInitializerApproach, this.useObjectInitializerApproach);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -860,14 +855,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             throw new RuntimeException("Source generation is only compatible with .Net 7 or later.");
         }
         this.useSourceGeneration = useSourceGeneration;
-    }
-
-    @Override
-    public void setUseObjectInitializerApproach(final Boolean useObjectInitializerApproach) {
-        if (useObjectInitializerApproach && !this.additionalProperties.containsKey(NET_70_OR_LATER)) {
-            throw new RuntimeException("Object initializer approach is only compatible with .Net 7 or later.");
-        }
-        this.useObjectInitializerApproach = useObjectInitializerApproach;
     }
 
     public void setClientPackage(String clientPackage) {
@@ -1529,7 +1516,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             String setterKeyword = null;
             if (!property.isReadOnly) {
                 setterKeyword = "set";
-            } else if (useObjectInitializerApproach) {
+            } else if (this.additionalProperties.containsKey(NET_70_OR_LATER)) {
                 setterKeyword = "init";
             }
             property.vendorExtensions.put("x-csharp-setter-keyword", setterKeyword);
