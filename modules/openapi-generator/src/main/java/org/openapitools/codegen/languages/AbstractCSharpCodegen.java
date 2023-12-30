@@ -1841,14 +1841,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
             example = "System.Text.Encoding.ASCII.GetBytes(\"" + escapeText(example) + "\")";
         } else if (p.isDate) {
-            String dateType = this.useDateOnly() ? "DateOnly" : "DateTime";
+            String dateType = typeMapping.get("date");
             if (example == null) {
                 example = dateType + ".Parse(\"2013-10-20\")";
             } else {
                 example = dateType + ".Parse(\"" + example + "\")";
             }
         } else if (p.isDateTime) {
-            String dateType = this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime";
+            String dateType = typeMapping.get("DateTime");
             if (example == null) {
                 example = dateType + ".Parse(\"2013-10-20T19:20:30+01:00\")";
             } else {
