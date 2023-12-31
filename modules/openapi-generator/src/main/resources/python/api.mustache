@@ -6,19 +6,15 @@ import io
 import warnings
 
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing import Any, Dict, List, Optional, Tuple, Union
+from typing_extensions import Annotated
 
 {{#imports}}
 {{import}}
 {{/imports}}
 
 from {{packageName}}.api_client import ApiClient
-from {{packageName}}.api_response import ApiResponse
+from {{packageName}}.api_response import ApiResponse as _ApiResponse
 from {{packageName}}.rest import RESTResponseType
 
 
@@ -52,7 +48,7 @@ class {{classname}}:
 
 
     @validate_call
-    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
+    {{#asyncio}}async {{/asyncio}}def {{operationId}}_with_http_info{{>partial_api_args}} -> _ApiResponse[{{{returnType}}}{{^returnType}}None{{/returnType}}]:
 {{>partial_api}}
         response_data = {{#asyncio}}await {{/asyncio}}self.api_client.call_api(
             *_param,

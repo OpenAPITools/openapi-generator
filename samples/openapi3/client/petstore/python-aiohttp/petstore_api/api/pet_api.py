@@ -16,12 +16,8 @@ import io
 import warnings
 
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing import Any, Dict, List, Optional, Tuple, Union
+from typing_extensions import Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -33,7 +29,7 @@ from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.pet import Pet
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_response import ApiResponse as _ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -134,7 +130,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> _ApiResponse[None]:
         """Add a new pet to the store
 
         
@@ -409,7 +405,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> _ApiResponse[None]:
         """Deletes a pet
 
         
@@ -674,7 +670,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Pet]]:
+    ) -> _ApiResponse[List[Pet]]:
         """Finds Pets by status
 
         Multiple status values can be provided with comma separated strings
@@ -941,7 +937,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Pet]]:
+    ) -> _ApiResponse[List[Pet]]:
         """(Deprecated) Finds Pets by tags
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -1210,7 +1206,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Pet]:
+    ) -> _ApiResponse[Pet]:
         """Find pet by ID
 
         Returns a single pet
@@ -1476,7 +1472,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> _ApiResponse[None]:
         """Update an existing pet
 
         
@@ -1760,7 +1756,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> _ApiResponse[None]:
         """Updates a pet in the store with form data
 
         
@@ -2057,7 +2053,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApiResponse]:
+    ) -> _ApiResponse[ApiResponse]:
         """uploads an image
 
         
@@ -2358,7 +2354,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApiResponse]:
+    ) -> _ApiResponse[ApiResponse]:
         """uploads an image (required)
 
         

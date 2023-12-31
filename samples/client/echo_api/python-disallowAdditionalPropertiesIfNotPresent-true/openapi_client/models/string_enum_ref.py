@@ -21,10 +21,7 @@ from enum import Enum
 
 
 
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing_extensions import Self
 
 
 class StringEnumRef(str, Enum):

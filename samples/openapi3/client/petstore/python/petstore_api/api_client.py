@@ -273,15 +273,13 @@ class ApiClient:
             )
 
         except ApiException as e:
-            if e.body:
-                e.body = e.body.decode('utf-8')
             raise e
 
         return response_data
 
     def response_deserialize(
         self,
-        response_data: rest.RESTResponse = None,
+        response_data: rest.RESTResponse,
         response_types_map=None
     ) -> ApiResponse:
         """Deserializes response into an object.
@@ -310,7 +308,10 @@ class ApiClient:
                 if content_type is not None:
                     match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
                 encoding = match.group(1) if match else "utf-8"
-                response_text = response_data.data.decode(encoding)
+                if response_data.data is None: # should not happen
+                    response_text = ""
+                else:
+                    response_text = response_data.data.decode(encoding)
                 return_data = self.deserialize(response_text, response_type)
         finally:
             if not 200 <= response_data.status <= 299:
@@ -323,7 +324,7 @@ class ApiClient:
         return ApiResponse(
             status_code = response_data.status,
             data = return_data,
-            headers = response_data.getheaders(),
+            headers = dict(response_data.getheaders()),
             raw_data = response_data.data
         )
 

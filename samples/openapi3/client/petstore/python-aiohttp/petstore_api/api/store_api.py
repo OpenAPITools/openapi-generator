@@ -16,12 +16,8 @@ import io
 import warnings
 
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing import Any, Dict, List, Optional, Tuple, Union
+from typing_extensions import Annotated
 
 from pydantic import Field
 from typing_extensions import Annotated
@@ -32,7 +28,7 @@ from typing import Dict
 from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_response import ApiResponse as _ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -133,7 +129,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> _ApiResponse[None]:
         """Delete purchase order by ID
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -381,7 +377,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, int]]:
+    ) -> _ApiResponse[Dict[str, int]]:
         """Returns pet inventories by status
 
         Returns a map of status codes to quantities
@@ -631,7 +627,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Order]:
+    ) -> _ApiResponse[Order]:
         """Find purchase order by ID
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -894,7 +890,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Order]:
+    ) -> _ApiResponse[Order]:
         """Place an order for a pet
 
         

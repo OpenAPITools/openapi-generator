@@ -22,10 +22,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from pydantic import Field
 from petstore_api.models.tag import Tag
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class MapOfArrayOfModel(BaseModel):
     """
@@ -51,7 +49,7 @@ class MapOfArrayOfModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of MapOfArrayOfModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,10 +63,12 @@ class MapOfArrayOfModel(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each value in shop_id_to_org_online_lip_map (dict of array)
@@ -83,7 +83,7 @@ class MapOfArrayOfModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
         """Create an instance of MapOfArrayOfModel from a dict"""
         if obj is None:
             return None
@@ -98,7 +98,7 @@ class MapOfArrayOfModel(BaseModel):
                         if _v is not None
                         else None
                 )
-                for _k, _v in obj.get("shopIdToOrgOnlineLipMap").items()
+                for _k, _v in obj.get("shopIdToOrgOnlineLipMap", {}).items()
             )
         })
         return _obj

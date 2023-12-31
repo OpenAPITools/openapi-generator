@@ -23,12 +23,8 @@ from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validat
 from pydantic import Field
 from typing_extensions import Annotated
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal
+from typing_extensions import Literal, Self
 from pydantic import StrictStr, Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
 
@@ -43,7 +39,7 @@ class Color(BaseModel):
     # data type: str
     oneof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     actual_instance: Optional[Union[List[int], str]] = None
-    one_of_schemas: List[str] = Literal["List[int]", "str"]
+    #one_of_schemas = Literal["List[int]", "str"]
 
     model_config = {
         "validate_assignment": True,
@@ -152,19 +148,17 @@ class Color(BaseModel):
         if self.actual_instance is None:
             return "null"
 
-        to_json = getattr(self.actual_instance, "to_json", None)
-        if callable(to_json):
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> Optional[Union[Dict, List[int], str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
 
-        to_dict = getattr(self.actual_instance, "to_dict", None)
-        if callable(to_dict):
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
             return self.actual_instance.to_dict()
         else:
             # primitive type
