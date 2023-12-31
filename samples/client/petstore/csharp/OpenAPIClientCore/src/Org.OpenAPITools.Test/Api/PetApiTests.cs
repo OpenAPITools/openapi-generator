@@ -73,7 +73,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //long petId = null;
-            //string apiKey = null;
+            //string? apiKey = null;
             //instance.DeletePet(petId, apiKey);
         }
 
@@ -132,8 +132,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //long petId = null;
-            //string name = null;
-            //string status = null;
+            //string? name = null;
+            //string? status = null;
             //instance.UpdatePetWithForm(petId, name, status);
         }
 
@@ -145,8 +145,8 @@ namespace Org.OpenAPITools.Test.Api
         {
             // TODO uncomment below to test the method and replace null with proper value
             //long petId = null;
-            //string additionalMetadata = null;
-            //System.IO.Stream file = null;
+            //string? additionalMetadata = null;
+            //System.IO.Stream? file = null;
             //var response = instance.UploadFile(petId, additionalMetadata, file);
             //Assert.IsType<ApiResponse>(response);
         }
@@ -160,7 +160,7 @@ namespace Org.OpenAPITools.Test.Api
             // TODO uncomment below to test the method and replace null with proper value
             //long petId = null;
             //System.IO.Stream requiredFile = null;
-            //string additionalMetadata = null;
+            //string? additionalMetadata = null;
             //var response = instance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
             //Assert.IsType<ApiResponse>(response);
         }

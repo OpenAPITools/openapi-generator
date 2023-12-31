@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<MixedPropertiesAndAdditionalPropertiesClass>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'UuidWithPattern'
         /// </summary>

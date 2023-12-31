@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ScaleneTriangle>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'ShapeType'
         /// </summary>

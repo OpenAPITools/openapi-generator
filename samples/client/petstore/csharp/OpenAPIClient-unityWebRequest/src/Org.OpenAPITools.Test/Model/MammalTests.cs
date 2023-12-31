@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Mammal>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'HasBaleen'
         /// </summary>

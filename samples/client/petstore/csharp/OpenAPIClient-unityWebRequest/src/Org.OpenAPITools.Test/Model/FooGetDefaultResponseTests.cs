@@ -54,14 +54,13 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FooGetDefaultResponse>(instance);
         }
 
-
         /// <summary>
-        /// Test the property 'String'
+        /// Test the property 'VarString'
         /// </summary>
         [Test]
-        public void StringTest()
+        public void VarStringTest()
         {
-            // TODO unit test for the property 'String'
+            // TODO unit test for the property 'VarString'
         }
     }
 }

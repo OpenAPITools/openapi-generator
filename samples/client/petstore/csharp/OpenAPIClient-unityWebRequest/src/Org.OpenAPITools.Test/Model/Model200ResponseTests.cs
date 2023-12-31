@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Model200Response>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
@@ -64,12 +63,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Name'
         }
         /// <summary>
-        /// Test the property 'Class'
+        /// Test the property 'VarClass'
         /// </summary>
         [Test]
-        public void ClassTest()
+        public void VarClassTest()
         {
-            // TODO unit test for the property 'Class'
+            // TODO unit test for the property 'VarClass'
         }
     }
 }

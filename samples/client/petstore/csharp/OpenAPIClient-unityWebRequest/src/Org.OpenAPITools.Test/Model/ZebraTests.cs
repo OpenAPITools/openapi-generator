@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Zebra>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Type'
         /// </summary>

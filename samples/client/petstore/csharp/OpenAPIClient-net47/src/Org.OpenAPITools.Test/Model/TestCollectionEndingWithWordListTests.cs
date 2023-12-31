@@ -54,7 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<TestCollectionEndingWithWordList>(instance);
         }
 
-
         /// <summary>
         /// Test the property 'Value'
         /// </summary>
@@ -63,7 +62,5 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Value'
         }
-
     }
-
 }

@@ -55,25 +55,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test deserialize a ChildCat from type ParentPet
-        /// </summary>
-        [Test]
-        public void ChildCatDeserializeFromParentPetTest()
-        {
-            // TODO uncomment below to test deserialize a ChildCat from type ParentPet
-            //Assert.IsType<ParentPet>(JsonConvert.DeserializeObject<ParentPet>(new ChildCat().ToJson()));
-        }
-        /// <summary>
-        /// Test deserialize a ParentPet from type GrandparentAnimal
-        /// </summary>
-        [Test]
-        public void ParentPetDeserializeFromGrandparentAnimalTest()
-        {
-            // TODO uncomment below to test deserialize a ParentPet from type GrandparentAnimal
-            //Assert.IsType<GrandparentAnimal>(JsonConvert.DeserializeObject<GrandparentAnimal>(new ParentPet().ToJson()));
-        }
-
-        /// <summary>
         /// Test the property 'PetType'
         /// </summary>
         [Test]
