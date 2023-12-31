@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ObjectWithDeprecatedFields>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Uuid'
         /// </summary>

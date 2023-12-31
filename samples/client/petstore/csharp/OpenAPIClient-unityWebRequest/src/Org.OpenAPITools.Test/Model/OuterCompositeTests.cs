@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<OuterComposite>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'MyNumber'
         /// </summary>

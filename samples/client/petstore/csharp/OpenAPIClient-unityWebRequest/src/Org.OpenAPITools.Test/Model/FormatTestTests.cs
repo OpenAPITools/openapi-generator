@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<FormatTest>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Integer'
         /// </summary>
@@ -71,28 +72,12 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Int32'
         }
         /// <summary>
-        /// Test the property 'UnsignedInteger'
-        /// </summary>
-        [Test]
-        public void UnsignedIntegerTest()
-        {
-            // TODO unit test for the property 'UnsignedInteger'
-        }
-        /// <summary>
         /// Test the property 'Int64'
         /// </summary>
         [Test]
         public void Int64Test()
         {
             // TODO unit test for the property 'Int64'
-        }
-        /// <summary>
-        /// Test the property 'UnsignedLong'
-        /// </summary>
-        [Test]
-        public void UnsignedLongTest()
-        {
-            // TODO unit test for the property 'UnsignedLong'
         }
         /// <summary>
         /// Test the property 'Number'
@@ -103,44 +88,44 @@ namespace Org.OpenAPITools.Test.Model
             // TODO unit test for the property 'Number'
         }
         /// <summary>
-        /// Test the property 'VarFloat'
+        /// Test the property 'Float'
         /// </summary>
         [Test]
-        public void VarFloatTest()
+        public void FloatTest()
         {
-            // TODO unit test for the property 'VarFloat'
+            // TODO unit test for the property 'Float'
         }
         /// <summary>
-        /// Test the property 'VarDouble'
+        /// Test the property 'Double'
         /// </summary>
         [Test]
-        public void VarDoubleTest()
+        public void DoubleTest()
         {
-            // TODO unit test for the property 'VarDouble'
+            // TODO unit test for the property 'Double'
         }
         /// <summary>
-        /// Test the property 'VarDecimal'
+        /// Test the property 'Decimal'
         /// </summary>
         [Test]
-        public void VarDecimalTest()
+        public void DecimalTest()
         {
-            // TODO unit test for the property 'VarDecimal'
+            // TODO unit test for the property 'Decimal'
         }
         /// <summary>
-        /// Test the property 'VarString'
+        /// Test the property 'String'
         /// </summary>
         [Test]
-        public void VarStringTest()
+        public void StringTest()
         {
-            // TODO unit test for the property 'VarString'
+            // TODO unit test for the property 'String'
         }
         /// <summary>
-        /// Test the property 'VarByte'
+        /// Test the property 'Byte'
         /// </summary>
         [Test]
-        public void VarByteTest()
+        public void ByteTest()
         {
-            // TODO unit test for the property 'VarByte'
+            // TODO unit test for the property 'Byte'
         }
         /// <summary>
         /// Test the property 'Binary'
@@ -197,14 +182,6 @@ namespace Org.OpenAPITools.Test.Model
         public void PatternWithDigitsAndDelimiterTest()
         {
             // TODO unit test for the property 'PatternWithDigitsAndDelimiter'
-        }
-        /// <summary>
-        /// Test the property 'PatternWithBackslash'
-        /// </summary>
-        [Test]
-        public void PatternWithBackslashTest()
-        {
-            // TODO unit test for the property 'PatternWithBackslash'
         }
     }
 }

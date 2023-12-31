@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Shape>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'ShapeType'
         /// </summary>

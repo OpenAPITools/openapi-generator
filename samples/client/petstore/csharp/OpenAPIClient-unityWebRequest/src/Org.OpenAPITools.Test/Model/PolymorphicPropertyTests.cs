@@ -54,5 +54,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<PolymorphicProperty>(instance);
         }
 
+
     }
 }

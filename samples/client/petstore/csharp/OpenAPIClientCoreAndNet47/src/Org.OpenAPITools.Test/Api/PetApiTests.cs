@@ -152,5 +152,6 @@ namespace Org.OpenAPITools.Test.Api
             //var response = instance.UploadFile(petId, additionalMetadata, file);
             //Assert.IsType<ApiResponse>(response);
         }
+
     }
 }

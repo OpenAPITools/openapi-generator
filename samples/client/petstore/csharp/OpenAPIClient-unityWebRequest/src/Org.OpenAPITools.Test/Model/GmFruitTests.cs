@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<GmFruit>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Color'
         /// </summary>
@@ -77,14 +78,6 @@ namespace Org.OpenAPITools.Test.Model
         public void OriginTest()
         {
             // TODO unit test for the property 'Origin'
-        }
-        /// <summary>
-        /// Test the property 'ColorCode'
-        /// </summary>
-        [Test]
-        public void ColorCodeTest()
-        {
-            // TODO unit test for the property 'ColorCode'
         }
         /// <summary>
         /// Test the property 'LengthCm'

@@ -54,13 +54,14 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<List>(instance);
         }
 
+
         /// <summary>
-        /// Test the property 'Var123List'
+        /// Test the property '_123List'
         /// </summary>
         [Test]
-        public void Var123ListTest()
+        public void _123ListTest()
         {
-            // TODO unit test for the property 'Var123List'
+            // TODO unit test for the property '_123List'
         }
     }
 }

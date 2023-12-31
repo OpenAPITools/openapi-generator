@@ -54,13 +54,14 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ModelClient>(instance);
         }
 
+
         /// <summary>
-        /// Test the property 'VarClient'
+        /// Test the property '_Client'
         /// </summary>
         [Test]
-        public void VarClientTest()
+        public void _ClientTest()
         {
-            // TODO unit test for the property 'VarClient'
+            // TODO unit test for the property '_Client'
         }
     }
 }

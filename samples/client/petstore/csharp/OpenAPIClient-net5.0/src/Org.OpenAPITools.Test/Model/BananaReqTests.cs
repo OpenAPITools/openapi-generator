@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,6 +55,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<BananaReq>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'LengthCm'
         /// </summary>
@@ -62,7 +64,6 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'LengthCm'
         }
-
         /// <summary>
         /// Test the property 'Sweet'
         /// </summary>
@@ -71,5 +72,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Sweet'
         }
+
     }
+
 }

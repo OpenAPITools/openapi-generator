@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
+using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Model;
 using Org.OpenAPITools.Client;
 using System.Reflection;
@@ -54,14 +55,6 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<MixedPropertiesAndAdditionalPropertiesClass>(instance);
         }
 
-        /// <summary>
-        /// Test the property 'UuidWithPattern'
-        /// </summary>
-        [Fact]
-        public void UuidWithPatternTest()
-        {
-            // TODO unit test for the property 'UuidWithPattern'
-        }
 
         /// <summary>
         /// Test the property 'Uuid'
@@ -71,7 +64,6 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Uuid'
         }
-
         /// <summary>
         /// Test the property 'DateTime'
         /// </summary>
@@ -80,7 +72,6 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'DateTime'
         }
-
         /// <summary>
         /// Test the property 'Map'
         /// </summary>
@@ -89,5 +80,7 @@ namespace Org.OpenAPITools.Test.Model
         {
             // TODO unit test for the property 'Map'
         }
+
     }
+
 }

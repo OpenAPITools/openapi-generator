@@ -101,7 +101,6 @@ docs/Zebra.md
 docs/ZeroBasedEnum.md
 docs/ZeroBasedEnumClass.md
 git_push.sh
-src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/AnotherFakeApi.cs
 src/Org.OpenAPITools/Api/DefaultApi.cs
 src/Org.OpenAPITools/Api/FakeApi.cs

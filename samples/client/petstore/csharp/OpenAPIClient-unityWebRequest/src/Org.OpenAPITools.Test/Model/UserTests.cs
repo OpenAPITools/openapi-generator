@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<User>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Id'
         /// </summary>

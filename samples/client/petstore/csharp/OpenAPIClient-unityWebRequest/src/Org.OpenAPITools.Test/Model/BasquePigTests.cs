@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<BasquePig>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'ClassName'
         /// </summary>

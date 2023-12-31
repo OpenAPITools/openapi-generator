@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<Foo>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Bar'
         /// </summary>

@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<TriangleInterface>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'TriangleType'
         /// </summary>

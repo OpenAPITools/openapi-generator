@@ -54,6 +54,7 @@ namespace Org.OpenAPITools.Test.Model
             //Assert.IsType<ChildCat>(instance);
         }
 
+
         /// <summary>
         /// Test the property 'Name'
         /// </summary>
