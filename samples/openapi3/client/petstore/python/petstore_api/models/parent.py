@@ -17,10 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 try:
     from typing import Self

@@ -50,7 +50,6 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 
-import time
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint

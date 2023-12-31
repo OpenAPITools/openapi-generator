@@ -17,10 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictFloat, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictFloat, StrictStr
-from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
 try:
     from typing import Self

@@ -12,24 +12,18 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     from typing import Annotated
 except ImportError:
     from typing_extensions import Annotated
 
-from pydantic import Field
-from typing_extensions import Annotated
-from pydantic import StrictBytes, StrictStr
-
+from pydantic import Field, StrictBytes, StrictStr
 from typing import Any, Dict, List, Optional, Union
-
+from typing_extensions import Annotated
 from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
 
@@ -519,7 +513,7 @@ class BodyApi:
         if body is not None:
             # convert to byte array if the input is a file name (str)
             if isinstance(body, str):
-                with io.open(body, "rb") as _fp:
+                with open(body, "rb") as _fp:
                     _body_params = _fp.read()
             else:
                 _body_params = body

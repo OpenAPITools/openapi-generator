@@ -20,8 +20,6 @@ To test HTTP basic authentication
 * Basic Authentication (http_auth):
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -96,8 +94,6 @@ To test HTTP bearer authentication
 * Bearer Authentication (http_bearer_auth):
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
