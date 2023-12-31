@@ -5,6 +5,7 @@ on:
     paths:
       - 'samples/client/petstore/csharp/**net6.0**/'
       - 'samples/client/petstore/csharp/OpenAPIClient-generichost-netcore**/'
+      - 'samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
@@ -12,6 +13,7 @@ on:
     paths:
       - 'samples/client/petstore/csharp/**net6.0**/'
       - 'samples/client/petstore/csharp/OpenAPIClient-generichost-netcore**/'
+      - 'samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**'
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-project4Models/**'
@@ -32,6 +34,7 @@ jobs:
           - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-allOf
           - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-oneOf
           - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-anyOf
+          - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests
           - samples/server/petstore/aspnetcore-6.0
           - samples/server/petstore/aspnetcore-6.0-pocoModels
           - samples/server/petstore/aspnetcore-6.0-project4Models
