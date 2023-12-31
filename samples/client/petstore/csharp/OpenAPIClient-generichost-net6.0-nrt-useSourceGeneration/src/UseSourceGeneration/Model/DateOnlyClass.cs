@@ -90,6 +90,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="DateOnlyClass" />
     /// </summary>
@@ -174,11 +175,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DateOnlyClass dateOnlyClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (dateOnlyClass.DateOnlyPropertyOption.IsSet && dateOnlyClass.DateOnlyProperty == null)
-                throw new ArgumentNullException(nameof(dateOnlyClass.DateOnlyProperty), "Property is required for class DateOnlyClass.");
-
             if (dateOnlyClass.DateOnlyPropertyOption.IsSet)
-                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value.ToString(DateOnlyPropertyFormat));
+                writer.WriteString("dateOnlyProperty", dateOnlyClass.DateOnlyPropertyOption.Value!.Value.ToString(DateOnlyPropertyFormat));
         }
     }
 

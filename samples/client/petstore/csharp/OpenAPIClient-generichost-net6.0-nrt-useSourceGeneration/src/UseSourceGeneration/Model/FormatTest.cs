@@ -479,6 +479,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="FormatTest" />
     /// </summary>
@@ -692,7 +693,7 @@ namespace UseSourceGeneration.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value!, date.Value!, number.Value!.Value!, password.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value!, date.Value!.Value!, number.Value!.Value!, password.Value!, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -721,9 +722,6 @@ namespace UseSourceGeneration.Model
         {
             if (formatTest.VarByte == null)
                 throw new ArgumentNullException(nameof(formatTest.VarByte), "Property is required for class FormatTest.");
-
-            if (formatTest.Date == null)
-                throw new ArgumentNullException(nameof(formatTest.Date), "Property is required for class FormatTest.");
 
             if (formatTest.Password == null)
                 throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");

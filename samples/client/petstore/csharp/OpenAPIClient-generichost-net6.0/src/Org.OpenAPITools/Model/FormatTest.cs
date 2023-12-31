@@ -476,6 +476,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="FormatTest" />
     /// </summary>
@@ -509,7 +510,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<byte[]> varByte = default;
-            Option<DateOnly> date = default;
+            Option<DateOnly?> date = default;
             Option<decimal?> number = default;
             Option<string> password = default;
             Option<System.IO.Stream> binary = default;
@@ -549,7 +550,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                date = new Option<DateOnly>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
+                                date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -689,7 +690,7 @@ namespace Org.OpenAPITools.Model
             if (uuid.IsSet && uuid.Value == null)
                 throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class FormatTest.");
 
-            return new FormatTest(varByte.Value, date.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
+            return new FormatTest(varByte.Value, date.Value.Value, number.Value.Value, password.Value, binary, dateTime, varDecimal, varDouble, varFloat, int32, int64, integer, patternWithBackslash, patternWithDigits, patternWithDigitsAndDelimiter, varString, unsignedInteger, unsignedLong, uuid);
         }
 
         /// <summary>
@@ -718,9 +719,6 @@ namespace Org.OpenAPITools.Model
         {
             if (formatTest.VarByte == null)
                 throw new ArgumentNullException(nameof(formatTest.VarByte), "Property is required for class FormatTest.");
-
-            if (formatTest.Date == null)
-                throw new ArgumentNullException(nameof(formatTest.Date), "Property is required for class FormatTest.");
 
             if (formatTest.Password == null)
                 throw new ArgumentNullException(nameof(formatTest.Password), "Property is required for class FormatTest.");

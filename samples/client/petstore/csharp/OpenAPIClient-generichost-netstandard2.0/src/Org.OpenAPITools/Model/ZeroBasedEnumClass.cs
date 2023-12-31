@@ -152,6 +152,7 @@ namespace Org.OpenAPITools.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="ZeroBasedEnumClass" />
     /// </summary>

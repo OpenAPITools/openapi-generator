@@ -2016,7 +2016,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     protected void setTypeMapping() {

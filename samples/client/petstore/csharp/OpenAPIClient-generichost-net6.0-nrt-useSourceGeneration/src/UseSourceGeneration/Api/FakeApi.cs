@@ -3006,22 +3006,18 @@ namespace UseSourceGeneration.Api
         /// </summary>
         /// <param name="varByte"></param>
         /// <param name="patternWithoutDelimiter"></param>
-        /// <param name="date"></param>
         /// <param name="binary"></param>
         /// <param name="varString"></param>
         /// <param name="password"></param>
         /// <param name="callback"></param>
         /// <returns></returns>
-        private void ValidateTestEndpointParameters(byte[] varByte, string patternWithoutDelimiter, Option<DateOnly> date, Option<System.IO.Stream> binary, Option<string> varString, Option<string> password, Option<string> callback)
+        private void ValidateTestEndpointParameters(byte[] varByte, string patternWithoutDelimiter, Option<System.IO.Stream> binary, Option<string> varString, Option<string> password, Option<string> callback)
         {
             if (varByte == null)
                 throw new ArgumentNullException(nameof(varByte));
 
             if (patternWithoutDelimiter == null)
                 throw new ArgumentNullException(nameof(patternWithoutDelimiter));
-
-            if (date.IsSet && date.Value == null)
-                throw new ArgumentNullException(nameof(date));
 
             if (binary.IsSet && binary.Value == null)
                 throw new ArgumentNullException(nameof(binary));
@@ -3191,7 +3187,7 @@ namespace UseSourceGeneration.Api
 
             try
             {
-                ValidateTestEndpointParameters(varByte, patternWithoutDelimiter, date, binary, varString, password, callback);
+                ValidateTestEndpointParameters(varByte, patternWithoutDelimiter, binary, varString, password, callback);
 
                 FormatTestEndpointParameters(ref varByte, ref number, ref varDouble, ref patternWithoutDelimiter, ref date, ref binary, ref varFloat, ref integer, ref int32, ref int64, ref varString, ref password, ref callback, ref dateTime);
 

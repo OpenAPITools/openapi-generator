@@ -265,6 +265,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="NullableClass" />
     /// </summary>
@@ -446,7 +447,7 @@ namespace UseSourceGeneration.Model
 
             if (nullableClass.DatePropOption.IsSet)
                 if (nullableClass.DatePropOption.Value != null)
-                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value.ToString(DatePropFormat));
+                    writer.WriteString("date_prop", nullableClass.DatePropOption.Value!.Value.ToString(DatePropFormat));
                 else
                     writer.WriteNull("date_prop");
 

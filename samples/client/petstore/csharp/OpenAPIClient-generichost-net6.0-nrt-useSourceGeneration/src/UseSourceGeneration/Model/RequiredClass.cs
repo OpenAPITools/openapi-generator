@@ -1705,6 +1705,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// A Json converter for type <see cref="RequiredClass" />
     /// </summary>
@@ -2145,7 +2146,7 @@ namespace UseSourceGeneration.Model
             if (notrequiredNotnullableUuid.IsSet && notrequiredNotnullableUuid.Value == null)
                 throw new ArgumentNullException(nameof(notrequiredNotnullableUuid), "Property is not nullable for class RequiredClass.");
 
-            return new RequiredClass(requiredNotNullableDateProp.Value!, requiredNotnullableArrayOfString.Value!, requiredNotnullableBooleanProp.Value!.Value!, requiredNotnullableDatetimeProp.Value!.Value!, requiredNotnullableEnumInteger.Value!.Value!, requiredNotnullableEnumIntegerOnly.Value!.Value!, requiredNotnullableEnumString.Value!.Value!, requiredNotnullableOuterEnumDefaultValue.Value!.Value!, requiredNotnullableStringProp.Value!, requiredNotnullableUuid.Value!.Value!, requiredNotnullableintegerProp.Value!.Value!, requiredNullableArrayOfString.Value!, requiredNullableBooleanProp.Value!, requiredNullableDateProp.Value!, requiredNullableDatetimeProp.Value!, requiredNullableEnumInteger.Value!, requiredNullableEnumIntegerOnly.Value!, requiredNullableEnumString.Value!, requiredNullableIntegerProp.Value!, requiredNullableOuterEnumDefaultValue.Value!, requiredNullableStringProp.Value!, requiredNullableUuid.Value!, notRequiredNotnullableDateProp, notRequiredNotnullableintegerProp, notRequiredNullableDateProp, notRequiredNullableIntegerProp, notrequiredNotnullableArrayOfString, notrequiredNotnullableBooleanProp, notrequiredNotnullableDatetimeProp, notrequiredNotnullableEnumInteger, notrequiredNotnullableEnumIntegerOnly, notrequiredNotnullableEnumString, notrequiredNotnullableOuterEnumDefaultValue, notrequiredNotnullableStringProp, notrequiredNotnullableUuid, notrequiredNullableArrayOfString, notrequiredNullableBooleanProp, notrequiredNullableDatetimeProp, notrequiredNullableEnumInteger, notrequiredNullableEnumIntegerOnly, notrequiredNullableEnumString, notrequiredNullableOuterEnumDefaultValue, notrequiredNullableStringProp, notrequiredNullableUuid);
+            return new RequiredClass(requiredNotNullableDateProp.Value!.Value!, requiredNotnullableArrayOfString.Value!, requiredNotnullableBooleanProp.Value!.Value!, requiredNotnullableDatetimeProp.Value!.Value!, requiredNotnullableEnumInteger.Value!.Value!, requiredNotnullableEnumIntegerOnly.Value!.Value!, requiredNotnullableEnumString.Value!.Value!, requiredNotnullableOuterEnumDefaultValue.Value!.Value!, requiredNotnullableStringProp.Value!, requiredNotnullableUuid.Value!.Value!, requiredNotnullableintegerProp.Value!.Value!, requiredNullableArrayOfString.Value!, requiredNullableBooleanProp.Value!, requiredNullableDateProp.Value!, requiredNullableDatetimeProp.Value!, requiredNullableEnumInteger.Value!, requiredNullableEnumIntegerOnly.Value!, requiredNullableEnumString.Value!, requiredNullableIntegerProp.Value!, requiredNullableOuterEnumDefaultValue.Value!, requiredNullableStringProp.Value!, requiredNullableUuid.Value!, notRequiredNotnullableDateProp, notRequiredNotnullableintegerProp, notRequiredNullableDateProp, notRequiredNullableIntegerProp, notrequiredNotnullableArrayOfString, notrequiredNotnullableBooleanProp, notrequiredNotnullableDatetimeProp, notrequiredNotnullableEnumInteger, notrequiredNotnullableEnumIntegerOnly, notrequiredNotnullableEnumString, notrequiredNotnullableOuterEnumDefaultValue, notrequiredNotnullableStringProp, notrequiredNotnullableUuid, notrequiredNullableArrayOfString, notrequiredNullableBooleanProp, notrequiredNullableDatetimeProp, notrequiredNullableEnumInteger, notrequiredNullableEnumIntegerOnly, notrequiredNullableEnumString, notrequiredNullableOuterEnumDefaultValue, notrequiredNullableStringProp, notrequiredNullableUuid);
         }
 
         /// <summary>
@@ -2172,17 +2173,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RequiredClass requiredClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (requiredClass.RequiredNotNullableDateProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.RequiredNotNullableDateProp), "Property is required for class RequiredClass.");
-
             if (requiredClass.RequiredNotnullableArrayOfString == null)
                 throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
 
             if (requiredClass.RequiredNotnullableStringProp == null)
                 throw new ArgumentNullException(nameof(requiredClass.RequiredNotnullableStringProp), "Property is required for class RequiredClass.");
-
-            if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet && requiredClass.NotRequiredNotnullableDateProp == null)
-                throw new ArgumentNullException(nameof(requiredClass.NotRequiredNotnullableDateProp), "Property is required for class RequiredClass.");
 
             if (requiredClass.NotrequiredNotnullableArrayOfStringOption.IsSet && requiredClass.NotrequiredNotnullableArrayOfString == null)
                 throw new ArgumentNullException(nameof(requiredClass.NotrequiredNotnullableArrayOfString), "Property is required for class RequiredClass.");
@@ -2278,14 +2273,14 @@ namespace UseSourceGeneration.Model
                 writer.WriteNull("required_nullable_uuid");
 
             if (requiredClass.NotRequiredNotnullableDatePropOption.IsSet)
-                writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value.ToString(NotRequiredNotnullableDatePropFormat));
+                writer.WriteString("not_required_notnullable_date_prop", requiredClass.NotRequiredNotnullableDatePropOption.Value!.Value.ToString(NotRequiredNotnullableDatePropFormat));
 
             if (requiredClass.NotRequiredNotnullableintegerPropOption.IsSet)
                 writer.WriteNumber("not_required_notnullableinteger_prop", requiredClass.NotRequiredNotnullableintegerPropOption.Value!.Value);
 
             if (requiredClass.NotRequiredNullableDatePropOption.IsSet)
                 if (requiredClass.NotRequiredNullableDatePropOption.Value != null)
-                    writer.WriteString("not_required_nullable_date_prop", requiredClass.NotRequiredNullableDatePropOption.Value.ToString(NotRequiredNullableDatePropFormat));
+                    writer.WriteString("not_required_nullable_date_prop", requiredClass.NotRequiredNullableDatePropOption.Value!.Value.ToString(NotRequiredNullableDatePropFormat));
                 else
                     writer.WriteNull("not_required_nullable_date_prop");
 
