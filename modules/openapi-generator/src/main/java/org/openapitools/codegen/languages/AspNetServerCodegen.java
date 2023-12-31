@@ -304,7 +304,7 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     @Override
     protected Set<String> getNullableTypes() {
         return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double",
-            "DateTime", "DateTimeOffset", "Guid"));
+            "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     @Override
