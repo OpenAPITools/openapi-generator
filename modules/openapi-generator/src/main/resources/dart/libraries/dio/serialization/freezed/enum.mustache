@@ -8,6 +8,6 @@ enum {{classname}} {
             {{{name}}}(value: {{#isString}}r{{/isString}}{{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/enumVars}}
         const {{classname}}({required this.value});
-        final String value;
+        final {{dataType}} value;
     {{/allowableValues}}
 }

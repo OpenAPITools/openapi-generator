@@ -1,5 +1,22 @@
 {{#vendorExtensions.x-is-pure}}
-factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+    {{^hasDiscriminatorWithNonEmptyMapping}}
+        factory {{classname}}.fromJson(Map<String, dynamic> json) => _${{classname}}FromJson(json);
+    {{/hasDiscriminatorWithNonEmptyMapping}}
+    {{#hasDiscriminatorWithNonEmptyMapping}}
+        factory {{classname}}.fromJson(Map<String, dynamic> json) {
+        {{#discriminator}}
+            switch(json['{{propertyBaseName}}']){
+            {{#mappedModels}}
+                case '{{mappingName}}':
+                return {{classname}}.{{#lambda.camelcase}}{{#lambda.lowercase}}{{mappingName}}{{/lambda.lowercase}}{{/lambda.camelcase}}(
+                {{#lambda.camelcase}}{{modelName}}{{/lambda.camelcase}} : {{modelName}}.fromJson(json),
+                );
+            {{/mappedModels}}
+            }
+        {{/discriminator}}
+        return {{classname}}.unknown(json: json);
+        }
+    {{/hasDiscriminatorWithNonEmptyMapping}}
 {{/vendorExtensions.x-is-pure}}
 {{^vendorExtensions.x-is-pure}}
     {{#vendorExtensions.x-is-child}}

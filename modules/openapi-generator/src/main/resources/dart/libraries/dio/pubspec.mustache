@@ -14,7 +14,7 @@ environment:
   sdk: '>=2.15.0 <3.0.0'
   {{/useFreezed}}
   {{#useFreezed}}
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '^3.0.0'
   {{/useFreezed}}
 
 dependencies:
@@ -29,8 +29,8 @@ dependencies:
   json_annotation: '^4.4.0'
 {{/useJsonSerializable}}
 {{#useFreezed}}
-  freezed_annotation: '^2.2.0'
-  json_annotation: '^4.8.0'
+  freezed_annotation: '^2.4.1'
+  json_annotation: '^4.8.1'
 {{/useFreezed}}
 {{#useDateLibTimeMachine}}
   time_machine: ^0.9.16
@@ -46,8 +46,8 @@ dev_dependencies:
   json_serializable: '^6.1.5'
 {{/useJsonSerializable}}
 {{#useFreezed}}
-  freezed: '^2.3.2'
-  json_serializable: '^6.6.1'
+  freezed: '^2.4.2'
+  json_serializable: '^6.7.1'
   build_runner: any
 {{/useFreezed}}
   test: ^1.16.0
