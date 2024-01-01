@@ -170,7 +170,7 @@ class {{{classname}}} {
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (_response.body.isNotEmpty && _response.statusCode != HttpStatus.noContent) {
+    if (_response.bodyBytes.isNotEmpty && _response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
       final _responseBody = await _decodeBodyBytes(_response);
