@@ -37,7 +37,7 @@ class OneOfEnumString(BaseModel):
     # data type: EnumString2
     oneof_schema_2_validator: Optional[EnumString2] = None
     actual_instance: Optional[Union[EnumString1, EnumString2]] = None
-    #one_of_schemas = Literal["EnumString1", "EnumString2"]
+    one_of_schemas: List[str] = Field(default=Literal["EnumString1", "EnumString2"])
 
     model_config = {
         "validate_assignment": True,

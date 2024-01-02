@@ -37,7 +37,7 @@ class IntOrString(BaseModel):
     # data type: str
     oneof_schema_2_validator: Optional[StrictStr] = None
     actual_instance: Optional[Union[int, str]] = None
-    #one_of_schemas = Literal["int", "str"]
+    one_of_schemas: List[str] = Field(default=Literal["int", "str"])
 
     model_config = {
         "validate_assignment": True,

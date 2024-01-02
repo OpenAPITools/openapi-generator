@@ -37,7 +37,7 @@ class Pig(BaseModel):
     # data type: DanishPig
     oneof_schema_2_validator: Optional[DanishPig] = None
     actual_instance: Optional[Union[BasquePig, DanishPig]] = None
-    #one_of_schemas = Literal["BasquePig", "DanishPig"]
+    one_of_schemas: List[str] = Field(default=Literal["BasquePig", "DanishPig"])
 
     model_config = {
         "validate_assignment": True,

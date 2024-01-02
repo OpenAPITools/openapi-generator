@@ -43,7 +43,7 @@ class AnyOfColor(BaseModel):
         actual_instance: Optional[Union[List[int], str]] = None
     else:
         actual_instance: Any = None
-    #any_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]
+    any_of_schemas: List[str] = Field(default=Literal["List[int]", "str"])
 
     model_config = {
         "validate_assignment": True,
