@@ -23,9 +23,9 @@ from pydantic import BaseModel, StrictInt, StrictStr
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ApiResponse(BaseModel):
+class ModelApiResponse(BaseModel):
     """
-    ApiResponse
+    ModelApiResponse
     """ # noqa: E501
     code: Optional[StrictInt] = None
     type: Optional[StrictStr] = None
@@ -50,7 +50,7 @@ class ApiResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ApiResponse from a JSON string"""
+        """Create an instance of ModelApiResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +75,7 @@ class ApiResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
-        """Create an instance of ApiResponse from a dict"""
+        """Create an instance of ModelApiResponse from a dict"""
         if obj is None:
             return None
 

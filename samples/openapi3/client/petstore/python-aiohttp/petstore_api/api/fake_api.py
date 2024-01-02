@@ -39,7 +39,7 @@ from petstore_api.models.test_inline_freeform_additional_properties_request impo
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse as _ApiResponse
+from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -138,7 +138,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test any type request body
 
 
@@ -399,7 +399,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test enum reference query parameter
 
 
@@ -644,7 +644,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[HealthCheckResult]:
+    ) -> ApiResponse[HealthCheckResult]:
         """Health check endpoint
 
 
@@ -898,7 +898,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test http signature authentication
 
 
@@ -1184,7 +1184,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[bool]:
+    ) -> ApiResponse[bool]:
         """fake_outer_boolean_serialize
 
         Test serialization of outer boolean types
@@ -1454,7 +1454,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[OuterComposite]:
+    ) -> ApiResponse[OuterComposite]:
         """fake_outer_composite_serialize
 
         Test serialization of object with outer number type
@@ -1724,7 +1724,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[float]:
+    ) -> ApiResponse[float]:
         """fake_outer_number_serialize
 
         Test serialization of outer number types
@@ -1994,7 +1994,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """fake_outer_string_serialize
 
         Test serialization of outer string types
@@ -2264,7 +2264,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[OuterObjectWithEnumProperty]:
+    ) -> ApiResponse[OuterObjectWithEnumProperty]:
         """fake_property_enum_integer_serialize
 
         Test serialization of enum (int) properties with examples
@@ -2528,7 +2528,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[EnumClass]:
+    ) -> ApiResponse[EnumClass]:
         """test ref to enum string
 
 
@@ -2767,7 +2767,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[List[List[Tag]]]:
+    ) -> ApiResponse[List[List[Tag]]]:
         """test returning list of objects
 
 
@@ -3011,7 +3011,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test uuid example
 
 
@@ -3262,7 +3262,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test_body_with_binary
 
         For this test, the body has to be a binary file.
@@ -3531,7 +3531,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test_body_with_file_schema
 
         For this test, the body for this request must reference a schema named `File`.
@@ -3799,7 +3799,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test_body_with_query_params
 
 
@@ -4073,7 +4073,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Client]:
+    ) -> ApiResponse[Client]:
         """To test \"client\" model
 
         To test \"client\" model
@@ -4347,7 +4347,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test_date_time_query_parameter
 
 
@@ -4615,7 +4615,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test empty and non-empty responses
 
         
@@ -4935,7 +4935,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
         Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -5338,7 +5338,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test error responses with model
 
 
@@ -5612,7 +5612,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Fake endpoint to test group parameters (optional)
 
         Fake endpoint to test group parameters (optional)
@@ -5922,7 +5922,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test inline additionalProperties
 
         
@@ -6186,7 +6186,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test inline free-form additionalProperties
 
         
@@ -6455,7 +6455,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test json serialization of form data
 
         
@@ -6759,7 +6759,7 @@ class FakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """test_query_parameter_collection_format
 
         To test the collection format in query parameters

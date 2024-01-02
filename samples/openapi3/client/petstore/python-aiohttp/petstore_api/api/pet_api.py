@@ -25,11 +25,11 @@ from pydantic import StrictBytes, StrictInt, StrictStr, field_validator
 
 from typing import List, Optional, Union
 
-from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.pet import Pet
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse as _ApiResponse
+from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -130,7 +130,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Add a new pet to the store
 
         
@@ -405,7 +405,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Deletes a pet
 
         
@@ -670,7 +670,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[List[Pet]]:
+    ) -> ApiResponse[List[Pet]]:
         """Finds Pets by status
 
         Multiple status values can be provided with comma separated strings
@@ -937,7 +937,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[List[Pet]]:
+    ) -> ApiResponse[List[Pet]]:
         """(Deprecated) Finds Pets by tags
 
         Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -1206,7 +1206,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Pet]:
+    ) -> ApiResponse[Pet]:
         """Find pet by ID
 
         Returns a single pet
@@ -1472,7 +1472,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Update an existing pet
 
         
@@ -1756,7 +1756,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Updates a pet in the store with form data
 
         
@@ -1978,7 +1978,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse:
+    ) -> ModelApiResponse:
         """uploads an image
 
         
@@ -2022,7 +2022,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2053,7 +2053,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[ApiResponse]:
+    ) -> ApiResponse[ModelApiResponse]:
         """uploads an image
 
         
@@ -2097,7 +2097,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2172,7 +2172,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2279,7 +2279,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse:
+    ) -> ModelApiResponse:
         """uploads an image (required)
 
         
@@ -2323,7 +2323,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2354,7 +2354,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[ApiResponse]:
+    ) -> ApiResponse[ModelApiResponse]:
         """uploads an image (required)
 
         
@@ -2398,7 +2398,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2473,7 +2473,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,

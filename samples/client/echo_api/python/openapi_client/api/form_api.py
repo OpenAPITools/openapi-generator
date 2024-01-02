@@ -26,7 +26,7 @@ from typing import Optional
 
 
 from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse as _ApiResponse
+from openapi_client.api_response import ApiResponse
 from openapi_client.rest import RESTResponseType
 
 
@@ -136,7 +136,7 @@ class FormApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test form parameter(s)
 
         Test form parameter(s)
@@ -451,7 +451,7 @@ class FormApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test form parameter(s) for oneOf schema
 
         Test form parameter(s) for oneOf schema

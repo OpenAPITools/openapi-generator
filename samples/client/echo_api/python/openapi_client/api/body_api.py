@@ -30,7 +30,7 @@ from openapi_client.models.pet import Pet
 from openapi_client.models.tag import Tag
 
 from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse as _ApiResponse
+from openapi_client.api_response import ApiResponse
 from openapi_client.rest import RESTResponseType
 
 
@@ -125,7 +125,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[bytearray]:
+    ) -> ApiResponse[bytearray]:
         """Test binary (gif) response body
 
         Test binary (gif) response body
@@ -372,7 +372,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test body parameter(s)
 
         Test body parameter(s)
@@ -647,7 +647,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test array of binary in multipart mime
 
         Test array of binary in multipart mime
@@ -918,7 +918,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test single binary in multipart mime
 
         Test single binary in multipart mime
@@ -1188,7 +1188,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Pet]:
+    ) -> ApiResponse[Pet]:
         """Test body parameter(s)
 
         Test body parameter(s)
@@ -1458,7 +1458,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test free form object
 
         Test free form object
@@ -1728,7 +1728,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Pet]:
+    ) -> ApiResponse[Pet]:
         """Test body parameter(s)
 
         Test body parameter(s)
@@ -1998,7 +1998,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test empty response body
 
         Test empty response body
@@ -2268,7 +2268,7 @@ class BodyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test empty json (request body)
 
         Test empty json (request body)

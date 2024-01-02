@@ -24,7 +24,7 @@ from typing_extensions import Annotated
 from petstore_api.models.client import Client
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse as _ApiResponse
+from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -124,7 +124,7 @@ class AnotherFakeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Client]:
+    ) -> ApiResponse[Client]:
         """To test special tags
 
         To test special tags and operation ID starting with number

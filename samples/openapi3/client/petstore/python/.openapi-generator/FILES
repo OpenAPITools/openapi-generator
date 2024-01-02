@@ -12,7 +12,6 @@ docs/Animal.md
 docs/AnotherFakeApi.md
 docs/AnyOfColor.md
 docs/AnyOfPig.md
-docs/ApiResponse.md
 docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
@@ -54,6 +53,7 @@ docs/MapOfArrayOfModel.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
+docs/ModelApiResponse.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
@@ -116,7 +116,6 @@ petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
-petstore_api/models/api_response.py
 petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
 petstore_api/models/array_of_number_only.py
@@ -155,6 +154,7 @@ petstore_api/models/map_of_array_of_model.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
 petstore_api/models/model200_response.py
+petstore_api/models/model_api_response.py
 petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py

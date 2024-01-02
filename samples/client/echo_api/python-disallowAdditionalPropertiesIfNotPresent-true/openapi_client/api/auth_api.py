@@ -22,7 +22,7 @@ from typing_extensions import Annotated
 
 
 from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse as _ApiResponse
+from openapi_client.api_response import ApiResponse
 from openapi_client.rest import RESTResponseType
 
 
@@ -117,7 +117,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """To test HTTP basic authentication
 
         To test HTTP basic authentication
@@ -360,7 +360,7 @@ class AuthApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """To test HTTP bearer authentication
 
         To test HTTP bearer authentication

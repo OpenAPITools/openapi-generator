@@ -22,7 +22,7 @@ from typing_extensions import Annotated
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse as _ApiResponse
+from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -115,7 +115,7 @@ class DefaultApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[FooGetDefaultResponse]:
+    ) -> ApiResponse[FooGetDefaultResponse]:
         """foo_get
 
 

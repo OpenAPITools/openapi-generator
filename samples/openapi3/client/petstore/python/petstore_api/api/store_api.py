@@ -28,7 +28,7 @@ from typing import Dict
 from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient
-from petstore_api.api_response import ApiResponse as _ApiResponse
+from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
 
@@ -129,7 +129,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[None]:
+    ) -> ApiResponse[None]:
         """Delete purchase order by ID
 
         For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -377,7 +377,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Dict[str, int]]:
+    ) -> ApiResponse[Dict[str, int]]:
         """Returns pet inventories by status
 
         Returns a map of status codes to quantities
@@ -627,7 +627,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Order]:
+    ) -> ApiResponse[Order]:
         """Find purchase order by ID
 
         For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
@@ -890,7 +890,7 @@ class StoreApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[Order]:
+    ) -> ApiResponse[Order]:
         """Place an order for a pet
 
         

@@ -25,7 +25,7 @@ from pydantic import StrictInt, StrictStr, field_validator
 from openapi_client.models.string_enum_ref import StringEnumRef
 
 from openapi_client.api_client import ApiClient
-from openapi_client.api_response import ApiResponse as _ApiResponse
+from openapi_client.api_response import ApiResponse
 from openapi_client.rest import RESTResponseType
 
 
@@ -140,7 +140,7 @@ class PathApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> _ApiResponse[str]:
+    ) -> ApiResponse[str]:
         """Test path parameter(s)
 
         Test path parameter(s)
