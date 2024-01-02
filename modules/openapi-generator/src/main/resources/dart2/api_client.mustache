@@ -134,19 +134,21 @@ class ApiClient {
   }
 {{#native_serialization}}
 
-  Future<dynamic> deserializeAsync(String value, String targetType, {bool growable = false,}) async =>
+  Future<dynamic> deserializeAsync(dynamic value, String targetType, {bool growable = false,}) async =>
     // ignore: deprecated_member_use_from_same_package
     deserialize(value, targetType, growable: growable);
 
   @Deprecated('Scheduled for removal in OpenAPI Generator 6.x. Use deserializeAsync() instead.')
-  dynamic deserialize(String value, String targetType, {bool growable = false,}) {
+  dynamic deserialize(dynamic value, String targetType, {bool growable = false,}) {
     // Remove all spaces. Necessary for regular expressions as well.
     targetType = targetType.replaceAll(' ', ''); // ignore: parameter_assignments
 
-    // If the expected target type is String, nothing to do...
-    return targetType == 'String'
-      ? value
-      : fromJson(json.decode(value), targetType, growable: growable);
+    // If targetType is a known primitive, utilize it directly
+    if (targetType == 'String' || targetType == 'int' || targetType == 'double' || targetType == 'bool' || targetType == 'DateTime' || targetType == 'Uint8List') {
+      return fromJson(value, targetType, growable: growable);
+    } else {
+      return fromJson(json.decode(value), targetType, growable: growable);
+    }
   }
 {{/native_serialization}}
 
@@ -175,6 +177,8 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'Uint8List':
+          return value as Uint8List;
         {{#models}}
           {{#model}}
         case '{{{classname}}}':
