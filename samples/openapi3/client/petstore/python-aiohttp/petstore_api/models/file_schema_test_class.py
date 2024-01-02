@@ -94,7 +94,7 @@ class FileSchemaTestClass(BaseModel):
 
         _obj = cls.model_validate({
             "file": File.from_dict(obj["file"]) if obj.get("file") is not None else None,
-                "files": [File.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
+            "files": [File.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None
         })
         return _obj
 

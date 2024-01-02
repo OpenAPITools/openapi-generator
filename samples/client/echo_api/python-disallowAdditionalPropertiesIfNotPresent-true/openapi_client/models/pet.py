@@ -119,7 +119,7 @@ class Pet(BaseModel):
             "name": obj.get("name"),
             "category": Category.from_dict(obj["category"]) if obj.get("category") is not None else None,
             "photoUrls": obj.get("photoUrls"),
-                "tags": [Tag.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
+            "tags": [Tag.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
             "status": obj.get("status")
         })
         return _obj
