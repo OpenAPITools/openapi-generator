@@ -24,43 +24,49 @@ namespace Org.OpenAPITools.Test.Api
     /// </summary>
     public class DependencyInjectionTest
     {
-        private readonly IHost _hostUsingConfigureWithoutAClient = 
+        private readonly IHost _hostUsingConfigureWithoutAClient =
             Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(apiKeyToken);
-                
-                BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(bearerToken);
-                
-                BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(basicToken);
-                
-                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(httpSignatureToken);
-                
-                OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                ApiKeyToken apiKeyToken1 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken1);
+
+                ApiKeyToken apiKeyToken2 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken2);
+
+                BearerToken bearerToken1 = new BearerToken("<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken1);
+
+                BasicToken basicToken1 = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken1);
+
+                HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken1);
+
+                OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
             })
             .Build();
 
         private readonly IHost _hostUsingConfigureWithAClient =
             Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(apiKeyToken);
-                
-                BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(bearerToken);
-                
-                BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(basicToken);
-                
-                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(httpSignatureToken);
-                
+                ApiKeyToken apiKeyToken1 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken1);
+
+                ApiKeyToken apiKeyToken2 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken2);
+
+                BearerToken bearerToken1 = new BearerToken("<token>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken1);
+
+                BasicToken basicToken1 = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken1);
+
+                HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken1);
+
                 OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(oauthToken);
                 options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
@@ -72,21 +78,24 @@ namespace Org.OpenAPITools.Test.Api
             {
                 services.AddApi(options =>
                 {
-                    ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(apiKeyToken);
-                    
-                    BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(bearerToken);
-                    
-                    BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(basicToken);
-                    
-                    HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                    HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(httpSignatureToken);
-                    
-                    OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(oauthToken);
+                    ApiKeyToken apiKeyToken1 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken1);
+
+                    ApiKeyToken apiKeyToken2 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken2);
+
+                    BearerToken bearerToken1 = new BearerToken("<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(bearerToken1);
+
+                    BasicToken basicToken1 = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(basicToken1);
+
+                    HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(httpSignatureToken1);
+
+                    OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken1);
                 });
             })
             .Build();
@@ -96,21 +105,24 @@ namespace Org.OpenAPITools.Test.Api
             {
                 services.AddApi(options =>
                 {
-                    ApiKeyToken apiKeyToken = new ApiKeyToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(apiKeyToken);
-                    
-                    BearerToken bearerToken = new BearerToken($"<token>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(bearerToken);
-                    
-                    BasicToken basicToken = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(basicToken);
-                    
-                    HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                    HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(httpSignatureToken);
-                    
-                    OAuthToken oauthToken = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
-                    options.AddTokens(oauthToken);
+                    ApiKeyToken apiKeyToken1 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken1);
+
+                    ApiKeyToken apiKeyToken2 = new ApiKeyToken("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(apiKeyToken2);
+
+                    BearerToken bearerToken1 = new BearerToken("<token>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(bearerToken1);
+
+                    BasicToken basicToken1 = new BasicToken("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(basicToken1);
+
+                    HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                    HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(httpSignatureToken1);
+
+                    OAuthToken oauthToken1 = new OAuthToken("token", timeout: TimeSpan.FromSeconds(1));
+                    options.AddTokens(oauthToken1);
                     options.AddApiHttpClients(client => client.BaseAddress = new Uri(ClientUtils.BASE_ADDRESS));
                 });
             })
@@ -124,22 +136,22 @@ namespace Org.OpenAPITools.Test.Api
         {
             var anotherFakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
-            
+
             var defaultApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
-            
+
             var fakeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
-            
+
             var fakeClassnameTags123Api = _hostUsingConfigureWithAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
-            
+
             var petApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
-            
+
             var storeApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
-            
+
             var userApi = _hostUsingConfigureWithAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
@@ -152,22 +164,22 @@ namespace Org.OpenAPITools.Test.Api
         {
             var anotherFakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
-            
+
             var defaultApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
-            
+
             var fakeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
-            
+
             var fakeClassnameTags123Api = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
-            
+
             var petApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
-            
+
             var storeApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
-            
+
             var userApi = _hostUsingConfigureWithoutAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }
@@ -208,22 +220,22 @@ namespace Org.OpenAPITools.Test.Api
         {
             var anotherFakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IAnotherFakeApi>();
             Assert.True(anotherFakeApi.HttpClient.BaseAddress != null);
-            
+
             var defaultApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IDefaultApi>();
             Assert.True(defaultApi.HttpClient.BaseAddress != null);
-            
+
             var fakeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IFakeApi>();
             Assert.True(fakeApi.HttpClient.BaseAddress != null);
-            
+
             var fakeClassnameTags123Api = _hostUsingAddWithoutAClient.Services.GetRequiredService<IFakeClassnameTags123Api>();
             Assert.True(fakeClassnameTags123Api.HttpClient.BaseAddress != null);
-            
+
             var petApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IPetApi>();
             Assert.True(petApi.HttpClient.BaseAddress != null);
-            
+
             var storeApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IStoreApi>();
             Assert.True(storeApi.HttpClient.BaseAddress != null);
-            
+
             var userApi = _hostUsingAddWithoutAClient.Services.GetRequiredService<IUserApi>();
             Assert.True(userApi.HttpClient.BaseAddress != null);
         }

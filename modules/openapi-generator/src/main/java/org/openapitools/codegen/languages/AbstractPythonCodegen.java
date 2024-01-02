@@ -1088,7 +1088,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 || "float".equals(mapNumberTo)) {
             this.mapNumberTo = mapNumberTo;
         } else {
-            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictStr or float");
+            throw new IllegalArgumentException("mapNumberTo value must be Union[StrictFloat, StrictInt], StrictFloat or float");
         }
     }
 
@@ -2200,7 +2200,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         // TODO process the first one only at the moment
                         if (cmt != null)
                             // TODO: don't loop back to the deprecated getPydanticType method
-                            result = getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
+                            return getPydanticType(cmt.getSchema(), typingImports, pydanticImports, datetimeImports, modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
                     }
                     throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
                 } else {

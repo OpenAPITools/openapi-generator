@@ -39,7 +39,7 @@ public enum OuterEnumDefaultValue {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static OuterEnumDefaultValue fromString(String s) {
+    public static OuterEnumDefaultValue fromString(String s) {
       for (OuterEnumDefaultValue b : OuterEnumDefaultValue.values()) {
         // using Objects.toString() to be safe if value type non-object type
         // because types like 'int' etc. will be auto-boxed
@@ -48,8 +48,8 @@ public enum OuterEnumDefaultValue {
         }
       }
       throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
   @Override
   @JsonValue
   public String toString() {

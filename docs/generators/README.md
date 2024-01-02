@@ -45,6 +45,7 @@ The following generators are available:
 * [ruby](ruby.md)  
 * [rust](rust.md)  
 * [scala-akka](scala-akka.md)  
+* [scala-pekko](scala-pekko.md)  
 * [scala-gatling](scala-gatling.md)  
 * [scalaz](scalaz.md)  
 * [swift4](swift4.md)  

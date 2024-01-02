@@ -38,10 +38,10 @@ namespace UseSourceGeneration.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
-        public ChildCat(Option<string?> name = default, Option<PetTypeEnum?> petType = default) : base(ChildCat.PetTypeEnumToJsonValue(petType.Value))
+        public ChildCat(Option<string?> name = default, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
             NameOption = name;
-            PetTypeOption = petType;
+            PetType = petType;
             OnCreated();
         }
 
@@ -91,7 +91,7 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string PetTypeEnumToJsonValue(PetTypeEnum? value)
+        public static string PetTypeEnumToJsonValue(PetTypeEnum value)
         {
             if (value == PetTypeEnum.ChildCat)
                 return "ChildCat";
@@ -100,17 +100,10 @@ namespace UseSourceGeneration.Model
         }
 
         /// <summary>
-        /// Used to track the state of PetType
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public new Option<PetTypeEnum?> PetTypeOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets PetType
         /// </summary>
         [JsonPropertyName("pet_type")]
-        public new PetTypeEnum? PetType { get { return this.PetTypeOption; } set { this.PetTypeOption = new(value); } }
+        public new PetTypeEnum PetType { get; set; }
 
         /// <summary>
         /// Used to track the state of Name
@@ -195,13 +188,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
+            if (!petType.IsSet)
+                throw new ArgumentException("Property is required for class ChildCat.", nameof(petType));
+
             if (name.IsSet && name.Value == null)
                 throw new ArgumentNullException(nameof(name), "Property is not nullable for class ChildCat.");
 
             if (petType.IsSet && petType.Value == null)
                 throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ChildCat.");
 
-            return new ChildCat(name, petType);
+            return new ChildCat(name, petType.Value!.Value!);
         }
 
         /// <summary>
@@ -234,11 +230,8 @@ namespace UseSourceGeneration.Model
             if (childCat.NameOption.IsSet)
                 writer.WriteString("name", childCat.Name);
 
-            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetTypeOption.Value!.Value);
-            if (petTypeRawValue != null)
-                writer.WriteString("pet_type", petTypeRawValue);
-            else
-                writer.WriteNull("pet_type");
+            var petTypeRawValue = ChildCat.PetTypeEnumToJsonValue(childCat.PetType);
+            writer.WriteString("pet_type", petTypeRawValue);
         }
     }
 

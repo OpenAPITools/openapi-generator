@@ -262,6 +262,7 @@ paths:
           description: Pet not found
       security:
       - api_key: []
+      - api_key_query: []
       summary: Find pet by ID
       tags:
       - pet
@@ -499,6 +500,14 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false
@@ -575,6 +584,14 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
+        "598":
+          description: Not a real HTTP status code
+        "599":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Not a real HTTP status code with a return object
       summary: Get user by user name
       tags:
       - user
@@ -2491,6 +2508,8 @@ components:
             - ChildCat
             type: string
             x-enum-as-string: true
+        required:
+        - pet_type
         type: object
     ArrayOfEnums:
       items:

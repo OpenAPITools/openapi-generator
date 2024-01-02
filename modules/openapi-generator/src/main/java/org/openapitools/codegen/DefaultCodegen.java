@@ -60,6 +60,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -132,7 +133,7 @@ public class DefaultCodegen implements CodegenConfig {
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
                         SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth are not yet 100% supported
+                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML
@@ -160,6 +161,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> instantiationTypes;
     protected Set<String> reservedWords;
     protected Set<String> languageSpecificPrimitives = new HashSet<>();
+    protected Set<String> openapiGeneratorIgnoreList = new HashSet<>();
     protected Map<String, String> importMapping = new HashMap<>();
     // a map to store the mapping between a schema and the new one
     protected Map<String, String> schemaMapping = new HashMap<>();
@@ -979,6 +981,13 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @Override
     @SuppressWarnings("static-method")
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        return objs;
+    }
+
+    // override with any special post-processing
+    @Override
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         return objs;
     }
@@ -987,6 +996,12 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+    }
+
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
     }
 
     // override to post-process any parameters
@@ -1209,6 +1224,11 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Set<String> languageSpecificPrimitives() {
         return languageSpecificPrimitives;
+    }
+
+    @Override
+    public Set<String> openapiGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
     }
 
     @Override
@@ -3031,6 +3051,9 @@ public class DefaultCodegen implements CodegenConfig {
             // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
             model.setIsString(false);
             model.setIsUuid(true);
+        } else if (ModelUtils.isURISchema(schema)) {
+            model.setIsString(false);
+            model.setIsUri(true);
         }
     }
 
@@ -4994,6 +5017,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        postProcessResponseWithProperty(r, cp);
         return r;
     }
 
@@ -5717,6 +5741,10 @@ public class DefaultCodegen implements CodegenConfig {
         co.baseName = tag;
     }
 
+    protected void addParentFromContainer(CodegenModel model, Schema schema) {
+        model.parent = toInstantiationType(schema);
+    }
+
     /**
      * Sets the value of the 'model.parent' property in CodegenModel, based on the value
      * of the 'additionalProperties' keyword. Some language generator use class inheritance
@@ -5736,7 +5764,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected void addParentContainer(CodegenModel model, String name, Schema schema) {
         final CodegenProperty property = fromProperty(name, schema, false);
         addImport(model, property.complexType);
-        model.parent = toInstantiationType(schema);
+        addParentFromContainer(model, schema);
         final String instantiationType = instantiationTypes.get(property.containerType);
         if (instantiationType != null) {
             addImport(model, instantiationType);
@@ -8325,6 +8353,11 @@ public class DefaultCodegen implements CodegenConfig {
 
     @Override
     public boolean getUseOpenAPINormalizer() { return true; }
+
+    @Override
+    public Set<String> getOpenAPIGeneratorIgnoreList() {
+        return openapiGeneratorIgnoreList;
+    }
 
     /*
     A function to convert yaml or json ingested strings like property names

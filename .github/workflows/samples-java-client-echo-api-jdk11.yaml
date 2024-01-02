@@ -20,9 +20,10 @@ jobs:
           - samples/client/echo_api/java/native
           - samples/client/echo_api/java/feign-gson
           - samples/client/echo_api/java/resttemplate
+          - samples/client/echo_api/java/resteasy
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 11

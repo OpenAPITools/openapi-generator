@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.DeprecatedObject;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 
@@ -13,7 +15,7 @@ public class ObjectWithDeprecatedFields   {
     private String uuid;
     private BigDecimal id;
     private DeprecatedObject deprecatedRef;
-    private List<String> bars;
+    private List<@Valid String> bars;
 
     /**
      * Default constructor.
@@ -34,7 +36,7 @@ public class ObjectWithDeprecatedFields   {
         String uuid, 
         BigDecimal id, 
         DeprecatedObject deprecatedRef, 
-        List<String> bars
+        List<@Valid String> bars
     ) {
         this.uuid = uuid;
         this.id = id;
@@ -84,11 +86,11 @@ public class ObjectWithDeprecatedFields   {
      * Get bars
      * @return bars
      */
-    public List<String> getBars() {
+    public List<@Valid String> getBars() {
         return bars;
     }
 
-    public void setBars(List<String> bars) {
+    public void setBars(List<@Valid String> bars) {
         this.bars = bars;
     }
 

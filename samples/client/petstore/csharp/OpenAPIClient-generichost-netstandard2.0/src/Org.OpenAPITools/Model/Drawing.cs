@@ -27,7 +27,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Drawing
     /// </summary>
-    public partial class Drawing : Dictionary<String, Fruit>, IValidatableObject
+    public partial class Drawing : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull</param>
         /// <param name="shapes">shapes</param>
         [JsonConstructor]
-        public Drawing(Option<Shape> mainShape = default, Option<NullableShape> nullableShape = default, Option<ShapeOrNull> shapeOrNull = default, Option<List<Shape>> shapes = default) : base()
+        public Drawing(Option<Shape> mainShape = default, Option<NullableShape> nullableShape = default, Option<ShapeOrNull> shapeOrNull = default, Option<List<Shape>> shapes = default)
         {
             MainShapeOption = mainShape;
             NullableShapeOption = nullableShape;
@@ -114,7 +114,6 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Drawing {\n");
-            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  MainShape: ").Append(MainShape).Append("\n");
             sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
             sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
@@ -130,16 +129,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

@@ -106,8 +106,8 @@ public class AdditionalPropertiesClass   {
       return false;
     }
     AdditionalPropertiesClass additionalPropertiesClass = (AdditionalPropertiesClass) o;
-    return Objects.equals(mapProperty, additionalPropertiesClass.mapProperty) &&
-        Objects.equals(mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
+    return Objects.equals(this.mapProperty, additionalPropertiesClass.mapProperty) &&
+        Objects.equals(this.mapOfMapProperty, additionalPropertiesClass.mapOfMapProperty);
   }
 
   @Override

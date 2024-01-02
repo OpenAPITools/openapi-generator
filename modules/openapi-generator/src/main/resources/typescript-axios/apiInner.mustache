@@ -297,7 +297,7 @@ export const {{classname}}Factory = function (configuration?: Configuration, bas
          * @throws {RequiredError}
          */
         {{#useSingleRequestParameter}}
-        {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: AxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
+        {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: RawAxiosRequestConfig): AxiosPromise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {
             return localVarFp.{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(axios, basePath));
         },
         {{/useSingleRequestParameter}}

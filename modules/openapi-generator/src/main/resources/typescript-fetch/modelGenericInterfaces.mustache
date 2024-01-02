@@ -16,7 +16,7 @@ export interface {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{
      * @deprecated
     {{/deprecated}}
      */
-    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
 }{{#hasEnums}}
 

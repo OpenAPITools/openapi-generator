@@ -1365,6 +1365,19 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ListOfObjects"
+  /fake/ref_enum_string:
+    get:
+      tags:
+        - fake
+      summary: test ref to enum string
+      operationId: fake_ref_enum_string
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                $ref: "#/components/schemas/EnumClass"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

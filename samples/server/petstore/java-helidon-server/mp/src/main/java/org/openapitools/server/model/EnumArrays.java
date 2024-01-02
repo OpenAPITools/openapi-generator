@@ -53,7 +53,7 @@ public enum JustSymbolEnum {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static JustSymbolEnum fromString(String s) {
+    public static JustSymbolEnum fromString(String s) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -62,8 +62,8 @@ public enum JustSymbolEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static JustSymbolEnum fromValue(String value) {
         for (JustSymbolEnum b : JustSymbolEnum.values()) {
@@ -102,7 +102,7 @@ public enum ArrayEnumEnum {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static ArrayEnumEnum fromString(String s) {
+    public static ArrayEnumEnum fromString(String s) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -111,8 +111,8 @@ public enum ArrayEnumEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static ArrayEnumEnum fromValue(String value) {
         for (ArrayEnumEnum b : ArrayEnumEnum.values()) {

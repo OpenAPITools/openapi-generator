@@ -75,8 +75,8 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }

@@ -674,7 +674,7 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string?   RequiredNullableEnumStringEnumToJsonValue(RequiredNullableEnumStringEnum? value)
+        public static string? RequiredNullableEnumStringEnumToJsonValue(RequiredNullableEnumStringEnum? value)
         {
             if (value == null)
                 return null;
@@ -1303,7 +1303,7 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string?   NotrequiredNullableEnumStringEnumToJsonValue(NotrequiredNullableEnumStringEnum? value)
+        public static string? NotrequiredNullableEnumStringEnumToJsonValue(NotrequiredNullableEnumStringEnum? value)
         {
             if (value == null)
                 return null;
@@ -2197,11 +2197,7 @@ namespace UseSourceGeneration.Model
             writer.WriteNumber("required_notnullable_enum_integer_only", RequiredClass.RequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.RequiredNotnullableEnumIntegerOnly));
 
             var requiredNotnullableEnumStringRawValue = RequiredClass.RequiredNotnullableEnumStringEnumToJsonValue(requiredClass.RequiredNotnullableEnumString);
-            if (requiredNotnullableEnumStringRawValue != null)
-                writer.WriteString("required_notnullable_enum_string", requiredNotnullableEnumStringRawValue);
-            else
-                writer.WriteNull("required_notnullable_enum_string");
-
+            writer.WriteString("required_notnullable_enum_string", requiredNotnullableEnumStringRawValue);
             var requiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.RequiredNotnullableOuterEnumDefaultValue);
             writer.WriteString("required_notnullable_outerEnumDefaultValue", requiredNotnullableOuterEnumDefaultValueRawValue);
 
@@ -2311,11 +2307,7 @@ namespace UseSourceGeneration.Model
                 writer.WriteNumber("notrequired_notnullable_enum_integer_only", RequiredClass.NotrequiredNotnullableEnumIntegerOnlyEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumIntegerOnlyOption.Value!.Value));
 
             var notrequiredNotnullableEnumStringRawValue = RequiredClass.NotrequiredNotnullableEnumStringEnumToJsonValue(requiredClass.NotrequiredNotnullableEnumStringOption.Value!.Value);
-            if (notrequiredNotnullableEnumStringRawValue != null)
-                writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
-            else
-                writer.WriteNull("notrequired_notnullable_enum_string");
-
+            writer.WriteString("notrequired_notnullable_enum_string", notrequiredNotnullableEnumStringRawValue);
             if (requiredClass.NotrequiredNotnullableOuterEnumDefaultValueOption.IsSet)
             {
                 var notrequiredNotnullableOuterEnumDefaultValueRawValue = OuterEnumDefaultValueValueConverter.ToJsonValue(requiredClass.NotrequiredNotnullableOuterEnumDefaultValue!.Value);

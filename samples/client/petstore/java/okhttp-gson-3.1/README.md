@@ -91,11 +91,12 @@ public class Example {
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
 
     FakeApi apiInstance = new FakeApi(defaultClient);
+    UUID refToUuid = UUID.fromString("61864654-6e6b-4152-a62f-795fdd606bc2"); // UUID | to test ref to parameter (uuid)
     try {
-      String result = apiInstance.responseNoRef();
+      String result = apiInstance.refToRefParameter(refToUuid);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#responseNoRef");
+      System.err.println("Exception when calling FakeApi#refToRefParameter");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -112,6 +113,7 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
 *FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
 *FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
 *FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
@@ -140,6 +142,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Animal](docs/Animal.md)
+ - [AnyTypeTest](docs/AnyTypeTest.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [Dog](docs/Dog.md)

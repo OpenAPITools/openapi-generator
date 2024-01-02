@@ -68,7 +68,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
       return false;
     }
     AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
-    return super.equals(o) && Objects.equals(name, additionalPropertiesNumber.name);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesNumber.name);
   }
 
   @Override
