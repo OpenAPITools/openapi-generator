@@ -77,6 +77,62 @@ class ModelTests(unittest.TestCase):
         self.pet1.tags = []
         self.assertFalse(self.pet1 == self.pet2)
 
+    def test_oneof_schema_2_validator(self):
+        new_color = petstore_api.Color()
+        array_of_integers = [12, 34, 56]
+
+        try:
+            new_color.oneof_schema_2_validator = array_of_integers
+            self.fail(f"Should have failed: {new_color.oneof_schema_2_validator}")
+        except ValueError as e:
+            self.assertTrue("List should have at least 4 items after validation, not 3" in str(e))
+
+    def test_oneOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.Color()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.oneof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+        new_color.actual_instance = None
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.oneof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertTrue("Input should be less than or equal to 255" in str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertTrue("Input should be less than or equal to 255" in str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34, 56])
+
+        try:
+            p = petstore_api.Color.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertTrue("Input should be less than or equal to 255" in str(e))
+
+        # test to_json, to_dict method
+        json_str = '[12,34,56]'
+        p = petstore_api.Color.from_json(json_str)
+        self.assertEqual(p.to_json(), "[12, 34, 56]")
+        self.assertEqual(p.to_dict(), [12, 34, 56])
+
+        # test nullable
+        p = petstore_api.Color.from_json(None)
+        self.assertEqual(p.actual_instance, None)
 
     def test_oneof_enum_string(self):
         enum_string1 = petstore_api.EnumString1('a')
@@ -108,6 +164,42 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(constructor2.actual_instance, enum_string1)
         constructor3 = petstore_api.OneOfEnumString()
         self.assertEqual(constructor3.actual_instance, None)
+
+    def test_anyOf_array_of_integers(self):
+        # test new Color 
+        new_color = petstore_api.AnyOfColor()
+        self.assertEqual("null", new_color.to_json())
+        self.assertEqual(None, new_color.actual_instance)
+
+        # test the oneof schema validator
+        json_str = '[12,34,56]'
+        array_of_integers = json.loads(json_str)
+        # no error should be thrown
+        new_color.anyof_schema_1_validator = array_of_integers
+        new_color.actual_instance = array_of_integers
+
+        # test the oneof schema validator with invalid input 
+        json_str = '[12,34,56120938]'
+        array_of_integers = json.loads(json_str)
+        try:
+            new_color.anyof_schema_1_validator = array_of_integers
+        except ValueError as e:
+            self.assertIn("Input should be less than or equal to 255", str(e))
+
+        try:
+            new_color.actual_instance = array_of_integers
+        except ValueError as e:
+            self.assertIn("Input should be less than or equal to 255", str(e))
+
+        # test from_josn
+        json_str = '[12,34,56]'
+        p = petstore_api.AnyOfColor.from_json(json_str)
+        self.assertEqual(p.actual_instance, [12, 34,56])
+
+        try:
+            p = petstore_api.AnyOfColor.from_json('[2342112,0,0,0]')
+        except ValueError as e:
+            self.assertIn("Input should be less than or equal to 255", str(e))
 
     def test_oneOf(self):
         # test new Pig
@@ -301,7 +393,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
         # test sanitize for serializaation with SecretStr (format: password)
-        self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+        self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
 
     def test_inline_enum_validator(self):
         self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
@@ -311,6 +403,39 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(False, "should have failed with 'invalid status' error") # this line shouldn't execute
         except ValueError as e:
             self.assertTrue("must be one of enum values ('available', 'pending', 'sold')" in str(e))
+
+    def test_constraints(self):
+        rgb = [128, 128, 128]
+        rgba = [128, 128, 128, 128]
+        hex_color = "#00FF00"
+
+        # These should all pass
+        color = petstore_api.Color(oneof_schema_1_validator=rgb)
+        self.assertEqual(rgb, color.oneof_schema_1_validator)
+
+        color = petstore_api.Color(oneof_schema_2_validator=rgba)
+        self.assertEqual(rgba, color.oneof_schema_2_validator)
+
+        color = petstore_api.Color(oneof_schema_3_validator=hex_color)
+        self.assertEqual(hex_color, color.oneof_schema_3_validator)
+
+        try:
+            petstore_api.Color(oneof_schema_1_validator=rgba)
+            self.fail("invalid validation")
+        except ValidationError as e:
+            self.assertIn("List should have at most 3 items after validation, not 4", str(e))
+
+        try:
+            petstore_api.Color(oneof_schema_2_validator=rgb)
+            self.fail("invalid validation")
+        except ValidationError as e:
+            self.assertIn("List should have at least 4 items after validation, not 3", str(e))
+
+        try:
+            petstore_api.Color(oneof_schema_3_validator="too long string")
+            self.fail("invalid validation")
+        except ValidationError as e:
+            self.assertIn("String should have at most 7 characters", str(e))
 
     def test_object_id(self):
         pet_ap = petstore_api.Pet(name="test name", photoUrls=["string"])
