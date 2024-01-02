@@ -26,7 +26,11 @@ describe Petstore::MamalWithEnum do
 
   describe '.build' do
     it 'returns the correct model' do
-      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
+      expect(described_class.build("BlackAndWhiteCow")).to eq(Petstore::Cow::BLACK_AND_WHITE_COW)
+    end
+
+    it 'returns nil for unknown model' do
+      expect(described_class.build({ classname: 'monkey', type: 'gorilla' })).to be_nil
     end
   end
 end
