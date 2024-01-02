@@ -14,13 +14,12 @@ require 'date'
 require 'time'
 
 module Petstore
-  module MammalWithoutDiscriminator
+  module MamalWithEnum
     class << self
       # List of class defined in oneOf (OpenAPI v3)
       def openapi_one_of
         [
-          :'Whale',
-          :'Zebra'
+          :'Cow'
         ]
       end
 
