@@ -324,7 +324,7 @@ class ApiClient:
         return ApiResponse(
             status_code = response_data.status,
             data = return_data,
-            headers = dict(response_data.getheaders()),
+            headers = response_data.getheaders(),
             raw_data = response_data.data
         )
 
