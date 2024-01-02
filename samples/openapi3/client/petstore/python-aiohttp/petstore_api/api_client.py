@@ -291,6 +291,8 @@ class ApiClient:
         :return: ApiResponse
         """
 
+        msg = "RESTResponse.read() must be called before passing it to response_deserialize()"
+        assert response_data.data is not None, msg
 
         response_type = response_types_map.get(str(response_data.status), None)
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
@@ -311,10 +313,7 @@ class ApiClient:
                 if content_type is not None:
                     match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
                 encoding = match.group(1) if match else "utf-8"
-                if response_data.data is None: # should not happen
-                    response_text = ""
-                else:
-                    response_text = response_data.data.decode(encoding)
+                response_text = response_data.data.decode(encoding)
                 return_data = self.deserialize(response_text, response_type)
         finally:
             if not 200 <= response_data.status <= 299:
