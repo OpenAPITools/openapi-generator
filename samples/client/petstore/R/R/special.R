@@ -49,7 +49,7 @@ Special <- R6::R6Class(
     initialize = function(`set_test` = NULL, `item_self` = NULL, `item_private` = NULL, `item_super` = NULL, `123_number` = NULL, `array[test]` = NULL, `empty_string` = NULL, additional_properties = NULL, ...) {
       if (!is.null(`set_test`)) {
         stopifnot(is.vector(`set_test`), length(`set_test`) != 0)
-        sapply(`set_test`, function(x) stopifnot(is.character(x)))
+        
         if (!identical(`set_test`, unique(`set_test`))) {
           stop("Error! Items in `set_test` are not unique.")
         }

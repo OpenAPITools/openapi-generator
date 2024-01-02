@@ -111,7 +111,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{^isPrimitiveType}}sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x))){{/isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -183,7 +183,7 @@
         {{/isContainer}}
         {{#isContainer}}
         stopifnot(is.vector(`{{name}}`), length(`{{name}}`) != 0)
-        sapply(`{{name}}`, function(x) stopifnot({{#isPrimitiveType}}is.character(x){{/isPrimitiveType}}{{^isPrimitiveType}}R6::is.R6(x){{/isPrimitiveType}}))
+        {{^isPrimitiveType}}sapply(`{{name}}`, function(x) stopifnot(R6::is.R6(x))){{/isPrimitiveType}}
         {{#isArray}}
         {{#uniqueItems}}
         if (!identical(`{{name}}`, unique(`{{name}}`))) {
@@ -323,14 +323,14 @@
           {{#isContainer}}
           {{#isArray}}
           {{#isPrimitiveType}}
-             {{#isNumeric}}[%d]{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
+             {{#isNumeric}}{{#isInteger}}[%d]{{/isInteger}}{{#isLong}}[%d]{{/isLong}}{{#isNumber}}[%f]{{/isNumber}}{{#isFloat}}[%f]{{/isFloat}}{{#isDouble}}[%f]{{/isDouble}}{{/isNumeric}}{{^isNumeric}}[%s]{{/isNumeric}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}[%s]
           {{/isPrimitiveType}}
           {{/isArray}}
           {{#isMap}}
           {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+            {{#isNumeric}}{{#isInteger}}%d{{/isInteger}}{{#isLong}}%d{{/isLong}}{{#isNumber}}%f{{/isNumber}}{{#isFloat}}%f{{/isFloat}}{{#isDouble}}%f{{/isDouble}}{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}%s
           {{/isPrimitiveType}}
@@ -338,7 +338,7 @@
           {{/isContainer}}
           {{^isContainer}}
           {{#isPrimitiveType}}
-            {{#isNumeric}}%d{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
+            {{#isNumeric}}{{#isInteger}}%d{{/isInteger}}{{#isLong}}%d{{/isLong}}{{#isNumber}}%f{{/isNumber}}{{#isFloat}}%f{{/isFloat}}{{#isDouble}}%f{{/isDouble}}{{/isNumeric}}{{^isNumeric}}{{^isBoolean}}"{{/isBoolean}}%s{{^isBoolean}}"{{/isBoolean}}{{/isNumeric}}
           {{/isPrimitiveType}}
           {{^isPrimitiveType}}%s
           {{/isPrimitiveType}}
