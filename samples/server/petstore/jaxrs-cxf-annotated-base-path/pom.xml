@@ -103,6 +103,28 @@
       <artifactId>swagger-jaxrs</artifactId>
       <scope>compile</scope>
       <version>${swagger-core-version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>checker-compat-qual</artifactId>
+          <groupId>org.checkerframework</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr305</artifactId>
+          <groupId>com.google.code.findbugs</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jsr311-api</artifactId>
+          <groupId>javax.ws.rs</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>error_prone_annotations</artifactId>
+          <groupId>com.google.errorprone</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>j2objc-annotations</artifactId>
+          <groupId>com.google.j2objc</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -143,6 +165,60 @@
         <artifactId>cxf-rt-frontend-jaxrs</artifactId>
         <version>${cxf-version}</version>
         <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>dtd-parser</artifactId>
+            <groupId>com.sun.xml.dtd-parser</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>stax-ex</artifactId>
+            <groupId>org.jvnet.staxex</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>ant-launcher</artifactId>
+            <groupId>org.apache.ant</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>javax.annotation-api</artifactId>
+            <groupId>javax.annotation</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>istack-commons-runtime</artifactId>
+            <groupId>com.sun.istack</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <groupId>jakarta.xml.bind</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>FastInfoset</artifactId>
+            <groupId>com.sun.xml.fastinfoset</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>ant</artifactId>
+            <groupId>org.apache.ant</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>txw2</artifactId>
+            <groupId>org.glassfish.jaxb</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>rngom</artifactId>
+            <groupId>com.sun.xml.bind.external</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>jakarta.activation-api</artifactId>
+            <groupId>jakarta.activation</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>xsom</artifactId>
+            <groupId>org.glassfish.jaxb</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>relaxng-datatype</artifactId>
+            <groupId>com.sun.xml.bind.external</groupId>
+          </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
         <groupId>org.apache.cxf</groupId>
@@ -167,6 +243,12 @@
         <artifactId>cxf-rt-wsdl</artifactId>
         <version>${cxf-version}</version>
         <scope>compile</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>asm</artifactId>
+            <groupId>org.ow2.asm</groupId>
+          </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -185,11 +267,6 @@
         <version>${jakarta-annotation-version}</version>
         <scope>provided</scope>
     </dependency>
-       <dependency>
-           <groupId>joda-time</groupId>
-           <artifactId>joda-time</artifactId>
-           <version>2.10.13</version>
-       </dependency>
   </dependencies>
   <repositories>
     <repository>
