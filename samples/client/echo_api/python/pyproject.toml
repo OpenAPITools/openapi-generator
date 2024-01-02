@@ -33,4 +33,8 @@ build-backend = "setuptools.build_meta"
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
-files = ["openapi_client"]
+files = [
+  "openapi_client",
+  #"test",  # auto-generated tests
+  "tests", # hand-written tests
+]

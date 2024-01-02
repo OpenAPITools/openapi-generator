@@ -44,4 +44,8 @@ build-backend = "setuptools.build_meta"
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
-files = ["{{{packageName}}}"]
+files = [
+  "{{{packageName}}}",
+  #"test",  # auto-generated tests
+  "tests", # hand-written tests
+]

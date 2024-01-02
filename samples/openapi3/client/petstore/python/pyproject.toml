@@ -35,4 +35,8 @@ build-backend = "setuptools.build_meta"
 extension-pkg-whitelist = "pydantic"
 
 [tool.mypy]
-files = ["petstore_api"]
+files = [
+  "petstore_api",
+  #"test",  # auto-generated tests
+  "tests", # hand-written tests
+]
