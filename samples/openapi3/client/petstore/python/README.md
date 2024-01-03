@@ -50,7 +50,6 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 import datetime
-import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint

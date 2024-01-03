@@ -18,8 +18,8 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictBool, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 try:
     from typing import Self
 except ImportError:

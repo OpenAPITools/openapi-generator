@@ -12,12 +12,9 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     from typing import Annotated
@@ -25,11 +22,8 @@ except ImportError:
     from typing_extensions import Annotated
 
 from datetime import date, datetime
-
 from pydantic import StrictBool, StrictInt, StrictStr, field_validator
-
 from typing import Any, Optional
-
 from openapi_client.models.pet import Pet
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter

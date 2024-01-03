@@ -11,24 +11,18 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Dict, List, Optional, Tuple, Union, Any
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 try:
     from typing import Annotated
 except ImportError:
     from typing_extensions import Annotated
 
-from pydantic import Field
-from typing_extensions import Annotated
-from pydantic import StrictStr
-
+from pydantic import Field, StrictStr
 from typing import List
-
+from typing_extensions import Annotated
 from petstore_api.models.user import User
 
 from petstore_api.api_client import ApiClient
