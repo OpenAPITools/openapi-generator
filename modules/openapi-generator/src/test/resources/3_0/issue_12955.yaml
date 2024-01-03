@@ -1,0 +1,35 @@
+---
+openapi: 3.0.2
+info:
+  description: Complex anyOf
+  title: Complext anyOf
+  version: 0.0.0
+paths:
+  "/foos":
+    get:
+      description: Get foos
+      parameters:
+        - in: query
+          name: key
+          required: true
+          schema:
+            type: string
+          style: form
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  settings:
+                    "$ref": "#/components/schemas/foo"
+                type: object
+          description: 200 - everything is fine
+components:
+  schemas:
+    foo:
+      anyOf:
+        - type: object
+        - items:
+            "$ref": "#/components/schemas/foo"
+          type: array
