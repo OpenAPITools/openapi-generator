@@ -940,7 +940,7 @@ public class DefaultGenerator implements Generator {
             LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
             new File(config.outputFolder()).mkdirs();
             if (!ignoreFile.createNewFile()) {
-                throw new RuntimeException("Failed to create the file .openapi-generator-ignore: " + ignoreFileNameTarget);
+                // file may already exist, do nothing
             }
 
             String header = String.join("\n",
