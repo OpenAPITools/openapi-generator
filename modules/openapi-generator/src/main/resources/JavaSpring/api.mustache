@@ -173,7 +173,7 @@ public interface {{classname}} {
                 {{#produces}}
                 @Content(mediaType = "{{{mediaType}}}", {{#isArray}}array = @ArraySchema({{/isArray}}schema = @Schema(implementation = {{{baseType}}}.class){{#isArray}}){{/isArray}}){{^-last}},{{/-last}}
                 {{/produces}}
-            }{{/baseType}}){{^-last}},{{/-last}}
+            }{{/baseType}}{{^baseType}}, content = @Content{{/baseType}}){{^-last}},{{/-last}}
             {{/responses}}
         }{{#hasAuthMethods}},
         security = {
