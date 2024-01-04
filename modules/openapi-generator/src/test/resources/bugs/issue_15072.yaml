@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  version: '1.0'
+  title: example
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                example:
+                  $ref: '#/components/schemas/example'
+      responses:
+        '200':
+          description: ok
+components:
+  schemas:
+    example:
+      type: object
+      properties:
+        aliasmap:
+          $ref: '#/components/schemas/aliasmap'
+        aliasarray:
+          $ref: '#/components/schemas/aliasarray'
+        simplearray:
+          type: array
+          items:
+            type: string
+        simplemap:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - aliasmap
+        - aliasarray
+        - simplearray
+        - simplemap
+    aliasmap:
+      type: object
+      additionalProperties:
+        type: string
+    aliasarray:
+      type: array
+      items:
+        $ref: '#/components/schemas/item'
+    item:
+      type: object
+      properties:
+        property:
+          type: string

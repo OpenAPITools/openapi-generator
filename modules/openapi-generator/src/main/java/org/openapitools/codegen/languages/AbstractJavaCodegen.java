@@ -1167,6 +1167,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 if (cp.isNullable || !cp.required || containerDefaultToNull) {
                     return null;
                 } else {
+                    if (ModelUtils.isGenerateAliasAsModel() && cp.containerTypeMapped == null) {
+                        return "new " + cp.dataType + "()";
+                    }
                     if (ModelUtils.isSet(schema)) {
                         return String.format(Locale.ROOT, "new %s<>()",
                                 instantiationTypes().getOrDefault("set", "LinkedHashSet"));
@@ -1193,6 +1196,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             if (ModelUtils.getAdditionalProperties(schema) == null) {
                 return null;
+            }
+
+            if (ModelUtils.isGenerateAliasAsModel() && cp.containerTypeMapped == null) {
+                return "new " + cp.dataType + "()";
             }
 
             return String.format(Locale.ROOT, "new %s<>()",

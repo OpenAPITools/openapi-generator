@@ -648,6 +648,86 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void toDefaultValueGenerateAliasModelFalseTest() {
+        P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> arraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        Schema<?> mapSchema = new ObjectSchema().additionalProperties(new ObjectSchema().addProperty("type", new StringSchema()));
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("AliasArray", arraySchema)
+                .addSchemas("AliasMap", mapSchema)));
+        Schema<?> aliasArraySchema = new Schema().$ref("#/components/schemas/AliasArray");
+        Schema<?> aliasMapSchema = new Schema().$ref("#/components/schemas/AliasMap");
+
+        // alias array attribute
+        // not required
+        ModelUtils.setGenerateAliasAsModel(false);
+        CodegenProperty property = codegen.fromProperty("aliasarray", aliasArraySchema, false, true);
+        String defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertNull(defaultValue);
+
+        // required
+        ModelUtils.setGenerateAliasAsModel(false);
+        property = codegen.fromProperty("aliasarray", aliasArraySchema, true, true);
+        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertEquals(defaultValue, "new ArrayList<>()");
+
+        // alias map
+        // nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, false, true);
+        property.isNullable = true;
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
+        Assert.assertNull(defaultValue);
+
+        // not nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, true, true);
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
+        Assert.assertEquals(defaultValue, "new HashMap<>()");
+    }
+
+    @Test
+    public void toDefaultValueGenerateAliasModelTrueTest() {
+        P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+
+        Schema<?> arraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        Schema<?> mapSchema = new ObjectSchema().additionalProperties(new ObjectSchema().addProperty("type", new StringSchema()));
+        codegen.setOpenAPI(new OpenAPI().components(new Components()
+                .addSchemas("AliasArray", arraySchema)
+                .addSchemas("AliasMap", mapSchema)));
+        Schema<?> aliasArraySchema = new Schema().$ref("#/components/schemas/AliasArray");
+        Schema<?> aliasMapSchema = new Schema().$ref("#/components/schemas/AliasMap");
+
+        // alias array attribute
+        // not required
+        ModelUtils.setGenerateAliasAsModel(true);
+        CodegenProperty property = codegen.fromProperty("aliasarray", aliasArraySchema, false, true);
+        String defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertNull(defaultValue);
+
+        // required
+        ModelUtils.setGenerateAliasAsModel(true);
+        property = codegen.fromProperty("aliasarray", aliasArraySchema, true, true);
+        defaultValue = codegen.toDefaultValue(property, aliasArraySchema);
+        Assert.assertEquals(defaultValue, "new AliasArray()");
+
+        // alias map
+        // nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, false, true);
+        property.isNullable = true;
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
+        Assert.assertNull(defaultValue);
+
+        // not nullable
+        property = codegen.fromProperty("aliasmap", aliasMapSchema, true, true);
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(property, aliasMapSchema);
+        Assert.assertEquals(defaultValue, "new AliasMap()");
+    }
+
+    @Test
     public void dateDefaultValueIsIsoDate() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/date-time-parameter-types-for-testing.yml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
