@@ -1,0 +1,11 @@
+[package]
+name = "reqwest-oneof-discriminator-test"
+version = "0.1.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "tests for auto-generated `reqwest-oneof-discriminator` package"
+license = "Apache-2.0"
+edition = "2018"
+
+[dependencies]
+reqwest-oneof-discriminator = { path = "../reqwest-oneof-discriminator" }
+serde_json = "^1.0"

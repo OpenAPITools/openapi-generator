@@ -41,9 +41,9 @@ impl Default for {{{classname}}} {
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
+#[serde(tag = "{{{model.vendorExtensions.x-tag-name}}}")]
 pub enum {{{classname}}} {
-{{#vendorExtensions}}
+{{#model.vendorExtensions}}
     {{#x-mapped-models}}
     #[serde(rename="{{mappingName}}")]
     {{{modelName}}} {
@@ -56,7 +56,7 @@ pub enum {{{classname}}} {
     {{/vars}}
     },
     {{/x-mapped-models}}
-{{/vendorExtensions}}
+{{/model.vendorExtensions}}
 }
 
 {{/discriminator}}
