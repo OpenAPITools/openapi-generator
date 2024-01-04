@@ -1513,6 +1513,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 property.isInherited = true;
             }
         }
+
+        if (!GENERICHOST.equals(getLibrary()) && !property.dataType.endsWith("?") && !property.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(property.dataType))) {
+            property.dataType = property.dataType + "?";
+        }
+        // Don't attach a '?' to enums - that's already handled by the templates
+        if (!GENERICHOST.equals(getLibrary()) && !property.isEnum && !property.datatypeWithEnum.endsWith("?") && !property.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(property.datatypeWithEnum))) {
+            property.datatypeWithEnum = property.datatypeWithEnum + "?";
+        }
     }
 
     @Override

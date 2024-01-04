@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
         /// <param name="varReturn">varReturn.</param>
-        public Return(int varReturn = default(int))
+        public Return(int? varReturn = default(int?))
         {
             this._VarReturn = varReturn;
             if (this.VarReturn != null)
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarReturn
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
-        public int VarReturn
+        public int? VarReturn
         {
             get{ return _VarReturn;}
             set
@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
                 _flagVarReturn = true;
             }
         }
-        private int _VarReturn;
+        private int? _VarReturn;
         private bool _flagVarReturn;
 
         /// <summary>

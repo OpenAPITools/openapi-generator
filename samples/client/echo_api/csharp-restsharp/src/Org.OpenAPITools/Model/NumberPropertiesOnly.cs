@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="number">number.</param>
         /// <param name="varFloat">varFloat.</param>
         /// <param name="varDouble">varDouble.</param>
-        public NumberPropertiesOnly(decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double))
+        public NumberPropertiesOnly(decimal? number = default(decimal?), float? varFloat = default(float?), double? varDouble = default(double?))
         {
             this.Number = number;
             this.VarFloat = varFloat;
@@ -49,19 +49,19 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Number
         /// </summary>
         [DataMember(Name = "number", EmitDefaultValue = false)]
-        public decimal Number { get; set; }
+        public decimal? Number { get; set; }
 
         /// <summary>
         /// Gets or Sets VarFloat
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float VarFloat { get; set; }
+        public float? VarFloat { get; set; }
 
         /// <summary>
         /// Gets or Sets VarDouble
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double VarDouble { get; set; }
+        public double? VarDouble { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -146,14 +146,14 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // VarDouble (double) maximum
-            if (this.VarDouble > (double)50.2)
+            // VarDouble (double?) maximum
+            if (this.VarDouble > (double?)50.2)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value less than or equal to 50.2.", new [] { "VarDouble" });
             }
 
-            // VarDouble (double) minimum
-            if (this.VarDouble < (double)0.8)
+            // VarDouble (double?) minimum
+            if (this.VarDouble < (double?)0.8)
             {
                 yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarDouble, must be a value greater than or equal to 0.8.", new [] { "VarDouble" });
             }

@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Activity" /> class.
         /// </summary>
         /// <param name="activityOutputs">activityOutputs.</param>
-        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>))
+        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default(Dictionary<string, List<ActivityOutputElementRepresentation>>?))
         {
             this.ActivityOutputs = activityOutputs;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +46,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [DataMember(Name = "activity_outputs", EmitDefaultValue = false)]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>>? ActivityOutputs { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
