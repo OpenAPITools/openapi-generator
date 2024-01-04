@@ -134,7 +134,6 @@ namespace UseSourceGeneration.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type <see cref="ChildCat" />
     /// </summary>

@@ -105,7 +105,6 @@ namespace UseSourceGeneration.Model
         }
     }
 
-
     /// <summary>
     /// A Json converter for type <see cref="Model200Response" />
     /// </summary>

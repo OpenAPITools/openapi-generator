@@ -175,6 +175,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// The ZeroBasedEnumSerializationContext
     /// </summary>

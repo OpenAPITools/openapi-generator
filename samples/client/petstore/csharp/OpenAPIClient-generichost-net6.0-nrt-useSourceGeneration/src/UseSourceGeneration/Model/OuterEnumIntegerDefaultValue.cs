@@ -180,6 +180,7 @@ namespace UseSourceGeneration.Model
         }
     }
 
+
     /// <summary>
     /// The OuterEnumIntegerDefaultValueSerializationContext
     /// </summary>
