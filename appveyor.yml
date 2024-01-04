@@ -13,7 +13,7 @@ install:
   - cmd: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore 
   - ps: Start-Sleep -s 120
   - ps: $PSVersionTable.PSVersion
-  - ps: Install-Module -Name Pester -Force -Scope CurrentUser
+  - ps: Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck
 build_script:
   - dotnet --info
   # build C# aspnetcore 5.0 server
@@ -25,54 +25,41 @@ build_script:
   ## build C# aspnetcore 2.2 server
   #- dotnet build samples\server\petstore\aspnetcore\Org.OpenAPITools.sln
   ## build C# API client (multiple frameworks)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClientCoreAndNet47\Org.OpenAPITools.sln
   ## build C# API client (httpclient)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-httpclient\Org.OpenAPITools.sln
   ## build C# API client (generichost)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-generichost-netstandard2.0\Org.OpenAPITools.sln
   ## build C# API client (netcore)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient\Org.OpenAPITools.sln
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClientCore\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClientCore\Org.OpenAPITools.sln
   ## build C# API client (.net framework 4.7)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net47\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-net47\Org.OpenAPITools.sln
   ## build C# API client (.net framework 4.8)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net48\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-net48\Org.OpenAPITools.sln
   ## build C# API client (.net 5.0)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-net5.0\Org.OpenAPITools.sln
   ## build C# API client (.net 5.0 with ConditionalSerialization)
-  #- dotnet build samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
+  #- dotnet build samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\Org.OpenAPITools.sln
 
-  ## build C# API client
-  #- nuget restore samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln
-  #- msbuild samples\client\petstore\csharp\OpenAPIClient\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  ## build C# API client (with PropertyChanged)
-  #- nuget restore samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln
-  #- msbuild samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # build C# .net standard 1.3+ API client
-  #- nuget restore samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln
-  #- msbuild samples\client\petstore\csharp\OpenAPIClientNetStandard\Org.OpenAPITools.sln /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 test_script:
   # test c# API client (multiple frameworks)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (httpclient)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (generichost)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  #- dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  #- dotnet test samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.8)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net 5.0)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API Client using conditional-serialization
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  ## test c# API client
-  #- nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
-  ## test c# API client (with PropertyChanged)
-  #- nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
+  - dotnet test samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 
 ### TODO: Execute all generators via powershell or other
   # generate all petstore clients

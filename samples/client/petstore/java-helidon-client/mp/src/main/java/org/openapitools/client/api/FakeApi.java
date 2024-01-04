@@ -26,8 +26,10 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -36,6 +38,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 /**
@@ -47,6 +50,11 @@ import org.openapitools.client.model.User;
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake")
 public interface FakeApi  {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException, ProcessingException;
 
     /**
      * Health check endpoint
@@ -155,6 +163,15 @@ public interface FakeApi  {
     void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException, ProcessingException;
 
     /**
+     * test inline free-form additionalProperties
+     * 
+     */
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException, ProcessingException;
+
+    /**
      * test json serialization of form data
      * 
      */
@@ -162,6 +179,15 @@ public interface FakeApi  {
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     void testJsonFormData(@FormParam("param") String param, @FormParam("param2") String param2) throws ApiException, ProcessingException;
+
+    /**
+     * test nullable parent property
+     * 
+     */
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    void testNullable(ChildWithNullable childWithNullable) throws ApiException, ProcessingException;
 
     @PUT
     @Path("/test-query-parameters")

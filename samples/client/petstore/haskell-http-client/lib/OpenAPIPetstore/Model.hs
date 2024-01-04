@@ -225,6 +225,9 @@ newtype Url = Url { unUrl :: [Text] } deriving (P.Eq, P.Show)
 -- ** Username
 newtype Username = Username { unUsername :: Text } deriving (P.Eq, P.Show)
 
+-- ** UuidTest
+newtype UuidTest = UuidTest { unUuidTest :: Text } deriving (P.Eq, P.Show)
+
 -- * Models
 
 
@@ -694,34 +697,6 @@ mkBigCat bigCatClassName =
   , bigCatKind = Nothing
   }
 
--- ** BigCatAllOf
--- | BigCatAllOf
-data BigCatAllOf = BigCatAllOf
-  { bigCatAllOfKind :: !(Maybe E'Kind) -- ^ "kind"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON BigCatAllOf
-instance A.FromJSON BigCatAllOf where
-  parseJSON = A.withObject "BigCatAllOf" $ \o ->
-    BigCatAllOf
-      <$> (o .:? "kind")
-
--- | ToJSON BigCatAllOf
-instance A.ToJSON BigCatAllOf where
-  toJSON BigCatAllOf {..} =
-   _omitNulls
-      [ "kind" .= bigCatAllOfKind
-      ]
-
-
--- | Construct a value of type 'BigCatAllOf' (by applying it's required fields, if any)
-mkBigCatAllOf
-  :: BigCatAllOf
-mkBigCatAllOf =
-  BigCatAllOf
-  { bigCatAllOfKind = Nothing
-  }
-
 -- ** Capitalization
 -- | Capitalization
 data Capitalization = Capitalization
@@ -805,34 +780,6 @@ mkCat catClassName =
   { catClassName
   , catColor = Nothing
   , catDeclawed = Nothing
-  }
-
--- ** CatAllOf
--- | CatAllOf
-data CatAllOf = CatAllOf
-  { catAllOfDeclawed :: !(Maybe Bool) -- ^ "declawed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON CatAllOf
-instance A.FromJSON CatAllOf where
-  parseJSON = A.withObject "CatAllOf" $ \o ->
-    CatAllOf
-      <$> (o .:? "declawed")
-
--- | ToJSON CatAllOf
-instance A.ToJSON CatAllOf where
-  toJSON CatAllOf {..} =
-   _omitNulls
-      [ "declawed" .= catAllOfDeclawed
-      ]
-
-
--- | Construct a value of type 'CatAllOf' (by applying it's required fields, if any)
-mkCatAllOf
-  :: CatAllOf
-mkCatAllOf =
-  CatAllOf
-  { catAllOfDeclawed = Nothing
   }
 
 -- ** Category
@@ -960,34 +907,6 @@ mkDog dogClassName =
   { dogClassName
   , dogColor = Nothing
   , dogBreed = Nothing
-  }
-
--- ** DogAllOf
--- | DogAllOf
-data DogAllOf = DogAllOf
-  { dogAllOfBreed :: !(Maybe Text) -- ^ "breed"
-  } deriving (P.Show, P.Eq, P.Typeable)
-
--- | FromJSON DogAllOf
-instance A.FromJSON DogAllOf where
-  parseJSON = A.withObject "DogAllOf" $ \o ->
-    DogAllOf
-      <$> (o .:? "breed")
-
--- | ToJSON DogAllOf
-instance A.ToJSON DogAllOf where
-  toJSON DogAllOf {..} =
-   _omitNulls
-      [ "breed" .= dogAllOfBreed
-      ]
-
-
--- | Construct a value of type 'DogAllOf' (by applying it's required fields, if any)
-mkDogAllOf
-  :: DogAllOf
-mkDogAllOf =
-  DogAllOf
-  { dogAllOfBreed = Nothing
   }
 
 -- ** EnumArrays

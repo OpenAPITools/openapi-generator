@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
 
@@ -22,6 +21,7 @@ import openapitools.SecurityAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
@@ -61,9 +61,9 @@ public class UserApiController extends Controller {
     @ApiAction
     public Result createUsersWithArrayInput(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
-        List<User> body;
+        List<@Valid User> body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<@Valid User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
@@ -80,9 +80,9 @@ public class UserApiController extends Controller {
     @ApiAction
     public Result createUsersWithListInput(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
-        List<User> body;
+        List<@Valid User> body;
         if (nodebody != null) {
-            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<@Valid User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
                 for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);

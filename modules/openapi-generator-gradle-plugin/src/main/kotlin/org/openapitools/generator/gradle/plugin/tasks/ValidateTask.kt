@@ -58,7 +58,7 @@ open class ValidateTask : DefaultTask() {
 
     @Optional
     @Input
-    val recommend = project.objects.property<Boolean?>()
+    val recommend = project.objects.property<Boolean>().convention(true)
 
     @get:Internal
     @set:Option(option = "input", description = "The input specification.")

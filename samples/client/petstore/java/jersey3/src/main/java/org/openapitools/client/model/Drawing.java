@@ -18,7 +18,6 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
@@ -55,7 +55,7 @@ public class Drawing {
   private Shape mainShape;
 
   public static final String JSON_PROPERTY_SHAPE_OR_NULL = "shapeOrNull";
-  private ShapeOrNull shapeOrNull;
+  private JsonNullable<ShapeOrNull> shapeOrNull = JsonNullable.<ShapeOrNull>undefined();
 
   public static final String JSON_PROPERTY_NULLABLE_SHAPE = "nullableShape";
   private JsonNullable<NullableShape> nullableShape = JsonNullable.<NullableShape>undefined();
@@ -92,7 +92,7 @@ public class Drawing {
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    this.shapeOrNull = shapeOrNull;
+    this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
     return this;
   }
 
@@ -101,18 +101,26 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @jakarta.annotation.Nullable
-  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
-  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
-    return shapeOrNull;
+        return shapeOrNull.orElse(null);
   }
-
 
   @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+
+  public JsonNullable<ShapeOrNull> getShapeOrNull_JsonNullable() {
+    return shapeOrNull;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_SHAPE_OR_NULL)
+  public void setShapeOrNull_JsonNullable(JsonNullable<ShapeOrNull> shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
+  }
+
+  public void setShapeOrNull(ShapeOrNull shapeOrNull) {
+    this.shapeOrNull = JsonNullable.<ShapeOrNull>of(shapeOrNull);
   }
 
 
@@ -232,7 +240,7 @@ public class Drawing {
     }
     Drawing drawing = (Drawing) o;
     return Objects.equals(this.mainShape, drawing.mainShape) &&
-        Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
+        equalsNullable(this.shapeOrNull, drawing.shapeOrNull) &&
         equalsNullable(this.nullableShape, drawing.nullableShape) &&
         Objects.equals(this.shapes, drawing.shapes)&&
         Objects.equals(this.additionalProperties, drawing.additionalProperties);
@@ -244,7 +252,7 @@ public class Drawing {
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, hashCodeNullable(nullableShape), shapes, additionalProperties);
+    return Objects.hash(mainShape, hashCodeNullable(shapeOrNull), hashCodeNullable(nullableShape), shapes, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {

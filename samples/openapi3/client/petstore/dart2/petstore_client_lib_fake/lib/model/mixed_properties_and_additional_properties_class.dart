@@ -38,9 +38,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
-     other.uuid == uuid &&
-     other.dateTime == dateTime &&
-     other.map == map;
+    other.uuid == uuid &&
+    other.dateTime == dateTime &&
+    _deepEquality.equals(other.map, map);
 
   @override
   int get hashCode =>
@@ -88,7 +88,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        dateTime: mapDateTime(json, r'dateTime', r''),
         map: Animal.mapFromJson(json[r'map']),
       );
     }

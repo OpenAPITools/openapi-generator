@@ -28,7 +28,7 @@ final Foo foo = ; // Foo | The Foo to be created
 try {
     final response = api.createFoo(foo);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling FooApi->createFoo: $e\n');
 }
 ```
@@ -68,7 +68,7 @@ final api = Openapi().getFooApi();
 try {
     final response = api.getAllFoos();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling FooApi->getAllFoos: $e\n');
 }
 ```

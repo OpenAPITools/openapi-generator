@@ -30,7 +30,7 @@ class {{classname}} {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future]{{#returnType}} containing a [Response] with a [{{{.}}}] as data{{/returnType}}
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   {{#externalDocs}}
   /// {{description}}
   /// Also see [{{summary}} Documentation]({{url}})
@@ -51,7 +51,7 @@ class {{classname}} {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{{paramName}}}.toString()){{/pathParams}};
+    final _path = r'{{{path}}}'{{#pathParams}}.replaceAll('{' r'{{{baseName}}}' '}', {{#includeLibraryTemplate}}api/query_param{{/includeLibraryTemplate}}.toString()){{/pathParams}};
     final _options = Options(
       method: r'{{#lambda.uppercase}}{{httpMethod}}{{/lambda.uppercase}}',
       {{#isResponseFile}}
@@ -93,13 +93,13 @@ class {{classname}} {
     try {
 {{#includeLibraryTemplate}}api/serialize{{/includeLibraryTemplate}}
     } catch(error, stackTrace) {
-      throw DioError(
+      throw DioException(
          requestOptions: _options.compose(
           _dio.options,
           _path,{{#hasQueryParams}}
           queryParameters: _queryParameters,{{/hasQueryParams}}
         ),
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );
@@ -121,10 +121,10 @@ class {{classname}} {
     try {
 {{#includeLibraryTemplate}}api/deserialize{{/includeLibraryTemplate}}
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

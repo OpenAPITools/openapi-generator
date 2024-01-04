@@ -10,9 +10,11 @@ $ pytest -vv
 """
 
 import os
+import sys
 import unittest
 import asyncio
 import pytest
+import aiohttp
 
 import petstore_api
 from petstore_api import Configuration
@@ -45,7 +47,7 @@ class TestPetApiTests(unittest.TestCase):
         self.tag = petstore_api.Tag()
         self.tag.id = id_gen()
         self.tag.name = "openapi-generator-python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = petstore_api.Pet(name="hello kity", photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -70,12 +72,17 @@ class TestPetApiTests(unittest.TestCase):
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)
 
-        calls = [self.pet_api.get_pet_by_id(self.pet.id),
-                 self.pet_api.get_pet_by_id(self.pet.id)]
+        tasks = [
+            asyncio.create_task(coro)
+            for coro in [
+                self.pet_api.get_pet_by_id(self.pet.id),
+                self.pet_api.get_pet_by_id(self.pet.id),
+            ]
+        ]
 
-        responses, _ = await asyncio.wait(calls)
+        responses = await asyncio.gather(*tasks)
         for response in responses:
-            self.assertEqual(response.result().id, self.pet.id)
+            self.assertEqual(response.id, self.pet.id)
         self.assertEqual(len(responses), 2)
 
     @async_test
@@ -109,6 +116,21 @@ class TestPetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.data.id)
         self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
+
+    @async_test
+    async def test_add_pet_and_get_pet_by_id_without_preload_content(self):
+        await self.pet_api.add_pet(self.pet)
+
+        fetched = await self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
+        self.assertIsInstance(fetched, aiohttp.ClientResponse)
+        # self.assertFalse(fetched.closed)
+        # self.assertFalse(fetched.content._eof)
+        read = await fetched.content.read()
+        self.assertTrue(fetched.closed)
+        self.assertTrue(fetched.content._eof)
+        self.assertIsInstance(read, bytes)
+        self.assertEqual(await fetched.content.read(), b'')
+        self.assertTrue(read.decode("utf-8").startswith('{"id":'))
 
     @async_test
     async def test_update_pet(self):

@@ -14,9 +14,8 @@ Method | HTTP request | Description
 
 ### Example
 
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 from petstore_api.rest import ApiException
@@ -43,7 +42,9 @@ with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -60,6 +61,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **0** | response |  -  |

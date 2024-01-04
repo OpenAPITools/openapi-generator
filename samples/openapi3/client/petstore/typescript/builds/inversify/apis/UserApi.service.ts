@@ -1,5 +1,5 @@
 import type { Configuration } from "../configuration";
-import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
+import type { HttpFile, RequestContext, ResponseContext, HttpInfo } from "../http/http";
 
 import { User } from "../models/User";
 
@@ -24,20 +24,20 @@ export abstract class AbstractUserApiRequestFactory {
 
 
 export abstract class AbstractUserApiResponseProcessor {
-     public abstract createUser(response: ResponseContext): Promise< void>;
+     public abstract createUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract createUsersWithArrayInput(response: ResponseContext): Promise< void>;
+     public abstract createUsersWithArrayInputWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract createUsersWithListInput(response: ResponseContext): Promise< void>;
+     public abstract createUsersWithListInputWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract deleteUser(response: ResponseContext): Promise< void>;
+     public abstract deleteUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract getUserByName(response: ResponseContext): Promise<User >;
+     public abstract getUserByNameWithHttpInfo(response: ResponseContext): Promise<HttpInfo<User >>;
 
-     public abstract loginUser(response: ResponseContext): Promise<string >;
+     public abstract loginUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo<string >>;
 
-     public abstract logoutUser(response: ResponseContext): Promise< void>;
+     public abstract logoutUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract updateUser(response: ResponseContext): Promise< void>;
+     public abstract updateUserWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
 }

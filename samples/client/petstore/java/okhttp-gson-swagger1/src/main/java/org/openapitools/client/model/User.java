@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -23,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +44,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -91,7 +90,6 @@ public class User {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -106,14 +104,12 @@ public class User {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -128,14 +124,12 @@ public class User {
     return username;
   }
 
-
   public void setUsername(String username) {
     this.username = username;
   }
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -150,14 +144,12 @@ public class User {
     return firstName;
   }
 
-
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -172,14 +164,12 @@ public class User {
     return lastName;
   }
 
-
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -194,14 +184,12 @@ public class User {
     return email;
   }
 
-
   public void setEmail(String email) {
     this.email = email;
   }
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -216,14 +204,12 @@ public class User {
     return password;
   }
 
-
   public void setPassword(String password) {
     this.password = password;
   }
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -238,14 +224,12 @@ public class User {
     return phone;
   }
 
-
   public void setPhone(String phone) {
     this.phone = phone;
   }
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -259,7 +243,6 @@ public class User {
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -385,17 +368,18 @@ public class User {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to User
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to User
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
@@ -453,8 +437,9 @@ public class User {
 
            @Override
            public User read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              User instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

@@ -77,7 +77,7 @@ Protected Class {{classname}}
 		  End If
 		  localVarQueryParams = localVarQueryParams + "{{keyParamName}}=" + Me.ApiKey{{{name}}}{{/isKeyInQuery}}
 		  {{#isKeyInHeader}}localVarHTTPSocket.SetRequestHeader(EncodeURLComponent("{{keyParamName}}"), EncodeURLComponent(me.ApiKey{{{name}}})){{/isKeyInHeader}}{{/isApiKey}}
-		  {{#isBasic}}AddHandler localVarHTTPSocket.AuthenticationRequired, addressof Me.AuthenticationRequired{{/isBasic}}{{/authMethods}}{{/hasAuthMethods}}
+		  {{#isBasicBasic}}AddHandler localVarHTTPSocket.AuthenticationRequired, addressof Me.AuthenticationRequired{{/isBasicBasic}}{{/authMethods}}{{/hasAuthMethods}}
 		  {{#hasCookieParams}}
 		  Dim localVarCookies() As String
 		  {{#cookieParams}}

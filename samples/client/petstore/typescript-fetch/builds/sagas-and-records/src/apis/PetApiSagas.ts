@@ -13,7 +13,7 @@
  */
 
 
-import {Api} from './';
+import {Api} from './index';
 import {List} from 'immutable';
 import {all, fork, put, takeLatest} from "redux-saga/effects";
 import {apiCall, createSagaAction as originalCreateSagaAction, BaseEntitySupportPayloadApiAction, BasePayloadApiAction, NormalizedRecordEntities, normalizedEntities} from "../runtimeSagasAndRecords";
@@ -39,7 +39,7 @@ import {
     PetRegionsResponseRecord,
     petRegionsResponseRecordUtils,
     UserRecord,
-} from '../models';
+} from '../models/index';
 
 import {
     FindPetsByStatusStatusEnum,

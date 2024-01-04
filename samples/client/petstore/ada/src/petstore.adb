@@ -63,7 +63,7 @@ procedure Petstore is
          Need_Indent := False;
          Put ("URLs    : ");
          for Url of Pet.Photo_Urls loop
-            Put_Line ((if Need_Indent then "          " else "") & Url);
+            Put_Line ((if Need_Indent then "          " else "") & Swagger.To_String (Url));
             Need_Indent := True;
          end loop;
       end if;
@@ -131,7 +131,7 @@ procedure Petstore is
             Status  : Swagger.UString_Vectors.Vector;
             P : constant String := Ada.Command_Line.Argument (I);
          begin
-            Status.Append (New_Item => P);
+            Status.Append (New_Item => Swagger.To_UString (P));
             C.Find_Pets_By_Status (Status, Pets);
             for Pet of Pets loop
                Print_Pet (Pet);

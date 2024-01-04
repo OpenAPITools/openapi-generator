@@ -127,21 +127,6 @@ before_install:
       gpg --check-trustdb ;
     fi;
   - pushd .; cd website; yarn install; popd
-  # install Deno
-  #- sh -s v1.6.2 < ./CI/deno_install.sh
-  #- export PATH="$HOME/.deno/bin:$PATH"
-
-install:
-  # Add Godeps dependencies to GOPATH and PATH
-  #- eval "$(curl -sL https://raw.githubusercontent.com/travis-ci/gimme/master/gimme | GIMME_GO_VERSION=1.4 bash)"
-  #- export GOPATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace"
-  - export PATH="${TRAVIS_BUILD_DIR}/Godeps/_workspace/bin:$HOME/.cargo/bin:$PATH:/usr/lib/dart/bin"
-  #- go version
-  - gcc -v
-  - echo $CC
-  - echo $CXX
-  #- pub version
-  #- dart --version
 
 script:
   # fail fast
@@ -151,14 +136,13 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   # show "error" only to reduce the log size
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -DskipTests -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error 2>&1 | grep -i error
-  #- mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - ./mvnw -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -DskipTests -Dmaven.javadoc.skip=true -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy --quiet -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
+        ./mvnw clean deploy --quiet -DskipTests=true -B -U -P release --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;
@@ -167,7 +151,7 @@ after_success:
         popd;
       elif [ -z $TRAVIS_TAG ] && [[ "$TRAVIS_BRANCH" =~ ^[0-9]+\.[0-9]+\.x$ ]]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
-        mvn clean deploy --quiet --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
+        ./mvnw clean deploy --quiet --settings CI/settings.xml -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
         echo "Finished mvn clean deploy for $TRAVIS_BRANCH";
         pushd .;
         cd modules/openapi-generator-gradle-plugin;

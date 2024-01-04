@@ -24,7 +24,6 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for HealthCheckResult
  */

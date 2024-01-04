@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -38,7 +39,7 @@ public class Pet {
   @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JacksonXmlProperty(localName = "category")
+  @JacksonXmlProperty(localName = "Category")
   private Category category;
 
   @JacksonXmlProperty(localName = "name")
@@ -90,6 +91,7 @@ public class Pet {
   }
 
   @JacksonXmlProperty(localName = "status")
+  @Deprecated
   private StatusEnum status;
 
   public Pet() {
@@ -228,14 +230,20 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
-  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

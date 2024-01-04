@@ -16,8 +16,12 @@
 
 package org.openapitools.generator.gradle.plugin.tasks
 
+import javax.inject.Inject
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.Project
+import org.gradle.api.file.FileSystemOperations
+import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.CacheableTask
 import org.gradle.api.tasks.Input
@@ -35,6 +39,7 @@ import org.gradle.internal.logging.text.StyledTextOutputFactory
 import org.gradle.kotlin.dsl.listProperty
 import org.gradle.kotlin.dsl.mapProperty
 import org.gradle.kotlin.dsl.property
+import org.gradle.util.GradleVersion
 import org.openapitools.codegen.CodegenConstants
 import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
@@ -52,7 +57,8 @@ import org.openapitools.codegen.config.MergedSpecBuilder
  */
 @Suppress("UnstableApiUsage")
 @CacheableTask
-open class GenerateTask : DefaultTask() {
+open class GenerateTask @Inject constructor(private val objectFactory: ObjectFactory) : DefaultTask() {
+
     /**
      * The verbosity of generation
      */
@@ -101,7 +107,7 @@ open class GenerateTask : DefaultTask() {
      * Local root folder with spec files
      */
     @Optional
-    @get:InputFile
+    @get:InputDirectory
     @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpecRootDirectory = project.objects.property<String>();
 
@@ -239,6 +245,13 @@ open class GenerateTask : DefaultTask() {
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
+     */
+    @Optional
+    @Input
+    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+
+    /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @Optional
@@ -260,11 +273,39 @@ open class GenerateTask : DefaultTask() {
     val inlineSchemaNameMappings = project.objects.mapProperty<String, String>()
 
     /**
-     * Specifies default values for inline schema naming convention
+     * Specifies options for inline schemas
      */
     @Optional
     @Input
-    val inlineSchemaNameDefaults = project.objects.mapProperty<String, String>()
+    val inlineSchemaOptions = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the property name and the new name
+     */
+    @Optional
+    @Input
+    val nameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the parameter name and the new name
+     */
+    @Optional
+    @Input
+    val parameterNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the model name and the new name
+     */
+    @Optional
+    @Input
+    val modelNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the enum name and the new name
+     */
+    @Optional
+    @Input
+    val enumNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -521,6 +562,13 @@ open class GenerateTask : DefaultTask() {
     @Input
     val cleanupOutput = project.objects.property<Boolean>()
 
+    /**
+     * Defines whether the generator should run in dry-run mode.
+     */
+    @Optional
+    @Input
+    val dryRun = project.objects.property<Boolean>()
+
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {
         if (isPresent) {
             val item: T? = get()
@@ -540,17 +588,37 @@ open class GenerateTask : DefaultTask() {
 
     protected open fun createDefaultCodegenConfigurator(): CodegenConfigurator = CodegenConfigurator()
 
+    private fun createFileSystemManager(): FileSystemManager {
+        return if(GradleVersion.current() >= GradleVersion.version("6.0")) {
+            objectFactory.newInstance(FileSystemManagerDefault::class.java)
+        } else {
+            objectFactory.newInstance(FileSystemManagerLegacy::class.java, project)
+        }
+    }
+
     @Suppress("unused")
     @TaskAction
     fun doWork() {
-        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue -> {
-            inputSpec.set(MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.get()).buildMergedSpec())
-            logger.info("Merge input spec would be used - {}", inputSpec.get())
-        }}
+        var resolvedInputSpec = ""
+
+        inputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
+        remoteInputSpec.ifNotEmpty { value ->
+            resolvedInputSpec = value
+        }
+
+        inputSpecRootDirectory.ifNotEmpty { inputSpecRootDirectoryValue ->
+            run {
+                resolvedInputSpec = MergedSpecBuilder(inputSpecRootDirectoryValue, mergedFileName.getOrElse("merged")).buildMergedSpec()
+                logger.info("Merge input spec would be used - {}", resolvedInputSpec)
+            }
+        }
 
         cleanupOutput.ifNotEmpty { cleanup ->
             if (cleanup) {
-                project.delete(outputDir)
+                createFileSystemManager().delete(outputDir)
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
                 out.println("Cleaned up output directory ${outputDir.get()} before code generation (cleanupOutput set to true).")
@@ -613,6 +681,8 @@ open class GenerateTask : DefaultTask() {
                 logger.warn("Both inputSpec and remoteInputSpec is specified. The remoteInputSpec will take priority over inputSpec.")
             }
 
+            configurator.setInputSpec(resolvedInputSpec)
+
             // now override with any specified parameters
             verbose.ifNotEmpty { value ->
                 configurator.setVerbose(value)
@@ -624,14 +694,6 @@ open class GenerateTask : DefaultTask() {
 
             skipOverwrite.ifNotEmpty { value ->
                 configurator.setSkipOverwrite(value ?: false)
-            }
-
-            inputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
-            }
-
-            remoteInputSpec.ifNotEmpty { value ->
-                configurator.setInputSpec(value)
             }
 
             generatorName.ifNotEmpty { value ->
@@ -780,9 +842,33 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
-            if (inlineSchemaNameDefaults.isPresent) {
-                inlineSchemaNameDefaults.get().forEach { entry ->
-                    configurator.addInlineSchemaNameDefault(entry.key, entry.value)
+            if (inlineSchemaOptions.isPresent) {
+                inlineSchemaOptions.get().forEach { entry ->
+                    configurator.addInlineSchemaOption(entry.key, entry.value)
+                }
+            }
+
+            if (nameMappings.isPresent) {
+                nameMappings.get().forEach { entry ->
+                    configurator.addNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (parameterNameMappings.isPresent) {
+                parameterNameMappings.get().forEach { entry ->
+                    configurator.addParameterNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (modelNameMappings.isPresent) {
+                modelNameMappings.get().forEach { entry ->
+                    configurator.addModelNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (enumNameMappings.isPresent) {
+                enumNameMappings.get().forEach { entry ->
+                    configurator.addEnumNameMapping(entry.key, entry.value)
                 }
             }
 
@@ -816,10 +902,21 @@ open class GenerateTask : DefaultTask() {
                 }
             }
 
+            if (openapiGeneratorIgnoreList.isPresent) {
+                openapiGeneratorIgnoreList.get().forEach {
+                    configurator.addOpenAPIGeneratorIgnoreList(it)
+                }
+            }
+
             if (reservedWordsMappings.isPresent) {
                 reservedWordsMappings.get().forEach { entry ->
                     configurator.addAdditionalReservedWordMapping(entry.key, entry.value)
                 }
+            }
+
+            var dryRunSetting = false
+            dryRun.ifNotEmpty { setting ->
+                dryRunSetting = setting
             }
 
             val clientOptInput = configurator.toClientOptInput()
@@ -838,7 +935,7 @@ open class GenerateTask : DefaultTask() {
                 val out = services.get(StyledTextOutputFactory::class.java).create("openapi")
                 out.withStyle(StyledTextOutput.Style.Success)
 
-                DefaultGenerator().opts(clientOptInput).generate()
+                DefaultGenerator(dryRunSetting).opts(clientOptInput).generate()
 
                 out.println("Successfully generated code to ${outputDir.get()}")
             } catch (e: RuntimeException) {
@@ -847,5 +944,25 @@ open class GenerateTask : DefaultTask() {
         } finally {
             GlobalSettings.reset()
         }
+    }
+}
+
+internal interface FileSystemManager {
+
+    fun delete(outputDir: Property<String>)
+
+}
+
+internal open class FileSystemManagerLegacy @Inject constructor(private val project: Project): FileSystemManager {
+
+    override fun delete(outputDir: Property<String>) {
+        project.delete(outputDir)
+    }
+}
+
+internal open class FileSystemManagerDefault @Inject constructor(private val fs: FileSystemOperations) : FileSystemManager {
+
+    override fun delete(outputDir: Property<String>) {
+        fs.delete { delete(outputDir) }
     }
 }

@@ -129,7 +129,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-version>2.9.9</jackson-version>
+    <jackson-version>2.15.2</jackson-version>
     <junit-version>4.13.2</junit-version>
     <joda-version>2.10.13</joda-version>
     <javax.annotation-api-version>2.1.1</javax.annotation-api-version>

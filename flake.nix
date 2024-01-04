@@ -13,7 +13,7 @@
         devShells.default = pkgs.mkShell
           {
             buildInputs = with pkgs;[
-              jdk8
+              jdk11
               maven
             ];
           };

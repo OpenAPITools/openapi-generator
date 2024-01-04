@@ -4,3 +4,10 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-e
 templateDir: modules/openapi-generator/src/main/resources/elixir
 additionalProperties:
   invokerPackage: OpenapiPetstore
+modelNameMappings:
+  DeprecatedObject: DeprecatedModel
+# the following options have no effect on elixir client gen which uses baseName
+nameMappings:
+  deprecatedRef: deprecatedReference
+parameterNameMapping:
+  ioutils: ioutils_parameter

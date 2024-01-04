@@ -53,18 +53,18 @@ class NullableClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NullableClass &&
-     other.integerProp == integerProp &&
-     other.numberProp == numberProp &&
-     other.booleanProp == booleanProp &&
-     other.stringProp == stringProp &&
-     other.dateProp == dateProp &&
-     other.datetimeProp == datetimeProp &&
-     other.arrayNullableProp == arrayNullableProp &&
-     other.arrayAndItemsNullableProp == arrayAndItemsNullableProp &&
-     other.arrayItemsNullable == arrayItemsNullable &&
-     other.objectNullableProp == objectNullableProp &&
-     other.objectAndItemsNullableProp == objectAndItemsNullableProp &&
-     other.objectItemsNullable == objectItemsNullable;
+    other.integerProp == integerProp &&
+    other.numberProp == numberProp &&
+    other.booleanProp == booleanProp &&
+    other.stringProp == stringProp &&
+    other.dateProp == dateProp &&
+    other.datetimeProp == datetimeProp &&
+    _deepEquality.equals(other.arrayNullableProp, arrayNullableProp) &&
+    _deepEquality.equals(other.arrayAndItemsNullableProp, arrayAndItemsNullableProp) &&
+    _deepEquality.equals(other.arrayItemsNullable, arrayItemsNullable) &&
+    _deepEquality.equals(other.objectNullableProp, objectNullableProp) &&
+    _deepEquality.equals(other.objectAndItemsNullableProp, objectAndItemsNullableProp) &&
+    _deepEquality.equals(other.objectItemsNullable, objectItemsNullable);
 
   @override
   int get hashCode =>
@@ -164,11 +164,11 @@ class NullableClass {
         integerProp: mapValueOfType<int>(json, r'integer_prop'),
         numberProp: json[r'number_prop'] == null
             ? null
-            : num.parse(json[r'number_prop'].toString()),
+            : num.parse('${json[r'number_prop']}'),
         booleanProp: mapValueOfType<bool>(json, r'boolean_prop'),
         stringProp: mapValueOfType<String>(json, r'string_prop'),
-        dateProp: mapDateTime(json, r'date_prop', ''),
-        datetimeProp: mapDateTime(json, r'datetime_prop', ''),
+        dateProp: mapDateTime(json, r'date_prop', r''),
+        datetimeProp: mapDateTime(json, r'datetime_prop', r''),
         arrayNullableProp: Object.listFromJson(json[r'array_nullable_prop']),
         arrayAndItemsNullableProp: Object.listFromJson(json[r'array_and_items_nullable_prop']),
         arrayItemsNullable: Object.listFromJson(json[r'array_items_nullable']),

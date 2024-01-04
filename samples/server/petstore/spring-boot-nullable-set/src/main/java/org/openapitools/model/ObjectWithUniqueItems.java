@@ -32,13 +32,13 @@ import javax.annotation.Generated;
 public class ObjectWithUniqueItems {
 
   @Valid
-  private JsonNullable<Set<String>> nullSet = JsonNullable.undefined();
+  private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
   @Valid
   private Set<String> notNullSet;
 
   @Valid
-  private JsonNullable<List<String>> nullList = JsonNullable.undefined();
+  private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
   @Valid
   private List<String> notNullList;

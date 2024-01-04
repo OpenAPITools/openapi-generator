@@ -2,12 +2,12 @@ group "{{groupId}}"
 version "{{artifactVersion}}"
 
 wrapper {
-    gradleVersion = "6.9"
+    gradleVersion = '6.9'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = "1.4.32"
+    ext.kotlin_version = "1.7.20"
     ext.swagger_annotations_version = "1.5.3"
 {{#useJakartaEe}}
     ext.jakarta_annotations_version = "2.1.1"
@@ -17,6 +17,9 @@ buildscript {
     ext.jakarta_annotations_version = "1.3.5"
     ext.jakarta_ws_rs_version = "2.1.6"
 {{/useJakartaEe}}
+{{#useMutiny}}
+    ext.mutiny_version = "2.2.0"
+{{/useMutiny}}
     ext.jackson_version = "2.9.9"
 {{#useBeanValidation}}
     ext.beanvalidation_version = "2.0.2"
@@ -59,5 +62,9 @@ dependencies {
 {{#useBeanValidation}}
     implementation("jakarta.validation:jakarta.validation-api:$beanvalidation_version")
 {{/useBeanValidation}}
+{{#useMutiny}}
+    implementation("io.smallrye.reactive:mutiny:$mutiny_version")
+    implementation("io.smallrye.reactive:mutiny-kotlin:$mutiny_version")
+{{/useMutiny}}
     testImplementation("junit:junit:4.13.2")
 }

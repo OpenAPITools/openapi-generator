@@ -925,6 +925,23 @@ paths:
       summary: test inline additionalProperties
       tags:
       - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
+      tags:
+      - fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1137,6 +1154,49 @@ paths:
       responses:
         "200":
           description: OK
+      tags:
+      - fake
+  /fake/parameter-name-mapping:
+    get:
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: http debug option (to test parameter naming option)
+        explode: true
+        in: query
+        name: http_debug_option
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: parameter name mapping test
       tags:
       - fake
 components:
@@ -1409,12 +1469,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1987,7 +2053,11 @@ components:
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
-      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+      - properties:
+          dup-prop:
+            description: A discriminator value
+            type: string
+        type: object
     DuplicatedPropParent:
       description: parent model with duplicated property
       discriminator:
@@ -2016,7 +2086,21 @@ components:
         type: string
     AllOfPrimitiveTypes:
       allOf:
-      - $ref: '#/components/schemas/AllOfPrimitiveTypes_allOf'
+      - properties:
+          test:
+            format: date-time
+            type: string
+        type: object
+    PropertyNameMapping:
+      properties:
+        http_debug_operation:
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
     _foo_get_default_response:
       example:
         string:
@@ -2148,6 +2232,12 @@ components:
       - param
       - param2
       type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2160,32 +2250,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    DuplicatedPropChild_allOf:
-      properties:
-        dup-prop:
-          description: A discriminator value
-          type: string
-      type: object
-      example: null
-    AllOfPrimitiveTypes_allOf:
-      properties:
-        test:
-          format: date-time
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

@@ -19,7 +19,6 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
@@ -36,9 +35,6 @@ import java.util.Map;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
-    public static final String INTERFACE_ONLY = "interfaceOnly";
-    public static final String USE_COROUTINES = "useCoroutines";
-    public static final String RETURN_RESPONSE = "returnResponse";
     public static final String DEFAULT_LIBRARY = Constants.KTOR;
     private final Logger LOGGER = LoggerFactory.getLogger(KotlinServerCodegen.class);
 
@@ -52,7 +48,9 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     private boolean interfaceOnly = false;
     private boolean useBeanValidation = false;
     private boolean useCoroutines = false;
+    private boolean useMutiny = false;
     private boolean returnResponse = false;
+    private boolean omitGradleWrapper = false;
 
     // This is here to potentially warn the user when an option is not supported by the target framework.
     private Map<String, List<String>> optionsSupportedPerFramework = new ImmutableMap.Builder<String, List<String>>()
@@ -63,7 +61,15 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
                     Constants.CORS,
                     Constants.COMPRESSION,
                     Constants.RESOURCES,
-                    Constants.METRICS
+                    Constants.METRICS,
+                    Constants.OMIT_GRADLE_WRAPPER
+            ))
+            .put(Constants.JAXRS_SPEC, Arrays.asList(
+                    USE_BEANVALIDATION,
+                    Constants.USE_COROUTINES,
+                    Constants.USE_MUTINY,
+                    Constants.RETURN_RESPONSE,
+                    Constants.INTERFACE_ONLY
             ))
             .build();
 
@@ -115,12 +121,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         supportedLibraries.put(Constants.JAXRS_SPEC, "JAX-RS spec only");
 
         // TODO: Configurable server engine. Defaults to netty in build.gradle.
-        CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC);
-        library.setDefault(DEFAULT_LIBRARY);
-        library.setEnum(supportedLibraries);
-
-        cliOptions.add(library);
-
+        addOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC, DEFAULT_LIBRARY, supportedLibraries);
         addSwitch(Constants.AUTOMATIC_HEAD_REQUESTS, Constants.AUTOMATIC_HEAD_REQUESTS_DESC, getAutoHeadFeatureEnabled());
         addSwitch(Constants.CONDITIONAL_HEADERS, Constants.CONDITIONAL_HEADERS_DESC, getConditionalHeadersFeatureEnabled());
         addSwitch(Constants.HSTS, Constants.HSTS_DESC, getHstsFeatureEnabled());
@@ -128,12 +129,13 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         addSwitch(Constants.COMPRESSION, Constants.COMPRESSION_DESC, getCompressionFeatureEnabled());
         addSwitch(Constants.RESOURCES, Constants.RESOURCES_DESC, getResourcesFeatureEnabled());
         addSwitch(Constants.METRICS, Constants.METRICS_DESC, getMetricsFeatureEnabled());
-
-        cliOptions.add(CliOption.newBoolean(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(interfaceOnly)));
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.", useBeanValidation));
-        cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.", useCoroutines));
-        cliOptions.add(CliOption.newBoolean(RETURN_RESPONSE, "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.").defaultValue(String.valueOf(returnResponse)));
-        cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax", useJakartaEe));
+        addSwitch(Constants.INTERFACE_ONLY, Constants.INTERFACE_ONLY_DESC, interfaceOnly);
+        addSwitch(USE_BEANVALIDATION, Constants.USE_BEANVALIDATION_DESC, useBeanValidation);
+        addSwitch(Constants.USE_COROUTINES, Constants.USE_COROUTINES_DESC, useCoroutines);
+        addSwitch(Constants.USE_MUTINY, Constants.USE_MUTINY_DESC, useMutiny);
+        addSwitch(Constants.RETURN_RESPONSE, Constants.RETURN_RESPONSE_DESC, returnResponse);
+        addSwitch(Constants.OMIT_GRADLE_WRAPPER, Constants.OMIT_GRADLE_WRAPPER_DESC, omitGradleWrapper);
+        addSwitch(USE_JAKARTA_EE, Constants.USE_JAKARTA_EE_DESC, useJakartaEe);
     }
 
     public Boolean getAutoHeadFeatureEnabled() {
@@ -184,6 +186,14 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         return resourcesFeatureEnabled;
     }
 
+    public boolean getOmitGradleWrapper() {
+        return omitGradleWrapper;
+    }
+
+    public void setOmitGradleWrapper(boolean omitGradleWrapper) {
+        this.omitGradleWrapper = omitGradleWrapper;
+    }
+
     public void setResourcesFeatureEnabled(Boolean resourcesFeatureEnabled) {
         this.resourcesFeatureEnabled = resourcesFeatureEnabled;
     }
@@ -216,29 +226,40 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
             this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
         }
 
-        if (additionalProperties.containsKey(INTERFACE_ONLY)) {
-            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(INTERFACE_ONLY).toString());
+        if (additionalProperties.containsKey(Constants.INTERFACE_ONLY)) {
+            interfaceOnly = Boolean.parseBoolean(additionalProperties.get(Constants.INTERFACE_ONLY).toString());
             if (!interfaceOnly) {
-                additionalProperties.remove(INTERFACE_ONLY);
+                additionalProperties.remove(Constants.INTERFACE_ONLY);
             }
         }
 
-        if (additionalProperties.containsKey(USE_COROUTINES)) {
-            useCoroutines = Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString());
+        if (additionalProperties.containsKey(Constants.USE_COROUTINES)) {
+            useCoroutines = Boolean.parseBoolean(additionalProperties.get(Constants.USE_COROUTINES).toString());
             if (!useCoroutines) {
-                additionalProperties.remove(USE_COROUTINES);
+                additionalProperties.remove(Constants.USE_COROUTINES);
             }
         }
 
-        if (additionalProperties.containsKey(RETURN_RESPONSE)) {
-            returnResponse = Boolean.parseBoolean(additionalProperties.get(RETURN_RESPONSE).toString());
+        if (additionalProperties.containsKey(Constants.USE_MUTINY)) {
+            useMutiny = Boolean.parseBoolean(additionalProperties.get(Constants.USE_MUTINY).toString());
+            if (!useMutiny) {
+                additionalProperties.remove(Constants.USE_MUTINY);
+            }
+        }
+
+        if (additionalProperties.containsKey(Constants.RETURN_RESPONSE)) {
+            returnResponse = Boolean.parseBoolean(additionalProperties.get(Constants.RETURN_RESPONSE).toString());
             if (!returnResponse) {
-                additionalProperties.remove(RETURN_RESPONSE);
+                additionalProperties.remove(Constants.RETURN_RESPONSE);
             }
         }
 
         if (additionalProperties.containsKey(USE_BEANVALIDATION)) {
             setUseBeanValidation(convertPropertyToBoolean(USE_BEANVALIDATION));
+        }
+
+        if (additionalProperties.containsKey(Constants.OMIT_GRADLE_WRAPPER)) {
+            setOmitGradleWrapper(Boolean.parseBoolean(additionalProperties.get(Constants.OMIT_GRADLE_WRAPPER).toString()));
         }
 
         writePropertyBack(USE_BEANVALIDATION, useBeanValidation);
@@ -344,6 +365,18 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
         public final static String RESOURCES_DESC = "Generates routes in a typed way, for both: constructing URLs and reading the parameters.";
         public final static String METRICS = "featureMetrics";
         public final static String METRICS_DESC = "Enables metrics feature.";
+        public static final String INTERFACE_ONLY = "interfaceOnly";
+        public static final String INTERFACE_ONLY_DESC = "Whether to generate only API interface stubs without the server files. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_BEANVALIDATION_DESC = "Use BeanValidation API annotations. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_COROUTINES = "useCoroutines";
+        public static final String USE_COROUTINES_DESC = "Whether to use the Coroutines. This option is currently supported only when using jaxrs-spec library.";
+        public static final String RETURN_RESPONSE = "returnResponse";
+        public static final String RETURN_RESPONSE_DESC = "Whether generate API interface should return javax.ws.rs.core.Response instead of a deserialized entity. Only useful if interfaceOnly is true. This option is currently supported only when using jaxrs-spec library.";
+        public static final String USE_JAKARTA_EE_DESC = "whether to use Jakarta EE namespace instead of javax";
+        public static final String USE_MUTINY = "useMutiny";
+        public static final String USE_MUTINY_DESC = "Whether to use Mutiny (should not be used with useCoroutines). This option is currently supported only when using jaxrs-spec library.";
+        public static final String OMIT_GRADLE_WRAPPER = "omitGradleWrapper";
+        public static final String OMIT_GRADLE_WRAPPER_DESC = "Whether to omit Gradle wrapper for creating a sub project.";
     }
 
     @Override

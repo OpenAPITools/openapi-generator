@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.0.0-SNAPSHOT</version>
+        <version>7.3.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -93,11 +93,16 @@
                     <gradleVersion>${gradleVersion}</gradleVersion>
                     <args>
                         <arg>-P openApiGeneratorVersion=${project.version}</arg>
+                        <!--
+                        <arg>-Psigning.keyId=${env.SIGNING_KEY}</arg>
+                        <arg>-Psigning.password=${env.SIGNING_PASSPHRASE}</arg>
+                        <arg>-Psigning.secretKeyRingFile=${env.TRAVIS_BUILD_DIR}/sec.gpg</arg>
+                        -->
                     </args>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>install</phase>
                         <goals>
                             <!-- goal must be "invoke" -->
                             <goal>invoke</goal>

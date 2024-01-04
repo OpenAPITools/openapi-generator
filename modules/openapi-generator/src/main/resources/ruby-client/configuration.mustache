@@ -93,12 +93,15 @@ module {{moduleName}}
     # @return [true, false]
     attr_accessor :client_side_validation
 
-{{^isFaraday}}
+{{#isTyphoeus}}
 {{> configuration_typhoeus_partial}}
-{{/isFaraday}}
+{{/isTyphoeus}}
 {{#isFaraday}}
 {{> configuration_faraday_partial}}
 {{/isFaraday}}
+{{#isHttpx}}
+{{> configuration_httpx_partial}}
+{{/isHttpx}}
 
     attr_accessor :inject_format
 
@@ -108,7 +111,7 @@ module {{moduleName}}
       @scheme = '{{scheme}}'
       @host = '{{host}}{{#port}}:{{{.}}}{{/port}}'
       @base_path = '{{contextPath}}'
-      @server_index = 0
+      @server_index = nil
       @server_operation_index = {}
       @server_variables = {}
       @server_operation_variables = {}
@@ -128,14 +131,20 @@ module {{moduleName}}
       @return_binary_data = false
       @params_encoder = nil
       {{/isFaraday}}
-      {{^isFaraday}}
+      {{#isTyphoeus}}
       @verify_ssl = true
       @verify_ssl_host = true
       @cert_file = nil
       @key_file = nil
       @timeout = 0
       @params_encoding = nil
-      {{/isFaraday}}
+      {{/isTyphoeus}}
+      {{#isHttpx}}
+      @ssl = nil
+      @proxy = nil
+      @timeout = 60
+      @configure_session_blocks = []
+      {{/isHttpx}}
       @debugging = false
       @inject_format = false
       @force_ending_format = false
@@ -171,10 +180,12 @@ module {{moduleName}}
 
     # Returns base URL for specified operation based on server settings
     def base_url(operation = nil)
-      index = server_operation_index[operation]
-      return "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') if index == nil
-
-      server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+      if operation_server_settings.key?(operation) then
+        index = server_operation_index.fetch(operation, server_index)
+        server_url(index.nil? ? 0 : index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
+      else
+        server_index.nil? ? "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') : server_url(server_index, server_variables, nil)
+      end
     end
 
     # Gets API key (with prefix if set).
@@ -191,8 +202,8 @@ module {{moduleName}}
 
     # Gets access_token using access_token_getter or uses the static access_token
     def access_token_with_refresh
-        return access_token if access_token_getter.nil?
-        access_token_getter.call
+      return access_token if access_token_getter.nil?
+      access_token_getter.call
     end
 
     # Gets Basic Auth token string
@@ -336,8 +347,8 @@ module {{moduleName}}
       servers = server_settings if servers == nil
 
       # check array index out of bound
-      if (index < 0 || index >= servers.size)
-        fail ArgumentError, "Invalid index #{index} when selecting the server. Must be less than #{servers.size}"
+      if (index.nil? || index < 0 || index >= servers.size)
+        fail ArgumentError, "Invalid index #{index} when selecting the server. Must not be nil and must be less than #{servers.size}"
       end
 
       server = servers[index]
@@ -444,5 +455,27 @@ module {{moduleName}}
       end
     end
     {{/isFaraday}}
+
+    {{#isHttpx}}
+    # Configure Httpx session directly.
+    #
+    # ```
+    # c.configure_session do |http|
+    #   http.plugin(:follow_redirects).with(debug: STDOUT, debug_level: 1)
+    # end
+    # ```
+    #
+    # @param block [Proc] `#call`able object that takes one arg, the connection
+    def configure_session(&block)
+      @configure_session_blocks << block
+    end
+
+
+    def configure(session)
+      @configure_session_blocks.reduce(session) do |configured_sess, block|
+        block.call(configured_sess)
+      end
+    end
+    {{/isHttpx}}
   end
 end

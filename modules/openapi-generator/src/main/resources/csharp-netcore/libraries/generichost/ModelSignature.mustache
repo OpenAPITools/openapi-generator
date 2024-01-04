@@ -1,1 +1,0 @@
-{{#model.allVars}}{{>PropertyDataType}} {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}}{{#defaultValue}} = {{^isDateTime}}{{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}{{{defaultValue}}}{{/isDateTime}}{{#isDateTime}}default{{/isDateTime}}{{/defaultValue}}{{^defaultValue}}{{#isNullable}} = default{{/isNullable}}{{/defaultValue}}  {{/model.allVars}}

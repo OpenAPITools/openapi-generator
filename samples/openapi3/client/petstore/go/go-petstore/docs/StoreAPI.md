@@ -25,22 +25,22 @@ Delete purchase order by ID
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    orderId := "orderId_example" // string | ID of the order that needs to be deleted
+	orderId := "orderId_example" // string | ID of the order that needs to be deleted
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    r, err := apiClient.StoreAPI.DeleteOrder(context.Background(), orderId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.DeleteOrder``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.StoreAPI.DeleteOrder(context.Background(), orderId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.DeleteOrder``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
 }
 ```
 
@@ -93,23 +93,23 @@ Returns pet inventories by status
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreAPI.GetInventory(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetInventory``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetInventory`: map[string]int32
-    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetInventory`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.StoreAPI.GetInventory(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetInventory``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetInventory`: map[string]int32
+	fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetInventory`: %v\n", resp)
 }
 ```
 
@@ -154,24 +154,24 @@ Find purchase order by ID
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    orderId := int64(789) // int64 | ID of pet that needs to be fetched
+	orderId := int64(789) // int64 | ID of pet that needs to be fetched
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreAPI.GetOrderById(context.Background(), orderId).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetOrderById``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetOrderById`: Order
-    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetOrderById`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.StoreAPI.GetOrderById(context.Background(), orderId).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.GetOrderById``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetOrderById`: Order
+	fmt.Fprintf(os.Stdout, "Response from `StoreAPI.GetOrderById`: %v\n", resp)
 }
 ```
 
@@ -224,24 +224,24 @@ Place an order for a pet
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    order := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
+	order := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StoreAPI.PlaceOrder(context.Background()).Order(order).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.PlaceOrder``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `PlaceOrder`: Order
-    fmt.Fprintf(os.Stdout, "Response from `StoreAPI.PlaceOrder`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.StoreAPI.PlaceOrder(context.Background()).Order(order).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `StoreAPI.PlaceOrder``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `PlaceOrder`: Order
+	fmt.Fprintf(os.Stdout, "Response from `StoreAPI.PlaceOrder`: %v\n", resp)
 }
 ```
 

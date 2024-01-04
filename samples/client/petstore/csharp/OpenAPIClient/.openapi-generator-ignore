@@ -1,4 +1,4 @@
 # OpenAPI Generator Ignore
-# The test project must embed linux-logo.png so it can be loaded as a stream.
+# This test file has changes required for testing and should not be overwritten
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 

@@ -1,0 +1,6 @@
+generatorName: scala-pekko
+outputDir: samples/client/petstore/scala-pekko
+inputSpec: modules/openapi-generator/src/test/resources/3_0/scala-pekko/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-pekko-client
+additionalProperties:
+  artifactId: scala-pekko-petstore-client

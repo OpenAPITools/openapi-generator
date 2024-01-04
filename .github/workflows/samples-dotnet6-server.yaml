@@ -6,7 +6,6 @@ on:
       - 'samples/server/petstore/aspnetcore-6.0/**'
       - 'samples/server/petstore/aspnetcore-6.0-pocoModels/**'
       - 'samples/server/petstore/aspnetcore-6.0-useSwashBuckle/**'
-      - 'samples/server/petstore/aspnetcore-6.0-useNewtonsoft/**'
   pull_request:
     paths:
       - 'samples/server/petstore/aspnetcore-6.0/**'
@@ -30,8 +29,8 @@ jobs:
           - samples/server/petstore/aspnetcore-6.0-NewtonsoftFalse
           - samples/server/petstore/aspnetcore-6.0-nullableReferenceTypes
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3.1.0
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: '6.0.x'
       - name: Build

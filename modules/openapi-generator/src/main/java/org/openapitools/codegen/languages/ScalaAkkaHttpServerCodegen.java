@@ -44,14 +44,26 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
 
     protected String akkaHttpVersion;
     protected boolean generateAsManagedSources;
+    protected boolean useApachePekko;
 
     public static final String AKKA_HTTP_VERSION = "akkaHttpVersion";
     public static final String AKKA_HTTP_VERSION_DESC = "The version of akka-http";
     public static final String DEFAULT_AKKA_HTTP_VERSION = "10.1.10";
+    public static final String DEFAULT_PEKKO_HTTP_VERSION = "1.0.0";
 
     public static final String GENERATE_AS_MANAGED_SOURCES = "asManagedSources";
     public static final String GENERATE_AS_MANAGED_SOURCES_DESC = "Resulting files cab be used as managed resources. No build files or default controllers will be generated";
     public static final boolean DEFAULT_GENERATE_AS_MANAGED_SOURCES = false;
+
+    public static final String USE_APACHE_PEKKO = "useApachePekko";
+    public static final String USE_APACHE_PEKKO_DESC = "Use apache pekko-http instead of akka-http.";
+    public static final boolean DEFAULT_USE_APACHE_PEKKO = false;
+
+    // scala-akka-http-server specific properties
+    private static final String IS_10_1_10_PLUS = "akkaHttp10_1_10_plus";
+    private static final String AKKA_IMPORT_GROUP_ID = "akkaImportGroupId";
+
+    private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(.\\+)?");
 
     final Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaHttpServerCodegen.class);
 
@@ -108,6 +120,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         invokerPackage = "org.openapitools.server";
         akkaHttpVersion = DEFAULT_AKKA_HTTP_VERSION;
         generateAsManagedSources = DEFAULT_GENERATE_AS_MANAGED_SOURCES;
+        useApachePekko = DEFAULT_USE_APACHE_PEKKO;
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -124,6 +137,7 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         cliOptions.add(CliOption.newString(CodegenConstants.ARTIFACT_VERSION, CodegenConstants.ARTIFACT_VERSION_DESC).defaultValue(artifactVersion));
         cliOptions.add(CliOption.newString(AKKA_HTTP_VERSION, AKKA_HTTP_VERSION_DESC).defaultValue(akkaHttpVersion));
         cliOptions.add(CliOption.newBoolean(GENERATE_AS_MANAGED_SOURCES, GENERATE_AS_MANAGED_SOURCES_DESC).defaultValue(Boolean.valueOf(DEFAULT_GENERATE_AS_MANAGED_SOURCES).toString()));
+        cliOptions.add(CliOption.newBoolean(USE_APACHE_PEKKO, USE_APACHE_PEKKO_DESC).defaultValue(Boolean.valueOf(DEFAULT_USE_APACHE_PEKKO).toString()));
 
         importMapping.remove("Seq");
         importMapping.remove("List");
@@ -181,14 +195,27 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
             additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
         }
 
+        if (additionalProperties.containsKey(USE_APACHE_PEKKO)) {
+            useApachePekko = Boolean.parseBoolean(additionalProperties.get(USE_APACHE_PEKKO).toString());
+        } else {
+            additionalProperties.put(USE_APACHE_PEKKO, useApachePekko);
+        }
+
         if (additionalProperties.containsKey(AKKA_HTTP_VERSION)) {
             akkaHttpVersion = (String) additionalProperties.get(AKKA_HTTP_VERSION);
         } else {
-            additionalProperties.put(AKKA_HTTP_VERSION, akkaHttpVersion);
+            String version = useApachePekko ? DEFAULT_PEKKO_HTTP_VERSION : DEFAULT_AKKA_HTTP_VERSION;
+            additionalProperties.put(AKKA_HTTP_VERSION, version);
         }
 
-        parseAkkaHttpVersion();
-
+        if (useApachePekko) {
+            additionalProperties.put(IS_10_1_10_PLUS, true); // Pekko HTTP is a fork of Akka HTTP 10.2.x
+            additionalProperties.put(USE_APACHE_PEKKO, true);
+            additionalProperties.put(AKKA_IMPORT_GROUP_ID, "org.apache.pekko");
+        } else {
+            additionalProperties.put(AKKA_IMPORT_GROUP_ID, "akka");
+            parseAkkaHttpVersion();
+        }
 
         if (additionalProperties.containsKey(GENERATE_AS_MANAGED_SOURCES)) {
             generateAsManagedSources = Boolean.parseBoolean(additionalProperties.get(GENERATE_AS_MANAGED_SOURCES).toString());
@@ -210,12 +237,8 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
                 (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "MultipartDirectives.scala"));
     }
 
-    private static final String IS_10_1_10_PLUS = "akkaHttp10_1_10_plus";
-    private boolean is10_1_10AndAbove = false;
-
-    private static final Pattern akkaVersionPattern = Pattern.compile("([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?(.\\+)?");
-
     private void parseAkkaHttpVersion() {
+        boolean is10_1_10AndAbove = false;
         Matcher matcher = akkaVersionPattern.matcher(akkaHttpVersion);
         if (matcher.matches()) {
             String majorS = matcher.group(1);

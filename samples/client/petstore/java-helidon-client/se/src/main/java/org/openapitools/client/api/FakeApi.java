@@ -14,8 +14,10 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiResponse;
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -26,6 +28,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 /**
@@ -34,6 +37,8 @@ import org.openapitools.client.model.User;
  * <p>This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  */
 public interface FakeApi {
+
+  ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap();
 
  /**
   * Health check endpoint
@@ -133,6 +138,14 @@ public interface FakeApi {
   ApiResponse<Void> testInlineAdditionalProperties(Map<String, String> requestBody);
 
  /**
+  * test inline free-form additionalProperties
+  * 
+  * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+ /**
   * test json serialization of form data
   * 
   * @param param field1 (required)
@@ -140,6 +153,14 @@ public interface FakeApi {
   * @return {@code ApiResponse<Void>}
   */
   ApiResponse<Void> testJsonFormData(String param, String param2);
+
+ /**
+  * test nullable parent property
+  * 
+  * @param childWithNullable request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testNullable(ChildWithNullable childWithNullable);
 
   ApiResponse<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language);
 

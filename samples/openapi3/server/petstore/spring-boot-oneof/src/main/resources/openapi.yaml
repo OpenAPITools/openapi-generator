@@ -232,3 +232,38 @@ components:
         toppings:
           type: string
       type: object
+    FruitType:
+      enum:
+      - APPLE
+      - BANANA
+      type: string
+    Fruit:
+      discriminator:
+        mapping:
+          APPLE: '#/components/schemas/Apple'
+          BANANA: '#/components/schemas/Banana'
+        propertyName: fruitType
+      oneOf:
+      - $ref: '#/components/schemas/Apple'
+      - $ref: '#/components/schemas/Banana'
+      properties:
+        fruitType:
+          $ref: '#/components/schemas/FruitType'
+      required:
+      - fruitType
+      type: object
+      x-one-of-name: Fruit
+    Apple:
+      properties:
+        seeds:
+          type: integer
+      required:
+      - seeds
+      type: object
+    Banana:
+      properties:
+        length:
+          type: integer
+      required:
+      - length
+      type: object

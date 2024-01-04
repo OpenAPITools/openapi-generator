@@ -95,16 +95,20 @@ func (o ArrayOfArrayOfNumberOnly) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(data []byte) (err error) {
 	varArrayOfArrayOfNumberOnly := _ArrayOfArrayOfNumberOnly{}
 
-	if err = json.Unmarshal(bytes, &varArrayOfArrayOfNumberOnly); err == nil {
-		*o = ArrayOfArrayOfNumberOnly(varArrayOfArrayOfNumberOnly)
+	err = json.Unmarshal(data, &varArrayOfArrayOfNumberOnly)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ArrayOfArrayOfNumberOnly(varArrayOfArrayOfNumberOnly)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "ArrayArrayNumber")
 		o.AdditionalProperties = additionalProperties
 	}

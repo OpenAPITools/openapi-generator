@@ -294,6 +294,11 @@
   infoLink: "https://www.klarna.com/us/"
   pinned: false
 -
+  caption: "Landeshauptstadt München - it@M"
+  image: "img/companies/it-at-m.png"
+  infoLink: "https://muenchen.digital/it-at-m/"
+  pinned: false
+-
   caption: "Linode"
   image: "img/companies/linode.png"
   infoLink: "https://www.linode.com/"
@@ -399,6 +404,11 @@
   infoLink: "https://www.paxos.com/"
   pinned: false
 -
+  caption: "Passgenau Digital"
+  image: "img/companies/passgenau_digital.svg"
+  infoLink: "https://passgenau.digital/en"
+  pinned: false
+-
   caption: "PLAID, Inc."
   image: "img/companies/plaidcojp.jpg"
   infoLink: "https://plaid.co.jp/"
@@ -474,6 +484,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: Robocorp
+  image: "img/companies/robocorp.svg"
+  infoLink: "https://www.robocorp.com"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"
@@ -498,6 +513,11 @@
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
   pinned: true
+-
+  caption: SumUp
+  image: "img/companies/sumup.png"
+  infoLink: "https://www.sumup.com/"
+  pinned: false
 -
   caption: Suva
   image: "img/companies/suva.svg"
@@ -582,6 +602,11 @@
   caption: wbt-solutions
   image: "img/companies/wbt_solutions.png"
   infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
+  caption: we-make.ai
+  image: "img/companies/wemakeai.svg"
+  infoLink: "https://we-make.ai/"
   pinned: false
 -
   caption: Woleet

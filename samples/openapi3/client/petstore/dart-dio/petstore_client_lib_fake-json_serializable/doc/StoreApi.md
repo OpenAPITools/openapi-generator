@@ -31,7 +31,7 @@ final String orderId = orderId_example; // String | ID of the order that needs t
 
 try {
     api.deleteOrder(orderId);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling StoreApi->deleteOrder: $e\n');
 }
 ```
@@ -77,7 +77,7 @@ final api = Openapi().getStoreApi();
 try {
     final response = api.getInventory();
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling StoreApi->getInventory: $e\n');
 }
 ```
@@ -117,7 +117,7 @@ final int orderId = 789; // int | ID of pet that needs to be fetched
 try {
     final response = api.getOrderById(orderId);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling StoreApi->getOrderById: $e\n');
 }
 ```
@@ -160,7 +160,7 @@ final Order order = ; // Order | order placed for purchasing the pet
 try {
     final response = api.placeOrder(order);
     print(response);
-} catch on DioError (e) {
+} catch on DioException (e) {
     print('Exception when calling StoreApi->placeOrder: $e\n');
 }
 ```

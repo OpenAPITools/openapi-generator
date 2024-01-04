@@ -11,17 +11,17 @@ import java.util.*;
 
 public interface UserApi {
 
-    void createUser(User body, Handler<AsyncResult<Void>> handler);
+    void createUser(User user, Handler<AsyncResult<Void>> handler);
 
-    void createUser(User body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUser(User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithArrayInput(List<User> body, Handler<AsyncResult<Void>> handler);
+    void createUsersWithArrayInput(List<User> user, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithArrayInput(List<User> body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUsersWithArrayInput(List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithListInput(List<User> body, Handler<AsyncResult<Void>> handler);
+    void createUsersWithListInput(List<User> user, Handler<AsyncResult<Void>> handler);
 
-    void createUsersWithListInput(List<User> body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void createUsersWithListInput(List<User> user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
     void deleteUser(String username, Handler<AsyncResult<Void>> handler);
 
@@ -39,8 +39,8 @@ public interface UserApi {
 
     void logoutUser(ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
-    void updateUser(String username, User body, Handler<AsyncResult<Void>> handler);
+    void updateUser(String username, User user, Handler<AsyncResult<Void>> handler);
 
-    void updateUser(String username, User body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+    void updateUser(String username, User user, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
 }

@@ -112,7 +112,6 @@ Authentication schemes defined for the API:
 
 ### api_key
 
-
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header

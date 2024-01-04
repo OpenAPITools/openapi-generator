@@ -7,6 +7,58 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
+  /resolve_parameter_inline_enum:
+    get:
+      parameters:
+        - name: status_inline_enum
+          in: query
+          description: Status values that need to be considered for filter
+          required: true
+          style: form
+          explode: false
+          deprecated: true
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - available
+                - pending
+                - sold
+              default: available
+      operationId: resolveParameterInlineEnum
+      responses:
+        '200':
+          description: OK
+  /resolve_parameter_inline_enum_form_parameters:
+    post:
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  type: array
+                  items:
+                    type: string
+                    default: $
+                    enum:
+                      - '>'
+                      - $
+                enum_form_string:
+                  description: Form parameter enum test (string)
+                  type: string
+                  enum:
+                    - _abc
+                    - '-efg'
+                    - (xyz)
+                  default: '-efg'
+      operationId: resolve_parameter_inline_enum_form_parameters
+      responses:
+        '200':
+          description: OK
   /resolve_request_body_invalid_ref:
     post:
       requestBody:
@@ -59,6 +111,21 @@ paths:
               type: object
               properties:
                 name:
+                  type: string
+      operationId: resolveInlineRequestBodyWithRequired
+      responses:
+        '200':
+          description: OK
+  /resolve_inline_request_body_with_title_in_chinese:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: 服務條款和私隱政策
+              type: object
+              properties:
+                just_property:
                   type: string
       operationId: resolveInlineRequestBodyWithRequired
       responses:

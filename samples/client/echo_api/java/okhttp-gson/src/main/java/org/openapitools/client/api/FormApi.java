@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
 
 public class FormApi {
     private ApiClient localVarApiClient;
@@ -206,6 +205,168 @@ public class FormApi {
     public okhttp3.Call testFormIntegerBooleanStringAsync(Integer integerForm, Boolean booleanForm, String stringForm, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testFormIntegerBooleanStringValidateBeforeCall(integerForm, booleanForm, stringForm, _callback);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testFormOneof
+     * @param form1  (optional)
+     * @param form2  (optional)
+     * @param form3  (optional)
+     * @param form4  (optional)
+     * @param id  (optional)
+     * @param name  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testFormOneofCall(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/form/oneof";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (form1 != null) {
+            localVarFormParams.put("form1", form1);
+        }
+
+        if (form2 != null) {
+            localVarFormParams.put("form2", form2);
+        }
+
+        if (form3 != null) {
+            localVarFormParams.put("form3", form3);
+        }
+
+        if (form4 != null) {
+            localVarFormParams.put("form4", form4);
+        }
+
+        if (id != null) {
+            localVarFormParams.put("id", id);
+        }
+
+        if (name != null) {
+            localVarFormParams.put("name", name);
+        }
+
+        final String[] localVarAccepts = {
+            "text/plain"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/x-www-form-urlencoded"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testFormOneofValidateBeforeCall(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback _callback) throws ApiException {
+        return testFormOneofCall(form1, form2, form3, form4, id, name, _callback);
+
+    }
+
+    /**
+     * Test form parameter(s) for oneOf schema
+     * Test form parameter(s) for oneOf schema
+     * @param form1  (optional)
+     * @param form2  (optional)
+     * @param form3  (optional)
+     * @param form4  (optional)
+     * @param id  (optional)
+     * @param name  (optional)
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public String testFormOneof(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+        ApiResponse<String> localVarResp = testFormOneofWithHttpInfo(form1, form2, form3, form4, id, name);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Test form parameter(s) for oneOf schema
+     * Test form parameter(s) for oneOf schema
+     * @param form1  (optional)
+     * @param form2  (optional)
+     * @param form3  (optional)
+     * @param form4  (optional)
+     * @param id  (optional)
+     * @param name  (optional)
+     * @return ApiResponse&lt;String&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<String> testFormOneofWithHttpInfo(String form1, Integer form2, String form3, Boolean form4, Long id, String name) throws ApiException {
+        okhttp3.Call localVarCall = testFormOneofValidateBeforeCall(form1, form2, form3, form4, id, name, null);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Test form parameter(s) for oneOf schema (asynchronously)
+     * Test form parameter(s) for oneOf schema
+     * @param form1  (optional)
+     * @param form2  (optional)
+     * @param form3  (optional)
+     * @param form4  (optional)
+     * @param id  (optional)
+     * @param name  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testFormOneofAsync(String form1, Integer form2, String form3, Boolean form4, Long id, String name, final ApiCallback<String> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testFormOneofValidateBeforeCall(form1, form2, form3, form4, id, name, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

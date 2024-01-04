@@ -499,16 +499,20 @@ func (o User) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *User) UnmarshalJSON(bytes []byte) (err error) {
+func (o *User) UnmarshalJSON(data []byte) (err error) {
 	varUser := _User{}
 
-	if err = json.Unmarshal(bytes, &varUser); err == nil {
-		*o = User(varUser)
+	err = json.Unmarshal(data, &varUser)
+
+	if err != nil {
+		return err
 	}
+
+	*o = User(varUser)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "username")
 		delete(additionalProperties, "firstName")

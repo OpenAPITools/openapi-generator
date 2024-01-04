@@ -233,10 +233,12 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(p.getDefault());
         } else if (ModelUtils.isLongSchema(p)) {
-            Long def = (Long) p.getDefault();
-            out = def == null ? out : def + "L";
+            if (p.getDefault() != null) {
+                Long def = Long.parseLong(String.valueOf(p.getDefault()));
+                out = def == null ? out : def + "L";
+            }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
@@ -313,7 +315,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
         supportingFiles.add(new SupportingFile("README_ant.mustache", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
     }
 
@@ -323,10 +325,12 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("sfdx-project.json.mustache", "sfdx-project.json"));
 
         supportingFiles.add(new SupportingFile("README_sfdx.mustache", "README.md")
-            .doNotOverwrite());
+                .doNotOverwrite());
 
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.APEX; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.APEX;
+    }
 }

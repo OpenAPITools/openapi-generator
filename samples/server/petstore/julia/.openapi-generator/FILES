@@ -1,6 +1,8 @@
 README.md
+docs/AnotherModel.md
 docs/ApiResponse.md
 docs/Category.md
+docs/FakeApi.md
 docs/Order.md
 docs/Pet.md
 docs/PetApi.md
@@ -8,11 +10,13 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
-src/PetStoreServer.jl
+src/OpenAPIGenPetStoreServer.jl
+src/apis/api_FakeApi.jl
 src/apis/api_PetApi.jl
 src/apis/api_StoreApi.jl
 src/apis/api_UserApi.jl
 src/modelincludes.jl
+src/models/model_AnotherModel.jl
 src/models/model_ApiResponse.jl
 src/models/model_Category.jl
 src/models/model_Order.jl

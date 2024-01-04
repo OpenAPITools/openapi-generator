@@ -16,7 +16,7 @@
 import * as runtime from '../runtime';
 import type {
   Order,
-} from '../models';
+} from '../models/index';
 
 export interface DeleteOrderRequest {
     orderId: string;

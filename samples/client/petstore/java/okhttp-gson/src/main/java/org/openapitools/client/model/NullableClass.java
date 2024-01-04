@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +50,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -112,7 +111,6 @@ public class NullableClass {
   }
 
   public NullableClass integerProp(Integer integerProp) {
-    
     this.integerProp = integerProp;
     return this;
   }
@@ -126,14 +124,12 @@ public class NullableClass {
     return integerProp;
   }
 
-
   public void setIntegerProp(Integer integerProp) {
     this.integerProp = integerProp;
   }
 
 
   public NullableClass numberProp(BigDecimal numberProp) {
-    
     this.numberProp = numberProp;
     return this;
   }
@@ -147,14 +143,12 @@ public class NullableClass {
     return numberProp;
   }
 
-
   public void setNumberProp(BigDecimal numberProp) {
     this.numberProp = numberProp;
   }
 
 
   public NullableClass booleanProp(Boolean booleanProp) {
-    
     this.booleanProp = booleanProp;
     return this;
   }
@@ -168,14 +162,12 @@ public class NullableClass {
     return booleanProp;
   }
 
-
   public void setBooleanProp(Boolean booleanProp) {
     this.booleanProp = booleanProp;
   }
 
 
   public NullableClass stringProp(String stringProp) {
-    
     this.stringProp = stringProp;
     return this;
   }
@@ -189,14 +181,12 @@ public class NullableClass {
     return stringProp;
   }
 
-
   public void setStringProp(String stringProp) {
     this.stringProp = stringProp;
   }
 
 
   public NullableClass dateProp(LocalDate dateProp) {
-    
     this.dateProp = dateProp;
     return this;
   }
@@ -210,14 +200,12 @@ public class NullableClass {
     return dateProp;
   }
 
-
   public void setDateProp(LocalDate dateProp) {
     this.dateProp = dateProp;
   }
 
 
   public NullableClass datetimeProp(OffsetDateTime datetimeProp) {
-    
     this.datetimeProp = datetimeProp;
     return this;
   }
@@ -231,14 +219,12 @@ public class NullableClass {
     return datetimeProp;
   }
 
-
   public void setDatetimeProp(OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
   }
 
 
   public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
-    
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -260,14 +246,12 @@ public class NullableClass {
     return arrayNullableProp;
   }
 
-
   public void setArrayNullableProp(List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
 
   public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
-    
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -289,14 +273,12 @@ public class NullableClass {
     return arrayAndItemsNullableProp;
   }
 
-
   public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
 
   public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
-    
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -318,14 +300,12 @@ public class NullableClass {
     return arrayItemsNullable;
   }
 
-
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
 
   public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
-    
     this.objectNullableProp = objectNullableProp;
     return this;
   }
@@ -347,14 +327,12 @@ public class NullableClass {
     return objectNullableProp;
   }
 
-
   public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
   }
 
 
   public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
-    
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
     return this;
   }
@@ -376,14 +354,12 @@ public class NullableClass {
     return objectAndItemsNullableProp;
   }
 
-
   public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
-    
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -405,11 +381,54 @@ public class NullableClass {
     return objectItemsNullable;
   }
 
-
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the NullableClass instance itself
+   */
+  public NullableClass putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
+   */
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
 
   @Override
@@ -432,7 +451,8 @@ public class NullableClass {
         Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
         Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
         Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable)&&
+        Objects.equals(this.additionalProperties, nullableClass.additionalProperties);
   }
 
   private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
@@ -441,7 +461,7 @@ public class NullableClass {
 
   @Override
   public int hashCode() {
-    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable);
+    return Objects.hash(integerProp, numberProp, booleanProp, stringProp, dateProp, datetimeProp, arrayNullableProp, arrayAndItemsNullableProp, arrayItemsNullable, objectNullableProp, objectAndItemsNullableProp, objectItemsNullable, additionalProperties);
   }
 
   private static <T> int hashCodeNullable(JsonNullable<T> a) {
@@ -467,6 +487,7 @@ public class NullableClass {
     sb.append("    objectNullableProp: ").append(toIndentedString(objectNullableProp)).append("\n");
     sb.append("    objectAndItemsNullableProp: ").append(toIndentedString(objectAndItemsNullableProp)).append("\n");
     sb.append("    objectItemsNullable: ").append(toIndentedString(objectItemsNullable)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -507,38 +528,31 @@ public class NullableClass {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to NullableClass
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to NullableClass
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!NullableClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!NullableClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in NullableClass is not found in the empty JSON string", NullableClass.openapiRequiredFields.toString()));
         }
       }
-
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
-      // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
-        if (!NullableClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `NullableClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
-        }
-      }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("string_prop") != null && !jsonObj.get("string_prop").isJsonNull()) && !jsonObj.get("string_prop").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string_prop` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string_prop").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_nullable_prop") != null && !jsonObj.get("array_nullable_prop").isJsonArray()) {
+      if (jsonObj.get("array_nullable_prop") != null && !jsonObj.get("array_nullable_prop").isJsonNull() && !jsonObj.get("array_nullable_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_nullable_prop").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_and_items_nullable_prop") != null && !jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
+      if (jsonObj.get("array_and_items_nullable_prop") != null && !jsonObj.get("array_and_items_nullable_prop").isJsonNull() && !jsonObj.get("array_and_items_nullable_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_and_items_nullable_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_and_items_nullable_prop").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_items_nullable") != null && !jsonObj.get("array_items_nullable").isJsonArray()) {
+      if (jsonObj.get("array_items_nullable") != null && !jsonObj.get("array_items_nullable").isJsonNull() && !jsonObj.get("array_items_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_items_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_items_nullable").toString()));
       }
   }
@@ -558,14 +572,52 @@ public class NullableClass {
            @Override
            public void write(JsonWriter out, NullableClass value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
+             obj.remove("additionalProperties");
+             // serialize additional properties
+             if (value.getAdditionalProperties() != null) {
+               for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
+                 if (entry.getValue() instanceof String)
+                   obj.addProperty(entry.getKey(), (String) entry.getValue());
+                 else if (entry.getValue() instanceof Number)
+                   obj.addProperty(entry.getKey(), (Number) entry.getValue());
+                 else if (entry.getValue() instanceof Boolean)
+                   obj.addProperty(entry.getKey(), (Boolean) entry.getValue());
+                 else if (entry.getValue() instanceof Character)
+                   obj.addProperty(entry.getKey(), (Character) entry.getValue());
+                 else {
+                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                 }
+               }
+             }
              elementAdapter.write(out, obj);
            }
 
            @Override
            public NullableClass read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
+             // store additional fields in the deserialized instance
+             NullableClass instance = thisAdapter.fromJsonTree(jsonObj);
+             for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
+               if (!openapiFields.contains(entry.getKey())) {
+                 if (entry.getValue().isJsonPrimitive()) { // primitive type
+                   if (entry.getValue().getAsJsonPrimitive().isString())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsString());
+                   else if (entry.getValue().getAsJsonPrimitive().isNumber())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsNumber());
+                   else if (entry.getValue().getAsJsonPrimitive().isBoolean())
+                     instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
+                   else
+                     throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 }
+               }
+             }
+             return instance;
            }
 
        }.nullSafe();

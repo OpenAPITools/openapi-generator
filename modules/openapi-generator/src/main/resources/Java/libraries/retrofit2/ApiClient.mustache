@@ -66,15 +66,13 @@ public class ApiClient {
     this();
     for(String authName : authNames) {
       {{#hasAuthMethods}}
-      Interceptor auth;
+      Interceptor auth = null;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-        {{#isBasic}}{{#isBasicBasic}}
+        {{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasicBasic}}{{^isBasicBasic}}{{#isBasicBearer}}
+        {{/isBasicBasic}}{{#isBasicBearer}}
         auth = new HttpBearerAuth("{{scheme}}");
-        {{/isBasicBearer}}{{^isBasicBearer}}
-        throw new RuntimeException("auth name \"" + authName + "\" does not have a supported http scheme type");
-        {{/isBasicBearer}}{{/isBasicBasic}}{{/isBasic}}
+        {{/isBasicBearer}}
         {{#isApiKey}}
         auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
         {{/isApiKey}}
@@ -84,8 +82,9 @@ public class ApiClient {
       } else {{/authMethods}}{
         throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
       }
-
-      addAuthorization(authName, auth);
+      if (auth != null) {
+        addAuthorization(authName, auth);
+      }
       {{/hasAuthMethods}}
       {{^hasAuthMethods}}
       throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");

@@ -126,7 +126,7 @@ public class AbstractKotlinCodegenTest {
         assertEquals(codegen.toModelName("Pony?"), "PonyQuestionMark");
         assertEquals(codegen.toModelName("$name"), "DollarName");
         assertEquals(codegen.toModelName("nam#e"), "NamHashE");
-        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherMinusFakeQuestionMark");
+        assertEquals(codegen.toModelName("$another-fake?"), "DollarAnotherFakeQuestionMark");
         assertEquals(codegen.toModelName("Pony>=>="), "PonyGreaterThanEqualGreaterThanEqual");
     }
 
@@ -221,15 +221,15 @@ public class AbstractKotlinCodegenTest {
     @Test
     public void handleInheritance() {
         Schema parent = new ObjectSchema()
-                .addProperties("a", new StringSchema())
-                .addProperties("b", new StringSchema())
+                .addProperty("a", new StringSchema())
+                .addProperty("b", new StringSchema())
                 .addRequiredItem("a")
                 .name("Parent");
         Schema child = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref("Parent"))
                 .addAllOfItem(new ObjectSchema()
-                        .addProperties("c", new StringSchema())
-                        .addProperties("d", new StringSchema())
+                        .addProperty("c", new StringSchema())
+                        .addProperty("d", new StringSchema())
                         .addRequiredItem("c"))
                 .name("Child");
         OpenAPI openAPI = TestUtils.createOpenAPI();
@@ -284,20 +284,20 @@ public class AbstractKotlinCodegenTest {
     @Test(description = "Issue #10792")
     public void handleInheritanceWithObjectTypeShouldNotBeAMap() {
         Schema parent = new ObjectSchema()
-            .addProperties("a", new StringSchema())
-            .addProperties("b", new StringSchema())
+            .addProperty("a", new StringSchema())
+            .addProperty("b", new StringSchema())
             .addRequiredItem("a")
             .name("Parent");
         Schema child = new ComposedSchema()
             .addAllOfItem(new Schema().$ref("Parent"))
             .addAllOfItem(new ObjectSchema()
-                .addProperties("c", new StringSchema())
-                .addProperties("d", new StringSchema())
+                .addProperty("c", new StringSchema())
+                .addProperty("d", new StringSchema())
                 .addRequiredItem("c"))
             .name("Child")
             .type("object"); // Without the object type it is not wrongly recognized as map
         Schema mapSchema = new ObjectSchema()
-            .addProperties("a", new StringSchema())
+            .addProperty("a", new StringSchema())
             .additionalProperties(Boolean.TRUE)
             .name("MapSchema")
             .type("object");

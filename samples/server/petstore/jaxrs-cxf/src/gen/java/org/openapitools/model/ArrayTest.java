@@ -1,6 +1,7 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;
@@ -22,7 +23,7 @@ public class ArrayTest  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
  /**
    * Get arrayOfString
    * @return arrayOfString
@@ -74,20 +75,20 @@ public class ArrayTest  {
    * @return arrayArrayOfModel
   **/
   @JsonProperty("array_array_of_model")
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
@@ -101,9 +102,9 @@ public class ArrayTest  {
       return false;
     }
     ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override

@@ -35,23 +35,31 @@ fun Route.PetApi() {
 
     authenticate("petstore_auth") {
     post<Paths.addPet> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
+        
         call.respond(HttpStatusCode.NotImplemented)
+        
     }
     }
 
     authenticate("petstore_auth") {
     delete<Paths.deletePet> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
+        
         call.respond(HttpStatusCode.NotImplemented)
+        
     }
     }
 
     authenticate("petstore_auth") {
     get<Paths.findPetsByStatus> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
+        
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
@@ -93,12 +101,15 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
+        
     }
     }
 
     authenticate("petstore_auth") {
     get<Paths.findPetsByTags> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
+        
         
         val exampleContentType = "application/json"
             val exampleContentString = """[ {
@@ -140,12 +151,15 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
+        
     }
     }
 
     authenticate("api_key") {
     get<Paths.getPetById> {
+        
         val principal = call.authentication.principal<ApiPrincipal>()!!
+        
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
@@ -171,28 +185,37 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
+        
     }
     }
 
     authenticate("petstore_auth") {
     put<Paths.updatePet> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
+        
         call.respond(HttpStatusCode.NotImplemented)
+        
     }
     }
 
     authenticate("petstore_auth") {
     post<Paths.updatePetWithForm> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
         
+        
         call.respond(HttpStatusCode.NotImplemented)
+        
     }
     }
 
     authenticate("petstore_auth") {
     post<Paths.uploadFile> {
+        
         val principal = call.authentication.principal<OAuthAccessTokenResponse>()!!
+        
         
         val exampleContentType = "application/json"
             val exampleContentString = """{
@@ -206,6 +229,7 @@ fun Route.PetApi() {
                 "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
                 else -> call.respondText(exampleContentString)
             }
+        
     }
     }
 

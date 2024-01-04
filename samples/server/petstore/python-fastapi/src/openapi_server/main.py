@@ -12,6 +12,7 @@
 
 from fastapi import FastAPI
 
+from openapi_server.apis.fake_api import router as FakeApiRouter
 from openapi_server.apis.pet_api import router as PetApiRouter
 from openapi_server.apis.store_api import router as StoreApiRouter
 from openapi_server.apis.user_api import router as UserApiRouter
@@ -22,6 +23,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
+app.include_router(FakeApiRouter)
 app.include_router(PetApiRouter)
 app.include_router(StoreApiRouter)
 app.include_router(UserApiRouter)

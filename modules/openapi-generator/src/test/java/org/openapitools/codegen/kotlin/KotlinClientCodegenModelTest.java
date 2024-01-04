@@ -51,33 +51,33 @@ public class KotlinClientCodegenModelTest {
 
     private Schema getArrayTestSchema() {
         return new ObjectSchema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format("int64"))
-            .addProperties("examples", new ArraySchema().items(new StringSchema()))
-            .addRequiredItem("id");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format("int64"))
+                .addProperties("examples", new ArraySchema().items(new StringSchema()))
+                .addRequiredItem("id");
     }
 
     private Schema getSimpleSchema() {
         return new ObjectSchema()
-            .description("a sample model")
-            .addProperties("id", new IntegerSchema().format("int64"))
-            .addProperties("name", new StringSchema())
-            .addProperties("createdAt", new DateTimeSchema())
-            .addRequiredItem("id")
-            .addRequiredItem("name");
+                .description("a sample model")
+                .addProperties("id", new IntegerSchema().format("int64"))
+                .addProperties("name", new StringSchema())
+                .addProperties("createdAt", new DateTimeSchema())
+                .addRequiredItem("id")
+                .addRequiredItem("name");
     }
 
     private Schema getMapSchema() {
         return new ObjectSchema()
-            .description("a sample model")
-            .addProperties("mapping", new MapSchema()
-                .additionalProperties(new StringSchema()));
+                .description("a sample model")
+                .addProperties("mapping", new MapSchema()
+                        .additionalProperties(new StringSchema()));
     }
 
     private Schema getComplexSchema() {
         return new ObjectSchema()
-            .description("a sample model")
-            .addProperties("child", new ObjectSchema().$ref("#/components/schemas/Child"));
+                .description("a sample model")
+                .addProperties("child", new ObjectSchema().$ref("#/components/schemas/Child"));
     }
 
     @Test(description = "convert a simple model")
@@ -339,11 +339,12 @@ public class KotlinClientCodegenModelTest {
     @DataProvider(name = "modelNames")
     public static Object[][] modelNames() {
         return new Object[][]{
-            {"TestNs.TestClass", new ModelNameTest("TestNs.TestClass", "TestNsTestClass")},
-            {"$", new ModelNameTest("$", "Dollar")},
-            {"for", new ModelNameTest("`for`", "For")},
-            {"One<Two", new ModelNameTest("One<Two", "OneLessThanTwo")},
-            {"this is a test", new ModelNameTest("this is a test", "ThisIsATest")}
+                {"TestNs.TestClass", new ModelNameTest("TestNs.TestClass", "TestNsTestClass")},
+                {"$", new ModelNameTest("$", "Dollar")},
+                {"for", new ModelNameTest("`for`", "For")},
+                {"One<Two", new ModelNameTest("One<Two", "OneLessThanTwo")},
+                {"One-Two", new ModelNameTest("One-Two", "OneTwo")},
+                {"this is a test", new ModelNameTest("this is a test", "ThisIsATest")}
         };
     }
 
@@ -368,11 +369,11 @@ public class KotlinClientCodegenModelTest {
         output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-            .setGeneratorName("kotlin")
-            .setLibrary("jvm-retrofit2")
-            .setAdditionalProperties(properties)
-            .setInputSpec("src/test/resources/3_0/issue4808.yaml")
-            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+                .setGeneratorName("kotlin")
+                .setLibrary("jvm-retrofit2")
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue4808.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         DefaultGenerator generator = new DefaultGenerator();
@@ -380,7 +381,7 @@ public class KotlinClientCodegenModelTest {
 
         Assert.assertEquals(files.size(), 28);
         TestUtils.assertFileContains(Paths.get(output + "/src/main/kotlin/xyz/abcdef/api/DefaultApi.kt"),
-            "fun getSomeValue(@Query(\"since\") since: kotlin.String? = null, @Query(\"sinceBuild\") sinceBuild: kotlin.String? = null, @Query(\"maxBuilds\") maxBuilds: kotlin.Int? = null, @Query(\"maxWaitSecs\") maxWaitSecs: kotlin.Int? = null)"
+                "fun getSomeValue(@Query(\"since\") since: kotlin.String? = null, @Query(\"sinceBuild\") sinceBuild: kotlin.String? = null, @Query(\"maxBuilds\") maxBuilds: kotlin.Int? = null, @Query(\"maxWaitSecs\") maxWaitSecs: kotlin.Int? = null)"
         );
     }
 

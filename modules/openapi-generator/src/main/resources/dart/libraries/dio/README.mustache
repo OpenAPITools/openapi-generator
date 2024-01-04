@@ -73,7 +73,7 @@ try {
     {{#returnType}}
     print(response);
     {{/returnType}}
-} catch on DioError (e) {
+} catch on DioException (e) {
     print("Exception when calling {{classname}}->{{operationId}}: $e\n");
 }
 {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}

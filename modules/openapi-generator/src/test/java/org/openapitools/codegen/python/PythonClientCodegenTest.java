@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.python;
 
+import static org.junit.Assert.assertNotNull;
 import com.google.common.collect.Sets;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -30,6 +31,7 @@ import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileExists;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import java.io.File;
@@ -40,6 +42,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class PythonClientCodegenTest {
 
@@ -134,6 +139,15 @@ public class PythonClientCodegenTest {
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
+    }
+
+    @Test(description = "test backslash default")
+    public void testBackslashDefault() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setDefault("\\");
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals("'\\\\'", defaultValue);
     }
 
     @Test(description = "convert a python model with dots")
@@ -422,5 +436,98 @@ public class PythonClientCodegenTest {
 
         Assert.assertTrue(files.size() > 0);
         return outputPath + "/";
+    }
+
+    @Test(description = "test containerType in parameters")
+    public void testContainerType() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // path parameter
+        String path = "/store/order/{orderId}";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "orderId");
+
+        // query parameter
+        path = "/user/login";
+        p = openAPI.getPaths().get(path).getGet();
+        op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "username");
+        Assert.assertEquals(op.allParams.get(1).containerType, null);
+        Assert.assertEquals(op.allParams.get(1).baseName, "password");
+
+        // body parameter
+        path = "/user/createWithList";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "User");
+        Assert.assertEquals(op.allParams.get(0).containerType, "array");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "List");
+
+        path = "/pet";
+        p = openAPI.getPaths().get(path).getPost();
+        op = codegen.fromOperation(path, "post", p, null);
+        Assert.assertEquals(op.allParams.get(0).baseName, "Pet");
+        Assert.assertEquals(op.allParams.get(0).containerType, null);
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, null);
+
+    }
+
+    @Test(description = "test containerType (dict) in parameters")
+    public void testContainerTypeForDict() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dict_query_parameter.yaml");
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        // query parameter
+        String path = "/query_parameter_dict";
+        Operation p = openAPI.getPaths().get(path).getGet();
+        CodegenOperation op = codegen.fromOperation(path, "get", p, null);
+        Assert.assertEquals(op.allParams.get(0).containerType, "map");
+        Assert.assertEquals(op.allParams.get(0).containerTypeMapped, "Dict");
+        Assert.assertEquals(op.allParams.get(0).baseName, "dict_string_integer");
+    }
+
+    @Test(description = "convert a model with dollar signs")
+    public void modelTestDollarSign() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/dollar-in-names-pull14359.yaml");
+        final DefaultCodegen codegen = new PythonClientCodegen();
+
+        codegen.setOpenAPI(openAPI);
+        final CodegenModel simpleName = codegen.fromModel("$DollarModel$", openAPI.getComponents().getSchemas().get("$DollarModel$"));
+        Assert.assertEquals(simpleName.name, "$DollarModel$");
+        Assert.assertEquals(simpleName.classname, "DollarModel");
+        Assert.assertEquals(simpleName.classVarName, "dollar_model");
+
+        List<CodegenProperty> vars = simpleName.getVars();
+        Assert.assertEquals(vars.size(), 1);
+        CodegenProperty property = vars.get(0);
+        Assert.assertEquals(property.name, "dollar_value");
+    }
+
+    @Test
+    public void testHandleConstantParams() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/java/autoset_constant.yaml");
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+        final ClientOptInput clientOptInput = new ClientOptInput();
+        clientOptInput.openAPI(openAPI);
+        PythonClientCodegen pythonClientCodegen = new PythonClientCodegen();
+        pythonClientCodegen.setOutputDir(output.getAbsolutePath());
+        pythonClientCodegen.additionalProperties().put(CodegenConstants.AUTOSET_CONSTANTS, "true");
+        pythonClientCodegen.setAutosetConstants(true);
+        clientOptInput.config(pythonClientCodegen);
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                .collect(Collectors.toMap(File::getPath, Function.identity()));
+
+        File apiFile = files
+                .get(Paths.get(output.getAbsolutePath(), "openapi_client", "api", "hello_example_api.py").toString());
+        assertNotNull(apiFile);
+        assertFileContains(apiFile.toPath(), "_header_params['X-CUSTOM_CONSTANT_HEADER'] = 'CONSTANT_VALUE'");
     }
 }

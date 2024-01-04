@@ -25,9 +25,8 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -123,7 +122,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -143,6 +144,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -160,9 +162,8 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -195,7 +196,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -216,6 +219,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -233,9 +237,8 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -333,7 +336,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -353,6 +358,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -370,9 +376,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -470,7 +475,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -490,6 +497,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -507,9 +515,8 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -548,7 +555,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -568,6 +577,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -586,9 +596,8 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -684,7 +693,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -704,6 +715,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -723,9 +735,8 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -759,7 +770,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -781,6 +794,7 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -798,9 +812,8 @@ uploads an image
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
@@ -837,7 +850,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -859,6 +874,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -875,9 +891,8 @@ uploads an image (required)
 ### Example
 
 * OAuth Authentication (petstore_auth):
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
@@ -914,7 +929,9 @@ async with petstore_api.ApiClient(configuration) as api_client:
 ```
 
 
+
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -936,6 +953,7 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

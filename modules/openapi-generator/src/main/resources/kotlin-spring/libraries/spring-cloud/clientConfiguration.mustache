@@ -1,9 +1,9 @@
 package {{configPackage}}
 
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 import feign.auth.BasicAuthRequestInterceptor
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#-first}}
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -44,7 +44,7 @@ import org.springframework.security.oauth2.client.token.grant.password.ResourceO
 class ClientConfiguration {
 
     {{#authMethods}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.username:{{closebrace}}")
     private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username: String
 
@@ -57,7 +57,7 @@ class ClientConfiguration {
       return BasicAuthRequestInterceptor(this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Username, this.{{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Password)
     }
 
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isApiKey}}
     @Value("\${{openbrace}}{{#lambda.lowercase}}{{{title}}}{{/lambda.lowercase}}.security.{{{name}}}.key:{{closebrace}}")
     private lateinit var {{#lambda.camelcase}}{{{name}}}{{/lambda.camelcase}}Key: String
