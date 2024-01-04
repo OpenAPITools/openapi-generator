@@ -107,6 +107,14 @@
             <artifactId>resteasy-validator-provider-11</artifactId>
             <version>3.6.3.SP1</version>
             <scope>provided</scope>
+            <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -141,6 +149,14 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jaxrs</artifactId>
             <version>${swagger-core-version}</version>
+            <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.validation</groupId>
+                    <artifactId>validation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

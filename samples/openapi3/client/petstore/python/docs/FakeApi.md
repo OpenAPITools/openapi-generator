@@ -40,8 +40,6 @@ test any type request body
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -105,8 +103,6 @@ test enum reference query parameter
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.rest import ApiException
@@ -171,8 +167,6 @@ Health check endpoint
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.health_check_result import HealthCheckResult
 from petstore_api.rest import ApiException
@@ -235,8 +229,6 @@ test http signature authentication
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -374,8 +366,6 @@ Test serialization of outer boolean types
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -442,8 +432,6 @@ Test serialization of object with outer number type
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.outer_composite import OuterComposite
 from petstore_api.rest import ApiException
@@ -511,8 +499,6 @@ Test serialization of outer number types
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -579,8 +565,6 @@ Test serialization of outer string types
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -647,8 +631,6 @@ Test serialization of enum (int) properties with examples
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.outer_object_with_enum_property import OuterObjectWithEnumProperty
 from petstore_api.rest import ApiException
@@ -714,8 +696,6 @@ test ref to enum string
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.enum_class import EnumClass
 from petstore_api.rest import ApiException
@@ -778,8 +758,6 @@ test returning list of objects
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.tag import Tag
 from petstore_api.rest import ApiException
@@ -842,8 +820,6 @@ test uuid example
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -909,8 +885,6 @@ For this test, the body has to be a binary file.
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -975,8 +949,6 @@ For this test, the body for this request must reference a schema named `File`.
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.rest import ApiException
@@ -1040,8 +1012,6 @@ No authorization required
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.user import User
 from petstore_api.rest import ApiException
@@ -1109,8 +1079,6 @@ To test \"client\" model
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.client import Client
 from petstore_api.rest import ApiException
@@ -1177,8 +1145,6 @@ No authorization required
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1245,8 +1211,6 @@ test empty and non-empty responses
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1310,8 +1274,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 * Basic Authentication (http_basic_test):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1414,8 +1376,6 @@ test error responses with model
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1480,8 +1440,6 @@ Fake endpoint to test group parameters (optional)
 * Bearer (JWT) Authentication (bearer_test):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1566,8 +1524,6 @@ test inline additionalProperties
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1633,8 +1589,6 @@ test inline free-form additionalProperties
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.rest import ApiException
@@ -1701,8 +1655,6 @@ test json serialization of form data
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -1770,8 +1722,6 @@ To test the collection format in query parameters
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint

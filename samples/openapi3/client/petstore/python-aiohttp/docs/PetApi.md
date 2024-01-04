@@ -27,8 +27,6 @@ Add a new pet to the store
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -166,8 +164,6 @@ Deletes a pet
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -243,8 +239,6 @@ Multiple status values can be provided with comma separated strings
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -384,8 +378,6 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -525,8 +517,6 @@ Returns a single pet
 * Api Key Authentication (api_key):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -608,8 +598,6 @@ Update an existing pet
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -749,8 +737,6 @@ Updates a pet in the store with form data
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -828,8 +814,6 @@ uploads an image
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.rest import ApiException
@@ -909,8 +893,6 @@ uploads an image (required)
 * OAuth Authentication (petstore_auth):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.rest import ApiException

@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
+from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self

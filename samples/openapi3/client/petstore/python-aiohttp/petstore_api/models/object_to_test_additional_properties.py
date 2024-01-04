@@ -17,10 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool
-from pydantic import Field
 from typing import Optional, Set
 from typing_extensions import Self
 

@@ -12,7 +12,6 @@
 """  # noqa: E501
 
 
-import atexit
 import datetime
 from dateutil.parser import parse
 import json

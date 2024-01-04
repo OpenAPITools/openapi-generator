@@ -1,10 +1,7 @@
 # coding: utf-8
 
 {{>partial_header}}
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
@@ -166,7 +163,7 @@ class {{classname}}:
             {{#isBinary}}
             # convert to byte array if the input is a file name (str)
             if isinstance({{paramName}}, str):
-                with io.open({{paramName}}, "rb") as _fp:
+                with open({{paramName}}, "rb") as _fp:
                     _body_params = _fp.read()
             else:
                 _body_params = {{paramName}}

@@ -13,18 +13,14 @@
 
 
 from __future__ import annotations
-from inspect import getfullargspec
 import json
 import pprint
-import re  # noqa: F401
-
-from typing import Any, List, Optional
 from pydantic import BaseModel, Field, StrictStr, ValidationError, field_validator
-from pydantic import Field
+from typing import Any, List, Optional
 from typing_extensions import Annotated
-from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
 from pydantic import StrictStr, Field
+from typing import Union, List, Optional, Dict
+from typing_extensions import Literal, Self
 
 COLOR_ONE_OF_SCHEMAS = ["List[int]", "str"]
 

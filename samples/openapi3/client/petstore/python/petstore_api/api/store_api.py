@@ -11,20 +11,13 @@
     Do not edit the class manually.
 """  # noqa: E501
 
-
-import io
 import warnings
-
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field
+from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from pydantic import StrictStr
-
-from typing import Dict
-
 from petstore_api.models.order import Order
 
 from petstore_api.api_client import ApiClient

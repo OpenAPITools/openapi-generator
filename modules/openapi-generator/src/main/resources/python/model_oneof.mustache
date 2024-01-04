@@ -1,20 +1,15 @@
 from __future__ import annotations
-from inspect import getfullargspec
 import json
 import pprint
-import re  # noqa: F401
-{{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
-{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
-{{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
-from typing_extensions import Literal, Self
 from pydantic import StrictStr, Field
+from typing import Union, List, Optional, Dict
+from typing_extensions import Literal, Self
 
 {{#lambda.uppercase}}{{{classname}}}{{/lambda.uppercase}}_ONE_OF_SCHEMAS = [{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 

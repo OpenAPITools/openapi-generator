@@ -26,8 +26,6 @@ Test binary (gif) response body
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -91,8 +89,6 @@ Test body parameter(s)
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -160,8 +156,6 @@ Test array of binary in multipart mime
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -229,8 +223,6 @@ Test single binary in multipart mime
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -298,8 +290,6 @@ Test body parameter(s)
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
@@ -368,8 +358,6 @@ Test free form object
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -437,8 +425,6 @@ Test body parameter(s)
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
@@ -507,8 +493,6 @@ Test empty response body
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
@@ -577,8 +561,6 @@ Test empty json (request body)
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.tag import Tag
 from openapi_client.rest import ApiException

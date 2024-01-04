@@ -17,10 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
 from typing import Optional, Set
 from typing_extensions import Self
