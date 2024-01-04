@@ -33,7 +33,7 @@ public class CodegenOperation {
             isRestful, isDeprecated, isCallbackRequest, uniqueItems, hasDefaultResponse = false, hasConstantParams = false,
             hasErrorResponseObject; // if 4xx, 5xx responses have at least one error object defined
     public CodegenProperty returnProperty;
-    public String path, operationId, returnType, returnFormat, httpMethod, returnBaseType,
+    public String path, operationId, capitalizedOperationId, returnType, returnFormat, httpMethod, returnBaseType,
             returnContainer, summary, unescapedNotes, notes, baseName, defaultResponse;
     public CodegenDiscriminator discriminator;
     public List<Map<String, String>> consumes, produces, prioritizedContentTypes;

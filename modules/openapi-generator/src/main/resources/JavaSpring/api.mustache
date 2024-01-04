@@ -125,8 +125,33 @@ public interface {{classname}} {
     }
     {{/isDelegate}}
 {{/jdk8-default-interface}}
-{{#operation}}
 
+{{#useMultiResponseEntity}}
+    public class {{classname}}Exception extends Exception {
+        HttpStatus status;
+        Object res;
+
+        protected {{classname}}Exception(Object res, HttpStatus status) {
+            this.res = res;
+            this.status = status;
+        }
+        public ResponseEntity<?> getResponseEntity() {
+            return new ResponseEntity(res, status);
+        }
+    }
+{{/useMultiResponseEntity}}
+
+{{#operation}}
+    {{#useMultiResponseEntity}}
+    // Exception generated for {{{operationId}}}
+    public class {{{capitalizedOperationId}}}Exception extends {{classname}}Exception {
+        {{#responses}}
+        public {{{capitalizedOperationId}}}Exception({{{baseType}}} response) {
+            super(response, HttpStatus.resolve({{code}}));
+        }
+        {{/responses}}
+    }
+    {{/useMultiResponseEntity}}
     /**
      * {{httpMethod}} {{{path}}}{{#summary}} : {{.}}{{/summary}}
     {{#notes}}
@@ -255,8 +280,17 @@ public interface {{classname}} {
         {{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}}{{#swagger2AnnotationLibrary}}@Parameter(hidden = true){{/swagger2AnnotationLibrary}}{{#springFoxDocumentationProvider}}@ApiIgnore{{/springFoxDocumentationProvider}} {{{.}}}{{^hasParams}}{{^-last}}{{^reactive}},{{/reactive}}
         {{/-last}}{{/hasParams}}{{/vendorExtensions.x-spring-provide-args}}
     ){{#unhandledException}} throws Exception{{/unhandledException}}{{^jdk8-default-interface}};{{/jdk8-default-interface}}{{#jdk8-default-interface}} {
-        {{#delegate-method}}
-        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
+    {{#delegate-method}}
+
+        {{#useMultiResponseEntity}}
+        try {
+        {{/useMultiResponseEntity}}
+            {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
+        {{#useMultiResponseEntity}}
+        } catch({{classname}}Exception e) {
+            return e.getResponseEntity();
+        }
+        {{/useMultiResponseEntity}}
     }
 
     // Override this method
@@ -266,7 +300,17 @@ public interface {{classname}} {
         {{>methodBody}}
         {{/isDelegate}}
         {{#isDelegate}}
-        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}getDelegate().{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
+        {{^isVoid}}return
+            {{/isVoid}}
+        {{#isVoid}}
+
+            {{#useResponseEntity}}return {{/useResponseEntity}}
+
+            {{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}
+
+        {{/isVoid}}
+            getDelegate().{{operationId}}(
+        {{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#reactive}}{{#hasParams}}, {{/hasParams}}exchange{{/reactive}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
         {{/isDelegate}}
     }{{/jdk8-default-interface}}
 
