@@ -37,7 +37,7 @@ class AnyOfColor(BaseModel):
     # data type: str
     anyof_schema_3_validator: Optional[Annotated[str, Field(min_length=7, strict=True, max_length=7)]] = Field(default=None, description="Hex color string, such as #00FF00.")
     if TYPE_CHECKING:
-        actual_instance: Optional[Union[List[int], str]] = None
+        actual_instance: Union[List[int], str]
     else:
         actual_instance: Any = None
     any_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]

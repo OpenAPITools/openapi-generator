@@ -21,7 +21,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     # data type: {{{dataType}}}
     {{vendorExtensions.x-py-name}}: {{{vendorExtensions.x-py-typing}}}
 {{/composedSchemas.oneOf}}
-    actual_instance: Optional[Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]] = None
+    actual_instance: Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}{{#isNullable}}, None{{/isNullable}}]
     one_of_schemas: List[str] = Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}]
 
     model_config = {
@@ -102,6 +102,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         instance = cls.model_construct()
         {{#isNullable}}
         if json_str is None:
+            instance.actual_instance = None
             return instance
 
         {{/isNullable}}
