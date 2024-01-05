@@ -369,6 +369,17 @@ public class ExampleGenerator {
             }
             schema.setExample(values);
             return schema.getExample();
+        } else if (ModelUtils.isAnyOf(schema) || ModelUtils.isOneOf(schema)) {
+            LOGGER.debug("Resolving anyOf/oneOf model '{}' using the first schema to example", name);
+            Optional<Schema> found = ModelUtils.getInterfaces(schema)
+                    .stream()
+                    .filter(this::hasValidRef)
+                    .findFirst();
+
+            if (found.isEmpty()) {
+                return null;
+            }
+            return resolvePropertyToExample(name, mediaType, found.get(), processedModels);
         } else {
             // TODO log an error message as the model does not have any properties
             return null;
@@ -382,5 +393,15 @@ public class ExampleGenerator {
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
             }
         }
+    }
+
+    private boolean hasValidRef(Schema schema) {
+        if (schema.get$ref() != null) {
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            Schema resolved = ModelUtils.getSchema(openAPI, ref);
+            return resolved != null;
+        }
+
+        return true;
     }
 }
