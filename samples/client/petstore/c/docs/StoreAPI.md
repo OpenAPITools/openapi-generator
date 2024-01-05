@@ -16,7 +16,7 @@ Method | HTTP request | Description
 //
 // For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 //
-void StoreAPI_deleteOrder(apiClient_t *apiClient, char * orderId);
+void StoreAPI_deleteOrder(apiClient_t *apiClient, char *orderId);
 ```
 
 ### Parameters
@@ -108,7 +108,7 @@ No authorization required
 ```c
 // Place an order for a pet
 //
-order_t* StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body);
+order_t* StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body);
 ```
 
 ### Parameters
