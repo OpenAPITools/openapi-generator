@@ -886,8 +886,6 @@ test referenced additionalProperties
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
