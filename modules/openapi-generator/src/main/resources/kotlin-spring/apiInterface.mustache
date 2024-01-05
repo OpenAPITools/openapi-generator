@@ -73,7 +73,7 @@ interface {{classname}} {
 
     {{#swagger2AnnotationLibrary}}
     @Operation(
-        tags = [{{#tags}}"{{name}}",{{/tags}}],
+        tags = [{{#tags}}"{{{name}}}",{{/tags}}],
         summary = "{{{summary}}}",
         operationId = "{{{operationId}}}",
         description = """{{{unescapedNotes}}}""",
