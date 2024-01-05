@@ -66,7 +66,7 @@ public class Cat extends Animal implements Serializable {
       return false;
     }
     Cat cat = (Cat) o;
-    return super.equals(o) && Objects.equals(declawed, cat.declawed);
+    return super.equals(o) && Objects.equals(this.declawed, cat.declawed);
   }
 
   @Override

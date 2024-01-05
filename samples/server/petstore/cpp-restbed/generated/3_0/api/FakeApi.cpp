@@ -1042,6 +1042,121 @@ std::string FakePropertyEnum_intResource::extractFormParamsFromBody(const std::s
     }
     return "";
 }
+FakeAdditionalProperties_referenceResource::FakeAdditionalProperties_referenceResource(const std::string& context /* = "/v2" */)
+{
+	this->set_path(context + "/fake/additionalProperties-reference");
+	this->set_method_handler("POST",
+		std::bind(&FakeAdditionalProperties_referenceResource::handler_POST_internal, this,
+			std::placeholders::_1));
+}
+
+std::pair<int, std::string> FakeAdditionalProperties_referenceResource::handleFakeApiException(const FakeApiException& e)
+{
+    return std::make_pair<int, std::string>(e.getStatus(), e.what());
+}
+
+std::pair<int, std::string> FakeAdditionalProperties_referenceResource::handleStdException(const std::exception& e)
+{
+    return std::make_pair<int, std::string>(500, e.what());
+}
+
+std::pair<int, std::string> FakeAdditionalProperties_referenceResource::handleUnspecifiedException()
+{
+    return std::make_pair<int, std::string>(500, "Unknown exception occurred");
+}
+
+void FakeAdditionalProperties_referenceResource::setResponseHeader(const std::shared_ptr<restbed::Session>& session, const std::string& header)
+{
+    session->set_header(header, "");
+}
+
+void FakeAdditionalProperties_referenceResource::returnResponse(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result, std::multimap<std::string, std::string>& responseHeaders)
+{
+    responseHeaders.insert(std::make_pair("Connection", "close"));
+    session->close(status, result, responseHeaders);
+}
+
+void FakeAdditionalProperties_referenceResource::defaultSessionClose(const std::shared_ptr<restbed::Session>& session, const int status, const std::string& result)
+{
+    session->close(status, result, { {"Connection", "close"} });
+}
+
+void FakeAdditionalProperties_referenceResource::handler_POST_internal(const std::shared_ptr<restbed::Session> session)
+{
+    const auto request = session->get_request();
+    // body params or form params here from the body content string
+    std::string bodyContent = extractBodyContent(session);
+    std::map<std::string, AnyType> requestBody; // TODO
+    
+    int status_code = 500;
+    std::string result = "";
+    
+    try {
+        status_code =
+            handler_POST(requestBody);
+    }
+    catch(const FakeApiException& e) {
+        std::tie(status_code, result) = handleFakeApiException(e);
+    }
+    catch(const std::exception& e) {
+        std::tie(status_code, result) = handleStdException(e);
+    }
+    catch(...) {
+        std::tie(status_code, result) = handleUnspecifiedException();
+    }
+    
+    std::multimap< std::string, std::string > responseHeaders {};
+    static const std::vector<std::string> contentTypes{
+        "application/json"
+    };
+    static const std::string acceptTypes{
+        "application/json, "
+    };
+    
+    if (status_code == 200) {
+        responseHeaders.insert(std::make_pair("Content-Type", selectPreferredContentType(contentTypes)));
+        if (!acceptTypes.empty()) {
+            responseHeaders.insert(std::make_pair("Accept", acceptTypes));
+        }
+    
+        returnResponse(session, 200, result.empty() ? "{}" : result, responseHeaders);
+        return;
+    }
+    defaultSessionClose(session, status_code, result);
+    
+    
+}
+
+
+int FakeAdditionalProperties_referenceResource::handler_POST(
+        std::map<std::string, AnyType> & requestBody)
+{
+    return handler_POST_func(requestBody);
+}
+
+
+std::string FakeAdditionalProperties_referenceResource::extractBodyContent(const std::shared_ptr<restbed::Session>& session) {
+  const auto request = session->get_request();
+  int content_length = request->get_header("Content-Length", 0);
+  std::string bodyContent;
+  session->fetch(content_length,
+                 [&bodyContent](const std::shared_ptr<restbed::Session> session,
+                                const restbed::Bytes &body) {
+                   bodyContent = restbed::String::format(
+                       "%.*s\n", (int)body.size(), body.data());
+                 });
+  return bodyContent;
+}
+
+std::string FakeAdditionalProperties_referenceResource::extractFormParamsFromBody(const std::string& paramName, const std::string& body) {
+    const auto uri = restbed::Uri("urlencoded?" + body, true);
+    const auto params = uri.get_query_parameters();
+    const auto result = params.find(paramName);
+    if (result != params.cend()) {
+        return result->second;
+    }
+    return "";
+}
 FakeBody_with_binaryResource::FakeBody_with_binaryResource(const std::string& context /* = "/v2" */)
 {
 	this->set_path(context + "/fake/body-with-binary");
@@ -2370,6 +2485,12 @@ std::shared_ptr<FakeApiResources::FakePropertyEnum_intResource> FakeApi::getFake
     }
     return m_spFakePropertyEnum_intResource;
 }
+std::shared_ptr<FakeApiResources::FakeAdditionalProperties_referenceResource> FakeApi::getFakeAdditionalProperties_referenceResource() {
+    if (!m_spFakeAdditionalProperties_referenceResource) {
+        setResource(std::make_shared<FakeApiResources::FakeAdditionalProperties_referenceResource>());
+    }
+    return m_spFakeAdditionalProperties_referenceResource;
+}
 std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> FakeApi::getFakeBody_with_binaryResource() {
     if (!m_spFakeBody_with_binaryResource) {
         setResource(std::make_shared<FakeApiResources::FakeBody_with_binaryResource>());
@@ -2456,6 +2577,10 @@ void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakePropertyEnum_int
     m_spFakePropertyEnum_intResource = resource;
     m_service->publish(m_spFakePropertyEnum_intResource);
 }
+void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeAdditionalProperties_referenceResource> resource) {
+    m_spFakeAdditionalProperties_referenceResource = resource;
+    m_service->publish(m_spFakeAdditionalProperties_referenceResource);
+}
 void FakeApi::setResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> resource) {
     m_spFakeBody_with_binaryResource = resource;
     m_service->publish(m_spFakeBody_with_binaryResource);
@@ -2524,6 +2649,10 @@ void FakeApi::setFakeApiFakePropertyEnum_intResource(std::shared_ptr<FakeApiReso
     m_spFakePropertyEnum_intResource = spFakePropertyEnum_intResource;
     m_service->publish(m_spFakePropertyEnum_intResource);
 }
+void FakeApi::setFakeApiFakeAdditionalProperties_referenceResource(std::shared_ptr<FakeApiResources::FakeAdditionalProperties_referenceResource> spFakeAdditionalProperties_referenceResource) {
+    m_spFakeAdditionalProperties_referenceResource = spFakeAdditionalProperties_referenceResource;
+    m_service->publish(m_spFakeAdditionalProperties_referenceResource);
+}
 void FakeApi::setFakeApiFakeBody_with_binaryResource(std::shared_ptr<FakeApiResources::FakeBody_with_binaryResource> spFakeBody_with_binaryResource) {
     m_spFakeBody_with_binaryResource = spFakeBody_with_binaryResource;
     m_service->publish(m_spFakeBody_with_binaryResource);
@@ -2586,6 +2715,9 @@ void FakeApi::publishDefaultResources() {
     }
     if (!m_spFakePropertyEnum_intResource) {
         setResource(std::make_shared<FakeApiResources::FakePropertyEnum_intResource>());
+    }
+    if (!m_spFakeAdditionalProperties_referenceResource) {
+        setResource(std::make_shared<FakeApiResources::FakeAdditionalProperties_referenceResource>());
     }
     if (!m_spFakeBody_with_binaryResource) {
         setResource(std::make_shared<FakeApiResources::FakeBody_with_binaryResource>());

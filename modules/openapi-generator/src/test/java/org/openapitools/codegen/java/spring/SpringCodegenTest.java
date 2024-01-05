@@ -4388,4 +4388,34 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue16797() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
+        // constructor should as
+        //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
+        //            super(responseType, requestId, success, pageInfo);
+        //        }
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+    }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT);
+        // constructor should as this
+        //public Poodle(String race, String type) {
+        //    super(race, type);
+        //}
+        JavaFileAssert.assertThat(output.get("Poodle.java"))
+                .assertConstructor("String", "String")
+                .hasParameter("type").toConstructor()
+                .hasParameter("race").toConstructor()
+        ;
+    }
 }

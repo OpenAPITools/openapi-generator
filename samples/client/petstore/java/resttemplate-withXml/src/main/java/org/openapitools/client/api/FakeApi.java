@@ -413,6 +413,51 @@ public class FakeApi {
         return apiClient.invokeAPI("/fake/property/enum-int", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws RestClientException {
+        testAdditionalPropertiesReferenceWithHttpInfo(requestBody);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws RestClientException {
+        Object localVarPostBody = requestBody;
+        
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+        }
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * 
      * For this test, the body has to be a binary file.
      * <p><b>200</b> - Success

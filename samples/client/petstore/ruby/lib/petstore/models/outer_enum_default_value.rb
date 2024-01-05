@@ -17,10 +17,10 @@ module Petstore
   class OuterEnumDefaultValue
     PLACED = "placed".freeze
     APPROVED = "approved".freeze
-    DELIVERED = "delivered".freeze
+    SHIPPED = "delivered".freeze
 
     def self.all_vars
-      @all_vars ||= [PLACED, APPROVED, DELIVERED].freeze
+      @all_vars ||= [PLACED, APPROVED, SHIPPED].freeze
     end
 
     # Builds the enum from string

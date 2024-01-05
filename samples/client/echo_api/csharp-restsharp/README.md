@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**TestBinaryGif**](docs/BodyApi.md#testbinarygif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**TestBodyMultipartFormdataSingleBinary**](docs/BodyApi.md#testbodymultipartformdatasinglebinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
 *BodyApi* | [**TestEchoBodyAllOfPet**](docs/BodyApi.md#testechobodyallofpet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**TestEchoBodyPet**](docs/BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s)

@@ -1047,6 +1047,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -2077,6 +2094,10 @@ components:
       type: integer
       enum:
         - 0
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     ObjectModelWithRefProps:
       description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object

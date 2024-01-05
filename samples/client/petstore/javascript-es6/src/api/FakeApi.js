@@ -322,6 +322,47 @@ export default class FakeApi {
     }
 
     /**
+     * Callback function to receive the result of the testAdditionalPropertiesReference operation.
+     * @callback module:api/FakeApi~testAdditionalPropertiesReferenceCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @param {module:api/FakeApi~testAdditionalPropertiesReferenceCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    testAdditionalPropertiesReference(requestBody, callback) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/additionalProperties-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the testBodyWithBinary operation.
      * @callback module:api/FakeApi~testBodyWithBinaryCallback
      * @param {String} error Error message, if any.

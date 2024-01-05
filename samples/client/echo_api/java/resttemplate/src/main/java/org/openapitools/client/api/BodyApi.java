@@ -181,6 +181,52 @@ public class BodyApi {
         return apiClient.invokeAPI("/body/application/octetstream/array_of_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * Test single binary in multipart mime
+     * Test single binary in multipart mime
+     * <p><b>200</b> - Successful operation
+     * @param myFile  (optional)
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public String testBodyMultipartFormdataSingleBinary(File myFile) throws RestClientException {
+        return testBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile).getBody();
+    }
+
+    /**
+     * Test single binary in multipart mime
+     * Test single binary in multipart mime
+     * <p><b>200</b> - Successful operation
+     * @param myFile  (optional)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(File myFile) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        if (myFile != null)
+            localVarFormParams.add("my-file", new FileSystemResource(myFile));
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "multipart/form-data"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/body/application/octetstream/single_binary", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * Test body parameter(s)
      * Test body parameter(s)
      * <p><b>200</b> - Successful operation

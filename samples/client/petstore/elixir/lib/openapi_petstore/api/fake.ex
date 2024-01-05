@@ -274,6 +274,37 @@ defmodule OpenapiPetstore.Api.Fake do
   end
 
   @doc """
+  test referenced additionalProperties
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `request_body` (%{optional(String.t) => any()}): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_additional_properties_reference(Tesla.Env.client, %{optional(String.t) => AnyType.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_additional_properties_reference(connection, request_body, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/additionalProperties-reference")
+      |> add_param(:body, :body, request_body)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
+    ])
+  end
+
+  @doc """
   For this test, the body has to be a binary file.
 
   ### Parameters

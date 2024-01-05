@@ -3724,6 +3724,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
+            // fix issue #16797 and #15796, constructor fail by missing parent required params
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                properties.putAll(schema.getProperties());
+            }
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
@@ -3747,6 +3751,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            for (String r : required) {
+                if (!properties.containsKey(r)) {
+                    LOGGER.error("Required var %s not in properties", r);
+                }
+            }
             return;
         }
 
@@ -7324,7 +7333,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name) && !(ModelUtils.isFreeFormObject(schema) && !ModelUtils.shouldGenerateFreeFormObjectModel(name, this))) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);

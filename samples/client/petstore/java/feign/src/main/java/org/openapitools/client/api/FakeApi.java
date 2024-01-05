@@ -315,6 +315,33 @@ public interface FakeApi extends ApiClient.Api {
 
 
   /**
+   * test referenced additionalProperties
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/additionalProperties-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testAdditionalPropertiesReference(Map<String, Object> requestBody);
+
+  /**
+   * test referenced additionalProperties
+   * Similar to <code>testAdditionalPropertiesReference</code> but it also returns the http response headers .
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/additionalProperties-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody);
+
+
+
+  /**
    * 
    * For this test, the body has to be a binary file.
    * @param body image to upload (required)

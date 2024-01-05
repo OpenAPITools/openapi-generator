@@ -250,6 +250,30 @@ class FakeController extends Controller
         return response('How about implementing fakeBigDecimalMap as a get method ?');
     }
     /**
+     * Operation testAdditionalPropertiesReference
+     *
+     * test referenced additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testAdditionalPropertiesReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['requestBody'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $requestBody when calling testAdditionalPropertiesReference');
+        }
+        $requestBody = $input['requestBody'];
+
+
+        return response('How about implementing testAdditionalPropertiesReference as a post method ?');
+    }
+    /**
      * Operation testBodyWithBinary
      *
      * .

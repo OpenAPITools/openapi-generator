@@ -409,6 +409,20 @@ export default function() {
         }
     });
 
+    group("/fake/additionalProperties-reference", () => {
+
+        // Request No. 1: testAdditionalPropertiesReference
+        {
+            let url = BASE_URL + `/fake/additionalProperties-reference`;
+            let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
+            let request = http.post(url, params);
+
+            check(request, {
+                "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
     group("/pet/findByStatus", () => {
         let status = 'TODO_EDIT_THE_STATUS'; // specify value as there is no example value for this parameter in OpenAPI spec
 

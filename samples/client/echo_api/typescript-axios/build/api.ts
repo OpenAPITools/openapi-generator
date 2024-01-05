@@ -621,6 +621,45 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Test single binary in multipart mime
+         * @summary Test single binary in multipart mime
+         * @param {File} [myFile] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testBodyMultipartFormdataSingleBinary: async (myFile?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/body/application/octetstream/single_binary`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (myFile !== undefined) { 
+                localVarFormParams.append('my-file', myFile as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Test body parameter(s)
          * @summary Test body parameter(s)
          * @param {Pet} [pet] Pet object that needs to be added to the store
@@ -839,6 +878,19 @@ export const BodyApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
         },
         /**
+         * Test single binary in multipart mime
+         * @summary Test single binary in multipart mime
+         * @param {File} [myFile] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testBodyMultipartFormdataSingleBinary(myFile?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testBodyMultipartFormdataSingleBinary(myFile, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['BodyApi.testBodyMultipartFormdataSingleBinary']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
          * Test body parameter(s)
          * @summary Test body parameter(s)
          * @param {Pet} [pet] Pet object that needs to be added to the store
@@ -943,6 +995,16 @@ export const BodyApiFactory = function (configuration?: Configuration, basePath?
             return localVarFp.testBodyMultipartFormdataArrayOfBinary(files, options).then((request) => request(axios, basePath));
         },
         /**
+         * Test single binary in multipart mime
+         * @summary Test single binary in multipart mime
+         * @param {File} [myFile] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testBodyMultipartFormdataSingleBinary(myFile?: File, options?: any): AxiosPromise<string> {
+            return localVarFp.testBodyMultipartFormdataSingleBinary(myFile, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Test body parameter(s)
          * @summary Test body parameter(s)
          * @param {Pet} [pet] Pet object that needs to be added to the store
@@ -1035,6 +1097,18 @@ export class BodyApi extends BaseAPI {
      */
     public testBodyMultipartFormdataArrayOfBinary(files: Array<File>, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testBodyMultipartFormdataArrayOfBinary(files, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Test single binary in multipart mime
+     * @summary Test single binary in multipart mime
+     * @param {File} [myFile] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BodyApi
+     */
+    public testBodyMultipartFormdataSingleBinary(myFile?: File, options?: RawAxiosRequestConfig) {
+        return BodyApiFp(this.configuration).testBodyMultipartFormdataSingleBinary(myFile, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

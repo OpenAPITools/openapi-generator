@@ -391,17 +391,10 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/-first}}
                     {{/servers}}
                     {{#pathParams}}
-                    {{#required}}
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));
-                    {{/required}}
-                    {{^required}}
-
-                    if ({{paramName}}.IsSet)
-                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString()) }";
                     {{#-last}}
 
                     {{/-last}}
-                    {{/required}}
                     {{/pathParams}}
                     {{#queryParams}}
                     {{#-first}}

@@ -93,3 +93,8 @@
   image: "img/companies/fornex.png"
   infoLink: "https://fornex.com/"
   bronze: true
+-
+  caption: "Alloy Automation"
+  image: "img/companies/alloyautomation.png"
+  infoLink: "https://runalloy.com/"
+  bronze: true

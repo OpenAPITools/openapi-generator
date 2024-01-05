@@ -96,6 +96,9 @@ class FakeApi
         'fakePropertyEnumIntegerSerialize' => [
             'application/json',
         ],
+        'testAdditionalPropertiesReference' => [
+            'application/json',
+        ],
         'testBodyWithBinary' => [
             'image/png',
         ],
@@ -2538,6 +2541,249 @@ class FakeApi
                 $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($outer_object_with_enum_property));
             } else {
                 $httpBody = $outer_object_with_enum_property;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the form parameters
+                $httpBody = \GuzzleHttp\Utils::jsonEncode($formParams);
+            } else {
+                // for HTTP post (form)
+                $httpBody = ObjectSerializer::buildQuery($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $operationHost = $this->config->getHost();
+        $query = ObjectSerializer::buildQuery($queryParams);
+        return new Request(
+            'POST',
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation testAdditionalPropertiesReference
+     *
+     * test referenced additionalProperties
+     *
+     * @param  array<string,mixed> $request_body request body (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testAdditionalPropertiesReference'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    public function testAdditionalPropertiesReference(
+        array $request_body,
+        string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
+    ): void
+    {
+        $this->testAdditionalPropertiesReferenceWithHttpInfo($request_body, $contentType);
+    }
+
+    /**
+     * Operation testAdditionalPropertiesReferenceWithHttpInfo
+     *
+     * test referenced additionalProperties
+     *
+     * @param  array<string,mixed> $request_body request body (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testAdditionalPropertiesReference'] to see the possible values for this operation
+     *
+     * @throws ApiException on non-2xx response or if the response body is not in the expected format
+     * @throws InvalidArgumentException
+     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function testAdditionalPropertiesReferenceWithHttpInfo(
+        array $request_body,
+        string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
+    ): array
+    {
+        $request = $this->testAdditionalPropertiesReferenceRequest($request_body, $contentType);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            } catch (ConnectException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    (int) $e->getCode(),
+                    null,
+                    null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        (string) $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    (string) $response->getBody()
+                );
+            }
+
+            return [null, $statusCode, $response->getHeaders()];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation testAdditionalPropertiesReferenceAsync
+     *
+     * test referenced additionalProperties
+     *
+     * @param  array<string,mixed> $request_body request body (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testAdditionalPropertiesReference'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function testAdditionalPropertiesReferenceAsync(
+        array $request_body,
+        string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
+    ): PromiseInterface
+    {
+        return $this->testAdditionalPropertiesReferenceAsyncWithHttpInfo($request_body, $contentType)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation testAdditionalPropertiesReferenceAsyncWithHttpInfo
+     *
+     * test referenced additionalProperties
+     *
+     * @param  array<string,mixed> $request_body request body (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testAdditionalPropertiesReference'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return PromiseInterface
+     */
+    public function testAdditionalPropertiesReferenceAsyncWithHttpInfo(
+        $request_body,
+        string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
+    ): PromiseInterface
+    {
+        $returnType = '';
+        $request = $this->testAdditionalPropertiesReferenceRequest($request_body, $contentType);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    return [null, $response->getStatusCode(), $response->getHeaders()];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        (string) $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'testAdditionalPropertiesReference'
+     *
+     * @param  array<string,mixed> $request_body request body (required)
+     * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['testAdditionalPropertiesReference'] to see the possible values for this operation
+     *
+     * @throws InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    public function testAdditionalPropertiesReferenceRequest(
+        $request_body,
+        string $contentType = self::contentTypes['testAdditionalPropertiesReference'][0]
+    ): Request
+    {
+
+        // verify the required parameter 'request_body' is set
+        if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
+            throw new InvalidArgumentException(
+                'Missing the required parameter $request_body when calling testAdditionalPropertiesReference'
+            );
+        }
+
+
+        $resourcePath = '/fake/additionalProperties-reference';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+
+        $headers = $this->headerSelector->selectHeaders(
+            [],
+            $contentType,
+            $multipart
+        );
+
+        // for model (json/xml)
+        if (isset($request_body)) {
+            if (stripos($headers['Content-Type'], 'application/json') !== false) {
+                # if Content-Type contains "application/json", json_encode the body
+                $httpBody = \GuzzleHttp\Utils::jsonEncode(ObjectSerializer::sanitizeForSerialization($request_body));
+            } else {
+                $httpBody = $request_body;
             }
         } elseif (count($formParams) > 0) {
             if ($multipart) {
