@@ -123,6 +123,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
 *FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getArrayOfEnumsWithHttpInfo**](docs/FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
+*FakeApi* | [**testAdditionalPropertiesReferenceWithHttpInfo**](docs/FakeApi.md#testAdditionalPropertiesReferenceWithHttpInfo) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithFileSchemaWithHttpInfo**](docs/FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 

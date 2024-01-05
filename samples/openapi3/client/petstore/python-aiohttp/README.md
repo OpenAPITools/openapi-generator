@@ -98,6 +98,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_ref_enum_string**](docs/FakeApi.md#fake_ref_enum_string) | **GET** /fake/ref_enum_string | test ref to enum string
 *FakeApi* | [**fake_return_list_of_objects**](docs/FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
 *FakeApi* | [**fake_uuid_example**](docs/FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
+*FakeApi* | [**test_additional_properties_reference**](docs/FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 

@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 

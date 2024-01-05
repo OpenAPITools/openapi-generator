@@ -952,6 +952,25 @@ paths:
       - fake
       x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -1774,6 +1793,10 @@ components:
             - crab
             type: string
           type: array
+      type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
       type: object
     OuterEnum:
       enum:

@@ -509,16 +509,7 @@ public class DefaultGenerator implements Generator {
                 Schema schema = schemas.get(name);
 
                 if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
-                    // there are 3 free form use cases
-                    // 1. free form with no validation that is not allOf included in any composed schemas
-                    // 2. free form with validation
-                    // 3. free form that is allOf included in any composed schemas
-                    //      this use case arises when using interface schemas
-                    // generators may choose to make models for use case 2 + 3
-                    Schema refSchema = new Schema();
-                    refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
-                    if (unaliasedSchema.get$ref() == null) {
+                    if (!ModelUtils.shouldGenerateFreeFormObjectModel(name, config)) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
                     }

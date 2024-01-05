@@ -102,6 +102,15 @@ public interface FakeApi  {
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException, ProcessingException;
 
+    /**
+     * test referenced additionalProperties
+     * 
+     */
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException, ProcessingException;
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })

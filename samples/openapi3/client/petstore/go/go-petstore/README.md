@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
 *FakeAPI* | [**GetParameterNameMapping**](docs/FakeAPI.md#getparameternamemapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+*FakeAPI* | [**TestAdditionalPropertiesReference**](docs/FakeAPI.md#testadditionalpropertiesreference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeAPI* | [**TestClientModel**](docs/FakeAPI.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model

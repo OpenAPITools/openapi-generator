@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+[**test_additional_properties_reference**](FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -389,6 +390,51 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_additional_properties_reference**
+> test_additional_properties_reference(request_body => $request_body)
+
+test referenced additionalProperties
+
+
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $request_body = WWW::OpenAPIClient::Object::HASH[string,AnyType]->new(); # HASH[string,AnyType] | request body
+
+eval {
+    $api_instance->test_additional_properties_reference(request_body => $request_body);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_additional_properties_reference: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**HASH[string,AnyType]**](AnyType.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

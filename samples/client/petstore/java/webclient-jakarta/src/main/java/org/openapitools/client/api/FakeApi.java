@@ -625,6 +625,75 @@ public class FakeApi {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
     /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(Map<String, Object> requestBody) throws WebClientResponseException {
+        Object postBody = requestBody;
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new WebClientResponseException("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(Map<String, Object> requestBody) throws WebClientResponseException {
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody);
+    }
+    /**
      * 
      * For this test, the body has to be a binary file.
      * <p><b>200</b> - Success

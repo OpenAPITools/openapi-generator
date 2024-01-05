@@ -167,6 +167,18 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
+    @javax.ws.rs.POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test referenced additionalProperties", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testAdditionalPropertiesReference(@ApiParam(value = "request body", required = true) @NotNull @Valid  Map<String, Object> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testAdditionalPropertiesReference(requestBody, securityContext);
+    }
     @javax.ws.rs.PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
