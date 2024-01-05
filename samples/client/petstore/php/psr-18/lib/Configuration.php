@@ -530,11 +530,11 @@ class Configuration
         }
 
         // check array index out of bound
-        if ($hostIndex < 0 || $hostIndex >= count($hostsSettings)) {
-            throw new \InvalidArgumentException("Invalid index $hostIndex when selecting the host. Must be less than ".count($hostsSettings));
+        if ($hostIndex < 0 || $hostIndex >= count($hostSettings)) {
+            throw new \InvalidArgumentException("Invalid index $hostIndex when selecting the host. Must be less than ".count($hostSettings));
         }
 
-        $host = $hostsSettings[$hostIndex];
+        $host = $hostSettings[$hostIndex];
         $url = $host["url"];
 
         // go through variable and assign a value
