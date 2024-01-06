@@ -15,11 +15,7 @@
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing_extensions import Annotated
 
 
 from openapi_client.api_client import ApiClient

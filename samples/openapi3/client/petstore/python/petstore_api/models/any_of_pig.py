@@ -23,6 +23,7 @@ from petstore_api.models.basque_pig import BasquePig
 from petstore_api.models.danish_pig import DanishPig
 from typing import Union, Any, List, TYPE_CHECKING, Optional, Dict
 from typing_extensions import Literal, Self
+from pydantic import Field
 
 ANYOFPIG_ANY_OF_SCHEMAS = ["BasquePig", "DanishPig"]
 
@@ -39,7 +40,7 @@ class AnyOfPig(BaseModel):
         actual_instance: Optional[Union[BasquePig, DanishPig]] = None
     else:
         actual_instance: Any = None
-    any_of_schemas: List[str] = Literal[ANYOFPIG_ANY_OF_SCHEMAS]
+    any_of_schemas: List[str] = Field(default=Literal["BasquePig", "DanishPig"])
 
     model_config = {
         "validate_assignment": True,
@@ -111,22 +112,20 @@ class AnyOfPig(BaseModel):
         if self.actual_instance is None:
             return "null"
 
-        to_json = getattr(self.actual_instance, "to_json", None)
-        if callable(to_json):
+        if hasattr(self.actual_instance, "to_json") and callable(self.actual_instance.to_json):
             return self.actual_instance.to_json()
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> Optional[Union[Dict, BasquePig, DanishPig]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
-            return "null"
+            return None
 
-        to_json = getattr(self.actual_instance, "to_json", None)
-        if callable(to_json):
+        if hasattr(self.actual_instance, "to_dict") and callable(self.actual_instance.to_dict):
             return self.actual_instance.to_dict()
         else:
-            return json.dumps(self.actual_instance)
+            return self.actual_instance
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""

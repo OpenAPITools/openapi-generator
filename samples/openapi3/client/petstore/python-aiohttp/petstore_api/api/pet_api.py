@@ -14,16 +14,12 @@
 import warnings
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
-
-try:
-    from typing import Annotated
-except ImportError:
-    from typing_extensions import Annotated
+from typing_extensions import Annotated
 
 from pydantic import Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import List, Optional, Union
 from typing_extensions import Annotated
-from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.pet import Pet
 
 from petstore_api.api_client import ApiClient
@@ -1976,7 +1972,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse:
+    ) -> ModelApiResponse:
         """uploads an image
 
         
@@ -2020,7 +2016,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2051,7 +2047,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApiResponse]:
+    ) -> ApiResponse[ModelApiResponse]:
         """uploads an image
 
         
@@ -2095,7 +2091,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2170,7 +2166,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2277,7 +2273,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse:
+    ) -> ModelApiResponse:
         """uploads an image (required)
 
         
@@ -2321,7 +2317,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2352,7 +2348,7 @@ class PetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApiResponse]:
+    ) -> ApiResponse[ModelApiResponse]:
         """uploads an image (required)
 
         
@@ -2396,7 +2392,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -2471,7 +2467,7 @@ class PetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiResponse",
+            '200': "ModelApiResponse",
         }
         response_data = await self.api_client.call_api(
             *_param,

@@ -272,15 +272,13 @@ class ApiClient:
             )
 
         except ApiException as e:
-            if e.body:
-                e.body = e.body.decode('utf-8')
             raise e
 
         return response_data
 
     def response_deserialize(
         self,
-        response_data: rest.RESTResponse = None,
+        response_data: rest.RESTResponse,
         response_types_map=None
     ) -> ApiResponse:
         """Deserializes response into an object.
@@ -289,6 +287,8 @@ class ApiClient:
         :return: ApiResponse
         """
 
+        msg = "RESTResponse.read() must be called before passing it to response_deserialize()"
+        assert response_data.data is not None, msg
 
         response_type = response_types_map.get(str(response_data.status), None)
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:

@@ -19,10 +19,8 @@ import json
 
 from pydantic import BaseModel, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class HasOnlyReadOnly(BaseModel):
     """
@@ -49,7 +47,7 @@ class HasOnlyReadOnly(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of HasOnlyReadOnly from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,18 +63,20 @@ class HasOnlyReadOnly(BaseModel):
         * OpenAPI `readOnly` fields are excluded.
         * OpenAPI `readOnly` fields are excluded.
         """
+        excluded_fields: Set[str] = set([
+            "bar",
+            "foo",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "bar",
-                "foo",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
         """Create an instance of HasOnlyReadOnly from a dict"""
         if obj is None:
             return None

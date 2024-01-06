@@ -22,10 +22,8 @@ from decimal import Decimal
 from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class FormatTest(BaseModel):
     """
@@ -108,7 +106,7 @@ class FormatTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of FormatTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -123,11 +121,13 @@ class FormatTest(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -138,7 +138,7 @@ class FormatTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None

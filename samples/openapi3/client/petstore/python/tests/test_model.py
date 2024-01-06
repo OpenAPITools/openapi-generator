@@ -459,7 +459,7 @@ class ModelTests(unittest.TestCase):
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
 
         pet_ap.additional_properties["something-new"] = "haha"
-        self.assertEqual(pet_ap.to_json(), '{"id":1,"name":"test name","photoUrls":["string"],"status":"available","something-new":"haha"}')
+        self.assertEqual(pet_ap.to_json(), '{"id": 1, "name": "test name", "photoUrls": ["string"], "status": "available", "something-new": "haha"}')
         self.assertEqual(type(pet_ap2.additional_properties), dict)
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
         self.assertEqual(pet_ap.additional_properties["something-new"], "haha")
@@ -589,6 +589,8 @@ class ModelTests(unittest.TestCase):
         # shouldn't throw NameError
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
+
+class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):
         a1 = petstore_api.AdditionalPropertiesAnyType()
         a1.additional_properties = { "abc": 123 }

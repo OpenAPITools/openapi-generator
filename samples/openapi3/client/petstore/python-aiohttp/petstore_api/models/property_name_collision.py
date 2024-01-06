@@ -19,18 +19,16 @@ import json
 
 from pydantic import BaseModel, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """ # noqa: E501
-    type: Optional[StrictStr] = Field(default=None, alias="_type")
+    underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
-    type_: Optional[StrictStr] = None
+    type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
     __properties: ClassVar[List[str]] = ["_type", "type", "type_"]
 
     model_config = {
@@ -50,7 +48,7 @@ class PropertyNameCollision(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of PropertyNameCollision from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -64,16 +62,18 @@ class PropertyNameCollision(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict]) -> Optional[Self]:
         """Create an instance of PropertyNameCollision from a dict"""
         if obj is None:
             return None

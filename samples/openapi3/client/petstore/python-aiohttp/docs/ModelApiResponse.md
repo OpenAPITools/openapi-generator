@@ -1,4 +1,4 @@
-# ApiResponse
+# ModelApiResponse
 
 
 ## Properties
@@ -12,19 +12,19 @@ Name | Type | Description | Notes
 ## Example
 
 ```python
-from petstore_api.models.api_response import ApiResponse
+from petstore_api.models.model_api_response import ModelApiResponse
 
 # TODO update the JSON string below
 json = "{}"
-# create an instance of ApiResponse from a JSON string
-api_response_instance = ApiResponse.from_json(json)
+# create an instance of ModelApiResponse from a JSON string
+model_api_response_instance = ModelApiResponse.from_json(json)
 # print the JSON string representation of the object
-print ApiResponse.to_json()
+print ModelApiResponse.to_json()
 
 # convert the object into a dict
-api_response_dict = api_response_instance.to_dict()
-# create an instance of ApiResponse from a dict
-api_response_form_dict = api_response.from_dict(api_response_dict)
+model_api_response_dict = model_api_response_instance.to_dict()
+# create an instance of ModelApiResponse from a dict
+model_api_response_form_dict = model_api_response.from_dict(model_api_response_dict)
 ```
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

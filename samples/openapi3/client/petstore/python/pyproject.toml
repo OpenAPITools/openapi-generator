@@ -23,6 +23,9 @@ typing-extensions = ">=4.7.1"
 pytest = ">=7.2.1"
 tox = ">=3.9.0"
 flake8 = ">=4.0.0"
+types-python-dateutil = ">=2.8.19.14"
+mypy = "1.4.1"
+
 
 [build-system]
 requires = ["setuptools"]
@@ -30,3 +33,10 @@ build-backend = "setuptools.build_meta"
 
 [tool.pylint.'MESSAGES CONTROL']
 extension-pkg-whitelist = "pydantic"
+
+[tool.mypy]
+files = [
+  "petstore_api",
+  #"test",  # auto-generated tests
+  "tests", # hand-written tests
+]
