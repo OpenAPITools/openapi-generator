@@ -52,8 +52,8 @@ warn_unused_ignores = true
 strict_equality = true
 strict_concatenate = true
 
-### Strongly recommend enabling this one as soon as you can
-#check_untyped_defs = true
+## Strongly recommend enabling this one as soon as you can
+check_untyped_defs = true
 
 ### These shouldn't be too much additional work, but may be tricky to
 ### get passing if you use a lot of untyped libraries

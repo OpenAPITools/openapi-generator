@@ -85,7 +85,7 @@ class TestManual(unittest.TestCase):
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
+        date_query = datetime.date(2013, 10, 20) # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
 
         # Test query parameter(s)
@@ -99,7 +99,7 @@ class TestManual(unittest.TestCase):
     def testDateTimeQueryWithDateTime(self):
         api_instance = openapi_client.QueryApi()
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
+        date_query = datetime.date(2013, 10, 20) # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
     
         # Test query parameter(s)
@@ -116,12 +116,14 @@ class TestManual(unittest.TestCase):
 
     def testNumberPropertiesOnly(self):
         n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123, "float": 456, "double": 34}')
+        assert n is not None
         self.assertEqual(n.number, 123)
         # TODO: pydantic v2: this field name override the default `float` type
         # self.assertEqual(n.float, 456)
         self.assertEqual(n.double, 34)
 
         n = openapi_client.NumberPropertiesOnly.from_json('{"number": 123.1, "float": 456.2, "double": 34.3}')
+        assert n is not None
         self.assertEqual(n.number, 123.1)
         # TODO: pydantic v2: this field name override the default `float` type
         # self.assertEqual(n.float, 456.2)
@@ -187,11 +189,14 @@ class TestManual(unittest.TestCase):
                     " \"status\": \"available\",\n"
                     " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
         pet = openapi_client.Pet.from_json(json_str)
+        assert pet is not None
         self.assertEqual(pet.id, 1)
         self.assertEqual(pet.status, "available")
         self.assertEqual(pet.photo_urls, ["string"])
+        assert pet.tags is not None
         self.assertEqual(pet.tags[0].id, 1)
         self.assertEqual(pet.tags[0].name, "None")
+        assert pet.category is not None
         self.assertEqual(pet.category.id, 1)
         # test to_json
         self.assertEqual(pet.to_json(),
@@ -205,11 +210,14 @@ class TestManual(unittest.TestCase):
 
         # test from_dict
         pet2 = openapi_client.Pet.from_dict(pet.to_dict())
+        assert pet2 is not None
         self.assertEqual(pet2.id, 1)
         self.assertEqual(pet2.status, "available")
         self.assertEqual(pet2.photo_urls, ["string"])
+        assert pet2.tags is not None
         self.assertEqual(pet2.tags[0].id, 1)
         self.assertEqual(pet2.tags[0].name, "None")
+        assert pet2.category is not None
         self.assertEqual(pet2.category.id, 1)
 
     def test_parameters_to_url_query_boolean_value(self):

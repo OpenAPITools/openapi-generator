@@ -52,7 +52,7 @@ class TestManual(unittest.TestCase):
         datetime_format_backup = api_instance.api_client.configuration.datetime_format # backup dateime_format
         api_instance.api_client.configuration.datetime_format = "%Y-%m-%d %a %H:%M:%S%Z"
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
+        date_query = datetime.date(2013, 10, 20) # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
 
         # Test query parameter(s)
@@ -66,7 +66,7 @@ class TestManual(unittest.TestCase):
     def testDateTimeQueryWithDateTime(self):
         api_instance = openapi_client.QueryApi()
         datetime_query = datetime.datetime.fromisoformat('2013-10-20T19:20:30-05:00') # datetime |  (optional)
-        date_query = '2013-10-20' # date |  (optional)
+        date_query = datetime.date(2013, 10, 20) # date |  (optional)
         string_query = 'string_query_example' # str |  (optional)
     
         # Test query parameter(s)
@@ -147,11 +147,14 @@ class TestManual(unittest.TestCase):
                     " \"status\": \"available\",\n"
                     " \"tags\": [{\"id\": 1, \"name\": \"None\"}]}")
         pet = openapi_client.Pet.from_json(json_str)
+        assert pet is not None
         self.assertEqual(pet.id, 1)
         self.assertEqual(pet.status, "available")
         self.assertEqual(pet.photo_urls, ["string"])
+        assert pet.tags is not None
         self.assertEqual(pet.tags[0].id, 1)
         self.assertEqual(pet.tags[0].name, "None")
+        assert pet.category is not None
         self.assertEqual(pet.category.id, 1)
         # test to_json
         self.assertEqual(pet.to_json(),
@@ -165,11 +168,14 @@ class TestManual(unittest.TestCase):
 
         # test from_dict
         pet2 = openapi_client.Pet.from_dict(pet.to_dict())
+        assert pet2 is not None
         self.assertEqual(pet2.id, 1)
         self.assertEqual(pet2.status, "available")
         self.assertEqual(pet2.photo_urls, ["string"])
+        assert pet2.tags is not None
         self.assertEqual(pet2.tags[0].id, 1)
         self.assertEqual(pet2.tags[0].name, "None")
+        assert pet2.category is not None
         self.assertEqual(pet2.category.id, 1)
 
     def echoServerResponseParaserTest(self):

@@ -78,7 +78,7 @@ class IntOrString(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Union[str, dict]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod

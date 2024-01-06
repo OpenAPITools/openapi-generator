@@ -212,14 +212,13 @@ class RESTClientObject:
                         preload_content=False
                     )
                 # Pass a `string` parameter directly in the body to support
-                # other content types than Json when `body` argument is
-                # provided in serialized form
+                # other content types than JSON when `body` argument is
+                # provided in serialized form.
                 elif isinstance(body, str) or isinstance(body, bytes):
-                    request_body = body
                     r = self.pool_manager.request(
                         method,
                         url,
-                        body=request_body,
+                        body=body,
                         timeout=timeout,
                         headers=headers,
                         preload_content=False
