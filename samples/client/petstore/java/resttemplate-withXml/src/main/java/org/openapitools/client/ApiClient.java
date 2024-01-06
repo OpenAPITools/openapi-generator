@@ -164,7 +164,7 @@ public class ApiClient extends JavaTimeFormatter {
     /**
      * Set the max attempts for retry
      *
-     * @param getMaxAttemptsForRetry the max attempts for retry
+     * @param maxAttemptsForRetry the max attempts for retry
      * @return ApiClient this client
      */
     public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
