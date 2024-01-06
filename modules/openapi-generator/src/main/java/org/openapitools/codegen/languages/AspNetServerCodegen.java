@@ -785,6 +785,20 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
             useFrameworkReference = true;
             additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
             additionalProperties.put(TARGET_FRAMEWORK, "net6.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("7.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net7.0");
+        } else if (aspnetCoreVersion.getOptValue().startsWith("8.")) {
+            LOGGER.warn(
+                    "ASP.NET core version is {} so changing to use frameworkReference instead of packageReference ",
+                    aspnetCoreVersion.getOptValue());
+            useFrameworkReference = true;
+            additionalProperties.put(USE_FRAMEWORK_REFERENCE, useFrameworkReference);
+            additionalProperties.put(TARGET_FRAMEWORK, "net8.0");
         } else {
             if (additionalProperties.containsKey(USE_FRAMEWORK_REFERENCE)) {
                 useFrameworkReference = convertPropertyToBooleanAndWriteBack(USE_FRAMEWORK_REFERENCE);
@@ -798,7 +812,10 @@ public class AspNetServerCodegen extends AbstractCSharpCodegen {
     }
 
     private void setAddititonalPropertyForFramework() {
-        if (((String)additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
+        String targetFramework = ((String)additionalProperties.get(TARGET_FRAMEWORK));
+        if (targetFramework.startsWith("net6.0") ||
+            targetFramework.startsWith("net7.0") || 
+            targetFramework.startsWith("net8.0")) {
             additionalProperties.put(NET_60_OR_LATER, true);
         }
     }
