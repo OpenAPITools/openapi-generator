@@ -13,7 +13,7 @@ part of openapi.api;
 class ModelFile {
   /// Returns a new [ModelFile] instance.
   ModelFile({
-    this.sourceURI,
+     this.sourceURI,
   });
 
   /// Test capitalization

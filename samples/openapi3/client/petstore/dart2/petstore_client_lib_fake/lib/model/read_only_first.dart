@@ -13,8 +13,8 @@ part of openapi.api;
 class ReadOnlyFirst {
   /// Returns a new [ReadOnlyFirst] instance.
   ReadOnlyFirst({
-    this.bar,
-    this.baz,
+     this.bar,
+     this.baz,
   });
 
   ///

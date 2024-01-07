@@ -13,7 +13,7 @@ part of openapi.api;
 class ArrayOfNumberOnly {
   /// Returns a new [ArrayOfNumberOnly] instance.
   ArrayOfNumberOnly({
-    this.arrayNumber = const [],
+     this.arrayNumber = const [],
   });
 
   List<num> arrayNumber;

@@ -48,6 +48,13 @@ class EnumClass {
     }
     return result.toList(growable: growable);
   }
+
+  
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumClass && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumClass] to String,

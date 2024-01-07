@@ -13,10 +13,10 @@ part of openapi.api;
 class ObjectWithDeprecatedFields {
   /// Returns a new [ObjectWithDeprecatedFields] instance.
   ObjectWithDeprecatedFields({
-    this.uuid,
-    this.id,
-    this.deprecatedRef,
-    this.bars = const [],
+     this.uuid,
+     this.id,
+     this.deprecatedRef,
+     this.bars = const [],
   });
 
   ///
