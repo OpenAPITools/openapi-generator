@@ -261,8 +261,34 @@ void PFXPrimitivesApi::primitivesIntegerPostCallback(PFXHttpRequestWorker *worke
         emit primitivesIntegerPostSignal();
         emit primitivesIntegerPostSignalFull(worker);
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit primitivesIntegerPostSignalE(error_type, error_str);
         emit primitivesIntegerPostSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit primitivesIntegerPostSignalError(error_type, error_str);
+        emit primitivesIntegerPostSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -313,8 +339,34 @@ void PFXPrimitivesApi::primitivesNumberPutCallback(PFXHttpRequestWorker *worker)
         emit primitivesNumberPutSignal();
         emit primitivesNumberPutSignalFull(worker);
     } else {
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
         emit primitivesNumberPutSignalE(error_type, error_str);
         emit primitivesNumberPutSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        emit primitivesNumberPutSignalError(error_type, error_str);
+        emit primitivesNumberPutSignalErrorFull(worker, error_type, error_str);
     }
 }
 

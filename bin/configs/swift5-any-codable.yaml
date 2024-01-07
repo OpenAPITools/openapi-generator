@@ -1,5 +1,5 @@
 generatorName: swift5
-outputDir: samples/client/petstore/swift5/anycodable
+outputDir: samples/client/petstore/swift5/anycodableLibrary
 inputSpec: modules/openapi-generator/src/test/resources/3_0/any_codable.yaml
 modelNamePrefix: Prefix
 modelNameSuffix: Suffix

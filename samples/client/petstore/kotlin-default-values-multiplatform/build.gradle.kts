@@ -1,17 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform") version "1.7.21" // kotlin_version
-    kotlin("plugin.serialization") version "1.7.21" // kotlin_version
+    kotlin("multiplatform") version "1.9.20" // kotlin_version
+    kotlin("plugin.serialization") version "1.9.20" // kotlin_version
 }
 
 group = "org.openapitools"
 version = "1.0.0"
 
-val kotlin_version = "1.7.21"
-val coroutines_version = "1.6.4"
-val serialization_version = "1.3.3"
-val ktor_version = "2.1.3"
+val kotlin_version = "1.9.20"
+val coroutines_version = "1.7.3"
+val serialization_version = "1.6.1"
+val ktor_version = "2.3.6"
 
 repositories {
     mavenCentral()
@@ -19,14 +19,16 @@ repositories {
 
 kotlin {
     jvm()
-    ios { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
     js {
         browser()
         nodejs()
     }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serialization_version")
@@ -35,44 +37,42 @@ kotlin {
                 api("io.ktor:ktor-client-serialization:$ktor_version")
                 api("io.ktor:ktor-client-content-negotiation:$ktor_version")
                 api("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+
+                api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
             }
         }
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("io.ktor:ktor-client-mock:$ktor_version")
             }
         }
 
-        val jvmMain by getting {
+        jvmMain {
             dependencies {
                 implementation(kotlin("stdlib-jdk7"))
                 implementation("io.ktor:ktor-client-cio-jvm:$ktor_version")
             }
         }
 
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 implementation(kotlin("test-junit"))
             }
         }
 
-        val iosMain by getting {
+        iosMain {
             dependencies {
                 api("io.ktor:ktor-client-ios:$ktor_version")
             }
         }
 
-        val iosTest by getting
-
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 api("io.ktor:ktor-client-js:$ktor_version")
             }
         }
-
-        val jsTest by getting
 
         all {
             languageSettings.apply {

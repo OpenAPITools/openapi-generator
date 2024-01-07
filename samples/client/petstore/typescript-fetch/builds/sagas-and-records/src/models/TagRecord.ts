@@ -67,8 +67,8 @@ class TagRecordUtils extends ApiRecordUtils<Tag, TagRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }

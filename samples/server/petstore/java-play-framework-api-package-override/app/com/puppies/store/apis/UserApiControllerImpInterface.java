@@ -1,6 +1,5 @@
 package com.puppies.store.apis;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
 
@@ -21,6 +20,7 @@ import static play.mvc.Results.unauthorized;
 import play.libs.Files.TemporaryFile;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @SuppressWarnings("RedundantThrows")
 public abstract class UserApiControllerImpInterface {
@@ -36,21 +36,21 @@ public abstract class UserApiControllerImpInterface {
 
     public abstract void createUser(Http.Request request, User body) throws Exception;
 
-    public Result createUsersWithArrayInputHttp(Http.Request request, List<User> body) throws Exception {
+    public Result createUsersWithArrayInputHttp(Http.Request request, List<@Valid User> body) throws Exception {
         createUsersWithArrayInput(request, body);
         return ok();
 
     }
 
-    public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception;
+    public abstract void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception;
 
-    public Result createUsersWithListInputHttp(Http.Request request, List<User> body) throws Exception {
+    public Result createUsersWithListInputHttp(Http.Request request, List<@Valid User> body) throws Exception {
         createUsersWithListInput(request, body);
         return ok();
 
     }
 
-    public abstract void createUsersWithListInput(Http.Request request, List<User> body) throws Exception;
+    public abstract void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception;
 
     public Result deleteUserHttp(Http.Request request, String username) throws Exception {
         deleteUser(request, username);

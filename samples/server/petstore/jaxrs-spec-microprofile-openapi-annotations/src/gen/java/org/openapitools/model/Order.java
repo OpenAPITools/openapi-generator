@@ -1,13 +1,10 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -49,7 +46,7 @@ public class Order  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static StatusEnum fromString(String s) {
+    public static StatusEnum fromString(String s) {
         for (StatusEnum b : StatusEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -58,8 +55,8 @@ public class Order  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -94,7 +91,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("id")
   public Long getId() {
@@ -114,7 +110,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("petId")
   public Long getPetId() {
@@ -134,7 +129,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
@@ -154,7 +148,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("shipDate")
   public LocalDateTime getShipDate() {
@@ -175,7 +168,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "Order Status")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
@@ -195,7 +187,6 @@ public class Order  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("complete")
   public Boolean getComplete() {

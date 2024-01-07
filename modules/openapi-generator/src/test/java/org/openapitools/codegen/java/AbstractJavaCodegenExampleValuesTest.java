@@ -153,5 +153,17 @@ public class AbstractJavaCodegenExampleValuesTest {
         public String getArtifactVersion() {
             return this.artifactVersion;
         }
+        @Test
+        void customExampleForEnumValue() {
+            final AbstractJavaCodegen fakeJavaCodegen = new P_AbstractJavaCodegen();
+            final CodegenParameter p = new CodegenParameter();
+            p.allowableValues = Collections.singletonMap("values", Arrays.asList("first", "second"));
+            p.dataType = "WrappedEnum";
+            p.example = "CustomEnumValue";
+
+            fakeJavaCodegen.setParameterExampleValue(p);
+            // Custom example value should not be modified
+            Assert.assertEquals(p.example, "CustomEnumValue");
+        }
     }
 }

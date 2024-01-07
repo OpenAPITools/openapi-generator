@@ -1,5 +1,5 @@
 import type { Configuration } from "../configuration";
-import type { HttpFile, RequestContext, ResponseContext } from "../http/http";
+import type { HttpFile, RequestContext, ResponseContext, HttpInfo } from "../http/http";
 
 import { Order } from "../models/Order";
 
@@ -16,12 +16,12 @@ export abstract class AbstractStoreApiRequestFactory {
 
 
 export abstract class AbstractStoreApiResponseProcessor {
-     public abstract deleteOrder(response: ResponseContext): Promise< void>;
+     public abstract deleteOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo< void>>;
 
-     public abstract getInventory(response: ResponseContext): Promise<{ [key: string]: number; } >;
+     public abstract getInventoryWithHttpInfo(response: ResponseContext): Promise<HttpInfo<{ [key: string]: number; } >>;
 
-     public abstract getOrderById(response: ResponseContext): Promise<Order >;
+     public abstract getOrderByIdWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >>;
 
-     public abstract placeOrder(response: ResponseContext): Promise<Order >;
+     public abstract placeOrderWithHttpInfo(response: ResponseContext): Promise<HttpInfo<Order >>;
 
 }

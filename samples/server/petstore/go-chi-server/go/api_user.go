@@ -172,8 +172,27 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
 	usernameParam := chi.URLParam(r, "username")
-	result, err := c.service.DeleteUser(r.Context(), usernameParam)
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
+	var booleanTestParam bool
+	if query.Has("boolean_test") {
+		param, err := parseBoolParameter(
+			query.Get("boolean_test"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		booleanTestParam = param
+	} else {
+	}
+	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -186,6 +205,10 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -199,9 +222,39 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
-	usernameParam := query.Get("username")
-	passwordParam := query.Get("password")
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam)
+	var usernameParam string
+	if query.Has("username") {
+		param := query.Get("username")
+
+		usernameParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "username"}, nil)
+		return
+	}
+	var passwordParam string
+	if query.Has("password") {
+		param := query.Get("password")
+
+		passwordParam = param
+	} else {
+		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
+		return
+	}
+	var booleanTestParam bool
+	if query.Has("boolean_test") {
+		param, err := parseBoolParameter(
+			query.Get("boolean_test"),
+			WithParse[bool](parseBool),
+		)
+		if err != nil {
+			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+			return
+		}
+
+		booleanTestParam = param
+	} else {
+	}
+	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -226,6 +279,10 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	usernameParam := chi.URLParam(r, "username")
+	if usernameParam == "" {
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
+		return
+	}
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

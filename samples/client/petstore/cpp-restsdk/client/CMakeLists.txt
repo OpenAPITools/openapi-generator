@@ -12,6 +12,7 @@ cmake_minimum_required (VERSION 3.1)
 
 project(CppRestPetstoreClient)
 
+# Force -fPIC even if the project is configured for building a static library.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CXX_STANDARD_REQUIRED ON)
 
@@ -46,19 +47,20 @@ target_include_directories(${PROJECT_NAME}
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_directories(${PROJECT_NAME}
-    PRIVATE
-        ${Boost_LIBRARY_DIRS}
-)
-
 if (UNIX)
     message(STATUS "Building client library for Linux/Unix")
-
-    target_link_libraries(${PROJECT_NAME} PUBLIC cpprest ${Boost_LIBRARIES} crypto)
+    if (BUILD_SHARED_LIBS)
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
+    else()
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest crypto)
+    endif()
 else()
     message(STATUS "Building client library for Windows")
-
-    target_link_libraries(${PROJECT_NAME} PUBLIC cpprestsdk::cpprest ${Boost_LIBRARIES} bcrypt)
+    if (BUILD_SHARED_LIBS)
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest)
+    else()
+        target_link_libraries(${PROJECT_NAME} PUBLIC Boost::headers cpprestsdk::cpprest bcrypt)
+    endif()
 endif()
 
 configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in

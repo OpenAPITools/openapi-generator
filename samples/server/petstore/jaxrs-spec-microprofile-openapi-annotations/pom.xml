@@ -15,14 +15,13 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus-plugin.version>1.1.1.Final</quarkus-plugin.version>
-    <quarkus.platform.version>1.1.1.Final</quarkus.platform.version>
+    <quarkus-plugin.version>1.13.7.Final</quarkus-plugin.version>
+    <quarkus.platform.version>1.13.7.Final</quarkus.platform.version>
     <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
     <javax.ws.rs-version>2.1.1</javax.ws.rs-version>
     <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
-    <io.swagger.annotations.version>1.6.10</io.swagger.annotations.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -65,12 +64,6 @@
        <artifactId>javax.annotation-api</artifactId>
        <version>${javax.annotation-api-version}</version>
     </dependency>
-     <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-annotations</artifactId>
-        <version>${io.swagger.annotations.version}</version>
-        <scope>provided</scope>
-     </dependency>
   </dependencies>
   <build>
     <plugins>

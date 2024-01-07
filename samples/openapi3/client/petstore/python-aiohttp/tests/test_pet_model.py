@@ -14,7 +14,7 @@ from pydantic import ValidationError
 class PetModelTests(unittest.TestCase):
 
     def setUp(self):
-        self.pet = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
         self.pet.status = "available"
         cate = petstore_api.Category(name="dog")
@@ -35,7 +35,7 @@ class PetModelTests(unittest.TestCase):
         self.assertEqual(data, self.pet.to_str())
 
     def test_equal(self):
-        self.pet1 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet1 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet1.id = 1
         self.pet1.status = "available"
         cate1 = petstore_api.Category(name="dog")
@@ -46,7 +46,7 @@ class PetModelTests(unittest.TestCase):
         tag1.id = 1
         self.pet1.tags = [tag1]
 
-        self.pet2 = petstore_api.Pet(name="test name", photo_urls=["string"])
+        self.pet2 = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet2.id = 1
         self.pet2.status = "available"
         cate2 = petstore_api.Category(name="dog")
@@ -102,7 +102,6 @@ class PetModelTests(unittest.TestCase):
         pet = petstore_api.Pet(**d)
         self.assertEqual(pet.to_json(), '{"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]}')
         self.assertEqual(pet.to_dict(), {"id": 123, "name": "required name", "photoUrls": ["https://a.com", "https://b.com"]})
-
     def test_optional_fields(self):
         pet = petstore_api.Pet(name="required name",
                                photoUrls=["https://a.com",

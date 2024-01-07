@@ -131,16 +131,20 @@ func (o Tag) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Tag) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Tag) UnmarshalJSON(data []byte) (err error) {
 	varTag := _Tag{}
 
-	if err = json.Unmarshal(bytes, &varTag); err == nil {
-		*o = Tag(varTag)
+	err = json.Unmarshal(data, &varTag)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Tag(varTag)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
 		o.AdditionalProperties = additionalProperties

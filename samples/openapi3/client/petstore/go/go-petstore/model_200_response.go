@@ -131,16 +131,20 @@ func (o Model200Response) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Model200Response) UnmarshalJSON(data []byte) (err error) {
 	varModel200Response := _Model200Response{}
 
-	if err = json.Unmarshal(bytes, &varModel200Response); err == nil {
-		*o = Model200Response(varModel200Response)
+	err = json.Unmarshal(data, &varModel200Response)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Model200Response(varModel200Response)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "class")
 		o.AdditionalProperties = additionalProperties

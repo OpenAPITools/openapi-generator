@@ -92,10 +92,10 @@ function {{classname}}:{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{
 	-- TODO: api key in query '{{keyParamName}}'
 	{{/isKeyInQuery}}
 	{{/isApiKey}}
-	{{#isBasic}}
+	{{#isBasicBasic}}
 	-- HTTP basic auth
 	req.readers:upsert("authorization", "Basic " .. basexx.to_base64(self.http_username .. " " .. self.http_password))
-	{{/isBasic}}
+	{{/isBasicBasic}}
 	{{#isOAuth}}
 	-- oAuth
 	if self.access_token then

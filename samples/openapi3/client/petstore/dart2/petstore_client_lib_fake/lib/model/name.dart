@@ -47,10 +47,10 @@ class Name {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Name &&
-     other.name == name &&
-     other.snakeCase == snakeCase &&
-     other.property == property &&
-     other.n123number == n123number;
+    other.name == name &&
+    other.snakeCase == snakeCase &&
+    other.property == property &&
+    other.n123number == n123number;
 
   @override
   int get hashCode =>

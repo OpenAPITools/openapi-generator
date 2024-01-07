@@ -11,7 +11,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springfox.version>2.9.2</springfox.version>
-        <swagger-ui.version>4.15.5</swagger-ui.version>
+        <swagger-ui.version>5.3.1</swagger-ui.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>

@@ -1,10 +1,8 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http';
+import { ResponseContext, RequestContext, HttpFile, HttpInfo } from '../http/http';
 import { Configuration} from '../configuration'
 
 import { Cat } from '../models/Cat';
-import { CatAllOf } from '../models/CatAllOf';
 import { Dog } from '../models/Dog';
-import { DogAllOf } from '../models/DogAllOf';
 import { FilePostRequest } from '../models/FilePostRequest';
 import { PetByAge } from '../models/PetByAge';
 import { PetByType } from '../models/PetByType';
@@ -51,6 +49,13 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
+    public filePostWithHttpInfo(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.filePostWithHttpInfo(param.filePostRequest,  options).toPromise();
+    }
+
+    /**
+     * @param param the request object
+     */
     public filePost(param: DefaultApiFilePostRequest = {}, options?: Configuration): Promise<void> {
         return this.api.filePost(param.filePostRequest,  options).toPromise();
     }
@@ -58,8 +63,22 @@ export class ObjectDefaultApi {
     /**
      * @param param the request object
      */
+    public petsFilteredPatchWithHttpInfo(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.petsFilteredPatchWithHttpInfo(param.petsFilteredPatchRequest,  options).toPromise();
+    }
+
+    /**
+     * @param param the request object
+     */
     public petsFilteredPatch(param: DefaultApiPetsFilteredPatchRequest = {}, options?: Configuration): Promise<void> {
         return this.api.petsFilteredPatch(param.petsFilteredPatchRequest,  options).toPromise();
+    }
+
+    /**
+     * @param param the request object
+     */
+    public petsPatchWithHttpInfo(param: DefaultApiPetsPatchRequest = {}, options?: Configuration): Promise<HttpInfo<void>> {
+        return this.api.petsPatchWithHttpInfo(param.petsPatchRequest,  options).toPromise();
     }
 
     /**

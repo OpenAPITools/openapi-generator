@@ -4,14 +4,16 @@
                  "item": [
                         {{#vendorExtensions.postmanRequests}}
                             {
-                                "name": "{{name}}",
+                                "name": "{{{name}}}",
                                 "request": {
                                     "method": "{{httpMethod}}",
                                     "header": [
                                     {{#headerParams}}
                                         {
-                                            "key": "{{paramName}}",
-                                            "value": "{{schema.defaultValue}}"
+                                            "key": "{{baseName}}",
+                                            "value": "{{schema.defaultValue}}",
+                                            "description": "{{{description}}}",
+                                            "disabled": {{#schema.defaultValue}}false{{/schema.defaultValue}}{{^schema.defaultValue}}true{{/schema.defaultValue}}
                                         }{{^-last}},{{/-last}}
                                     {{/headerParams}}
                                     ],
@@ -38,8 +40,8 @@
                                             {{#pathParams}}
                                             {
                                                 "key": "{{paramName}}",
-                                                "value": "",
-                                                "description": "{{description}}"
+                                                "value": "{{defaultValue}}",
+                                                "description": "{{{description}}}"
                                             }{{^-last}},{{/-last}}
                                         {{/pathParams}}
                                         ],
@@ -47,7 +49,9 @@
                                             {{#queryParams}}
                                             {
                                                 "key": "{{paramName}}",
-                                                "value": "{{example}}"
+                                                "value": "{{example}}",
+                                                "description": "{{{description}}}",
+                                                "disabled": {{#required}}false{{/required}}{{^required}}true{{/required}}
                                             }{{^-last}},{{/-last}}
                                             {{/queryParams}}
                                         ]

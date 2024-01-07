@@ -1,0 +1,7 @@
+generatorName: powershell
+outputDir: samples/client/echo_api/powershell
+inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/powershell
+additionalProperties:
+  hideGenerationTimestamp: "true"
+  packageGuid: a27b908d-2a20-467f-bc32-af6f3a654ac5

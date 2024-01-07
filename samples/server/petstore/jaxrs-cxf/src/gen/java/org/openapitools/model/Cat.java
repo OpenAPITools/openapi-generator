@@ -40,7 +40,7 @@ public class Cat extends Animal {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(declawed, cat.declawed) &&
+    return Objects.equals(this.declawed, cat.declawed) &&
         super.equals(o);
   }
 

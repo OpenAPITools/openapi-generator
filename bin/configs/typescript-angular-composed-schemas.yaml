@@ -1,0 +1,8 @@
+generatorName: typescript-angular
+outputDir: samples/client/others/typescript-angular/builds/composed-schemas
+inputSpec: modules/openapi-generator/src/test/resources/3_0/typescript-angular/composed-schemas.yaml
+templateDir: modules/openapi-generator/src/main/resources/typescript-angular
+additionalProperties:
+  stringEnums: true
+  modelSuffix: Model
+  enumSuffix: Enum

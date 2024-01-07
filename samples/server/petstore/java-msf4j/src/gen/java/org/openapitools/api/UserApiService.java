@@ -22,9 +22,9 @@ import javax.ws.rs.core.SecurityContext;
 public abstract class UserApiService {
     public abstract Response createUser(User body
  ) throws NotFoundException;
-    public abstract Response createUsersWithArrayInput(List<User> body
+    public abstract Response createUsersWithArrayInput(List<@Valid User> body
  ) throws NotFoundException;
-    public abstract Response createUsersWithListInput(List<User> body
+    public abstract Response createUsersWithListInput(List<@Valid User> body
  ) throws NotFoundException;
     public abstract Response deleteUser(String username
  ) throws NotFoundException;

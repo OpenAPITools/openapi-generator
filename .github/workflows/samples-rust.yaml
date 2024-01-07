@@ -3,12 +3,14 @@ name: Samples Rust
 on:
   push:
     paths:
-      - 'samples/client/petstore/rust/**'
-      - 'samples/server/petstore/rust-server/**'
+      - "samples/client/others/rust/**"
+      - "samples/server/petstore/rust-server/**"
+      - "samples/client/petstore/rust-server/**"
   pull_request:
     paths:
-      - 'samples/client/petstore/rust/**'
-      - 'samples/server/petstore/rust-server/**'
+      - "samples/client/others/rust/**"
+      - "samples/client/petstore/rust/**"
+      - "samples/server/petstore/rust-server/**"
 
 jobs:
   build:
@@ -19,10 +21,11 @@ jobs:
       matrix:
         sample:
           # these folders contain sub-projects of rust clients, servers
+          - samples/client/others/rust/
           - samples/client/petstore/rust/
           - samples/server/petstore/rust-server/
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable

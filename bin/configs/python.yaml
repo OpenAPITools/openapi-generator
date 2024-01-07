@@ -7,3 +7,9 @@ additionalProperties:
   useOneOfDiscriminatorLookup: "true"
   disallowAdditionalPropertiesIfNotPresent: false
   mapNumberTo: StrictFloat
+nameMappings:
+  _type: underscore_type
+  type_: type_with_underscore
+modelNameMappings:
+  # The OpenAPI spec ApiResponse conflicts with the internal ApiResponse
+  ApiResponse: ModelApiResponse

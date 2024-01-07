@@ -108,6 +108,7 @@ public class DataQueryAllOf {
     this.date = date;
   }
 
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {

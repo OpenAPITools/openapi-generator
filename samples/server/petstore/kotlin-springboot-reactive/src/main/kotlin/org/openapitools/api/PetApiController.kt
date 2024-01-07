@@ -73,7 +73,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "findPetsByStatus",
         description = """Multiple status values can be provided with comma separated strings""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid status value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )
@@ -91,7 +91,7 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         operationId = "findPetsByTags",
         description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
         responses = [
-            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(schema = Schema(implementation = Pet::class))]),
+            ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value") ],
         security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
     )

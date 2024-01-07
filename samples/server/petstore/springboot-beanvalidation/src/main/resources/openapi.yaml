@@ -986,6 +986,27 @@ paths:
       x-accepts: application/json
       x-tags:
       - tag: fake
+  /fake/nullable:
+    post:
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test nullable parent property
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
   /fake/body-with-query-params:
     put:
       operationId: testBodyWithQueryParams
@@ -1085,6 +1106,23 @@ paths:
       tags:
       - fake
       x-content-type: application/json
+      x-accepts: application/json
+      x-tags:
+      - tag: fake
+  /fake/response-with-example:
+    get:
+      description: This endpoint defines an example value for its response schema.
+      operationId: testWithResultExample
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                example: 42
+                type: integer
+          description: Success
+      tags:
+      - fake
       x-accepts: application/json
       x-tags:
       - tag: fake
@@ -1439,15 +1477,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -1831,6 +1883,25 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - ChildWithNullable
+          type: string
+        nullableProperty:
+          nullable: true
+          type: string
+      type: object
+    ChildWithNullable:
+      allOf:
+      - $ref: '#/components/schemas/ParentWithNullable'
+      - properties:
+          otherProperty:
+            type: string
+        type: object
     StringBooleanMap:
       additionalProperties:
         type: boolean
@@ -2155,6 +2226,14 @@ components:
         property name with spaces:
           type: string
       type: object
+    NullableMapProperty:
+      properties:
+        languageValues:
+          additionalProperties:
+            type: string
+          nullable: true
+          type: object
+      type: object
     updatePetWithForm_request:
       properties:
         name:
@@ -2290,29 +2369,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

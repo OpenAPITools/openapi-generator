@@ -36,6 +36,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
     public static final String GEM_SUMMARY_VALUE = "summary";
     public static final String GEM_DESCRIPTION_VALUE = "description";
     public static final String GEM_AUTHOR_VALUE = "foo";
+    public static final String GEM_METADATA_VALUE = "{}";
     public static final String GEM_AUTHOR_EMAIL_VALUE = "foo";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
@@ -61,6 +62,7 @@ public class RubyClientOptionsProvider implements OptionsProvider {
                 .put(RubyClientCodegen.GEM_SUMMARY, GEM_SUMMARY_VALUE)
                 .put(RubyClientCodegen.GEM_AUTHOR, GEM_AUTHOR_VALUE)
                 .put(RubyClientCodegen.GEM_AUTHOR_EMAIL, GEM_AUTHOR_EMAIL_VALUE)
+                .put(RubyClientCodegen.GEM_METADATA, GEM_METADATA_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
                 .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)

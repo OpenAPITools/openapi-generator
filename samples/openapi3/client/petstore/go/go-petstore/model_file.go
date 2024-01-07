@@ -96,16 +96,20 @@ func (o File) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *File) UnmarshalJSON(bytes []byte) (err error) {
+func (o *File) UnmarshalJSON(data []byte) (err error) {
 	varFile := _File{}
 
-	if err = json.Unmarshal(bytes, &varFile); err == nil {
-		*o = File(varFile)
+	err = json.Unmarshal(data, &varFile)
+
+	if err != nil {
+		return err
 	}
+
+	*o = File(varFile)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "sourceURI")
 		o.AdditionalProperties = additionalProperties
 	}

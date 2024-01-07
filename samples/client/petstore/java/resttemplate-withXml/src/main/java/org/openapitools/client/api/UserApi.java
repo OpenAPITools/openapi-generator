@@ -50,27 +50,27 @@ public class UserApi {
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param body Created user object (required)
+     * @param user Created user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUser(User body) throws RestClientException {
-        createUserWithHttpInfo(body);
+    public void createUser(User user) throws RestClientException {
+        createUserWithHttpInfo(user);
     }
 
     /**
      * Create user
      * This can only be done by the logged in user.
      * <p><b>0</b> - successful operation
-     * @param body Created user object (required)
+     * @param user Created user object (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUserWithHttpInfo(User body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> createUserWithHttpInfo(User user) throws RestClientException {
+        Object localVarPostBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUser");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUser");
         }
         
 
@@ -81,7 +81,9 @@ public class UserApi {
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -93,27 +95,27 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithArrayInput(List<User> body) throws RestClientException {
-        createUsersWithArrayInputWithHttpInfo(body);
+    public void createUsersWithArrayInput(List<User> user) throws RestClientException {
+        createUsersWithArrayInputWithHttpInfo(user);
     }
 
     /**
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws RestClientException {
+        Object localVarPostBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
         }
         
 
@@ -124,7 +126,9 @@ public class UserApi {
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -136,27 +140,27 @@ public class UserApi {
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void createUsersWithListInput(List<User> body) throws RestClientException {
-        createUsersWithListInputWithHttpInfo(body);
+    public void createUsersWithListInput(List<User> user) throws RestClientException {
+        createUsersWithListInputWithHttpInfo(user);
     }
 
     /**
      * Creates list of users with given input array
      * 
      * <p><b>0</b> - successful operation
-     * @param body List of user object (required)
+     * @param user List of user object (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws RestClientException {
+        Object localVarPostBody = user;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling createUsersWithListInput");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling createUsersWithListInput");
         }
         
 
@@ -167,7 +171,9 @@ public class UserApi {
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };
@@ -322,6 +328,7 @@ public class UserApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
 
+
         final String[] localVarAccepts = { 
             "application/xml", "application/json"
          };
@@ -376,11 +383,11 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted (required)
-     * @param body Updated user object (required)
+     * @param user Updated user object (required)
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public void updateUser(String username, User body) throws RestClientException {
-        updateUserWithHttpInfo(username, body);
+    public void updateUser(String username, User user) throws RestClientException {
+        updateUserWithHttpInfo(username, user);
     }
 
     /**
@@ -389,21 +396,21 @@ public class UserApi {
      * <p><b>400</b> - Invalid user supplied
      * <p><b>404</b> - User not found
      * @param username name that need to be deleted (required)
-     * @param body Updated user object (required)
+     * @param user Updated user object (required)
      * @return ResponseEntity&lt;Void&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Void> updateUserWithHttpInfo(String username, User body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Void> updateUserWithHttpInfo(String username, User user) throws RestClientException {
+        Object localVarPostBody = user;
         
         // verify the required parameter 'username' is set
         if (username == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'username' when calling updateUser");
         }
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling updateUser");
+        // verify the required parameter 'user' is set
+        if (user == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'user' when calling updateUser");
         }
         
         // create path and map variables
@@ -417,7 +424,9 @@ public class UserApi {
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };

@@ -190,7 +190,7 @@ char *assembleHeaderField(char *key, char *value) {
 void postData(CURL *handle, const char *bodyParameters) {
     curl_easy_setopt(handle, CURLOPT_POSTFIELDS, bodyParameters);
     curl_easy_setopt(handle, CURLOPT_POSTFIELDSIZE_LARGE,
-                     strlen(bodyParameters));
+                     (curl_off_t)strlen(bodyParameters));
 }
 
 int lengthOfKeyPair(keyValuePair_t *keyPair) {

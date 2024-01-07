@@ -406,8 +406,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         if (!loadTestDataFromFile) {
             op.imports.add("ArrayList");
             buffer.append("new ArrayList<");
-            if (supportJava6)
-                buffer.append(var.dataType);
             buffer.append(">();");
         }
         var.index = var.size();
@@ -467,8 +465,6 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         if (!loadTestDataFromFile) {
             op.imports.add("HashMap");
             buffer.append("new HashMap<");
-            if (supportJava6)
-                buffer.append("String, ").append(var.dataType);
             buffer.append(">();");
         }
         var.index = var.size();

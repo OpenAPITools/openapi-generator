@@ -19,7 +19,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>7.0.0-SNAPSHOT</version>
+                <version>7.3.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <dependencies>
                     <dependency>
@@ -147,7 +147,7 @@
         <dependency>
             <groupId>com.github.scribejava</groupId>
             <artifactId>scribejava-apis</artifactId>
-            <version>8.3.1</version>
+            <version>8.3.3</version>
         </dependency>
         <dependency>
             <groupId>org.tomitribe</groupId>

@@ -1,11 +1,17 @@
 ---
-# csharp-netcore test files and image for upload
-- filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/JSONComposedSchemaTests.cs"
+# csharp test files and image for upload
+- filename: "samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/JSONComposedSchemaTests.cs"
   sha256: 054adb6efaff70f492e471cb3e4d628d22cda814906808fd3fcce36ce710b7ee
-- filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/Api/PetApiTests.cs"
+- filename: "samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/Api/PetApiTests.cs"
   sha256: 7dad88554fe630d25c787cae05305d302d5e34ca810aee4fa23f20055f9188e1
-- filename: "samples/client/petstore/csharp-netcore/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png"
+- filename: "samples/client/petstore/csharp/OpenAPIClient/src/Org.OpenAPITools.Test/linux-logo.png"
   sha256: 0a67c32728197e942b13bdda064b73793f12f5c795f1e5cf35a3adf69c973230
 # java okhttp gson test files
 - filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/ClientTest.java"
   sha256: db505f7801fef62c13a08a8e9ca1fc4c5c947ab46b46f12943139d353feacf17
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/JSONTest.java"
+  sha256: 6db714e9744c150c8982c3cb18e4f37a9c1ecd8f72f6d58943986e781ab4a344
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/api/PetApiTest.java"
+  sha256: 0d64cdc11809a7b5b952ccdad2bd91bd0045b3894d6fabf3e368fa0be12b8217
+- filename: "samples/client/petstore/java/okhttp-gson/src/test/java/org/openapitools/client/model/PetTest.java"
+  sha256: a1f8a70bf7b0c382a8def5bacf7b1fb189e687fabb40235aa799001e0597f545

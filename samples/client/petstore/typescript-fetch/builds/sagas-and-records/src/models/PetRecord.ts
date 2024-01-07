@@ -130,8 +130,8 @@ class PetRecordUtils extends ApiRecordUtils<Pet, PetRecord> {
             _entries: _entries_original,
             tags: tags_original,
             optionalTags: optionalTags_original,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
             // @ts-ignore

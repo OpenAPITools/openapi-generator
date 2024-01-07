@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.headers.Header;
 import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.QueryParameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -141,11 +142,11 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 2);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Schema schema2 = openAPI.getComponents().getSchemas().get("OneOfTest");
-        assertEquals(schema2.getOneOf().size(), 2);
+        assertEquals(schema2.getOneOf().size(), 4);
         assertNull(schema2.getNullable());
 
         Schema schema5 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
@@ -168,6 +169,7 @@ public class OpenAPINormalizerTest {
         Schema schema4 = openAPI.getComponents().getSchemas().get("OneOfTest");
         assertNull(schema4.getOneOf());
         assertTrue(schema4 instanceof IntegerSchema);
+        assertTrue(schema4.getNullable());
 
         Schema schema6 = openAPI.getComponents().getSchemas().get("OneOfNullableTest");
         assertEquals(schema6.getOneOf().size(), 2);
@@ -242,6 +244,24 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testOpenAPINormalizerSetTagsToOperationId() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 2);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_TAGS_TO_OPERATIONID", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().size(), 1);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getTags().get(0), "list");
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getTags().get(0), "delete");
+    }
+
+    @Test
     public void testAddUnsignedToIntegerWithInvalidMaxValue() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/addUnsignedToIntegerWithInvalidMaxValue_test.yaml");
 
@@ -273,7 +293,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -292,7 +312,7 @@ public class OpenAPINormalizerTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/convertEnumNullToNullable_test.yaml");
 
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -313,7 +333,7 @@ public class OpenAPINormalizerTest {
 
         // before test
         Schema schema = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema.getAnyOf().size(), 3);
+        assertEquals(schema.getAnyOf().size(), 4);
         assertNull(schema.getNullable());
 
         Map<String, String> options = new HashMap<>();
@@ -323,7 +343,7 @@ public class OpenAPINormalizerTest {
 
         // checks should be the same after test
         Schema schema3 = openAPI.getComponents().getSchemas().get("AnyOfTest");
-        assertEquals(schema3.getAnyOf().size(), 3);
+        assertEquals(schema3.getAnyOf().size(), 4);
         assertNull(schema3.getNullable());
     }
 
@@ -351,5 +371,47 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) newSchema.getProperties().get("isParent")).getType(), "boolean");
         assertEquals(((Schema) newSchema.getProperties().get("mum_or_dad")).getType(), "string");
         assertEquals(newSchema.getRequired().get(0), "isParent");
+    }
+
+    @Test
+    public void testNormalize31Schema() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
+
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZE_31SPEC", "true"
+        );
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        Schema pet = openAPI.getComponents().getSchemas().get("Pet");
+        // verify schema for property id
+        Schema petSchema = (Schema)pet.getProperties().get("id");
+        // both type and types are defined
+        assertNotNull(petSchema.getType());
+        assertNotNull(petSchema.getTypes());
+    }
+
+    @Test
+    public void testNormalize31Parameters() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/common-parameters.yaml");
+
+        Map<String, String> inputRules = Map.of(
+                "NORMALIZE_31SPEC", "true"
+        );
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, inputRules);
+        openAPINormalizer.normalize();
+
+        PathItem pathItem = openAPI.getPaths().get("/pet/{petId}");
+        assertNotNull(pathItem);
+
+        // check common parameters
+        assertEquals(pathItem.getParameters().size(), 1);
+        assertNotNull(pathItem.getParameters().get(0).getSchema().getType());
+        assertNotNull(pathItem.getParameters().get(0).getSchema().getTypes());
+
+        // check operation (delete) parameters
+        assertEquals(pathItem.getDelete().getParameters().size(), 1);
+        assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getType());
+        assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getTypes());
     }
 }

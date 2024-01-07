@@ -10,10 +10,6 @@
 package petstoreserver
 
 
-import (
-	"encoding/json"
-)
-
 
 
 // Category - A category for a pet
@@ -22,13 +18,6 @@ type Category struct {
 	Id int64 `json:"id,omitempty"`
 
 	Name string `json:"name,omitempty"`
-}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Category) UnmarshalJSON(data []byte) error {
-
-	type Alias Category // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
 }
 
 // AssertCategoryRequired checks if the required fields are not zero-ed

@@ -78,10 +78,12 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>async</li>
 <li>auth_settings</li>
 <li>await</li>
+<li>base64</li>
 <li>body_params</li>
 <li>break</li>
 <li>class</li>
 <li>continue</li>
+<li>date</li>
 <li>def</li>
 <li>del</li>
 <li>elif</li>
@@ -90,6 +92,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>exec</li>
 <li>false</li>
 <li>finally</li>
+<li>float</li>
 <li>for</li>
 <li>form_params</li>
 <li>from</li>
@@ -99,6 +102,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>import</li>
 <li>in</li>
 <li>is</li>
+<li>json</li>
 <li>lambda</li>
 <li>local_var_files</li>
 <li>none</li>
@@ -113,6 +117,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>raise</li>
 <li>resource_path</li>
 <li>return</li>
+<li>schema</li>
 <li>self</li>
 <li>true</li>
 <li>try</li>
@@ -230,6 +235,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -20,7 +20,12 @@ require 'date'
 describe 'FormatTest' do
   before do
     # run before each test
-    @instance = Petstore::FormatTest.new
+    @instance = Petstore::FormatTest.new({
+      number: 65,
+      byte: '1234356',
+      date: Date.parse('2007-12-03T10:15:30+01:00'),
+      password: 'password123'
+    })
   end
 
   after do

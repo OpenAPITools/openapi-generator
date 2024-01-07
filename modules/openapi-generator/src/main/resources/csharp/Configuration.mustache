@@ -1,13 +1,22 @@
 {{>partial_header}}
+
 using System;
-using System.Reflection;
 {{^net35}}
 using System.Collections.Concurrent;
 {{/net35}}
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Net.Http;
+using System.Net.Security;
+{{#useRestSharp}}
+{{#hasOAuthMethods}}using {{packageName}}.Client.Auth;
+{{/hasOAuthMethods}}
+{{/useRestSharp}}
 
 namespace {{packageName}}.Client
 {
@@ -35,9 +44,6 @@ namespace {{packageName}}.Client
 
         #region Static Members
 
-        private static readonly object GlobalConfigSync = new { };
-        private static Configuration _globalConfiguration;
-
         /// <summary>
         /// Default creation of exceptions for a given method name and response object
         /// </summary>
@@ -47,71 +53,153 @@ namespace {{packageName}}.Client
             if (status >= 400)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.Content),
-                    response.Content);
+                    string.Format("Error calling {0}: {1}", methodName, response.RawContent),
+                    response.RawContent, response.Headers);
             }
-            {{^netStandard}}if (status == 0)
+            {{^netStandard}}
+            if (status == 0)
             {
                 return new ApiException(status,
-                    string.Format("Error calling {0}: {1}", methodName, response.ErrorMessage), response.ErrorMessage);
-            }{{/netStandard}}
+                    string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText);
+            }
+            {{/netStandard}}
             return null;
         };
-
-        /// <summary>
-        /// Gets or sets the default Configuration.
-        /// </summary>
-        /// <value>Configuration.</value>
-        public static Configuration Default
-        {
-            get { return _globalConfiguration; }
-            set
-            {
-                lock (GlobalConfigSync)
-                {
-                    _globalConfiguration = value;
-                }
-            }
-        }
 
         #endregion Static Members
 
         #region Private Members
 
         /// <summary>
+        /// Defines the base path of the target API server.
+        /// Example: http://localhost:3000/v1/
+        /// </summary>
+        private string _basePath;
+
+        private bool _useDefaultCredentials = false;
+
+        /// <summary>
         /// Gets or sets the API key based on the authentication name.
+        /// This is the key and value comprising the "secret" for accessing an API.
         /// </summary>
         /// <value>The API key.</value>
-        private IDictionary<string, string> _apiKey = null;
+        private IDictionary<string, string> _apiKey;
 
         /// <summary>
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         /// </summary>
         /// <value>The prefix of the API key.</value>
-        private IDictionary<string, string> _apiKeyPrefix = null;
+        private IDictionary<string, string> _apiKeyPrefix;
 
         private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
+        {{#servers.0}}
 
+        /// <summary>
+        /// Gets or sets the servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The servers</value>
+        private IList<IReadOnlyDictionary<string, object>> _servers;
+        {{/servers.0}}
+
+        /// <summary>
+        /// Gets or sets the operation servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The operation servers</value>
+        private IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> _operationServers;
+
+        {{#hasHttpSignatureMethods}}
+
+        /// <summary>
+        /// HttpSigning configuration
+        /// </summary>
+        private HttpSigningConfiguration _HttpSigningConfiguration = null;
+        {{/hasHttpSignatureMethods}}
         #endregion Private Members
 
         #region Constructors
 
-        static Configuration()
-        {
-            _globalConfiguration = new GlobalConfiguration();
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration()
         {
-            UserAgent = "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}";
+            Proxy = null;
+            UserAgent = WebUtility.UrlEncode("{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}");
             BasePath = "{{{basePath}}}";
-            DefaultHeader = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            DefaultHeaders = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKey = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKeyPrefix = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            {{#servers}}
+            {{#-first}}
+            Servers = new List<IReadOnlyDictionary<string, object>>()
+            {
+            {{/-first}}
+                {
+                    new Dictionary<string, object> {
+                        {"url", "{{{url}}}"},
+                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                        {{#variables}}
+                        {{#-first}}
+                        {
+                            "variables", new Dictionary<string, object> {
+                        {{/-first}}
+                                {
+                                    "{{{name}}}", new Dictionary<string, object> {
+                                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                                        {"default_value", {{#isString}}{{^isEnum}}@{{/isEnum}}{{/isString}}"{{{defaultValue}}}"},
+                                        {{#enumValues}}
+                                        {{#-first}}
+                                        {
+                                            "enum_values", new List<string>() {
+                                        {{/-first}}
+                                                "{{{.}}}"{{^-last}},{{/-last}}
+                                        {{#-last}}
+                                            }
+                                        }
+                                        {{/-last}}
+                                        {{/enumValues}}
+                                    }
+                                }{{^-last}},{{/-last}}
+                        {{#-last}}
+                            }
+                        }
+                        {{/-last}}
+                        {{/variables}}
+                    }
+                }{{^-last}},{{/-last}}
+            {{#-last}}
+            };
+            {{/-last}}
+            {{/servers}}
+            OperationServers = new Dictionary<string, List<IReadOnlyDictionary<string, object>>>()
+            {
+                {{#apiInfo}}
+                {{#apis}}
+                {{#operations}}
+                {{#operation}}
+                {{#servers.0}}
+                {
+                    "{{{classname}}}.{{{nickname}}}", new List<IReadOnlyDictionary<string, object>>
+                    {
+                        {{#servers}}
+                        {
+                            new Dictionary<string, object>
+                            {
+                                {"url", "{{{url}}}"},
+                                {"description", "{{{description}}}{{^description}}No description provided{{/description}}"}
+                            }
+                        },
+                        {{/servers}}
+                    }
+                },
+                {{/servers.0}}
+                {{/operation}}
+                {{/operations}}
+                {{/apis}}
+                {{/apiInfo}}
+            };
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -120,16 +208,17 @@ namespace {{packageName}}.Client
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration" /> class
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         public Configuration(
-            IDictionary<string, string> defaultHeader,
+            IDictionary<string, string> defaultHeaders,
             IDictionary<string, string> apiKey,
             IDictionary<string, string> apiKeyPrefix,
             string basePath = "{{{basePath}}}") : this()
         {
             if (string.{{^net35}}IsNullOrWhiteSpace{{/net35}}{{#net35}}IsNullOrEmpty{{/net35}}(basePath))
                 throw new ArgumentException("The provided basePath is invalid.", "basePath");
-            if (defaultHeader == null)
-                throw new ArgumentNullException("defaultHeader");
+            if (defaultHeaders == null)
+                throw new ArgumentNullException("defaultHeaders");
             if (apiKey == null)
                 throw new ArgumentNullException("apiKey");
             if (apiKeyPrefix == null)
@@ -137,9 +226,9 @@ namespace {{packageName}}.Client
 
             BasePath = basePath;
 
-            foreach (var keyValuePair in defaultHeader)
+            foreach (var keyValuePair in defaultHeaders)
             {
-                DefaultHeader.Add(keyValuePair);
+                DefaultHeaders.Add(keyValuePair);
             }
 
             foreach (var keyValuePair in apiKey)
@@ -153,99 +242,59 @@ namespace {{packageName}}.Client
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Configuration" /> class with different settings
-        /// </summary>
-        /// <param name="apiClient">Api client</param>
-        /// <param name="defaultHeader">Dictionary of default HTTP header</param>
-        /// <param name="username">Username</param>
-        /// <param name="password">Password</param>
-        /// <param name="accessToken">accessToken</param>
-        /// <param name="apiKey">Dictionary of API key</param>
-        /// <param name="apiKeyPrefix">Dictionary of API key prefix</param>
-        /// <param name="tempFolderPath">Temp folder path</param>
-        /// <param name="dateTimeFormat">DateTime format string</param>
-        /// <param name="timeout">HTTP connection timeout (in milliseconds)</param>
-        /// <param name="userAgent">HTTP user agent</param>
-        [Obsolete("Use explicit object construction and setting of properties.", true)]
-        public Configuration(
-            // ReSharper disable UnusedParameter.Local
-            ApiClient apiClient = null,
-            IDictionary<string, string> defaultHeader = null,
-            string username = null,
-            string password = null,
-            string accessToken = null,
-            IDictionary<string, string> apiKey = null,
-            IDictionary<string, string> apiKeyPrefix = null,
-            string tempFolderPath = null,
-            string dateTimeFormat = null,
-            int timeout = 100000,
-            string userAgent = "{{httpUserAgent}}{{^httpUserAgent}}OpenAPI-Generator/{{packageVersion}}/csharp{{/httpUserAgent}}"
-            // ReSharper restore UnusedParameter.Local
-            )
-        {
-
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the Configuration class.
-        /// </summary>
-        /// <param name="apiClient">Api client.</param>
-        [Obsolete("This constructor caused unexpected sharing of static data. It is no longer supported.", true)]
-        // ReSharper disable once UnusedParameter.Local
-        public Configuration(ApiClient apiClient)
-        {
-
-        }
-
         #endregion Constructors
-
 
         #region Properties
 
-        private ApiClient _apiClient = null;
-        /// <summary>
-        /// Gets an instance of an ApiClient for this configuration
-        /// </summary>
-        public virtual ApiClient ApiClient
-        {
-            get
-            {
-                if (_apiClient == null) _apiClient = CreateApiClient();
-                return _apiClient;
-            }
-        }
-
-        private String _basePath = null;
         /// <summary>
         /// Gets or sets the base path for API access.
         /// </summary>
-        public virtual string BasePath {
+        public virtual string BasePath 
+        {
             get { return _basePath; }
-            set {
-                _basePath = value;
-                // pass-through to ApiClient if it's set.
-                if(_apiClient != null) {
-                    _apiClient.RestClient.BaseUrl = new Uri(_basePath);
-                }
-            }
+            set { _basePath = value; }
+        }
+
+        /// <summary>
+        /// Determine whether or not the "default credentials" (e.g. the user account under which the current process is running) will be sent along to the server. The default is false.
+        /// </summary>
+        public virtual bool UseDefaultCredentials
+        {
+            get { return _useDefaultCredentials; }
+            set { _useDefaultCredentials = value; }
         }
 
         /// <summary>
         /// Gets or sets the default header.
         /// </summary>
-        public virtual IDictionary<string, string> DefaultHeader { get; set; }
+        [Obsolete("Use DefaultHeaders instead.")]
+        public virtual IDictionary<string, string> DefaultHeader
+        {
+            get
+            {
+                return DefaultHeaders;
+            }
+            set
+            {
+                DefaultHeaders = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the default headers.
+        /// </summary>
+        public virtual IDictionary<string, string> DefaultHeaders { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP timeout (milliseconds) of ApiClient. Default to 100000 milliseconds.
         /// </summary>
-        public virtual int Timeout
-        {
-            {{#netStandard}}get { return (int)ApiClient.RestClient.Timeout.GetValueOrDefault(TimeSpan.FromSeconds(0)).TotalMilliseconds; }
-            set { ApiClient.RestClient.Timeout = TimeSpan.FromMilliseconds(value); }{{/netStandard}}{{^netStandard}}
-            get { return ApiClient.RestClient.Timeout; }
-            set { ApiClient.RestClient.Timeout = value; }{{/netStandard}}
-        }
+        public virtual int Timeout { get; set; }
+
+        /// <summary>
+        /// Gets or sets the proxy
+        /// </summary>
+        /// <value>Proxy.</value>
+        public virtual WebProxy Proxy { get; set; }
 
         /// <summary>
         /// Gets or sets the HTTP user agent.
@@ -272,21 +321,59 @@ namespace {{packageName}}.Client
         /// <returns>API key with prefix.</returns>
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
-            var apiKeyValue = "";
-            ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
-            var apiKeyPrefix = "";
-            if (ApiKeyPrefix.TryGetValue (apiKeyIdentifier, out apiKeyPrefix))
+            string apiKeyValue;
+            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
+            string apiKeyPrefix;
+            if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
+            {
                 return apiKeyPrefix + " " + apiKeyValue;
-            else
-                return apiKeyValue;
+            }
+
+            return apiKeyValue;
         }
 
         /// <summary>
+        /// Gets or sets certificate collection to be sent with requests.
+        /// </summary>
+        /// <value>X509 Certificate collection.</value>
+        public X509CertificateCollection ClientCertificates { get; set; }
+
+        /// <summary>
         /// Gets or sets the access token for OAuth2 authentication.
+        ///
+        /// This helper property simplifies code generation.
         /// </summary>
         /// <value>The access token.</value>
         public virtual string AccessToken { get; set; }
 
+        {{#useRestSharp}}
+        {{#hasOAuthMethods}}
+        /// <summary>
+        /// Gets or sets the token URL for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Token URL.</value>
+        public virtual string OAuthTokenUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client ID for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Client ID.</value>
+        public virtual string OAuthClientId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the client secret for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Client Secret.</value>
+        public virtual string OAuthClientSecret { get; set; }
+
+        /// <summary>
+        /// Gets or sets the flow for OAuth2 authentication.
+        /// </summary>
+        /// <value>The OAuth Flow.</value>
+        public virtual OAuthFlow? OAuthFlow { get; set; }
+
+        {{/hasOAuthMethods}}
+        {{/useRestSharp}}
         /// <summary>
         /// Gets or sets the temporary folder path to store the files downloaded from the server.
         /// </summary>
@@ -349,6 +436,18 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
+        ///
+        /// Whatever you set here will be prepended to the value defined in AddApiKey.
+        ///
+        /// An example invocation here might be:
+        /// <example>
+        /// ApiKeyPrefix["Authorization"] = "Bearer";
+        /// </example>
+        /// … where ApiKey["Authorization"] would then be used to set the value of your bearer token.
+        ///
+        /// <remarks>
+        /// OAuth2 workflows should set tokens via AccessToken.
+        /// </remarks>
         /// </summary>
         /// <value>The prefix of the API key.</value>
         public virtual IDictionary<string, string> ApiKeyPrefix
@@ -380,47 +479,173 @@ namespace {{packageName}}.Client
                 _apiKey = value;
             }
         }
+        {{#servers.0}}
+
+        /// <summary>
+        /// Gets or sets the servers.
+        /// </summary>
+        /// <value>The servers.</value>
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers
+        {
+            get { return _servers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Servers may not be null.");
+                }
+                _servers = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the operation servers.
+        /// </summary>
+        /// <value>The operation servers.</value>
+        public virtual IReadOnlyDictionary<string, List<IReadOnlyDictionary<string, object>>> OperationServers
+        {
+            get { return _operationServers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Operation servers may not be null.");
+                }
+                _operationServers = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings without providing values
+        /// for the variables
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index)
+        {
+            return GetServerUrl(Servers, index, null);
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
+        {
+            return GetServerUrl(Servers, index, inputVariables);
+        }
+
+        /// <summary>
+        /// Returns URL based on operation server settings.
+        /// </summary>
+        /// <param name="operation">Operation associated with the request path.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The operation server URL.</return>
+        public string GetOperationServerUrl(string operation, int index)
+        {
+            return GetOperationServerUrl(operation, index, null);
+        }
+
+        /// <summary>
+        /// Returns URL based on operation server settings.
+        /// </summary>
+        /// <param name="operation">Operation associated with the request path.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The operation server URL.</return>
+        public string GetOperationServerUrl(string operation, int index, Dictionary<string, string> inputVariables)
+        {
+            if (operation != null && OperationServers.TryGetValue(operation, out var operationServer))
+            {
+                return GetServerUrl(operationServer, index, inputVariables);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="servers">Dictionary of server settings.</param>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The server URL.</return>
+        private string GetServerUrl(IList<IReadOnlyDictionary<string, object>> servers, int index, Dictionary<string, string> inputVariables)
+        {
+            if (index < 0 || index >= servers.Count)
+            {
+                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {servers.Count}.");
+            }
+
+            if (inputVariables == null)
+            {
+                inputVariables = new Dictionary<string, string>();
+            }
+
+            IReadOnlyDictionary<string, object> server = servers[index];
+            string url = (string)server["url"];
+
+            if (server.ContainsKey("variables"))
+            {
+                // go through each variable and assign a value
+                foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+                {
+
+                    IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+
+                    if (inputVariables.ContainsKey(variable.Key))
+                    {
+                        if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                        {
+                            url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                        }
+                    }
+                    else
+                    {
+                        // use default value
+                        url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
+                    }
+                }
+            }
+
+            return url;
+        }
+        {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
+
+        /// <summary>
+        /// Gets and Sets the HttpSigningConfiguration
+        /// </summary>
+        public HttpSigningConfiguration HttpSigningConfiguration
+        {
+            get { return _HttpSigningConfiguration; }
+            set { _HttpSigningConfiguration = value; }
+        }
+        {{/hasHttpSignatureMethods}}
+        
+        /// <summary>
+        /// Gets and Sets the RemoteCertificateValidationCallback
+        /// </summary>
+        public RemoteCertificateValidationCallback RemoteCertificateValidationCallback { get; set; }
 
         #endregion Properties
 
         #region Methods
 
         /// <summary>
-        /// Add default header.
-        /// </summary>
-        /// <param name="key">Header field name.</param>
-        /// <param name="value">Header field value.</param>
-        /// <returns></returns>
-        public void AddDefaultHeader(string key, string value)
-        {
-            DefaultHeader[key] = value;
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="ApiClient" /> based on this <see cref="Configuration" /> instance.
-        /// </summary>
-        /// <returns></returns>
-        public ApiClient CreateApiClient()
-        {
-            return new ApiClient(BasePath) { Configuration = this };
-        }
-
-
-        /// <summary>
         /// Returns a string with essential information for debugging.
         /// </summary>
-        public static String ToDebugReport()
+        public static string ToDebugReport()
         {
-            String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
-            {{^netStandard}}
-            {{^supportsUWP}}
+            string report = "C# SDK ({{{packageName}}}) Debug Report:\n";
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
-            {{/supportsUWP}}
-            {{/netStandard}}
-            {{#netStandard}}
-            report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
-            {{/netStandard}}
             report += "    Version of the API: {{{version}}}\n";
             report += "    SDK Package Version: {{{packageVersion}}}\n";
 
@@ -449,5 +674,57 @@ namespace {{packageName}}.Client
         }
 
         #endregion Methods
+
+        #region Static Members
+        /// <summary>
+        /// Merge configurations.
+        /// </summary>
+        /// <param name="first">First configuration.</param>
+        /// <param name="second">Second configuration.</param>
+        /// <return>Merged configuration.</return>
+        public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
+        {
+            if (second == null) return first ?? GlobalConfiguration.Instance;
+
+            Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+            foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
+            foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
+            foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;
+
+            var config = new Configuration
+            {
+                ApiKey = apiKey,
+                ApiKeyPrefix = apiKeyPrefix,
+                DefaultHeaders = defaultHeaders,
+                BasePath = second.BasePath ?? first.BasePath,
+                Timeout = second.Timeout,
+                Proxy = second.Proxy ?? first.Proxy,
+                UserAgent = second.UserAgent ?? first.UserAgent,
+                Username = second.Username ?? first.Username,
+                Password = second.Password ?? first.Password,
+                AccessToken = second.AccessToken ?? first.AccessToken,
+                {{#useRestSharp}}
+                {{#hasOAuthMethods}}
+                OAuthTokenUrl = second.OAuthTokenUrl ?? first.OAuthTokenUrl,
+                OAuthClientId = second.OAuthClientId ?? first.OAuthClientId,
+                OAuthClientSecret = second.OAuthClientSecret ?? first.OAuthClientSecret,
+                OAuthFlow = second.OAuthFlow ?? first.OAuthFlow,
+                {{/hasOAuthMethods}}
+                {{/useRestSharp}}
+                {{#hasHttpSignatureMethods}}
+                HttpSigningConfiguration = second.HttpSigningConfiguration ?? first.HttpSigningConfiguration,
+                {{/hasHttpSignatureMethods}}
+                TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                ClientCertificates = second.ClientCertificates ?? first.ClientCertificates,
+                UseDefaultCredentials = second.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = second.RemoteCertificateValidationCallback ?? first.RemoteCertificateValidationCallback,
+            };
+            return config;
+        }
+        #endregion Static Members
     }
 }

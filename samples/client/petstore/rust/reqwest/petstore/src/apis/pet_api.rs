@@ -158,7 +158,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = match "csv" {
-        "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        "multi" => local_var_req_builder.query(&status.into_iter().map(|p| ("status".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
         _ => local_var_req_builder.query(&[("status", &status.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -193,7 +193,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
     let mut local_var_req_builder = local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
     local_var_req_builder = match "csv" {
-        "multi" => local_var_req_builder.query(&tags.into_iter().map(|p| ("tags".to_owned(), p)).collect::<Vec<(std::string::String, std::string::String)>>()),
+        "multi" => local_var_req_builder.query(&tags.into_iter().map(|p| ("tags".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
         _ => local_var_req_builder.query(&[("tags", &tags.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
     };
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
@@ -340,7 +340,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    let mut local_var_form = reqwest::multipart::Form::new();
+    let mut local_var_form = reqwest::blocking::multipart::Form::new();
     if let Some(local_var_param_value) = additional_metadata {
         local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
     }

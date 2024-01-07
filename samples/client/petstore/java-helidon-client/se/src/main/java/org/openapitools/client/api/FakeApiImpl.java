@@ -30,8 +30,10 @@ import io.helidon.webclient.WebClientResponse;
 import org.openapitools.client.ApiClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -42,6 +44,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 import java.util.ArrayList;
 import org.openapitools.client.Pair;
@@ -57,6 +60,7 @@ public class FakeApiImpl implements FakeApi {
 
   private final ApiClient apiClient;
 
+  protected static final GenericType<FakeBigDecimalMap200Response> RESPONSE_TYPE_fakeBigDecimalMap = ResponseType.create(FakeBigDecimalMap200Response.class);
   protected static final GenericType<HealthCheckResult> RESPONSE_TYPE_fakeHealthGet = ResponseType.create(HealthCheckResult.class);
   protected static final GenericType<Void> RESPONSE_TYPE_fakeHttpSignatureTest = ResponseType.create(Void.class);
   protected static final GenericType<Boolean> RESPONSE_TYPE_fakeOuterBooleanSerialize = ResponseType.create(Boolean.class);
@@ -64,6 +68,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<BigDecimal> RESPONSE_TYPE_fakeOuterNumberSerialize = ResponseType.create(BigDecimal.class);
   protected static final GenericType<String> RESPONSE_TYPE_fakeOuterStringSerialize = ResponseType.create(String.class);
   protected static final GenericType<OuterObjectWithEnumProperty> RESPONSE_TYPE_fakePropertyEnumIntegerSerialize = ResponseType.create(OuterObjectWithEnumProperty.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testAdditionalPropertiesReference = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithBinary = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithFileSchema = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithQueryParams = ResponseType.create(Void.class);
@@ -72,7 +77,9 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<Void> RESPONSE_TYPE_testEnumParameters = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testGroupParameters = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testInlineAdditionalProperties = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testInlineFreeformAdditionalProperties = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testJsonFormData = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testNullable = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testQueryParameterCollectionFormat = ResponseType.create(Void.class);
 
   /**
@@ -85,6 +92,40 @@ public class FakeApiImpl implements FakeApi {
 
   protected FakeApiImpl(ApiClient apiClient) {
     this.apiClient = apiClient;
+  }
+
+  @Override
+  public ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMap() {
+    WebClientRequestBuilder webClientRequestBuilder = fakeBigDecimalMapRequestBuilder();
+    return fakeBigDecimalMapSubmit(webClientRequestBuilder);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the fakeBigDecimalMap operation.
+   * Optional customization point for subclasses.
+   *
+   * @return WebClientRequestBuilder for fakeBigDecimalMap
+   */
+  protected WebClientRequestBuilder fakeBigDecimalMapRequestBuilder() {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("GET");
+
+    webClientRequestBuilder.path("/fake/BigDecimalMap");
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the fakeBigDecimalMap operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @return {@code ApiResponse<FakeBigDecimalMap200Response>} for the submitted request
+   */
+  protected ApiResponse<FakeBigDecimalMap200Response> fakeBigDecimalMapSubmit(WebClientRequestBuilder webClientRequestBuilder) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
+    return ApiResponse.create(RESPONSE_TYPE_fakeBigDecimalMap, webClientResponse);
   }
 
   @Override
@@ -356,6 +397,44 @@ public class FakeApiImpl implements FakeApi {
   protected ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeSubmit(WebClientRequestBuilder webClientRequestBuilder, OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(outerObjectWithEnumProperty);
     return ApiResponse.create(RESPONSE_TYPE_fakePropertyEnumIntegerSerialize, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody) {
+    Objects.requireNonNull(requestBody, "Required parameter 'requestBody' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testAdditionalPropertiesReferenceRequestBuilder(requestBody);
+    return testAdditionalPropertiesReferenceSubmit(webClientRequestBuilder, requestBody);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testAdditionalPropertiesReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param requestBody request body (required)
+   * @return WebClientRequestBuilder for testAdditionalPropertiesReference
+   */
+  protected WebClientRequestBuilder testAdditionalPropertiesReferenceRequestBuilder(Map<String, Object> requestBody) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/additionalProperties-reference");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testAdditionalPropertiesReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param requestBody request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testAdditionalPropertiesReferenceSubmit(WebClientRequestBuilder webClientRequestBuilder, Map<String, Object> requestBody) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(requestBody);
+    return ApiResponse.create(RESPONSE_TYPE_testAdditionalPropertiesReference, webClientResponse);
   }
 
   @Override
@@ -776,6 +855,44 @@ public class FakeApiImpl implements FakeApi {
   }
 
   @Override
+  public ApiResponse<Void> testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    Objects.requireNonNull(testInlineFreeformAdditionalPropertiesRequest, "Required parameter 'testInlineFreeformAdditionalPropertiesRequest' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testInlineFreeformAdditionalPropertiesRequestBuilder(testInlineFreeformAdditionalPropertiesRequest);
+    return testInlineFreeformAdditionalPropertiesSubmit(webClientRequestBuilder, testInlineFreeformAdditionalPropertiesRequest);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testInlineFreeformAdditionalProperties operation.
+   * Optional customization point for subclasses.
+   *
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @return WebClientRequestBuilder for testInlineFreeformAdditionalProperties
+   */
+  protected WebClientRequestBuilder testInlineFreeformAdditionalPropertiesRequestBuilder(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/inline-freeform-additionalProperties");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testInlineFreeformAdditionalProperties operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testInlineFreeformAdditionalPropertiesSubmit(WebClientRequestBuilder webClientRequestBuilder, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(testInlineFreeformAdditionalPropertiesRequest);
+    return ApiResponse.create(RESPONSE_TYPE_testInlineFreeformAdditionalProperties, webClientResponse);
+  }
+
+  @Override
   public ApiResponse<Void> testJsonFormData(String param, String param2) {
     Objects.requireNonNull(param, "Required parameter 'param' not specified");
     Objects.requireNonNull(param2, "Required parameter 'param2' not specified");
@@ -818,6 +935,44 @@ public class FakeApiImpl implements FakeApi {
             .toString();
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(formParams);
     return ApiResponse.create(RESPONSE_TYPE_testJsonFormData, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testNullable(ChildWithNullable childWithNullable) {
+    Objects.requireNonNull(childWithNullable, "Required parameter 'childWithNullable' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testNullableRequestBuilder(childWithNullable);
+    return testNullableSubmit(webClientRequestBuilder, childWithNullable);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testNullable operation.
+   * Optional customization point for subclasses.
+   *
+   * @param childWithNullable request body (required)
+   * @return WebClientRequestBuilder for testNullable
+   */
+  protected WebClientRequestBuilder testNullableRequestBuilder(ChildWithNullable childWithNullable) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/nullable");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testNullable operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param childWithNullable request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testNullableSubmit(WebClientRequestBuilder webClientRequestBuilder, ChildWithNullable childWithNullable) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(childWithNullable);
+    return ApiResponse.create(RESPONSE_TYPE_testNullable, webClientResponse);
   }
 
   @Override

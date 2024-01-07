@@ -1,6 +1,8 @@
 package org.openapitools.server.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 /**

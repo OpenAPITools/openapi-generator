@@ -15,7 +15,6 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
-import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -32,6 +31,8 @@ import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import com.google.gson.reflect.TypeToken
 
+ val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
+
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
         protected const val ContentType = "Content-Type"
@@ -41,6 +42,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         protected const val FormDataMediaType = "multipart/form-data"
         protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
         protected const val XmlMediaType = "application/xml"
+        protected const val OctetMediaType = "application/octet-stream"
 
         val apiKey: MutableMap<String, String> = mutableMapOf()
         val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
@@ -114,8 +116,10 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
                         .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
                 }
             mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
+            mediaType == OctetMediaType && content is ByteArray ->
+                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
             // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body and File body.")
+            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
         }
 
     protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
@@ -134,13 +138,16 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
             }
             return tempFile as T
         }
-        val bodyContent = body.string()
-        if (bodyContent.isEmpty()) {
-            return null
-        }
+
         return when {
-            mediaType==null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) ->
+            mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
+                val bodyContent = body.string()
+                if (bodyContent.isEmpty()) {
+                    return null
+                }
                 Serializer.gson.fromJson(bodyContent, (object: TypeToken<T>(){}).getType())
+            }
+            mediaType == OctetMediaType -> body.bytes() as? T
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
         }
     }
@@ -226,6 +233,7 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
+        @Suppress("UNNECESSARY_SAFE_CALL")
         return when {
             response.isRedirect -> Redirection(
                 response.code,

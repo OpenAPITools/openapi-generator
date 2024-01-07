@@ -1,11 +1,8 @@
-# coding: utf-8
-
-from __future__ import absolute_import
 from datetime import date, datetime  # noqa: F401
 
 from typing import List, Dict  # noqa: F401
 
-from openapi_server.models.base_model_ import Model
+from openapi_server.models.base_model import Model
 from openapi_server import util
 
 
@@ -53,7 +50,7 @@ class ApiResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def code(self):
+    def code(self) -> int:
         """Gets the code of this ApiResponse.
 
 
@@ -63,7 +60,7 @@ class ApiResponse(Model):
         return self._code
 
     @code.setter
-    def code(self, code):
+    def code(self, code: int):
         """Sets the code of this ApiResponse.
 
 
@@ -74,7 +71,7 @@ class ApiResponse(Model):
         self._code = code
 
     @property
-    def type(self):
+    def type(self) -> str:
         """Gets the type of this ApiResponse.
 
 
@@ -84,7 +81,7 @@ class ApiResponse(Model):
         return self._type
 
     @type.setter
-    def type(self, type):
+    def type(self, type: str):
         """Sets the type of this ApiResponse.
 
 
@@ -95,7 +92,7 @@ class ApiResponse(Model):
         self._type = type
 
     @property
-    def message(self):
+    def message(self) -> str:
         """Gets the message of this ApiResponse.
 
 
@@ -105,7 +102,7 @@ class ApiResponse(Model):
         return self._message
 
     @message.setter
-    def message(self, message):
+    def message(self, message: str):
         """Sets the message of this ApiResponse.
 
 

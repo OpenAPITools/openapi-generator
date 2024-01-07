@@ -12,7 +12,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArrayItemRefTest {
     #[serde(rename = "list_with_array_ref")]
     pub list_with_array_ref: Vec<Vec<String>>,

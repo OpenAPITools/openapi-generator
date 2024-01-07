@@ -149,22 +149,22 @@ class FormatTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is FormatTest &&
-     other.integer == integer &&
-     other.int32 == int32 &&
-     other.int64 == int64 &&
-     other.number == number &&
-     other.float == float &&
-     other.double_ == double_ &&
-     other.decimal == decimal &&
-     other.string == string &&
-     other.byte == byte &&
-     other.binary == binary &&
-     other.date == date &&
-     other.dateTime == dateTime &&
-     other.uuid == uuid &&
-     other.password == password &&
-     other.patternWithDigits == patternWithDigits &&
-     other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
+    other.integer == integer &&
+    other.int32 == int32 &&
+    other.int64 == int64 &&
+    other.number == number &&
+    other.float == float &&
+    other.double_ == double_ &&
+    other.decimal == decimal &&
+    other.string == string &&
+    other.byte == byte &&
+    other.binary == binary &&
+    other.date == date &&
+    other.dateTime == dateTime &&
+    other.uuid == uuid &&
+    other.password == password &&
+    other.patternWithDigits == patternWithDigits &&
+    other.patternWithDigitsAndDelimiter == patternWithDigitsAndDelimiter;
 
   @override
   int get hashCode =>
@@ -280,17 +280,15 @@ class FormatTest {
         integer: mapValueOfType<int>(json, r'integer'),
         int32: mapValueOfType<int>(json, r'int32'),
         int64: mapValueOfType<int>(json, r'int64'),
-        number: json[r'number'] == null
-            ? null
-            : num.parse(json[r'number'].toString()),
+        number: num.parse('${json[r'number']}'),
         float: mapValueOfType<double>(json, r'float'),
         double_: mapValueOfType<double>(json, r'double'),
         decimal: mapValueOfType<double>(json, r'decimal'),
         string: mapValueOfType<String>(json, r'string'),
         byte: mapValueOfType<String>(json, r'byte')!,
         binary: null, // No support for decoding binary content from JSON
-        date: mapDateTime(json, r'date', '')!,
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        date: mapDateTime(json, r'date', r'')!,
+        dateTime: mapDateTime(json, r'dateTime', r''),
         uuid: mapValueOfType<String>(json, r'uuid'),
         password: mapValueOfType<String>(json, r'password')!,
         patternWithDigits: mapValueOfType<String>(json, r'pattern_with_digits'),
