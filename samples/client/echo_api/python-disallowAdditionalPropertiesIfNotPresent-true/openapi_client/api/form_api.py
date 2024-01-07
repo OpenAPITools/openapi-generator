@@ -20,7 +20,7 @@ from typing_extensions import Annotated
 from pydantic import StrictBool, StrictInt, StrictStr
 from typing import Optional
 
-from openapi_client.api_client import ApiClient
+from openapi_client.api_client import ApiClient, RequestSerialized
 from openapi_client.api_response import ApiResponse
 from openapi_client.rest import RESTResponseType
 
@@ -268,7 +268,7 @@ class FormApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -607,7 +607,7 @@ class FormApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 

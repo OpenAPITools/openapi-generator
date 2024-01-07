@@ -10,7 +10,7 @@ from typing_extensions import Annotated
 {{import}}
 {{/imports}}
 
-from {{packageName}}.api_client import ApiClient
+from {{packageName}}.api_client import ApiClient, RequestSerialized
 from {{packageName}}.api_response import ApiResponse
 from {{packageName}}.rest import RESTResponseType
 
@@ -77,7 +77,7 @@ class {{classname}}:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         {{#servers.0}}
         _hosts = [{{#servers}}

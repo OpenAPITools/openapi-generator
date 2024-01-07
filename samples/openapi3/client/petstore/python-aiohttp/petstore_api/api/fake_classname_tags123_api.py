@@ -20,7 +20,7 @@ from pydantic import Field
 from typing_extensions import Annotated
 from petstore_api.models.client import Client
 
-from petstore_api.api_client import ApiClient
+from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
@@ -242,7 +242,7 @@ class FakeClassnameTags123Api:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 

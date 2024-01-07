@@ -22,10 +22,10 @@ import re
 import tempfile
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional, List, Dict
 
 from openapi_client.configuration import Configuration
-from openapi_client.api_response import ApiResponse
+from openapi_client.api_response import ApiResponse, T as ApiResponseT
 import openapi_client.models
 from openapi_client import rest
 from openapi_client.exceptions import (
@@ -38,6 +38,7 @@ from openapi_client.exceptions import (
     ServiceException
 )
 
+RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -147,7 +148,7 @@ class ApiClient:
         collection_formats=None,
         _host=None,
         _request_auth=None
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         """Builds the HTTP request params needed by the request.
         :param method: Method to call.
@@ -280,8 +281,8 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map=None
-    ) -> ApiResponse:
+        response_types_map: Optional[Dict[str, ApiResponseT]]=None
+    ) -> ApiResponse[ApiResponseT]:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
         :param response_types_map: dict of response types.

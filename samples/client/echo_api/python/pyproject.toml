@@ -57,8 +57,8 @@ check_untyped_defs = true
 ## get passing if you use a lot of untyped libraries
 disallow_subclassing_any = true
 disallow_untyped_decorators = true
-#disallow_any_generics = true
-#
+disallow_any_generics = true
+
 ### These next few are various gradations of forcing use of type annotations
 #disallow_untyped_calls = true
 #disallow_incomplete_defs = true

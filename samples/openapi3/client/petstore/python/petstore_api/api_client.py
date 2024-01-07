@@ -21,10 +21,10 @@ import re
 import tempfile
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional, List, Dict
 
 from petstore_api.configuration import Configuration
-from petstore_api.api_response import ApiResponse
+from petstore_api.api_response import ApiResponse, T as ApiResponseT
 import petstore_api.models
 from petstore_api import rest
 from petstore_api.exceptions import (
@@ -37,6 +37,7 @@ from petstore_api.exceptions import (
     ServiceException
 )
 
+RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -146,7 +147,7 @@ class ApiClient:
         collection_formats=None,
         _host=None,
         _request_auth=None
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         """Builds the HTTP request params needed by the request.
         :param method: Method to call.
@@ -279,8 +280,8 @@ class ApiClient:
     def response_deserialize(
         self,
         response_data: rest.RESTResponse,
-        response_types_map=None
-    ) -> ApiResponse:
+        response_types_map: Optional[Dict[str, ApiResponseT]]=None
+    ) -> ApiResponse[ApiResponseT]:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
         :param response_types_map: dict of response types.

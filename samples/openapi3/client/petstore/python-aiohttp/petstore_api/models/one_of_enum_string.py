@@ -77,7 +77,7 @@ class OneOfEnumString(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: Union[str, dict]) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -119,7 +119,7 @@ class OneOfEnumString(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict, EnumString1, EnumString2]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], EnumString1, EnumString2]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
