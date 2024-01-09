@@ -175,7 +175,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
-
+        
 
         if (header1 != null)
         localVarHeaderParams.add("header_1", apiClient.parameterToString(header1));
@@ -588,7 +588,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
-
+        
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -818,7 +818,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
-
+        
 
         if (enumHeaderStringArray != null)
         localVarHeaderParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
@@ -899,7 +899,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
-
+        
 
         if (requiredBooleanGroup != null)
         localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -1185,7 +1185,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
-
+        
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
