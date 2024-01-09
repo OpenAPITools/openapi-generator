@@ -4201,6 +4201,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getDeprecated() != null) {
                 property.deprecated = p.getDeprecated();
             }
+            if (original.getDescription() != null) {
+                property.description = p.getDescription();
+            }
         }
 
         // set the default value
