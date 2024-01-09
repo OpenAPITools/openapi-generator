@@ -2940,7 +2940,7 @@ public class JavaClientCodegenTest {
     }
 
     @Test
-    public void todo() throws IOException {
+    public void testQueryParamsExploded_whenQueryParamIsNull() throws IOException {
 
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
