@@ -80,7 +80,7 @@ class AnyOfPig(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict[str, Any]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -117,7 +117,7 @@ class AnyOfPig(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict, BasquePig, DanishPig]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], BasquePig, DanishPig]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

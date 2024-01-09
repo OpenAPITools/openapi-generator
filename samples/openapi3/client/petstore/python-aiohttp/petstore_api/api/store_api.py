@@ -20,7 +20,7 @@ from pydantic import Field, StrictStr
 from typing_extensions import Annotated
 from petstore_api.models.order import Order
 
-from petstore_api.api_client import ApiClient
+from petstore_api.api_client import ApiClient, RequestSerialized
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
@@ -245,7 +245,7 @@ class StoreApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -483,7 +483,7 @@ class StoreApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -745,7 +745,7 @@ class StoreApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 
@@ -1006,7 +1006,7 @@ class StoreApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> Tuple:
+    ) -> RequestSerialized:
 
         _host = None
 

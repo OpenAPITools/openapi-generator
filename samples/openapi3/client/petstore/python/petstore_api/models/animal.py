@@ -47,7 +47,7 @@ class Animal(BaseModel):
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict) -> Optional[str]:
+    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -97,7 +97,7 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Optional[Union[Self, Self]]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Self, Self]]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)

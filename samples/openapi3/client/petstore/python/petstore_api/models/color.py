@@ -89,11 +89,11 @@ class Color(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: Optional[str]) -> Self:
         """Returns the object represented by the json string"""
         instance = cls.model_construct()
         if json_str is None:
@@ -149,7 +149,7 @@ class Color(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict, List[int], str]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], List[int], str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

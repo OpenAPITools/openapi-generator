@@ -78,7 +78,7 @@ class IntOrString(BaseModel):
             return v
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Union[str, Dict[str, Any]]) -> Self:
         return cls.from_json(json.dumps(obj))
 
     @classmethod
@@ -126,7 +126,7 @@ class IntOrString(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict, int, str]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], int, str]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None
