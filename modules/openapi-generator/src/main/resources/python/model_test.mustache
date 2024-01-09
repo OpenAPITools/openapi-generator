@@ -3,11 +3,10 @@
 {{>partial_header}}
 
 import unittest
-import datetime
 
 {{#models}}
 {{#model}}
-from {{modelPackage}}.{{classFilename}} import {{classname}}  # noqa: E501
+from {{modelPackage}}.{{classFilename}} import {{classname}}
 
 class Test{{classname}}(unittest.TestCase):
     """{{classname}} unit test stubs"""
@@ -26,7 +25,7 @@ class Test{{classname}}(unittest.TestCase):
             optional params are included """
         # uncomment below to create an instance of `{{{classname}}}`
         """
-        model = {{classname}}()  # noqa: E501
+        model = {{classname}}()
         if include_optional:
             return {{classname}}(
                 {{#vars}}

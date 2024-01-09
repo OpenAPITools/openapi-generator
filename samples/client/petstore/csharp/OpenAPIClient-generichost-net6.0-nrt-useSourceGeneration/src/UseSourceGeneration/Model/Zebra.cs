@@ -30,7 +30,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// Zebra
     /// </summary>
-    public partial class Zebra : Dictionary<String, Object>, IValidatableObject
+    public partial class Zebra : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
@@ -38,10 +38,10 @@ namespace UseSourceGeneration.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Zebra(string className, TypeEnum type) : base()
+        public Zebra(string className, Option<TypeEnum?> type = default)
         {
             ClassName = className;
-            Type = type;
+            TypeOption = type;
             OnCreated();
         }
 
@@ -113,7 +113,7 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string TypeEnumToJsonValue(TypeEnum value)
+        public static string TypeEnumToJsonValue(TypeEnum? value)
         {
             if (value == TypeEnum.Plains)
                 return "plains";
@@ -128,10 +128,17 @@ namespace UseSourceGeneration.Model
         }
 
         /// <summary>
+        /// Used to track the state of Type
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<TypeEnum?> TypeOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public TypeEnum Type { get; set; }
+        public TypeEnum? Type { get { return this.TypeOption; } set { this.TypeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets ClassName
@@ -153,7 +160,6 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
-            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -167,16 +173,6 @@ namespace UseSourceGeneration.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -204,8 +200,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
-            Zebra.TypeEnum? type = default;
+            Option<string?> className = default;
+            Option<Zebra.TypeEnum?> type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -223,13 +219,12 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "type":
                             string? typeRawValue = utf8JsonReader.GetString();
-                            type = typeRawValue == null
-                                ? null
-                                : Zebra.TypeEnumFromStringOrDefault(typeRawValue);
+                            if (typeRawValue != null)
+                                type = new Option<Zebra.TypeEnum?>(Zebra.TypeEnumFromStringOrDefault(typeRawValue));
                             break;
                         default:
                             break;
@@ -237,13 +232,16 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Zebra.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Zebra.", nameof(className));
 
-            if (type == null)
-                throw new ArgumentNullException(nameof(type), "Property is required for class Zebra.");
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Zebra.");
 
-            return new Zebra(className, type.Value);
+            if (type.IsSet && type.Value == null)
+                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Zebra.");
+
+            return new Zebra(className.Value!, type);
         }
 
         /// <summary>
@@ -270,13 +268,13 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Zebra zebra, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (zebra.ClassName == null)
+                throw new ArgumentNullException(nameof(zebra.ClassName), "Property is required for class Zebra.");
+
             writer.WriteString("className", zebra.ClassName);
 
-            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.Type);
-            if (typeRawValue != null)
-                writer.WriteString("type", typeRawValue);
-            else
-                writer.WriteNull("type");
+            var typeRawValue = Zebra.TypeEnumToJsonValue(zebra.TypeOption.Value!.Value);
+            writer.WriteString("type", typeRawValue);
         }
     }
 

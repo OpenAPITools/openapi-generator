@@ -94,6 +94,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -102,6 +103,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testEnumParameters**](docs/Api/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/Api/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/Api/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/Api/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -176,6 +178,7 @@ Class | Method | HTTP request | Description
 - [SingleRefType](docs/Model/SingleRefType.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
+- [TestInlineFreeformAdditionalPropertiesRequest](docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md)
 - [User](docs/Model/User.md)
 
 ## Authorization

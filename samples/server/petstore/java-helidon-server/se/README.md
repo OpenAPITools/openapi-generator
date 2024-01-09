@@ -21,6 +21,7 @@ curl -X POST http://petstore.swagger.io:80/v2/fake/outer/composite
 curl -X POST http://petstore.swagger.io:80/v2/fake/outer/number
 curl -X POST http://petstore.swagger.io:80/v2/fake/outer/string
 curl -X POST http://petstore.swagger.io:80/v2/fake/property/enum-int
+curl -X POST http://petstore.swagger.io:80/v2/fake/additionalProperties-reference
 curl -X PUT http://petstore.swagger.io:80/v2/fake/body-with-binary
 curl -X PUT http://petstore.swagger.io:80/v2/fake/body-with-file-schema
 curl -X PUT http://petstore.swagger.io:80/v2/fake/body-with-query-params
@@ -29,6 +30,7 @@ curl -X POST http://petstore.swagger.io:80/v2/fake
 curl -X GET http://petstore.swagger.io:80/v2/fake
 curl -X DELETE http://petstore.swagger.io:80/v2/fake
 curl -X POST http://petstore.swagger.io:80/v2/fake/inline-additionalProperties
+curl -X POST http://petstore.swagger.io:80/v2/fake/inline-freeform-additionalProperties
 curl -X GET http://petstore.swagger.io:80/v2/fake/jsonFormData
 curl -X POST http://petstore.swagger.io:80/v2/fake/nullable
 curl -X PUT http://petstore.swagger.io:80/v2/fake/test-query-parameters

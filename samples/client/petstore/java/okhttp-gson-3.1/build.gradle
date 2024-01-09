@@ -62,9 +62,9 @@ if(hasProperty('target') && target == 'android') {
             def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
             task.description = "Create jar artifact for ${variant.name}"
             task.dependsOn variant.javaCompile
-            task.from variant.javaCompile.destinationDir
-            task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-            task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+            task.from variant.javaCompile.destinationDirectory
+            task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+            task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
             artifacts.add('archives', task)
         }
     }
@@ -111,7 +111,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     implementation 'com.google.code.gson:gson:2.9.1'
-    implementation 'io.gsonfire:gson-fire:1.8.5'
+    implementation 'io.gsonfire:gson-fire:1.9.0'
     implementation 'javax.ws.rs:jsr311-api:1.1.1'
     implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'

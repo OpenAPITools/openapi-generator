@@ -59,7 +59,6 @@ public class Foo {
   }
 
   public Foo bar(String bar) {
-    
     this.bar = bar;
     return this;
   }
@@ -72,7 +71,6 @@ public class Foo {
   public String getBar() {
     return bar;
   }
-
 
   public void setBar(String bar) {
     this.bar = bar;

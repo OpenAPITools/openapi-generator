@@ -610,7 +610,63 @@ paths:
       - user
       x-content-type: application/json
       x-accepts: application/json
+  /no_ref:
+    get:
+      operationId: response_no_ref
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: required to pass validation
+      tags:
+      - fake
+      x-accepts: text/plain
+  /ref/no_ref:
+    get:
+      operationId: response_ref_to_no_ref
+      responses:
+        "200":
+          $ref: '#/components/responses/no_ref'
+      tags:
+      - fake
+      x-accepts: text/plain
+  /ref/ref:
+    get:
+      operationId: response_ref_to_ref
+      responses:
+        "200":
+          $ref: '#/components/responses/ref'
+      tags:
+      - fake
+      x-accepts: text/plain
+  /ref/ref_to_parameter:
+    get:
+      operationId: ref_to_ref_parameter
+      parameters:
+      - $ref: '#/components/parameters/ref_to_uuid'
+      responses:
+        "200":
+          $ref: '#/components/responses/ref'
+      tags:
+      - fake
+      x-accepts: text/plain
+    parameters:
+    - $ref: '#/components/parameters/ref_to_uuid'
 components:
+  parameters:
+    ref_to_uuid:
+      description: to test ref to parameter (uuid)
+      explode: false
+      in: header
+      name: ref_to_uuid
+      required: true
+      schema:
+        example: 61864654-6e6b-4152-a62f-795fdd606bc2
+        format: uuid
+        type: string
+      style: simple
   requestBodies:
     UserArray:
       content:
@@ -631,6 +687,19 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    no_ref:
+      content:
+        text/plain:
+          schema:
+            type: string
+      description: required to pass validation
+    ref:
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/simple_text'
+      description: required to pass validation
   schemas:
     Order:
       description: An order for a pets from the pet store
@@ -833,6 +902,16 @@ components:
           type: string
       required:
       - className
+    simple_text:
+      type: string
+    any_type_test:
+      properties:
+        any_type_property: {}
+        array_prop:
+          description: test array in 3.1 spec
+          items:
+            type: string
+          type: array
     updatePetWithForm_request:
       properties:
         name:

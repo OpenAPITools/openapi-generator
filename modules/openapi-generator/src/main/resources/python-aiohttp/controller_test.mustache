@@ -17,6 +17,8 @@ from aiohttp import FormData
 {{#operations}}
 {{#operation}}
 
+pytestmark = pytest.mark.asyncio
+
 {{#vendorExtensions.x-skip-test}}
 @pytest.mark.skip("{{reason}}")
 {{/vendorExtensions.x-skip-test}}

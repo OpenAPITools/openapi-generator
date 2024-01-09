@@ -87,6 +87,13 @@ $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 $router->get('/v2/fake/BigDecimalMap', 'FakeApi@fakeBigDecimalMap');
 
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/additionalProperties-reference', 'FakeApi@testAdditionalPropertiesReference');
+
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -127,6 +134,13 @@ $router->get('/v2/fake/http-signature-test', 'FakeApi@fakeHttpSignatureTest');
  * Notes: 
  */
 $router->post('/v2/fake/inline-additionalProperties', 'FakeApi@testInlineAdditionalProperties');
+
+/**
+ * post testInlineFreeformAdditionalProperties
+ * Summary: test inline free-form additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/inline-freeform-additionalProperties', 'FakeApi@testInlineFreeformAdditionalProperties');
 
 /**
  * get testJsonFormData

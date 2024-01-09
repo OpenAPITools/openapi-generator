@@ -11,10 +11,12 @@ package openapi
 
 import (
 	"context"
+	"os"
+	"testing"
+
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func Test_openapi_BodyAPIService(t *testing.T) {
@@ -24,19 +26,20 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestBinaryGif", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
-
 		resp, httpRes, err := apiClient.BodyAPI.TestBinaryGif(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
+		f, err := os.Stat(resp.Name())
+		require.Nil(t, err)
+		require.Greater(t, f.Size(), int64(0))
 	})
 
 	t.Run("Test BodyAPIService TestBodyApplicationOctetstreamBinary", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestBodyApplicationOctetstreamBinary(context.Background()).Execute()
 
@@ -48,7 +51,7 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestBodyMultipartFormdataArrayOfBinary", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestBodyMultipartFormdataArrayOfBinary(context.Background()).Execute()
 
@@ -60,7 +63,7 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestEchoBodyFreeFormObjectResponseString", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestEchoBodyFreeFormObjectResponseString(context.Background()).Execute()
 
@@ -72,7 +75,7 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestEchoBodyPet", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestEchoBodyPet(context.Background()).Execute()
 
@@ -84,7 +87,7 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestEchoBodyPetResponseString", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestEchoBodyPetResponseString(context.Background()).Execute()
 
@@ -96,7 +99,7 @@ func Test_openapi_BodyAPIService(t *testing.T) {
 
 	t.Run("Test BodyAPIService TestEchoBodyTagResponseString", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.BodyAPI.TestEchoBodyTagResponseString(context.Background()).Execute()
 

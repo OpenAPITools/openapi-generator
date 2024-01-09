@@ -93,12 +93,15 @@ module {{moduleName}}
     # @return [true, false]
     attr_accessor :client_side_validation
 
-{{^isFaraday}}
+{{#isTyphoeus}}
 {{> configuration_typhoeus_partial}}
-{{/isFaraday}}
+{{/isTyphoeus}}
 {{#isFaraday}}
 {{> configuration_faraday_partial}}
 {{/isFaraday}}
+{{#isHttpx}}
+{{> configuration_httpx_partial}}
+{{/isHttpx}}
 
     attr_accessor :inject_format
 
@@ -128,14 +131,20 @@ module {{moduleName}}
       @return_binary_data = false
       @params_encoder = nil
       {{/isFaraday}}
-      {{^isFaraday}}
+      {{#isTyphoeus}}
       @verify_ssl = true
       @verify_ssl_host = true
       @cert_file = nil
       @key_file = nil
       @timeout = 0
       @params_encoding = nil
-      {{/isFaraday}}
+      {{/isTyphoeus}}
+      {{#isHttpx}}
+      @ssl = nil
+      @proxy = nil
+      @timeout = 60
+      @configure_session_blocks = []
+      {{/isHttpx}}
       @debugging = false
       @inject_format = false
       @force_ending_format = false
@@ -446,5 +455,27 @@ module {{moduleName}}
       end
     end
     {{/isFaraday}}
+
+    {{#isHttpx}}
+    # Configure Httpx session directly.
+    #
+    # ```
+    # c.configure_session do |http|
+    #   http.plugin(:follow_redirects).with(debug: STDOUT, debug_level: 1)
+    # end
+    # ```
+    #
+    # @param block [Proc] `#call`able object that takes one arg, the connection
+    def configure_session(&block)
+      @configure_session_blocks << block
+    end
+
+
+    def configure(session)
+      @configure_session_blocks.reduce(session) do |configured_sess, block|
+        block.call(configured_sess)
+      end
+    end
+    {{/isHttpx}}
   end
 end

@@ -569,10 +569,60 @@ paths:
           description: User not found
       security:
         - api_key: []
+  /no_ref:
+    get:
+      operationId: response_no_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          description: required to pass validation
+          content:
+            text/plain:
+              schema:
+                type: string
+
+  /ref/no_ref:
+    get:
+      operationId: response_ref_to_no_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/no_ref'
+
+  /ref/ref:
+    get:
+      operationId: response_ref_to_ref
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/ref'
+  /ref/ref_to_parameter:
+    get:
+      operationId: ref_to_ref_parameter
+      tags:
+        - fake
+      responses:
+        '200':
+          $ref: '#/components/responses/ref'
+    parameters:
+      - $ref: '#/components/parameters/ref_to_uuid'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
 components:
+  parameters:
+    ref_to_uuid:
+      description: to test ref to parameter (uuid)
+      name: ref_to_uuid
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+        example: 61864654-6e6b-4152-a62f-795fdd606bc2
   requestBodies:
     UserArray:
       content:
@@ -593,6 +643,20 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
+  responses:
+    no_ref:
+      description: required to pass validation
+      content:
+        text/plain:
+          schema:
+            type: string
+
+    ref:
+      description: required to pass validation
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/simple_text'
   securitySchemes:
     petstore_auth:
       type: oauth2
@@ -773,3 +837,13 @@ components:
         color:
           type: string
           default: red
+    simple_text:
+      type: string
+    any_type_test:
+      properties:
+        any_type_property: {}
+        array_prop:
+          type: array
+          description: test array in 3.1 spec
+          items:
+            type: string

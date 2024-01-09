@@ -48,11 +48,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
-  {{#jackson}}
-  {{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/withXml}}
-  {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
@@ -65,7 +60,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}{{#required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/isNullable}}{{/required}}
   {{/openApiNullable}}
   {{^openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
@@ -79,7 +74,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
   {{#openApiNullable}}
-  private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  private {{#isNullable}}{{>nullableDataTypeBeanValidation}} {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>undefined();{{/isNullable}}{{^required}}{{^isNullable}}{{>nullableDataTypeBeanValidation}} {{name}}{{#useOptional}} = Optional.{{^defaultValue}}empty(){{/defaultValue}}{{#defaultValue}}of({{{.}}}){{/defaultValue}};{{/useOptional}}{{^useOptional}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/useOptional}}{{/isNullable}}{{/required}}{{^isNullable}}{{#required}}{{>nullableDataTypeBeanValidation}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/required}}{{/isNullable}}
   {{/openApiNullable}}
   {{^openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
@@ -103,7 +98,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{#vars}}
     {{#required}}
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
@@ -118,7 +113,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{! begin feature: fluent setter methods }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
@@ -199,11 +194,14 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/swagger1AnnotationLibrary}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
+  {{#withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/withXml}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated
   {{/deprecated}}
-  public {{>nullableDataType}} {{getter}}() {
+  public {{>nullableDataTypeBeanValidation}} {{getter}}() {
     return {{name}};
   }
 
@@ -286,7 +284,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{#parent}}
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     {{/parent}}
-    {{#vars}}sb.append("    {{name}}: ").append(toIndentedString({{name}})).append("\n");
+    {{#vars}}sb.append("    {{name}}: ").append({{#isPassword}}"*"{{/isPassword}}{{^isPassword}}toIndentedString({{name}}){{/isPassword}}).append("\n");
     {{/vars}}{{#additionalPropertiesType}}
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     {{/additionalPropertiesType}}sb.append("}");

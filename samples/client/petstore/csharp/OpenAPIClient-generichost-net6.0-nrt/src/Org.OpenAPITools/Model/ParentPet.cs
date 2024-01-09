@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -78,7 +79,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? petType = default;
+            Option<string?> petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -96,7 +97,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = utf8JsonReader.GetString();
+                            petType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -104,10 +105,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (petType == null)
-                throw new ArgumentNullException(nameof(petType), "Property is required for class ParentPet.");
+            if (!petType.IsSet)
+                throw new ArgumentException("Property is required for class ParentPet.", nameof(petType));
 
-            return new ParentPet(petType);
+            if (petType.IsSet && petType.Value == null)
+                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class ParentPet.");
+
+            return new ParentPet(petType.Value!);
         }
 
         /// <summary>
@@ -134,6 +138,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ParentPet parentPet, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (parentPet.PetType == null)
+                throw new ArgumentNullException(nameof(parentPet.PetType), "Property is required for class ParentPet.");
+
             writer.WriteString("pet_type", parentPet.PetType);
         }
     }

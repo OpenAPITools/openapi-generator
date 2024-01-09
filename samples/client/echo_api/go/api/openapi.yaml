@@ -11,10 +11,10 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       description: Test path parameter(s)
-      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
       parameters:
       - explode: false
         in: path
@@ -29,6 +29,24 @@ paths:
         required: true
         schema:
           type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
         style: simple
       responses:
         "200":
@@ -78,10 +96,10 @@ paths:
       summary: Test form parameter(s) for oneOf schema
       tags:
       - form
-  /header/integer/boolean/string:
+  /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - explode: true
         in: header
@@ -104,6 +122,24 @@ paths:
         schema:
           type: string
         style: form
+      - explode: true
+        in: header
+        name: enum_nonref_string_header
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
+      - explode: true
+        in: header
+        name: enum_ref_string_header
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
       responses:
         "200":
           content:
@@ -119,6 +155,17 @@ paths:
       description: Test query parameter(s)
       operationId: test/enum_ref_string
       parameters:
+      - explode: true
+        in: query
+        name: enum_nonref_string_query
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
       - explode: true
         in: query
         name: enum_ref_string_query
@@ -356,6 +403,22 @@ paths:
       summary: Test body parameter(s)
       tags:
       - body
+  /echo/body/allOf/Pet:
+    post:
+      description: Test body parameter(s)
+      operationId: test/echo/body/allOf/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/AllOfPet'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
   /echo/body/Pet/response_string:
     post:
       description: Test empty response body
@@ -423,6 +486,25 @@ paths:
       summary: Test binary (gif) response body
       tags:
       - body
+  /body/application/octetstream/single_binary:
+    post:
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test single binary in multipart mime
+      tags:
+      - body
   /body/application/octetstream/array_of_binary:
     post:
       description: Test array of binary in multipart mime
@@ -458,6 +540,22 @@ paths:
       summary: To test HTTP basic authentication
       tags:
       - auth
+  /auth/http/bearer:
+    post:
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      tags:
+      - auth
 components:
   requestBodies:
     Pet:
@@ -465,6 +563,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    AllOfPet:
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
     Tag:
       content:
@@ -708,6 +813,12 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
+    test_body_multipart_formdata_single_binary_request:
+      properties:
+        my-file:
+          format: binary
+          type: string
+      type: object
     test_body_multipart_formdata_array_of_binary_request:
       properties:
         files:
@@ -721,4 +832,7 @@ components:
   securitySchemes:
     http_auth:
       scheme: basic
+      type: http
+    http_bearer_auth:
+      scheme: bearer
       type: http

@@ -17,17 +17,16 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.model.OperationMap;
+import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -142,6 +141,21 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
         for (ModelMap m : objs.getModels()) {
             CodegenModel model = m.getModel();
 
+            for (CodegenProperty prop : model.vars) {
+                String propType;
+                if (prop.isArray || prop.isMap) {
+                    propType = "array";
+                } else {
+                    propType = prop.dataType;
+                }
+
+                if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
+                    propType = "?" + propType;
+                }
+
+                prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
+            }
+
             if (model.isEnum) {
                 for (Map<String, Object> enumVars : (List<Map<String, Object>>) model.getAllowableValues().get("enumVars")) {
                     if ((Boolean) enumVars.get("isString")) {
@@ -153,5 +167,60 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             }
         }
         return objs;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        OperationMap operations = objs.getOperations();
+        for (CodegenOperation operation : operations.getOperation()) {
+            if (operation.returnType == null) {
+                operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
+            } else {
+                if (operation.returnProperty.isContainer) { // array or map
+                    operation.vendorExtensions.putIfAbsent("x-php-return-type", "array");
+                } else {
+                    operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+                }
+            }
+
+            for (CodegenParameter param : operation.allParams) {
+                if (param.isArray || param.isMap) {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", "array");
+                } else {
+                    param.vendorExtensions.putIfAbsent("x-php-param-type", param.dataType);
+                }
+            }
+        }
+
+        return objs;
+    }
+
+    @Override
+    public String toDefaultValue(CodegenProperty codegenProperty, Schema schema) {
+        if (codegenProperty.isArray) {
+            if (schema.getDefault() != null) { // array schema has default value
+                return "[" + schema.getDefault().toString() + "]";
+            } else if (schema.getItems().getDefault() != null) { // array item schema has default value
+                return "[" + toDefaultValue(schema.getItems()) + "]";
+            } else {
+                return null;
+            }
+        }
+        return super.toDefaultValue(codegenProperty, schema);
+    }
+
+    @Override
+    public String toDefaultParameterValue(CodegenProperty codegenProperty, Schema<?> schema) {
+        return toDefaultValue(codegenProperty, schema);
+    }
+
+    @Override
+    public void setParameterExampleValue(CodegenParameter p) {
+        if (p.isArray && p.items.defaultValue != null) {
+            p.example = p.defaultValue;
+        } else {
+            super.setParameterExampleValue(p);
+        }
     }
 }

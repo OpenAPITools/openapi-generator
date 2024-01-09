@@ -65,7 +65,6 @@ public class ArrayDefault {
   }
 
   public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
-    
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -87,14 +86,12 @@ public class ArrayDefault {
     return withDefaultEmptyBracket;
   }
 
-
   public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
   }
 
 
   public ArrayDefault withoutDefault(List<String> withoutDefault) {
-    
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -115,7 +112,6 @@ public class ArrayDefault {
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }
-
 
   public void setWithoutDefault(List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;

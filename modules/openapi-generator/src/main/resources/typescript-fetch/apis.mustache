@@ -65,6 +65,9 @@ export interface {{classname}}Interface {
      {{#summary}}
      * {{&summary}}
      {{/summary}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     {{^useSingleRequestParameter}}
     {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}>;
@@ -97,6 +100,9 @@ export class {{classname}} extends runtime.BaseAPI {
      {{#summary}}
      * {{&summary}}
      {{/summary}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
@@ -340,6 +346,9 @@ export class {{classname}} extends runtime.BaseAPI {
      {{#summary}}
      * {{&summary}}
      {{/summary}}
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     {{^useSingleRequestParameter}}
     async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}, {{/allParams}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{{{returnType}}}{{^returnType}}void{{/returnType}}> {

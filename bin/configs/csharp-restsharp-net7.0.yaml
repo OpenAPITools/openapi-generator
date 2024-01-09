@@ -9,3 +9,6 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   useOneOfDiscriminatorLookup: true
   targetFramework: net7.0
+  equatable: true
+enumNameMappings:
+  delivered: Shipped

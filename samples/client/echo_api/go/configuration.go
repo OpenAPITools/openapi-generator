@@ -32,6 +32,9 @@ var (
 	// ContextBasicAuth takes BasicAuth as authentication for the request.
 	ContextBasicAuth = contextKey("basic")
 
+	// ContextAccessToken takes a string oauth2 access token as authentication for the request.
+	ContextAccessToken = contextKey("accesstoken")
+
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 

@@ -103,6 +103,11 @@ public class EnumTest {
         return EnumStringEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStringEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING = "enum_string";
@@ -156,6 +161,11 @@ public class EnumTest {
         return EnumStringRequiredEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStringRequiredEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STRING_REQUIRED = "enum_string_required";
@@ -206,6 +216,11 @@ public class EnumTest {
         Integer value =  jsonReader.nextInt();
         return EnumIntegerEnum.fromValue(value);
       }
+    }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Integer value = jsonElement.getAsInt();
+      EnumIntegerEnum.fromValue(value);
     }
   }
 
@@ -258,6 +273,11 @@ public class EnumTest {
         return EnumIntegerOnlyEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Integer value = jsonElement.getAsInt();
+      EnumIntegerOnlyEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_INTEGER_ONLY = "enum_integer_only";
@@ -309,6 +329,11 @@ public class EnumTest {
         return EnumNumberEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      Double value = jsonElement.getAsDouble();
+      EnumNumberEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_NUMBER = "enum_number";
@@ -335,7 +360,6 @@ public class EnumTest {
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    
     this.enumString = enumString;
     return this;
   }
@@ -349,14 +373,12 @@ public class EnumTest {
     return enumString;
   }
 
-
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
   }
 
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -370,14 +392,12 @@ public class EnumTest {
     return enumStringRequired;
   }
 
-
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
   }
 
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -391,14 +411,12 @@ public class EnumTest {
     return enumInteger;
   }
 
-
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
   }
 
 
   public EnumTest enumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
-    
     this.enumIntegerOnly = enumIntegerOnly;
     return this;
   }
@@ -412,14 +430,12 @@ public class EnumTest {
     return enumIntegerOnly;
   }
 
-
   public void setEnumIntegerOnly(EnumIntegerOnlyEnum enumIntegerOnly) {
     this.enumIntegerOnly = enumIntegerOnly;
   }
 
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -433,14 +449,12 @@ public class EnumTest {
     return enumNumber;
   }
 
-
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
   }
 
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
-    
     this.outerEnum = outerEnum;
     return this;
   }
@@ -454,14 +468,12 @@ public class EnumTest {
     return outerEnum;
   }
 
-
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
 
 
   public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
-    
     this.outerEnumInteger = outerEnumInteger;
     return this;
   }
@@ -475,14 +487,12 @@ public class EnumTest {
     return outerEnumInteger;
   }
 
-
   public void setOuterEnumInteger(OuterEnumInteger outerEnumInteger) {
     this.outerEnumInteger = outerEnumInteger;
   }
 
 
   public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
-    
     this.outerEnumDefaultValue = outerEnumDefaultValue;
     return this;
   }
@@ -496,14 +506,12 @@ public class EnumTest {
     return outerEnumDefaultValue;
   }
 
-
   public void setOuterEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
     this.outerEnumDefaultValue = outerEnumDefaultValue;
   }
 
 
   public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
-    
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
     return this;
   }
@@ -516,7 +524,6 @@ public class EnumTest {
   public OuterEnumIntegerDefaultValue getOuterEnumIntegerDefaultValue() {
     return outerEnumIntegerDefaultValue;
   }
-
 
   public void setOuterEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
@@ -679,8 +686,42 @@ public class EnumTest {
       if ((jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) && !jsonObj.get("enum_string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string").toString()));
       }
+      // validate the optional field `enum_string`
+      if (jsonObj.get("enum_string") != null && !jsonObj.get("enum_string").isJsonNull()) {
+        EnumStringEnum.validateJsonElement(jsonObj.get("enum_string"));
+      }
       if (!jsonObj.get("enum_string_required").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `enum_string_required` to be a primitive type in the JSON string but got `%s`", jsonObj.get("enum_string_required").toString()));
+      }
+      // validate the required field `enum_string_required`
+      EnumStringRequiredEnum.validateJsonElement(jsonObj.get("enum_string_required"));
+      // validate the optional field `enum_integer`
+      if (jsonObj.get("enum_integer") != null && !jsonObj.get("enum_integer").isJsonNull()) {
+        EnumIntegerEnum.validateJsonElement(jsonObj.get("enum_integer"));
+      }
+      // validate the optional field `enum_integer_only`
+      if (jsonObj.get("enum_integer_only") != null && !jsonObj.get("enum_integer_only").isJsonNull()) {
+        EnumIntegerOnlyEnum.validateJsonElement(jsonObj.get("enum_integer_only"));
+      }
+      // validate the optional field `enum_number`
+      if (jsonObj.get("enum_number") != null && !jsonObj.get("enum_number").isJsonNull()) {
+        EnumNumberEnum.validateJsonElement(jsonObj.get("enum_number"));
+      }
+      // validate the optional field `outerEnum`
+      if (jsonObj.get("outerEnum") != null && !jsonObj.get("outerEnum").isJsonNull()) {
+        OuterEnum.validateJsonElement(jsonObj.get("outerEnum"));
+      }
+      // validate the optional field `outerEnumInteger`
+      if (jsonObj.get("outerEnumInteger") != null && !jsonObj.get("outerEnumInteger").isJsonNull()) {
+        OuterEnumInteger.validateJsonElement(jsonObj.get("outerEnumInteger"));
+      }
+      // validate the optional field `outerEnumDefaultValue`
+      if (jsonObj.get("outerEnumDefaultValue") != null && !jsonObj.get("outerEnumDefaultValue").isJsonNull()) {
+        OuterEnumDefaultValue.validateJsonElement(jsonObj.get("outerEnumDefaultValue"));
+      }
+      // validate the optional field `outerEnumIntegerDefaultValue`
+      if (jsonObj.get("outerEnumIntegerDefaultValue") != null && !jsonObj.get("outerEnumIntegerDefaultValue").isJsonNull()) {
+        OuterEnumIntegerDefaultValue.validateJsonElement(jsonObj.get("outerEnumIntegerDefaultValue"));
       }
   }
 

@@ -3,12 +3,14 @@ package org.openapitools.model;
 import io.swagger.annotations.ApiModel;
 
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
   * Describes the result of uploading an image resource
  **/
 @ApiModel(description="Describes the result of uploading an image resource")
+
 public class ModelApiResponse  {
   
   @ApiModelProperty(value = "")
@@ -73,6 +75,24 @@ public class ModelApiResponse  {
     return this;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelApiResponse _apiResponse = (ModelApiResponse) o;
+    return Objects.equals(this.code, _apiResponse.code) &&
+        Objects.equals(this.type, _apiResponse.type) &&
+        Objects.equals(this.message, _apiResponse.message);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(code, type, message);
+  }
 
   @Override
   public String toString() {

@@ -83,3 +83,18 @@
   image: "img/companies/dmtech.jpeg"
   infoLink: "https://www.dm-jobs.com/"
   bronze: true
+-
+  caption: "Adyen"
+  image: "img/companies/adyen.png"
+  infoLink: "https://adyen.com/"
+  bronze: true
+-
+  caption: "Fornex"
+  image: "img/companies/fornex.png"
+  infoLink: "https://fornex.com/"
+  bronze: true
+-
+  caption: "Alloy Automation"
+  image: "img/companies/alloyautomation.png"
+  infoLink: "https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator"
+  bronze: true

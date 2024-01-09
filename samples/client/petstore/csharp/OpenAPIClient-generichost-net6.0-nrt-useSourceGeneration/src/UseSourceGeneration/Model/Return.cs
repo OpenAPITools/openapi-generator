@@ -37,19 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varReturn">varReturn</param>
         [JsonConstructor]
-        public Return(int varReturn)
+        public Return(Option<int?> varReturn = default)
         {
-            VarReturn = varReturn;
+            VarReturnOption = varReturn;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of VarReturn
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<int?> VarReturnOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets VarReturn
         /// </summary>
         [JsonPropertyName("return")]
-        public int VarReturn { get; set; }
+        public int? VarReturn { get { return this. VarReturnOption; } set { this.VarReturnOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +111,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            int? varReturn = default;
+            Option<int?> varReturn = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +130,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "return":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                varReturn = utf8JsonReader.GetInt32();
+                                varReturn = new Option<int?>(utf8JsonReader.GetInt32());
                             break;
                         default:
                             break;
@@ -131,10 +138,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varReturn == null)
-                throw new ArgumentNullException(nameof(varReturn), "Property is required for class Return.");
+            if (varReturn.IsSet && varReturn.Value == null)
+                throw new ArgumentNullException(nameof(varReturn), "Property is not nullable for class Return.");
 
-            return new Return(varReturn.Value);
+            return new Return(varReturn);
         }
 
         /// <summary>
@@ -161,7 +168,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Return varReturn, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteNumber("return", varReturn.VarReturn);
+            if (varReturn.VarReturnOption.IsSet)
+                writer.WriteNumber("return", varReturn.VarReturnOption.Value!.Value);
         }
     }
 

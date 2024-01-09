@@ -12,6 +12,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**fakeOuterNumberSerialize()**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize()**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakePropertyEnumIntegerSerialize()**](FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int |  |
+| [**testAdditionalPropertiesReference()**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**testBodyWithBinary()**](FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary |  |
 | [**testBodyWithFileSchema()**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams()**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
@@ -20,6 +21,7 @@ All URIs are relative to http://petstore.swagger.io:80/v2, except if the operati
 | [**testEnumParameters()**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
 | [**testGroupParameters()**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**testInlineAdditionalProperties()**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testInlineFreeformAdditionalProperties()**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData()**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testNullable()**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
 | [**testQueryParameterCollectionFormat()**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
@@ -468,6 +470,61 @@ No authorization required
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `testAdditionalPropertiesReference()`
+
+```php
+testAdditionalPropertiesReference($request_body)
+```
+
+test referenced additionalProperties
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$request_body = NULL; // array<string,mixed> | request body
+
+try {
+    $apiInstance->testAdditionalPropertiesReference($request_body);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testAdditionalPropertiesReference: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **request_body** | [**array<string,mixed>**](../Model/mixed.md)| request body | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `testBodyWithBinary()`
 
 ```php
@@ -799,14 +856,14 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$enum_header_string_array = array('enum_header_string_array_example'); // string[] | Header parameter enum test (string array)
+$enum_header_string_array = ['$']; // string[] | Header parameter enum test (string array)
 $enum_header_string = '-efg'; // string | Header parameter enum test (string)
-$enum_query_string_array = array('enum_query_string_array_example'); // string[] | Query parameter enum test (string array)
+$enum_query_string_array = ['$']; // string[] | Query parameter enum test (string array)
 $enum_query_string = '-efg'; // string | Query parameter enum test (string)
 $enum_query_integer = 56; // int | Query parameter enum test (double)
 $enum_query_double = 3.4; // float | Query parameter enum test (double)
 $enum_query_model_array = array(new \OpenAPI\Client\Model\\OpenAPI\Client\Model\EnumClass()); // \OpenAPI\Client\Model\EnumClass[]
-$enum_form_string_array = array('$'); // string[] | Form parameter enum test (string array)
+$enum_form_string_array = ['$']; // string[] | Form parameter enum test (string array)
 $enum_form_string = '-efg'; // string | Form parameter enum test (string)
 
 try {
@@ -820,14 +877,14 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional] |
+| **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional] [default to [&#39;$&#39;]] |
 | **enum_header_string** | **string**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
-| **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional] |
+| **enum_query_string_array** | [**string[]**](../Model/string.md)| Query parameter enum test (string array) | [optional] [default to [&#39;$&#39;]] |
 | **enum_query_string** | **string**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
 | **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] |
 | **enum_query_double** | **float**| Query parameter enum test (double) | [optional] |
 | **enum_query_model_array** | [**\OpenAPI\Client\Model\EnumClass[]**](../Model/\OpenAPI\Client\Model\EnumClass.md)|  | [optional] |
-| **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;] |
+| **enum_form_string_array** | [**string[]**](../Model/string.md)| Form parameter enum test (string array) | [optional] [default to [&#39;$&#39;]] |
 | **enum_form_string** | **string**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;] |
 
 ### Return type
@@ -958,6 +1015,61 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **request_body** | [**array<string,string>**](../Model/string.md)| request body | |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testInlineFreeformAdditionalProperties()`
+
+```php
+testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request)
+```
+
+test inline free-form additionalProperties
+
+
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$test_inline_freeform_additional_properties_request = new \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest(); // \OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest | request body
+
+try {
+    $apiInstance->testInlineFreeformAdditionalProperties($test_inline_freeform_additional_properties_request);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testInlineFreeformAdditionalProperties: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **test_inline_freeform_additional_properties_request** | [**\OpenAPI\Client\Model\TestInlineFreeformAdditionalPropertiesRequest**](../Model/TestInlineFreeformAdditionalPropertiesRequest.md)| request body | |
 
 ### Return type
 

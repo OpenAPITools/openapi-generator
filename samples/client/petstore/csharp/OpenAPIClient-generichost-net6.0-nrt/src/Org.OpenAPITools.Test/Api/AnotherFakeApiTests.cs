@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             ModelClient modelClient = default!;
             var response = await _instance.Call123TestSpecialTagsAsync(modelClient);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<ModelClient>(model);
         }
     }

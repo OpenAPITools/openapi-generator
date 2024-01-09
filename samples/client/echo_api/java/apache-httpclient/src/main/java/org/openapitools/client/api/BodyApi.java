@@ -266,6 +266,146 @@ public class BodyApi {
   }
 
   /**
+   * Test single binary in multipart mime
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testBodyMultipartFormdataSingleBinary(File myFile) throws ApiException {
+    return this.testBodyMultipartFormdataSingleBinary(myFile, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test single binary in multipart mime
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testBodyMultipartFormdataSingleBinary(File myFile, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/body/application/octetstream/single_binary";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    if (myFile != null)
+      localVarFormParams.put("my-file", myFile);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "multipart/form-data"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyAllOfPet(Pet pet) throws ApiException {
+    return this.testEchoBodyAllOfPet(pet, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Pet
+   * @throws ApiException if fails to make API call
+   */
+  public Pet testEchoBodyAllOfPet(Pet pet, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = pet;
+    
+    // create path and map variables
+    String localVarPath = "/echo/body/allOf/Pet";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "application/json"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<Pet> localVarReturnType = new TypeReference<Pet>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)

@@ -17,7 +17,12 @@
 
 package org.openapitools.codegen;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperties {
     /**
@@ -317,8 +322,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         return dataType;
     }
 
+    /**
+     * @deprecated use {@link #setDataType()} instead.
+     */
+    @Deprecated
     public void setDatatype(String datatype) {
         this.dataType = datatype;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 
     public String getDatatypeWithEnum() {
@@ -1027,6 +1040,76 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.requiredVarsMap = requiredVarsMap;
     }
 
+    @Override
+    public boolean getIsFloat() {
+        return isFloat;
+    }
+
+    @Override
+    public void setIsFloat(boolean isFloat) {
+        this.isFloat = isFloat;
+    }
+
+    @Override
+    public boolean getIsDouble() {
+        return isDouble;
+    }
+
+    @Override
+    public void setIsDouble(boolean isDouble) {
+        this.isDouble = isDouble;
+    }
+
+    @Override
+    public boolean getIsInteger() {
+        return isInteger;
+    }
+
+    @Override
+    public void setIsInteger(boolean isInteger) {
+        this.isInteger = isInteger;
+    }
+
+    @Override
+    public boolean getIsLong() {
+        return isLong;
+    }
+
+    @Override
+    public void setIsLong(boolean isLong) {
+        this.isLong = isLong;
+    }
+
+    @Override
+    public boolean getIsBinary() {
+        return isBinary;
+    }
+
+    @Override
+    public void setIsBinary(boolean isBinary) {
+        this.isBinary = isBinary;
+    }
+
+    @Override
+    public boolean getIsByteArray() {
+        return isByteArray;
+    }
+
+    @Override
+    public void setIsByteArray(boolean isByteArray) {
+        this.isByteArray = isByteArray;
+    }
+
+    @Override
+    public boolean getIsDecimal() {
+        return isDecimal;
+    }
+
+    @Override
+    public void setIsDecimal(boolean isDecimal) {
+        this.isDecimal = isDecimal;
+    }
+
     /**
      * Return true if it's an enum (inline or ref)
      *
@@ -1034,6 +1117,16 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     public boolean getIsEnumOrRef() {
         return isEnum || isEnumRef;
+    }
+
+    @Override
+    public boolean getIsEnum() {
+        return isEnum;
+    }
+
+    @Override
+    public void setIsEnum(boolean isEnum) {
+        this.isEnum = isEnum;
     }
 
     @Override

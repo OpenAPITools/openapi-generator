@@ -34,10 +34,11 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s)
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestEnumRefString(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
+        string TestEnumRefString(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -46,10 +47,11 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s)
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestEnumRefStringWithHttpInfo(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
+        ApiResponse<string> TestEnumRefStringWithHttpInfo(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -235,11 +237,12 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s)
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -248,11 +251,12 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s)
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -560,12 +564,13 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s) Test query parameter(s)
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestEnumRefString(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
+        public string TestEnumRefString(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEnumRefStringWithHttpInfo(enumRefStringQuery);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
             return localVarResponse.Data;
         }
 
@@ -573,10 +578,11 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s) Test query parameter(s)
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestEnumRefStringWithHttpInfo(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestEnumRefStringWithHttpInfo(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -600,6 +606,10 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (enumNonrefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery));
+            }
             if (enumRefStringQuery != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery));
@@ -627,13 +637,14 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s) Test query parameter(s)
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestEnumRefStringAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEnumRefStringWithHttpInfoAsync(enumRefStringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestEnumRefStringWithHttpInfoAsync(enumNonrefStringQuery, enumRefStringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -641,11 +652,12 @@ namespace Org.OpenAPITools.Api
         /// Test query parameter(s) Test query parameter(s)
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="enumNonrefStringQuery"> (optional)</param>
         /// <param name="enumRefStringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestEnumRefStringWithHttpInfoAsync(string? enumNonrefStringQuery = default(string?), StringEnumRef? enumRefStringQuery = default(StringEnumRef?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -670,6 +682,10 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
+            if (enumNonrefStringQuery != null)
+            {
+                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_nonref_string_query", enumNonrefStringQuery));
+            }
             if (enumRefStringQuery != null)
             {
                 localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "enum_ref_string_query", enumRefStringQuery));

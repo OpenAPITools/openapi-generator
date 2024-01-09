@@ -101,6 +101,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**GetArrayOfEnums**](FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**TestAdditionalPropertiesReference**](FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -108,6 +109,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestEnumParameters**](FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**TestGroupParameters**](FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**TestInlineFreeformAdditionalProperties**](FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -206,6 +208,7 @@ Class | Method | HTTP request | Description
  - [Model.Quadrilateral](Quadrilateral.md)
  - [Model.QuadrilateralInterface](QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](ReadOnlyFirst.md)
+ - [Model.RequiredClass](RequiredClass.md)
  - [Model.Return](Return.md)
  - [Model.RolesReportsHash](RolesReportsHash.md)
  - [Model.RolesReportsHashRole](RolesReportsHashRole.md)
@@ -218,6 +221,7 @@ Class | Method | HTTP request | Description
  - [Model.Tag](Tag.md)
  - [Model.TestCollectionEndingWithWordList](TestCollectionEndingWithWordList.md)
  - [Model.TestCollectionEndingWithWordListObject](TestCollectionEndingWithWordListObject.md)
+ - [Model.TestInlineFreeformAdditionalPropertiesRequest](TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Model.Triangle](Triangle.md)
  - [Model.TriangleInterface](TriangleInterface.md)
  - [Model.User](User.md)

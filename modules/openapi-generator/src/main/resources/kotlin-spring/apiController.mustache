@@ -13,7 +13,7 @@ import java.util.Optional
 class {{classname}}Controller(
         @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate?
 ) : {{classname}} {
-    private val delegate: {{classname}}Delegate
+    private lateinit var delegate: {{classname}}Delegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : {{classname}}Delegate {})

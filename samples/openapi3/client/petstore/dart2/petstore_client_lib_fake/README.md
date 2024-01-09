@@ -68,6 +68,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](doc//FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](doc//FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](doc//FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**testAdditionalPropertiesReference**](doc//FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](doc//FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](doc//FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](doc//FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -76,6 +77,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testEnumParameters**](doc//FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](doc//FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](doc//FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](doc//FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](doc//FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testNullable**](doc//FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**testQueryParameterCollectionFormat**](doc//FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
@@ -153,6 +155,7 @@ Class | Method | HTTP request | Description
  - [SingleRefType](doc//SingleRefType.md)
  - [SpecialModelName](doc//SpecialModelName.md)
  - [Tag](doc//Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](doc//TestInlineFreeformAdditionalPropertiesRequest.md)
  - [User](doc//User.md)
 
 

@@ -203,7 +203,7 @@
             }
         ]
     },
-	{
+    {
         "description": "oneOf with missing optional property",
         "schema": {
             "oneOf": [

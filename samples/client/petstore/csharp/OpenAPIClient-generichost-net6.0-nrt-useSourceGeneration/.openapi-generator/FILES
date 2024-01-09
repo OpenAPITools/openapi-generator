@@ -79,6 +79,7 @@ docs/models/PolymorphicProperty.md
 docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
+docs/models/RequiredClass.md
 docs/models/Return.md
 docs/models/RolesReportsHash.md
 docs/models/RolesReportsHashRole.md
@@ -91,6 +92,7 @@ docs/models/SpecialModelName.md
 docs/models/Tag.md
 docs/models/TestCollectionEndingWithWordList.md
 docs/models/TestCollectionEndingWithWordListObject.md
+docs/models/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/models/Triangle.md
 docs/models/TriangleInterface.md
 docs/models/User.md
@@ -205,6 +207,7 @@ src/UseSourceGeneration/Model/PolymorphicProperty.cs
 src/UseSourceGeneration/Model/Quadrilateral.cs
 src/UseSourceGeneration/Model/QuadrilateralInterface.cs
 src/UseSourceGeneration/Model/ReadOnlyFirst.cs
+src/UseSourceGeneration/Model/RequiredClass.cs
 src/UseSourceGeneration/Model/Return.cs
 src/UseSourceGeneration/Model/RolesReportsHash.cs
 src/UseSourceGeneration/Model/RolesReportsHashRole.cs
@@ -217,6 +220,7 @@ src/UseSourceGeneration/Model/SpecialModelName.cs
 src/UseSourceGeneration/Model/Tag.cs
 src/UseSourceGeneration/Model/TestCollectionEndingWithWordList.cs
 src/UseSourceGeneration/Model/TestCollectionEndingWithWordListObject.cs
+src/UseSourceGeneration/Model/TestInlineFreeformAdditionalPropertiesRequest.cs
 src/UseSourceGeneration/Model/Triangle.cs
 src/UseSourceGeneration/Model/TriangleInterface.cs
 src/UseSourceGeneration/Model/User.cs

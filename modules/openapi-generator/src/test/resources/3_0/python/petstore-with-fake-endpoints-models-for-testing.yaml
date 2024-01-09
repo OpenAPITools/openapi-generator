@@ -983,6 +983,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1000,6 +1017,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/date-time-query-params:
@@ -1042,6 +1080,49 @@ paths:
             schema:
               $ref: '#/components/schemas/User'
         required: true
+  /fake/empty_and_non_empty_responses:
+    post:
+      tags:
+        - fake
+      summary: test empty and non-empty responses
+      description: ''
+      operationId: testEmptyAndNonEmptyResponses
+      responses:
+        '204':
+          description: Success, but no response content
+        '206':
+          description: Partial response content
+          content:
+            text/plain:
+              schema:
+                type: string
+  /fake/error_responses_with_model:
+    post:
+      tags:
+        - fake
+      summary: test error responses with model
+      operationId: testErrorResponsesWithModel
+      responses:
+        '204':
+          description: Success, but no response content
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason400:
+                    type: string
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reason404:
+                    type: string
   /another-fake/dummy:
     patch:
       tags:
@@ -1301,6 +1382,19 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ListOfObjects"
+  /fake/ref_enum_string:
+    get:
+      tags:
+        - fake
+      summary: test ref to enum string
+      operationId: fake_ref_enum_string
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                $ref: "#/components/schemas/EnumClass"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1754,7 +1848,7 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/Animal'
-    List:
+    ListClass:
       type: object
       properties:
         123-list:
@@ -1878,6 +1972,10 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     OuterEnum:
       nullable: true
       type: string
@@ -2330,3 +2428,21 @@ components:
       title: ListOfObjects
       items:
         $ref: "#/components/schemas/Tag"
+    UnnamedDictWithAdditionalStringListProperties:
+      type: object
+      properties:
+        dictProperty:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+    UnnamedDictWithAdditionalModelListProperties:
+      type: object
+      properties:
+        dictProperty:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/CreatureInfo"

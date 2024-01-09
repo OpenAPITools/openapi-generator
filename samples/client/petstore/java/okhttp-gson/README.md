@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 *AnotherFakeApi* | [**getParameterArrayNumber**](docs/AnotherFakeApi.md#getParameterArrayNumber) | **GET** /fake/parameter-array-number | parameter array number default value
 *AnotherFakeApi* | [**getParameterStringNumber**](docs/AnotherFakeApi.md#getParameterStringNumber) | **GET** /fake/parameter-string-number | parameter string number
+*AnotherFakeApi* | [**nullRequestBody**](docs/AnotherFakeApi.md#nullRequestBody) | **GET** /fake/null-request-body | null request body
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -124,6 +125,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getParameterNameMapping**](docs/FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -131,6 +133,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -161,6 +164,11 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [AllOfModelArrayAnyOf](docs/AllOfModelArrayAnyOf.md)
+ - [AllOfModelArrayAnyOfAllOfAttributes](docs/AllOfModelArrayAnyOfAllOfAttributes.md)
+ - [AllOfModelArrayAnyOfAllOfAttributesC](docs/AllOfModelArrayAnyOfAllOfAttributesC.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md)
+ - [AllOfModelArrayAnyOfAllOfLinkListColumn1Value](docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md)
  - [Animal](docs/Animal.md)
  - [Apple](docs/Apple.md)
  - [AppleReq](docs/AppleReq.md)
@@ -238,6 +246,7 @@ Class | Method | HTTP request | Description
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)

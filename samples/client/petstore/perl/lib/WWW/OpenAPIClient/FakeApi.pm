@@ -535,6 +535,67 @@ sub fake_property_enum_integer_serialize {
 }
 
 #
+# test_additional_properties_reference
+#
+# test referenced additionalProperties
+#
+# @param HASH[string,AnyType] $request_body request body (required)
+{
+    my $params = {
+    'request_body' => {
+        data_type => 'HASH[string,AnyType]',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_additional_properties_reference' } = {
+        summary => 'test referenced additionalProperties',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_additional_properties_reference {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'request_body' is set
+    unless (exists $args{'request_body'}) {
+      croak("Missing the required parameter 'request_body' when calling test_additional_properties_reference");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/additionalProperties-reference';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'request_body'}) {
+        $_body_data = $args{'request_body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
 # test_body_with_binary
 #
 # 
@@ -1332,6 +1393,67 @@ sub test_inline_additional_properties {
     # body params
     if ( exists $args{'request_body'}) {
         $_body_data = $args{'request_body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
+#
+# test_inline_freeform_additional_properties
+#
+# test inline free-form additionalProperties
+#
+# @param TestInlineFreeformAdditionalPropertiesRequest $test_inline_freeform_additional_properties_request request body (required)
+{
+    my $params = {
+    'test_inline_freeform_additional_properties_request' => {
+        data_type => 'TestInlineFreeformAdditionalPropertiesRequest',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_inline_freeform_additional_properties' } = {
+        summary => 'test inline free-form additionalProperties',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_inline_freeform_additional_properties {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'test_inline_freeform_additional_properties_request' is set
+    unless (exists $args{'test_inline_freeform_additional_properties_request'}) {
+      croak("Missing the required parameter 'test_inline_freeform_additional_properties_request' when calling test_inline_freeform_additional_properties");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/inline-freeform-additionalProperties';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'test_inline_freeform_additional_properties_request'}) {
+        $_body_data = $args{'test_inline_freeform_additional_properties_request'};
     }
 
     # authentication setting, if any

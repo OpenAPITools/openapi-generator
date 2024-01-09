@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
@@ -41,7 +41,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - run: ls -la  modules/openapi-generator-cli/target
       - name: Upload openapi-generator-cli.jar artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -55,7 +55,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
@@ -79,7 +79,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
       - name: Publish unit test reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: surefire-test-results
           path: '**/surefire-reports/TEST-*.xml'
@@ -92,12 +92,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target
@@ -131,12 +131,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: 11
           distribution: 'temurin'
       - name: Download openapi-generator-cli.jar artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: openapi-generator-cli.jar
           path: modules/openapi-generator-cli/target

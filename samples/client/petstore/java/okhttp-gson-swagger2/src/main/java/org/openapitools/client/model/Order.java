@@ -117,6 +117,11 @@ public class Order {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -131,7 +136,6 @@ public class Order {
   }
 
   public Order id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -146,14 +150,12 @@ public class Order {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Order petId(Long petId) {
-    
     this.petId = petId;
     return this;
   }
@@ -168,14 +170,12 @@ public class Order {
     return petId;
   }
 
-
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
 
   public Order quantity(Integer quantity) {
-    
     this.quantity = quantity;
     return this;
   }
@@ -190,14 +190,12 @@ public class Order {
     return quantity;
   }
 
-
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
 
   public Order shipDate(OffsetDateTime shipDate) {
-    
     this.shipDate = shipDate;
     return this;
   }
@@ -212,14 +210,12 @@ public class Order {
     return shipDate;
   }
 
-
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
 
   public Order status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -234,14 +230,12 @@ public class Order {
     return status;
   }
 
-
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
 
   public Order complete(Boolean complete) {
-    
     this.complete = complete;
     return this;
   }
@@ -255,7 +249,6 @@ public class Order {
   public Boolean getComplete() {
     return complete;
   }
-
 
   public void setComplete(Boolean complete) {
     this.complete = complete;
@@ -389,6 +382,10 @@ public class Order {
         JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
   }
 

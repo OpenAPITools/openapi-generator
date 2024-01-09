@@ -69,7 +69,6 @@ public class ModelApiResponse {
   }
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
@@ -84,14 +83,12 @@ public class ModelApiResponse {
     return code;
   }
 
-
   public void setCode(Integer code) {
     this.code = code;
   }
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -106,14 +103,12 @@ public class ModelApiResponse {
     return type;
   }
 
-
   public void setType(String type) {
     this.type = type;
   }
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
@@ -127,7 +122,6 @@ public class ModelApiResponse {
   public String getMessage() {
     return message;
   }
-
 
   public void setMessage(String message) {
     this.message = message;

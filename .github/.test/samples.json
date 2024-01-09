@@ -320,12 +320,6 @@
       ]
     },
     {
-      "input": "java-petstore-jersey1.sh",
-      "matches": [
-        "Client: Java"
-      ]
-    },
-    {
       "input": "java-petstore-jersey2-java6.sh",
       "matches": [
         "Client: Java"
@@ -580,18 +574,6 @@
     },
     {
       "input": "jaxrs-cxf-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
-      "input": "jaxrs-jersey1-petstore-server.sh",
-      "matches": [
-        "Server: Java"
-      ]
-    },
-    {
-      "input": "jaxrs-jersey1-usetags-petstore-server.sh",
       "matches": [
         "Server: Java"
       ]

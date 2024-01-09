@@ -61,7 +61,6 @@ public class SpecialModelName implements Parcelable {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -74,7 +73,6 @@ public class SpecialModelName implements Parcelable {
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
-
 
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

@@ -40,7 +40,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files;
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -69,7 +69,7 @@ public class FileSchemaTestClass {
   }
 
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     
     this.files = files;
     return this;
@@ -91,12 +91,12 @@ public class FileSchemaTestClass {
   @Valid
 
 
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 

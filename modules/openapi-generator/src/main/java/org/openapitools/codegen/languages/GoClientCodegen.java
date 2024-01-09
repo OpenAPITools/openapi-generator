@@ -56,6 +56,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
     public static final String GENERATE_INTERFACES = "generateInterfaces";
     public static final String MODEL_FILE_FOLDER = "modelFileFolder";
+    public static final String WITH_GO_MOD = "withGoMod";
     protected String goImportAlias = "openapiclient";
     protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
@@ -74,7 +75,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.SignatureAuth
+                        SecurityFeature.SignatureAuth,
+                        SecurityFeature.AWSV4Signature
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
@@ -137,6 +139,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
+        cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
+        this.setWithGoMod(true);
     }
 
     /**
@@ -262,6 +267,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
             modelFileFolder = additionalProperties.get(MODEL_FILE_FOLDER).toString();
         }
 
+        if (additionalProperties.containsKey(WITH_GO_MOD)) {
+            setWithGoMod(Boolean.parseBoolean(additionalProperties.get(WITH_GO_MOD).toString()));
+            additionalProperties.put(WITH_GO_MOD, withGoMod);
+        } else {
+            additionalProperties.put(WITH_GO_MOD, true);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_MARSHAL_JSON)) {
+            setGenerateMarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_MARSHAL_JSON).toString()));
+        }
+
         // add lambda for mustache templates to handle oneOf/anyOf naming
         // e.g. []string => ArrayOfString
         additionalProperties.put("lambda.type-to-name", (Mustache.Lambda) (fragment, writer) -> writer.write(typeToName(fragment.execute())));
@@ -273,8 +289,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
         supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
-        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
-        supportingFiles.add(new SupportingFile("go.sum.mustache", "", "go.sum"));
+        if ((boolean)additionalProperties.get(WITH_GO_MOD)) {
+            supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+            supportingFiles.add(new SupportingFile("go.sum.mustache", "", "go.sum"));
+        }
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
     }
@@ -467,14 +485,28 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // additional import for different cases
+            boolean addedFmtImport = false;
+
             // oneOf
             if (model.oneOf != null && !model.oneOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
             }
 
             // anyOf
             if (model.anyOf != null && !model.anyOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
+            }
+
+            if (model.hasRequired) {
+                if (!model.isAdditionalPropertiesTrue) {
+                    imports.add(createMapping("import", "bytes"));
+                }
+
+                if (!addedFmtImport) {
+                    imports.add(createMapping("import", "fmt"));
+                }
             }
 
             // additionalProperties: true and parent

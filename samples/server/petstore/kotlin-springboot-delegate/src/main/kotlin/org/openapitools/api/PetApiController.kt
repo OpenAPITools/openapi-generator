@@ -10,7 +10,7 @@ import java.util.Optional
 class PetApiController(
         @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: PetApiDelegate?
 ) : PetApi {
-    private val delegate: PetApiDelegate
+    private lateinit var delegate: PetApiDelegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : PetApiDelegate {})

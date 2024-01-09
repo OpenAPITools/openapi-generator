@@ -12,13 +12,10 @@
 """  # noqa: E501
 
 
+from __future__ import annotations
 import json
-import pprint
-import re  # noqa: F401
-from aenum import Enum, no_arg
-
-
-
+from enum import Enum
+from typing_extensions import Self
 
 
 class EnumClass(str, Enum):
@@ -34,8 +31,8 @@ class EnumClass(str, Enum):
     LEFT_PARENTHESIS_XYZ_RIGHT_PARENTHESIS = '(xyz)'
 
     @classmethod
-    def from_json(cls, json_str: str) -> EnumClass:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of EnumClass from a JSON string"""
-        return EnumClass(json.loads(json_str))
+        return cls(json.loads(json_str))
 
 

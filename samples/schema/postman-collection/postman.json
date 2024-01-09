@@ -13,7 +13,7 @@
 	            "name": "default",
 	            "item": [
 	                        {
-    "name": "/users/{userId} (DEPRECATED)",
+    "name": "/users/:userId (DEPRECATED)",
                 "description": "Update the information of an existing user.",
                  "item": [
                             {
@@ -24,21 +24,25 @@
                                         {
                                             "key": "Content-Type",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode",
                                             "value": "code_one",
+                                            "description": "Code as header",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
                                             "value": "",
+                                            "description": "Code as header2",
                                             "disabled": true
                                         }
                                     ],
@@ -52,13 +56,13 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/users/{userId}",
+                                        "raw": "{{baseUrl}}/users/:userId",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "users",
-                                            "{userId}"
+                                            ":userId"
                                         ],
                                         "variable": [
                                             {
@@ -81,7 +85,7 @@
 	            "name": "advanced",
 	            "item": [
 	                        {
-    "name": "/groups/{groupId}",
+    "name": "/groups/:groupId",
                 "description": "Get group of users",
                  "item": [
                             {
@@ -92,6 +96,7 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         }
                                     ],
@@ -105,18 +110,18 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/groups/{groupId}",
+                                        "raw": "{{baseUrl}}/groups/:groupId",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "groups",
-                                            "{groupId}"
+                                            ":groupId"
                                         ],
                                         "variable": [
                                             {
                                                 "key": "groupId",
-                                                "value": "",
+                                                "value": "1",
                                                 "description": "group Id"
                                             }
                                         ],
@@ -129,7 +134,7 @@
                             ]
                         },
 	                        {
-    "name": "/users/{userId}",
+    "name": "/users/:userId",
                 "description": "Retrieve the information of the user with the matching user ID.",
                  "item": [
                             {
@@ -140,16 +145,19 @@
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode",
                                             "value": "code_one",
+                                            "description": "Code as header",
                                             "disabled": false
                                         },
                                         {
                                             "key": "strCode2",
                                             "value": "",
+                                            "description": "Code as header2",
                                             "disabled": true
                                         }
                                     ],
@@ -163,13 +171,13 @@
                                         }
                                     },
                                     "url": {
-                                        "raw": "{{baseUrl}}/users/{userId}",
+                                        "raw": "{{baseUrl}}/users/:userId",
                                         "host": [
                                             "{{baseUrl}}"
                                         ],
                                         "path": [
                                             "users",
-                                            "{userId}"
+                                            ":userId"
                                         ],
                                         "variable": [
                                             {
@@ -192,62 +200,6 @@
 	            "name": "basic",
 	            "item": [
 	                        {
-    "name": "/users/",
-                "description": "Retrieve the information of the user with the matching user ID.",
-                 "item": [
-                            {
-                                "name": "Get User Info by Query Param",
-                                "request": {
-                                    "method": "GET",
-                                    "header": [
-                                        {
-                                            "key": "Accept",
-                                            "value": "application/json",
-                                            "disabled": false
-                                        },
-                                        {
-                                            "key": "Custom-Header",
-                                            "value": "",
-                                            "disabled": true
-                                        },
-                                        {
-                                            "key": "Another-Custom-Header",
-                                            "value": "abc",
-                                            "disabled": false
-                                        }
-                                    ],
-                                    "body": {
-                                        "mode": "raw",
-                                        "raw": "",
-                                        "options": {
-                                            "raw": {
-                                                "language": "json"
-                                            }
-                                        }
-                                    },
-                                    "url": {
-                                        "raw": "{{baseUrl}}/users/",
-                                        "host": [
-                                            "{{baseUrl}}"
-                                        ],
-                                        "path": [
-                                            "users"
-                                        ],
-                                        "variable": [
-                                        ],
-                                        "query": [
-                                            {
-                                                "key": "pUserId",
-                                                "value": "888"
-                                            }
-                                        ]
-                                    },
-                                    "description": "Retrieve the information of the user with the matching user ID."
-                                }
-                            }
-                            ]
-                        },
-	                        {
     "name": "/user",
                 "description": "Create a new user.",
                  "item": [
@@ -259,11 +211,13 @@
                                         {
                                             "key": "Content-Type",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         },
                                         {
                                             "key": "Accept",
                                             "value": "application/json",
+                                            "description": "",
                                             "disabled": false
                                         }
                                     ],
@@ -290,6 +244,67 @@
                                         ]
                                     },
                                     "description": "Create a new user."
+                                }
+                            }
+                            ]
+                        },
+	                        {
+    "name": "/users/",
+                "description": "Retrieve the information of the user with the matching user ID.",
+                 "item": [
+                            {
+                                "name": "Get User Info by Query Param",
+                                "request": {
+                                    "method": "GET",
+                                    "header": [
+                                        {
+                                            "key": "Accept",
+                                            "value": "application/json",
+                                            "description": "",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "Custom-Header",
+                                            "value": "",
+                                            "description": "Custom HTTP header",
+                                            "disabled": true
+                                        },
+                                        {
+                                            "key": "Another-Custom-Header",
+                                            "value": "abc",
+                                            "description": "Custom HTTP header with default",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "body": {
+                                        "mode": "raw",
+                                        "raw": "",
+                                        "options": {
+                                            "raw": {
+                                                "language": "json"
+                                            }
+                                        }
+                                    },
+                                    "url": {
+                                        "raw": "{{baseUrl}}/users/",
+                                        "host": [
+                                            "{{baseUrl}}"
+                                        ],
+                                        "path": [
+                                            "users"
+                                        ],
+                                        "variable": [
+                                        ],
+                                        "query": [
+                                            {
+                                                "key": "pUserId",
+                                                "value": "888",
+                                                "description": "Query Id.",
+                                                "disabled": false
+                                            }
+                                        ]
+                                    },
+                                    "description": "Retrieve the information of the user with the matching user ID."
                                 }
                             }
                             ]

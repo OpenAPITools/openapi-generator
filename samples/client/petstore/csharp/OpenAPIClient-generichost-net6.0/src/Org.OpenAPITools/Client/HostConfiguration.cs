@@ -114,6 +114,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
+            _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());
@@ -126,6 +127,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new TagJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListJsonConverter());
             _jsonOptions.Converters.Add(new TestCollectionEndingWithWordListObjectJsonConverter());
+            _jsonOptions.Converters.Add(new TestInlineFreeformAdditionalPropertiesRequestJsonConverter());
             _jsonOptions.Converters.Add(new TriangleJsonConverter());
             _jsonOptions.Converters.Add(new TriangleInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new UserJsonConverter());

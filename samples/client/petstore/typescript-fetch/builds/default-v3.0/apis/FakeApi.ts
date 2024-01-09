@@ -24,6 +24,7 @@ import type {
   OuterComposite,
   OuterObjectWithEnumProperty,
   Pet,
+  TestInlineFreeformAdditionalPropertiesRequest,
   User,
 } from '../models/index';
 import {
@@ -45,6 +46,8 @@ import {
     OuterObjectWithEnumPropertyToJSON,
     PetFromJSON,
     PetToJSON,
+    TestInlineFreeformAdditionalPropertiesRequestFromJSON,
+    TestInlineFreeformAdditionalPropertiesRequestToJSON,
     UserFromJSON,
     UserToJSON,
 } from '../models/index';
@@ -73,6 +76,10 @@ export interface FakeOuterStringSerializeRequest {
 
 export interface FakePropertyEnumIntegerSerializeRequest {
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
+}
+
+export interface TestAdditionalPropertiesReferenceRequest {
+    requestBody: { [key: string]: any; };
 }
 
 export interface TestBodyWithBinaryRequest {
@@ -132,6 +139,10 @@ export interface TestGroupParametersRequest {
 
 export interface TestInlineAdditionalPropertiesRequest {
     requestBody: { [key: string]: string; };
+}
+
+export interface TestInlineFreeformAdditionalPropertiesOperationRequest {
+    testInlineFreeformAdditionalPropertiesRequest: TestInlineFreeformAdditionalPropertiesRequest;
 }
 
 export interface TestJsonFormDataRequest {
@@ -409,6 +420,40 @@ export class FakeApi extends runtime.BaseAPI {
     async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OuterObjectWithEnumProperty> {
         const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * 
+     * test referenced additionalProperties
+     */
+    async testAdditionalPropertiesReferenceRaw(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+            throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testAdditionalPropertiesReference.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/additionalProperties-reference`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.requestBody,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 
+     * test referenced additionalProperties
+     */
+    async testAdditionalPropertiesReference(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.testAdditionalPropertiesReferenceRaw(requestParameters, initOverrides);
     }
 
     /**
@@ -848,6 +893,40 @@ export class FakeApi extends runtime.BaseAPI {
      */
     async testInlineAdditionalProperties(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testInlineAdditionalPropertiesRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 
+     * test inline free-form additionalProperties
+     */
+    async testInlineFreeformAdditionalPropertiesRaw(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.testInlineFreeformAdditionalPropertiesRequest === null || requestParameters.testInlineFreeformAdditionalPropertiesRequest === undefined) {
+            throw new runtime.RequiredError('testInlineFreeformAdditionalPropertiesRequest','Required parameter requestParameters.testInlineFreeformAdditionalPropertiesRequest was null or undefined when calling testInlineFreeformAdditionalProperties.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/inline-freeform-additionalProperties`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: TestInlineFreeformAdditionalPropertiesRequestToJSON(requestParameters.testInlineFreeformAdditionalPropertiesRequest),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 
+     * test inline free-form additionalProperties
+     */
+    async testInlineFreeformAdditionalProperties(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.testInlineFreeformAdditionalPropertiesRaw(requestParameters, initOverrides);
     }
 
     /**

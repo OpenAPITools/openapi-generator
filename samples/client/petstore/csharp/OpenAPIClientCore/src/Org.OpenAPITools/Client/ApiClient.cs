@@ -455,23 +455,23 @@ namespace Org.OpenAPITools.Client
                 RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
 
+            if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientId) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
+                configuration.OAuthFlow != null)
+            {
+                clientOptions.Authenticator = new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration);
+            }
+
             using (RestClient client = new RestClient(clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
-                if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientId) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
-                    configuration.OAuthFlow != null)
-                {
-                    client.UseAuthenticator(new OAuthAuthenticator(
-                        configuration.OAuthTokenUrl,
-                        configuration.OAuthClientId,
-                        configuration.OAuthClientSecret,
-                        configuration.OAuthFlow,
-                        SerializerSettings,
-                        configuration));
-                }
-
                 InterceptRequest(request);
 
                 RestResponse<T> response;
@@ -562,26 +562,27 @@ namespace Org.OpenAPITools.Client
                 MaxTimeout = configuration.Timeout,
                 Proxy = configuration.Proxy,
                 UserAgent = configuration.UserAgent,
-                UseDefaultCredentials = configuration.UseDefaultCredentials
+                UseDefaultCredentials = configuration.UseDefaultCredentials,
+                RemoteCertificateValidationCallback = configuration.RemoteCertificateValidationCallback
             };
+
+            if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientId) &&
+                !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
+                configuration.OAuthFlow != null)
+            {
+                clientOptions.Authenticator = new OAuthAuthenticator(
+                    configuration.OAuthTokenUrl,
+                    configuration.OAuthClientId,
+                    configuration.OAuthClientSecret,
+                    configuration.OAuthFlow,
+                    SerializerSettings,
+                    configuration);
+            }
 
             using (RestClient client = new RestClient(clientOptions,
                 configureSerialization: serializerConfig => serializerConfig.UseSerializer(() => new CustomJsonCodec(SerializerSettings, configuration))))
             {
-                if (!string.IsNullOrEmpty(configuration.OAuthTokenUrl) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientId) &&
-                    !string.IsNullOrEmpty(configuration.OAuthClientSecret) &&
-                    configuration.OAuthFlow != null)
-                {
-                    client.UseAuthenticator(new OAuthAuthenticator(
-                        configuration.OAuthTokenUrl,
-                        configuration.OAuthClientId,
-                        configuration.OAuthClientSecret,
-                        configuration.OAuthFlow,
-                        SerializerSettings,
-                        configuration));
-                }
-
                 InterceptRequest(request);
 
                 RestResponse<T> response;

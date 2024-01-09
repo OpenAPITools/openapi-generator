@@ -75,6 +75,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterNumberSerialize**](doc/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterStringSerialize**](doc/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [*FakeApi*](doc/FakeApi.md) | [**fakePropertyEnumIntegerSerialize**](doc/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[*FakeApi*](doc/FakeApi.md) | [**testAdditionalPropertiesReference**](doc/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithBinary**](doc/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithFileSchema**](doc/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithQueryParams**](doc/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -83,6 +84,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testEnumParameters**](doc/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 [*FakeApi*](doc/FakeApi.md) | [**testGroupParameters**](doc/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [*FakeApi*](doc/FakeApi.md) | [**testInlineAdditionalProperties**](doc/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[*FakeApi*](doc/FakeApi.md) | [**testInlineFreeformAdditionalProperties**](doc/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 [*FakeApi*](doc/FakeApi.md) | [**testNullable**](doc/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
@@ -160,6 +162,7 @@ Class | Method | HTTP request | Description
  - [SingleRefType](doc/SingleRefType.md)
  - [SpecialModelName](doc/SpecialModelName.md)
  - [Tag](doc/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](doc/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [User](doc/User.md)
 
 

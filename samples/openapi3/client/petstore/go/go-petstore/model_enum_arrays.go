@@ -131,10 +131,10 @@ func (o EnumArrays) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *EnumArrays) UnmarshalJSON(bytes []byte) (err error) {
+func (o *EnumArrays) UnmarshalJSON(data []byte) (err error) {
 	varEnumArrays := _EnumArrays{}
 
-	err = json.Unmarshal(bytes, &varEnumArrays)
+	err = json.Unmarshal(data, &varEnumArrays)
 
 	if err != nil {
 		return err
@@ -144,7 +144,7 @@ func (o *EnumArrays) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "just_symbol")
 		delete(additionalProperties, "array_enum")
 		o.AdditionalProperties = additionalProperties

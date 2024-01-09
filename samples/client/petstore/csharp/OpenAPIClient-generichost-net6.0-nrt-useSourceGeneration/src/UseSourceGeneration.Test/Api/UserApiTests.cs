@@ -98,7 +98,7 @@ namespace UseSourceGeneration.Test.Api
         {
             string username = default!;
             var response = await _instance.GetUserByNameAsync(username);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<User>(model);
         }
 
@@ -111,7 +111,7 @@ namespace UseSourceGeneration.Test.Api
             string username = default!;
             string password = default!;
             var response = await _instance.LoginUserAsync(username, password);
-            var model = response.AsModel();
+            var model = response.Ok();
             Assert.IsType<string>(model);
         }
 

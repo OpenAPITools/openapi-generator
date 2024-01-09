@@ -185,7 +185,7 @@ $apiInstance = new OpenAPI\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$status = array('status_example'); // string[] | Status values that need to be considered for filter
+$status = ['available']; // string[] | Status values that need to be considered for filter
 
 try {
     $result = $apiInstance->findPetsByStatus($status);
@@ -199,7 +199,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | |
+| **status** | [**string[]**](../Model/string.md)| Status values that need to be considered for filter | [default to [&#39;available&#39;]] |
 
 ### Return type
 

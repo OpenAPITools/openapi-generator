@@ -9,6 +9,7 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **toppings** | **String** |  | [optional] 
+**pizzaSize** | **num** |  | [optional] 
 **href** | **String** | Hyperlink reference | [optional] 
 **id** | **String** | unique identifier | [optional] 
 **atSchemaLocation** | **String** | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional] 

@@ -331,7 +331,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
         return super.addMustacheLambdas()
-                .put("multiline_comment_4", new IndentedLambda(4, " ", "///", false));
+                .put("multiline_comment_4", new IndentedLambda(4, " ", "///", false, false));
     }
 
     @Override

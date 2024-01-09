@@ -63,6 +63,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Invoke-PSFakeOuterNumberSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *PSFakeApi* | [**Invoke-PSFakeOuterStringSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *PSFakeApi* | [**Get-PSArrayOfEnums**](docs/PSFakeApi.md#Get-PSArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
+*PSFakeApi* | [**Test-PSAdditionalPropertiesReference**](docs/PSFakeApi.md#Test-PSAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *PSFakeApi* | [**Test-PSBodyWithFileSchema**](docs/PSFakeApi.md#Test-PSBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *PSFakeApi* | [**Test-PSBodyWithQueryParams**](docs/PSFakeApi.md#Test-PSBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *PSFakeApi* | [**Test-PSClientModel**](docs/PSFakeApi.md#Test-PSClientModel) | **PATCH** /fake | To test ""client"" model
@@ -70,6 +71,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Test-PSEnumParameters**](docs/PSFakeApi.md#Test-PSEnumParameters) | **GET** /fake | To test enum parameters
 *PSFakeApi* | [**Test-PSGroupParameters**](docs/PSFakeApi.md#Test-PSGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *PSFakeApi* | [**Test-PSInlineAdditionalProperties**](docs/PSFakeApi.md#Test-PSInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*PSFakeApi* | [**Test-PSInlineFreeformAdditionalProperties**](docs/PSFakeApi.md#Test-PSInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *PSFakeApi* | [**Test-PSJsonFormData**](docs/PSFakeApi.md#Test-PSJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *PSFakeApi* | [**Test-PSQueryParameterCollectionFormat**](docs/PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *PSFakeClassnameTags123Api* | [**Test-PSClassname**](docs/PSFakeClassnameTags123Api.md#Test-PSClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -166,6 +168,7 @@ Class | Method | HTTP request | Description
  - [PSPetstore\Model.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [PSPetstore\Model.SpecialModelName](docs/SpecialModelName.md)
  - [PSPetstore\Model.Tag](docs/Tag.md)
+ - [PSPetstore\Model.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [PSPetstore\Model.Triangle](docs/Triangle.md)
  - [PSPetstore\Model.TriangleInterface](docs/TriangleInterface.md)
  - [PSPetstore\Model.User](docs/User.md)
@@ -194,7 +197,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key
+- **API key parameter name**: api_key_name
 - **Location**: HTTP header
 
 <a id="api_key_query"></a>
@@ -202,7 +205,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key_query
+- **API key parameter name**: api_key_query_name
 - **Location**: URL query string
 
 <a id="http_basic_test"></a>

@@ -906,6 +906,23 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -923,6 +940,23 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
       tags:
       - fake
   /fake/body-with-query-params:
@@ -1747,6 +1781,10 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -2214,6 +2252,12 @@ components:
       required:
       - param
       - param2
+      type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
       type: object
     uploadFileWithRequiredFile_request:
       properties:
