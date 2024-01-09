@@ -61,7 +61,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PingGetResponse::OK => {
+            PingGetResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }

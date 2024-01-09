@@ -23,57 +23,75 @@ pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "2.3.4";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum AllOfGetResponse {
     /// OK
-    OK(models::AllOfObject),
+    Status200_OK(models::AllOfObject),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum DummyGetResponse {
     /// Success
-    Success,
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum DummyPutResponse {
     /// Success
-    Success,
+    Status200_Success,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum FileResponseGetResponse {
     /// Success
-    Success(ByteArray),
+    Status200_Success(ByteArray),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum GetStructuredYamlResponse {
     /// OK
-    OK(String),
+    Status200_OK(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum HtmlPostResponse {
     /// Success
-    Success(String),
+    Status200_Success(String),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum PostYamlResponse {
     /// OK
-    OK,
+    Status204_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum RawJsonGetResponse {
     /// Success
-    Success(crate::types::Object),
+    Status200_Success(crate::types::Object),
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum SoloObjectPostResponse {
     /// OK
-    OK,
+    Status204_OK,
 }
 
 /// API

@@ -72,7 +72,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AllOfGetResponse::OK(body) => {
+            AllOfGetResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -144,7 +144,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyGetResponse::Success => {
+            DummyGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -213,7 +213,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DummyPutResponse::Success => {
+            DummyPutResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -269,7 +269,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FileResponseGetResponse::Success(body) => {
+            FileResponseGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -344,7 +344,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetStructuredYamlResponse::OK(body) => {
+            GetStructuredYamlResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -419,7 +419,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            HtmlPostResponse::Success(body) => {
+            HtmlPostResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -494,7 +494,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PostYamlResponse::OK => {
+            PostYamlResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -547,7 +547,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            RawJsonGetResponse::Success(body) => {
+            RawJsonGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -634,7 +634,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            SoloObjectPostResponse::OK => {
+            SoloObjectPostResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }

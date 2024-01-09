@@ -23,21 +23,27 @@ pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0.7";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum MultipartRelatedRequestPostResponse {
     /// OK
-    OK,
+    Status201_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum MultipartRequestPostResponse {
     /// OK
-    OK,
+    Status201_OK,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum MultipleIdenticalMimeTypesPostResponse {
     /// OK
-    OK,
+    Status200_OK,
 }
 
 /// API

@@ -23,9 +23,11 @@ pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0";
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
 pub enum PingGetResponse {
     /// OK
-    OK,
+    Status201_OK,
 }
 
 /// API
