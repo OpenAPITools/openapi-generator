@@ -2724,6 +2724,7 @@ public class SpringCodegenTest {
             .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
+        codegen.setWithXml(true);
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput()
@@ -2738,34 +2739,42 @@ public class SpringCodegenTest {
             .hasProperty("normalPropertyName")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("UPPER_CASE_PROPERTY_SNAKE")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("lowerCasePropertyDashes")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("propertyNameWithSpaces")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .assertMethod("getNormalPropertyName")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"normalPropertyName\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"normalPropertyName\""))
                 .toMethod().toFileAssert()
             .assertMethod("getUPPERCASEPROPERTYSNAKE")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"UPPER_CASE_PROPERTY_SNAKE\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"UPPER_CASE_PROPERTY_SNAKE\""))
                 .toMethod().toFileAssert()
             .assertMethod("getLowerCasePropertyDashes")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"lower-case-property-dashes\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"lower-case-property-dashes\""))
                 .toMethod().toFileAssert()
             .assertMethod("getPropertyNameWithSpaces")
                 .assertMethodAnnotations()
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""));
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"property name with spaces\""));
     }
 
     @Test
