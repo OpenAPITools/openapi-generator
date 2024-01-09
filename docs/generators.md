@@ -130,6 +130,7 @@ The following generators are available:
 * [python-flask](generators/python-flask.md)  
 * [ruby-on-rails](generators/ruby-on-rails.md)  
 * [ruby-sinatra](generators/ruby-sinatra.md)  
+* [rust-axum (beta)](generators/rust-axum.md)  
 * [rust-server](generators/rust-server.md)  
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-finch](generators/scala-finch.md)  
