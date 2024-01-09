@@ -2952,7 +2952,7 @@ public class JavaClientCodegenTest {
                 .setGeneratorName("java")
                 .setLibrary(JavaClientCodegen.RESTTEMPLATE)
                 .setAdditionalProperties(properties)
-                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
 
@@ -2963,7 +2963,7 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
 
-        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/UserApi.java");
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
         TestUtils.assertFileContains(petApi, "if (filter != null) {");
     }
 }

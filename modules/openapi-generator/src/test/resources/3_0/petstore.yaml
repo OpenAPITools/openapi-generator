@@ -508,12 +508,6 @@ paths:
           required: true
           schema:
             type: string
-        - name: filter
-          in: query
-          description: filter to apply
-          required: false
-          schema:
-            $ref: '#/components/schemas/FilterDTO'
       responses:
         '200':
           description: successful operation
@@ -744,12 +738,4 @@ components:
         type:
           type: string
         message:
-          type: string
-    FilterDTO:
-      title: Filter
-      type: object
-      properties:
-        name:
-          type: string
-        status:
           type: string
