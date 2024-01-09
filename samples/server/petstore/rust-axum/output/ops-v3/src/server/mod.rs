@@ -222,7 +222,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op10GetResponse::OK
+                                                Op10GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -287,7 +287,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op11GetResponse::OK
+                                                Op11GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -352,7 +352,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op12GetResponse::OK
+                                                Op12GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -417,7 +417,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op13GetResponse::OK
+                                                Op13GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -482,7 +482,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op14GetResponse::OK
+                                                Op14GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -547,7 +547,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op15GetResponse::OK
+                                                Op15GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -612,7 +612,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op16GetResponse::OK
+                                                Op16GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -677,7 +677,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op17GetResponse::OK
+                                                Op17GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -742,7 +742,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op18GetResponse::OK
+                                                Op18GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -807,7 +807,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op19GetResponse::OK
+                                                Op19GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -872,7 +872,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op1GetResponse::OK
+                                                Op1GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -937,7 +937,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op20GetResponse::OK
+                                                Op20GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1002,7 +1002,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op21GetResponse::OK
+                                                Op21GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1067,7 +1067,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op22GetResponse::OK
+                                                Op22GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1132,7 +1132,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op23GetResponse::OK
+                                                Op23GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1197,7 +1197,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op24GetResponse::OK
+                                                Op24GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1262,7 +1262,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op25GetResponse::OK
+                                                Op25GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1327,7 +1327,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op26GetResponse::OK
+                                                Op26GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1392,7 +1392,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op27GetResponse::OK
+                                                Op27GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1457,7 +1457,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op28GetResponse::OK
+                                                Op28GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1522,7 +1522,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op29GetResponse::OK
+                                                Op29GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1587,7 +1587,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op2GetResponse::OK
+                                                Op2GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1652,7 +1652,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op30GetResponse::OK
+                                                Op30GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1717,7 +1717,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op31GetResponse::OK
+                                                Op31GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1782,7 +1782,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op32GetResponse::OK
+                                                Op32GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1847,7 +1847,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op33GetResponse::OK
+                                                Op33GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1912,7 +1912,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op34GetResponse::OK
+                                                Op34GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -1977,7 +1977,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op35GetResponse::OK
+                                                Op35GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2042,7 +2042,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op36GetResponse::OK
+                                                Op36GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2107,7 +2107,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op37GetResponse::OK
+                                                Op37GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2172,7 +2172,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op3GetResponse::OK
+                                                Op3GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2237,7 +2237,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op4GetResponse::OK
+                                                Op4GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2302,7 +2302,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op5GetResponse::OK
+                                                Op5GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2367,7 +2367,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op6GetResponse::OK
+                                                Op6GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2432,7 +2432,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op7GetResponse::OK
+                                                Op7GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2497,7 +2497,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op8GetResponse::OK
+                                                Op8GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);
@@ -2562,7 +2562,7 @@ where
 
   let resp = match result {
                                             Ok(rsp) => match rsp {
-                                                Op9GetResponse::OK
+                                                Op9GetResponse::Status200_OK
                                                 => {
 
                                                   let mut response = response.status(200);

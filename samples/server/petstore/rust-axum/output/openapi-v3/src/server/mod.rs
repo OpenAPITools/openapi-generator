@@ -128,7 +128,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AnyOfGetResponse::Success(body) => {
+            AnyOfGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -151,7 +151,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            AnyOfGetResponse::AlternateSuccess(body) => {
+            AnyOfGetResponse::Status201_AlternateSuccess(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -174,7 +174,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            AnyOfGetResponse::AnyOfSuccess(body) => {
+            AnyOfGetResponse::Status202_AnyOfSuccess(body) => {
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -251,7 +251,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CallbackWithHeaderPostResponse::OK => {
+            CallbackWithHeaderPostResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -309,7 +309,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            ComplexQueryParamGetResponse::Success => {
+            ComplexQueryParamGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -367,7 +367,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            EnumInPathPathParamGetResponse::Success => {
+            EnumInPathPathParamGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -425,7 +425,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            JsonComplexQueryParamGetResponse::Success => {
+            JsonComplexQueryParamGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -516,7 +516,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MandatoryRequestHeaderGetResponse::Success => {
+            MandatoryRequestHeaderGetResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -569,7 +569,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MergePatchJsonGetResponse::Merge(body) => {
+            MergePatchJsonGetResponse::Status200_Merge(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -638,7 +638,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultigetGetResponse::JSONRsp(body) => {
+            MultigetGetResponse::Status200_JSONRsp(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -661,7 +661,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::XMLRsp(body) => {
+            MultigetGetResponse::Status201_XMLRsp(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -677,7 +677,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::OctetRsp(body) => {
+            MultigetGetResponse::Status202_OctetRsp(body) => {
                 let mut response = response.status(202);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -693,7 +693,7 @@ where
                 let body_content = body.0;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::StringRsp(body) => {
+            MultigetGetResponse::Status203_StringRsp(body) => {
                 let mut response = response.status(203);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -709,7 +709,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::DuplicateResponseLongText(body) => {
+            MultigetGetResponse::Status204_DuplicateResponseLongText(body) => {
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -732,7 +732,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::DuplicateResponseLongText_2(body) => {
+            MultigetGetResponse::Status205_DuplicateResponseLongText(body) => {
                 let mut response = response.status(205);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -755,7 +755,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            MultigetGetResponse::DuplicateResponseLongText_3(body) => {
+            MultigetGetResponse::Status206_DuplicateResponseLongText(body) => {
                 let mut response = response.status(206);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -826,18 +826,20 @@ where
     let mut response = Response::builder();
 
     let resp = match result {
-        Ok(rsp) => match rsp {
-            MultipleAuthSchemeGetResponse::CheckThatLimitingToMultipleRequiredAuthSchemesWorks => {
-                let mut response = response.status(200);
-                response.body(Body::empty())
-            }
-        },
-        Err(_) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            response.status(500).body(Body::empty())
-        }
-    };
+                                            Ok(rsp) => match rsp {
+                                                MultipleAuthSchemeGetResponse::Status200_CheckThatLimitingToMultipleRequiredAuthSchemesWorks
+                                                => {
+
+                                                  let mut response = response.status(200);
+                                                  response.body(Body::empty())
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.status(500).body(Body::empty())
+                                            },
+                                        };
 
     resp.map_err(|e| {
         error!(error = ?e);
@@ -877,7 +879,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            OneOfGetResponse::Success(body) => {
+            OneOfGetResponse::Status200_Success(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -949,7 +951,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            OverrideServerGetResponse::Success => {
+            OverrideServerGetResponse::Status204_Success => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -1007,7 +1009,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            ParamgetGetResponse::JSONRsp(body) => {
+            ParamgetGetResponse::Status200_JSONRsp(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1078,18 +1080,20 @@ where
     let mut response = Response::builder();
 
     let resp = match result {
-        Ok(rsp) => match rsp {
-            ReadonlyAuthSchemeGetResponse::CheckThatLimitingToASingleRequiredAuthSchemeWorks => {
-                let mut response = response.status(200);
-                response.body(Body::empty())
-            }
-        },
-        Err(_) => {
-            // Application code returned an error. This should not happen, as the implementation should
-            // return a valid response.
-            response.status(500).body(Body::empty())
-        }
-    };
+                                            Ok(rsp) => match rsp {
+                                                ReadonlyAuthSchemeGetResponse::Status200_CheckThatLimitingToASingleRequiredAuthSchemeWorks
+                                                => {
+
+                                                  let mut response = response.status(200);
+                                                  response.body(Body::empty())
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                response.status(500).body(Body::empty())
+                                            },
+                                        };
 
     resp.map_err(|e| {
         error!(error = ?e);
@@ -1137,7 +1141,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            RegisterCallbackPostResponse::OK => {
+            RegisterCallbackPostResponse::Status204_OK => {
                 let mut response = response.status(204);
                 response.body(Body::empty())
             }
@@ -1199,7 +1203,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            RequiredOctetStreamPutResponse::OK => {
+            RequiredOctetStreamPutResponse::Status200_OK => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1252,7 +1256,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            ResponsesWithHeadersGetResponse::Success {
+            ResponsesWithHeadersGetResponse::Status200_Success {
                 body,
                 success_info,
                 bool_header,
@@ -1326,7 +1330,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            ResponsesWithHeadersGetResponse::PreconditionFailed {
+            ResponsesWithHeadersGetResponse::Status412_PreconditionFailed {
                 further_info,
                 failure_info,
             } => {
@@ -1412,7 +1416,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            Rfc7807GetResponse::OK(body) => {
+            Rfc7807GetResponse::Status204_OK(body) => {
                 let mut response = response.status(204);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1435,7 +1439,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            Rfc7807GetResponse::NotFound(body) => {
+            Rfc7807GetResponse::Status404_NotFound(body) => {
                 let mut response = response.status(404);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1458,7 +1462,7 @@ where
                 .unwrap()?;
                 response.body(Body::from(body_content))
             }
-            Rfc7807GetResponse::NotAcceptable(body) => {
+            Rfc7807GetResponse::Status406_NotAcceptable(body) => {
                 let mut response = response.status(406);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1538,7 +1542,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UntypedPropertyGetResponse::CheckThatUntypedPropertiesWorks => {
+            UntypedPropertyGetResponse::Status200_CheckThatUntypedPropertiesWorks => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -1588,7 +1592,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UuidGetResponse::DuplicateResponseLongText(body) => {
+            UuidGetResponse::Status200_DuplicateResponseLongText(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1667,11 +1671,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            XmlExtraPostResponse::OK => {
+            XmlExtraPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
-            XmlExtraPostResponse::BadRequest => {
+            XmlExtraPostResponse::Status400_BadRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1731,7 +1735,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            XmlOtherPostResponse::OK(body) => {
+            XmlOtherPostResponse::Status201_OK(body) => {
                 let mut response = response.status(201);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1747,7 +1751,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            XmlOtherPostResponse::BadRequest => {
+            XmlOtherPostResponse::Status400_BadRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1807,11 +1811,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            XmlOtherPutResponse::OK => {
+            XmlOtherPutResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
-            XmlOtherPutResponse::BadRequest => {
+            XmlOtherPutResponse::Status400_BadRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1871,11 +1875,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            XmlPostResponse::OK => {
+            XmlPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
-            XmlPostResponse::BadRequest => {
+            XmlPostResponse::Status400_BadRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1932,11 +1936,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            XmlPutResponse::OK => {
+            XmlPutResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
-            XmlPutResponse::BadRequest => {
+            XmlPutResponse::Status400_BadRequest => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -2002,7 +2006,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateRepoResponse::Success => {
+            CreateRepoResponse::Status200_Success => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }
@@ -2060,7 +2064,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetRepoInfoResponse::OK(body) => {
+            GetRepoInfoResponse::Status200_OK(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();

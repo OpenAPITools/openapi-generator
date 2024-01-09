@@ -77,7 +77,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipartRelatedRequestPostResponse::OK => {
+            MultipartRelatedRequestPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -134,7 +134,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipartRequestPostResponse::OK => {
+            MultipartRequestPostResponse::Status201_OK => {
                 let mut response = response.status(201);
                 response.body(Body::empty())
             }
@@ -192,7 +192,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            MultipleIdenticalMimeTypesPostResponse::OK => {
+            MultipleIdenticalMimeTypesPostResponse::Status200_OK => {
                 let mut response = response.status(200);
                 response.body(Body::empty())
             }

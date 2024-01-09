@@ -111,7 +111,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            AddPetResponse::SuccessfulOperation(body) => {
+            AddPetResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -127,7 +127,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            AddPetResponse::InvalidInput => {
+            AddPetResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -220,7 +220,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeletePetResponse::InvalidPetValue => {
+            DeletePetResponse::Status400_InvalidPetValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -282,7 +282,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByStatusResponse::SuccessfulOperation(body) => {
+            FindPetsByStatusResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -298,7 +298,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByStatusResponse::InvalidStatusValue => {
+            FindPetsByStatusResponse::Status400_InvalidStatusValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -360,7 +360,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            FindPetsByTagsResponse::SuccessfulOperation(body) => {
+            FindPetsByTagsResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -376,7 +376,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            FindPetsByTagsResponse::InvalidTagValue => {
+            FindPetsByTagsResponse::Status400_InvalidTagValue => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -437,7 +437,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetPetByIdResponse::SuccessfulOperation(body) => {
+            GetPetByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -453,11 +453,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetPetByIdResponse::InvalidIDSupplied => {
+            GetPetByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetPetByIdResponse::PetNotFound => {
+            GetPetByIdResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -526,7 +526,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetResponse::SuccessfulOperation(body) => {
+            UpdatePetResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -542,15 +542,15 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            UpdatePetResponse::InvalidIDSupplied => {
+            UpdatePetResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::PetNotFound => {
+            UpdatePetResponse::Status404_PetNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
-            UpdatePetResponse::ValidationException => {
+            UpdatePetResponse::Status405_ValidationException => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -612,7 +612,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdatePetWithFormResponse::InvalidInput => {
+            UpdatePetWithFormResponse::Status405_InvalidInput => {
                 let mut response = response.status(405);
                 response.body(Body::empty())
             }
@@ -674,7 +674,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UploadFileResponse::SuccessfulOperation(body) => {
+            UploadFileResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -754,11 +754,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteOrderResponse::InvalidIDSupplied => {
+            DeleteOrderResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteOrderResponse::OrderNotFound => {
+            DeleteOrderResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -811,7 +811,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetInventoryResponse::SuccessfulOperation(body) => {
+            GetInventoryResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -891,7 +891,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetOrderByIdResponse::SuccessfulOperation(body) => {
+            GetOrderByIdResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -907,11 +907,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetOrderByIdResponse::InvalidIDSupplied => {
+            GetOrderByIdResponse::Status400_InvalidIDSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetOrderByIdResponse::OrderNotFound => {
+            GetOrderByIdResponse::Status404_OrderNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -980,7 +980,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            PlaceOrderResponse::SuccessfulOperation(body) => {
+            PlaceOrderResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -996,7 +996,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            PlaceOrderResponse::InvalidOrder => {
+            PlaceOrderResponse::Status400_InvalidOrder => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1065,7 +1065,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUserResponse::SuccessfulOperation => {
+            CreateUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1135,7 +1135,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithArrayInputResponse::SuccessfulOperation => {
+            CreateUsersWithArrayInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1205,7 +1205,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            CreateUsersWithListInputResponse::SuccessfulOperation => {
+            CreateUsersWithListInputResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1266,11 +1266,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            DeleteUserResponse::InvalidUsernameSupplied => {
+            DeleteUserResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            DeleteUserResponse::UserNotFound => {
+            DeleteUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1331,7 +1331,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            GetUserByNameResponse::SuccessfulOperation(body) => {
+            GetUserByNameResponse::Status200_SuccessfulOperation(body) => {
                 let mut response = response.status(200);
                 {
                     let mut response_headers = response.headers_mut().unwrap();
@@ -1347,11 +1347,11 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            GetUserByNameResponse::InvalidUsernameSupplied => {
+            GetUserByNameResponse::Status400_InvalidUsernameSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            GetUserByNameResponse::UserNotFound => {
+            GetUserByNameResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
@@ -1412,7 +1412,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LoginUserResponse::SuccessfulOperation {
+            LoginUserResponse::Status200_SuccessfulOperation {
                 body,
                 set_cookie,
                 x_rate_limit,
@@ -1482,7 +1482,7 @@ where
                 let body_content = body;
                 response.body(Body::from(body_content))
             }
-            LoginUserResponse::InvalidUsername => {
+            LoginUserResponse::Status400_InvalidUsername => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
@@ -1535,7 +1535,7 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            LogoutUserResponse::SuccessfulOperation => {
+            LogoutUserResponse::Status0_SuccessfulOperation => {
                 let mut response = response.status(0);
                 response.body(Body::empty())
             }
@@ -1607,11 +1607,11 @@ where
 
     let resp = match result {
         Ok(rsp) => match rsp {
-            UpdateUserResponse::InvalidUserSupplied => {
+            UpdateUserResponse::Status400_InvalidUserSupplied => {
                 let mut response = response.status(400);
                 response.body(Body::empty())
             }
-            UpdateUserResponse::UserNotFound => {
+            UpdateUserResponse::Status404_UserNotFound => {
                 let mut response = response.status(404);
                 response.body(Body::empty())
             }
