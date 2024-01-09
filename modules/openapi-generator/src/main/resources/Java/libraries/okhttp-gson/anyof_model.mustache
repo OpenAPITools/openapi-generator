@@ -48,7 +48,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#composedSchemas}}
             {{#anyOf}}
             {{^isArray}}
+            {{^vendorExtensions.x-duplicated-data-type}}
             final TypeAdapter<{{{dataType}}}> adapter{{{dataType}}} = gson.getDelegateAdapter(this, TypeToken.get({{{dataType}}}.class));
+            {{/vendorExtensions.x-duplicated-data-type}}
             {{/isArray}}
             {{#isArray}}
 
@@ -68,6 +70,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     {{#composedSchemas}}
                     {{#anyOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
                     // check if the actual instance is of the type `{{{dataType}}}`
                     if (value.getActualInstance() instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
                     {{#isPrimitiveType}}
@@ -91,6 +94,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     {{/isPrimitiveType}}
                     {{/isArray}}
                     }
+                    {{/vendorExtensions.x-duplicated-data-type}}
                     {{/anyOf}}
                     {{/composedSchemas}}
                     throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
@@ -106,6 +110,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
                     {{#composedSchemas}}
                     {{#anyOf}}
+                    {{^vendorExtensions.x-duplicated-data-type}}
                     {{^hasVars}}
                     // deserialize {{{dataType}}}
                     try {
@@ -184,6 +189,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                         log.log(Level.FINER, "Input data does not match schema '{{{.}}}'", e);
                     }
                     {{/hasVars}}
+                    {{/vendorExtensions.x-duplicated-data-type}}
                     {{/anyOf}}
                     {{/composedSchemas}}
 
@@ -210,7 +216,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     static {
         {{#composedSchemas}}
         {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         schemas.put("{{{dataType}}}", {{{baseType}}}.class);
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
         {{/composedSchemas}}
     }
@@ -238,6 +246,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isNullable}}
         {{#composedSchemas}}
         {{#anyOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         if (instance instanceof {{#isArray}}List<?>{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}) {
         {{#isArray}}
             List<?> list = (List<?>) instance;
@@ -252,6 +261,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isArray}}
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/anyOf}}
         {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
@@ -270,6 +280,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     {{#composedSchemas}}
     {{#anyOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
     /**
      * Get the actual instance of `{{{dataType}}}`. If the actual instance is not `{{{dataType}}}`,
      * the ClassCastException will be thrown.
@@ -280,6 +291,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public {{{dataType}}} get{{#isArray}}{{complexType}}List{{/isArray}}{{^isArray}}{{{dataType}}}{{/isArray}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
     }
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/anyOf}}
     {{/composedSchemas}}
 
@@ -294,6 +306,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     ArrayList<String> errorMessages = new ArrayList<>();
     {{#composedSchemas}}
     {{#anyOf}}
+    {{^vendorExtensions.x-duplicated-data-type}}
     // validate the json string with {{{dataType}}}
     try {
     {{^hasVars}}
@@ -350,6 +363,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
       errorMessages.add(String.format("Deserialization for {{{dataType}}} failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
+    {{/vendorExtensions.x-duplicated-data-type}}
     {{/anyOf}}
     {{/composedSchemas}}
     throw new IOException(String.format("The JSON string is invalid for {{classname}} with anyOf schemas: {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));

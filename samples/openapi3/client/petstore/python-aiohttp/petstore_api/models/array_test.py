@@ -17,22 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr
-from pydantic import Field
+from pydantic import BaseModel, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
 from petstore_api.models.read_only_first import ReadOnlyFirst
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ArrayTest(BaseModel):
     """
     ArrayTest
-    """
+    """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
@@ -40,7 +35,8 @@ class ArrayTest(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -54,7 +50,7 @@ class ArrayTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ArrayTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,10 +64,12 @@ class ArrayTest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in array_array_of_model (list of list)
@@ -86,7 +84,7 @@ class ArrayTest(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ArrayTest from a dict"""
         if obj is None:
             return None
@@ -99,7 +97,7 @@ class ArrayTest(BaseModel):
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
                     [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj.get("array_array_of_model")
+                    for _item in obj["array_array_of_model"]
                 ] if obj.get("array_array_of_model") is not None else None
         })
         return _obj

@@ -18,6 +18,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -65,7 +66,7 @@ data class Pet (
         @JsonProperty(value = "available") available("available"),
         @JsonProperty(value = "pending") pending("pending"),
         @JsonProperty(value = "sold") sold("sold"),
-        @JsonProperty(value = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
+        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknownDefaultOpenApi("unknown_default_open_api");
     }
 }
 

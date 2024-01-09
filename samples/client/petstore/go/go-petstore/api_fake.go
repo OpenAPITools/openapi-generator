@@ -1270,8 +1270,6 @@ func (a *FakeAPIService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	var binaryLocalVarFileBytes    []byte
 
 	binaryLocalVarFormFileName = "binary"
-
-
 	binaryLocalVarFile := r.binary
 
 	if binaryLocalVarFile != nil {

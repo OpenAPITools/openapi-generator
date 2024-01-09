@@ -154,7 +154,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? triangleType = default;
+            Option<string?> triangleType = default;
 
             EquilateralTriangle? equilateralTriangle = null;
             IsoscelesTriangle? isoscelesTriangle = null;
@@ -211,7 +211,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = utf8JsonReader.GetString();
+                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -219,17 +219,20 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (triangleType == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
+            if (!triangleType.IsSet)
+                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
+
+            if (triangleType.IsSet && triangleType.Value == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
 
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType);
+                return new Triangle(equilateralTriangle, triangleType.Value!);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType);
+                return new Triangle(isoscelesTriangle, triangleType.Value!);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType);
+                return new Triangle(scaleneTriangle, triangleType.Value!);
 
             throw new JsonException();
         }
@@ -273,6 +276,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (triangle.TriangleType == null)
+                throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
+
             writer.WriteString("triangleType", triangle.TriangleType);
         }
     }

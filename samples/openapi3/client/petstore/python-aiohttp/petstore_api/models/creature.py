@@ -17,27 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-
 from pydantic import BaseModel, StrictStr
+from typing import Any, ClassVar, Dict, List
 from petstore_api.models.creature_info import CreatureInfo
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Creature(BaseModel):
     """
     Creature
-    """
+    """ # noqa: E501
     info: CreatureInfo
     type: StrictStr
     __properties: ClassVar[List[str]] = ["info", "type"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -51,7 +48,7 @@ class Creature(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of Creature from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,10 +62,12 @@ class Creature(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of info
@@ -77,7 +76,7 @@ class Creature(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Creature from a dict"""
         if obj is None:
             return None
@@ -86,7 +85,7 @@ class Creature(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "info": CreatureInfo.from_dict(obj.get("info")) if obj.get("info") is not None else None,
+            "info": CreatureInfo.from_dict(obj["info"]) if obj.get("info") is not None else None,
             "type": obj.get("type")
         })
         return _obj

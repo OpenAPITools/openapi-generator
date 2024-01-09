@@ -66,6 +66,7 @@ Class | Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [TypeTesting](docs/TypeTesting.md)
+ - [UniqueItemArrayTesting](docs/UniqueItemArrayTesting.md)
  - [User](docs/User.md)
 
 

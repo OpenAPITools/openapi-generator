@@ -17,21 +17,16 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictInt, StrictStr, field_validator
-from pydantic import Field
 from petstore_api.models.category import Category
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class SpecialName(BaseModel):
     """
     SpecialName
-    """
+    """ # noqa: E501
     var_property: Optional[StrictInt] = Field(default=None, alias="property")
     var_async: Optional[Category] = Field(default=None, alias="async")
     var_schema: Optional[StrictStr] = Field(default=None, description="pet status in the store", alias="schema")
@@ -50,7 +45,8 @@ class SpecialName(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -64,7 +60,7 @@ class SpecialName(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of SpecialName from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -79,11 +75,13 @@ class SpecialName(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of var_async
@@ -97,7 +95,7 @@ class SpecialName(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of SpecialName from a dict"""
         if obj is None:
             return None
@@ -107,7 +105,7 @@ class SpecialName(BaseModel):
 
         _obj = cls.model_validate({
             "property": obj.get("property"),
-            "async": Category.from_dict(obj.get("async")) if obj.get("async") is not None else None,
+            "async": Category.from_dict(obj["async"]) if obj.get("async") is not None else None,
             "schema": obj.get("schema")
         })
         # store additional fields in additional_properties

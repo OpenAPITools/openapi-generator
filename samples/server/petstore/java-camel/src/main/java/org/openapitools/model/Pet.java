@@ -36,20 +36,15 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
 public class Pet {
 
-  @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JacksonXmlProperty(localName = "Category")
   private Category category;
 
-  @JacksonXmlProperty(localName = "name")
   private String name;
 
-  @JacksonXmlProperty(localName = "photoUrl")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @JacksonXmlProperty(localName = "tag")
   @Valid
   private List<@Valid Tag> tags;
 
@@ -90,7 +85,6 @@ public class Pet {
     }
   }
 
-  @JacksonXmlProperty(localName = "status")
   @Deprecated
   private StatusEnum status;
 
@@ -118,6 +112,7 @@ public class Pet {
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -138,6 +133,7 @@ public class Pet {
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("category")
+  @JacksonXmlProperty(localName = "Category")
   public Category getCategory() {
     return category;
   }
@@ -158,6 +154,7 @@ public class Pet {
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public String getName() {
     return name;
   }
@@ -186,6 +183,7 @@ public class Pet {
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("photoUrls")
+  @JacksonXmlProperty(localName = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -214,6 +212,7 @@ public class Pet {
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
+  @JacksonXmlProperty(localName = "tag")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -235,6 +234,7 @@ public class Pet {
   
   @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
   @Deprecated
   public StatusEnum getStatus() {
     return status;

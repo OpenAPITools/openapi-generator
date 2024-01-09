@@ -17,21 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
+from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty
-    """
+    """ # noqa: E501
     str_value: Optional[OuterEnum] = None
     value: OuterEnumInteger
     additional_properties: Dict[str, Any] = {}
@@ -39,7 +35,8 @@ class OuterObjectWithEnumProperty(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -53,7 +50,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of OuterObjectWithEnumProperty from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -68,11 +65,13 @@ class OuterObjectWithEnumProperty(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -88,7 +87,7 @@ class OuterObjectWithEnumProperty(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of OuterObjectWithEnumProperty from a dict"""
         if obj is None:
             return None

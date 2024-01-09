@@ -4,10 +4,9 @@
 
 import io
 import json
-import logging
 import re
 
-from urllib.parse import urlencode, quote_plus
+from urllib.parse import urlencode
 import tornado
 import tornado.gen
 from tornado import httpclient
@@ -15,34 +14,33 @@ from urllib3.filepost import encode_multipart_formdata
 
 from {{packageName}}.exceptions import ApiException, ApiValueError
 
-logger = logging.getLogger(__name__)
-
+RESTResponseType = httpclient.HTTPResponse
 
 class RESTResponse(io.IOBase):
 
     def __init__(self, resp) -> None:
-        self.tornado_response = resp
+        self.response = resp
         self.status = resp.code
         self.reason = resp.reason
+        self.data = None
 
-        if resp.body:
-            self.data = resp.body
-        else:
-            self.data = None
+    def read(self):
+        if self.data is None:
+            self.data = self.response.body
+        return self.data
 
     def getheaders(self):
         """Returns a CIMultiDictProxy of the response headers."""
-        return self.tornado_response.headers
+        return self.response.headers
 
     def getheader(self, name, default=None):
         """Returns a given response header."""
-        return self.tornado_response.headers.get(name, default)
+        return self.response.headers.get(name, default)
 
 
 class RESTClientObject:
 
-    def __init__(self, configuration, pools_size=4, maxsize=4) -> None:
-        # maxsize is number of requests to host that are allowed in parallel
+    def __init__(self, configuration) -> None:
 
         self.ca_certs = configuration.ssl_ca_cert
         self.client_key = configuration.key_file
@@ -58,29 +56,39 @@ class RESTClientObject:
         self.pool_manager = httpclient.AsyncHTTPClient()
 
     @tornado.gen.coroutine
-    def request(self, method, url, query_params=None, headers=None, body=None,
-                post_params=None, _preload_content=True,
-                _request_timeout=None):
+    def request(
+        self,
+        method,
+        url,
+        headers=None,
+        body=None,
+        post_params=None,
+        _request_timeout=None
+    ):
         """Execute Request
 
         :param method: http request method
         :param url: http request url
-        :param query_params: query parameters in the url
         :param headers: http request headers
         :param body: request json body, for `application/json`
         :param post_params: request post parameters,
                             `application/x-www-form-urlencoded`
                             and `multipart/form-data`
-        :param _preload_content: this is a non-applicable field for
-                                 the AiohttpClient.
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         """
         method = method.upper()
-        assert method in ['GET', 'HEAD', 'DELETE', 'POST', 'PUT',
-                          'PATCH', 'OPTIONS']
+        assert method in [
+            'GET',
+            'HEAD',
+            'DELETE',
+            'POST',
+            'PUT',
+            'PATCH',
+            'OPTIONS'
+        ]
 
         if post_params and body:
             raise ApiValueError(
@@ -103,16 +111,13 @@ class RESTClientObject:
 
         post_params = post_params or {}
 
-        if query_params:
-            request.url += '?' + urlencode(query_params)
-
         # For `POST`, `PUT`, `PATCH`, `OPTIONS`, `DELETE`
         if method in ['POST', 'PUT', 'PATCH', 'OPTIONS', 'DELETE']:
             if re.search('json', headers['Content-Type'], re.IGNORECASE):
                 if body:
                     body = json.dumps(body)
                 request.body = body
-            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':  # noqa: E501
+            elif headers['Content-Type'] == 'application/x-www-form-urlencoded':
                 request.body = urlencode(post_params)
             elif headers['Content-Type'] == 'multipart/form-data':
                 multipart = encode_multipart_formdata(post_params)
@@ -131,93 +136,7 @@ class RESTClientObject:
 
         r = yield self.pool_manager.fetch(request, raise_error=False)
 
-        if _preload_content:
 
-            r = RESTResponse(r)
-
-            # log response body
-            logger.debug("response body: %s", r.data)
-
-        if not 200 <= r.status <= 299:
-            raise ApiException(http_resp=r)
+        r = RESTResponse(r)
 
         raise tornado.gen.Return(r)
-
-    @tornado.gen.coroutine
-    def GET(self, url, headers=None, query_params=None, _preload_content=True,
-            _request_timeout=None):
-        result = yield self.request("GET", url,
-                                    headers=headers,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    query_params=query_params)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def HEAD(self, url, headers=None, query_params=None, _preload_content=True,
-             _request_timeout=None):
-        result = yield self.request("HEAD", url,
-                                    headers=headers,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    query_params=query_params)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def OPTIONS(self, url, headers=None, query_params=None, post_params=None,
-                body=None, _preload_content=True, _request_timeout=None):
-        result = yield self.request("OPTIONS", url,
-                                    headers=headers,
-                                    query_params=query_params,
-                                    post_params=post_params,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    body=body)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def DELETE(self, url, headers=None, query_params=None, body=None,
-               _preload_content=True, _request_timeout=None):
-        result = yield self.request("DELETE", url,
-                                    headers=headers,
-                                    query_params=query_params,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    body=body)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def POST(self, url, headers=None, query_params=None, post_params=None,
-             body=None, _preload_content=True, _request_timeout=None):
-        result = yield self.request("POST", url,
-                                    headers=headers,
-                                    query_params=query_params,
-                                    post_params=post_params,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    body=body)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def PUT(self, url, headers=None, query_params=None, post_params=None,
-            body=None, _preload_content=True, _request_timeout=None):
-        result = yield self.request("PUT", url,
-                                    headers=headers,
-                                    query_params=query_params,
-                                    post_params=post_params,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    body=body)
-        raise tornado.gen.Return(result)
-
-    @tornado.gen.coroutine
-    def PATCH(self, url, headers=None, query_params=None, post_params=None,
-              body=None, _preload_content=True, _request_timeout=None):
-        result = yield self.request("PATCH", url,
-                                    headers=headers,
-                                    query_params=query_params,
-                                    post_params=post_params,
-                                    _preload_content=_preload_content,
-                                    _request_timeout=_request_timeout,
-                                    body=body)
-        raise tornado.gen.Return(result)

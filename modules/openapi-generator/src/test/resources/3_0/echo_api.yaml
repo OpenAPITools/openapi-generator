@@ -430,6 +430,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+  /echo/body/allOf/Pet:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/echo/body/allOf/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/AllOfPet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
   /echo/body/Pet/response_string:
     post:
       tags:
@@ -497,6 +513,30 @@ paths:
               schema:
                 type: string
                 format: binary
+  # Single binary in multipart mime test
+  /body/application/octetstream/single_binary:
+    post:
+      tags:
+        - body
+      summary: Test single binary in multipart mime
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                my-file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # Array of binary in multipart mime tests
   /body/application/octetstream/array_of_binary:
     post:
@@ -542,17 +582,44 @@ paths:
             text/plain:
               schema:
                 type: string
+  # To test http bearer auth
+  /auth/http/bearer:
+    post:
+      tags:
+        - auth
+      security:
+        - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   securitySchemes:
     http_auth:
       type: http
       scheme: basic
+    http_bearer_auth:
+      type: http
+      scheme: bearer
   requestBodies:
     Pet:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    AllOfPet:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
     Tag:
       content:

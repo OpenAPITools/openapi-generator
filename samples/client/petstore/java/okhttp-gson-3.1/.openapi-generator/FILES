@@ -6,9 +6,11 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/Animal.md
+docs/AnyTypeTest.md
 docs/Cat.md
 docs/Category.md
 docs/Dog.md
+docs/FakeApi.md
 docs/ModelApiResponse.md
 docs/OneOfStringOrInt.md
 docs/Order.md
@@ -41,6 +43,7 @@ src/main/java/org/openapitools/client/ProgressResponseBody.java
 src/main/java/org/openapitools/client/ServerConfiguration.java
 src/main/java/org/openapitools/client/ServerVariable.java
 src/main/java/org/openapitools/client/StringUtil.java
+src/main/java/org/openapitools/client/api/FakeApi.java
 src/main/java/org/openapitools/client/api/PetApi.java
 src/main/java/org/openapitools/client/api/StoreApi.java
 src/main/java/org/openapitools/client/api/UserApi.java
@@ -54,6 +57,7 @@ src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/AnyTypeTest.java
 src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Category.java
 src/main/java/org/openapitools/client/model/Dog.java

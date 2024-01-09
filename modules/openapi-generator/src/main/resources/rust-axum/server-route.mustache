@@ -1,0 +1,15 @@
+/// Setup API Server.
+pub fn new<I, A>(api_impl: I) -> Router
+where
+    I: AsRef<A> + Clone + Send + Sync + 'static,
+    A: Api + 'static,
+{
+    // build our application with a route
+    Router::new()
+        {{#pathMethodOps}}
+        .route("{{{basePathWithoutHost}}}{{{path}}}",
+            {{#methodOperations}}{{{method}}}({{{operationID}}}::<I, A>){{^-last}}.{{/-last}}{{/methodOperations}}
+        )
+        {{/pathMethodOps}}
+        .with_state(api_impl)
+}

@@ -12,14 +12,17 @@ import java.util.List;
 
 import java.io.InputStream;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 public interface UserApiService {
       public Response createUser(User user, SecurityContext securityContext);
-      public Response createUsersWithArrayInput(List<User> user, SecurityContext securityContext);
-      public Response createUsersWithListInput(List<User> user, SecurityContext securityContext);
+      public Response createUsersWithArrayInput(List<@Valid User> user, SecurityContext securityContext);
+      public Response createUsersWithListInput(List<@Valid User> user, SecurityContext securityContext);
       public Response deleteUser(String username, SecurityContext securityContext);
       public Response getUserByName(String username, SecurityContext securityContext);
       public Response loginUser(String username, String password, SecurityContext securityContext);

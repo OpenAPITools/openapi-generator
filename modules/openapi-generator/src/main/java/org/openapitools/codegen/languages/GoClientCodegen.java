@@ -75,7 +75,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.SignatureAuth
+                        SecurityFeature.SignatureAuth,
+                        SecurityFeature.AWSV4Signature
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
@@ -139,6 +140,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
         cliOptions.add(CliOption.newBoolean(WITH_GO_MOD, "Generate go.mod and go.sum", true));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.GENERATE_MARSHAL_JSON, CodegenConstants.GENERATE_MARSHAL_JSON_DESC, true));
         this.setWithGoMod(true);
     }
 
@@ -270,6 +272,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             additionalProperties.put(WITH_GO_MOD, withGoMod);
         } else {
             additionalProperties.put(WITH_GO_MOD, true);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_MARSHAL_JSON)) {
+            setGenerateMarshalJSON(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.GENERATE_MARSHAL_JSON).toString()));
         }
 
         // add lambda for mustache templates to handle oneOf/anyOf naming
@@ -479,14 +485,28 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             // additional import for different cases
+            boolean addedFmtImport = false;
+
             // oneOf
             if (model.oneOf != null && !model.oneOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
             }
 
             // anyOf
             if (model.anyOf != null && !model.anyOf.isEmpty()) {
                 imports.add(createMapping("import", "fmt"));
+                addedFmtImport = true;
+            }
+
+            if (model.hasRequired) {
+                if (!model.isAdditionalPropertiesTrue) {
+                    imports.add(createMapping("import", "bytes"));
+                }
+
+                if (!addedFmtImport) {
+                    imports.add(createMapping("import", "fmt"));
+                }
             }
 
             // additionalProperties: true and parent

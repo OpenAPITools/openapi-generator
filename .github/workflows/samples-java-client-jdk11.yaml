@@ -10,6 +10,7 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
+      - samples/client/others/java/okhttp-gson-oneOf/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
   pull_request:
@@ -21,6 +22,7 @@ on:
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger1/**
       - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/**
       - samples/openapi3/client/petstore/java/native**
+      - samples/client/others/java/okhttp-gson-oneOf/**
       - samples/client/others/java/resttemplate-useAbstractionForFiles/**
       - samples/client/others/java/webclient-useAbstractionForFiles/**
 jobs:
@@ -54,6 +56,7 @@ jobs:
           - samples/client/petstore/java/microprofile-rest-client-3.0
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson
           - samples/client/petstore/java/microprofile-rest-client-3.0-jackson-with-xml
+          - samples/client/petstore/java/microprofile-rest-client-with-useSingleRequestParameter
           - samples/client/petstore/java/apache-httpclient
           - samples/client/petstore/java/feign
           - samples/client/petstore/java/okhttp-gson-awsv4signature
@@ -65,11 +68,12 @@ jobs:
           - samples/client/petstore/java/okhttp-gson-swagger2/
           - samples/client/petstore/java/resttemplate-swagger2/
           - samples/openapi3/client/petstore/java/jersey2-java8-swagger2/
+          - samples/client/others/java/okhttp-gson-oneOf/
           - samples/client/others/java/resttemplate-useAbstractionForFiles/
           - samples/client/others/java/webclient-useAbstractionForFiles/
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 11

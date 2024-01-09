@@ -16,9 +16,8 @@ Test header parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.rest import ApiException
@@ -54,6 +53,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **integer_header** | **int**|  | [optional] 
@@ -76,6 +76,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |

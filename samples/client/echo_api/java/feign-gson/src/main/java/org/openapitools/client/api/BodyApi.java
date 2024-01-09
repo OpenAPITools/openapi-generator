@@ -102,6 +102,64 @@ public interface BodyApi extends ApiClient.Api {
 
 
   /**
+   * Test single binary in multipart mime
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @return String
+   */
+  @RequestLine("POST /body/application/octetstream/single_binary")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  String testBodyMultipartFormdataSingleBinary(@Param("my-file") File myFile);
+
+  /**
+   * Test single binary in multipart mime
+   * Similar to <code>testBodyMultipartFormdataSingleBinary</code> but it also returns the http response headers .
+   * Test single binary in multipart mime
+   * @param myFile  (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /body/application/octetstream/single_binary")
+  @Headers({
+    "Content-Type: multipart/form-data",
+    "Accept: text/plain",
+  })
+  ApiResponse<String> testBodyMultipartFormdataSingleBinaryWithHttpInfo(@Param("my-file") File myFile);
+
+
+
+  /**
+   * Test body parameter(s)
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return Pet
+   */
+  @RequestLine("POST /echo/body/allOf/Pet")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  Pet testEchoBodyAllOfPet(Pet pet);
+
+  /**
+   * Test body parameter(s)
+   * Similar to <code>testEchoBodyAllOfPet</code> but it also returns the http response headers .
+   * Test body parameter(s)
+   * @param pet Pet object that needs to be added to the store (optional)
+   * @return A ApiResponse that wraps the response boyd and the http headers.
+   */
+  @RequestLine("POST /echo/body/allOf/Pet")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Pet> testEchoBodyAllOfPetWithHttpInfo(Pet pet);
+
+
+
+  /**
    * Test free form object
    * Test free form object
    * @param body Free form object (optional)

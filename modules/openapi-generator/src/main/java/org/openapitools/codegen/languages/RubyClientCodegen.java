@@ -48,6 +48,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String GEM_METADATA = "gemMetadata";
     public static final String FARADAY = "faraday";
     public static final String HTTPX = "httpx";
     public static final String TYPHOEUS = "typhoeus";
@@ -66,6 +67,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
+    protected String gemMetadata = "{}";
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -170,6 +172,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
+        cliOptions.add(new CliOption(GEM_METADATA, "gem metadata.").
+                defaultValue("{}"));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
@@ -246,6 +251,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(GEM_METADATA)) {
+            setGemMetadata((String) additionalProperties.get(GEM_METADATA));
+        }
+
         if (additionalProperties.containsKey(USE_AUTOLOAD)) {
             setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
         }
@@ -291,10 +300,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         supportingFiles.add(new SupportingFile("rspec.mustache", "", ".rspec")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
                 .doNotOverwrite());
 
         // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
@@ -405,6 +410,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return schemaMapping.get(name);
         }
 
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
@@ -499,6 +508,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -526,6 +539,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
@@ -611,6 +628,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    public void setGemMetadata(String gemMetadata) {
+        this.gemMetadata = gemMetadata;
     }
 
     public void setUseAutoload(boolean useAutoload) {

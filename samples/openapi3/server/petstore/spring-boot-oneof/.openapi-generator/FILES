@@ -4,9 +4,7 @@ src/main/java/org/openapitools/OpenApiGeneratorApplication.java
 src/main/java/org/openapitools/RFC3339DateFormat.java
 src/main/java/org/openapitools/api/ApiUtil.java
 src/main/java/org/openapitools/api/BarApi.java
-src/main/java/org/openapitools/api/BarApiController.java
 src/main/java/org/openapitools/api/FooApi.java
-src/main/java/org/openapitools/api/FooApiController.java
 src/main/java/org/openapitools/configuration/EnumConverterConfiguration.java
 src/main/java/org/openapitools/configuration/HomeController.java
 src/main/java/org/openapitools/configuration/SpringDocConfiguration.java

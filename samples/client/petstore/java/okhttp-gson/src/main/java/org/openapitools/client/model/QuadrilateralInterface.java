@@ -59,7 +59,6 @@ public class QuadrilateralInterface {
   }
 
   public QuadrilateralInterface quadrilateralType(String quadrilateralType) {
-    
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -72,7 +71,6 @@ public class QuadrilateralInterface {
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
-
 
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;

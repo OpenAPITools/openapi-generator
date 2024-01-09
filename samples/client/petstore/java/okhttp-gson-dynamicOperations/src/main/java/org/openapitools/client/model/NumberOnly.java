@@ -60,7 +60,6 @@ public class NumberOnly {
   }
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    
     this.justNumber = justNumber;
     return this;
   }
@@ -73,7 +72,6 @@ public class NumberOnly {
   public BigDecimal getJustNumber() {
     return justNumber;
   }
-
 
   public void setJustNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;

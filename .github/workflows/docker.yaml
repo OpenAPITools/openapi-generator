@@ -1,6 +1,7 @@
 name: Docker tests
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - Dockerfile
@@ -8,6 +9,8 @@ on:
       - pom.xml
       - modules/openapi-generator-online/pom.xml
       - modules/openapi-generator-online/Dockerfile
+      - modules/openapi-generator-cli/pom.xml
+      - modules/openapi-generator-cli/Dockerfile
   pull_request:
     paths:
       - Dockerfile
@@ -15,6 +18,8 @@ on:
       - pom.xml
       - modules/openapi-generator-online/pom.xml
       - modules/openapi-generator-online/Dockerfile
+      - modules/openapi-generator-cli/pom.xml
+      - modules/openapi-generator-cli/Dockerfile
 jobs:
   build:
     name: 'Build: Docker'
@@ -27,7 +32,7 @@ jobs:
         shell: bash
         run: |
           sed -i 's/ -it / /g' run-in-docker.sh
-          ./run-in-docker.sh mvn clean install
+          ./run-in-docker.sh mvn -B clean install
 
       - name: Build Dockerfile
         shell: bash
@@ -37,3 +42,12 @@ jobs:
         shell: bash
         run: |
           docker build modules/openapi-generator-online/ -t test
+      - name: Build and test modules/openapi-generator-cli
+        shell: bash
+        run: |
+          cp docker-entrypoint.sh ./modules/openapi-generator-cli 
+          docker build modules/openapi-generator-cli/ -t cli-test
+          docker run --rm -v "${PWD}:/local" cli-test generate \
+          -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/3_0/petstore.yaml \
+          -g go \
+          -o /local/out/go

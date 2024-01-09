@@ -340,7 +340,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     if let Some(ref local_var_token) = local_var_configuration.oauth_access_token {
         local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
-    let mut local_var_form = reqwest::multipart::Form::new();
+    let mut local_var_form = reqwest::blocking::multipart::Form::new();
     if let Some(local_var_param_value) = additional_metadata {
         local_var_form = local_var_form.text("additionalMetadata", local_var_param_value.to_string());
     }

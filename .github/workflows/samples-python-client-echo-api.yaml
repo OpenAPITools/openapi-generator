@@ -24,11 +24,11 @@ jobs:
           - "3.11"
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Setup node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
       - name: Run echo server
         run: |
           git clone https://github.com/wing328/http-echo-server -b openapi-generator-test-server
@@ -42,3 +42,7 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: python -m pytest
+
+      - name: mypy
+        working-directory: ${{ matrix.sample }}
+        run: python -m mypy

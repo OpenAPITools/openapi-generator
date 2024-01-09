@@ -23,7 +23,7 @@ pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
 tox || exit 1
 
 ### static analysis of code
-flake8 --show-source petstore_api/
+flake8 --show-source ./src
 
 ### deactivate virtualenv
 if [ $DEACTIVE == true ]; then

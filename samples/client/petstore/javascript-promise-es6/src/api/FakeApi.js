@@ -358,6 +358,53 @@ export default class FakeApi {
 
 
     /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testAdditionalPropertiesReferenceWithHttpInfo(requestBody) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/additionalProperties-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testAdditionalPropertiesReference(requestBody) {
+      return this.testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
      * For this test, the body has to be a binary file.
      * @param {File} body image to upload
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response

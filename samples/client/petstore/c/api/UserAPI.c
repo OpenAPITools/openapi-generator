@@ -17,7 +17,7 @@
 // This can only be done by the logged in user.
 //
 void
-UserAPI_createUser(apiClient_t *apiClient, user_t * body )
+UserAPI_createUser(apiClient_t *apiClient, user_t *body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -80,7 +80,7 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body )
+UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -171,7 +171,7 @@ end:
 // Creates list of users with given input array
 //
 void
-UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body )
+UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -264,7 +264,7 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_deleteUser(apiClient_t *apiClient, char * username )
+UserAPI_deleteUser(apiClient_t *apiClient, char *username)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -328,7 +328,7 @@ end:
 // Get user by user name
 //
 user_t*
-UserAPI_getUserByName(apiClient_t *apiClient, char * username )
+UserAPI_getUserByName(apiClient_t *apiClient, char *username)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;
@@ -409,7 +409,7 @@ end:
 // Logs user into the system
 //
 char*
-UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
+UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = NULL;
@@ -568,7 +568,7 @@ end:
 // This can test integer and boolean query parameters in API.
 //
 void
-UserAPI_testIntAndBool(apiClient_t *apiClient, int keep , int keepDay )
+UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay)
 {
     list_t    *localVarQueryParameters = list_createList();
     list_t    *localVarHeaderParameters = NULL;
@@ -589,11 +589,11 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int keep , int keepDay )
     char *keyQuery_keep = NULL;
     char * valueQuery_keep = NULL;
     keyValuePair_t *keyPairQuery_keep = 0;
-    if (1) // Always send boolean parameters to the API server
+    if (keep)
     {
         keyQuery_keep = strdup("keep");
         valueQuery_keep = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_keep, MAX_NUMBER_LENGTH, "%d", keep);
+        snprintf(valueQuery_keep, MAX_NUMBER_LENGTH, "%d", *keep);
         keyPairQuery_keep = keyValuePair_create(keyQuery_keep, valueQuery_keep);
         list_addElement(localVarQueryParameters,keyPairQuery_keep);
     }
@@ -602,11 +602,11 @@ UserAPI_testIntAndBool(apiClient_t *apiClient, int keep , int keepDay )
     char *keyQuery_keepDay = NULL;
     char * valueQuery_keepDay = NULL;
     keyValuePair_t *keyPairQuery_keepDay = 0;
-    if (1) // Always send integer parameters to the API server
+    if (keepDay)
     {
         keyQuery_keepDay = strdup("keepDay");
         valueQuery_keepDay = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", keepDay);
+        snprintf(valueQuery_keepDay, MAX_NUMBER_LENGTH, "%d", *keepDay);
         keyPairQuery_keepDay = keyValuePair_create(keyQuery_keepDay, valueQuery_keepDay);
         list_addElement(localVarQueryParameters,keyPairQuery_keepDay);
     }
@@ -645,7 +645,7 @@ end:
 // This can only be done by the logged in user.
 //
 void
-UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
+UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
 {
     list_t    *localVarQueryParameters = NULL;
     list_t    *localVarHeaderParameters = NULL;

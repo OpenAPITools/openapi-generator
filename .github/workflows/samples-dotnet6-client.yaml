@@ -73,7 +73,7 @@ jobs:
           - samples/client/petstore/csharp-restsharp-name-parameter-mappings
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3.2.0
+      - uses: actions/setup-dotnet@v4.0.0
         with:
           dotnet-version: '6.0.x'
       - name: Build

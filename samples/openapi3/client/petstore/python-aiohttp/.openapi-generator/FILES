@@ -12,7 +12,6 @@ docs/Animal.md
 docs/AnotherFakeApi.md
 docs/AnyOfColor.md
 docs/AnyOfPig.md
-docs/ApiResponse.md
 docs/ArrayOfArrayOfModel.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
@@ -54,6 +53,7 @@ docs/MapOfArrayOfModel.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
+docs/ModelApiResponse.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NullableClass.md
@@ -84,6 +84,8 @@ docs/SpecialModelName.md
 docs/SpecialName.md
 docs/StoreApi.md
 docs/Tag.md
+docs/TestErrorResponsesWithModel400Response.md
+docs/TestErrorResponsesWithModel404Response.md
 docs/TestInlineFreeformAdditionalPropertiesRequest.md
 docs/Tiger.md
 docs/UnnamedDictWithAdditionalModelListProperties.md
@@ -114,7 +116,6 @@ petstore_api/models/all_of_with_single_ref.py
 petstore_api/models/animal.py
 petstore_api/models/any_of_color.py
 petstore_api/models/any_of_pig.py
-petstore_api/models/api_response.py
 petstore_api/models/array_of_array_of_model.py
 petstore_api/models/array_of_array_of_number_only.py
 petstore_api/models/array_of_number_only.py
@@ -153,6 +154,7 @@ petstore_api/models/map_of_array_of_model.py
 petstore_api/models/map_test.py
 petstore_api/models/mixed_properties_and_additional_properties_class.py
 petstore_api/models/model200_response.py
+petstore_api/models/model_api_response.py
 petstore_api/models/model_return.py
 petstore_api/models/name.py
 petstore_api/models/nullable_class.py
@@ -181,6 +183,8 @@ petstore_api/models/special_character_enum.py
 petstore_api/models/special_model_name.py
 petstore_api/models/special_name.py
 petstore_api/models/tag.py
+petstore_api/models/test_error_responses_with_model400_response.py
+petstore_api/models/test_error_responses_with_model404_response.py
 petstore_api/models/test_inline_freeform_additional_properties_request.py
 petstore_api/models/tiger.py
 petstore_api/models/unnamed_dict_with_additional_model_list_properties.py

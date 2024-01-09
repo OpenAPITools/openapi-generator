@@ -453,22 +453,22 @@ public class FormatTest   {
       return false;
     }
     FormatTest formatTest = (FormatTest) o;
-    return Objects.equals(integer, formatTest.integer) &&
-        Objects.equals(int32, formatTest.int32) &&
-        Objects.equals(int64, formatTest.int64) &&
-        Objects.equals(number, formatTest.number) &&
-        Objects.equals(_float, formatTest._float) &&
-        Objects.equals(_double, formatTest._double) &&
-        Objects.equals(decimal, formatTest.decimal) &&
-        Objects.equals(string, formatTest.string) &&
-        Objects.equals(_byte, formatTest._byte) &&
-        Objects.equals(binary, formatTest.binary) &&
-        Objects.equals(date, formatTest.date) &&
-        Objects.equals(dateTime, formatTest.dateTime) &&
-        Objects.equals(uuid, formatTest.uuid) &&
-        Objects.equals(password, formatTest.password) &&
-        Objects.equals(patternWithDigits, formatTest.patternWithDigits) &&
-        Objects.equals(patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
+    return Objects.equals(this.integer, formatTest.integer) &&
+        Objects.equals(this.int32, formatTest.int32) &&
+        Objects.equals(this.int64, formatTest.int64) &&
+        Objects.equals(this.number, formatTest.number) &&
+        Objects.equals(this._float, formatTest._float) &&
+        Objects.equals(this._double, formatTest._double) &&
+        Objects.equals(this.decimal, formatTest.decimal) &&
+        Objects.equals(this.string, formatTest.string) &&
+        Objects.equals(this._byte, formatTest._byte) &&
+        Objects.equals(this.binary, formatTest.binary) &&
+        Objects.equals(this.date, formatTest.date) &&
+        Objects.equals(this.dateTime, formatTest.dateTime) &&
+        Objects.equals(this.uuid, formatTest.uuid) &&
+        Objects.equals(this.password, formatTest.password) &&
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
@@ -494,7 +494,7 @@ public class FormatTest   {
     sb.append("    date: ").append(toIndentedString(date)).append("\n");
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");

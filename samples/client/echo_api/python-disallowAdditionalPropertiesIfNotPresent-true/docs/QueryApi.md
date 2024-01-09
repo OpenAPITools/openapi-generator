@@ -23,9 +23,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.string_enum_ref import StringEnumRef
 from openapi_client.rest import ApiException
@@ -58,6 +57,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_nonref_string_query** | **str**|  | [optional] 
@@ -77,6 +77,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -92,9 +93,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -127,6 +127,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **datetime_query** | **datetime**|  | [optional] 
@@ -147,6 +148,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -162,9 +164,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -197,6 +198,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **integer_query** | **int**|  | [optional] 
@@ -217,6 +219,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -232,9 +235,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
@@ -266,6 +268,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**Pet**](.md)|  | [optional] 
@@ -284,6 +287,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -299,9 +303,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -332,6 +335,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] 
@@ -350,6 +354,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -365,9 +370,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.test_query_style_form_explode_true_array_string_query_object_parameter import TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 from openapi_client.rest import ApiException
@@ -399,6 +403,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](.md)|  | [optional] 
@@ -417,6 +422,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -432,9 +438,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.models.pet import Pet
 from openapi_client.rest import ApiException
@@ -466,6 +471,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**Pet**](.md)|  | [optional] 
@@ -484,6 +490,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -499,9 +506,8 @@ Test query parameter(s)
 
 ### Example
 
+
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -532,6 +538,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**DataQuery**](.md)|  | [optional] 
@@ -550,6 +557,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |

@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.10.0
+        uses: s4u/setup-maven-action@v1.11.0
         with:
           java-version: ${{ matrix.java }}
           maven-version: 3.8.8
@@ -57,7 +57,7 @@ jobs:
           GRADLE_ENTERPRISE_ACCESS_KEY: ${{ secrets.GRADLE_ENTERPRISE_ACCESS_KEY }}
 
       - name: Upload Maven build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: matrix.java == '11' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
@@ -87,12 +87,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
       - name: Setup Maven
-        uses: s4u/setup-maven-action@v1.10.0
+        uses: s4u/setup-maven-action@v1.11.0
         with:
           java-version: 11
           maven-version: 3.8.8
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: artifact
       - name: Run Ensures Script

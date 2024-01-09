@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -33,19 +34,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(string nullableMessage = default)
+        public HealthCheckResult(Option<string> nullableMessage = default)
         {
-            NullableMessage = nullableMessage;
+            NullableMessageOption = nullableMessage;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of NullableMessage
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> NullableMessageOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string NullableMessage { get; set; }
+        public string NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -100,7 +108,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string nullableMessage = default;
+            Option<string> nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -118,7 +126,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = utf8JsonReader.GetString();
+                            nullableMessage = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -153,7 +161,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
+            if (healthCheckResult.NullableMessageOption.IsSet)
+                if (healthCheckResult.NullableMessageOption.Value != null)
+                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
+                else
+                    writer.WriteNull("NullableMessage");
         }
     }
 }

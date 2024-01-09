@@ -17,19 +17,15 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictStr
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Any, ClassVar, Dict, List, Optional
+from typing import Optional, Set
+from typing_extensions import Self
 
 class FirstRef(BaseModel):
     """
     FirstRef
-    """
+    """ # noqa: E501
     category: Optional[StrictStr] = None
     self_ref: Optional[SecondRef] = None
     additional_properties: Dict[str, Any] = {}
@@ -37,7 +33,8 @@ class FirstRef(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -51,7 +48,7 @@ class FirstRef(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of FirstRef from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,11 +63,13 @@ class FirstRef(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of self_ref
@@ -84,7 +83,7 @@ class FirstRef(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of FirstRef from a dict"""
         if obj is None:
             return None
@@ -94,7 +93,7 @@ class FirstRef(BaseModel):
 
         _obj = cls.model_validate({
             "category": obj.get("category"),
-            "self_ref": SecondRef.from_dict(obj.get("self_ref")) if obj.get("self_ref") is not None else None
+            "self_ref": SecondRef.from_dict(obj["self_ref"]) if obj.get("self_ref") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
@@ -104,9 +103,6 @@ class FirstRef(BaseModel):
         return _obj
 
 from petstore_api.models.second_ref import SecondRef
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # FirstRef.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+FirstRef.model_rebuild(raise_errors=False)
 

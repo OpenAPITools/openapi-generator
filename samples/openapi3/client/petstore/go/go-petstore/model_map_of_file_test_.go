@@ -97,10 +97,10 @@ func (o MapOfFileTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {
+func (o *MapOfFileTest) UnmarshalJSON(data []byte) (err error) {
 	varMapOfFileTest := _MapOfFileTest{}
 
-	err = json.Unmarshal(bytes, &varMapOfFileTest)
+	err = json.Unmarshal(data, &varMapOfFileTest)
 
 	if err != nil {
 		return err
@@ -110,7 +110,7 @@ func (o *MapOfFileTest) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "prop_test")
 		o.AdditionalProperties = additionalProperties
 	}

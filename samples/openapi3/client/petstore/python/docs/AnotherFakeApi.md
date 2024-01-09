@@ -16,9 +16,8 @@ To test special tags and operation ID starting with number
 
 ### Example
 
+
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.client import Client
 from petstore_api.rest import ApiException
@@ -50,6 +49,7 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **client** | [**Client**](Client.md)| client model | 
@@ -68,6 +68,7 @@ No authorization required
  - **Accept**: application/json
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

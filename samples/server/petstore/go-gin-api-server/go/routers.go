@@ -67,8 +67,7 @@ type ApiHandleFunctions struct {
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{
-	
+	return []Route{ 
 		{
 			"AddPet",
 			http.MethodPost,

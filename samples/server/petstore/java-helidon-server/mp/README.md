@@ -21,6 +21,7 @@ curl -X POST http://petstore.swagger.io:80/v2/outer/composite
 curl -X POST http://petstore.swagger.io:80/v2/outer/number
 curl -X POST http://petstore.swagger.io:80/v2/outer/string
 curl -X POST http://petstore.swagger.io:80/v2/property/enum-int
+curl -X POST http://petstore.swagger.io:80/v2/additionalProperties-reference
 curl -X PUT http://petstore.swagger.io:80/v2/body-with-binary
 curl -X PUT http://petstore.swagger.io:80/v2/body-with-file-schema
 curl -X PUT http://petstore.swagger.io:80/v2/body-with-query-params

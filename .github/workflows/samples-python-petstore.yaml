@@ -33,7 +33,7 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         id: py
         with:
           python-version: ${{ matrix.python-version }}
@@ -57,3 +57,7 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: poetry run pytest -v
+
+      - name: mypy
+        working-directory: ${{ matrix.sample }}
+        run: poetry run mypy

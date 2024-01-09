@@ -36,19 +36,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
-import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
-import org.openapitools.codegen.languages.CSharpClientCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.model.ApiInfoMap;
-import org.openapitools.codegen.model.ModelMap;
-import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.model.OperationMap;
-import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.*;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.openapitools.codegen.templating.GeneratorTemplateContentLocator;
@@ -65,6 +59,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -87,6 +82,7 @@ public class DefaultGenerator implements Generator {
     private Boolean generateApis = null;
     private Boolean generateModels = null;
     private Boolean generateSupportingFiles = null;
+    private Boolean generateWebhooks = null;
     private Boolean generateApiTests = null;
     private Boolean generateApiDocumentation = null;
     private Boolean generateModelTests = null;
@@ -99,6 +95,8 @@ public class DefaultGenerator implements Generator {
     protected TemplateProcessor templateProcessor = null;
 
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
+    private String generatorCheck = "spring";
+    private String templateCheck = "apiController.mustache";
 
 
     public DefaultGenerator() {
@@ -209,10 +207,11 @@ public class DefaultGenerator implements Generator {
         generateApis = GlobalSettings.getProperty(CodegenConstants.APIS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.APIS, null);
         generateModels = GlobalSettings.getProperty(CodegenConstants.MODELS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.MODELS, null);
         generateSupportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.SUPPORTING_FILES, null);
+        generateWebhooks = GlobalSettings.getProperty(CodegenConstants.WEBHOOKS) != null ? Boolean.TRUE : getGeneratorPropertyDefaultSwitch(CodegenConstants.WEBHOOKS, null);
 
-        if (generateApis == null && generateModels == null && generateSupportingFiles == null) {
+        if (generateApis == null && generateModels == null && generateSupportingFiles == null && generateWebhooks == null) {
             // no specifics are set, generate everything
-            generateApis = generateModels = generateSupportingFiles = true;
+            generateApis = generateModels = generateSupportingFiles = generateWebhooks = true;
         } else {
             if (generateApis == null) {
                 generateApis = false;
@@ -222,6 +221,9 @@ public class DefaultGenerator implements Generator {
             }
             if (generateSupportingFiles == null) {
                 generateSupportingFiles = false;
+            }
+            if (generateWebhooks == null) {
+                generateWebhooks = false;
             }
         }
         // model/api tests and documentation options rely on parent generate options (api or model) and no other options.
@@ -240,6 +242,7 @@ public class DefaultGenerator implements Generator {
 
         config.additionalProperties().put(CodegenConstants.GENERATE_APIS, generateApis);
         config.additionalProperties().put(CodegenConstants.GENERATE_MODELS, generateModels);
+        config.additionalProperties().put(CodegenConstants.GENERATE_WEBHOOKS, generateWebhooks);
 
         if (!generateApiTests && !generateModelTests) {
             config.additionalProperties().put(CodegenConstants.EXCLUDE_TESTS, true);
@@ -506,16 +509,7 @@ public class DefaultGenerator implements Generator {
                 Schema schema = schemas.get(name);
 
                 if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
-                    // there are 3 free form use cases
-                    // 1. free form with no validation that is not allOf included in any composed schemas
-                    // 2. free form with validation
-                    // 3. free form that is allOf included in any composed schemas
-                    //      this use case arises when using interface schemas
-                    // generators may choose to make models for use case 2 + 3
-                    Schema refSchema = new Schema();
-                    refSchema.set$ref("#/components/schemas/" + name);
-                    Schema unaliasedSchema = config.unaliasSchema(refSchema);
-                    if (unaliasedSchema.get$ref() == null) {
+                    if (!ModelUtils.shouldGenerateFreeFormObjectModel(name, config)) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
                     }
@@ -606,7 +600,7 @@ public class DefaultGenerator implements Generator {
         }
         Map<String, List<CodegenOperation>> paths = processPaths(this.openAPI.getPaths());
         Set<String> apisToGenerate = null;
-        String apiNames = GlobalSettings.getProperty("apis");
+        String apiNames = GlobalSettings.getProperty(CodegenConstants.APIS);
         if (apiNames != null && !apiNames.isEmpty()) {
             apisToGenerate = new HashSet<>(Arrays.asList(apiNames.split(",")));
         }
@@ -694,14 +688,23 @@ public class DefaultGenerator implements Generator {
                 addAuthenticationSwitches(operation);
 
                 for (String templateName : config.apiTemplateFiles().keySet()) {
-                    File written;
+                    File written = null;
                     if (config.templateOutputDirs().containsKey(templateName)) {
                         String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
                         String filename = config.apiFilename(templateName, tag, outputDir);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        // do not overwrite apiController file for spring server
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS, outputDir);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
+                        }
                     } else {
                         String filename = config.apiFilename(templateName, tag);
-                        written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)) {
+                            written = processTemplateToFile(operation, templateName, filename, generateApis, CodegenConstants.APIS);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten", filename);
+                        }
                     }
                     if (written != null) {
                         files.add(written);
@@ -752,12 +755,250 @@ public class DefaultGenerator implements Generator {
 
     }
 
+    void generateWebhooks(List<File> files, List<WebhooksMap> allWebhooks, List<ModelMap> allModels) {
+        if (!generateWebhooks) {
+            // TODO: Process these anyway and present info via dryRun?
+            LOGGER.info("Skipping generation of Webhooks.");
+            return;
+        }
+        Map<String, List<CodegenOperation>> webhooks = processWebhooks(this.openAPI.getWebhooks());
+        Set<String> webhooksToGenerate = null;
+        String webhookNames = GlobalSettings.getProperty(CodegenConstants.WEBHOOKS);
+        if (webhookNames != null && !webhookNames.isEmpty()) {
+            webhooksToGenerate = new HashSet<>(Arrays.asList(webhookNames.split(",")));
+        }
+        if (webhooksToGenerate != null && !webhooksToGenerate.isEmpty()) {
+            Map<String, List<CodegenOperation>> Webhooks = new TreeMap<>();
+            for (String m : webhooks.keySet()) {
+                if (webhooksToGenerate.contains(m)) {
+                    Webhooks.put(m, webhooks.get(m));
+                }
+            }
+            webhooks = Webhooks;
+        }
+        for (String tag : webhooks.keySet()) {
+            try {
+                List<CodegenOperation> wks = webhooks.get(tag);
+                wks.sort((one, another) -> ObjectUtils.compare(one.operationId, another.operationId));
+                WebhooksMap operation = processWebhooks(config, tag, wks, allModels);
+                URL url = URLPathUtils.getServerURL(openAPI, config.serverVariableOverrides());
+                operation.put("basePath", basePath);
+                operation.put("basePathWithoutHost", removeTrailingSlash(config.encodePath(url.getPath())));
+                operation.put("contextPath", contextPath);
+                operation.put("baseName", tag);
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .map(Tag::getName)
+                        .filter(Objects::nonNull)
+                        .filter(tag::equalsIgnoreCase)
+                        .findFirst()
+                        .ifPresent(tagName -> operation.put("operationTagName", config.escapeText(tagName)));
+                operation.put("operationTagDescription", "");
+                Optional.ofNullable(openAPI.getTags()).orElseGet(Collections::emptyList).stream()
+                        .filter(t -> tag.equalsIgnoreCase(t.getName()))
+                        .map(Tag::getDescription)
+                        .filter(Objects::nonNull)
+                        .findFirst()
+                        .ifPresent(description -> operation.put("operationTagDescription", config.escapeText(description)));
+                Optional.ofNullable(config.additionalProperties().get("appVersion")).ifPresent(version -> operation.put("version", version));
+                operation.put("apiPackage", config.apiPackage());
+                operation.put("modelPackage", config.modelPackage());
+                operation.putAll(config.additionalProperties());
+                operation.put("classname", config.toApiName(tag));
+                operation.put("classVarName", config.toApiVarName(tag));
+                operation.put("importPath", config.toApiImport(tag));
+                operation.put("classFilename", config.toApiFilename(tag));
+                operation.put("strictSpecBehavior", config.isStrictSpecBehavior());
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getLicense).ifPresent(license -> operation.put("license", license));
+                Optional.ofNullable(openAPI.getInfo()).map(Info::getContact).ifPresent(contact -> operation.put("contact", contact));
+
+                if (allModels == null || allModels.isEmpty()) {
+                    operation.put("hasModel", false);
+                } else {
+                    operation.put("hasModel", true);
+                }
+
+                if (!config.vendorExtensions().isEmpty()) {
+                    operation.put("vendorExtensions", config.vendorExtensions());
+                }
+
+                // process top-level x-group-parameters
+                if (config.vendorExtensions().containsKey("x-group-parameters")) {
+                    boolean isGroupParameters = Boolean.parseBoolean(config.vendorExtensions().get("x-group-parameters").toString());
+
+                    OperationMap objectMap = operation.getWebhooks();
+                    List<CodegenOperation> operations = objectMap.getOperation();
+                    for (CodegenOperation op : operations) {
+                        if (isGroupParameters && !op.vendorExtensions.containsKey("x-group-parameters")) {
+                            op.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
+                        }
+                    }
+                }
+
+                // Pass sortParamsByRequiredFlag through to the Mustache template...
+                boolean sortParamsByRequiredFlag = true;
+                if (this.config.additionalProperties().containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
+                    sortParamsByRequiredFlag = Boolean.parseBoolean(this.config.additionalProperties().get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString());
+                }
+                operation.put("sortParamsByRequiredFlag", sortParamsByRequiredFlag);
+
+                /* consumes, produces are no longer defined in OAS3.0
+                processMimeTypes(swagger.getConsumes(), operation, "consumes");
+                processMimeTypes(swagger.getProduces(), operation, "produces");
+                */
+
+                allWebhooks.add(operation);
+
+                addAuthenticationSwitches(operation);
+
+                for (String templateName : config.apiTemplateFiles().keySet()) {
+                    File written = null;
+                    if (config.templateOutputDirs().containsKey(templateName)) {
+                        String outputDir = config.getOutputDir() + File.separator + config.templateOutputDirs().get(templateName);
+                        String filename = config.apiFilename(templateName, tag, outputDir);
+                        // do not overwrite apiController file for spring server
+                        if (apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                            written = processTemplateToFile(operation, templateName, filename, generateWebhooks, CodegenConstants.WEBHOOKS, outputDir);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten",filename);
+                        }
+                    } else {
+                        String filename = config.apiFilename(templateName, tag);
+                        if(apiFilePreCheck(filename, generatorCheck, templateName, templateCheck)){
+                            written = processTemplateToFile(operation, templateName, filename, generateWebhooks, CodegenConstants.WEBHOOKS);
+                        } else {
+                            LOGGER.info("Implementation file {} is not overwritten",filename);
+                        }
+                    }
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api");
+                        }
+                    }
+                }
+
+                // to generate api test files
+                for (String templateName : config.apiTestTemplateFiles().keySet()) {
+                    String filename = config.apiTestFilename(templateName, tag);
+                    File apiTestFile = new File(filename);
+                    // do not overwrite test file that already exists
+                    if (apiTestFile.exists()) {
+                        this.templateProcessor.skip(apiTestFile.toPath(), "Test files never overwrite an existing file of the same name.");
+                    } else {
+                        File written = processTemplateToFile(operation, templateName, filename, generateApiTests, CodegenConstants.API_TESTS, config.apiTestFileFolder());
+                        if (written != null) {
+                            files.add(written);
+                            if (config.isEnablePostProcessFile() && !dryRun) {
+                                config.postProcessFile(written, "api-test");
+                            }
+                        }
+                    }
+                }
+
+                // to generate api documentation files
+                for (String templateName : config.apiDocTemplateFiles().keySet()) {
+                    String filename = config.apiDocFilename(templateName, tag);
+                    File written = processTemplateToFile(operation, templateName, filename, generateApiDocumentation, CodegenConstants.API_DOCS);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "api-doc");
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException("Could not generate api file for '" + tag + "'", e);
+            }
+        }
+        if (GlobalSettings.getProperty("debugOperations") != null) {
+            LOGGER.info("############ Operation info ############");
+            Json.prettyPrint(allWebhooks);
+        }
+
+    }
+
+    // checking if apiController file is already existed for spring generator
+    private boolean apiFilePreCheck(String filename, String generator, String templateName, String apiControllerTemplate) {
+        File apiFile = new File(filename);
+        return !(apiFile.exists() && config.getName().equals(generator) && templateName.equals(apiControllerTemplate));
+    }
+
+    /*
+     * Generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled.
+     */
+    private void generateOpenAPIGeneratorIgnoreFile() {
+        if (config.getOpenAPIGeneratorIgnoreList() == null || config.getOpenAPIGeneratorIgnoreList().isEmpty()) {
+            return;
+        }
+
+        final String openapiGeneratorIgnore = ".openapi-generator-ignore";
+        String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
+        File ignoreFile = new File(ignoreFileNameTarget);
+        // use the entries provided by the users to pre-populate .openapi-generator-ignore
+        try {
+            LOGGER.info("Writing file " + ignoreFileNameTarget + " (which is always overwritten when the option `openapiGeneratorIgnoreFile` is enabled.)");
+            new File(config.outputFolder()).mkdirs();
+            if (!ignoreFile.createNewFile()) {
+                // file may already exist, do nothing
+            }
+
+            String header = String.join("\n",
+                    "# IMPORTANT: this file is generated with the option `openapiGeneratorIgnoreList` enabled",
+                    "# (--openapi-generator-ignore-list in CLI for example) so the entries below are pre-populated based",
+                    "# on the input provided by the users and this file will be overwritten every time when the option is",
+                    "# enabled (which is the exact opposite of the default behaviour to not overwrite",
+                    "# .openapi-generator-ignore if the file exists).",
+                    "",
+                    "# OpenAPI Generator Ignore",
+                    "# Generated by openapi-generator https://github.com/openapitools/openapi-generator",
+                    "",
+                    "# Use this file to prevent files from being overwritten by the generator.",
+                    "# The patterns follow closely to .gitignore or .dockerignore.",
+                    "",
+                    "# As an example, the C# client generator defines ApiClient.cs.",
+                    "# You can make changes and tell OpenAPI Generator to ignore just this file by uncommenting the following line:",
+                    "#ApiClient.cs",
+                    "",
+                    "# You can match any string of characters against a directory, file or extension with a single asterisk (*):",
+                    "#foo/*/qux",
+                    "# The above matches foo/bar/qux and foo/baz/qux, but not foo/bar/baz/qux",
+                    "",
+                    "# You can recursively match patterns against a directory, file or extension with a double asterisk (**):",
+                    "#foo/**/qux",
+                    "# This matches foo/bar/qux, foo/baz/qux, and foo/bar/baz/qux",
+                    "",
+                    "# You can also negate patterns with an exclamation (!).",
+                    "# For example, you can ignore all files in a docs folder with the file extension .md:",
+                    "#docs/*.md",
+                    "# Then explicitly reverse the ignore rule for a single file:",
+                    "#!docs/README.md",
+                    "",
+                    "# The following entries are pre-populated based on the input obtained via",
+                    "# the option `openapiGeneratorIgnoreList` (--openapi-generator-ignore-list in CLI for example).",
+                    "");
+            Writer fileWriter = Files.newBufferedWriter(ignoreFile.toPath(), StandardCharsets.UTF_8);
+            fileWriter.write(header);
+            // add entries provided by the users
+            for (String entry : config.getOpenAPIGeneratorIgnoreList()) {
+                fileWriter.write(entry);
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+            // re-create ignore processor based on the newly-created .openapi-generator-ignore
+            this.ignoreProcessor = new CodegenIgnoreProcessor(ignoreFile);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to generate .openapi-generator-ignore when the option `openapiGeneratorIgnoreList` is enabled: ", e);
+        }
+    }
+
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
         if (!generateSupportingFiles) {
             // TODO: process these anyway and report via dryRun?
             LOGGER.info("Skipping generation of supporting files.");
             return;
         }
+
         Set<String> supportingFilesToGenerate = null;
         String supportingFiles = GlobalSettings.getProperty(CodegenConstants.SUPPORTING_FILES);
         if (supportingFiles != null && !supportingFiles.isEmpty()) {
@@ -802,33 +1043,40 @@ public class DefaultGenerator implements Generator {
 
         // Consider .openapi-generator-ignore a supporting file
         // Output .openapi-generator-ignore if it doesn't exist and wasn't explicitly created by a generator
-        final String openapiGeneratorIgnore = ".openapi-generator-ignore";
-        String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
-        File ignoreFile = new File(ignoreFileNameTarget);
-        if (generateMetadata) {
-            try {
-                boolean shouldGenerate = !ignoreFile.exists();
-                if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
-                }
-                File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
-                if (written != null) {
-                    files.add(written);
-                    if (config.isEnablePostProcessFile() && !dryRun) {
-                        config.postProcessFile(written, "openapi-generator-ignore");
+        // and the option openapiGeneratorIgnoreList is not set
+        if (config.openapiGeneratorIgnoreList() == null || config.openapiGeneratorIgnoreList().isEmpty()) {
+            final String openapiGeneratorIgnore = ".openapi-generator-ignore";
+            String ignoreFileNameTarget = config.outputFolder() + File.separator + openapiGeneratorIgnore;
+            File ignoreFile = new File(ignoreFileNameTarget);
+            if (generateMetadata) {
+                try {
+                    boolean shouldGenerate = !ignoreFile.exists();
+                    if (shouldGenerate && supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
+                        shouldGenerate = supportingFilesToGenerate.contains(openapiGeneratorIgnore);
                     }
+                    File written = processTemplateToFile(bundle, openapiGeneratorIgnore, ignoreFileNameTarget, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
+                    if (written != null) {
+                        files.add(written);
+                        if (config.isEnablePostProcessFile() && !dryRun) {
+                            config.postProcessFile(written, "openapi-generator-ignore");
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not generate supporting file '" + ignoreFileNameTarget + "'", e);
+            } else {
+                this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
             }
-        } else {
-            this.templateProcessor.skip(ignoreFile.toPath(), "Skipped by generateMetadata option supplied by user.");
         }
 
         generateVersionMetadata(files);
     }
 
     Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels) {
+        return this.buildSupportFileBundle(allOperations, allModels, null);
+    }
+
+    Map<String, Object> buildSupportFileBundle(List<OperationsMap> allOperations, List<ModelMap> allModels, List<WebhooksMap> allWebhooks) {
 
         Map<String, Object> bundle = new HashMap<>(config.additionalProperties());
         bundle.put("apiPackage", config.apiPackage());
@@ -848,6 +1096,7 @@ public class DefaultGenerator implements Generator {
         }
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
+        bundle.put("webhooks", allWebhooks);
         bundle.put("models", allModels);
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
@@ -967,6 +1216,9 @@ public class DefaultGenerator implements Generator {
 
         processUserDefinedTemplates();
 
+        // generate .openapi-generator-ignore if the option openapiGeneratorIgnoreFile is enabled
+        generateOpenAPIGeneratorIgnoreFile();
+
         List<File> files = new ArrayList<>();
         // models
         List<String> filteredSchemas = ModelUtils.getSchemasUsedOnlyInFormParam(openAPI);
@@ -975,9 +1227,11 @@ public class DefaultGenerator implements Generator {
         // apis
         List<OperationsMap> allOperations = new ArrayList<>();
         generateApis(files, allOperations, allModels);
-
+        // webhooks
+        List<WebhooksMap> allWebhooks = new ArrayList<>();
+        generateWebhooks(files, allWebhooks, allModels);
         // supporting files
-        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels);
+        Map<String, Object> bundle = buildSupportFileBundle(allOperations, allModels, allWebhooks);
         generateSupportingFiles(files, bundle);
 
         if (dryRun) {
@@ -1152,6 +1406,27 @@ public class DefaultGenerator implements Generator {
         return ops;
     }
 
+    public Map<String, List<CodegenOperation>>  processWebhooks(Map<String, PathItem> webhooks) {
+        Map<String, List<CodegenOperation>> ops = new TreeMap<>();
+        // when input file is not valid and doesn't contain any paths
+        if (webhooks == null) {
+            return ops;
+        }
+        for (Map.Entry<String, PathItem> webhooksEntry : webhooks.entrySet()) {
+            String resourceKey = webhooksEntry.getKey();
+            PathItem path = webhooksEntry.getValue();
+            processOperation(resourceKey, "get", path.getGet(), ops, path);
+            processOperation(resourceKey, "head", path.getHead(), ops, path);
+            processOperation(resourceKey, "put", path.getPut(), ops, path);
+            processOperation(resourceKey, "post", path.getPost(), ops, path);
+            processOperation(resourceKey, "delete", path.getDelete(), ops, path);
+            processOperation(resourceKey, "patch", path.getPatch(), ops, path);
+            processOperation(resourceKey, "options", path.getOptions(), ops, path);
+            processOperation(resourceKey, "trace", path.getTrace(), ops, path);
+        }
+        return ops;
+    }
+
     private void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations, PathItem path) {
         if (operation == null) {
             return;
@@ -1300,6 +1575,50 @@ public class DefaultGenerator implements Generator {
         }
 
         config.postProcessOperationsWithModels(operations, allModels);
+        return operations;
+    }
+
+    private WebhooksMap processWebhooks(CodegenConfig config, String tag, List<CodegenOperation> wks, List<ModelMap> allModels) {
+        WebhooksMap operations = new WebhooksMap();
+        OperationMap objs = new OperationMap();
+        objs.setClassname(config.toApiName(tag));
+        objs.setPathPrefix(config.toApiVarName(tag));
+
+        // check for nickname uniqueness
+        if (config.getAddSuffixToDuplicateOperationNicknames()) {
+            Set<String> opIds = new HashSet<>();
+            int counter = 0;
+            for (CodegenOperation op : wks) {
+                String opId = op.nickname;
+                if (opIds.contains(opId)) {
+                    counter++;
+                    op.nickname += "_" + counter;
+                }
+                opIds.add(opId);
+            }
+        }
+        objs.setOperation(wks);
+
+        operations.setWebhooks(objs);
+        operations.put("package", config.apiPackage());
+
+        Set<String> allImports = new ConcurrentSkipListSet<>();
+        for (CodegenOperation op : wks) {
+            allImports.addAll(op.imports);
+        }
+
+        Map<String, String> mappings = getAllImportsMappings(allImports);
+        Set<Map<String, String>> imports = toImportsObjects(mappings);
+
+        //Some codegen implementations rely on a list interface for the imports
+        operations.setImports(new ArrayList<>(imports));
+
+        // add a flag to indicate whether there's any {{import}}
+        if (!imports.isEmpty()) {
+            operations.put("hasImport", true);
+        }
+
+        config.postProcessWebhooksWithModels(operations, allModels);
         return operations;
     }
 
@@ -1506,7 +1825,7 @@ public class DefaultGenerator implements Generator {
 
         for (CodegenSecurity security : authMethods) {
             boolean filtered = false;
-            if (security != null && security.scopes != null) {
+            if (security != null) {
                 for (SecurityRequirement requirement : securities) {
                     List<String> opScopes = requirement.get(security.name);
                     if (opScopes != null) {

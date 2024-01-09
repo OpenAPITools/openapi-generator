@@ -212,6 +212,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
+        
 
         if (header1 != null)
         headerParams.add("header_1", apiClient.parameterToString(header1));
@@ -624,6 +625,75 @@ public class FakeApi {
         return fakePropertyEnumIntegerSerializeRequestCreation(outerObjectWithEnumProperty);
     }
     /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    private ResponseSpec testAdditionalPropertiesReferenceRequestCreation(Map<String, Object> requestBody) throws WebClientResponseException {
+        Object postBody = requestBody;
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new WebClientResponseException("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
+        }
+        // create path and map variables
+        final Map<String, Object> pathParams = new HashMap<String, Object>();
+
+        final MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders headerParams = new HttpHeaders();
+        final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = { };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+        };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody).bodyToMono(localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public Mono<ResponseEntity<Void>> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws WebClientResponseException {
+        ParameterizedTypeReference<Void> localVarReturnType = new ParameterizedTypeReference<Void>() {};
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody).toEntity(localVarReturnType);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body
+     * @return ResponseSpec
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
+     */
+    public ResponseSpec testAdditionalPropertiesReferenceWithResponseSpec(Map<String, Object> requestBody) throws WebClientResponseException {
+        return testAdditionalPropertiesReferenceRequestCreation(requestBody);
+    }
+    /**
      * 
      * For this test, the body has to be a binary file.
      * <p><b>200</b> - Success
@@ -788,7 +858,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
-
+        
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { 
@@ -1111,6 +1181,7 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
+        
 
         if (enumHeaderStringArray != null)
         headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
@@ -1234,6 +1305,7 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
+        
 
         if (requiredBooleanGroup != null)
         headerParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -1643,7 +1715,7 @@ public class FakeApi {
         queryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
         queryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
-
+        
         final String[] localVarAccepts = { };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         final String[] localVarContentTypes = { };

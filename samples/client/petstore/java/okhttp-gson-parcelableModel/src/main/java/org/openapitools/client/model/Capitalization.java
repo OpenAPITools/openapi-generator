@@ -81,7 +81,6 @@ public class Capitalization implements Parcelable {
   }
 
   public Capitalization smallCamel(String smallCamel) {
-    
     this.smallCamel = smallCamel;
     return this;
   }
@@ -95,14 +94,12 @@ public class Capitalization implements Parcelable {
     return smallCamel;
   }
 
-
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
 
   public Capitalization capitalCamel(String capitalCamel) {
-    
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -116,14 +113,12 @@ public class Capitalization implements Parcelable {
     return capitalCamel;
   }
 
-
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
 
   public Capitalization smallSnake(String smallSnake) {
-    
     this.smallSnake = smallSnake;
     return this;
   }
@@ -137,14 +132,12 @@ public class Capitalization implements Parcelable {
     return smallSnake;
   }
 
-
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
 
   public Capitalization capitalSnake(String capitalSnake) {
-    
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -158,14 +151,12 @@ public class Capitalization implements Parcelable {
     return capitalSnake;
   }
 
-
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
 
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
-    
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -179,14 +170,12 @@ public class Capitalization implements Parcelable {
     return scAETHFlowPoints;
   }
 
-
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
 
   public Capitalization ATT_NAME(String ATT_NAME) {
-    
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -199,7 +188,6 @@ public class Capitalization implements Parcelable {
   public String getATTNAME() {
     return ATT_NAME;
   }
-
 
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;

@@ -115,6 +115,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**GetArrayOfEnums**](docs/FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**TestAdditionalPropertiesReference**](docs/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -221,6 +222,7 @@ Class | Method | HTTP request | Description
  - [Model.Quadrilateral](docs/Quadrilateral.md)
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Model.RequiredClass](docs/RequiredClass.md)
  - [Model.Return](docs/Return.md)
  - [Model.RolesReportsHash](docs/RolesReportsHash.md)
  - [Model.RolesReportsHashRole](docs/RolesReportsHashRole.md)

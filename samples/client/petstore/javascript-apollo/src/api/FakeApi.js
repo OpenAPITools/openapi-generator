@@ -280,6 +280,42 @@ export default class FakeApi extends ApiClient {
     }
 
     /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testAdditionalPropertiesReference(requestBody, requestInit) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/additionalProperties-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
      * For this test, the body has to be a binary file.
      * @param {File} body image to upload
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}

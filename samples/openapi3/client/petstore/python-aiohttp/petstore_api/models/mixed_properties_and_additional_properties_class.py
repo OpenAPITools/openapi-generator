@@ -18,20 +18,16 @@ import re  # noqa: F401
 import json
 
 from datetime import datetime
-from typing import Dict, Optional
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
+from pydantic import BaseModel, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     MixedPropertiesAndAdditionalPropertiesClass
-    """
+    """ # noqa: E501
     uuid: Optional[StrictStr] = None
     date_time: Optional[datetime] = Field(default=None, alias="dateTime")
     map: Optional[Dict[str, Animal]] = None
@@ -39,7 +35,8 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -53,7 +50,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -67,10 +64,12 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each value in map (dict)
@@ -83,7 +82,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of MixedPropertiesAndAdditionalPropertiesClass from a dict"""
         if obj is None:
             return None
@@ -96,7 +95,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
             "dateTime": obj.get("dateTime"),
             "map": dict(
                 (_k, Animal.from_dict(_v))
-                for _k, _v in obj.get("map").items()
+                for _k, _v in obj["map"].items()
             )
             if obj.get("map") is not None
             else None

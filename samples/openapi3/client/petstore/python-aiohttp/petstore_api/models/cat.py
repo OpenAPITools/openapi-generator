@@ -17,26 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import Optional
 from pydantic import StrictBool
+from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
-from typing import Dict, Any
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Cat(Animal):
     """
     Cat
-    """
+    """ # noqa: E501
     declawed: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["className", "color", "declawed"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -50,7 +47,7 @@ class Cat(Animal):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of Cat from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -64,16 +61,18 @@ class Cat(Animal):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Cat from a dict"""
         if obj is None:
             return None

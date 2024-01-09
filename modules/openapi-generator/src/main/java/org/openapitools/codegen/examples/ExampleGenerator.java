@@ -224,6 +224,10 @@ public class ExampleGenerator {
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
+        if (property == null) {
+            LOGGER.error("Property schema shouldn't be null. Please report the issue to the openapi-generator team.");
+            return "";
+        }
         LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
             LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());

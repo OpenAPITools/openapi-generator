@@ -35,6 +35,7 @@ import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -714,7 +715,7 @@ public class ModelUtils {
         return (schema != null) &&
                 // has properties
                 ((null != schema.getProperties() && !schema.getProperties().isEmpty())
-                // composed schema is a model, consider very simple ObjectSchema a model
+                        // composed schema is a model, consider very simple ObjectSchema a model
                         || isComposedSchema(schema)
                         || schema instanceof ObjectSchema);
     }
@@ -829,6 +830,19 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static boolean shouldGenerateFreeFormObjectModel(String name, CodegenConfig config) {
+        // there are 3 free form use cases
+        // 1. free form with no validation that is not allOf included in any composed schemas
+        // 2. free form with validation
+        // 3. free form that is allOf included in any composed schemas
+        //      this use case arises when using interface schemas
+        // generators may choose to make models for use case 2 + 3
+        Schema refSchema = new Schema();
+        refSchema.set$ref("#/components/schemas/" + name);
+        Schema unaliasedSchema = config.unaliasSchema(refSchema);
+        return unaliasedSchema.get$ref() != null;
     }
 
     /**
@@ -1009,11 +1023,17 @@ public class ModelUtils {
     /**
      * Return the first defined Schema for a ApiResponse
      *
-     * @param response api response of the operation
+     * @param openAPI OpenAPI spec.
+     * @param response API response of the operation
      * @return firstSchema
      */
-    public static Schema getSchemaFromResponse(ApiResponse response) {
-        return getSchemaFromContent(response.getContent());
+    public static Schema getSchemaFromResponse(OpenAPI openAPI, ApiResponse response) {
+        ApiResponse result = getReferencedApiResponse(openAPI, response);
+        if (result == null) {
+            return null;
+        } else {
+            return getSchemaFromContent(result.getContent());
+        }
     }
 
     /**
@@ -1738,7 +1758,7 @@ public class ModelUtils {
     private static void logWarnMessagesForIneffectiveValidations(Set<String> setValidations, Schema schema, Set<String> effectiveValidations) {
         setValidations.removeAll(effectiveValidations);
         setValidations.stream().forEach(validation -> {
-            LOGGER.warn("Validation '" + validation + "' has no effect on schema '"+ schema.getType() +"'. Ignoring!");
+            LOGGER.warn("Validation '" + validation + "' has no effect on schema '" + schema.getType() +"'. Ignoring!");
         });
     }
 
@@ -1842,7 +1862,7 @@ public class ModelUtils {
      * @return true if allOf is not empty
      */
     public static boolean hasAllOf(Schema schema) {
-        if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+        if (schema != null && schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
             return true;
         }
 
@@ -1958,7 +1978,6 @@ public class ModelUtils {
      * Returns true if the schema is a parent (with discriminator).
      *
      * @param schema the schema.
-     *
      * @return true if the schema is a parent.
      */
     public static boolean isParent(Schema schema) {

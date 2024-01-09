@@ -1,7 +1,6 @@
 package org.openapitools.model;
 
 import org.openapitools.model.Animal;
-import org.openapitools.model.DogAllOf;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -38,6 +37,23 @@ public class Dog extends Animal {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Dog dog = (Dog) o;
+    return super.equals(o) && Objects.equals(breed, dog.breed);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), breed);
+  }
 
   @Override
   public String toString() {

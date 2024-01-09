@@ -78,6 +78,10 @@ export interface FakePropertyEnumIntegerSerializeRequest {
     outerObjectWithEnumProperty: OuterObjectWithEnumProperty;
 }
 
+export interface TestAdditionalPropertiesReferenceRequest {
+    requestBody: { [key: string]: any; };
+}
+
 export interface TestBodyWithBinaryRequest {
     body: Blob | null;
 }
@@ -416,6 +420,40 @@ export class FakeApi extends runtime.BaseAPI {
     async fakePropertyEnumIntegerSerialize(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<OuterObjectWithEnumProperty> {
         const response = await this.fakePropertyEnumIntegerSerializeRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     * 
+     * test referenced additionalProperties
+     */
+    async testAdditionalPropertiesReferenceRaw(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+            throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testAdditionalPropertiesReference.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/additionalProperties-reference`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.requestBody,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 
+     * test referenced additionalProperties
+     */
+    async testAdditionalPropertiesReference(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.testAdditionalPropertiesReferenceRaw(requestParameters, initOverrides);
     }
 
     /**

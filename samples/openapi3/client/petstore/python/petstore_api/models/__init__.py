@@ -22,7 +22,6 @@ from petstore_api.models.all_of_with_single_ref import AllOfWithSingleRef
 from petstore_api.models.animal import Animal
 from petstore_api.models.any_of_color import AnyOfColor
 from petstore_api.models.any_of_pig import AnyOfPig
-from petstore_api.models.api_response import ApiResponse
 from petstore_api.models.array_of_array_of_model import ArrayOfArrayOfModel
 from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.models.array_of_number_only import ArrayOfNumberOnly
@@ -61,6 +60,7 @@ from petstore_api.models.map_of_array_of_model import MapOfArrayOfModel
 from petstore_api.models.map_test import MapTest
 from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 from petstore_api.models.model200_response import Model200Response
+from petstore_api.models.model_api_response import ModelApiResponse
 from petstore_api.models.model_return import ModelReturn
 from petstore_api.models.name import Name
 from petstore_api.models.nullable_class import NullableClass
@@ -89,6 +89,8 @@ from petstore_api.models.special_character_enum import SpecialCharacterEnum
 from petstore_api.models.special_model_name import SpecialModelName
 from petstore_api.models.special_name import SpecialName
 from petstore_api.models.tag import Tag
+from petstore_api.models.test_error_responses_with_model400_response import TestErrorResponsesWithModel400Response
+from petstore_api.models.test_error_responses_with_model404_response import TestErrorResponsesWithModel404Response
 from petstore_api.models.test_inline_freeform_additional_properties_request import TestInlineFreeformAdditionalPropertiesRequest
 from petstore_api.models.tiger import Tiger
 from petstore_api.models.unnamed_dict_with_additional_model_list_properties import UnnamedDictWithAdditionalModelListProperties
