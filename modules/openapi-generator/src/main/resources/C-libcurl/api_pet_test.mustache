@@ -88,7 +88,7 @@ int main() {
     pet_t *mypet = PetAPI_getPetById(apiClient2, EXAMPLE_PET_ID);
 
     cJSON *JSONR = pet_convertToJSON(mypet);
-    char *petJson = cJSON_Print(JSONR);
+    char *petJson = cJSON_PrintUnformatted(JSONR);
     printf("Data is:%s\n", petJson);
 
     assert(strcmp(mypet->name, "Rocky Handsome") == 0);

@@ -37,7 +37,7 @@ int main() {
 
 	cJSON *JSONNODE = order_convertToJSON(returnorder);
 
-	char *dataToPrint = cJSON_Print(JSONNODE);
+	char *dataToPrint = cJSON_PrintUnformatted(JSONNODE);
 
 	printf("Placed order: \n%s\n", dataToPrint);
 	order_free(neworder);
@@ -52,7 +52,7 @@ int main() {
 
 	JSONNODE = order_convertToJSON(neworder);
 
-	char *dataToPrint1 = cJSON_Print(JSONNODE);
+	char *dataToPrint1 = cJSON_PrintUnformatted(JSONNODE);
 
 	printf("Order received: \n%s\n", dataToPrint1);
 
