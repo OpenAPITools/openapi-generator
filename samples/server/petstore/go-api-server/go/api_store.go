@@ -12,6 +12,7 @@ package petstoreserver
 import (
 	"encoding/json"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/gorilla/mux"
