@@ -1748,8 +1748,19 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.setType("List");
                 moduleImports.add("typing", "List");
             }
-            pt.addTypeParam(getType(cp.getItems()));
+            pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
+        }
+
+        private PythonType collectionItemType(CodegenProperty itemCp) {
+            PythonType itemPt = getType(itemCp);
+            if (itemCp.isNullable) {
+                moduleImports.add("typing", "Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(itemPt);
+                itemPt = opt;
+            }
+            return itemPt;
         }
 
         private PythonType stringType(IJsonSchemaValidationProperties cp) {
@@ -1787,7 +1798,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             moduleImports.add("typing", "Dict");
             PythonType pt = new PythonType("Dict");
             pt.addTypeParam(new PythonType("str"));
-            pt.addTypeParam(getType(cp.getItems()));
+            pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
         }
 
