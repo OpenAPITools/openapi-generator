@@ -1902,6 +1902,10 @@ components:
           otherProperty:
             type: string
         type: object
+      example:
+        otherProperty: otherProperty
+        nullableProperty: nullableProperty
+        type: ChildWithNullable
     StringBooleanMap:
       additionalProperties:
         type: boolean

@@ -2411,7 +2411,7 @@ components:
       description: Value object
       example:
         name: variable_1
-        value: null
+        value: Scalar
       properties:
         name:
           example: variable_1
