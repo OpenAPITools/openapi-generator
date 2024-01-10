@@ -24,6 +24,7 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
+import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
@@ -63,9 +64,13 @@ class PetApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -94,9 +99,14 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -137,9 +147,13 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/pet/findByStatus",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -174,9 +188,13 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/pet/findByTags",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -205,9 +223,14 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -238,9 +261,13 @@ class PetApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -270,9 +297,14 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -303,9 +335,14 @@ class PetApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}/uploadImage",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
