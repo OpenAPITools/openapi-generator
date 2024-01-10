@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -64,6 +63,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.ExamplesUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -2431,6 +2431,10 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public Schema unaliasSchema(Schema schema) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, schemaMapping);
+    }
+
+    private List<Map<String, Object>> unaliasExamples(Map<String, Example> examples){
+        return ExamplesUtils.unaliasExamples(this.openAPI, examples);
     }
 
     /**
@@ -4913,9 +4917,13 @@ public class DefaultCodegen implements CodegenConfig {
         }
         r.schema = responseSchema;
         r.message = escapeText(response.getDescription());
-        // TODO need to revise and test examples in responses
-        // ApiResponse does not support examples at the moment
-        //r.examples = toExamples(response.getExamples());
+
+        // adding examples to API responses
+        Map<String, Example> examples = ExamplesUtils.getExamplesFromResponse(openAPI, response);
+
+        if (examples != null && !examples.isEmpty())
+            r.examples = unaliasExamples(examples);
+
         r.jsonSchema = Json.pretty(response);
         if (response.getExtensions() != null && !response.getExtensions().isEmpty()) {
             r.vendorExtensions.putAll(response.getExtensions());

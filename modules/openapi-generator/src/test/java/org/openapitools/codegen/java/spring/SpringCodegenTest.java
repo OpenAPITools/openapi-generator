@@ -4427,4 +4427,14 @@ public class SpringCodegenTest {
                 .hasParameter("race").toConstructor()
         ;
     }
+
+    @Test
+    public void testExampleAnnotationGeneration_issue17610() throws IOException {
+        final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/api-response-examples_issue17610.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(generatedCodeFiles.get("DogsApi.java"))
+                .assertMethod("createDog")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject");
+    }
 }
