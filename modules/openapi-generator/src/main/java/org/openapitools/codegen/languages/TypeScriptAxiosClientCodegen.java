@@ -226,6 +226,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         for (ModelMap mo  : models) {
             CodegenModel cm = mo.getModel();
 
+            // Type is already any
+            if (cm.getAdditionalPropertiesIsAnyType() && "any".equals(cm.getAdditionalPropertiesType())) {
+                cm.setAdditionalPropertiesIsAnyType(false);
+            }
+
             // Deduce the model file name in kebab case
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
 

@@ -447,7 +447,7 @@ export interface Dog extends Animal {
  * @interface Drawing
  */
 export interface Drawing {
-    [key: string]: Fruit;
+    [key: string]: Fruit | any;
 
     /**
      * 
@@ -1043,7 +1043,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object;
+    [key: string]: object | any;
 
     /**
      * 
