@@ -26,6 +26,16 @@ paths:
               schema:
                 type: string
                 example: primitive type example value
+  /generate_from_response_schema_with_date_format:
+    get:
+      operationId: generateFromResponseSchemaWithDateFormat
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DateSchema'
   /generate_from_response_schema_with_array_of_model:
     get:
       operationId: generateFromResponseSchemaWithArrayOfModel
@@ -93,6 +103,16 @@ paths:
                 $ref: '#/components/schemas/ExampleOneOfSchema'
 components:
   schemas:
+    DateSchema:
+      type: object
+      properties:
+        date_with_example:
+          type: string
+          format: date
+          example: 2024-01-01
+        date_without_example:
+          type: string
+          format: date
     StringSchema:
       type: string
       example: string schema example value
