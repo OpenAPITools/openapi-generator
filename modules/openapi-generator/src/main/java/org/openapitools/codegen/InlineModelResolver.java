@@ -120,7 +120,7 @@ public class InlineModelResolver {
 
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entries());
+            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
@@ -135,7 +135,7 @@ public class InlineModelResolver {
                         Callback callback = callbackEntry.getValue();
                         for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
                             PathItem pathItem = pathItemEntry.getValue();
-                            toFlatten.addAll(pathItem.readOperationsMap().entries());
+                            toFlatten.addAll(pathItem.readOperationsMap().entrySet());
                         }
                     }
                 }
