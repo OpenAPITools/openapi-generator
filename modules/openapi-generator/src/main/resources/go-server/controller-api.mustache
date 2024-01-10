@@ -11,7 +11,9 @@ import (
 	    {{/required}}
 	{{/isBodyParam}}
 	"net/http"
+	{{#hasQueryParams}}
 	"net/url"
+	{{/hasQueryParams}}
 	"strings"
 {{#imports}}	"{{import}}"
 	{{/imports}}
