@@ -40,6 +40,7 @@ import kotlin.collections.Map
 interface PetApi {
 
     @Operation(
+        tags = ["pet",],
         summary = "Add a new pet to the store",
         operationId = "addPet",
         description = """""",
@@ -58,6 +59,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Deletes a pet",
         operationId = "deletePet",
         description = """""",
@@ -75,6 +77,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Finds Pets by status",
         operationId = "findPetsByStatus",
         description = """Multiple status values can be provided with comma separated strings""",
@@ -94,6 +97,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Finds Pets by tags",
         operationId = "findPetsByTags",
         description = """Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.""",
@@ -113,6 +117,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Find pet by ID",
         operationId = "getPetById",
         description = """Returns a single pet""",
@@ -133,6 +138,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Update an existing pet",
         operationId = "updatePet",
         description = """""",
@@ -153,6 +159,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "Updates a pet in the store with form data",
         operationId = "updatePetWithForm",
         description = """""",
@@ -171,6 +178,7 @@ interface PetApi {
     }
 
     @Operation(
+        tags = ["pet",],
         summary = "uploads an image",
         operationId = "uploadFile",
         description = """""",

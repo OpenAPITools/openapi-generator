@@ -134,6 +134,7 @@ The following generators are available:
 * [rust-server](generators/rust-server.md)  
 * [scala-akka-http-server (beta)](generators/scala-akka-http-server.md)  
 * [scala-finch](generators/scala-finch.md)  
+* [scala-http4s-server](generators/scala-http4s-server.md)  
 * [scala-lagom-server](generators/scala-lagom-server.md)  
 * [scala-play-server](generators/scala-play-server.md)  
 * [scalatra](generators/scalatra.md)  
