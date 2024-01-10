@@ -268,7 +268,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
+        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -293,7 +293,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -748,7 +748,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -774,7 +774,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -2491,7 +2491,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
+        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
         {
             TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
         }
@@ -2516,7 +2516,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2642,7 +2642,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestEndpointParametersWithHttpInfoAsync(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -2668,7 +2668,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)

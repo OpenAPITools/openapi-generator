@@ -208,7 +208,7 @@
                         {{/isNumeric}}
                         {{#isDate}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<DateTime{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
+                                {{#lambda.camelcase_param}}{{name}}{{/lambda.camelcase_param}} = {{>OptionProperty}}JsonSerializer.Deserialize<{{#supportsDateOnly}}DateOnly{{/supportsDateOnly}}{{^supportsDateOnly}}DateTime{{/supportsDateOnly}}{{#isNullable}}?{{/isNullable}}>(ref utf8JsonReader, jsonSerializerOptions));
                         {{/isDate}}
                         {{#isDateTime}}
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
