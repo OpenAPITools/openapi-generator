@@ -71,20 +71,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit {
+    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
         return deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
             .body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?): ResponseEntity<Unit> {
+    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String? = null): ResponseEntity<Unit> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig<Unit> {
+    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -246,20 +246,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit {
+    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
         return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
             .body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): ResponseEntity<Unit> {
+    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): ResponseEntity<Unit> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
         return request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
         )
     }
 
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
             "status" to PartConfig(body = status, headers = mutableMapOf()),)
@@ -278,20 +278,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ModelApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse {
         return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
             .body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ResponseEntity<ModelApiResponse> {
+    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ResponseEntity<ModelApiResponse> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
             localVariableConfig
         )
     }
 
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)
