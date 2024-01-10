@@ -11,9 +11,6 @@ import (
 	    {{/required}}
 	{{/isBodyParam}}
 	"net/http"
-	{{#hasQueryParams}}
-	"net/url"
-	{{/hasQueryParams}}
 	"strings"
 {{#imports}}	"{{import}}"
 	{{/imports}}
@@ -101,7 +98,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{/mux}}
 	{{/routers}}
 	{{#hasQueryParams}}
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return

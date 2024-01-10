@@ -177,7 +177,7 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 // FilterPetsByCategory - Finds Pets
 func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -222,7 +222,7 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -256,7 +256,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -368,7 +368,7 @@ func (c *PetAPIController) GetPetsByTime(w http.ResponseWriter, r *http.Request)
 
 // GetPetsUsingBooleanQueryParameters - Get the pets by only using boolean query parameters
 func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWriter, r *http.Request) {
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -431,7 +431,7 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 
 // SearchPet - Search Pets by filters
 func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return

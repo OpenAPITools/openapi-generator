@@ -173,7 +173,7 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
@@ -227,7 +227,7 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
-	query, err := url.ParseQuery(r.URL.RawQuery)
+	query, err := parseQuery(r.URL.RawQuery)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
