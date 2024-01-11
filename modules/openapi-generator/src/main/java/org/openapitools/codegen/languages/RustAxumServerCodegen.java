@@ -349,7 +349,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
 
     @Override
     public String toEnumValue(String value, String datatype) {
-        return String.format("\"%s\"", super.toEnumValue(value, datatype));
+        return "\"" + super.toEnumValue(value, datatype) + "\"";
     }
 
     private boolean isObjectType(String type) {
@@ -809,12 +809,12 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                defaultValue = String.format("\"%s\".to_string()", p.getDefault());
+                defaultValue = "\"" + p.getDefault() + "\".to_string()";
             }
         }
 
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))
-            defaultValue = String.format("Nullable::Present(%s)", defaultValue);
+            defaultValue = "Nullable::Present(" + defaultValue + ")";
 
         return defaultValue;
     }
@@ -848,8 +848,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         property.name = underscore(property.name);
 
         if (!property.required) {
-            property.defaultValue = (property.defaultValue != null) ?
-                    String.format("Some(%s)", property.defaultValue) : "None";
+            property.defaultValue = (property.defaultValue != null) ? "Some(" + property.defaultValue + ")" : "None";
         }
 
         if (isObjectType(property.baseType)) {
@@ -875,7 +874,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
                 } else {
-                    cm.dataType = String.format("%s<String, %s>", mapType, cm.additionalPropertiesType);
+                    cm.dataType = mapType + "<String, " + cm.additionalPropertiesType + ">";
                 }
             } else if (cm.dataType != null) {
                 // We need to hack about with single-parameter models to
