@@ -1,0 +1,34 @@
+package {{packageName}}
+
+import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.*
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}import {{apiPackage}}.{{classname}}
+import {{apiPackage}}.{{classname}}ServiceImpl
+{{/operations}}
+{{/apis}}
+
+fun main() {
+    {{#apis}}
+    {{#operations}}
+    val {{classname}} = {{classname}}({{classname}}ServiceImpl())
+    {{/operations}}
+    {{/apis}}
+
+    val app = Javalin
+        .create()
+        {{#apis}}
+        .routes {
+            {{#operations}}
+            {{#operation}}
+            {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{path}}", {{classname}}::{{operationId}})
+            {{/operation}}
+            {{/operations}}
+        }
+        {{/apis}}
+
+    app.start({{serverPort}})
+}
+{{/apiInfo}}
