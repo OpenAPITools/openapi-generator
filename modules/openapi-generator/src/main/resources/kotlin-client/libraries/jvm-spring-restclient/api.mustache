@@ -67,8 +67,10 @@ import {{packageName}}.infrastructure.*
     @Deprecated(message = "This operation is deprecated.")
     {{/isDeprecated}}
     fun {{operationId}}({{#allParams}}{{{paramName}}}: {{#isEnum}}{{#isContainer}}kotlin.collections.List<{{enumName}}{{operationIdCamelCase}}>{{/isContainer}}{{^isContainer}}{{enumName}}{{operationIdCamelCase}}{{/isContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{^required}}?{{#defaultValue}} = {{^isNumber}}{{#isEnum}}{{enumName}}{{operationIdCamelCase}}.{{enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}{{/defaultValue}}{{^defaultValue}} = null{{/defaultValue}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}}): {{#returnType}}{{{returnType}}}{{#nullableReturnType}}?{{/nullableReturnType}}{{/returnType}}{{^returnType}}Unit{{/returnType}} {
-        return {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
-            .body!!
+        val result = {{operationId}}WithHttpInfo({{#allParams}}{{{paramName}}} = {{{paramName}}}{{^-last}}, {{/-last}}{{/allParams}})
+        {{#returnType}}
+        return result.body!!
+        {{/returnType}}
     }
 
     @Throws(RestClientResponseException::class)
