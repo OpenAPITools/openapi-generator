@@ -1,12 +1,4 @@
-#![allow(
-    missing_docs,
-    trivial_casts,
-    unused_variables,
-    unused_mut,
-    unused_imports,
-    unused_extern_crates,
-    non_camel_case_types
-)]
+#![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 #![allow(unused_imports, unused_attributes)]
 #![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
@@ -22,25 +14,28 @@ use types::*;
 pub const BASE_PATH: &str = "";
 pub const API_VERSION: &str = "1.0";
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+        #[derive(Debug, PartialEq, Serialize, Deserialize)]
 #[must_use]
 #[allow(clippy::large_enum_variant)]
 pub enum PingGetResponse {
     /// OK
-    Status201_OK,
+    Status201_OK
 }
+
 
 /// API
 #[async_trait]
 #[allow(clippy::ptr_arg)]
 pub trait Api {
-    /// PingGet - GET /ping
-    async fn ping_get(
-        &self,
-        method: Method,
-        host: Host,
-        cookies: CookieJar,
-    ) -> Result<PingGetResponse, String>;
+
+                /// PingGet - GET /ping
+                async fn ping_get(
+                &self,
+                method: Method,
+                host: Host,
+                cookies: CookieJar,
+                ) -> Result<PingGetResponse, String>;
+
 }
 
 #[cfg(feature = "server")]
