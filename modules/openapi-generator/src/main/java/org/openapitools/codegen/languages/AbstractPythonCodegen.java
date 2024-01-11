@@ -693,7 +693,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+            String innerDeclaration = getTypeDeclaration(inner);
+            if (inner.getNullable() != null && inner.getNullable()) {
+                innerDeclaration = "Optional[" + innerDeclaration + "]";
+            }
+            return getSchemaType(p) + "[" + innerDeclaration + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
@@ -1754,7 +1758,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         private PythonType collectionItemType(CodegenProperty itemCp) {
             PythonType itemPt = getType(itemCp);
-            if (itemCp.isNullable) {
+            if (itemCp != null && itemCp.isNullable) {
                 moduleImports.add("typing", "Optional");
                 PythonType opt = new PythonType("Optional");
                 opt.addTypeParam(itemPt);
@@ -1798,7 +1802,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             moduleImports.add("typing", "Dict");
             PythonType pt = new PythonType("Dict");
             pt.addTypeParam(new PythonType("str"));
-            pt.addTypeParam(collectionItemType(cp.getItems()));
+            pt.addTypeParam(getType(cp.getItems()));
             return pt;
         }
 
