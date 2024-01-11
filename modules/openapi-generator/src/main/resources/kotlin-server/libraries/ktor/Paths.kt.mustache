@@ -18,7 +18,7 @@ object Paths {
      {{#allParams}}* @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
      {{/allParams}}*/
     {{#hasParams}}
-    @Serializable @Resource("{{path}}") class {{operationId}}({{#allParams}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
+    @Serializable @Resource("{{path}}") class {{operationId}}({{#allParams}}{{^isPrimitiveType}}@Contextual {{/isPrimitiveType}}val {{paramName}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^-last}}, {{/-last}}{{/allParams}})
     {{/hasParams}}
     {{^hasParams}}
     @Serializable @Resource("{{path}}") class {{operationId}}

@@ -9,7 +9,7 @@ wrapper {
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = "1.7.20"
+    ext.kotlin_version = "1.9.0"
     ext.ktor_version = "2.2.1"
     ext.shadow_version = "6.1.0"
 
@@ -20,14 +20,17 @@ buildscript {
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
         classpath("com.github.jengelman.gradle.plugins:shadow:$shadow_version")
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
     }
 }
 
 apply plugin: "java"
 apply plugin: "kotlin"
 apply plugin: "application"
+apply plugin: 'kotlin'
+apply plugin: 'kotlinx-serialization'
 
-mainClassName = "io.ktor.server.netty.DevelopmentEngine"
+mainClassName = "io.ktor.server.netty.EngineMain"
 
 // Initialization order with shadow 2.0.1 and Gradle 6.9 is weird.
 // See https://github.com/johnrengelman/shadow/issues/336#issuecomment-355402508
@@ -91,6 +94,7 @@ dependencies {
     implementation("io.ktor:ktor-server-metrics:$ktor_version")
 {{/featureMetrics}}
     implementation("io.ktor:ktor-server-netty:$ktor_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     testImplementation("junit:junit:4.13.2")
 }
