@@ -1736,7 +1736,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-content-type", contentType);
                     }
-                    String accepts = getAccept(openAPI, operation);
+                    String accepts = getAccepts(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
                 }
             }
@@ -1787,32 +1787,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
-        String accepts = null;
-        String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+    private static String getAccepts(OpenAPI openAPIArg, Operation operation) {
+        final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
-            for (String produce : produces) {
-                if (defaultContentType.equalsIgnoreCase(produce)) {
-                    accepts = defaultContentType;
-                    break;
-                } else {
-                    if (sb.length() > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(produce);
+            for (String produce : producesInfo) {
+                if (sb.length() > 0) {
+                    sb.append(",");
                 }
+                sb.append(produce);
             }
-            if (accepts == null) {
-                accepts = sb.toString();
-            }
-        } else {
-            accepts = defaultContentType;
+            return sb.toString();
         }
-
-        return accepts;
+        return "application/json"; // default media type
     }
 
     @Override
