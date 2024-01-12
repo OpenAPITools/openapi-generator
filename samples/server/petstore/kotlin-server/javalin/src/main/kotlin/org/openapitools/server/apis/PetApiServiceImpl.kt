@@ -33,7 +33,7 @@ class PetApiServiceImpl : PetApiService {
         TODO("Implement me")
     }
 
-    override fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ModelApiResponse {
+    override fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.javalin.http.UploadedFile?): ModelApiResponse {
         TODO("Implement me")
     }
 }

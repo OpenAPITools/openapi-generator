@@ -99,5 +99,5 @@ interface PetApiService {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ModelApiResponse
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: io.javalin.http.UploadedFile?): ModelApiResponse
 }

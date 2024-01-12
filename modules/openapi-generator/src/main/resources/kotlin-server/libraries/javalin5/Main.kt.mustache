@@ -1,7 +1,7 @@
 package {{packageName}}
 
 import io.javalin.Javalin
-import io.javalin.apibuilder.ApiBuilder.*
+import io.javalin.community.routing.dsl.routing
 
 {{#apiInfo}}
 {{#apis}}
@@ -18,16 +18,18 @@ fun main() {
     {{/apis}}
 
     val app = Javalin
-        .create()
-        {{#apis}}
-        .routes {
-            {{#operations}}
-            {{#operation}}
-            {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{path}}", {{classname}}::{{operationId}})
-            {{/operation}}
-            {{/operations}}
+        .create { config ->
+            config.routing {
+                {{#apis}}
+                {{#operations}}
+                {{#operation}}
+                {{#lowercase}}{{httpMethod}}{{/lowercase}}("{{path}}", {{classname}}::{{operationId}})
+                {{/operation}}
+                {{/operations}}
+
+                {{/apis}}
+            }
         }
-        {{/apis}}
 
     app.start({{serverPort}})
 }
