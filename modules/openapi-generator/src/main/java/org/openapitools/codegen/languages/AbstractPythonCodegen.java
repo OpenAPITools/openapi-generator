@@ -1762,7 +1762,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         private PythonType collectionItemType(CodegenProperty itemCp) {
             PythonType itemPt = getType(itemCp);
-            if (itemCp != null && itemCp.isNullable) {
+            if (itemCp != null && !itemPt.type.equals("Any") && itemCp.isNullable) {
                 moduleImports.add("typing", "Optional");
                 PythonType opt = new PythonType("Optional");
                 opt.addTypeParam(itemPt);
