@@ -29,9 +29,10 @@ class ArrayTest(BaseModel):
     ArrayTest
     """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
+    array_of_nullable_float: Optional[List[Optional[float]]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
-    __properties: ClassVar[List[str]] = ["array_of_string", "array_array_of_integer", "array_array_of_model"]
+    __properties: ClassVar[List[str]] = ["array_of_string", "array_of_nullable_float", "array_array_of_integer", "array_array_of_model"]
 
     model_config = {
         "populate_by_name": True,
@@ -94,6 +95,7 @@ class ArrayTest(BaseModel):
 
         _obj = cls.model_validate({
             "array_of_string": obj.get("array_of_string"),
+            "array_of_nullable_float": obj.get("array_of_nullable_float"),
             "array_array_of_integer": obj.get("array_array_of_integer"),
             "array_array_of_model": [
                     [ReadOnlyFirst.from_dict(_inner_item) for _inner_item in _item]

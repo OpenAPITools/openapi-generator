@@ -35,8 +35,8 @@ class NullableClass(BaseModel):
     date_prop: Optional[date] = None
     datetime_prop: Optional[datetime] = None
     array_nullable_prop: Optional[List[Dict[str, Any]]] = None
-    array_and_items_nullable_prop: Optional[List[Dict[str, Any]]] = None
-    array_items_nullable: Optional[List[Dict[str, Any]]] = None
+    array_and_items_nullable_prop: Optional[List[Optional[Dict[str, Any]]]] = None
+    array_items_nullable: Optional[List[Optional[Dict[str, Any]]]] = None
     object_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
     object_and_items_nullable_prop: Optional[Dict[str, Dict[str, Any]]] = None
     object_items_nullable: Optional[Dict[str, Dict[str, Any]]] = None

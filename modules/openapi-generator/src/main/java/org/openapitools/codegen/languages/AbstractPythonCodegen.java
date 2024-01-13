@@ -693,7 +693,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
+            String innerDeclaration = getTypeDeclaration(inner);
+            if (inner.getNullable() != null && inner.getNullable()) {
+                innerDeclaration = "Optional[" + innerDeclaration + "]";
+            }
+            return getSchemaType(p) + "[" + innerDeclaration + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
@@ -1748,8 +1752,19 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 pt.setType("List");
                 moduleImports.add("typing", "List");
             }
-            pt.addTypeParam(getType(cp.getItems()));
+            pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
+        }
+
+        private PythonType collectionItemType(CodegenProperty itemCp) {
+            PythonType itemPt = getType(itemCp);
+            if (itemCp != null && itemCp.isNullable) {
+                moduleImports.add("typing", "Optional");
+                PythonType opt = new PythonType("Optional");
+                opt.addTypeParam(itemPt);
+                itemPt = opt;
+            }
+            return itemPt;
         }
 
         private PythonType stringType(IJsonSchemaValidationProperties cp) {
