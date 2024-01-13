@@ -149,6 +149,12 @@ class TestManual(unittest.TestCase):
         client = openapi_client.ApiClient()
         params = client.parameters_to_url_query([("boolean", True),], {})
         self.assertEqual(params, "boolean=true")
+    
+    def test_parameters_to_url_query_list_value(self):
+        client = openapi_client.ApiClient()
+        params = client.parameters_to_url_query(params=[('list', [1, 2, 3])], collection_formats={'list': 'multi'})
+        self.assertEqual(params, "list=1&list=2&list=3")
+
 
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
