@@ -4452,18 +4452,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
-            if (!isSkipOperationExample()) {
-                // generate examples
-                String exampleStatusCode = "200";
-                for (String key : operation.getResponses().keySet()) {
-                    if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                        exampleStatusCode = key;
-                    }
-                }
-                op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-            }
-
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -4640,6 +4628,35 @@ public class DefaultCodegen implements CodegenConfig {
             if (methodResponse != null) {
                 handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
             }
+        }
+
+        // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
+        if (!isSkipOperationExample() && operation.getResponses() != null) {
+            // generate examples
+            ExampleGenerator generator = new ExampleGenerator(schemas, this.openAPI);
+            List<Map<String, String>> examples = new ArrayList<>();
+
+            for (String statusCode : operation.getResponses().keySet()) {
+                ApiResponse apiResponse = operation.getResponses().get(statusCode);
+                Schema schema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, apiResponse));
+                if (schema == null) {
+                    continue;
+                }
+
+                if (apiResponse.getContent() != null) {
+                    Set<String> producesInfo = new ConcurrentSkipListSet<>(apiResponse.getContent().keySet());
+
+                    String exampleStatusCode = statusCode;
+                    if (exampleStatusCode.equals("default")) {
+                        exampleStatusCode = "200";
+                    }
+                    List<Map<String, String>> examplesForResponse = generator.generateFromResponseSchema(exampleStatusCode, schema, producesInfo);
+                    if (examplesForResponse != null) {
+                        examples.addAll(examplesForResponse);
+                    }
+                }
+            }
+            op.examples = examples;
         }
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
