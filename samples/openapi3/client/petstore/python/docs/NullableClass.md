@@ -16,8 +16,8 @@ Name | Type | Description | Notes
 **array_and_items_nullable_prop** | **List[Optional[object]]** |  | [optional] 
 **array_items_nullable** | **List[Optional[object]]** |  | [optional] 
 **object_nullable_prop** | **Dict[str, object]** |  | [optional] 
-**object_and_items_nullable_prop** | **Dict[str, object]** |  | [optional] 
-**object_items_nullable** | **Dict[str, object]** |  | [optional] 
+**object_and_items_nullable_prop** | **Dict[str, Optional[object]]** |  | [optional] 
+**object_items_nullable** | **Dict[str, Optional[object]]** |  | [optional] 
 
 ## Example
 

@@ -3175,7 +3175,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[Dict[str, Optional[Any]], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3242,7 +3242,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_with_http_info(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[Dict[str, Optional[Any]], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3309,7 +3309,7 @@ class FakeApi:
     @validate_call
     async def test_additional_properties_reference_without_preload_content(
         self,
-        request_body: Annotated[Dict[str, Any], Field(description="request body")],
+        request_body: Annotated[Dict[str, Optional[Any]], Field(description="request body")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
