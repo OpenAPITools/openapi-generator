@@ -956,6 +956,12 @@ components:
       properties: {}
       title: HTTPValidationError
       type: object
+    AnyOfArray:
+      anyOf:
+      - items:
+          type: string
+      - items:
+          type: integer
     updatePetWithForm_request:
       properties:
         name:
