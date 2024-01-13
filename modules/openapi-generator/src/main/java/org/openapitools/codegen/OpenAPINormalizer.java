@@ -933,6 +933,11 @@ public class OpenAPINormalizer {
             return new Schema();
         }
 
+        // return schema if nothing in 3.1 spec types to normalize
+        if (schema.getTypes() == null) {
+            return schema;
+        }
+
         // process null
         if (schema.getTypes().contains("null")) {
             schema.setNullable(true);

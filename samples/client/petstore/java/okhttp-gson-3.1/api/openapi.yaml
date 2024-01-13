@@ -654,6 +654,46 @@ paths:
       x-accepts: text/plain
     parameters:
     - $ref: '#/components/parameters/ref_to_uuid'
+  /fake/api/changeowner:
+    post:
+      operationId: op1
+      parameters: []
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: op1
+      tags:
+      - fake
+      x-accepts: application/json
+  /fake/api/changename:
+    post:
+      operationId: op2
+      parameters: []
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: {}
+          description: Successful Response
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+          description: Validation Error
+      summary: op2
+      tags:
+      - fake
+      x-accepts: application/json
 components:
   parameters:
     ref_to_uuid:
@@ -912,6 +952,10 @@ components:
           items:
             type: string
           type: array
+    HTTPValidationError:
+      properties: {}
+      title: HTTPValidationError
+      type: object
     updatePetWithForm_request:
       properties:
         name:
