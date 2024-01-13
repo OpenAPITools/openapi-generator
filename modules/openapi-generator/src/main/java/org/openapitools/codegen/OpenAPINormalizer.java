@@ -753,7 +753,7 @@ public class OpenAPINormalizer {
             }
         }
 
-        if ((schema.getType() == null || schema.getType().equals("null"))) {
+        if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
             return true;
         }
 
