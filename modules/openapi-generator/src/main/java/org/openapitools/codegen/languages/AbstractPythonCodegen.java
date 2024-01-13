@@ -693,14 +693,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            String innerDeclaration = getTypeDeclaration(inner);
-            if (inner.getNullable() != null && inner.getNullable()) {
-                innerDeclaration = "Optional[" + innerDeclaration + "]";
-            }
-            return getSchemaType(p) + "[" + innerDeclaration + "]";
+            return getSchemaType(p) + "[" + getCollectionItemTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
-            return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
+            return getSchemaType(p) + "[str, " + getCollectionItemTypeDeclaration(inner) + "]";
         }
 
         String openAPIType = getSchemaType(p);
@@ -713,6 +709,14 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         }
 
         return toModelName(openAPIType);
+    }
+
+    private String getCollectionItemTypeDeclaration(Schema inner) {
+        String innerDeclaration = getTypeDeclaration(inner);
+        if (Boolean.TRUE.equals(inner.getNullable())) {
+            innerDeclaration = "Optional[" + innerDeclaration + "]";
+        }
+        return innerDeclaration;
     }
 
     @Override
@@ -1758,7 +1762,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
 
         private PythonType collectionItemType(CodegenProperty itemCp) {
             PythonType itemPt = getType(itemCp);
-            if (itemCp != null && itemCp.isNullable) {
+            if (itemCp != null && !itemPt.type.equals("Any") && itemCp.isNullable) {
                 moduleImports.add("typing", "Optional");
                 PythonType opt = new PythonType("Optional");
                 opt.addTypeParam(itemPt);
@@ -1802,7 +1806,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             moduleImports.add("typing", "Dict");
             PythonType pt = new PythonType("Dict");
             pt.addTypeParam(new PythonType("str"));
-            pt.addTypeParam(getType(cp.getItems()));
+            pt.addTypeParam(collectionItemType(cp.getItems()));
             return pt;
         }
 
