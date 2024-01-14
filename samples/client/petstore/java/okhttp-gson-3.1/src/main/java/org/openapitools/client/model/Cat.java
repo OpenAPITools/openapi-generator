@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import org.openapitools.client.model.Animal;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,13 +55,13 @@ import org.openapitools.client.JSON;
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
-  private Boolean declawed;
+  private Object declawed = null;
 
   public Cat() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Cat declawed(Boolean declawed) {
+  public Cat declawed(Object declawed) {
     this.declawed = declawed;
     return this;
   }
@@ -70,11 +71,11 @@ public class Cat extends Animal {
    * @return declawed
   **/
   @javax.annotation.Nullable
-  public Boolean getDeclawed() {
+  public Object getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(Object declawed) {
     this.declawed = declawed;
   }
 
@@ -138,9 +139,20 @@ public class Cat extends Animal {
         super.equals(o);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(declawed, super.hashCode(), additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

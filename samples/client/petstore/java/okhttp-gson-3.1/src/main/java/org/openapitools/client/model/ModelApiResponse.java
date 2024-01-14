@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,20 +54,20 @@ import org.openapitools.client.JSON;
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
-  private Integer code;
+  private Object code = null;
 
   public static final String SERIALIZED_NAME_TYPE = "type";
   @SerializedName(SERIALIZED_NAME_TYPE)
-  private String type;
+  private Object type = null;
 
   public static final String SERIALIZED_NAME_MESSAGE = "message";
   @SerializedName(SERIALIZED_NAME_MESSAGE)
-  private String message;
+  private Object message = null;
 
   public ModelApiResponse() {
   }
 
-  public ModelApiResponse code(Integer code) {
+  public ModelApiResponse code(Object code) {
     this.code = code;
     return this;
   }
@@ -76,16 +77,16 @@ public class ModelApiResponse {
    * @return code
   **/
   @javax.annotation.Nullable
-  public Integer getCode() {
+  public Object getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  public void setCode(Object code) {
     this.code = code;
   }
 
 
-  public ModelApiResponse type(String type) {
+  public ModelApiResponse type(Object type) {
     this.type = type;
     return this;
   }
@@ -95,16 +96,16 @@ public class ModelApiResponse {
    * @return type
   **/
   @javax.annotation.Nullable
-  public String getType() {
+  public Object getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(Object type) {
     this.type = type;
   }
 
 
-  public ModelApiResponse message(String message) {
+  public ModelApiResponse message(Object message) {
     this.message = message;
     return this;
   }
@@ -114,11 +115,11 @@ public class ModelApiResponse {
    * @return message
   **/
   @javax.annotation.Nullable
-  public String getMessage() {
+  public Object getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  public void setMessage(Object message) {
     this.message = message;
   }
 
@@ -183,9 +184,20 @@ public class ModelApiResponse {
         Objects.equals(this.additionalProperties, _apiResponse.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(code, type, message, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override
@@ -239,12 +251,6 @@ public class ModelApiResponse {
         }
       }
         JsonObject jsonObj = jsonElement.getAsJsonObject();
-      if ((jsonObj.get("type") != null && !jsonObj.get("type").isJsonNull()) && !jsonObj.get("type").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `type` to be a primitive type in the JSON string but got `%s`", jsonObj.get("type").toString()));
-      }
-      if ((jsonObj.get("message") != null && !jsonObj.get("message").isJsonNull()) && !jsonObj.get("message").isJsonPrimitive()) {
-        throw new IllegalArgumentException(String.format("Expected the field `message` to be a primitive type in the JSON string but got `%s`", jsonObj.get("message").toString()));
-      }
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {

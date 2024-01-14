@@ -21,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -53,17 +54,17 @@ import org.openapitools.client.JSON;
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  protected String className;
+  protected Object className = null;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
-  private String color = "red";
+  private Object color = red;
 
   public Animal() {
     this.className = this.getClass().getSimpleName();
   }
 
-  public Animal className(String className) {
+  public Animal className(Object className) {
     this.className = className;
     return this;
   }
@@ -72,17 +73,17 @@ public class Animal {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
-  public String getClassName() {
+  @javax.annotation.Nullable
+  public Object getClassName() {
     return className;
   }
 
-  public void setClassName(String className) {
+  public void setClassName(Object className) {
     this.className = className;
   }
 
 
-  public Animal color(String color) {
+  public Animal color(Object color) {
     this.color = color;
     return this;
   }
@@ -92,11 +93,11 @@ public class Animal {
    * @return color
   **/
   @javax.annotation.Nullable
-  public String getColor() {
+  public Object getColor() {
     return color;
   }
 
-  public void setColor(String color) {
+  public void setColor(Object color) {
     this.color = color;
   }
 
@@ -160,9 +161,20 @@ public class Animal {
         Objects.equals(this.additionalProperties, animal.additionalProperties);
   }
 
+  private static <T> boolean equalsNullable(JsonNullable<T> a, JsonNullable<T> b) {
+    return a == b || (a != null && b != null && a.isPresent() && b.isPresent() && Objects.deepEquals(a.get(), b.get()));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(className, color, additionalProperties);
+  }
+
+  private static <T> int hashCodeNullable(JsonNullable<T> a) {
+    if (a == null) {
+      return 1;
+    }
+    return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }
 
   @Override

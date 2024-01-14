@@ -71,7 +71,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "GET",
         value = "/store/order/{order_id}",
-        accept = "application/json,application/xml"
+        accept = "application/json"
     )
     Mono<ResponseEntity<Order>> getOrderById(
          @PathVariable("order_id") Long orderId
@@ -89,7 +89,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "POST",
         value = "/store/order",
-        accept = "application/json,application/xml",
+        accept = "application/json",
         contentType = "application/json"
     )
     Mono<ResponseEntity<Order>> placeOrder(

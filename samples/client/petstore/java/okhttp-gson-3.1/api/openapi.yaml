@@ -46,7 +46,7 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
     put:
       description: ""
       externalDocs:
@@ -79,7 +79,7 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -123,7 +123,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /pet/findByTags:
     get:
       deprecated: true
@@ -163,7 +163,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /pet/{petId}:
     delete:
       description: ""
@@ -228,7 +228,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
     post:
       description: ""
       operationId: updatePetWithForm
@@ -340,7 +340,7 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -397,7 +397,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -511,7 +511,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /user/logout:
     get:
       description: ""
@@ -578,7 +578,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -744,138 +744,106 @@ components:
     Order:
       description: An order for a pets from the pet store
       example:
-        petId: 6
-        quantity: 1
-        id: 0
-        shipDate: 2000-01-23T04:56:07.000+00:00
-        complete: false
-        status: placed
+        petId: ""
+        quantity: ""
+        id: ""
+        shipDate: ""
+        complete: ""
+        status: ""
       properties:
         id:
           format: int64
-          type: integer
         petId:
           format: int64
-          type: integer
         quantity:
           format: int32
-          type: integer
         shipDate:
           format: date-time
-          type: string
         status:
           description: Order Status
           enum:
           - placed
           - approved
           - delivered
-          type: string
         complete:
           default: false
-          type: boolean
       title: Pet Order
       xml:
         name: Order
     Category:
       description: A category for a pet
       example:
-        name: name
-        id: 6
+        name: ""
+        id: ""
       properties:
         id:
           format: int64
-          type: integer
         name:
           pattern: "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$"
-          type: string
       title: Pet category
       xml:
         name: Category
     User:
       description: A User who is purchasing from the pet store
       example:
-        firstName: firstName
-        lastName: lastName
-        password: password
-        userStatus: 6
-        phone: phone
-        id: 0
-        email: email
-        username: username
+        firstName: ""
+        lastName: ""
+        password: ""
+        userStatus: ""
+        phone: ""
+        id: ""
+        email: ""
+        username: ""
       properties:
         id:
           format: int64
-          type: integer
-        username:
-          type: string
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        phone:
-          type: string
+        username: {}
+        firstName: {}
+        lastName: {}
+        email: {}
+        password: {}
+        phone: {}
         userStatus:
           description: User Status
           format: int32
-          type: integer
       title: a User
       xml:
         name: User
     Tag:
       description: A tag for a pet
-      example:
-        name: name
-        id: 1
       properties:
         id:
           format: int64
-          type: integer
-        name:
-          type: string
+        name: {}
       title: Pet Tag
       xml:
         name: Tag
     Pet:
       description: A pet for sale in the pet store
       example:
-        photoUrls:
-        - photoUrls
-        - photoUrls
+        photoUrls: ""
         name: doggie
-        id: 0
+        id: ""
         category:
-          name: name
-          id: 6
-        tags:
-        - name: name
-          id: 1
-        - name: name
-          id: 1
-        status: available
+          name: ""
+          id: ""
+        tags: ""
+        status: ""
       properties:
         id:
           format: int64
-          type: integer
         category:
           $ref: '#/components/schemas/Category'
         name:
           example: doggie
-          type: string
         photoUrls:
-          items:
-            type: string
-          type: array
+          items: {}
           xml:
             name: photoUrl
             wrapped: true
         tags:
           items:
             $ref: '#/components/schemas/Tag'
-          type: array
           xml:
             name: tag
             wrapped: true
@@ -886,7 +854,6 @@ components:
           - available
           - pending
           - sold
-          type: string
       required:
       - name
       - photoUrls
@@ -896,29 +863,22 @@ components:
     ApiResponse:
       description: Describes the result of uploading an image resource
       example:
-        code: 0
-        type: type
-        message: message
+        code: ""
+        type: ""
+        message: ""
       properties:
         code:
           format: int32
-          type: integer
-        type:
-          type: string
-        message:
-          type: string
+        type: {}
+        message: {}
       title: An uploaded response
     StringOrInt:
-      anyOf:
-      - type: string
-      - format: int32
-        type: integer
       description: string or int
     OneOfStringOrInt:
       description: string or int (onefOf)
       oneOf:
       - type: string
-      - type: integer
+      - {}
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
@@ -929,17 +889,14 @@ components:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - properties:
-          declawed:
-            type: boolean
+          declawed: {}
     Animal:
       discriminator:
         propertyName: className
       properties:
-        className:
-          type: string
+        className: {}
         color:
           default: red
-          type: string
       required:
       - className
     simple_text:
@@ -951,17 +908,13 @@ components:
           description: test array in 3.1 spec
           items:
             type: string
-          type: array
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
-      type: object
     AnyOfArray:
       anyOf:
-      - items:
-          type: string
-      - items:
-          type: integer
+      - items: {}
+      - items: {}
     updatePetWithForm_request:
       properties:
         name:
