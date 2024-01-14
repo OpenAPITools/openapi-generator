@@ -952,6 +952,25 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: application/json
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -1928,6 +1947,11 @@ components:
     FreeFormObject:
       additionalProperties: true
       description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
       type: object
     OuterEnum:
       enum:

@@ -1756,4 +1756,65 @@ sub test_query_parameter_collection_format {
     return;
 }
 
+#
+# test_string_map_reference
+#
+# test referenced string map
+#
+# @param HASH[string,string] $request_body request body (required)
+{
+    my $params = {
+    'request_body' => {
+        data_type => 'HASH[string,string]',
+        description => 'request body',
+        required => '1',
+    },
+    };
+    __PACKAGE__->method_documentation->{ 'test_string_map_reference' } = {
+        summary => 'test referenced string map',
+        params => $params,
+        returns => undef,
+        };
+}
+# @return void
+#
+sub test_string_map_reference {
+    my ($self, %args) = @_;
+
+    # verify the required parameter 'request_body' is set
+    unless (exists $args{'request_body'}) {
+      croak("Missing the required parameter 'request_body' when calling test_string_map_reference");
+    }
+
+    # parse inputs
+    my $_resource_path = '/fake/stringMap-reference';
+
+    my $_method = 'POST';
+    my $query_params = {};
+    my $header_params = {};
+    my $form_params = {};
+
+    # 'Accept' and 'Content-Type' header
+    my $_header_accept = $self->{api_client}->select_header_accept();
+    if ($_header_accept) {
+        $header_params->{'Accept'} = $_header_accept;
+    }
+    $header_params->{'Content-Type'} = $self->{api_client}->select_header_content_type('application/json');
+
+    my $_body_data;
+    # body params
+    if ( exists $args{'request_body'}) {
+        $_body_data = $args{'request_body'};
+    }
+
+    # authentication setting, if any
+    my $auth_settings = [qw()];
+
+    # make the API Call
+    $self->{api_client}->call_api($_resource_path, $_method,
+                                           $query_params, $form_params,
+                                           $header_params, $_body_data, $auth_settings);
+    return;
+}
+
 1;

@@ -262,6 +262,20 @@ export default function() {
         }
     });
 
+    group("/fake/stringMap-reference", () => {
+
+        // Request No. 1: testStringMapReference
+        {
+            let url = BASE_URL + `/fake/stringMap-reference`;
+            let params = {headers: {"Content-Type": "application/json", "Accept": "application/json"}};
+            let request = http.post(url, params);
+
+            check(request, {
+                "successful operation": (r) => r.status === 200
+            });
+        }
+    });
+
     group("/fake/outer/composite", () => {
 
         // Request No. 1: fakeOuterCompositeSerialize

@@ -1117,6 +1117,51 @@ public class FakeApi {
             delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, authInfo, fut)
         ));
     }
+    /**
+    * test referenced string map
+    * 
+    * @param requestBody request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testStringMapReference(Map<String, String> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testStringMapReference(requestBody, resultHandler);
+    }
+
+    /**
+    * test referenced string map
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testStringMapReference(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testStringMapReference(requestBody, authInfo, resultHandler);
+    }
+
+    /**
+    * test referenced string map
+    * 
+    * @param requestBody request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestStringMapReference(Map<String, String> requestBody) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testStringMapReference(requestBody, fut)
+        ));
+    }
+
+    /**
+    * test referenced string map
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestStringMapReference(Map<String, String> requestBody, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testStringMapReference(requestBody, authInfo, fut)
+        ));
+    }
 
     public static FakeApi newInstance(org.openapitools.client.api.FakeApi arg) {
         return arg != null ? new FakeApi(arg) : null;

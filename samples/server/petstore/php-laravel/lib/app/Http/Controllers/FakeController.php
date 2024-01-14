@@ -607,6 +607,30 @@ class FakeController extends Controller
         return response('How about implementing fakePropertyEnumIntegerSerialize as a post method ?');
     }
     /**
+     * Operation testStringMapReference
+     *
+     * test referenced string map.
+     *
+     *
+     * @return Http response
+     */
+    public function testStringMapReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['requestBody'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $requestBody when calling testStringMapReference');
+        }
+        $requestBody = $input['requestBody'];
+
+
+        return response('How about implementing testStringMapReference as a post method ?');
+    }
+    /**
      * Operation testQueryParameterCollectionFormat
      *
      * .

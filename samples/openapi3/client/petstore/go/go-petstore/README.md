@@ -98,6 +98,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**TestJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeAPI* | [**TestQueryDeepObject**](docs/FakeAPI.md#testquerydeepobject) | **Get** /fake/deep_object_test | 
 *FakeAPI* | [**TestQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
+*FakeAPI* | [**TestStringMapReference**](docs/FakeAPI.md#teststringmapreference) | **Post** /fake/stringMap-reference | test referenced string map
 *FakeAPI* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeAPI.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-parameters | 
 *FakeClassnameTags123API* | [**TestClassname**](docs/FakeClassnameTags123API.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetAPI* | [**AddPet**](docs/PetAPI.md#addpet) | **Post** /pet | Add a new pet to the store

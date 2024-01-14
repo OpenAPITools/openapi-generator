@@ -21,6 +21,7 @@ Method | HTTP request | Description
 [**Test-PSInlineFreeformAdditionalProperties**](PSFakeApi.md#Test-PSInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**Test-PSJsonFormData**](PSFakeApi.md#Test-PSJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 [**Test-PSQueryParameterCollectionFormat**](PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+[**Test-PSStringMapReference**](PSFakeApi.md#Test-PSStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 
 
 <a id="Invoke-PSFakeHealthGet"></a>
@@ -830,6 +831,49 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-PSStringMapReference"></a>
+# **Test-PSStringMapReference**
+> void Test-PSStringMapReference<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-RequestBody] <System.Collections.Hashtable><br>
+
+test referenced string map
+
+
+
+### Example
+```powershell
+$RequestBody = @{ key_example = "MyInner" } # System.Collections.Hashtable | request body
+
+# test referenced string map
+try {
+    $Result = Test-PSStringMapReference -RequestBody $RequestBody
+} catch {
+    Write-Host ("Exception occurred when calling Test-PSStringMapReference: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **RequestBody** | [**System.Collections.Hashtable**](String.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
