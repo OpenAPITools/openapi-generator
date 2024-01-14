@@ -845,6 +845,17 @@ public class ModelUtils {
         return unaliasedSchema.get$ref() != null;
     }
 
+    public static boolean shouldGenerateMapModel(Schema schema) {
+        // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
+        // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced
+        // in the inner schemas, and the outer schema does not have properties.
+        return ModelUtils.isGenerateAliasAsModel(schema) || ModelUtils.isComposedSchema(schema) || !(schema.getProperties() == null || schema.getProperties().isEmpty());
+    }
+
+    public static boolean shouldGenerateArrayModel(Schema schema) {
+        return ModelUtils.isGenerateAliasAsModel(schema) || !(schema.getProperties() == null || schema.getProperties().isEmpty());
+    }
+
     /**
      * If a Schema contains a reference to another Schema with '$ref', returns the referenced Schema if it is found or the actual Schema in the other cases.
      *

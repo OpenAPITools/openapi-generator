@@ -7353,7 +7353,26 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (StringUtils.isNotBlank(name) && !(ModelUtils.isFreeFormObject(schema) && !ModelUtils.shouldGenerateFreeFormObjectModel(name, this))) {
+        boolean useModel = true;
+        if (StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
+                if (!ModelUtils.shouldGenerateFreeFormObjectModel(name, this)) {
+                    useModel = false;
+                }
+            } else if (ModelUtils.isMapSchema(schema)) {
+                if (!ModelUtils.shouldGenerateMapModel(schema)) {
+                    useModel = false;
+                }
+            } else if (ModelUtils.isArraySchema(schema)) {
+                if (!ModelUtils.shouldGenerateArrayModel(schema)) {
+                    useModel = false;
+                }
+            }
+        } else {
+            useModel = false;
+        }
+
+        if (useModel) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
