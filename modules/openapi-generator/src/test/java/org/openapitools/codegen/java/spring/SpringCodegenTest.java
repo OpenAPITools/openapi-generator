@@ -4437,4 +4437,18 @@ public class SpringCodegenTest {
                 .assertMethodAnnotations()
                 .recursivelyContainsWithName("ExampleObject");
     }
+
+    @Test
+    public void testExampleAnnotationGeneration_issue17610_2() throws IOException {
+        final Map<String, File> generatedCodeFiles = generateFromContract("src/test/resources/3_0/spring/petstore_with_api_response_examples.yaml", SPRING_BOOT);
+
+        JavaFileAssert.assertThat(generatedCodeFiles.get("PetApi.java"))
+                .assertMethod("addPet")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject")
+                .toMethod().toFileAssert()
+                .assertMethod("findPetsByStatus")
+                .assertMethodAnnotations()
+                .recursivelyContainsWithName("ExampleObject");
+    }
 }
