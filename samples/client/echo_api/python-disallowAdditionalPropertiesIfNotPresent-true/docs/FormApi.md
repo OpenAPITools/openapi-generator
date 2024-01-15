@@ -19,8 +19,6 @@ Test form parameter(s)
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
@@ -92,8 +90,6 @@ Test form parameter(s) for oneOf schema
 
 
 ```python
-import time
-import os
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint

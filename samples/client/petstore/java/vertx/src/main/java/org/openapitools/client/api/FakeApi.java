@@ -56,6 +56,10 @@ public interface FakeApi {
 
     void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterObjectWithEnumProperty>> handler);
 
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody, Handler<AsyncResult<Void>> handler);
+
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+
     void testBodyWithBinary(AsyncFile body, Handler<AsyncResult<Void>> handler);
 
     void testBodyWithBinary(AsyncFile body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);

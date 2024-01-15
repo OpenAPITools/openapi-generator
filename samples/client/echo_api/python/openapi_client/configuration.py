@@ -15,8 +15,10 @@
 
 import copy
 import logging
+from logging import FileHandler
 import multiprocessing
 import sys
+from typing import Optional
 import urllib3
 
 import http.client as httplib
@@ -133,7 +135,7 @@ conf = openapi_client.Configuration(
         self.logger_stream_handler = None
         """Log stream handler
         """
-        self.logger_file_handler = None
+        self.logger_file_handler: Optional[FileHandler] = None
         """Log file handler
         """
         self.logger_file = None
@@ -173,7 +175,7 @@ conf = openapi_client.Configuration(
            cpu_count * 5 is used as default value to increase performance.
         """
 
-        self.proxy = None
+        self.proxy: Optional[str] = None
         """Proxy URL
         """
         self.proxy_headers = None

@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0);
+        string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0);
 
         /// <summary>
         /// Test query parameter(s)
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0);
+        ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0);
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -270,7 +270,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Test query parameter(s)
@@ -285,7 +285,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Test query parameter(s)
         /// </summary>
@@ -719,7 +719,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>string</returns>
-        public string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0)
+        public string TestQueryDatetimeDateString(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = TestQueryDatetimeDateStringWithHttpInfo(datetimeQuery, dateQuery, stringQuery);
             return localVarResponse.Data;
@@ -734,7 +734,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="stringQuery"> (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of string</returns>
-        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<string> TestQueryDatetimeDateStringWithHttpInfo(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0)
         {
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -799,7 +799,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<string> TestQueryDatetimeDateStringAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await TestQueryDatetimeDateStringWithHttpInfoAsync(datetimeQuery, dateQuery, stringQuery, operationIndex, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
@@ -815,7 +815,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateTime? dateQuery = default(DateTime?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> TestQueryDatetimeDateStringWithHttpInfoAsync(DateTime? datetimeQuery = default(DateTime?), DateOnly? dateQuery = default(DateOnly?), string? stringQuery = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();

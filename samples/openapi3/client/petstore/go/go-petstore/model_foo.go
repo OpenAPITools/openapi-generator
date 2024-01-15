@@ -147,26 +147,6 @@ func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {
 			return fmt.Errorf("no value given for required property %v", requiredProperty)
 		}
 	}
-
-	varFoo := _Foo{}
-
-	err = json.Unmarshal(bytes, &varFoo)
-
-	if err != nil {
-		return err
-	}
-
-	*o = Foo(varFoo)
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
-		delete(additionalProperties, "bar")
-		delete(additionalProperties, "map")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
 }
 
 type NullableFoo struct {

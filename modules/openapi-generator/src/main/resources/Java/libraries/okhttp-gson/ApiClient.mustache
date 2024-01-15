@@ -929,7 +929,7 @@ public class ApiClient {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null || value.isEmpty()) {
             return params;
         }
 

@@ -57,3 +57,7 @@ jobs:
       - name: Test
         working-directory: ${{ matrix.sample }}
         run: poetry run pytest -v
+
+      - name: mypy
+        working-directory: ${{ matrix.sample }}
+        run: poetry run mypy

@@ -72,56 +72,45 @@ class RESTClientObject:
         else:
             cert_reqs = ssl.CERT_NONE
 
-        addition_pool_args = {}
+        pool_args = {
+            "cert_reqs": cert_reqs,
+            "ca_certs": configuration.ssl_ca_cert,
+            "cert_file": configuration.cert_file,
+            "key_file": configuration.key_file,
+        }
         if configuration.assert_hostname is not None:
-            addition_pool_args['assert_hostname'] = (
+            pool_args['assert_hostname'] = (
                 configuration.assert_hostname
             )
 
         if configuration.retries is not None:
-            addition_pool_args['retries'] = configuration.retries
+            pool_args['retries'] = configuration.retries
 
         if configuration.tls_server_name:
-            addition_pool_args['server_hostname'] = configuration.tls_server_name
+            pool_args['server_hostname'] = configuration.tls_server_name
 
 
         if configuration.socket_options is not None:
-            addition_pool_args['socket_options'] = configuration.socket_options
+            pool_args['socket_options'] = configuration.socket_options
 
         if configuration.connection_pool_maxsize is not None:
-            addition_pool_args['maxsize'] = configuration.connection_pool_maxsize
+            pool_args['maxsize'] = configuration.connection_pool_maxsize
 
         # https pool manager
+        self.pool_manager: urllib3.PoolManager
+
         if configuration.proxy:
             if is_socks_proxy_url(configuration.proxy):
                 from urllib3.contrib.socks import SOCKSProxyManager
-                self.pool_manager = SOCKSProxyManager(
-                        cert_reqs=cert_reqs,
-                        ca_certs=configuration.ssl_ca_cert,
-                        cert_file=configuration.cert_file,
-                        key_file=configuration.key_file,
-                        proxy_url=configuration.proxy,
-                        headers=configuration.proxy_headers,
-                        **addition_pool_args
-                    )
+                pool_args["proxy_url"] = configuration.proxy
+                pool_args["headers"] = configuration.proxy_headers
+                self.pool_manager = SOCKSProxyManager(**pool_args)
             else:
-                self.pool_manager = urllib3.ProxyManager(
-                    cert_reqs=cert_reqs,
-                    ca_certs=configuration.ssl_ca_cert,
-                    cert_file=configuration.cert_file,
-                    key_file=configuration.key_file,
-                    proxy_url=configuration.proxy,
-                    proxy_headers=configuration.proxy_headers,
-                    **addition_pool_args
-                )
+                pool_args["proxy_url"] = configuration.proxy
+                pool_args["proxy_headers"] = configuration.proxy_headers
+                self.pool_manager = urllib3.ProxyManager(**pool_args)
         else:
-            self.pool_manager = urllib3.PoolManager(
-                cert_reqs=cert_reqs,
-                ca_certs=configuration.ssl_ca_cert,
-                cert_file=configuration.cert_file,
-                key_file=configuration.key_file,
-                **addition_pool_args
-            )
+            self.pool_manager = urllib3.PoolManager(**pool_args)
 
     def request(
         self,
@@ -224,14 +213,13 @@ class RESTClientObject:
                         preload_content=False
                     )
                 # Pass a `string` parameter directly in the body to support
-                # other content types than Json when `body` argument is
-                # provided in serialized form
+                # other content types than JSON when `body` argument is
+                # provided in serialized form.
                 elif isinstance(body, str) or isinstance(body, bytes):
-                    request_body = body
                     r = self.pool_manager.request(
                         method,
                         url,
-                        body=request_body,
+                        body=body,
                         timeout=timeout,
                         headers=headers,
                         preload_content=False

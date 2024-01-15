@@ -101,6 +101,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String BEAN_QUALIFIERS = "beanQualifiers";
 
     public static final String USE_SPRING_BOOT3 = "useSpringBoot3";
+    public static final String APPEND_REQUEST_TO_HANDLER = "appendRequestToHandler";
 
     private String basePackage;
     protected String configPackage;
@@ -203,6 +204,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
                 "@RestController annotations. May be used to prevent bean names clash if multiple generated libraries" +
                 " (contexts) added to single project.", beanQualifiers);
         addSwitch(USE_SPRING_BOOT3, "Generate code and provide dependencies for use with Spring Boot 3.x. (Use jakarta instead of javax in imports). Enabling this option will also enable `useJakartaEe`.", useSpringBoot3);
+        addSwitch(APPEND_REQUEST_TO_HANDLER, "Append ServerHttpRequest to handler method for getting request stuff", false);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY,
                 "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
@@ -375,6 +377,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
+    }
+
+    public boolean isAppendRequestToHandler() {
+        return Boolean.parseBoolean(additionalProperties.get(APPEND_REQUEST_TO_HANDLER).toString());
     }
 
     public void setUseSpringBoot3(boolean isSpringBoot3) {
@@ -744,8 +750,8 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         additionalProperties.put("jackson", "true");
 
         // add lambda for mustache templates
-        additionalProperties.put("lambdaEscapeDoubleQuote",
-                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaEscapeInNormalString",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("([$\"\\\\])", "\\\\$1")));
         additionalProperties.put("lambdaRemoveLineBreak",
                 (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("[\\r\\n]", "")));
     }

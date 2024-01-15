@@ -13,6 +13,7 @@ part 'pizza_speziale.g.dart';
 ///
 /// Properties:
 /// * [toppings] 
+/// * [pizzaSize] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships

@@ -276,10 +276,10 @@ func (o Capitalization) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Capitalization) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Capitalization) UnmarshalJSON(data []byte) (err error) {
 	varCapitalization := _Capitalization{}
 
-	err = json.Unmarshal(bytes, &varCapitalization)
+	err = json.Unmarshal(data, &varCapitalization)
 
 	if err != nil {
 		return err
@@ -289,7 +289,7 @@ func (o *Capitalization) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "smallCamel")
 		delete(additionalProperties, "CapitalCamel")
 		delete(additionalProperties, "small_Snake")

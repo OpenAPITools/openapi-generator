@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**Test-BinaryGif**](BodyApi.md#Test-BinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 [**Test-BodyApplicationOctetstreamBinary**](BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 [**Test-BodyMultipartFormdataArrayOfBinary**](BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+[**Test-BodyMultipartFormdataSingleBinary**](BodyApi.md#Test-BodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
 [**Test-EchoBodyFreeFormObjectResponseString**](BodyApi.md#Test-EchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 [**Test-EchoBodyPet**](BodyApi.md#Test-EchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 [**Test-EchoBodyPetResponseString**](BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -122,6 +123,49 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **Files** | **System.IO.FileInfo[]**|  | 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-BodyMultipartFormdataSingleBinary"></a>
+# **Test-BodyMultipartFormdataSingleBinary**
+> String Test-BodyMultipartFormdataSingleBinary<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-MyFile] <System.IO.FileInfo><br>
+
+Test single binary in multipart mime
+
+Test single binary in multipart mime
+
+### Example
+```powershell
+$MyFile =  # System.IO.FileInfo |  (optional)
+
+# Test single binary in multipart mime
+try {
+    $Result = Test-BodyMultipartFormdataSingleBinary -MyFile $MyFile
+} catch {
+    Write-Host ("Exception occurred when calling Test-BodyMultipartFormdataSingleBinary: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **MyFile** | **System.IO.FileInfo****System.IO.FileInfo**|  | [optional] 
 
 ### Return type
 

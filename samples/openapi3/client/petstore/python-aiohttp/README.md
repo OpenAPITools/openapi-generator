@@ -50,7 +50,6 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 import datetime
-import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -99,6 +98,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_ref_enum_string**](docs/FakeApi.md#fake_ref_enum_string) | **GET** /fake/ref_enum_string | test ref to enum string
 *FakeApi* | [**fake_return_list_of_objects**](docs/FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
 *FakeApi* | [**fake_uuid_example**](docs/FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
+*FakeApi* | [**test_additional_properties_reference**](docs/FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -146,7 +146,6 @@ Class | Method | HTTP request | Description
  - [Animal](docs/Animal.md)
  - [AnyOfColor](docs/AnyOfColor.md)
  - [AnyOfPig](docs/AnyOfPig.md)
- - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfModel](docs/ArrayOfArrayOfModel.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -185,6 +184,7 @@ Class | Method | HTTP request | Description
  - [MapTest](docs/MapTest.md)
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
+ - [ModelApiResponse](docs/ModelApiResponse.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)

@@ -397,6 +397,51 @@ public class FakeApi {
         ));
     }
     /**
+    * test referenced additionalProperties
+    * 
+    * @param requestBody request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testAdditionalPropertiesReference(requestBody, resultHandler);
+    }
+
+    /**
+    * test referenced additionalProperties
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo call specific auth overrides
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
+        delegate.testAdditionalPropertiesReference(requestBody, authInfo, resultHandler);
+    }
+
+    /**
+    * test referenced additionalProperties
+    * 
+    * @param requestBody request body (required)
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestAdditionalPropertiesReference(Map<String, Object> requestBody) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testAdditionalPropertiesReference(requestBody, fut)
+        ));
+    }
+
+    /**
+    * test referenced additionalProperties
+    * 
+    * @param requestBody request body (required)
+    * @param authInfo call specific auth overrides
+    * @return Asynchronous result handler (RxJava Single)
+    */
+    public Single<Void> rxTestAdditionalPropertiesReference(Map<String, Object> requestBody, ApiClient.AuthInfo authInfo) {
+        return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
+            delegate.testAdditionalPropertiesReference(requestBody, authInfo, fut)
+        ));
+    }
+    /**
     * 
     * For this test, the body has to be a binary file.
     * @param body image to upload (required)

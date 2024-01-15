@@ -64,7 +64,9 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -762,6 +764,50 @@ public class JavaClientCodegenTest {
 
         Assert.assertEquals(files.size(), 1);
         files.forEach(File::deleteOnExit);
+    }
+
+    @Test
+    public void testMultiPartSpecifiesFileName_Issue17367() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTEASY)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/issue-17367.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+        try {
+            validateJavaSourceFiles(files);
+            File apiClient = files.stream()
+                    .filter(f -> f.getName().equals("ApiClient.java"))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionFailedError(
+                            "ApiClient.java not found"));
+
+            Stream<String> contents = Arrays.stream(Files.readString(apiClient.toPath(),
+                    StandardCharsets.UTF_8).split("\n"));
+
+            // https://docs.jboss.org/resteasy/docs/6.2.5.Final/javadocs/org/jboss/resteasy/plugins/providers/multipart/MultipartFormDataOutput.html#addFormData(java.lang.String,java.lang.Object,jakarta.ws.rs.core.MediaType,java.lang.String)
+            assertTrue(contents.anyMatch(l -> l.matches(
+                    ".*multipart\\.addFormData\\(param.getKey\\(\\),\\s*" +
+                    "new\\s+FileInputStream\\(file\\),\\s*" +
+                    "MediaType\\.APPLICATION_OCTET_STREAM_TYPE,\\s*" +
+                    "file.getName\\(\\)\\);.*")));
+        } finally {
+            files.forEach(File::deleteOnExit);
+        }
     }
 
     @Test
@@ -2226,6 +2272,30 @@ public class JavaClientCodegenTest {
                                 + " objectParam.getSomeInteger()));");
     }
 
+    @Test
+    public void shouldProperlyExplodeWebClientQueryParameters() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.WEBCLIENT
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchRequestCreation")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                                + " regularParam));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                                + " objectParam.getSomeString()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                                + " objectParam.getSomeBoolean()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                                + " objectParam.getSomeInteger()));");
+    }
+
     private static Map<String, File> generateFromContract(final String pathToSpecification, final String library) {
         return generateFromContract(pathToSpecification, library, new HashMap<>());
     }
@@ -2867,5 +2937,33 @@ public class JavaClientCodegenTest {
         File apiFile = files.get("V1SchemasGetDefaultResponse.java");
         assertNotNull(apiFile);
         JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
+    }
+
+    @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
+        TestUtils.assertFileContains(petApi, "if (filter != null) {");
     }
 }

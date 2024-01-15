@@ -24,6 +24,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
+
 import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 
@@ -56,9 +57,13 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -87,9 +92,13 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithArray",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -118,9 +127,13 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/user/createWithList",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -148,9 +161,14 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -179,9 +197,14 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -214,9 +237,13 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/login",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -244,9 +271,13 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/user/logout",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -275,9 +306,14 @@ class UserApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Content-Type"] = "application/json"
         
+        val params = mutableMapOf<String, Any>(
+            "username" to username,
+        )
+
         return RequestConfig(
             method = RequestMethod.PUT,
-            path = "/user/{username}".replace("{"+"username"+"}", encodeURIComponent(username.toString())),
+            path = "/user/{username}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

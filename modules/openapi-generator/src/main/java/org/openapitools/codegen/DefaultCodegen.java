@@ -3724,6 +3724,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
+            // fix issue #16797 and #15796, constructor fail by missing parent required params
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                properties.putAll(schema.getProperties());
+            }
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
@@ -3747,6 +3751,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            for (String r : required) {
+                if (!properties.containsKey(r)) {
+                    LOGGER.error("Required var %s not in properties", r);
+                }
+            }
             return;
         }
 
@@ -4192,6 +4201,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getDeprecated() != null) {
                 property.deprecated = p.getDeprecated();
             }
+            if (original.getDescription() != null) {
+                property.description = p.getDescription();
+            }
         }
 
         // set the default value
@@ -4440,18 +4452,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
-            if (!isSkipOperationExample()) {
-                // generate examples
-                String exampleStatusCode = "200";
-                for (String key : operation.getResponses().keySet()) {
-                    if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                        exampleStatusCode = key;
-                    }
-                }
-                op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-            }
-
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -4628,6 +4628,35 @@ public class DefaultCodegen implements CodegenConfig {
             if (methodResponse != null) {
                 handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
             }
+        }
+
+        // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
+        if (!isSkipOperationExample() && operation.getResponses() != null) {
+            // generate examples
+            ExampleGenerator generator = new ExampleGenerator(schemas, this.openAPI);
+            List<Map<String, String>> examples = new ArrayList<>();
+
+            for (String statusCode : operation.getResponses().keySet()) {
+                ApiResponse apiResponse = operation.getResponses().get(statusCode);
+                Schema schema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, apiResponse));
+                if (schema == null) {
+                    continue;
+                }
+
+                if (apiResponse.getContent() != null) {
+                    Set<String> producesInfo = new ConcurrentSkipListSet<>(apiResponse.getContent().keySet());
+
+                    String exampleStatusCode = statusCode;
+                    if (exampleStatusCode.equals("default")) {
+                        exampleStatusCode = "200";
+                    }
+                    List<Map<String, String>> examplesForResponse = generator.generateFromResponseSchema(exampleStatusCode, schema, producesInfo);
+                    if (examplesForResponse != null) {
+                        examples.addAll(examplesForResponse);
+                    }
+                }
+            }
+            op.examples = examples;
         }
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
@@ -7324,7 +7353,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name) && !(ModelUtils.isFreeFormObject(schema) && !ModelUtils.shouldGenerateFreeFormObjectModel(name, this))) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
