@@ -1318,11 +1318,22 @@ components:
       type: http
       scheme: signature
   schemas:
+    MapWithDateTime:
+      type: object
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
     Foo:
       type: object
+      required:
+        - bar
       properties:
         bar:
           $ref: '#/components/schemas/Bar'
+        map:
+          $ref: '#/components/schemas/MapWithDateTime'
     Bar:
       type: string
       default: bar
