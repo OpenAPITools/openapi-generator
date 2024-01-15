@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      - 'samples/server/petstore/kotlin-server/javalin/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
   pull_request:
     paths:
       - 'samples/server/petstore/kotlin-springboot-3*/**'
+      - 'samples/server/petstore/kotlin-server/javalin/**'
       # comment out due to gradle build failure
       # - samples/server/petstore/kotlin-spring-default/**
 
@@ -26,6 +28,7 @@ jobs:
           # server
           - samples/server/petstore/kotlin-springboot-3
           - samples/server/petstore/kotlin-springboot-request
+          - samples/server/petstore/kotlin-server/javalin
           # comment out due to gradle build failure
           # - samples/server/petstore/kotlin-spring-default/
     steps:

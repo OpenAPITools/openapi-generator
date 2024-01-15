@@ -949,46 +949,6 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         return type;
     }
 
-    private interface DataTypeAssigner {
-        void setReturnType(String returnType);
-
-        void setReturnContainer(String returnContainer);
-    }
-
-    /**
-     * @param returnType       The return type that needs to be converted
-     * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
-     */
-    private void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
-        if (returnType == null) {
-            dataTypeAssigner.setReturnType("Unit");
-        } else if (returnType.startsWith("kotlin.collections.List")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
-                dataTypeAssigner.setReturnContainer("List");
-            }
-        } else if (returnType.startsWith("kotlin.collections.MutableList")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
-                dataTypeAssigner.setReturnContainer("List");
-            }
-        } else if (returnType.startsWith("kotlin.collections.Map")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
-                dataTypeAssigner.setReturnContainer("Map");
-            }
-        } else if (returnType.startsWith("kotlin.collections.MutableMap")) {
-            int end = returnType.lastIndexOf(">");
-            if (end > 0) {
-                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableMap<".length(), end).split(",")[1].trim());
-                dataTypeAssigner.setReturnContainer("Map");
-            }
-        }
-    }
-
     private static String sanitizeDirectory(String in) {
         return in.replace(".", File.separator);
     }
