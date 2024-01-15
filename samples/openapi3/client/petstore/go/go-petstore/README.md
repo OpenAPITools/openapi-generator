@@ -157,6 +157,7 @@ Class | Method | HTTP request | Description
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IncidentData](docs/IncidentData.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
  - [MapOfFileTest](docs/MapOfFileTest.md)
