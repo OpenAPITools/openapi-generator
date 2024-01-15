@@ -17,21 +17,21 @@ import (
 
 // IncidentData - struct for IncidentData
 type IncidentData struct {
-	ArrayOfMapmapOfStringAny *[]map[string]interface{}
-	MapmapOfStringAny *map[string]interface{}
+	ArrayOfMapmapOfStringinterface{} *[]map[string]interface{}
+	MapmapOfStringinterface{} *map[string]interface{}
 }
 
 // []map[string]interface{}AsIncidentData is a convenience function that returns []map[string]interface{} wrapped in IncidentData
-func ArrayOfMapmapOfStringAnyAsIncidentData(v *[]map[string]interface{}) IncidentData {
+func ArrayOfMapmapOfStringinterface{}AsIncidentData(v *[]map[string]interface{}) IncidentData {
 	return IncidentData{
-		ArrayOfMapmapOfStringAny: v,
+		ArrayOfMapmapOfStringinterface{}: v,
 	}
 }
 
 // map[string]interface{}AsIncidentData is a convenience function that returns map[string]interface{} wrapped in IncidentData
-func MapmapOfStringAnyAsIncidentData(v *map[string]interface{}) IncidentData {
+func MapmapOfStringinterface{}AsIncidentData(v *map[string]interface{}) IncidentData {
 	return IncidentData{
-		MapmapOfStringAny: v,
+		MapmapOfStringinterface{}: v,
 	}
 }
 
@@ -45,36 +45,36 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 	}
 
 	match := 0
-	// try to unmarshal data into ArrayOfMapmapOfStringAny
-	err = newStrictDecoder(data).Decode(&dst.ArrayOfMapmapOfStringAny)
+	// try to unmarshal data into ArrayOfMapmapOfStringinterface{}
+	err = newStrictDecoder(data).Decode(&dst.ArrayOfMapmapOfStringinterface{})
 	if err == nil {
-		jsonArrayOfMapmapOfStringAny, _ := json.Marshal(dst.ArrayOfMapmapOfStringAny)
-		if string(jsonArrayOfMapmapOfStringAny) == "{}" { // empty struct
-			dst.ArrayOfMapmapOfStringAny = nil
+		jsonArrayOfMapmapOfStringinterface{}, _ := json.Marshal(dst.ArrayOfMapmapOfStringinterface{})
+		if string(jsonArrayOfMapmapOfStringinterface{}) == "{}" { // empty struct
+			dst.ArrayOfMapmapOfStringinterface{} = nil
 		} else {
 			match++
 		}
 	} else {
-		dst.ArrayOfMapmapOfStringAny = nil
+		dst.ArrayOfMapmapOfStringinterface{} = nil
 	}
 
-	// try to unmarshal data into MapmapOfStringAny
-	err = newStrictDecoder(data).Decode(&dst.MapmapOfStringAny)
+	// try to unmarshal data into MapmapOfStringinterface{}
+	err = newStrictDecoder(data).Decode(&dst.MapmapOfStringinterface{})
 	if err == nil {
-		jsonMapmapOfStringAny, _ := json.Marshal(dst.MapmapOfStringAny)
-		if string(jsonMapmapOfStringAny) == "{}" { // empty struct
-			dst.MapmapOfStringAny = nil
+		jsonMapmapOfStringinterface{}, _ := json.Marshal(dst.MapmapOfStringinterface{})
+		if string(jsonMapmapOfStringinterface{}) == "{}" { // empty struct
+			dst.MapmapOfStringinterface{} = nil
 		} else {
 			match++
 		}
 	} else {
-		dst.MapmapOfStringAny = nil
+		dst.MapmapOfStringinterface{} = nil
 	}
 
 	if match > 1 { // more than 1 match
 		// reset to nil
-		dst.ArrayOfMapmapOfStringAny = nil
-		dst.MapmapOfStringAny = nil
+		dst.ArrayOfMapmapOfStringinterface{} = nil
+		dst.MapmapOfStringinterface{} = nil
 
 		return fmt.Errorf("data matches more than one schema in oneOf(IncidentData)")
 	} else if match == 1 {
@@ -86,12 +86,12 @@ func (dst *IncidentData) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src IncidentData) MarshalJSON() ([]byte, error) {
-	if src.ArrayOfMapmapOfStringAny != nil {
-		return json.Marshal(&src.ArrayOfMapmapOfStringAny)
+	if src.ArrayOfMapmapOfStringinterface{} != nil {
+		return json.Marshal(&src.ArrayOfMapmapOfStringinterface{})
 	}
 
-	if src.MapmapOfStringAny != nil {
-		return json.Marshal(&src.MapmapOfStringAny)
+	if src.MapmapOfStringinterface{} != nil {
+		return json.Marshal(&src.MapmapOfStringinterface{})
 	}
 
 	return nil, nil // no data in oneOf schemas
@@ -102,12 +102,12 @@ func (obj *IncidentData) GetActualInstance() (interface{}) {
 	if obj == nil {
 		return nil
 	}
-	if obj.ArrayOfMapmapOfStringAny != nil {
-		return obj.ArrayOfMapmapOfStringAny
+	if obj.ArrayOfMapmapOfStringinterface{} != nil {
+		return obj.ArrayOfMapmapOfStringinterface{}
 	}
 
-	if obj.MapmapOfStringAny != nil {
-		return obj.MapmapOfStringAny
+	if obj.MapmapOfStringinterface{} != nil {
+		return obj.MapmapOfStringinterface{}
 	}
 
 	// all schemas are nil

@@ -419,7 +419,7 @@ No authorization required
 
 ## TestAdditionalPropertiesReference
 
-> TestAdditionalPropertiesReference(ctx).RequestBody(requestBody).Execute()
+> TestAdditionalPropertiesReference(ctx).FreeFormObject(freeFormObject).Execute()
 
 test referenced additionalProperties
 
@@ -438,11 +438,11 @@ import (
 )
 
 func main() {
-	requestBody := map[string]interface{}{"key": interface{}(123)} // map[string]interface{} | request body
+	freeFormObject := FreeFormObject{ ... } // FreeFormObject | request body
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	r, err := apiClient.FakeAPI.TestAdditionalPropertiesReference(context.Background()).RequestBody(requestBody).Execute()
+	r, err := apiClient.FakeAPI.TestAdditionalPropertiesReference(context.Background()).FreeFormObject(freeFormObject).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestAdditionalPropertiesReference``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -461,7 +461,7 @@ Other parameters are passed through a pointer to a apiTestAdditionalPropertiesRe
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **requestBody** | **map[string]interface{}** | request body | 
+ **freeFormObject** | [**FreeFormObject**](FreeFormObject.md) | request body | 
 
 ### Return type
 
