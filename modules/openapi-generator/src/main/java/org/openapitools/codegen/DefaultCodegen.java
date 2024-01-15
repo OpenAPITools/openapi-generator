@@ -275,6 +275,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     // acts strictly upon a spec, potentially modifying it to have consistent behavior across generators.
     protected boolean strictSpecBehavior = true;
+
+    // flag to indicate whether to generate model for request with url encoded form body
+    protected boolean generateFormAsModel = false;
+
     // flag to indicate whether enum value prefixes are removed
     protected boolean removeEnumValuePrefix = true;
 
@@ -416,6 +420,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_ALIAS_AS_MODEL)) {
             ModelUtils.setGenerateAliasAsModel(Boolean.parseBoolean(additionalProperties
                     .get(CodegenConstants.GENERATE_ALIAS_AS_MODEL).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_FORM_AS_MODEL)) {
+            this.setGenerateFormAsModel(Boolean.parseBoolean(additionalProperties
+                    .get(CodegenConstants.GENERATE_FORM_AS_MODEL).toString()));
         }
 
         if (additionalProperties.containsKey(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX)) {
@@ -4686,9 +4695,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (contentType != null &&
-                    (contentType.startsWith("application/x-www-form-urlencoded") ||
-                            contentType.startsWith("multipart"))) {
+            if (contentType != null
+                && (!isGenerateFormAsModel() && contentType.startsWith("application/x-www-form-urlencoded") ||
+                    contentType.startsWith("multipart"))) {
                 // process form parameters
                 formParams = fromRequestBodyToFormParameters(requestBody, imports);
                 op.isMultipart = contentType.startsWith("multipart");
@@ -8070,6 +8079,24 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public FeatureSet getFeatureSet() {
         return this.generatorMetadata.getFeatureSet();
+    }
+
+    /**
+     * Get the boolean value indicating whether to generate model for request with url encoded form body
+     */
+    @Override
+    public boolean isGenerateFormAsModel() {
+        return this.generateFormAsModel;
+    }
+
+    /**
+     * Set the boolean value indicating whether to generate model for request with url encoded form body
+     *
+     * @param generateFormAsModel true to generate model for request with url encoded form body
+     */
+    @Override
+    public void setGenerateFormAsModel(final boolean generateFormAsModel) {
+        this.generateFormAsModel = generateFormAsModel;
     }
 
     /**
