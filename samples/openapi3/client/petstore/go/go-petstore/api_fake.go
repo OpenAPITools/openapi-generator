@@ -940,12 +940,12 @@ func (a *FakeAPIService) GetParameterNameMappingExecute(r ApiGetParameterNameMap
 type ApiTestAdditionalPropertiesReferenceRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
-	freeFormObject *FreeFormObject
+	requestBody *map[string]interface{}
 }
 
 // request body
-func (r ApiTestAdditionalPropertiesReferenceRequest) FreeFormObject(freeFormObject FreeFormObject) ApiTestAdditionalPropertiesReferenceRequest {
-	r.freeFormObject = &freeFormObject
+func (r ApiTestAdditionalPropertiesReferenceRequest) RequestBody(requestBody map[string]interface{}) ApiTestAdditionalPropertiesReferenceRequest {
+	r.requestBody = &requestBody
 	return r
 }
 
@@ -986,8 +986,8 @@ func (a *FakeAPIService) TestAdditionalPropertiesReferenceExecute(r ApiTestAddit
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.freeFormObject == nil {
-		return nil, reportError("freeFormObject is required and must be specified")
+	if r.requestBody == nil {
+		return nil, reportError("requestBody is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -1008,7 +1008,7 @@ func (a *FakeAPIService) TestAdditionalPropertiesReferenceExecute(r ApiTestAddit
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.freeFormObject
+	localVarPostBody = r.requestBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
