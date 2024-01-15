@@ -743,6 +743,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         content = content.trim().replace("[]", "array_of_");
         content = content.trim().replace("[", "map_of_");
         content = content.trim().replace("]", "");
+        content = content.trim().replace("interface{}", "Any");
         return camelize(content);
     }
 }
