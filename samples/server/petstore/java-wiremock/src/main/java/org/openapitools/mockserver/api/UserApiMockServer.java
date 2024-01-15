@@ -35,17 +35,7 @@ public class UserApiMockServer {
 
 
     public static String createUserRequestSample1() {
-        return """
-{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "userStatus" : 6,
-  "phone" : "phone",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}""";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
 
 
@@ -73,17 +63,7 @@ public class UserApiMockServer {
 
 
     public static String createUsersWithArrayInputRequestSample1() {
-        return """
-{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "userStatus" : 6,
-  "phone" : "phone",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}""";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
 
 
@@ -111,17 +91,7 @@ public class UserApiMockServer {
 
 
     public static String createUsersWithListInputRequestSample1() {
-        return """
-{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "userStatus" : 6,
-  "phone" : "phone",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}""";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
 
 
@@ -216,30 +186,10 @@ public class UserApiMockServer {
     }
 
     public static String getUserByName200ResponseSample1() {
-        return """
-{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "userStatus" : 6,
-  "phone" : "phone",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}""";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
     public static String getUserByName200ResponseSample2() {
-        return """
-<User>
-  <id>123456789</id>
-  <username>aeiou</username>
-  <firstName>aeiou</firstName>
-  <lastName>aeiou</lastName>
-  <email>aeiou</email>
-  <password>aeiou</password>
-  <phone>aeiou</phone>
-  <userStatus>123</userStatus>
-</User>""";
+        return "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
     }
 
 
@@ -353,17 +303,7 @@ public class UserApiMockServer {
 
 
     public static String updateUserRequestSample1() {
-        return """
-{
-  "firstName" : "firstName",
-  "lastName" : "lastName",
-  "password" : "password",
-  "userStatus" : 6,
-  "phone" : "phone",
-  "id" : 0,
-  "email" : "email",
-  "username" : "username"
-}""";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
 
 

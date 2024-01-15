@@ -188,21 +188,15 @@ public class {{classname}}MockServer {
     }
 
     {{#examples}}
-    {{#example}}
     public static String {{operationId}}{{statusCode}}ResponseSample{{-index}}() {
-        return """
-{{{example}}}""";
+        return {{>exampleString}};
     }
-    {{/example}}
     {{/examples}}
 
     {{#requestBodyExamples}}
-    {{#example}}
     public static String {{operationId}}RequestSample{{-index}}() {
-        return """
-{{{example}}}""";
+        return {{>exampleString}};
     }
-    {{/example}}
     {{/requestBodyExamples}}
 
 {{/operation}}

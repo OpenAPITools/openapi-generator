@@ -36,12 +36,7 @@ public class DefaultApiMockServer {
     }
 
     public static String fooGet200ResponseSample1() {
-        return """
-{
-  "string" : {
-    "bar" : "bar"
-  }
-}""";
+        return "{ \"string\" : { \"bar\" : \"bar\" } }";
     }
 
 

@@ -52,45 +52,10 @@ public class PetApiMockServer {
 
 
     public static String addPetRequestSample1() {
-        return """
-{
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}""";
+        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
     }
     public static String addPetRequestSample2() {
-        return """
-<Pet>
-  <id>123456789</id>
-  <Category>
-    <id>123456789</id>
-    <name>aeiou</name>
-  </Category>
-  <name>doggie</name>
-  <photoUrls>
-    <photoUrls>aeiou</photoUrls>
-  </photoUrls>
-  <tags>
-    <Tag>
-      <id>123456789</id>
-      <name>aeiou</name>
-    </Tag>
-  </tags>
-  <status>aeiou</status>
-</Pet>""";
+        return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
     }
 
 
@@ -186,61 +151,10 @@ public class PetApiMockServer {
     }
 
     public static String findPetsByStatus200ResponseSample1() {
-        return """
-[ {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}, {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-} ]""";
+        return "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
     }
     public static String findPetsByStatus200ResponseSample2() {
-        return """
-<Pet>
-  <id>123456789</id>
-  <Category>
-    <id>123456789</id>
-    <name>aeiou</name>
-  </Category>
-  <name>doggie</name>
-  <photoUrls>
-    <photoUrls>aeiou</photoUrls>
-  </photoUrls>
-  <tags>
-    <Tag>
-      <id>123456789</id>
-      <name>aeiou</name>
-    </Tag>
-  </tags>
-  <status>aeiou</status>
-</Pet>""";
+        return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
     }
 
 
@@ -291,61 +205,10 @@ public class PetApiMockServer {
     }
 
     public static String findPetsByTags200ResponseSample1() {
-        return """
-[ {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}, {
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-} ]""";
+        return "[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]";
     }
     public static String findPetsByTags200ResponseSample2() {
-        return """
-<Pet>
-  <id>123456789</id>
-  <Category>
-    <id>123456789</id>
-    <name>aeiou</name>
-  </Category>
-  <name>doggie</name>
-  <photoUrls>
-    <photoUrls>aeiou</photoUrls>
-  </photoUrls>
-  <tags>
-    <Tag>
-      <id>123456789</id>
-      <name>aeiou</name>
-    </Tag>
-  </tags>
-  <status>aeiou</status>
-</Pet>""";
+        return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
     }
 
 
@@ -409,45 +272,10 @@ public class PetApiMockServer {
     }
 
     public static String getPetById200ResponseSample1() {
-        return """
-{
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}""";
+        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
     }
     public static String getPetById200ResponseSample2() {
-        return """
-<Pet>
-  <id>123456789</id>
-  <Category>
-    <id>123456789</id>
-    <name>aeiou</name>
-  </Category>
-  <name>doggie</name>
-  <photoUrls>
-    <photoUrls>aeiou</photoUrls>
-  </photoUrls>
-  <tags>
-    <Tag>
-      <id>123456789</id>
-      <name>aeiou</name>
-    </Tag>
-  </tags>
-  <status>aeiou</status>
-</Pet>""";
+        return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
     }
 
 
@@ -519,45 +347,10 @@ public class PetApiMockServer {
 
 
     public static String updatePetRequestSample1() {
-        return """
-{
-  "photoUrls" : [ "photoUrls", "photoUrls" ],
-  "name" : "doggie",
-  "id" : 0,
-  "category" : {
-    "name" : "default-name",
-    "id" : 6
-  },
-  "tags" : [ {
-    "name" : "name",
-    "id" : 1
-  }, {
-    "name" : "name",
-    "id" : 1
-  } ],
-  "status" : "available"
-}""";
+        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
     }
     public static String updatePetRequestSample2() {
-        return """
-<Pet>
-  <id>123456789</id>
-  <Category>
-    <id>123456789</id>
-    <name>aeiou</name>
-  </Category>
-  <name>doggie</name>
-  <photoUrls>
-    <photoUrls>aeiou</photoUrls>
-  </photoUrls>
-  <tags>
-    <Tag>
-      <id>123456789</id>
-      <name>aeiou</name>
-    </Tag>
-  </tags>
-  <status>aeiou</status>
-</Pet>""";
+        return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
     }
 
 
@@ -664,12 +457,7 @@ public class PetApiMockServer {
     }
 
     public static String uploadFile200ResponseSample1() {
-        return """
-{
-  "code" : 0,
-  "type" : "type",
-  "message" : "message"
-}""";
+        return "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
     }
 
 
@@ -713,12 +501,7 @@ public class PetApiMockServer {
     }
 
     public static String uploadFileWithRequiredFile200ResponseSample1() {
-        return """
-{
-  "code" : 0,
-  "type" : "type",
-  "message" : "message"
-}""";
+        return "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
     }
 
 

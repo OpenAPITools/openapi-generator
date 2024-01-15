@@ -1,12 +1,16 @@
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.templating.mustache.SplitStringLambda;
+import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
 
 public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements CodegenConfig {
 
@@ -51,5 +55,18 @@ public class JavaWiremockServerCodegen extends AbstractJavaCodegen implements Co
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
 
+        // add lambda for mustache templates
+        additionalProperties.put("lambdaRemoveDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
+                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement(""))));
+        additionalProperties.put("lambdaEscapeDoubleQuote", (Mustache.Lambda) (fragment, writer) -> writer
+                .write(fragment.execute().replaceAll("\"", Matcher.quoteReplacement("\\\""))));
+        additionalProperties.put("lambdaRemoveLineBreak",
+                (Mustache.Lambda) (fragment, writer) -> writer.write(fragment.execute().replaceAll("\\r|\\n", "")));
+
+        additionalProperties.put("lambdaTrimWhitespace", new TrimWhitespaceLambda());
+
+        additionalProperties.put("lambdaSplitString", new SplitStringLambda());
     }
+
+
 }
