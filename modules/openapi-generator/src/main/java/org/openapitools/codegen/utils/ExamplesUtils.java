@@ -34,15 +34,20 @@ public class ExamplesUtils {
     }
 
     private static Map<String, Example> getExamplesFromContent(Content content) {
-        if (content == null || content.isEmpty()) {
+        if (content == null || content.isEmpty())
             return Collections.emptyMap();
+
+        if (content.containsKey("application/json")) {
+            Map<String, Example> examples = content.get("application/json").getExamples();
+            if (content.size() > 1 && examples != null && !examples.isEmpty())
+                once(LOGGER).warn("More than one content media types found in response. Only response examples of the application/json will be taken for codegen.");
+
+            return examples;
         }
-        Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
-        if (content.size() > 1) {
-            once(LOGGER).debug("Multiple API response examples found in the OAS 'content' section, returning only the first one ({})",
-                    entry.getKey());
-        }
-        return entry.getValue().getExamples();
+
+        once(LOGGER).warn("No application/json content media type found in response. Response examples can only be generated for application/json media type.");
+
+        return Collections.emptyMap();
     }
 
 
@@ -68,10 +73,10 @@ public class ExamplesUtils {
                 Object exampleValue;
                 if(example.getValue().get$ref() != null){
                     exampleValue = actualComponentsExamples.get(exampleName).getValue();
-                    LOGGER.trace("Unaliased example value from components examples: {}", exampleValue);
+                    LOGGER.debug("Unaliased example value from components examples: {}", exampleValue);
                 } else {
                     exampleValue = example.getValue().getValue();
-                    LOGGER.trace("Retrieved example value directly from the api response example definition: {}", exampleValue);
+                    LOGGER.debug("Retrieved example value directly from the api response example definition: {}", exampleValue);
                 }
 
                 exampleRepr.put("exampleName", exampleName);
