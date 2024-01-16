@@ -69,16 +69,16 @@ public class {{classname}}MockServer {
             {{#required}}
                 {{#isNullable}}
         if({{paramName}} != null) {
-            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
         }
                 {{/isNullable}}
                 {{^isNullable}}
-        stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+        stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
                 {{/isNullable}}
             {{/required}}
             {{^required}}
         if({{paramName}} != null) {
-            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
         }
             {{/required}}
         {{/formParams}}
@@ -153,16 +153,16 @@ public class {{classname}}MockServer {
             {{#required}}
                 {{#isNullable}}
         if({{paramName}} != null) {
-            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
         }
                 {{/isNullable}}
                 {{^isNullable}}
-        stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+        stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
                 {{/isNullable}}
             {{/required}}
             {{^required}}
         if({{paramName}} != null) {
-            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}})));
+            stub = stub.withFormParam("{{baseName}}", havingExactly({{paramName}}));
         }
             {{/required}}
         {{/formParams}}

@@ -442,38 +442,38 @@ public class FakeApiMockServer {
             );
 
         if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer)));
+            stub = stub.withFormParam("integer", havingExactly(integer));
         }
         if(int32 != null) {
-            stub = stub.withFormParam("int32", havingExactly(int32)));
+            stub = stub.withFormParam("int32", havingExactly(int32));
         }
         if(int64 != null) {
-            stub = stub.withFormParam("int64", havingExactly(int64)));
+            stub = stub.withFormParam("int64", havingExactly(int64));
         }
-        stub = stub.withFormParam("number", havingExactly(number)));
+        stub = stub.withFormParam("number", havingExactly(number));
         if(_float != null) {
-            stub = stub.withFormParam("float", havingExactly(_float)));
+            stub = stub.withFormParam("float", havingExactly(_float));
         }
-        stub = stub.withFormParam("double", havingExactly(_double)));
+        stub = stub.withFormParam("double", havingExactly(_double));
         if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string)));
+            stub = stub.withFormParam("string", havingExactly(string));
         }
-        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter)));
-        stub = stub.withFormParam("byte", havingExactly(_byte)));
+        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
+        stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
-            stub = stub.withFormParam("binary", havingExactly(binary)));
+            stub = stub.withFormParam("binary", havingExactly(binary));
         }
         if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date)));
+            stub = stub.withFormParam("date", havingExactly(date));
         }
         if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime)));
+            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
         }
         if(password != null) {
-            stub = stub.withFormParam("password", havingExactly(password)));
+            stub = stub.withFormParam("password", havingExactly(password));
         }
         if(paramCallback != null) {
-            stub = stub.withFormParam("callback", havingExactly(paramCallback)));
+            stub = stub.withFormParam("callback", havingExactly(paramCallback));
         }
 
         return stub;
@@ -488,38 +488,38 @@ public class FakeApiMockServer {
             );
 
         if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer)));
+            stub = stub.withFormParam("integer", havingExactly(integer));
         }
         if(int32 != null) {
-            stub = stub.withFormParam("int32", havingExactly(int32)));
+            stub = stub.withFormParam("int32", havingExactly(int32));
         }
         if(int64 != null) {
-            stub = stub.withFormParam("int64", havingExactly(int64)));
+            stub = stub.withFormParam("int64", havingExactly(int64));
         }
-        stub = stub.withFormParam("number", havingExactly(number)));
+        stub = stub.withFormParam("number", havingExactly(number));
         if(_float != null) {
-            stub = stub.withFormParam("float", havingExactly(_float)));
+            stub = stub.withFormParam("float", havingExactly(_float));
         }
-        stub = stub.withFormParam("double", havingExactly(_double)));
+        stub = stub.withFormParam("double", havingExactly(_double));
         if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string)));
+            stub = stub.withFormParam("string", havingExactly(string));
         }
-        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter)));
-        stub = stub.withFormParam("byte", havingExactly(_byte)));
+        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
+        stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
-            stub = stub.withFormParam("binary", havingExactly(binary)));
+            stub = stub.withFormParam("binary", havingExactly(binary));
         }
         if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date)));
+            stub = stub.withFormParam("date", havingExactly(date));
         }
         if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime)));
+            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
         }
         if(password != null) {
-            stub = stub.withFormParam("password", havingExactly(password)));
+            stub = stub.withFormParam("password", havingExactly(password));
         }
         if(paramCallback != null) {
-            stub = stub.withFormParam("callback", havingExactly(paramCallback)));
+            stub = stub.withFormParam("callback", havingExactly(paramCallback));
         }
 
         return stub;
@@ -534,38 +534,38 @@ public class FakeApiMockServer {
             );
 
         if(integer != null) {
-            stub = stub.withFormParam("integer", havingExactly(integer)));
+            stub = stub.withFormParam("integer", havingExactly(integer));
         }
         if(int32 != null) {
-            stub = stub.withFormParam("int32", havingExactly(int32)));
+            stub = stub.withFormParam("int32", havingExactly(int32));
         }
         if(int64 != null) {
-            stub = stub.withFormParam("int64", havingExactly(int64)));
+            stub = stub.withFormParam("int64", havingExactly(int64));
         }
-        stub = stub.withFormParam("number", havingExactly(number)));
+        stub = stub.withFormParam("number", havingExactly(number));
         if(_float != null) {
-            stub = stub.withFormParam("float", havingExactly(_float)));
+            stub = stub.withFormParam("float", havingExactly(_float));
         }
-        stub = stub.withFormParam("double", havingExactly(_double)));
+        stub = stub.withFormParam("double", havingExactly(_double));
         if(string != null) {
-            stub = stub.withFormParam("string", havingExactly(string)));
+            stub = stub.withFormParam("string", havingExactly(string));
         }
-        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter)));
-        stub = stub.withFormParam("byte", havingExactly(_byte)));
+        stub = stub.withFormParam("pattern_without_delimiter", havingExactly(patternWithoutDelimiter));
+        stub = stub.withFormParam("byte", havingExactly(_byte));
         if(binary != null) {
-            stub = stub.withFormParam("binary", havingExactly(binary)));
+            stub = stub.withFormParam("binary", havingExactly(binary));
         }
         if(date != null) {
-            stub = stub.withFormParam("date", havingExactly(date)));
+            stub = stub.withFormParam("date", havingExactly(date));
         }
         if(dateTime != null) {
-            stub = stub.withFormParam("dateTime", havingExactly(dateTime)));
+            stub = stub.withFormParam("dateTime", havingExactly(dateTime));
         }
         if(password != null) {
-            stub = stub.withFormParam("password", havingExactly(password)));
+            stub = stub.withFormParam("password", havingExactly(password));
         }
         if(paramCallback != null) {
-            stub = stub.withFormParam("callback", havingExactly(paramCallback)));
+            stub = stub.withFormParam("callback", havingExactly(paramCallback));
         }
 
         return stub;
@@ -596,10 +596,10 @@ public class FakeApiMockServer {
             stub = stub.withQueryParam("enumQueryModelArray", equalTo(enumQueryModelArray));
         }
         if(enumFormStringArray != null) {
-            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray)));
+            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray));
         }
         if(enumFormString != null) {
-            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString)));
+            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
         }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));
@@ -633,10 +633,10 @@ public class FakeApiMockServer {
             stub = stub.withQueryParam("enumQueryModelArray", equalTo(enumQueryModelArray));
         }
         if(enumFormStringArray != null) {
-            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray)));
+            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray));
         }
         if(enumFormString != null) {
-            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString)));
+            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
         }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));
@@ -670,10 +670,10 @@ public class FakeApiMockServer {
             stub = stub.withQueryParam("enumQueryModelArray", equalTo(enumQueryModelArray));
         }
         if(enumFormStringArray != null) {
-            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray)));
+            stub = stub.withFormParam("enum_form_string_array", havingExactly(enumFormStringArray));
         }
         if(enumFormString != null) {
-            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString)));
+            stub = stub.withFormParam("enum_form_string", havingExactly(enumFormString));
         }
         if(enumHeaderStringArray != null) {
             stub = stub.withHeader("enum_header_string_array", havingExactly(enumHeaderStringArray));
@@ -799,8 +799,8 @@ public class FakeApiMockServer {
                 .withStatus(200)
             );
 
-        stub = stub.withFormParam("param", havingExactly(param)));
-        stub = stub.withFormParam("param2", havingExactly(param2)));
+        stub = stub.withFormParam("param", havingExactly(param));
+        stub = stub.withFormParam("param2", havingExactly(param2));
 
         return stub;
     }
@@ -811,8 +811,8 @@ public class FakeApiMockServer {
                 .withFault(fault)
             );
 
-        stub = stub.withFormParam("param", havingExactly(param)));
-        stub = stub.withFormParam("param2", havingExactly(param2)));
+        stub = stub.withFormParam("param", havingExactly(param));
+        stub = stub.withFormParam("param2", havingExactly(param2));
 
         return stub;
     }

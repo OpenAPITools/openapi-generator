@@ -364,10 +364,10 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(name != null) {
-            stub = stub.withFormParam("name", havingExactly(name)));
+            stub = stub.withFormParam("name", havingExactly(name));
         }
         if(status != null) {
-            stub = stub.withFormParam("status", havingExactly(status)));
+            stub = stub.withFormParam("status", havingExactly(status));
         }
 
         return stub;
@@ -383,10 +383,10 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(name != null) {
-            stub = stub.withFormParam("name", havingExactly(name)));
+            stub = stub.withFormParam("name", havingExactly(name));
         }
         if(status != null) {
-            stub = stub.withFormParam("status", havingExactly(status)));
+            stub = stub.withFormParam("status", havingExactly(status));
         }
 
         return stub;
@@ -402,10 +402,10 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(name != null) {
-            stub = stub.withFormParam("name", havingExactly(name)));
+            stub = stub.withFormParam("name", havingExactly(name));
         }
         if(status != null) {
-            stub = stub.withFormParam("status", havingExactly(status)));
+            stub = stub.withFormParam("status", havingExactly(status));
         }
 
         return stub;
@@ -427,10 +427,10 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(additionalMetadata != null) {
-            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata)));
+            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata));
         }
         if(_file != null) {
-            stub = stub.withFormParam("file", havingExactly(_file)));
+            stub = stub.withFormParam("file", havingExactly(_file));
         }
 
         return stub;
@@ -447,10 +447,10 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(additionalMetadata != null) {
-            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata)));
+            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata));
         }
         if(_file != null) {
-            stub = stub.withFormParam("file", havingExactly(_file)));
+            stub = stub.withFormParam("file", havingExactly(_file));
         }
 
         return stub;
@@ -475,9 +475,9 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(additionalMetadata != null) {
-            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata)));
+            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata));
         }
-        stub = stub.withFormParam("requiredFile", havingExactly(requiredFile)));
+        stub = stub.withFormParam("requiredFile", havingExactly(requiredFile));
 
         return stub;
     }
@@ -493,9 +493,9 @@ public class PetApiMockServer {
 
         stub = stub.withPathParam("petId", equalTo(petId));
         if(additionalMetadata != null) {
-            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata)));
+            stub = stub.withFormParam("additionalMetadata", havingExactly(additionalMetadata));
         }
-        stub = stub.withFormParam("requiredFile", havingExactly(requiredFile)));
+        stub = stub.withFormParam("requiredFile", havingExactly(requiredFile));
 
         return stub;
     }

@@ -156,18 +156,28 @@
             <version>${wiremock.version}</version>
             <optional>true</optional>
         </dependency>
+
+        <!-- @Nullable annotation -->
         <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta-annotation-version}</version>
-            <scope>provided</scope>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
         </dependency>
+
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${javax.annotation-api-version}</version>
+            </dependency>
     </dependencies>
     <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <wiremock.version>3.3.1</wiremock.version>
 
-        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+        <javax.annotation-api-version>1.3.2</javax.annotation-api-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
     </properties>
 </project>
