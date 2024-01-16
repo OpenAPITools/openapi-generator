@@ -335,11 +335,7 @@ ApiClient <- R6::R6Class(
     #' @return Deserialized object.
     #' @export
     deserialize = function(raw_response, return_type, pkg_env) {
-      text_response <- iconv(readBin(raw_response, character()), from = NULL, to = "UTF-8")
-      if (is.na(text_response)) {
-        message("The response is binary and will not be converted to text.")
-      }
-      resp_obj <- jsonlite::fromJSON(text_response)
+      resp_obj <- jsonlite::fromJSON(raw_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
     #' Deserialize the response from jsonlite object based on the given type
