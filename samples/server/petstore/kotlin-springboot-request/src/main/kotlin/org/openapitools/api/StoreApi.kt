@@ -52,7 +52,7 @@ interface StoreApi {
             method = [RequestMethod.DELETE],
             value = ["/store/order/{orderId}"]
     )
-    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String, serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
+    fun deleteOrder(@Parameter(description = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") orderId: kotlin.String,serverHttpRequest: ServerHttpRequest): ResponseEntity<Unit> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -71,7 +71,7 @@ interface StoreApi {
             value = ["/store/inventory"],
             produces = ["application/json"]
     )
-    fun getInventory(, serverHttpRequest: ServerHttpRequest): ResponseEntity<Map<String, kotlin.Int>> {
+    fun getInventory(serverHttpRequest: ServerHttpRequest): ResponseEntity<Map<String, kotlin.Int>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -91,7 +91,7 @@ interface StoreApi {
             value = ["/store/order/{orderId}"],
             produces = ["application/xml", "application/json"]
     )
-    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long, serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched", required = true) @PathVariable("orderId") orderId: kotlin.Long,serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
@@ -110,7 +110,7 @@ interface StoreApi {
             value = ["/store/order"],
             produces = ["application/xml", "application/json"]
     )
-    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody body: Order, serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
+    fun placeOrder(@Parameter(description = "order placed for purchasing the pet", required = true) @Valid @RequestBody body: Order,serverHttpRequest: ServerHttpRequest): ResponseEntity<Order> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 }
