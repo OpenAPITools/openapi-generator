@@ -417,7 +417,16 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isTypeObjectSchema(Schema schema) {
-        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (schema.getTypes() != null && schema.getTypes().size() == 1) {
+                return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
+            } else {
+                // null type or  multiple types, e.g. [string, integer]
+                return false;
+            }
+        } else { // 3.0.x or 2.0 spec
+            return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+        }
     }
 
     /**
@@ -567,9 +576,14 @@ public class ModelUtils {
             return false;
         }
 
-        return (schema instanceof MapSchema) ||
-                (schema.getAdditionalProperties() instanceof Schema) ||
-                (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            return ((schema.getAdditionalProperties() instanceof JsonSchema) ||
+                    (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
+        } else { // 3.0 or 2.x spec
+            return (schema instanceof MapSchema) ||
+                    (schema.getAdditionalProperties() instanceof Schema) ||
+                    (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
+        }
     }
 
     /**
@@ -788,6 +802,10 @@ public class ModelUtils {
             // TODO: Is this message necessary? A null schema is not a free-form object, so the result is correct.
             once(LOGGER).error("Schema cannot be null in isFreeFormObject check");
             return false;
+        }
+
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            return ((schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
         }
 
         // not free-form if allOf, anyOf, oneOf is not empty

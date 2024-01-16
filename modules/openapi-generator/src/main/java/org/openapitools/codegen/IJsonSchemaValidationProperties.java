@@ -332,6 +332,11 @@ public interface IJsonSchemaValidationProperties {
         } else if (ModelUtils.isTypeObjectSchema(p)) {
             setIsMap(true);
         }
+
+        // workaround before remove setIstMap(true) above in isFreeFormObject check
+        if (ModelUtils.isMapSchema(p)) {
+            setIsMap(true);
+        }
     }
 
     /**
