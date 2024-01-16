@@ -318,7 +318,7 @@ ApiClient <- R6::R6Class(
         api_response <- ApiResponse$new()
         api_response$status_code <- httr::status_code(httr_response) 
         api_response$status_code_desc <- httr::http_status(httr_response)$reason
-        api_response$response <- httr::content(httr_response, "text", encoding = "UTF-8")
+        api_response$response <- httr::content(httr_response, "raw")
         api_response$headers <- httr::headers(httr_response)
 
         api_response
@@ -335,7 +335,11 @@ ApiClient <- R6::R6Class(
     #' @return Deserialized object.
     #' @export
     deserialize = function(raw_response, return_type, pkg_env) {
-      resp_obj <- jsonlite::fromJSON(raw_response)
+      text_response <- iconv(readBin(raw_response, character()), from = NULL, to = "UTF-8")
+      if (is.na(text_response)) {
+        message("The response is binary and will not be converted to text.")
+      }
+      resp_obj <- jsonlite::fromJSON(text_response)
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
     #' Deserialize the response from jsonlite object based on the given type
