@@ -1043,7 +1043,7 @@ export interface Name {
  * @interface NullableClass
  */
 export interface NullableClass {
-    [key: string]: object;
+    [key: string]: any;
 
     /**
      * 
