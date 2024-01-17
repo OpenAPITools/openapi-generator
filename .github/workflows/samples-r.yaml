@@ -30,5 +30,7 @@ jobs:
           r-version: 3.5.3
       - name: build and test
         working-directory: ${{ matrix.sample }}
-        run: /bin/bash build_and_test.bash
+        run: |
+          export _R_CHECK_FORCE_SUGGESTS_=false
+          /bin/bash build_and_test.bash
         shell: bash
