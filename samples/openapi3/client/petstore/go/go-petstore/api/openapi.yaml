@@ -2122,6 +2122,13 @@ components:
           type: string
         type_:
           type: string
+    IncidentData:
+      nullable: true
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
     _foo_get_default_response:
       example:
         string:

@@ -2145,3 +2145,10 @@ components:
           type: string
         type_:
           type: string
+    IncidentData:
+      oneOf:
+        - type: array
+          items:
+            type: object
+        - type: object
+        - type: "null"

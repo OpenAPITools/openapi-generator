@@ -107,6 +107,7 @@ The following generators are available:
 * [java-undertow-server](generators/java-undertow-server.md)  
 * [java-vertx (deprecated)](generators/java-vertx.md)  
 * [java-vertx-web (beta)](generators/java-vertx-web.md)  
+* [java-wiremock (beta)](generators/java-wiremock.md)  
 * [jaxrs-cxf](generators/jaxrs-cxf.md)  
 * [jaxrs-cxf-cdi](generators/jaxrs-cxf-cdi.md)  
 * [jaxrs-cxf-extended](generators/jaxrs-cxf-extended.md)  
