@@ -53,6 +53,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -1680,10 +1681,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // parse lombok additional model type annotations
         Map<String, Boolean> lombokOptions = new HashMap<>();
+        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        Pattern pattern = Pattern.compile(regexp);
         for (String annotation : additionalModelTypeAnnotations) {
-            String[] parts = annotation.split("\\.");
-            if (parts.length >= 2 && parts[0].equals("@lombok")) {
-                lombokOptions.put(parts[parts.length - 1], true);
+            Matcher matcher = pattern.matcher(annotation);
+            if  (matcher.find()) {
+                String className = matcher.group("ClassName");
+                lombokOptions.put(className, true);
             }
         }
         if (!lombokOptions.isEmpty()) {
