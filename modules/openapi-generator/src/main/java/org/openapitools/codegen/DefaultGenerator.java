@@ -508,7 +508,10 @@ public class DefaultGenerator implements Generator {
 
                 Schema schema = schemas.get(name);
 
-                if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
+                if (schema.getExtensions() != null && Boolean.TRUE.equals(schema.getExtensions().get("x-internal"))) {
+                    LOGGER.info("Model {} not generated since x-internal is set to true", name);
+                    continue;
+                } else if (ModelUtils.isFreeFormObject(schema)) { // check to see if it's a free-form object
                     if (!ModelUtils.shouldGenerateFreeFormObjectModel(name, config)) {
                         LOGGER.info("Model {} not generated since it's a free-form object", name);
                         continue;
