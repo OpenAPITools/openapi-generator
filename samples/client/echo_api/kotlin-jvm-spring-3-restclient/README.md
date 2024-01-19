@@ -50,7 +50,6 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**testBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 *BodyApi* | [**testBodyMultipartFormdataSingleBinary**](docs/BodyApi.md#testbodymultipartformdatasinglebinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
-*BodyApi* | [**testEchoBodyAllOfPet**](docs/BodyApi.md#testechobodyallofpet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -63,10 +62,8 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**testQueryDatetimeDateString**](docs/QueryApi.md#testquerydatetimedatestring) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testqueryintegerbooleanstring) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#testquerystyledeepobjectexplodetrueobject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
-*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#testquerystyledeepobjectexplodetrueobjectallof) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testquerystyleformexplodetruearraystring) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testquerystyleformexplodetrueobject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testquerystyleformexplodetrueobjectallof) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 <a id="documentation-for-models"></a>
@@ -74,14 +71,12 @@ Class | Method | HTTP request | Description
 
  - [org.openapitools.client.models.Bird](docs/Bird.md)
  - [org.openapitools.client.models.Category](docs/Category.md)
- - [org.openapitools.client.models.DataQuery](docs/DataQuery.md)
  - [org.openapitools.client.models.DefaultValue](docs/DefaultValue.md)
  - [org.openapitools.client.models.NumberPropertiesOnly](docs/NumberPropertiesOnly.md)
  - [org.openapitools.client.models.Pet](docs/Pet.md)
  - [org.openapitools.client.models.Query](docs/Query.md)
  - [org.openapitools.client.models.StringEnumRef](docs/StringEnumRef.md)
  - [org.openapitools.client.models.Tag](docs/Tag.md)
- - [org.openapitools.client.models.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

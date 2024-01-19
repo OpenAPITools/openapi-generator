@@ -8,10 +8,8 @@ Method | HTTP request | Description
 [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)
 [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 [**testQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
-[**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
 [**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
-[**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 <a id="testEnumRefString"></a>
@@ -212,53 +210,6 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: text/plain
 
-<a id="testQueryStyleDeepObjectExplodeTrueObjectAllOf"></a>
-# **testQueryStyleDeepObjectExplodeTrueObjectAllOf**
-> kotlin.String testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject)
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiInstance = QueryApi()
-val queryObject : TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter =  // TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
-try {
-    val result : kotlin.String = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling QueryApi#testQueryStyleDeepObjectExplodeTrueObjectAllOf")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling QueryApi#testQueryStyleDeepObjectExplodeTrueObjectAllOf")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
 <a id="testQueryStyleFormExplodeTrueArrayString"></a>
 # **testQueryStyleFormExplodeTrueArrayString**
 > kotlin.String testQueryStyleFormExplodeTrueArrayString(queryObject)
@@ -339,53 +290,6 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **queryObject** | [**Pet**](.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
-<a id="testQueryStyleFormExplodeTrueObjectAllOf"></a>
-# **testQueryStyleFormExplodeTrueObjectAllOf**
-> kotlin.String testQueryStyleFormExplodeTrueObjectAllOf(queryObject)
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiInstance = QueryApi()
-val queryObject : DataQuery =  // DataQuery | 
-try {
-    val result : kotlin.String = apiInstance.testQueryStyleFormExplodeTrueObjectAllOf(queryObject)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling QueryApi#testQueryStyleFormExplodeTrueObjectAllOf")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling QueryApi#testQueryStyleFormExplodeTrueObjectAllOf")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**DataQuery**](.md)|  | [optional]
 
 ### Return type
 

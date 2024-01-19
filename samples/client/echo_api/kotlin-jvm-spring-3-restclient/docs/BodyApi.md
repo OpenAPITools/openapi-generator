@@ -8,7 +8,6 @@ Method | HTTP request | Description
 [**testBodyApplicationOctetstreamBinary**](BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 [**testBodyMultipartFormdataArrayOfBinary**](BodyApi.md#testBodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 [**testBodyMultipartFormdataSingleBinary**](BodyApi.md#testBodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
-[**testEchoBodyAllOfPet**](BodyApi.md#testEchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 [**testEchoBodyFreeFormObjectResponseString**](BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 [**testEchoBodyPet**](BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 [**testEchoBodyPetResponseString**](BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -198,53 +197,6 @@ No authorization required
 
  - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
-
-<a id="testEchoBodyAllOfPet"></a>
-# **testEchoBodyAllOfPet**
-> Pet testEchoBodyAllOfPet(pet)
-
-Test body parameter(s)
-
-Test body parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiInstance = BodyApi()
-val pet : Pet =  // Pet | Pet object that needs to be added to the store
-try {
-    val result : Pet = apiInstance.testEchoBodyAllOfPet(pet)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling BodyApi#testEchoBodyAllOfPet")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling BodyApi#testEchoBodyAllOfPet")
-    e.printStackTrace()
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional]
-
-### Return type
-
-[**Pet**](Pet.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
 
 <a id="testEchoBodyFreeFormObjectResponseString"></a>
 # **testEchoBodyFreeFormObjectResponseString**

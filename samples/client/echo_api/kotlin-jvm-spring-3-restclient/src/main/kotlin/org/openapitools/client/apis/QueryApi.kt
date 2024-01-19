@@ -25,10 +25,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
 
-import org.openapitools.client.models.DataQuery
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.StringEnumRef
-import org.openapitools.client.models.TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 import org.openapitools.client.infrastructure.*
 
@@ -226,46 +224,6 @@ class QueryApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? = null): kotlin.String {
-        val result = testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject = queryObject)
-        return result.body!!
-    }
-
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleDeepObjectExplodeTrueObjectAllOfWithHttpInfo(queryObject: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? = null): ResponseEntity<kotlin.String> {
-        val localVariableConfig = testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
-            localVariableConfig
-        )
-    }
-
-    fun testQueryStyleDeepObjectExplodeTrueObjectAllOfRequestConfig(queryObject: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? = null) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-            .apply {
-                if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
-                }
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "text/plain"
-
-        val params = mutableMapOf<String, Any>(
-        )
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/query/style_deepObject/explode_true/object/allOf",
-            params = params,
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = false,
-            body = localVariableBody
-        )
-    }
-
-
-    @Throws(RestClientResponseException::class)
     fun testQueryStyleFormExplodeTrueArrayString(queryObject: TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter? = null): kotlin.String {
         val result = testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject = queryObject)
         return result.body!!
@@ -336,46 +294,6 @@ class QueryApi(client: RestClient) : ApiClient(client) {
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/query/style_form/explode_true/object",
-            params = params,
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = false,
-            body = localVariableBody
-        )
-    }
-
-
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObjectAllOf(queryObject: DataQuery? = null): kotlin.String {
-        val result = testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject = queryObject)
-        return result.body!!
-    }
-
-    @Throws(RestClientResponseException::class)
-    fun testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo(queryObject: DataQuery? = null): ResponseEntity<kotlin.String> {
-        val localVariableConfig = testQueryStyleFormExplodeTrueObjectAllOfRequestConfig(queryObject = queryObject)
-        return request<Unit, kotlin.String>(
-            localVariableConfig
-        )
-    }
-
-    fun testQueryStyleFormExplodeTrueObjectAllOfRequestConfig(queryObject: DataQuery? = null) : RequestConfig<Unit> {
-        val localVariableBody = null
-        val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-            .apply {
-                if (queryObject != null) {
-                    put("query_object", listOf(queryObject.toString()))
-                }
-            }
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Accept"] = "text/plain"
-
-        val params = mutableMapOf<String, Any>(
-        )
-
-        return RequestConfig(
-            method = RequestMethod.GET,
-            path = "/query/style_form/explode_true/object/allOf",
             params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
