@@ -30,10 +30,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: uses install-with-cpanm
-        working-directory: ${{ matrix.sample }}
         uses: perl-actions/install-with-cpanm@stable
         with:
-          cpanfile: "cpanfile"
+          cpanfile: "${{ matrix.perl-version }}/cpanfile"
           sudo: false
       - name: perl tests
         working-directory: ${{ matrix.sample }}
