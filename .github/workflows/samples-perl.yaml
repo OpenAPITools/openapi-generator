@@ -27,6 +27,7 @@ jobs:
           SWAGGER_BASE_PATH: /v2
     container:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
+      options: --user root
     steps:
       - name: Add hosts to /etc/hosts
         run: |
