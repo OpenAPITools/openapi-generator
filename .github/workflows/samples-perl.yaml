@@ -28,6 +28,9 @@ jobs:
     container:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
     steps:
+      - name: Add hosts to /etc/hosts
+        run: |
+          sudo echo "127.0.0.1 petstore.swagger.io" | sudo tee -a /etc/hosts
       - uses: actions/checkout@v4
       - name: uses install-with-cpanm
         uses: perl-actions/install-with-cpanm@stable
