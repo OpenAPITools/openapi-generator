@@ -29,6 +29,9 @@ jobs:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
     steps:
       - uses: actions/checkout@v4
+      - name: copy cpanfile
+        run: |
+          cp  "${{ matrix.perl-version }}/cpanfile" ./
       - name: uses install-with-cpanm
         uses: perl-actions/install-with-cpanm@stable
         with:
