@@ -1,0 +1,40 @@
+name: "Perl Client: Petstore"
+
+on:
+  pull_request:
+    paths:
+      - samples/client/petstore/perl/**
+      - .github/workflows/samples-perl.yaml
+
+jobs:
+  build:
+    name: Test Perl client
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        perl-version:
+          - "5.28"
+        sample:
+          - samples/client/petstore/perl
+    services:
+      petstore-api:
+        image: swaggerapi/petstore
+        ports:
+          - 80:8080
+        env:
+          SWAGGER_HOST: http://petstore.swagger.io
+          SWAGGER_BASE_PATH: /v2
+    container:
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: uses install-with-cpanm
+        uses: perl-actions/install-with-cpanm@stable
+        with:
+          cpanfile: "cpanfile"
+          sudo: false
+      - name: perl tests
+        working-directory: ${{ matrix.sample }}
+        run: |
+          perl tests/01_pet_api.t
