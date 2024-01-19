@@ -241,6 +241,13 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'any_type_property' => {
+        datatype => 'object',
+        base_name => 'any_type_property',
+        description => 'Any type property',
+        format => '',
+        read_only => '',
+            },
     'bars' => {
         datatype => 'ARRAY[string]',
         base_name => 'bars',
@@ -254,6 +261,7 @@ __PACKAGE__->openapi_types( {
     'uuid' => 'string',
     'id' => 'double',
     'deprecated_ref' => 'DeprecatedModel',
+    'any_type_property' => 'object',
     'bars' => 'ARRAY[string]'
 } );
 
@@ -261,6 +269,7 @@ __PACKAGE__->attribute_map( {
     'uuid' => 'uuid',
     'id' => 'id',
     'deprecated_ref' => 'deprecatedRef',
+    'any_type_property' => 'any_type_property',
     'bars' => 'bars'
 } );
 

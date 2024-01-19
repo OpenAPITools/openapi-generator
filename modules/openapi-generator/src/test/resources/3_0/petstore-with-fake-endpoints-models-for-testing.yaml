@@ -2020,6 +2020,8 @@ components:
           deprecated: true
         deprecatedRef:
           $ref: '#/components/schemas/DeprecatedObject'
+        any_type_property:
+          description: Any type property
         bars:
           type: array
           deprecated: true
