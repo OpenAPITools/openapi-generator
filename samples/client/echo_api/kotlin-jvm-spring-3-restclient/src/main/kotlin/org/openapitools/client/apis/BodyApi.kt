@@ -182,42 +182,6 @@ class BodyApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testEchoBodyAllOfPet(pet: Pet? = null): Pet {
-        val result = testEchoBodyAllOfPetWithHttpInfo(pet = pet)
-        return result.body!!
-    }
-
-    @Throws(RestClientResponseException::class)
-    fun testEchoBodyAllOfPetWithHttpInfo(pet: Pet? = null): ResponseEntity<Pet> {
-        val localVariableConfig = testEchoBodyAllOfPetRequestConfig(pet = pet)
-        return request<Pet, Pet>(
-            localVariableConfig
-        )
-    }
-
-    fun testEchoBodyAllOfPetRequestConfig(pet: Pet? = null) : RequestConfig<Pet> {
-        val localVariableBody = pet
-        val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
-        localVariableHeaders["Content-Type"] = "application/json"
-        localVariableHeaders["Accept"] = "application/json"
-
-        val params = mutableMapOf<String, Any>(
-        )
-
-        return RequestConfig(
-            method = RequestMethod.POST,
-            path = "/echo/body/allOf/Pet",
-            params = params,
-            query = localVariableQuery,
-            headers = localVariableHeaders,
-            requiresAuthentication = false,
-            body = localVariableBody
-        )
-    }
-
-
-    @Throws(RestClientResponseException::class)
     fun testEchoBodyFreeFormObjectResponseString(body: kotlin.Any? = null): kotlin.String {
         val result = testEchoBodyFreeFormObjectResponseStringWithHttpInfo(body = body)
         return result.body!!
