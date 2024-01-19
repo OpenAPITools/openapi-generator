@@ -19,7 +19,7 @@ use_ok('WWW::OpenAPIClient::Object::Order');
 my $api_client = WWW::OpenAPIClient::ApiClient->new();
 my $store_api = WWW::OpenAPIClient::StoreApi->new($api_client);
 
-is $store_api->{api_client}{config}{base_url}, 'http://petstore.swagger.io:80/v2', 'get the default base URL from api client';
+is $store_api->{api_client}{config}{base_url}, 'http://127.0.0.1/v2', 'get the default base URL from api client';
 
 my $get_inventory_response = $store_api->get_inventory();
 

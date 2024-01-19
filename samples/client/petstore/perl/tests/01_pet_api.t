@@ -17,9 +17,9 @@ is $api->{api_client}{config}{base_url}, 'http://testing', 'get the proper base 
 
 # reset the base_url - no direct access because an application shouldn't be changing 
 # its base URL halfway through
-$api->{api_client}{config}{base_url} = 'http://petstore.swagger.io/v2';
+$api->{api_client}{config}{base_url} = 'http://127.0.0.1/v2';
 
-is $api->{api_client}{config}{base_url}, 'http://petstore.swagger.io/v2', 'get the default base URL from api client';
+is $api->{api_client}{config}{base_url}, 'http://127.0.0.1/v2', 'get the default base URL from api client';
 
 # test select_header_content_type
 is $api->{api_client}->select_header_content_type('application/xml', 'Application/JSON'), 'application/json', 'get the proper content type application/json but not application/xml';
