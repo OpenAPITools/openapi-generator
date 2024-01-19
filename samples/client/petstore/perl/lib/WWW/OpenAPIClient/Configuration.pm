@@ -110,7 +110,7 @@ sub new {
     $p{access_token} //= '';
 
     # base_url
-    $p{base_url} //= 'http://petstore.swagger.io:80/v2';
+    $p{base_url} //= 'http://127.0.0.1/v2';
 
     return bless \%p => $self;
 }
