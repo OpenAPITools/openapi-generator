@@ -407,7 +407,7 @@ use WWW::OpenAPIClient::FakeApi;
 my $api_instance = WWW::OpenAPIClient::FakeApi->new(
 );
 
-my $request_body = WWW::OpenAPIClient::Object::HASH[string,AnyType]->new(); # HASH[string,AnyType] | request body
+my $request_body = WWW::OpenAPIClient::Object::HASH[string,object]->new(); # HASH[string,object] | request body
 
 eval {
     $api_instance->test_additional_properties_reference(request_body => $request_body);
@@ -421,7 +421,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **request_body** | [**HASH[string,AnyType]**](AnyType.md)| request body | 
+ **request_body** | [**HASH[string,object]**](object.md)| request body | 
 
 ### Return type
 
