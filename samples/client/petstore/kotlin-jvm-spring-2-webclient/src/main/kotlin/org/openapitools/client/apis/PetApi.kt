@@ -82,7 +82,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Mono<Unit> {
         return deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)
@@ -279,7 +279,7 @@ class PetApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Mono<Unit> {
         return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
-            .map { it.body }
+            .map { Unit }
     }
 
     @Throws(WebClientResponseException::class)

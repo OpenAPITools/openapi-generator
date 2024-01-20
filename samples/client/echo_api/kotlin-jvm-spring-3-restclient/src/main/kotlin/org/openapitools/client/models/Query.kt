@@ -34,7 +34,7 @@ data class Query (
     val id: kotlin.Long? = null,
 
     @field:JsonProperty("outcomes")
-    val outcomes: kotlin.collections.List<Query.Outcomes>? = arrayListOf(SUCCESS,FAILURE)
+    val outcomes: kotlin.collections.List<Query.Outcomes>? = null
 
 ) {
 
