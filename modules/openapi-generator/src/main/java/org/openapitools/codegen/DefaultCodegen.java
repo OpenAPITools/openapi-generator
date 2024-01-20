@@ -4507,6 +4507,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
 
+        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
+            LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
+                    httpMethod, path, operation.getOperationId());
+        }
+
         Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<>();
