@@ -618,6 +618,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
+- [Carlsberg Group](https://www.carlsberggroup.com/)
 - [Christopher Queen Consulting](https://www.christopherqueenconsulting.com/)
 - [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)

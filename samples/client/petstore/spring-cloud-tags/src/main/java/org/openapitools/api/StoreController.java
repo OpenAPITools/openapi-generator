@@ -111,7 +111,7 @@ public interface StoreController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/order/{orderId}",
-        produces = "application/json"
+        produces = "application/json,application/xml"
     )
     
     ResponseEntity<Order> getOrderById(
@@ -140,7 +140,7 @@ public interface StoreController {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json"
+        produces = "application/json,application/xml"
     )
     
     ResponseEntity<Order> placeOrder(

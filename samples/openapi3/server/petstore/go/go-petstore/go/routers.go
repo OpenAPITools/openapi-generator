@@ -18,6 +18,7 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -336,4 +337,10 @@ func parseNumericArrayParameter[T Number](param, delim string, required bool, fn
 	}
 
 	return values, nil
+}
+
+
+// parseQuery parses query paramaters and returns an error if any malformed value pairs are encountered.
+func parseQuery(rawQuery string) (url.Values, error) {
+	return url.ParseQuery(rawQuery)
 }

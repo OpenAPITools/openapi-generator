@@ -98,7 +98,11 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{/mux}}
 	{{/routers}}
 	{{#hasQueryParams}}
-	query := r.URL.Query()
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	{{/hasQueryParams}}
 	{{#allParams}}
 	{{#isPathParam}}

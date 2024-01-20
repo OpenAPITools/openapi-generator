@@ -120,7 +120,7 @@ public class InlineModelResolver {
 
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            Map<HttpMethod, Operation> operationsMap = new LinkedHashMap<>(path.readOperationsMap());
+            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
@@ -135,13 +135,13 @@ public class InlineModelResolver {
                         Callback callback = callbackEntry.getValue();
                         for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
                             PathItem pathItem = pathItemEntry.getValue();
-                            operationsMap.putAll(pathItem.readOperationsMap());
+                            toFlatten.addAll(pathItem.readOperationsMap().entrySet());
                         }
                     }
                 }
             }
 
-            for (Map.Entry<HttpMethod, Operation> operationEntry : operationsMap.entrySet()) {
+            for (Map.Entry<HttpMethod, Operation> operationEntry : toFlatten) {
                 Operation operation = operationEntry.getValue();
                 String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
                 flattenRequestBody(inlineSchemaName, operation);

@@ -571,7 +571,7 @@ impl std::str::FromStr for {{{classname}}} {
 
 impl PartialEq for {{{classname}}} {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 {{/anyOf.size}}
@@ -604,7 +604,7 @@ impl std::str::FromStr for {{{classname}}} {
 
 impl PartialEq for {{{classname}}} {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 {{/oneOf.size}}

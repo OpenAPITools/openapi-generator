@@ -105,7 +105,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/{username}",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     ResponseEntity<UserDto> getUserByName(
          @PathVariable("username") String username
@@ -124,7 +124,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/login",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     ResponseEntity<String> loginUser(
          @RequestParam(value = "username", required = true) String username,

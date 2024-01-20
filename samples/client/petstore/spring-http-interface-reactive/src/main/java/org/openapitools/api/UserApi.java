@@ -109,7 +109,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/{username}",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     Mono<ResponseEntity<User>> getUserByName(
          @PathVariable("username") String username
@@ -128,7 +128,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/login",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     Mono<ResponseEntity<String>> loginUser(
          @RequestParam(value = "username", required = true) String username,

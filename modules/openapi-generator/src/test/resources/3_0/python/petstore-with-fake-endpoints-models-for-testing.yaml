@@ -1923,6 +1923,12 @@ components:
             type: string
           minItems: 0
           maxItems: 3
+        array_of_nullable_float:
+          type: array
+          items:
+            type: number
+            format: float
+            nullable: true
         array_array_of_integer:
           type: array
           items:

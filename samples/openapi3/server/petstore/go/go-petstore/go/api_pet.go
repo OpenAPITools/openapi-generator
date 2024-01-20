@@ -144,7 +144,11 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	var statusParam []string
 	if query.Has("status") {
 		statusParam = strings.Split(query.Get("status"), ",")
@@ -162,7 +166,11 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	var tagsParam []string
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")

@@ -132,7 +132,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
-        produces = "application/json"
+        produces = "application/json,application/xml"
     )
     
     ResponseEntity<List<Pet>> findPetsByStatus(
@@ -170,7 +170,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
-        produces = "application/json"
+        produces = "application/json,application/xml"
     )
     
     ResponseEntity<Set<Pet>> findPetsByTags(
@@ -207,7 +207,7 @@ public interface PetApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
-        produces = "application/json"
+        produces = "application/json,application/xml"
     )
     
     ResponseEntity<Pet> getPetById(

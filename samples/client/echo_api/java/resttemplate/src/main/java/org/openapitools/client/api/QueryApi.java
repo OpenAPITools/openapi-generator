@@ -84,7 +84,7 @@ public class QueryApi {
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_nonref_string_query", enumNonrefStringQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_ref_string_query", enumRefStringQuery));
-
+        
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -134,7 +134,7 @@ public class QueryApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "datetime_query", datetimeQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "date_query", dateQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-
+        
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -184,7 +184,7 @@ public class QueryApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "integer_query", integerQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "boolean_query", booleanQuery));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_query", stringQuery));
-
+        
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -227,13 +227,15 @@ public class QueryApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-
+        
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -277,7 +279,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-
+        
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -320,8 +322,10 @@ public class QueryApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
-
+        
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "values", queryObject.getValues()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -364,13 +368,15 @@ public class QueryApi {
         final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
-        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
-
+        
+        if (queryObject != null) {
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "id", queryObject.getId()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "name", queryObject.getName()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "category", queryObject.getCategory()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "photoUrls", queryObject.getPhotoUrls()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "tags", queryObject.getTags()));
+            localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "status", queryObject.getStatus()));
+        }
 
         final String[] localVarAccepts = { 
             "text/plain"
@@ -414,7 +420,7 @@ public class QueryApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_object", queryObject));
-
+        
 
         final String[] localVarAccepts = { 
             "text/plain"

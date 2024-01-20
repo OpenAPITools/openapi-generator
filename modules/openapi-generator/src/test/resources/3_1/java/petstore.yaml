@@ -609,6 +609,44 @@ paths:
           $ref: '#/components/responses/ref'
     parameters:
       - $ref: '#/components/parameters/ref_to_uuid'
+  "/fake/api/changeowner":
+    post:
+      summary: op1
+      operationId: op1
+      tags:
+        - fake
+      parameters: []
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
+  "/fake/api/changename":
+    post:
+      summary: op2
+      operationId: op2
+      tags:
+        - fake
+      parameters: []
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/HTTPValidationError"
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -847,3 +885,15 @@ components:
           description: test array in 3.1 spec
           items:
             type: string
+    HTTPValidationError:
+      properties: {}
+      type: object
+      title: HTTPValidationError
+    AnyOfArray:
+      anyOf:
+        - type: array
+          items:
+            type: string
+        - type: array
+          items:
+            type: integer
