@@ -203,16 +203,20 @@ func (o PropertyNameMapping) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *PropertyNameMapping) UnmarshalJSON(bytes []byte) (err error) {
+func (o *PropertyNameMapping) UnmarshalJSON(data []byte) (err error) {
 	varPropertyNameMapping := _PropertyNameMapping{}
 
-	if err = json.Unmarshal(bytes, &varPropertyNameMapping); err == nil {
-		*o = PropertyNameMapping(varPropertyNameMapping)
+	err = json.Unmarshal(data, &varPropertyNameMapping)
+
+	if err != nil {
+		return err
 	}
+
+	*o = PropertyNameMapping(varPropertyNameMapping)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "http_debug_operation")
 		delete(additionalProperties, "_type")
 		delete(additionalProperties, "type")

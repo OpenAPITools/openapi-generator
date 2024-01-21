@@ -71,6 +71,13 @@ Route::delete('/v2/fake', 'FakeController@testGroupParameters');
  */
 Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/additionalProperties-reference', 'FakeController@testAdditionalPropertiesReference');
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -113,12 +120,26 @@ Route::get('/v2/fake/http-signature-test', 'FakeController@fakeHttpSignatureTest
  */
 Route::post('/v2/fake/inline-additionalProperties', 'FakeController@testInlineAdditionalProperties');
 /**
+ * post testInlineFreeformAdditionalProperties
+ * Summary: test inline free-form additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/inline-freeform-additionalProperties', 'FakeController@testInlineFreeformAdditionalProperties');
+/**
  * get testJsonFormData
  * Summary: test json serialization of form data
  * Notes: 
 
  */
 Route::get('/v2/fake/jsonFormData', 'FakeController@testJsonFormData');
+/**
+ * post testNullable
+ * Summary: test nullable parent property
+ * Notes: 
+
+ */
+Route::post('/v2/fake/nullable', 'FakeController@testNullable');
 /**
  * post fakeOuterBooleanSerialize
  * Summary: 

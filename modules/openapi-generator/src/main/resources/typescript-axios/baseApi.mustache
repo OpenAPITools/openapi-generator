@@ -5,7 +5,7 @@
 import type { Configuration } from './configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
 import globalAxios from 'axios';
 
 export const BASE_PATH = "{{{basePath}}}".replace(/\/+$/, "");
@@ -28,7 +28,7 @@ export const COLLECTION_FORMATS = {
  */
 export interface RequestArgs {
     url: string;
-    options: AxiosRequestConfig;
+    options: RawAxiosRequestConfig;
 }
 
 /**
@@ -42,7 +42,7 @@ export class BaseAPI {
     constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
         if (configuration) {
             this.configuration = configuration;
-            this.basePath = configuration.basePath || this.basePath;
+            this.basePath = configuration.basePath ?? basePath;
         }
     }
 };
@@ -58,4 +58,59 @@ export class RequiredError extends Error {
         super(msg);
         this.name = "RequiredError"
     }
+}
+
+interface ServerMap {
+    [key: string]: {
+        url: string,
+        description: string,
+    }[];
+}
+
+/**
+ *
+ * @export
+ */
+export const operationServerMap: ServerMap = {
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}}
+    {{#servers}}
+    {{#-first}}
+    "{{{classname}}}.{{{nickname}}}": [
+    {{/-first}}
+        {
+            url: "{{{url}}}",
+            description: "{{{description}}}{{^description}}No description provided{{/description}}",
+            {{#variables}}
+            {{#-first}}
+            variables: {
+                {{/-first}}
+                {{{name}}}: {
+                    description: "{{{description}}}{{^description}}No description provided{{/description}}",
+                    default_value: "{{{defaultValue}}}",
+                    {{#enumValues}}
+                    {{#-first}}
+                    enum_values: [
+                    {{/-first}}
+                        "{{{.}}}"{{^-last}},{{/-last}}
+                    {{#-last}}
+                    ]
+                    {{/-last}}
+                    {{/enumValues}}
+                    }{{^-last}},{{/-last}}
+                {{#-last}}
+            }
+            {{/-last}}
+            {{/variables}}
+        }{{^-last}},{{/-last}}
+    {{#-last}}
+    ],
+    {{/-last}}
+    {{/servers}}
+    {{/operation}}
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
 }

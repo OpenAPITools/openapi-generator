@@ -7,3 +7,4 @@ additionalProperties:
   targetFramework: net6.0
   setCompareNetObjects: "true"
   hideGenerationTimestamp: "true"
+  equatable: true

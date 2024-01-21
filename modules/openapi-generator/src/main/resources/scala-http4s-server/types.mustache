@@ -1,0 +1,98 @@
+package {{modelPackage}}
+
+import java.time._
+
+import io.circe.refined._
+import io.circe.syntax._
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+
+{{#imports}}
+import {{.}}
+{{/imports}}
+
+{{#models}}
+{{#model}}
+/**
+* {{{description}}}
+{{#vars}}
+* @param {{name}} {{{description}}}
+{{/vars}}
+*/
+{{#vendorExtensions.x-isSealedTrait}}
+sealed trait {{classname}}
+object {{classname}} {
+  import io.circe.{ Decoder, Encoder }
+  import io.circe.syntax._
+  import cats.syntax.functor._
+
+{{^vendorExtensions.x-use-discr}}
+// no discriminator
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson
+{{/oneOf}}
+  }
+
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]](
+{{#oneOf}}
+      Decoder[{{.}}].widen,
+{{/oneOf}}
+  ).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr-mapping}}
+// no discriminator mapping
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{.}}".asJson) +: _)
+{{/oneOf}}
+  }
+
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+      {{#oneOf}}
+        case "{{.}}" =>
+          cursor.as[{{.}}]
+      {{/oneOf}}
+    }
+  }
+{{/vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr-mapping}}
+// use discriminator mapping
+{{#discriminator}}
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}: {{model.classname}} => {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{propertyName}}").as[String].flatMap {
+    {{#mappedModels}}
+      case "{{mappingName}}" =>
+        cursor.as[{{model.classname}}]
+    {{/mappedModels}}
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/vendorExtensions.x-use-discr}}
+}
+{{/vendorExtensions.x-isSealedTrait}}
+
+{{^vendorExtensions.x-isSealedTrait}}
+case class {{classname}}(
+{{#vars}}
+  {{name}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
+object {{classname}} {
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = deriveEncoder[{{classname}}].mapJson(_.dropNullValues)
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = deriveDecoder[{{classname}}]
+}
+{{/vendorExtensions.x-isSealedTrait}}
+
+{{/model}}
+{{/models}}

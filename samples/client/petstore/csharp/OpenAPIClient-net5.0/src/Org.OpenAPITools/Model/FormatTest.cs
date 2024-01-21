@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="patternWithDigits">A string that is a 10 digit number. Can have leading zeros..</param>
         /// <param name="patternWithDigitsAndDelimiter">A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01..</param>
         /// <param name="patternWithBackslash">None.</param>
-        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
+        public FormatTest(int integer = default(int), int int32 = default(int), uint unsignedInteger = default(uint), long int64 = default(long), ulong unsignedLong = default(ulong), decimal number = default(decimal), float varFloat = default(float), double varDouble = default(double), decimal varDecimal = default(decimal), string varString = default(string), byte[] varByte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateOnly date = default(DateOnly), DateTime dateTime = default(DateTime), Guid uuid = default(Guid), string password = default(string), string patternWithDigits = default(string), string patternWithDigitsAndDelimiter = default(string), string patternWithBackslash = default(string))
         {
             this.Number = number;
             // to ensure "varByte" is required (not null)
@@ -71,6 +71,11 @@ namespace Org.OpenAPITools.Model
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
             this.VarByte = varByte;
+            // to ensure "date" is required (not null)
+            if (date == null)
+            {
+                throw new ArgumentNullException("date is a required property for FormatTest and cannot be null");
+            }
             this.Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
@@ -174,7 +179,7 @@ namespace Org.OpenAPITools.Model
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [DataMember(Name = "date", IsRequired = true, EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
@@ -435,7 +440,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexVarString.Match(this.VarString).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for VarString, must match a pattern of " + regexVarString, new [] { "VarString" });
-                }            }
+                }
+            }
 
             // Password (string) maxLength
             if (this.Password != null && this.Password.Length > 64)
@@ -455,7 +461,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithDigits.Match(this.PatternWithDigits).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigits, must match a pattern of " + regexPatternWithDigits, new [] { "PatternWithDigits" });
-                }            }
+                }
+            }
 
             if (this.PatternWithDigitsAndDelimiter != null) {
                 // PatternWithDigitsAndDelimiter (string) pattern
@@ -463,7 +470,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithDigitsAndDelimiter.Match(this.PatternWithDigitsAndDelimiter).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithDigitsAndDelimiter, must match a pattern of " + regexPatternWithDigitsAndDelimiter, new [] { "PatternWithDigitsAndDelimiter" });
-                }            }
+                }
+            }
 
             if (this.PatternWithBackslash != null) {
                 // PatternWithBackslash (string) pattern
@@ -471,7 +479,8 @@ namespace Org.OpenAPITools.Model
                 if (!regexPatternWithBackslash.Match(this.PatternWithBackslash).Success)
                 {
                     yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for PatternWithBackslash, must match a pattern of " + regexPatternWithBackslash, new [] { "PatternWithBackslash" });
-                }            }
+                }
+            }
 
             yield break;
         }

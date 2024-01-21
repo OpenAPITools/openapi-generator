@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -393,18 +394,18 @@ public class NullableClass extends HashMap<String, Object>  {
       return false;
     }
     NullableClass nullableClass = (NullableClass) o;
-    return super.equals(o) && Objects.equals(integerProp, nullableClass.integerProp) &&
-        Objects.equals(numberProp, nullableClass.numberProp) &&
-        Objects.equals(booleanProp, nullableClass.booleanProp) &&
-        Objects.equals(stringProp, nullableClass.stringProp) &&
-        Objects.equals(dateProp, nullableClass.dateProp) &&
-        Objects.equals(datetimeProp, nullableClass.datetimeProp) &&
-        Objects.equals(arrayNullableProp, nullableClass.arrayNullableProp) &&
-        Objects.equals(arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
-        Objects.equals(arrayItemsNullable, nullableClass.arrayItemsNullable) &&
-        Objects.equals(objectNullableProp, nullableClass.objectNullableProp) &&
-        Objects.equals(objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
-        Objects.equals(objectItemsNullable, nullableClass.objectItemsNullable);
+    return super.equals(o) && Objects.equals(this.integerProp, nullableClass.integerProp) &&
+        Objects.equals(this.numberProp, nullableClass.numberProp) &&
+        Objects.equals(this.booleanProp, nullableClass.booleanProp) &&
+        Objects.equals(this.stringProp, nullableClass.stringProp) &&
+        Objects.equals(this.dateProp, nullableClass.dateProp) &&
+        Objects.equals(this.datetimeProp, nullableClass.datetimeProp) &&
+        Objects.equals(this.arrayNullableProp, nullableClass.arrayNullableProp) &&
+        Objects.equals(this.arrayAndItemsNullableProp, nullableClass.arrayAndItemsNullableProp) &&
+        Objects.equals(this.arrayItemsNullable, nullableClass.arrayItemsNullable) &&
+        Objects.equals(this.objectNullableProp, nullableClass.objectNullableProp) &&
+        Objects.equals(this.objectAndItemsNullableProp, nullableClass.objectAndItemsNullableProp) &&
+        Objects.equals(this.objectItemsNullable, nullableClass.objectItemsNullable);
   }
 
   @Override

@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -58,13 +59,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumClass FromString(string value)
         {
-            if (value == "_abc")
+            if (value.Equals("_abc"))
                 return EnumClass.Abc;
 
-            if (value == "-efg")
+            if (value.Equals("-efg"))
                 return EnumClass.Efg;
 
-            if (value == "(xyz)")
+            if (value.Equals("(xyz)"))
                 return EnumClass.Xyz;
 
             throw new NotImplementedException($"Could not convert value to type EnumClass: '{value}'");
@@ -77,13 +78,13 @@ namespace Org.OpenAPITools.Model
         /// <returns></returns>
         public static EnumClass? FromStringOrDefault(string value)
         {
-            if (value == "_abc")
+            if (value.Equals("_abc"))
                 return EnumClass.Abc;
 
-            if (value == "-efg")
+            if (value.Equals("-efg"))
                 return EnumClass.Efg;
 
-            if (value == "(xyz)")
+            if (value.Equals("(xyz)"))
                 return EnumClass.Xyz;
 
             return null;
@@ -186,5 +187,4 @@ namespace Org.OpenAPITools.Model
             writer.WriteStringValue(enumClass?.ToString() ?? "null");
         }
     }
-
 }

@@ -6,7 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 
-import io.swagger.annotations.*;
 
 
 import java.io.InputStream;
@@ -55,7 +54,6 @@ import javax.validation.Valid;
          scheme = "basic"
     )
 })
-@Api(description = "the fake_classname_test API")
 @Path("/fake_classname_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class FakeClassnameTestApi {
@@ -63,13 +61,6 @@ public class FakeClassnameTestApi {
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {
-        
-        @Authorization(value = "api_key_query")
-         }, tags={ "fake_classname_tags 123#$%^" })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Client.class)
-    })
     @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirements(value={
              @org.eclipse.microprofile.openapi.annotations.security.SecurityRequirement(name = "api_key_query")
     })

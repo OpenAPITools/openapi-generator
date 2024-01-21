@@ -406,7 +406,12 @@ extension {{projectName}}API {
         localVariablePath = localVariablePath.replacingOccurrences(of: "{{=<% %>=}}{<%baseName%>}<%={{ }}=%>", with: {{paramName}}PostEscape, options: .literal, range: nil){{/pathParams}}
         let localVariableURLString = {{projectName}}API.basePath + localVariablePath
         {{#bodyParam}}
+            {{#isBinary}}
+        let localVariableParameters = ["body": {{paramName}}]
+            {{/isBinary}}
+            {{^isBinary}}
         let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: {{paramName}})
+            {{/isBinary}}
         {{/bodyParam}}
         {{^bodyParam}}
             {{#hasFormParams}}
@@ -431,9 +436,10 @@ extension {{projectName}}API {
         ]){{/hasQueryParams}}{{^hasQueryParams}}
         let localVariableUrlComponents = URLComponents(string: localVariableURLString){{/hasQueryParams}}
 
-        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}
-            :{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
-            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{#headerParams}}
+        let localVariableNillableHeaders: [String: Any?] = [{{^headerParams}}{{^hasFormParams}}{{^hasConsumes}}
+            :{{/hasConsumes}}{{/hasFormParams}}{{/headerParams}}{{#hasFormParams}}
+            "Content-Type": {{^consumes}}"multipart/form-data"{{/consumes}}{{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasFormParams}}{{^hasFormParams}}{{#hasConsumes}}
+            "Content-Type": {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}},{{/hasConsumes}}{{/hasFormParams}}{{#headerParams}}
             {{> _param}},{{/headerParams}}
         ]
 

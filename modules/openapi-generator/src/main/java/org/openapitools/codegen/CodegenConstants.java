@@ -28,6 +28,7 @@ public class CodegenConstants {
     public static final String SUPPORTING_FILES = "supportingFiles";
     public static final String MODEL_TESTS = "modelTests";
     public static final String MODEL_DOCS = "modelDocs";
+    public static final String WEBHOOKS = "webhooks";
     public static final String API_TESTS = "apiTests";
     public static final String API_DOCS = "apiDocs";
 
@@ -42,6 +43,8 @@ public class CodegenConstants {
 
     public static final String API_SUFFIX = "apiSuffix";
     public static final String API_SUFFIX_DESC = "suffix for api classes";
+
+    public static final String AUTOSET_CONSTANTS = "autosetConstants";
 
     public static final String MODEL_PACKAGE = "modelPackage";
     public static final String MODEL_PACKAGE_DESC = "package for generated models";
@@ -152,6 +155,9 @@ public class CodegenConstants {
 
     public static final String USE_DATETIME_OFFSET = "useDateTimeOffset";
     public static final String USE_DATETIME_OFFSET_DESC = "Use DateTimeOffset to model date-time properties";
+
+    public static final String USE_DATETIME_FOR_DATE = "useDateTimeForDate";
+    public static final String USE_DATETIME_FOR_DATE_DESC = "Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)";
 
     public static final String ENSURE_UNIQUE_PARAMS = "ensureUniqueParams";
     public static final String ENSURE_UNIQUE_PARAMS_DESC = "Whether to ensure parameter names are unique in an operation (rename parameters that are not).";
@@ -294,6 +300,7 @@ public class CodegenConstants {
 
     public static final String GENERATE_APIS = "generateApis";
     public static final String GENERATE_API_DOCS = "generateApiDocs";
+    public static final String GENERATE_WEBHOOKS = "generateWebhooks";
 
     public static final String GENERATE_API_TESTS = "generateApiTests";
     public static final String GENERATE_API_TESTS_DESC = "Specifies that api tests are to be generated.";
@@ -429,4 +436,13 @@ public class CodegenConstants {
                     "<li>setting additionalProperties: false in your schemas</li></ul>";
 
     public static final String FASTAPI_IMPLEMENTATION_PACKAGE = "fastapiImplementationPackage";
+
+    public static final String WITH_GO_MOD = "withGoMod";
+
+    public static final String GENERATE_MARSHAL_JSON = "generateMarshalJSON";
+    public static final String GENERATE_MARSHAL_JSON_DESC = "Generate MarshalJSON method";
+
+    public static final String MAX_ATTEMPTS_FOR_RETRY = "maxAttemptsForRetry";
+
+    public static final String WAIT_TIME_OF_THREAD = "waitTimeMillis";
 }

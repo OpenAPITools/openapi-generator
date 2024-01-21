@@ -27,6 +27,9 @@ import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -229,7 +232,7 @@ public class StoreApi {
 
         public GetOrderByIdOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -303,7 +306,7 @@ public class StoreApi {
         public PlaceOrderOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
             reqSpec.setContentType("*/*");
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 

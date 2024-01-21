@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -153,9 +153,11 @@ public class ArrayOfNumberOnly {
     // add `ArrayNumber` to the URL query string
     if (getArrayNumber() != null) {
       for (int i = 0; i < getArrayNumber().size(); i++) {
-        joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
-            "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
-            URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        if (getArrayNumber().get(i) != null) {
+          joiner.add(String.format("%sArrayNumber%s%s=%s", prefix, suffix,
+              "".equals(suffix) ? "" : String.format("%s%d%s", containerPrefix, i, containerSuffix),
+              URLEncoder.encode(String.valueOf(getArrayNumber().get(i)), StandardCharsets.UTF_8).replaceAll("\\+", "%20")));
+        }
       }
     }
 

@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -97,6 +96,11 @@ public class EnumStringDiscriminator {
         return EnumStrTypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStrTypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
@@ -107,7 +111,6 @@ public class EnumStringDiscriminator {
   }
 
   public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {
-    
     this.enumStrType = enumStrType;
     return this;
   }
@@ -120,7 +123,6 @@ public class EnumStringDiscriminator {
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }
-
 
   public void setEnumStrType(EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;

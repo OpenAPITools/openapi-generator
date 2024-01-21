@@ -252,9 +252,10 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
@@ -283,11 +284,13 @@ use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
+use WWW::OpenAPIClient::Object::ParentWithNullable;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest;
 use WWW::OpenAPIClient::Object::User;
 
 ````
@@ -319,9 +322,10 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
-use WWW::OpenAPIClient::Object::DeprecatedObject;
+use WWW::OpenAPIClient::Object::DeprecatedModel;
 use WWW::OpenAPIClient::Object::Dog;
 use WWW::OpenAPIClient::Object::EnumArrays;
 use WWW::OpenAPIClient::Object::EnumClass;
@@ -350,11 +354,13 @@ use WWW::OpenAPIClient::Object::OuterEnumDefaultValue;
 use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
+use WWW::OpenAPIClient::Object::ParentWithNullable;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest;
 use WWW::OpenAPIClient::Object::User;
 
 # for displaying the API response data
@@ -392,6 +398,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**test_additional_properties_reference**](docs/FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -400,7 +407,9 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_enum_parameters**](docs/FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_nullable**](docs/FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
@@ -437,9 +446,10 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
+ - [WWW::OpenAPIClient::Object::ChildWithNullable](docs/ChildWithNullable.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
- - [WWW::OpenAPIClient::Object::DeprecatedObject](docs/DeprecatedObject.md)
+ - [WWW::OpenAPIClient::Object::DeprecatedModel](docs/DeprecatedModel.md)
  - [WWW::OpenAPIClient::Object::Dog](docs/Dog.md)
  - [WWW::OpenAPIClient::Object::EnumArrays](docs/EnumArrays.md)
  - [WWW::OpenAPIClient::Object::EnumClass](docs/EnumClass.md)
@@ -468,11 +478,13 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnumInteger](docs/OuterEnumInteger.md)
  - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
+ - [WWW::OpenAPIClient::Object::ParentWithNullable](docs/ParentWithNullable.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
+ - [WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 
 

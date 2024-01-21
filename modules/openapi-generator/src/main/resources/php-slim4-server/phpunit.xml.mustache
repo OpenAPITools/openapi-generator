@@ -2,9 +2,9 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap="./vendor/autoload.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" beStrictAboutTestsThatDoNotTestAnything="false" stopOnFailure="false">
   <coverage processUncoveredFiles="true">
     <include>
-      <directory suffix=".php">{{apiSrcPath}}</directory>
+      <directory suffix=".php">{{#lambda.forwardslash}}{{apiSrcPath}}{{/lambda.forwardslash}}</directory>
       <file>./{{srcBasePath}}/BaseModel.php</file>
-      <directory suffix=".php">{{modelSrcPath}}</directory>
+      <directory suffix=".php">{{#lambda.forwardslash}}{{modelSrcPath}}{{/lambda.forwardslash}}</directory>
     </include>
   </coverage>
   <testsuites>

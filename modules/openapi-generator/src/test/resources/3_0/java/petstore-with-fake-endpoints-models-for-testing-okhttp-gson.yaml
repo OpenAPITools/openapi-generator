@@ -920,6 +920,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -937,6 +954,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1138,6 +1176,89 @@ paths:
       responses:
         200:
           description: OK
+  /fake/parameter-string-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter string number
+      operationId: getParameterStringNumber
+      parameters:
+        - name: string_number
+          in: header 
+          description: string number
+          required: true
+          schema:
+            type: string
+            format: number
+      responses:
+        200:
+          description: OK
+  /fake/parameter-array-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter array number default value
+      operationId: getParameterArrayNumber
+      parameters:
+        - name: array
+          in: header
+          description: array integer
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+            default:
+              - 1
+      responses:
+        200:
+          description: OK
+  /fake/null-request-body:
+    get:
+      tags:
+        - another_fake
+      summary: null request body
+      operationId: null-request-body
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        '200':
+          description: ''
   /values:
     get:
       tags:
@@ -1145,6 +1266,22 @@ paths:
       summary: Get some primitive variable values
       description: ''
       operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
+  /internal/only:
+    get:
+      x-internal: true
+      tags:
+        - values
+      summary: internal only
+      description: ''
       responses:
         '200':
           description: successful operation
@@ -1771,6 +1908,10 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     OuterEnum:
       nullable: true
       type: string
@@ -1778,6 +1919,8 @@ components:
         - placed
         - approved
         - delivered
+        - s
+        - S
     OuterEnumInteger:
       type: integer
       enum:
@@ -2291,6 +2434,13 @@ components:
           maxLength: 1089
         - type: number
         - type: boolean
+    ScalarAnyOf:
+      description: Values of scalar type using anyOf
+      anyOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
     Array:
       description: Values of array type
       type: array
@@ -2356,6 +2506,7 @@ components:
             - pending
             - sold
     PropertyNameCollision:
+      x-internal: false
       type: object
       properties:
         _type:
@@ -2364,3 +2515,32 @@ components:
           type: string
         type_:
           type: string
+    InteralOnly:
+      type: object
+      x-internal: true
+      properties:
+        type:
+          type: string
+    AllOfModelArrayAnyOf:
+      allOf:
+        - $ref: "#/components/schemas/Category"
+        - type: object
+          properties:
+            linkListColumn1:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    anyOf:
+                      - $ref: '#/components/schemas/User'
+                      - $ref: '#/components/schemas/Tag'
+              required:
+                - value
+            attributes:
+              type: object
+              properties:
+                C:
+                  oneOf:
+                  - $ref: '#/components/schemas/Pet'
+                  - $ref: '#/components/schemas/Order'

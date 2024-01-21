@@ -137,7 +137,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/findByTags:
     get:
       deprecated: true
@@ -178,7 +178,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/{petId}:
     delete:
       description: ""
@@ -243,7 +243,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     post:
       description: ""
       operationId: updatePetWithForm
@@ -356,7 +356,7 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -413,7 +413,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -512,7 +512,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user/logout:
     get:
       description: ""
@@ -575,7 +575,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -933,6 +933,25 @@ paths:
       - fake
       x-content-type: application/x-www-form-urlencoded
       x-accepts: application/json
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -950,6 +969,25 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
       tags:
       - fake
       x-content-type: application/json
@@ -1168,6 +1206,99 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/parameter-string-number:
+    get:
+      operationId: getParameterStringNumber
+      parameters:
+      - description: string number
+        explode: false
+        in: header
+        name: string_number
+        required: true
+        schema:
+          format: number
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter string number
+      tags:
+      - another_fake
+      x-accepts: application/json
+  /fake/parameter-array-number:
+    get:
+      operationId: getParameterArrayNumber
+      parameters:
+      - description: array integer
+        explode: false
+        in: header
+        name: array
+        required: true
+        schema:
+          default:
+          - 1
+          items:
+            type: integer
+          type: array
+        style: simple
+      responses:
+        "200":
+          description: OK
+      summary: parameter array number default value
+      tags:
+      - another_fake
+      x-accepts: application/json
+  /fake/null-request-body:
+    get:
+      operationId: null-request-body
+      parameters:
+      - explode: false
+        in: header
+        name: Accept-Language
+        required: false
+        schema:
+          example: application/json
+          type: string
+        style: simple
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        "200":
+          description: ""
+      summary: null request body
+      tags:
+      - another_fake
+      x-accepts: application/json
   /values:
     get:
       description: ""
@@ -1184,6 +1315,23 @@ paths:
       summary: Get some primitive variable values
       tags:
       - values
+      x-accepts: application/json
+  /internal/only:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: internal only
+      tags:
+      - values
+      x-internal: true
       x-accepts: application/json
 components:
   requestBodies:
@@ -1794,11 +1942,17 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
     OuterEnum:
       enum:
       - placed
       - approved
       - delivered
+      - s
+      - S
       nullable: true
       type: string
     OuterEnumInteger:
@@ -2274,7 +2428,7 @@ components:
       description: Value object
       example:
         name: variable_1
-        value: null
+        value: Scalar
       properties:
         name:
           example: variable_1
@@ -2295,6 +2449,13 @@ components:
         type: string
       - type: number
       - type: boolean
+    ScalarAnyOf:
+      anyOf:
+      - maxLength: 1089
+        type: string
+      - type: number
+      - type: boolean
+      description: Values of scalar type using anyOf
     Array:
       description: Values of array type
       items:
@@ -2350,6 +2511,22 @@ components:
         type_:
           type: string
       type: object
+      x-internal: false
+    InteralOnly:
+      properties:
+        type:
+          type: string
+      type: object
+      x-internal: true
+    AllOfModelArrayAnyOf:
+      allOf:
+      - $ref: '#/components/schemas/Category'
+      - properties:
+          linkListColumn1:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1'
+          attributes:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes'
+        type: object
     _foo_get_default_response:
       example:
         string:
@@ -2483,6 +2660,12 @@ components:
       - param
       - param2
       type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2527,6 +2710,28 @@ components:
         required:
         - name
         type: object
+    AllOfModelArrayAnyOf_allOf_linkListColumn1_value:
+      anyOf:
+      - $ref: '#/components/schemas/User'
+      - $ref: '#/components/schemas/Tag'
+    AllOfModelArrayAnyOf_allOf_linkListColumn1:
+      properties:
+        value:
+          items:
+            $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_linkListColumn1_value'
+          type: array
+      required:
+      - value
+      type: object
+    AllOfModelArrayAnyOf_allOf_attributes_C:
+      oneOf:
+      - $ref: '#/components/schemas/Pet'
+      - $ref: '#/components/schemas/Order'
+    AllOfModelArrayAnyOf_allOf_attributes:
+      properties:
+        C:
+          $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes_C'
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

@@ -1,0 +1,235 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: apiteam@swagger.io
+  description: "This is a sample server Petstore server.  You can find out more about\
+    \ Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).\
+    \  For this sample, you can use the api key `special-key` to test the authorization\
+    \ filters."
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Petstore
+  version: 1.0.6
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://petstore.swagger.io/v2
+- url: http://petstore.swagger.io/v2
+tags:
+- description: Everything about your Pets
+  externalDocs:
+    description: Find out more
+    url: http://swagger.io
+  name: pet
+- description: Access to Petstore orders
+  name: store
+- description: Operations about user
+  externalDocs:
+    description: Find out more about our store
+    url: http://swagger.io
+  name: user
+paths:
+  /user/login:
+    get:
+      operationId: loginUser
+      parameters:
+      - description: The user name for login
+        in: query
+        name: username
+        required: true
+        schema:
+          type: string
+      - description: The password for login in clear text
+        in: query
+        name: password
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                format: int32
+                type: integer
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                format: date-time
+                type: string
+        "400":
+          content: {}
+          description: Invalid username/password supplied
+      summary: Logs user into the system
+      tags:
+      - user
+      x-spring-provide-args:
+      - "@Value(\"${server.port}\") String someValue"
+      - "@RequestHeader(value=\"x-project-id\", required = false) String someHeaderValue"
+      - '@RequestHeader final HttpHeaders headers'
+      - Principal principal
+      - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
+      x-accepts: application/json
+      x-tags:
+      - tag: user
+  /user/logout:
+    get:
+      operationId: logoutUser
+      responses:
+        default:
+          content: {}
+          description: successful operation
+      summary: Logs out current logged in user session
+      tags:
+      - user
+      x-spring-provide-args:
+      - "@Value(\"${server.port}\") String somePropertyValue"
+      - "@RequestHeader(value=\"x-project-id\", required = false) String someHeaderValue"
+      - '@RequestHeader final HttpHeaders headers'
+      - Principal principal
+      - '@Qualifier("jacksonObjectMapper") ObjectMapper mapper'
+      x-accepts: application/json
+      x-tags:
+      - tag: user
+components:
+  schemas:
+    ApiResponse:
+      properties:
+        code:
+          format: int32
+          type: integer
+        type:
+          type: string
+        message:
+          type: string
+      type: object
+    Category:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: Category
+    Pet:
+      properties:
+        id:
+          format: int64
+          type: integer
+        category:
+          $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+            xml:
+              name: photoUrl
+          type: array
+          xml:
+            wrapped: true
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
+      xml:
+        name: Pet
+    Tag:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+      type: object
+      xml:
+        name: Tag
+    Order:
+      properties:
+        id:
+          format: int64
+          type: integer
+        petId:
+          format: int64
+          type: integer
+        quantity:
+          format: int32
+          type: integer
+        shipDate:
+          format: date-time
+          type: string
+        status:
+          description: Order Status
+          enum:
+          - placed
+          - approved
+          - delivered
+          type: string
+        complete:
+          type: boolean
+      type: object
+      xml:
+        name: Order
+    User:
+      properties:
+        id:
+          format: int64
+          type: integer
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        userStatus:
+          description: User Status
+          format: int32
+          type: integer
+      type: object
+      xml:
+        name: User
+  securitySchemes:
+    api_key:
+      in: header
+      name: api_key
+      type: apiKey
+    petstore_auth:
+      flows:
+        implicit:
+          authorizationUrl: https://petstore.swagger.io/oauth/authorize
+          scopes:
+            read:pets: read your pets
+            write:pets: modify pets in your account
+      type: oauth2
+x-original-swagger-version: "2.0"

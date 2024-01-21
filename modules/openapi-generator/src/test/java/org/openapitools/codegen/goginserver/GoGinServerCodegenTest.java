@@ -56,7 +56,30 @@ public class GoGinServerCodegenTest {
         TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
                 "module github.com/my-user/my-repo");
         TestUtils.assertFileContains(Paths.get(output + "/go.mod"),
-                "require github.com/gin-gonic/gin v1.9.0");
+                "require github.com/gin-gonic/gin v1.9.1");
+    }
+
+    @Test
+    public void webhooks() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("go-gin-server")
+                .setGitUserId("my-user")
+                .setGitRepoId("my-repo")
+                .setPackageName("my-package")
+                .setInputSpec("src/test/resources/3_1/webhooks.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        //files.forEach(File::deleteOnExit);
+
+        TestUtils.assertFileContains(Paths.get(output + "/go/routers.go"),
+                "NewPetPost");
+        TestUtils.assertFileContains(Paths.get(output + "/go/api_default.go"),
+                " c.JSON(200, gin.H{\"status\": \"OK\"})");
     }
 
 }

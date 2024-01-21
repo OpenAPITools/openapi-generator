@@ -170,7 +170,6 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
         if (this.additionalProperties.containsKey(SPRINGADMIN_URI)) {
             this.setSpringBootAdminUri((String) this.additionalProperties.get(SPRINGADMIN_URI));
         }
-        this.additionalProperties.put(SUPPORT_JAVA6, false);
         this.additionalProperties.put("java8", true);
 
         if (this.additionalProperties.containsKey(WITH_XML)) {

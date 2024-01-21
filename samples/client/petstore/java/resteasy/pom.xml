@@ -249,8 +249,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <resteasy-version>4.7.6.Final</resteasy-version>
-        <jackson-version>2.13.4</jackson-version>
-        <jackson-databind-version>2.13.4.2</jackson-databind-version>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <threetenbp-version>2.9.10</threetenbp-version>

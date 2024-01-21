@@ -107,12 +107,15 @@ Class | Method | HTTP request | Description
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **GET** /foo | 
 *DefaultApi* | [**GetCountry**](docs/DefaultApi.md#getcountry) | **POST** /country | 
 *DefaultApi* | [**Hello**](docs/DefaultApi.md#hello) | **GET** /hello | Hello
+*DefaultApi* | [**RolesReportGet**](docs/DefaultApi.md#rolesreportget) | **GET** /roles/report | 
+*DefaultApi* | [**Test**](docs/DefaultApi.md#test) | **GET** /test | Retrieve an existing Notificationtest's Elements
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**FakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**GetArrayOfEnums**](docs/FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**TestAdditionalPropertiesReference**](docs/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**TestBodyWithFileSchema**](docs/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**TestBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**TestClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \"client\" model
@@ -120,6 +123,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**TestEnumParameters**](docs/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**TestGroupParameters**](docs/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**TestInlineAdditionalProperties**](docs/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**TestInlineFreeformAdditionalProperties**](docs/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**TestJsonFormData**](docs/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**TestQueryParameterCollectionFormat**](docs/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
 *FakeClassnameTags123Api* | [**TestClassname**](docs/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -197,6 +201,7 @@ Class | Method | HTTP request | Description
  - [Model.Model200Response](docs/Model200Response.md)
  - [Model.ModelClient](docs/ModelClient.md)
  - [Model.Name](docs/Name.md)
+ - [Model.NotificationtestGetElementsV1ResponseMPayload](docs/NotificationtestGetElementsV1ResponseMPayload.md)
  - [Model.NullableClass](docs/NullableClass.md)
  - [Model.NullableGuidClass](docs/NullableGuidClass.md)
  - [Model.NullableShape](docs/NullableShape.md)
@@ -209,6 +214,7 @@ Class | Method | HTTP request | Description
  - [Model.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [Model.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [Model.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [Model.OuterEnumTest](docs/OuterEnumTest.md)
  - [Model.ParentPet](docs/ParentPet.md)
  - [Model.Pet](docs/Pet.md)
  - [Model.Pig](docs/Pig.md)
@@ -216,7 +222,10 @@ Class | Method | HTTP request | Description
  - [Model.Quadrilateral](docs/Quadrilateral.md)
  - [Model.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [Model.ReadOnlyFirst](docs/ReadOnlyFirst.md)
+ - [Model.RequiredClass](docs/RequiredClass.md)
  - [Model.Return](docs/Return.md)
+ - [Model.RolesReportsHash](docs/RolesReportsHash.md)
+ - [Model.RolesReportsHashRole](docs/RolesReportsHashRole.md)
  - [Model.ScaleneTriangle](docs/ScaleneTriangle.md)
  - [Model.Shape](docs/Shape.md)
  - [Model.ShapeInterface](docs/ShapeInterface.md)
@@ -226,6 +235,7 @@ Class | Method | HTTP request | Description
  - [Model.Tag](docs/Tag.md)
  - [Model.TestCollectionEndingWithWordList](docs/TestCollectionEndingWithWordList.md)
  - [Model.TestCollectionEndingWithWordListObject](docs/TestCollectionEndingWithWordListObject.md)
+ - [Model.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Model.Triangle](docs/Triangle.md)
  - [Model.TriangleInterface](docs/TriangleInterface.md)
  - [Model.User](docs/User.md)

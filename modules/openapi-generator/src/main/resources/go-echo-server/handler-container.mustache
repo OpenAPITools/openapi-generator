@@ -6,6 +6,6 @@ type Container struct {
 
 // NewContainer returns an empty or an initialized container for your handlers.
 func NewContainer() (Container, error) {
-    c := Container{}
-    return c, nil
+	c := Container{}
+	return c, nil
 }

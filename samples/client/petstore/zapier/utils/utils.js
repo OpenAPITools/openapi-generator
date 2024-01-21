@@ -1,14 +1,14 @@
 const _ = require('lodash')
 
 const replacePathParameters = (url) => url.replace(/{([^{}]+)}/g, (keyExpr, key) => `{{bundle.inputData.${key}}}`)
-const removeKeyPrefixes = (objectsArray) => objectsArray == undefined || typeof objectsArray[0] != 'object' ? objectsArray : objectsArray.map((obj) => Object.keys(obj).reduce((res, key) => (res[(key.split('.')).slice(-1)] = obj[key], res), {}))
+const childMapping = (objectsArray, prefix, model) => objectsArray ? objectsArray.map(object => model.mapping({inputData: object}, prefix)) : undefined
 const removeIfEmpty = (obj) => _.isEmpty(JSON.parse(JSON.stringify(obj))) ? undefined : obj
 const buildKeyAndLabel = (prefix, isInput = true, isArrayChild = false) => {
     const keyPrefix = !_.isEmpty(prefix) && (!isArrayChild || isInput) ? `${prefix}${isInput ? '.' : '__'}` : prefix
     const labelPrefix = !_.isEmpty(keyPrefix) ? keyPrefix.replaceAll('__', '.') : ''
     return {
         keyPrefix: keyPrefix,
-        labelPrefix:labelPrefix,
+        labelPrefix: labelPrefix,
     }
 }
 const isSearchAction = (key) => {
@@ -25,7 +25,7 @@ const searchMiddleware = (action) => {
 
 module.exports = {
     replacePathParameters: replacePathParameters,
-    removeKeyPrefixes: removeKeyPrefixes,
+    childMapping: childMapping,
     removeIfEmpty: removeIfEmpty,
     buildKeyAndLabel: buildKeyAndLabel,
     hasSearchRequisites: hasSearchRequisites,

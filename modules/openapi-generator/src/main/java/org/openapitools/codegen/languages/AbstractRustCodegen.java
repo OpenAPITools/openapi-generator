@@ -285,9 +285,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     }
 
     //// Enum naming ////
-
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         // Empty strings need to be mapped to "Empty"
         // https://github.com/OpenAPITools/openapi-generator/issues/13453
         if (Strings.isNullOrEmpty(name)) {

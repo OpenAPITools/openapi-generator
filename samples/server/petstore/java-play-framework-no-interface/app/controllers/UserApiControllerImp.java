@@ -11,6 +11,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiControllerImp  {
     
@@ -19,12 +20,12 @@ public class UserApiControllerImp  {
     }
 
     
-    public void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 
     
-    public void createUsersWithListInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 

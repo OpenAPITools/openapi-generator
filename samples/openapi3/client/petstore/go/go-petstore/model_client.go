@@ -95,16 +95,20 @@ func (o Client) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Client) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Client) UnmarshalJSON(data []byte) (err error) {
 	varClient := _Client{}
 
-	if err = json.Unmarshal(bytes, &varClient); err == nil {
-		*o = Client(varClient)
+	err = json.Unmarshal(data, &varClient)
+
+	if err != nil {
+		return err
 	}
+
+	*o = Client(varClient)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "client")
 		o.AdditionalProperties = additionalProperties
 	}

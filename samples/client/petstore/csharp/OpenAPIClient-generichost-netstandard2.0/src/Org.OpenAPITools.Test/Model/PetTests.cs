@@ -54,24 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Category'
-        /// </summary>
-        [Fact]
-        public void CategoryTest()
-        {
-            // TODO unit test for the property 'Category'
-        }
-
-        /// <summary>
-        /// Test the property 'Id'
-        /// </summary>
-        [Fact]
-        public void IdTest()
-        {
-            // TODO unit test for the property 'Id'
-        }
-
-        /// <summary>
         /// Test the property 'Name'
         /// </summary>
         [Fact]
@@ -87,6 +69,24 @@ namespace Org.OpenAPITools.Test.Model
         public void PhotoUrlsTest()
         {
             // TODO unit test for the property 'PhotoUrls'
+        }
+
+        /// <summary>
+        /// Test the property 'Category'
+        /// </summary>
+        [Fact]
+        public void CategoryTest()
+        {
+            // TODO unit test for the property 'Category'
+        }
+
+        /// <summary>
+        /// Test the property 'Id'
+        /// </summary>
+        [Fact]
+        public void IdTest()
+        {
+            // TODO unit test for the property 'Id'
         }
 
         /// <summary>

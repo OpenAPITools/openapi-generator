@@ -6,7 +6,7 @@
 ```ps1
 $properties = @(
     'apiName=Api',
-    'targetFramework=net7.0',
+    'targetFramework=net8.0',
     'validatable=true',
     'nullableReferenceTypes=false',
     'hideGenerationTimestamp=true',
@@ -61,50 +61,15 @@ namespace YourProject
         {
             var host = CreateHostBuilder(args).Build();
             var api = host.Services.GetRequiredService<IAnotherFakeApi>();
-            ApiResponse<ModelClient> response = await api.Call123TestSpecialTagsAsync("todo");
-            ModelClient model = response.AsModel();
+            Call123TestSpecialTagsApiResponse apiResponse = await api.Call123TestSpecialTagsAsync("todo");
+            ModelClient model = apiResponse.Ok();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
           .ConfigureApi((context, options) =>
           {
               // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
+              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Authorization);
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider
@@ -249,7 +214,7 @@ Authentication schemes defined for the API:
 - returnICollection: false
 - sortParamsByRequiredFlag: 
 - sourceFolder: src
-- targetFramework: net7.0
+- targetFramework: net8.0
 - useCollection: false
 - useDateTimeOffset: false
 - useOneOfDiscriminatorLookup: false

@@ -52,26 +52,30 @@ namespace Org.OpenAPITools.Test.Api
         public static IHostBuilder CreateHostBuilder(string[] args) => Host.CreateDefaultBuilder(args)
             .ConfigureApi((context, services, options) =>
             {
-                string apiKeyTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                ApiKeyToken apiKeyToken = new ApiKeyToken(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(apiKeyToken);
+                string apiKeyTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                ApiKeyToken apiKeyToken1 = new ApiKeyToken(apiKeyTokenValue1, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken1);
 
-                string bearerTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                BearerToken bearerToken = new BearerToken(bearerTokenValue, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(bearerToken);
+                string apiKeyTokenValue2 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                ApiKeyToken apiKeyToken2 = new ApiKeyToken(apiKeyTokenValue2, ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(apiKeyToken2);
 
-                string basicTokenUsername = context.Configuration["<username>"] ?? throw new Exception("Username not found.");
-                string basicTokenPassword = context.Configuration["<password>"] ?? throw new Exception("Password not found.");
-                BasicToken basicToken = new BasicToken(basicTokenUsername, basicTokenPassword, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(basicToken);
+                string bearerTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                BearerToken bearerToken1 = new BearerToken(bearerTokenValue1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(bearerToken1);
 
-                HttpSigningConfiguration config = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
-                HttpSignatureToken httpSignatureToken = new HttpSignatureToken(config, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(httpSignatureToken);
+                string basicTokenUsername1 = context.Configuration["<username>"] ?? throw new Exception("Username not found.");
+                string basicTokenPassword1 = context.Configuration["<password>"] ?? throw new Exception("Password not found.");
+                BasicToken basicToken1 = new BasicToken(basicTokenUsername1, basicTokenPassword1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(basicToken1);
 
-                string oauthTokenValue = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
-                OAuthToken oauthToken = new OAuthToken(oauthTokenValue, timeout: TimeSpan.FromSeconds(1));
-                options.AddTokens(oauthToken);
+                HttpSigningConfiguration config1 = new HttpSigningConfiguration("<keyId>", "<keyFilePath>", null, new List<string>(), HashAlgorithmName.SHA256, "<signingAlgorithm>", 0);
+                HttpSignatureToken httpSignatureToken1 = new HttpSignatureToken(config1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(httpSignatureToken1);
+
+                string oauthTokenValue1 = context.Configuration["<token>"] ?? throw new Exception("Token not found.");
+                OAuthToken oauthToken1 = new OAuthToken(oauthTokenValue1, timeout: TimeSpan.FromSeconds(1));
+                options.AddTokens(oauthToken1);
             });
     }
 }

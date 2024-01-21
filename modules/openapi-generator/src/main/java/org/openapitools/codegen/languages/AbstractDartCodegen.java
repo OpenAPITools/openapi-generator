@@ -60,8 +60,8 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
     protected boolean useEnumExtension = false;
     protected String sourceFolder = "src";
     protected String libPath = "lib" + File.separator;
-    protected String apiDocPath = "doc" + File.separator;
-    protected String modelDocPath = "doc" + File.separator;
+    protected String apiDocPath = "doc/";
+    protected String modelDocPath = "doc/";
     protected String apiTestPath = "test" + File.separator;
     protected String modelTestPath = "test" + File.separator;
 
@@ -712,6 +712,10 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         if (value.length() == 0) {
             return "empty";
         }

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.io.Serializable;
 
 
@@ -173,7 +172,6 @@ public class SimpleOneOf extends AbstractOpenApiSchema implements Serializable {
      * Integer, String
      *
      * It could be an instance of the 'oneOf' schemas.
-     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
      */
     @Override
     public void setActualInstance(Object instance) {

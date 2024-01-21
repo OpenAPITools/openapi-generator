@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,7 +36,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="basquePig"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public Pig(BasquePig basquePig, string className)
         {
             BasquePig = basquePig;
@@ -48,7 +48,6 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="danishPig"></param>
         /// <param name="className">className</param>
-        [JsonConstructor]
         public Pig(DanishPig danishPig, string className)
         {
             DanishPig = danishPig;
@@ -137,7 +136,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? className = default;
+            Option<string?> className = default;
 
             BasquePig? basquePig = null;
             DanishPig? danishPig = null;
@@ -153,9 +152,9 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReaderDiscriminator.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReaderDiscriminator.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReaderDiscriminator.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReaderDiscriminator.GetString();
                     utf8JsonReaderDiscriminator.Read();
-                    if (propertyName?.Equals("className") ?? false)
+                    if (localVarJsonPropertyName?.Equals("className") ?? false)
                     {
                         string? discriminator = utf8JsonReaderDiscriminator.GetString();
                         if (discriminator?.Equals("BasquePig") ?? false)
@@ -182,13 +181,13 @@ namespace Org.OpenAPITools.Model
 
                 if (utf8JsonReader.TokenType == JsonTokenType.PropertyName && currentDepth == utf8JsonReader.CurrentDepth - 1)
                 {
-                    string? propertyName = utf8JsonReader.GetString();
+                    string? localVarJsonPropertyName = utf8JsonReader.GetString();
                     utf8JsonReader.Read();
 
-                    switch (propertyName)
+                    switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -196,14 +195,17 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Pig.", nameof(className));
+
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, className);
+                return new Pig(basquePig, className.Value!);
 
             if (danishPig != null)
-                return new Pig(danishPig, className);
+                return new Pig(danishPig, className.Value!);
 
             throw new JsonException();
         }
@@ -242,6 +244,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
+            if (pig.ClassName == null)
+                throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
+
             writer.WriteString("className", pig.ClassName);
         }
     }

@@ -210,6 +210,11 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
     }
 
     @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
     public String toApiFilename(String name) {
         name = name.replaceAll("-", "_");
         return "api_" + camelize(name) + "Api";
@@ -226,6 +231,12 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
+        name = toVarName(name);
         CamelizeOption camelizeOption = CamelizeOption.UPPERCASE_FIRST_CHAR;
         name = camelize(sanitizeName(name), camelizeOption);
         name = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name);
@@ -242,7 +253,13 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         return name;
+
     }
 
     /**
@@ -288,6 +305,11 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
      */
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         String result = sanitizeName(name);
 
         // remove dollar sign
@@ -400,7 +422,7 @@ public abstract class AbstractJuliaCodegen extends DefaultCodegen {
             } else if (ModelUtils.isIntegerSchema(schema) || ModelUtils.isLongSchema(schema) || ModelUtils.isNumberSchema(schema)) {
                 return schema.getDefault().toString();
             } else if (ModelUtils.isStringSchema(schema)) {
-                String _default = (String) schema.getDefault();
+                String _default = String.valueOf(schema.getDefault());
                 return "\"" + _default + "\"";
             }
         }

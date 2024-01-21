@@ -32,6 +32,7 @@ lib/app/Models/ArrayTest.php
 lib/app/Models/Capitalization.php
 lib/app/Models/Cat.php
 lib/app/Models/Category.php
+lib/app/Models/ChildWithNullable.php
 lib/app/Models/ClassModel.php
 lib/app/Models/Client.php
 lib/app/Models/DeprecatedObject.php
@@ -63,11 +64,13 @@ lib/app/Models/OuterEnumDefaultValue.php
 lib/app/Models/OuterEnumInteger.php
 lib/app/Models/OuterEnumIntegerDefaultValue.php
 lib/app/Models/OuterObjectWithEnumProperty.php
+lib/app/Models/ParentWithNullable.php
 lib/app/Models/Pet.php
 lib/app/Models/ReadOnlyFirst.php
 lib/app/Models/SingleRefType.php
 lib/app/Models/SpecialModelName.php
 lib/app/Models/Tag.php
+lib/app/Models/TestInlineFreeformAdditionalPropertiesRequest.php
 lib/app/Models/User.php
 lib/app/Providers/AppServiceProvider.php
 lib/app/Providers/AuthServiceProvider.php

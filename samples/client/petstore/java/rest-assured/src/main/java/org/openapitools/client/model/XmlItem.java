@@ -23,6 +23,7 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -186,6 +187,7 @@ public class XmlItem {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getAttributeNumber() {
@@ -309,6 +311,7 @@ public class XmlItem {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getNameNumber() {
@@ -463,6 +466,7 @@ public class XmlItem {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getPrefixNumber() {
@@ -617,6 +621,7 @@ public class XmlItem {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getNamespaceNumber() {
@@ -771,6 +776,7 @@ public class XmlItem {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
+  @Valid
 
 
   public BigDecimal getPrefixNsNumber() {

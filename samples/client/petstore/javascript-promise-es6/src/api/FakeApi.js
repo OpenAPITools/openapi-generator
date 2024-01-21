@@ -20,6 +20,7 @@ import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -350,6 +351,53 @@ export default class FakeApi {
      */
     fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty) {
       return this.fakePropertyEnumIntegerSerializeWithHttpInfo(outerObjectWithEnumProperty)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testAdditionalPropertiesReferenceWithHttpInfo(requestBody) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/additionalProperties-reference', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testAdditionalPropertiesReference(requestBody) {
+      return this.testAdditionalPropertiesReferenceWithHttpInfo(requestBody)
         .then(function(response_and_data) {
           return response_and_data.data;
         });
@@ -831,6 +879,53 @@ export default class FakeApi {
      */
     testInlineAdditionalProperties(requestBody) {
       return this.testInlineAdditionalPropertiesWithHttpInfo(requestBody)
+        .then(function(response_and_data) {
+          return response_and_data.data;
+        });
+    }
+
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing HTTP response
+     */
+    testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+      return this.apiClient.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, null
+      );
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @return {Promise} a {@link https://www.promisejs.org/|Promise}
+     */
+    testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest) {
+      return this.testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

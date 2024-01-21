@@ -73,14 +73,13 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void testPreprocessOpenAPI() throws Exception {
+    public void testPreprocessOpenApiIncludeAllMediaTypesInAcceptHeader() throws Exception {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json");
+        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json,application/xml");
     }
 
     @Test
@@ -332,6 +331,7 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toEnumValue("42", "Double"), "42");
         Assert.assertEquals(codegen.toEnumValue("1337", "Long"), "1337l");
         Assert.assertEquals(codegen.toEnumValue("3.14", "Float"), "3.14f");
+        Assert.assertEquals(codegen.toEnumValue("schema.json", "URI"), "URI.create(\"schema.json\")");
     }
 
     @Test

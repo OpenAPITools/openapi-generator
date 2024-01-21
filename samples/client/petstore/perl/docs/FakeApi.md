@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 [**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 [**fake_property_enum_integer_serialize**](FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+[**test_additional_properties_reference**](FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 [**test_body_with_binary**](FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -25,7 +26,9 @@ Method | HTTP request | Description
 [**test_enum_parameters**](FakeApi.md#test_enum_parameters) | **GET** /fake | To test enum parameters
 [**test_group_parameters**](FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**test_inline_additional_properties**](FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+[**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+[**test_nullable**](FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 
 
@@ -387,6 +390,51 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: */*
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_additional_properties_reference**
+> test_additional_properties_reference(request_body => $request_body)
+
+test referenced additionalProperties
+
+
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $request_body = WWW::OpenAPIClient::Object::HASH[string,object]->new(); # HASH[string,object] | request body
+
+eval {
+    $api_instance->test_additional_properties_reference(request_body => $request_body);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_additional_properties_reference: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **request_body** | [**HASH[string,object]**](object.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -812,6 +860,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **test_inline_freeform_additional_properties**
+> test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request => $test_inline_freeform_additional_properties_request)
+
+test inline free-form additionalProperties
+
+
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $test_inline_freeform_additional_properties_request = WWW::OpenAPIClient::Object::TestInlineFreeformAdditionalPropertiesRequest->new(); # TestInlineFreeformAdditionalPropertiesRequest | request body
+
+eval {
+    $api_instance->test_inline_freeform_additional_properties(test_inline_freeform_additional_properties_request => $test_inline_freeform_additional_properties_request);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_inline_freeform_additional_properties: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **test_inline_freeform_additional_properties_request** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_json_form_data**
 > test_json_form_data(param => $param, param2 => $param2)
 
@@ -855,6 +948,51 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **test_nullable**
+> test_nullable(child_with_nullable => $child_with_nullable)
+
+test nullable parent property
+
+
+
+### Example
+```perl
+use Data::Dumper;
+use WWW::OpenAPIClient::FakeApi;
+my $api_instance = WWW::OpenAPIClient::FakeApi->new(
+);
+
+my $child_with_nullable = WWW::OpenAPIClient::Object::ChildWithNullable->new(); # ChildWithNullable | request body
+
+eval {
+    $api_instance->test_nullable(child_with_nullable => $child_with_nullable);
+};
+if ($@) {
+    warn "Exception when calling FakeApi->test_nullable: $@\n";
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **child_with_nullable** | [**ChildWithNullable**](ChildWithNullable.md)| request body | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

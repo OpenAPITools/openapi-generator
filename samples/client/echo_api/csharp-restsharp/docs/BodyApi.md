@@ -7,6 +7,8 @@ All URIs are relative to *http://localhost:3000*
 | [**TestBinaryGif**](BodyApi.md#testbinarygif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**TestBodyApplicationOctetstreamBinary**](BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s) |
 | [**TestBodyMultipartFormdataArrayOfBinary**](BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime |
+| [**TestBodyMultipartFormdataSingleBinary**](BodyApi.md#testbodymultipartformdatasinglebinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime |
+| [**TestEchoBodyAllOfPet**](BodyApi.md#testechobodyallofpet) | **POST** /echo/body/allOf/Pet | Test body parameter(s) |
 | [**TestEchoBodyFreeFormObjectResponseString**](BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**TestEchoBodyPet**](BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**TestEchoBodyPetResponseString**](BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body |
@@ -271,6 +273,188 @@ No authorization required
 
  - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testbodymultipartformdatasinglebinary"></a>
+# **TestBodyMultipartFormdataSingleBinary**
+> string TestBodyMultipartFormdataSingleBinary (System.IO.Stream? myFile = null)
+
+Test single binary in multipart mime
+
+Test single binary in multipart mime
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestBodyMultipartFormdataSingleBinaryExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new BodyApi(config);
+            var myFile = new System.IO.MemoryStream(System.IO.File.ReadAllBytes("/path/to/file.txt"));  // System.IO.Stream? |  (optional) 
+
+            try
+            {
+                // Test single binary in multipart mime
+                string result = apiInstance.TestBodyMultipartFormdataSingleBinary(myFile);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling BodyApi.TestBodyMultipartFormdataSingleBinary: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestBodyMultipartFormdataSingleBinaryWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test single binary in multipart mime
+    ApiResponse<string> response = apiInstance.TestBodyMultipartFormdataSingleBinaryWithHttpInfo(myFile);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling BodyApi.TestBodyMultipartFormdataSingleBinaryWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **myFile** | **System.IO.Stream?****System.IO.Stream?** |  | [optional]  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testechobodyallofpet"></a>
+# **TestEchoBodyAllOfPet**
+> Pet TestEchoBodyAllOfPet (Pet? pet = null)
+
+Test body parameter(s)
+
+Test body parameter(s)
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestEchoBodyAllOfPetExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new BodyApi(config);
+            var pet = new Pet?(); // Pet? | Pet object that needs to be added to the store (optional) 
+
+            try
+            {
+                // Test body parameter(s)
+                Pet result = apiInstance.TestEchoBodyAllOfPet(pet);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling BodyApi.TestEchoBodyAllOfPet: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestEchoBodyAllOfPetWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test body parameter(s)
+    ApiResponse<Pet> response = apiInstance.TestEchoBodyAllOfPetWithHttpInfo(pet);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling BodyApi.TestEchoBodyAllOfPetWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **pet** | [**Pet?**](Pet?.md) | Pet object that needs to be added to the store | [optional]  |
+
+### Return type
+
+[**Pet**](Pet.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
 
 
 ### HTTP response details

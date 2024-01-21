@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -68,7 +67,6 @@ public class PropertyNameCollision {
   }
 
   public PropertyNameCollision underscoreType(String underscoreType) {
-    
     this.underscoreType = underscoreType;
     return this;
   }
@@ -82,14 +80,12 @@ public class PropertyNameCollision {
     return underscoreType;
   }
 
-
   public void setUnderscoreType(String underscoreType) {
     this.underscoreType = underscoreType;
   }
 
 
   public PropertyNameCollision type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -103,14 +99,12 @@ public class PropertyNameCollision {
     return type;
   }
 
-
   public void setType(String type) {
     this.type = type;
   }
 
 
   public PropertyNameCollision typeWithUnderscore(String typeWithUnderscore) {
-    
     this.typeWithUnderscore = typeWithUnderscore;
     return this;
   }
@@ -123,7 +117,6 @@ public class PropertyNameCollision {
   public String getTypeWithUnderscore() {
     return typeWithUnderscore;
   }
-
 
   public void setTypeWithUnderscore(String typeWithUnderscore) {
     this.typeWithUnderscore = typeWithUnderscore;

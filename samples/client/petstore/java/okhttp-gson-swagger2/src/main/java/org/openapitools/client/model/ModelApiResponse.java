@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -70,7 +69,6 @@ public class ModelApiResponse {
   }
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
@@ -85,14 +83,12 @@ public class ModelApiResponse {
     return code;
   }
 
-
   public void setCode(Integer code) {
     this.code = code;
   }
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -107,14 +103,12 @@ public class ModelApiResponse {
     return type;
   }
 
-
   public void setType(String type) {
     this.type = type;
   }
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
@@ -128,7 +122,6 @@ public class ModelApiResponse {
   public String getMessage() {
     return message;
   }
-
 
   public void setMessage(String message) {
     this.message = message;

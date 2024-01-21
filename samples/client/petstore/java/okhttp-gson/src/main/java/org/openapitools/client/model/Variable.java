@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import org.openapitools.client.model.Value;
 
 import com.google.gson.Gson;
@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -65,7 +64,6 @@ public class Variable {
   }
 
   public Variable name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -79,14 +77,12 @@ public class Variable {
     return name;
   }
 
-
   public void setName(String name) {
     this.name = name;
   }
 
 
   public Variable value(Value value) {
-    
     this.value = value;
     return this;
   }
@@ -99,7 +95,6 @@ public class Variable {
   public Value getValue() {
     return value;
   }
-
 
   public void setValue(Value value) {
     this.value = value;

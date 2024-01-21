@@ -512,49 +512,11 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        super.postProcessParameter(parameter);
         postProcessEmitDefaultValue(parameter.vendorExtensions);
 
         if (!parameter.dataType.endsWith("?") && !parameter.required && (nullReferenceTypesFlag || this.getNullableTypes().contains(parameter.dataType))) {
             parameter.dataType = parameter.dataType + "?";
-        }
-        
-        super.postProcessParameter(parameter);
-    }
-
-    /*
-     * The pattern spec follows the Perl convention and style of modifiers. .NET
-     * does not support this syntax directly so we need to convert the pattern to a .NET compatible
-     * format and apply modifiers in a compatible way.
-     * See https://msdn.microsoft.com/en-us/library/yd1hzczs(v=vs.110).aspx for .NET options.
-     */
-    public void postProcessPattern(String pattern, Map<String, Object> vendorExtensions) {
-        if (pattern != null) {
-            int i = pattern.lastIndexOf('/');
-
-            //Must follow Perl /pattern/modifiers convention
-            if (pattern.charAt(0) != '/' || i < 2) {
-                throw new IllegalArgumentException("Pattern must follow the Perl "
-                        + "/pattern/modifiers convention. " + pattern + " is not valid.");
-            }
-
-            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
-            List<String> modifiers = new ArrayList<String>();
-
-            // perl requires an explicit modifier to be culture specific and .NET is the reverse.
-            modifiers.add("CultureInvariant");
-
-            for (char c : pattern.substring(i).toCharArray()) {
-                if (regexModifiers.containsKey(c)) {
-                    String modifier = regexModifiers.get(c);
-                    modifiers.add(modifier);
-                } else if (c == 'l') {
-                    modifiers.remove("CultureInvariant");
-                }
-            }
-
-            vendorExtensions.put("x-regex", regex);
-            vendorExtensions.put("x-modifiers", modifiers);
         }
     }
 
@@ -1180,7 +1142,7 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
