@@ -1,10 +1,8 @@
 # OAS document that tests for a regression when using optional fields with additionalProperties
-openapi: 3.0.1
+openapi: 3.1.0
 info:
   title: double-option-hashmap
   version: 0.1.0
-  license:
-    name: MIT
 servers:
   - url: http://api.example.xyz/v1
 paths:
