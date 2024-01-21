@@ -178,10 +178,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
-        Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// test referenced additionalProperties
@@ -189,10 +189,10 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// 
         /// </remarks>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>?&gt;</returns>
-        Task<ITestAdditionalPropertiesReferenceApiResponse?> TestAdditionalPropertiesReferenceOrDefaultAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default);
+        Task<ITestAdditionalPropertiesReferenceApiResponse?> TestAdditionalPropertiesReferenceOrDefaultAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 
@@ -2430,28 +2430,28 @@ namespace Org.OpenAPITools.Api
             partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
         }
 
-        partial void FormatTestAdditionalPropertiesReference(FreeFormObject freeFormObject);
+        partial void FormatTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// Validates the request parameters
         /// </summary>
-        /// <param name="freeFormObject"></param>
+        /// <param name="requestBody"></param>
         /// <returns></returns>
-        private void ValidateTestAdditionalPropertiesReference(FreeFormObject freeFormObject)
+        private void ValidateTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody)
         {
-            if (freeFormObject == null)
-                throw new ArgumentNullException(nameof(freeFormObject));
+            if (requestBody == null)
+                throw new ArgumentNullException(nameof(requestBody));
         }
 
         /// <summary>
         /// Processes the server response
         /// </summary>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="freeFormObject"></param>
-        private void AfterTestAdditionalPropertiesReferenceDefaultImplementation(ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, FreeFormObject freeFormObject)
+        /// <param name="requestBody"></param>
+        private void AfterTestAdditionalPropertiesReferenceDefaultImplementation(ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody)
         {
             bool suppressDefaultLog = false;
-            AfterTestAdditionalPropertiesReference(ref suppressDefaultLog, apiResponseLocalVar, freeFormObject);
+            AfterTestAdditionalPropertiesReference(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
             if (!suppressDefaultLog)
                 Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
         }
@@ -2461,8 +2461,8 @@ namespace Org.OpenAPITools.Api
         /// </summary>
         /// <param name="suppressDefaultLog"></param>
         /// <param name="apiResponseLocalVar"></param>
-        /// <param name="freeFormObject"></param>
-        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, FreeFormObject freeFormObject);
+        /// <param name="requestBody"></param>
+        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// Logs exceptions that occur while retrieving the server response
@@ -2470,11 +2470,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="freeFormObject"></param>
-        private void OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(Exception exception, string pathFormat, string path, FreeFormObject freeFormObject)
+        /// <param name="requestBody"></param>
+        private void OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody)
         {
             bool suppressDefaultLog = false;
-            OnErrorTestAdditionalPropertiesReference(ref suppressDefaultLog, exception, pathFormat, path, freeFormObject);
+            OnErrorTestAdditionalPropertiesReference(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
             if (!suppressDefaultLog)
                 Logger.LogError(exception, "An error occurred while sending the request to the server.");
         }
@@ -2486,20 +2486,20 @@ namespace Org.OpenAPITools.Api
         /// <param name="exception"></param>
         /// <param name="pathFormat"></param>
         /// <param name="path"></param>
-        /// <param name="freeFormObject"></param>
-        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, FreeFormObject freeFormObject);
+        /// <param name="requestBody"></param>
+        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// test referenced additionalProperties 
         /// </summary>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
-        public async Task<ITestAdditionalPropertiesReferenceApiResponse?> TestAdditionalPropertiesReferenceOrDefaultAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestAdditionalPropertiesReferenceApiResponse?> TestAdditionalPropertiesReferenceOrDefaultAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             try
             {
-                return await TestAdditionalPropertiesReferenceAsync(freeFormObject, cancellationToken).ConfigureAwait(false);
+                return await TestAdditionalPropertiesReferenceAsync(requestBody, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -2511,18 +2511,18 @@ namespace Org.OpenAPITools.Api
         /// test referenced additionalProperties 
         /// </summary>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
-        public async Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default)
+        public async Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default)
         {
             UriBuilder uriBuilderLocalVar = new UriBuilder();
 
             try
             {
-                ValidateTestAdditionalPropertiesReference(freeFormObject);
+                ValidateTestAdditionalPropertiesReference(requestBody);
 
-                FormatTestAdditionalPropertiesReference(freeFormObject);
+                FormatTestAdditionalPropertiesReference(requestBody);
 
                 using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
                 {
@@ -2531,9 +2531,9 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/additionalProperties-reference";
 
-                    httpRequestMessageLocalVar.Content = (freeFormObject as object) is System.IO.Stream stream
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
                         ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
-                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(freeFormObject, _jsonSerializerOptions));
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
 
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
@@ -2558,7 +2558,7 @@ namespace Org.OpenAPITools.Api
 
                         TestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar = new(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/additionalProperties-reference", requestedAtLocalVar, _jsonSerializerOptions);
 
-                        AfterTestAdditionalPropertiesReferenceDefaultImplementation(apiResponseLocalVar, freeFormObject);
+                        AfterTestAdditionalPropertiesReferenceDefaultImplementation(apiResponseLocalVar, requestBody);
 
                         Events.ExecuteOnTestAdditionalPropertiesReference(apiResponseLocalVar);
 
@@ -2568,7 +2568,7 @@ namespace Org.OpenAPITools.Api
             }
             catch(Exception e)
             {
-                OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(e, "/fake/additionalProperties-reference", uriBuilderLocalVar.Path, freeFormObject);
+                OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(e, "/fake/additionalProperties-reference", uriBuilderLocalVar.Path, requestBody);
                 Events.ExecuteOnErrorTestAdditionalPropertiesReference(e);
                 throw;
             }

@@ -550,7 +550,7 @@ No authorization required
 
 <a id="testadditionalpropertiesreference"></a>
 # **TestAdditionalPropertiesReference**
-> void TestAdditionalPropertiesReference (FreeFormObject freeFormObject)
+> void TestAdditionalPropertiesReference (Dictionary<string, Object> requestBody)
 
 test referenced additionalProperties
 
@@ -571,12 +571,12 @@ namespace Example
             Configuration config = new Configuration();
             config.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new FakeApi(config);
-            var freeFormObject = new FreeFormObject(); // FreeFormObject | request body
+            var requestBody = new Dictionary<string, Object>(); // Dictionary<string, Object> | request body
 
             try
             {
                 // test referenced additionalProperties
-                apiInstance.TestAdditionalPropertiesReference(freeFormObject);
+                apiInstance.TestAdditionalPropertiesReference(requestBody);
             }
             catch (ApiException  e)
             {
@@ -596,7 +596,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // test referenced additionalProperties
-    apiInstance.TestAdditionalPropertiesReferenceWithHttpInfo(freeFormObject);
+    apiInstance.TestAdditionalPropertiesReferenceWithHttpInfo(requestBody);
 }
 catch (ApiException e)
 {
@@ -610,7 +610,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **freeFormObject** | [**FreeFormObject**](FreeFormObject.md) | request body |  |
+| **requestBody** | [**Dictionary&lt;string, Object&gt;**](Object.md) | request body |  |
 
 ### Return type
 

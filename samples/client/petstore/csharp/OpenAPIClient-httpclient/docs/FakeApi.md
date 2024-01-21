@@ -574,7 +574,7 @@ No authorization required
 
 <a id="testadditionalpropertiesreference"></a>
 # **TestAdditionalPropertiesReference**
-> void TestAdditionalPropertiesReference (FreeFormObject freeFormObject)
+> void TestAdditionalPropertiesReference (Dictionary<string, Object> requestBody)
 
 test referenced additionalProperties
 
@@ -599,12 +599,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             HttpClientHandler httpClientHandler = new HttpClientHandler();
             var apiInstance = new FakeApi(httpClient, config, httpClientHandler);
-            var freeFormObject = new FreeFormObject(); // FreeFormObject | request body
+            var requestBody = new Dictionary<string, Object>(); // Dictionary<string, Object> | request body
 
             try
             {
                 // test referenced additionalProperties
-                apiInstance.TestAdditionalPropertiesReference(freeFormObject);
+                apiInstance.TestAdditionalPropertiesReference(requestBody);
             }
             catch (ApiException  e)
             {
@@ -624,7 +624,7 @@ This returns an ApiResponse object which contains the response data, status code
 try
 {
     // test referenced additionalProperties
-    apiInstance.TestAdditionalPropertiesReferenceWithHttpInfo(freeFormObject);
+    apiInstance.TestAdditionalPropertiesReferenceWithHttpInfo(requestBody);
 }
 catch (ApiException e)
 {
@@ -638,7 +638,7 @@ catch (ApiException e)
 
 | Name | Type | Description | Notes |
 |------|------|-------------|-------|
-| **freeFormObject** | [**FreeFormObject**](FreeFormObject.md) | request body |  |
+| **requestBody** | [**Dictionary&lt;string, Object&gt;**](Object.md) | request body |  |
 
 ### Return type
 

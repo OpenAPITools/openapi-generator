@@ -1,4 +1,4 @@
-name: Samples C# .Net Standard
+name: Samples C# .Net Standard Client
 
 on:
   push:

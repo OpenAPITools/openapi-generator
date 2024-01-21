@@ -148,9 +148,9 @@ namespace Org.OpenAPITools.Api
         /// test referenced additionalProperties
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <returns></returns>
-        void TestAdditionalPropertiesReference(FreeFormObject freeFormObject);
+        void TestAdditionalPropertiesReference(Dictionary<string, Object> requestBody);
 
         /// <summary>
         /// test referenced additionalProperties
@@ -159,9 +159,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(FreeFormObject freeFormObject);
+        ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(Dictionary<string, Object> requestBody);
         /// <summary>
         /// 
         /// </summary>
@@ -582,10 +582,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// test referenced additionalProperties
@@ -594,10 +594,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// 
         /// </summary>
@@ -1756,24 +1756,24 @@ namespace Org.OpenAPITools.Api
         /// test referenced additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <returns></returns>
-        public void TestAdditionalPropertiesReference(FreeFormObject freeFormObject)
+        public void TestAdditionalPropertiesReference(Dictionary<string, Object> requestBody)
         {
-            TestAdditionalPropertiesReferenceWithHttpInfo(freeFormObject);
+            TestAdditionalPropertiesReferenceWithHttpInfo(requestBody);
         }
 
         /// <summary>
         /// test referenced additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(FreeFormObject freeFormObject)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(Dictionary<string, Object> requestBody)
         {
-            // verify the required parameter 'freeFormObject' is set
-            if (freeFormObject == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'freeFormObject' when calling FakeApi->TestAdditionalPropertiesReference");
+            // verify the required parameter 'requestBody' is set
+            if (requestBody == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1791,7 +1791,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = freeFormObject;
+            localVarRequestOptions.Data = requestBody;
 
 
             // make the HTTP request
@@ -1810,12 +1810,12 @@ namespace Org.OpenAPITools.Api
         /// test referenced additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            var task = TestAdditionalPropertiesReferenceWithHttpInfoAsync(freeFormObject, cancellationToken);
+            var task = TestAdditionalPropertiesReferenceWithHttpInfoAsync(requestBody, cancellationToken);
 #if UNITY_EDITOR || !UNITY_WEBGL
             await task.ConfigureAwait(false);
 #else
@@ -1827,14 +1827,14 @@ namespace Org.OpenAPITools.Api
         /// test referenced additionalProperties 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="freeFormObject">request body</param>
+        /// <param name="requestBody">request body</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(FreeFormObject freeFormObject, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'freeFormObject' is set
-            if (freeFormObject == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'freeFormObject' when calling FakeApi->TestAdditionalPropertiesReference");
+            // verify the required parameter 'requestBody' is set
+            if (requestBody == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1854,7 +1854,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = freeFormObject;
+            localVarRequestOptions.Data = requestBody;
 
 
             // make the HTTP request
