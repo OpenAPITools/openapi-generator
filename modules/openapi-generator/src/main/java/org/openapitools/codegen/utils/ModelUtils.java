@@ -805,11 +805,7 @@ public class ModelUtils {
         }
 
         if (schema instanceof JsonSchema) { // 3.1 spec
-            if (isComposedSchema(schema)) { // composed schema
-                return false;
-            }
-
-            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+            if (isComposedSchema(schema)) { // composed schema, e.g. allOf, oneOf, anyOf
                 return false;
             }
 
