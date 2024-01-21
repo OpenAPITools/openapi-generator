@@ -2938,4 +2938,32 @@ public class JavaClientCodegenTest {
         assertNotNull(apiFile);
         JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
     }
+
+    @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
+        TestUtils.assertFileContains(petApi, "if (filter != null) {");
+    }
 }

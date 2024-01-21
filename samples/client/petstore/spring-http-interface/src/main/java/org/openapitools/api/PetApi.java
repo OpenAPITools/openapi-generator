@@ -73,7 +73,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByStatus",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     ResponseEntity<List<PetDto>> findPetsByStatus(
          @RequestParam(value = "status", required = true) List<String> status
@@ -93,7 +93,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByTags",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     ResponseEntity<Set<PetDto>> findPetsByTags(
          @RequestParam(value = "tags", required = true) Set<String> tags
@@ -112,7 +112,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/{petId}",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     ResponseEntity<PetDto> getPetById(
          @PathVariable("petId") Long petId

@@ -64,6 +64,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [<img src="https://openapi-generator.tech/img/companies/dmtech.jpeg" width="128" height="128">](https://www.dm-jobs.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/adyen.png" width="128" height="128">](https://adyen.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/fornex.png" width="128" height="128">](https://fornex.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
+[<img src="https://openapi-generator.tech/img/companies/alloyautomation.png" width="128" height="128">](https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS, Checkly for sponsoring the API monitoring and Gradle for sponsoring Develocity
 
@@ -617,6 +618,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [California State University, Northridge](https://www.csun.edu)
 - [CAM](https://www.cam-inc.co.jp/)
 - [Camptocamp](https://www.camptocamp.com/en)
+- [Carlsberg Group](https://www.carlsberggroup.com/)
 - [Christopher Queen Consulting](https://www.christopherqueenconsulting.com/)
 - [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)
@@ -919,6 +921,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2023-05-18 - [如何基于 Swagger 使用 OpenAPI Generator 生成 JMeter 脚本？](https://blog.51cto.com/u_15181572/6294974) by [高楼（Zee)](https://blog.51cto.com/u_15181572)
 - 2023-06-28 - [Generate API contract using OpenAPI Generator Maven plugin](https://huongdanjava.com/generate-api-contract-using-openapi-generator-maven-plugin.html) by [Khanh Nguyen](https://huongdanjava.com/)
 - 2023-06-30 - [Generate Client SDKs with OpenApi Generator in Springboot](https://medium.com/@ramavathvinayak/generate-client-sdks-with-openapi-generator-in-springboot-f9f012e73c0b) by [Vinayak Ramavath](https://medium.com/@ramavathvinayak)
+- 2023-12-10 - [UnityでOpenAPI Generatorを使う](https://www.youtube.com/watch?v=CbNwKVV5LRM) by [Soup Tori](https://www.youtube.com/@souptori8417)
 
 ## [6 - About Us](#table-of-contents)
 

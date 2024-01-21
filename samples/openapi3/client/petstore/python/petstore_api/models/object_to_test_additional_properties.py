@@ -17,14 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel, StrictBool
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ObjectToTestAdditionalProperties(BaseModel):
     """
@@ -51,7 +47,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ObjectToTestAdditionalProperties from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,11 +62,13 @@ class ObjectToTestAdditionalProperties(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -81,7 +79,7 @@ class ObjectToTestAdditionalProperties(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ObjectToTestAdditionalProperties from a dict"""
         if obj is None:
             return None

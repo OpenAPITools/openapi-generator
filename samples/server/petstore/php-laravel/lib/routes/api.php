@@ -71,6 +71,13 @@ Route::delete('/v2/fake', 'FakeController@testGroupParameters');
  */
 Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/additionalProperties-reference', 'FakeController@testAdditionalPropertiesReference');
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.

@@ -172,7 +172,11 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	usernameParam := chi.URLParam(r, "username")
 	if usernameParam == "" {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
@@ -221,7 +225,11 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
+	query, err := parseQuery(r.URL.RawQuery)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
 	var usernameParam string
 	if query.Has("username") {
 		param := query.Get("username")

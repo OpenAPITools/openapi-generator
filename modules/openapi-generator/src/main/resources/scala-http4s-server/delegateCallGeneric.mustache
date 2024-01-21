@@ -1,0 +1,6 @@
+{{^authName}}
+delegate.{{operationId}}.handle(req, {{#pathParams}}{{baseName}}, {{/pathParams}}{{#queryParams}}{{baseName}}, {{/queryParams}}responses)
+{{/authName}}
+{{#authName}}
+delegate.{{operationId}}.handle_{{authName}}(auth, req, {{#pathParams}}{{baseName}}, {{/pathParams}}{{#queryParams}}{{baseName}}, {{/queryParams}}responses)
+{{/authName}}

@@ -77,7 +77,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByStatus",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByStatus(
          @RequestParam(value = "status", required = true) List<String> status
@@ -97,7 +97,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByTags",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     Mono<ResponseEntity<Flux<Pet>>> findPetsByTags(
          @RequestParam(value = "tags", required = true) Set<String> tags
@@ -116,7 +116,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/{petId}",
-        accept = "application/json"
+        accept = "application/json,application/xml"
     )
     Mono<ResponseEntity<Pet>> getPetById(
          @PathVariable("petId") Long petId

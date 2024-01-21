@@ -71,7 +71,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "null";
+                    String exampleString = "{ \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }";
                     ApiUtil.setExampleResponse(request, "application/json", exampleString);
                     break;
                 }
@@ -109,7 +109,7 @@ public interface FooApi {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("application/json;charset=utf-8"))) {
-                    String exampleString = "[ null, null ]";
+                    String exampleString = "[ { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" }, { \"fooPropA\" : \"fooPropA\", \"fooPropB\" : \"fooPropB\" } ]";
                     ApiUtil.setExampleResponse(request, "application/json;charset=utf-8", exampleString);
                     break;
                 }

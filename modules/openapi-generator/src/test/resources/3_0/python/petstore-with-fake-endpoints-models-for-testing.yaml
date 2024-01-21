@@ -983,6 +983,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1906,6 +1923,12 @@ components:
             type: string
           minItems: 0
           maxItems: 3
+        array_of_nullable_float:
+          type: array
+          items:
+            type: number
+            format: float
+            nullable: true
         array_array_of_integer:
           type: array
           items:
@@ -1955,6 +1978,10 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     OuterEnum:
       nullable: true
       type: string

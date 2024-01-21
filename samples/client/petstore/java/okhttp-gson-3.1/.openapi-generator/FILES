@@ -6,6 +6,7 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/Animal.md
+docs/AnyOfArray.md
 docs/AnyTypeTest.md
 docs/Cat.md
 docs/Category.md
@@ -57,6 +58,7 @@ src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/Animal.java
+src/main/java/org/openapitools/client/model/AnyOfArray.java
 src/main/java/org/openapitools/client/model/AnyTypeTest.java
 src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Category.java

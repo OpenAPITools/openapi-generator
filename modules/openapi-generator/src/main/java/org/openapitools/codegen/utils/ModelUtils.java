@@ -35,6 +35,7 @@ import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -829,6 +830,19 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static boolean shouldGenerateFreeFormObjectModel(String name, CodegenConfig config) {
+        // there are 3 free form use cases
+        // 1. free form with no validation that is not allOf included in any composed schemas
+        // 2. free form with validation
+        // 3. free form that is allOf included in any composed schemas
+        //      this use case arises when using interface schemas
+        // generators may choose to make models for use case 2 + 3
+        Schema refSchema = new Schema();
+        refSchema.set$ref("#/components/schemas/" + name);
+        Schema unaliasedSchema = config.unaliasSchema(refSchema);
+        return unaliasedSchema.get$ref() != null;
     }
 
     /**
