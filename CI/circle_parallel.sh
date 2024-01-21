@@ -16,6 +16,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   sudo apt-get -y install cpanminus
 
   (cd samples/client/petstore/perl && /bin/bash ./test.bash)
+  (cd samples/client/petstore/perl-moo && /bin/bash ./test.bash)
   (cd samples/client/petstore/ruby && mvn integration-test)
   (cd samples/client/petstore/ruby-faraday && mvn integration-test)
   (cd samples/client/petstore/ruby-httpx && mvn integration-test)

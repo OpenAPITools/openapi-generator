@@ -1,11 +1,20 @@
 requires 'Class::Accessor';
-requires 'Test::Exception';
-requires 'Test::More';
-requires 'Log::Any';
-requires 'LWP::UserAgent';
-requires 'URI::Query';
-requires 'Module::Runtime';
 requires 'DateTime';
-requires 'Module::Find';
-requires 'Moose::Role';
 requires 'JSON', '>= 2.00, < 2.80';
+requires 'LWP::UserAgent';
+requires 'Log::Any';
+requires 'Module::Find';
+requires 'Module::Runtime';
+{{#useMoo}}
+requires 'Moo::Role';
+requires 'Type::Tiny';
+{{/useMoo}}
+{{^useMoo}}
+requires 'Moose::Role';
+{{/useMoo}}
+requires 'URI::Query';
+
+on 'test' => sub {
+  requires 'Test::Exception';
+  requires 'Test::More';
+};
