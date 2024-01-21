@@ -18,6 +18,8 @@ using Xunit;
 
 using Org.OpenAPITools.Client;
 using Org.OpenAPITools.Api;
+// uncomment below to import models
+//using Org.OpenAPITools.Model;
 
 namespace Org.OpenAPITools.Test.Api
 {
@@ -63,7 +65,8 @@ namespace Org.OpenAPITools.Test.Api
             //string type = null;
             //string TypeWithUnderscore = null;
             //string httpDebugOption = null;
-            //instance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+            //var response = instance.GetParameterNameMapping(UnderscoreType, type, TypeWithUnderscore, httpDebugOption);
+            //Assert.IsType<Env>(response);
         }
     }
 }

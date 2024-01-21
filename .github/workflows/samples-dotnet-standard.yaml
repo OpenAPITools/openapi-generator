@@ -3,10 +3,22 @@ name: Samples C# .Net Standard
 on:
   push:
     paths:
-      - 'samples/client/petstore/csharp/**netstandard**/'
+      # build C# API client (netstandard)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/*netstandard*/**
+      # build C# API client (netstandard with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (netstandard httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
   pull_request:
     paths:
-      - 'samples/client/petstore/csharp/**netstandard**/'
+      # build C# API client (netstandard)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/*netstandard*/**
+      # build C# API client (netstandard with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (netstandard httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
 jobs:
   build:
     name: Build .Net projects
@@ -15,8 +27,13 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          # clients
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0
+          # build C# API client (netstandard)
+          - samples/client/petstore/csharp/OpenAPIClient/**
+          - samples/client/petstore/csharp/*netstandard*/**
+          # build C# API client (netstandard with ConditionalSerialization)
+          - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+          # build C# API client (netstandard httpclient)
+          - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
