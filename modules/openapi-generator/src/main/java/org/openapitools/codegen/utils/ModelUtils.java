@@ -809,6 +809,10 @@ public class ModelUtils {
                 return false;
             }
 
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+                return false;
+            }
+
             if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
                 return true;
             } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
