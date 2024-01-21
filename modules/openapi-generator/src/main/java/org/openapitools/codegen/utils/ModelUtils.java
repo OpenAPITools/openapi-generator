@@ -805,9 +805,30 @@ public class ModelUtils {
         }
 
         if (schema instanceof JsonSchema) { // 3.1 spec
-            return ((schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
+            if (isComposedSchema(schema)) { // composed schema
+                return false;
+            }
+
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+                return false;
+            }
+
+            if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
+                return true;
+            } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
+                return true;
+            } else if (schema.getTypes() != null) {
+                if (schema.getTypes().size() == 1) { // types = [object]
+                    return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
+                } else { // has more than 1 type, e.g. types = [integer, string]
+                    return false;
+                }
+            }
+
+            return false;
         }
 
+        // 3.0.x spec or 2.x spec
         // not free-form if allOf, anyOf, oneOf is not empty
         if (isComposedSchema(schema)) {
             List<Schema> interfaces = ModelUtils.getInterfaces(schema);
