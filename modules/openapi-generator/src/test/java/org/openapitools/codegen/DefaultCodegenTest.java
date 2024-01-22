@@ -75,6 +75,16 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOptionalResponseImports() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/optionalResponse.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/api/Users/{userId}");
+        CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
+        Assert.assertEquals(operation.isResponseOptional, true);
+    }
+
+    @Test
     public void testEnumImports() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12445.yaml");

@@ -1316,6 +1316,23 @@ paths:
       tags:
       - values
       x-accepts: application/json
+  /internal/only:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: internal only
+      tags:
+      - values
+      x-internal: true
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -2494,6 +2511,13 @@ components:
         type_:
           type: string
       type: object
+      x-internal: false
+    InteralOnly:
+      properties:
+        type:
+          type: string
+      type: object
+      x-internal: true
     AllOfModelArrayAnyOf:
       allOf:
       - $ref: '#/components/schemas/Category'

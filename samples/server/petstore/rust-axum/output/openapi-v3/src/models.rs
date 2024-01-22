@@ -489,7 +489,7 @@ impl std::str::FromStr for AnyOfGet202Response {
 
 impl PartialEq for AnyOfGet202Response {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 
@@ -519,7 +519,7 @@ impl std::str::FromStr for AnyOfObject {
 
 impl PartialEq for AnyOfObject {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 
@@ -990,7 +990,7 @@ impl std::str::FromStr for Model12345AnyOfObject {
 
 impl PartialEq for Model12345AnyOfObject {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 
@@ -2293,7 +2293,7 @@ impl std::str::FromStr for OneOfGet200Response {
 
 impl PartialEq for OneOfGet200Response {
     fn eq(&self, other: &Self) -> bool {
-        self.0.get().eq(other.0.get())
+        self.0.get() == other.0.get()
     }
 }
 
