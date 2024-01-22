@@ -27,19 +27,6 @@
                 <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <id>cpan install</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>cpanm</executable>
-                            <arguments>
-                                <argument>--installdeps .</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>Test::More for Pet</id>
                         <phase>integration-test</phase>
                         <goals>
