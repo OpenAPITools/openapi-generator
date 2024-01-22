@@ -243,6 +243,7 @@ use WWW::OpenAPIClient::UserApi;
 To load the models:
 ```perl
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::Adult;
 use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
@@ -252,6 +253,7 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::Child;
 use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
@@ -268,6 +270,7 @@ use WWW::OpenAPIClient::Object::FooGetDefaultResponse;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
+use WWW::OpenAPIClient::Object::Human;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -285,6 +288,7 @@ use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::ParentWithNullable;
+use WWW::OpenAPIClient::Object::Person;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
@@ -313,6 +317,7 @@ use WWW::OpenAPIClient::UserApi;
 
 # load the models
 use WWW::OpenAPIClient::Object::AdditionalPropertiesClass;
+use WWW::OpenAPIClient::Object::Adult;
 use WWW::OpenAPIClient::Object::AllOfWithSingleRef;
 use WWW::OpenAPIClient::Object::Animal;
 use WWW::OpenAPIClient::Object::ApiResponse;
@@ -322,6 +327,7 @@ use WWW::OpenAPIClient::Object::ArrayTest;
 use WWW::OpenAPIClient::Object::Capitalization;
 use WWW::OpenAPIClient::Object::Cat;
 use WWW::OpenAPIClient::Object::Category;
+use WWW::OpenAPIClient::Object::Child;
 use WWW::OpenAPIClient::Object::ChildWithNullable;
 use WWW::OpenAPIClient::Object::ClassModel;
 use WWW::OpenAPIClient::Object::Client;
@@ -338,6 +344,7 @@ use WWW::OpenAPIClient::Object::FooGetDefaultResponse;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
+use WWW::OpenAPIClient::Object::Human;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
 use WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass;
@@ -355,6 +362,7 @@ use WWW::OpenAPIClient::Object::OuterEnumInteger;
 use WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue;
 use WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty;
 use WWW::OpenAPIClient::Object::ParentWithNullable;
+use WWW::OpenAPIClient::Object::Person;
 use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SingleRefType;
@@ -437,6 +445,7 @@ Class | Method | HTTP request | Description
 
 # DOCUMENTATION FOR MODELS
  - [WWW::OpenAPIClient::Object::AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [WWW::OpenAPIClient::Object::Adult](docs/Adult.md)
  - [WWW::OpenAPIClient::Object::AllOfWithSingleRef](docs/AllOfWithSingleRef.md)
  - [WWW::OpenAPIClient::Object::Animal](docs/Animal.md)
  - [WWW::OpenAPIClient::Object::ApiResponse](docs/ApiResponse.md)
@@ -446,6 +455,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::Capitalization](docs/Capitalization.md)
  - [WWW::OpenAPIClient::Object::Cat](docs/Cat.md)
  - [WWW::OpenAPIClient::Object::Category](docs/Category.md)
+ - [WWW::OpenAPIClient::Object::Child](docs/Child.md)
  - [WWW::OpenAPIClient::Object::ChildWithNullable](docs/ChildWithNullable.md)
  - [WWW::OpenAPIClient::Object::ClassModel](docs/ClassModel.md)
  - [WWW::OpenAPIClient::Object::Client](docs/Client.md)
@@ -462,6 +472,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [WWW::OpenAPIClient::Object::HealthCheckResult](docs/HealthCheckResult.md)
+ - [WWW::OpenAPIClient::Object::Human](docs/Human.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
  - [WWW::OpenAPIClient::Object::MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
@@ -479,6 +490,7 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [WWW::OpenAPIClient::Object::OuterObjectWithEnumProperty](docs/OuterObjectWithEnumProperty.md)
  - [WWW::OpenAPIClient::Object::ParentWithNullable](docs/ParentWithNullable.md)
+ - [WWW::OpenAPIClient::Object::Person](docs/Person.md)
  - [WWW::OpenAPIClient::Object::Pet](docs/Pet.md)
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SingleRefType](docs/SingleRefType.md)
