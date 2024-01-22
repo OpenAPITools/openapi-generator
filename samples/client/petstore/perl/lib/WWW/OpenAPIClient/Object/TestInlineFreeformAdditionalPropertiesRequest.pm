@@ -30,6 +30,7 @@ use Log::Any qw($log);
 use Date::Parse;
 use DateTime;
 
+use WWW::OpenAPIClient::Object::AnyType;
 
 use base ("Class::Accessor", "Class::Data::Inheritable");
 

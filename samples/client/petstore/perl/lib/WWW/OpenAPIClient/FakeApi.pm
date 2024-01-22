@@ -539,11 +539,11 @@ sub fake_property_enum_integer_serialize {
 #
 # test referenced additionalProperties
 #
-# @param HASH[string,object] $request_body request body (required)
+# @param HASH[string,AnyType] $request_body request body (required)
 {
     my $params = {
     'request_body' => {
-        data_type => 'HASH[string,object]',
+        data_type => 'HASH[string,AnyType]',
         description => 'request body',
         required => '1',
     },
