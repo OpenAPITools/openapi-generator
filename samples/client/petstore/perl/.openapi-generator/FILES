@@ -2,6 +2,7 @@
 .travis.yml
 README.md
 bin/autodoc
+cpanfile
 docs/AdditionalPropertiesClass.md
 docs/AllOfWithSingleRef.md
 docs/Animal.md
