@@ -4427,4 +4427,48 @@ public class SpringCodegenTest {
                 .hasParameter("race").toConstructor()
         ;
     }
+
+    @Test
+    public void testLombokAnnotations() throws IOException {
+        final Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor");
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertNoConstructor()
+                .assertNoMethod("toString")
+                .assertNoMethod("hashCode")
+                .assertNoMethod("equals")
+                .assertNoMethod("getId")
+                .assertNoMethod("setId")
+                .assertNoMethod("getName")
+                .assertNoMethod("setName")
+        ;
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.ToString");
+        output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .assertNoMethod("toString")
+                .assertMethod("hashCode")
+                .toFileAssert()
+                .assertMethod("equals")
+                .toFileAssert()
+                .assertMethod("getId")
+                .toFileAssert()
+                .assertMethod("setId")
+                .toFileAssert()
+                .assertMethod("getName")
+                .toFileAssert()
+                .assertMethod("setName")
+        ;
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter");
+        output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .assertMethod("toString")
+                .toFileAssert()
+                .assertMethod("hashCode")
+                .toFileAssert()
+                .assertMethod("equals")
+        ;
+    }
 }
