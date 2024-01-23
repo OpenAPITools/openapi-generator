@@ -215,7 +215,7 @@ inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHA
 		return Output;
 	}
 	typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator();
-	bool Index = 0;
+	int32 Index = 0;
 	while (Iter)
 	{
 		if (Index == 0)
