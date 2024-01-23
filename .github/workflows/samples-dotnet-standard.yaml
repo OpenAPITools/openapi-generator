@@ -28,12 +28,12 @@ jobs:
       matrix:
         sample:
           # build C# API client (netstandard)
-          - samples/client/petstore/csharp/OpenAPIClient/**
-          - samples/client/petstore/csharp/*netstandard*/**
+          - samples/client/petstore/csharp/OpenAPIClient/
+          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0/
           # build C# API client (netstandard with ConditionalSerialization)
-          - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+          - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/
           # build C# API client (netstandard httpclient)
-          - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
+          - samples/client/petstore/csharp/OpenAPIClient-httpclient/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
