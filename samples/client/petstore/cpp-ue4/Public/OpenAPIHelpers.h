@@ -206,6 +206,28 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 	return Output;
 }
 
+template <typename T>
+inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHAR* BaseName)
+{
+	FString Output;
+	if (Collection.Num() == 0)
+	{
+		return Output;
+	}
+	typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator();
+	bool Index = 0;
+	while (Iter)
+	{
+		if (Index == 0)
+		{
+			Output += FString::Format(TEXT("{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+			Index++;
+			continue;
+		}
+		Output += FString::Format(TEXT("&{0}={1}"), { FStringFormatArg(BaseName), ToUrlString(*Iter) });
+	}
+	return Output;
+}
 //////////////////////////////////////////////////////////////////////////
 
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
