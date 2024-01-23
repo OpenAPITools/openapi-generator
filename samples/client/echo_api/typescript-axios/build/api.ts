@@ -1928,6 +1928,76 @@ export const QueryApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * Test query parameter(s)
          * @summary Test query parameter(s)
+         * @param {Array<number>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleFormExplodeFalseArrayInteger: async (queryObject?: Array<number>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/query/style_form/explode_false/array_integer`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (queryObject) {
+                localVarQueryParameter['query_object'] = queryObject.join(COLLECTION_FORMATS.csv);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Array<string>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleFormExplodeFalseArrayString: async (queryObject?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/query/style_form/explode_false/array_string`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (queryObject) {
+                localVarQueryParameter['query_object'] = queryObject.join(COLLECTION_FORMATS.csv);
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
          * @param {TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter} [queryObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2119,6 +2189,32 @@ export const QueryApiFp = function(configuration?: Configuration) {
         /**
          * Test query parameter(s)
          * @summary Test query parameter(s)
+         * @param {Array<number>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testQueryStyleFormExplodeFalseArrayInteger(queryObject?: Array<number>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testQueryStyleFormExplodeFalseArrayInteger(queryObject, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QueryApi.testQueryStyleFormExplodeFalseArrayInteger']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Array<string>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testQueryStyleFormExplodeFalseArrayString(queryObject?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testQueryStyleFormExplodeFalseArrayString(queryObject, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['QueryApi.testQueryStyleFormExplodeFalseArrayString']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
          * @param {TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter} [queryObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2223,6 +2319,26 @@ export const QueryApiFactory = function (configuration?: Configuration, basePath
         /**
          * Test query parameter(s)
          * @summary Test query parameter(s)
+         * @param {Array<number>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleFormExplodeFalseArrayInteger(queryObject?: Array<number>, options?: any): AxiosPromise<string> {
+            return localVarFp.testQueryStyleFormExplodeFalseArrayInteger(queryObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
+         * @param {Array<string>} [queryObject] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testQueryStyleFormExplodeFalseArrayString(queryObject?: Array<string>, options?: any): AxiosPromise<string> {
+            return localVarFp.testQueryStyleFormExplodeFalseArrayString(queryObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Test query parameter(s)
+         * @summary Test query parameter(s)
          * @param {TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter} [queryObject] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -2323,6 +2439,30 @@ export class QueryApi extends BaseAPI {
      */
     public testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject?: TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter, options?: RawAxiosRequestConfig) {
         return QueryApiFp(this.configuration).testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Test query parameter(s)
+     * @summary Test query parameter(s)
+     * @param {Array<number>} [queryObject] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QueryApi
+     */
+    public testQueryStyleFormExplodeFalseArrayInteger(queryObject?: Array<number>, options?: RawAxiosRequestConfig) {
+        return QueryApiFp(this.configuration).testQueryStyleFormExplodeFalseArrayInteger(queryObject, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Test query parameter(s)
+     * @summary Test query parameter(s)
+     * @param {Array<string>} [queryObject] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof QueryApi
+     */
+    public testQueryStyleFormExplodeFalseArrayString(queryObject?: Array<string>, options?: RawAxiosRequestConfig) {
+        return QueryApiFp(this.configuration).testQueryStyleFormExplodeFalseArrayString(queryObject, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
