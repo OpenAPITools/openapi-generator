@@ -2527,6 +2527,44 @@ components:
           attributes:
             $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes'
         type: object
+    PetUsingAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
     _foo_get_default_response:
       example:
         string:
