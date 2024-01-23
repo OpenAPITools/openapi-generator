@@ -206,6 +206,7 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 	return Output;
 }
 
+
 template <typename T>
 inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHAR* BaseName)
 {
@@ -214,9 +215,9 @@ inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHA
 	{
 		return Output;
 	}
-	typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator();
+
 	int32 Index = 0;
-	while (Iter)
+	for (typename TSet<T>::TConstIterator Iter = Collection.CreateConstIterator(); Iter; ++Iter)
 	{
 		if (Index == 0)
 		{
@@ -228,6 +229,7 @@ inline FString CollectionToUrlString_multi(const TSet<T>& Collection, const TCHA
 	}
 	return Output;
 }
+	
 //////////////////////////////////////////////////////////////////////////
 
 inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonValue>& Value)
