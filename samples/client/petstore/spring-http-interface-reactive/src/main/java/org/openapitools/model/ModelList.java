@@ -21,7 +21,6 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList {
 
-  @JsonProperty("123-list")
   private String _123list;
 
   public ModelList _123list(String _123list) {
@@ -34,6 +33,7 @@ public class ModelList {
    * @return _123list
   */
   
+  @JsonProperty("123-list")
   public String get123list() {
     return _123list;
   }

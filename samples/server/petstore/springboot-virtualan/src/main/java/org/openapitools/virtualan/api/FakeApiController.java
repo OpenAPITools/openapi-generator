@@ -1,6 +1,7 @@
 package org.openapitools.virtualan.api;
 
 import java.math.BigDecimal;
+import org.openapitools.virtualan.model.ChildWithNullable;
 import org.openapitools.virtualan.model.Client;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.openapitools.virtualan.model.FileSchemaTestClass;
@@ -9,6 +10,7 @@ import java.util.Map;
 import org.openapitools.virtualan.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.virtualan.model.OuterComposite;
+import org.openapitools.virtualan.model.ResponseObjectWithDifferentFieldNames;
 import org.openapitools.virtualan.model.User;
 import org.openapitools.virtualan.model.XmlItem;
 

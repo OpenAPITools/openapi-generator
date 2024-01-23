@@ -40,31 +40,31 @@ describe 'UserApi' do
   # @return [nil]
   describe 'create_user test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for create_users_with_array_input
   # Creates list of users with given input array
-  # 
+  #
   # @param user List of user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'create_users_with_array_input test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for create_users_with_list_input
   # Creates list of users with given input array
-  # 
+  #
   # @param user List of user object
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'create_users_with_list_input test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -76,43 +76,43 @@ describe 'UserApi' do
   # @return [nil]
   describe 'delete_user test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for get_user_by_name
   # Get user by user name
-  # 
+  #
   # @param username The name that needs to be fetched. Use user1 for testing.
   # @param [Hash] opts the optional parameters
   # @return [User]
   describe 'get_user_by_name test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for login_user
   # Logs user into the system
-  # 
+  #
   # @param username The user name for login
   # @param password The password for login in clear text
   # @param [Hash] opts the optional parameters
   # @return [String]
   describe 'login_user test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
   # unit tests for logout_user
   # Logs out current logged in user session
-  # 
+  #
   # @param [Hash] opts the optional parameters
   # @return [nil]
   describe 'logout_user test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 
@@ -125,7 +125,7 @@ describe 'UserApi' do
   # @return [nil]
   describe 'update_user test' do
     it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+      # assertion here. ref: https://rspec.info/features/3-12/rspec-expectations/built-in-matchers/
     end
   end
 

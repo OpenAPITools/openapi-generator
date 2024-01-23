@@ -507,6 +507,11 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // sanitize name
         name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
@@ -538,12 +543,22 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         name = sanitizeName(name);  // FIXME parameter should not be assigned. Also declare it as "final"
 
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -599,7 +614,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -866,8 +881,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && getAdditionalProperties(model) != null) {
-                String itemType = getSchemaType(getAdditionalProperties(model));
+            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-is-map", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             } else {
@@ -1227,7 +1242,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

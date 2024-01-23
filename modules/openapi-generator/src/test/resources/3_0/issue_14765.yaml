@@ -1,0 +1,166 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /zebras:
+    get:
+      operationId: getZebras
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Animal'
+
+components:
+  schemas:
+    Zebra:
+      required:
+        - name
+        - age
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Marty'
+        age:
+          type: integer
+          example: 15
+          nullable: true
+    Animal:
+      required: 
+        - name
+        - age
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Marty'
+        age:
+          type: integer
+          example: 15
+          nullable: true
+        alias:
+          type: string
+          nullable: true
+          description: 'The stripy one'
+          example: 'Stripy'
+        color:
+          type: string
+          description: 'The color'
+          example: 'red'
+
+        names:
+          type: array
+          items:
+            type: string
+        colors:
+          type: array
+          nullable: true
+          items:
+            type: string
+
+        stringPattern:
+            type: string
+            pattern: "[a-z]"
+        stringMaxMinLength:
+            type: string
+            minLength: 1
+            maxLength: 10
+        stringMinLength:
+            type: string
+            minLength: 1
+        stringMaxLength:
+            type: string
+            maxLength: 1
+        stringEmail:
+            type: string
+            format: email
+        intMinMax:
+            type: integer
+            minimum: 1
+            maximum: 10
+        intMin:
+            type: integer
+            minimum: 1
+        intMax:
+            type: integer
+            maximum: 10
+        numberMinMax:
+            type: number
+            minimum: 1
+            maximum: 10
+        numberMin:
+            type: number
+            minimum: 1
+        numberMax:
+            type: number
+            maximum: 10
+        stringDefault:
+          type: string
+          maxLength: 1
+          default: "ABC"
+        zebra:
+          $ref: '#/components/schemas/Zebra'
+
+        stringPatternNullable:
+          nullable: true
+          type: string
+          pattern: "[a-z]"
+        stringMaxMinLengthNullable:
+          nullable: true
+          type: string
+          minLength: 1
+          maxLength: 10
+        stringMinLengthNullable:
+          nullable: true
+          type: string
+          minLength: 1
+        stringMaxLengthNullable:
+          nullable: true
+          type: string
+          maxLength: 1
+        stringEmailNullable:
+          nullable: true
+          type: string
+          format: email
+        intMinMaxNullable:
+          nullable: true
+          type: integer
+          minimum: 1
+          maximum: 10
+        intMinNullable:
+          nullable: true
+          type: integer
+          minimum: 1
+        intMaxNullable:
+          nullable: true
+          type: integer
+          maximum: 10
+        numberMinMaxNullable:
+          nullable: true
+          type: number
+          minimum: 1
+          maximum: 10
+        numberMinNullable:
+          nullable: true
+          type: number
+          minimum: 1
+        numberMaxNullable:
+          nullable: true
+          type: number
+          maximum: 10
+        stringDefaultNullable:
+          type: string
+          nullable: true
+          maxLength: 1
+          default: "ABC"

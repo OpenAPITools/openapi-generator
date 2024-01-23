@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Explode query params
+  description: "Explode query params"
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8080
+paths:
+  /api/search:
+    get:
+      operationId: Search
+      parameters:
+        - name: regular-param
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: object-param
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              someString:
+                type: string
+              someBoolean:
+                type: boolean
+              someInteger:
+                type: integer
+      responses:
+        '200':
+          description: Some description.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeReturnValue'
+components:
+  schemas:
+    SomeReturnValue:
+      type: object
+      required:
+        - someValue
+      properties:
+        someValue:
+          type: string

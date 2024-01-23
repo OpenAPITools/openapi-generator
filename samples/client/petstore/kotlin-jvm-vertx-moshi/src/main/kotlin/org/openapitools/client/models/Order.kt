@@ -17,6 +17,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * An order for a pets from the pet store
@@ -58,6 +59,7 @@ data class Order (
      *
      * Values: placed,approved,delivered
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
         @Json(name = "placed") placed("placed"),
         @Json(name = "approved") approved("approved"),

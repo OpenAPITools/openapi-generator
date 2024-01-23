@@ -2,12 +2,14 @@ package apimodels;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * TypeHolderDefault
  */
@@ -114,7 +116,10 @@ public class TypeHolderDefault   {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
-    arrayItem.add(arrayItemItem);
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
+    this.arrayItem.add(arrayItemItem);
     return this;
   }
 

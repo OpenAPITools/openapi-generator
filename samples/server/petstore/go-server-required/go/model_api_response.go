@@ -9,6 +9,9 @@
 
 package petstoreserver
 
+
+
+
 // ApiResponse - Describes the result of uploading an image resource
 type ApiResponse struct {
 
@@ -24,14 +27,7 @@ func AssertApiResponseRequired(obj ApiResponse) error {
 	return nil
 }
 
-// AssertRecurseApiResponseRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of ApiResponse (e.g. [][]ApiResponse), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseApiResponseRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aApiResponse, ok := obj.(ApiResponse)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertApiResponseRequired(aApiResponse)
-	})
+// AssertApiResponseConstraints checks if the values respects the defined constraints
+func AssertApiResponseConstraints(obj ApiResponse) error {
+	return nil
 }

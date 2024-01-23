@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
@@ -36,13 +36,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -119,6 +122,11 @@ public class PetWithRequiredTags {
         return StatusEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      StatusEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_STATUS = "status";
@@ -129,7 +137,6 @@ public class PetWithRequiredTags {
   }
 
   public PetWithRequiredTags id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -139,11 +146,9 @@ public class PetWithRequiredTags {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -151,7 +156,6 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -161,11 +165,9 @@ public class PetWithRequiredTags {
    * @return category
   **/
   @javax.annotation.Nullable
-
   public Category getCategory() {
     return category;
   }
-
 
   public void setCategory(Category category) {
     this.category = category;
@@ -173,7 +175,6 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -183,11 +184,9 @@ public class PetWithRequiredTags {
    * @return name
   **/
   @javax.annotation.Nonnull
-
   public String getName() {
     return name;
   }
-
 
   public void setName(String name) {
     this.name = name;
@@ -195,12 +194,14 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
 
   public PetWithRequiredTags addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -210,11 +211,9 @@ public class PetWithRequiredTags {
    * @return photoUrls
   **/
   @javax.annotation.Nonnull
-
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
-
 
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
@@ -222,12 +221,14 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
 
   public PetWithRequiredTags addTagsItem(Tag tagsItem) {
+    if (this.tags == null) {
+      this.tags = new ArrayList<>();
+    }
     this.tags.add(tagsItem);
     return this;
   }
@@ -237,11 +238,9 @@ public class PetWithRequiredTags {
    * @return tags
   **/
   @javax.annotation.Nonnull
-
   public List<Tag> getTags() {
     return tags;
   }
-
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
@@ -249,7 +248,6 @@ public class PetWithRequiredTags {
 
 
   public PetWithRequiredTags status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -259,11 +257,9 @@ public class PetWithRequiredTags {
    * @return status
   **/
   @javax.annotation.Nullable
-
   public StatusEnum getStatus() {
     return status;
   }
-
 
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -386,27 +382,28 @@ public class PetWithRequiredTags {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to PetWithRequiredTags
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to PetWithRequiredTags
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!PetWithRequiredTags.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!PetWithRequiredTags.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in PetWithRequiredTags is not found in the empty JSON string", PetWithRequiredTags.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : PetWithRequiredTags.openapiRequiredFields) {
-        if (jsonObj.get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       // validate the optional field `category`
       if (jsonObj.get("category") != null && !jsonObj.get("category").isJsonNull()) {
-        Category.validateJsonObject(jsonObj.getAsJsonObject("category"));
+        Category.validateJsonElement(jsonObj.get("category"));
       }
       if (!jsonObj.get("name").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `name` to be a primitive type in the JSON string but got `%s`", jsonObj.get("name").toString()));
@@ -425,10 +422,14 @@ public class PetWithRequiredTags {
       JsonArray jsonArraytags = jsonObj.getAsJsonArray("tags");
       // validate the required field `tags` (array)
       for (int i = 0; i < jsonArraytags.size(); i++) {
-        Tag.validateJsonObject(jsonArraytags.get(i).getAsJsonObject());
+        Tag.validateJsonElement(jsonArraytags.get(i));
       };
       if ((jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) && !jsonObj.get("status").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `status` to be a primitive type in the JSON string but got `%s`", jsonObj.get("status").toString()));
+      }
+      // validate the optional field `status`
+      if (jsonObj.get("status") != null && !jsonObj.get("status").isJsonNull()) {
+        StatusEnum.validateJsonElement(jsonObj.get("status"));
       }
   }
 
@@ -469,8 +470,9 @@ public class PetWithRequiredTags {
 
            @Override
            public PetWithRequiredTags read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              PetWithRequiredTags instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

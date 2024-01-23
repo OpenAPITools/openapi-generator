@@ -29,7 +29,7 @@ class DefaultApi {
   /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
   ///
   /// Returns a [Future] containing a [Response] with a [Example] as data
-  /// Throws [DioError] if API call or serialization fails
+  /// Throws [DioException] if API call or serialization fails
   Future<Response<Example>> list({ 
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
@@ -59,20 +59,20 @@ class DefaultApi {
       onReceiveProgress: onReceiveProgress,
     );
 
-    Example _responseData;
+    Example? _responseData;
 
     try {
-      const _responseType = FullType(Example);
-      _responseData = _serializers.deserialize(
-        _response.data!,
-        specifiedType: _responseType,
+      final rawResponse = _response.data;
+      _responseData = rawResponse == null ? null : _serializers.deserialize(
+        rawResponse,
+        specifiedType: const FullType(Example),
       ) as Example;
 
     } catch (error, stackTrace) {
-      throw DioError(
+      throw DioException(
         requestOptions: _response.requestOptions,
         response: _response,
-        type: DioErrorType.unknown,
+        type: DioExceptionType.unknown,
         error: error,
         stackTrace: stackTrace,
       );

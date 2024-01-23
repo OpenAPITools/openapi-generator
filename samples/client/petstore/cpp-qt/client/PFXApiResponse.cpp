@@ -52,13 +52,13 @@ void PFXApiResponse::fromJson(QString jsonString) {
 
 void PFXApiResponse::fromJsonObject(QJsonObject json) {
 
-    m_code_isValid = ::test_namespace::fromJsonValue(code, json[QString("code")]);
+    m_code_isValid = ::test_namespace::fromJsonValue(m_code, json[QString("code")]);
     m_code_isSet = !json[QString("code")].isNull() && m_code_isValid;
 
-    m_type_isValid = ::test_namespace::fromJsonValue(type, json[QString("type")]);
+    m_type_isValid = ::test_namespace::fromJsonValue(m_type, json[QString("type")]);
     m_type_isSet = !json[QString("type")].isNull() && m_type_isValid;
 
-    m_message_isValid = ::test_namespace::fromJsonValue(message, json[QString("message")]);
+    m_message_isValid = ::test_namespace::fromJsonValue(m_message, json[QString("message")]);
     m_message_isSet = !json[QString("message")].isNull() && m_message_isValid;
 }
 
@@ -72,23 +72,23 @@ QString PFXApiResponse::asJson() const {
 QJsonObject PFXApiResponse::asJsonObject() const {
     QJsonObject obj;
     if (m_code_isSet) {
-        obj.insert(QString("code"), ::test_namespace::toJsonValue(code));
+        obj.insert(QString("code"), ::test_namespace::toJsonValue(m_code));
     }
     if (m_type_isSet) {
-        obj.insert(QString("type"), ::test_namespace::toJsonValue(type));
+        obj.insert(QString("type"), ::test_namespace::toJsonValue(m_type));
     }
     if (m_message_isSet) {
-        obj.insert(QString("message"), ::test_namespace::toJsonValue(message));
+        obj.insert(QString("message"), ::test_namespace::toJsonValue(m_message));
     }
     return obj;
 }
 
 qint32 PFXApiResponse::getCode() const {
-    return code;
+    return m_code;
 }
 void PFXApiResponse::setCode(const qint32 &code) {
-    this->code = code;
-    this->m_code_isSet = true;
+    m_code = code;
+    m_code_isSet = true;
 }
 
 bool PFXApiResponse::is_code_Set() const{
@@ -100,11 +100,11 @@ bool PFXApiResponse::is_code_Valid() const{
 }
 
 QString PFXApiResponse::getType() const {
-    return type;
+    return m_type;
 }
 void PFXApiResponse::setType(const QString &type) {
-    this->type = type;
-    this->m_type_isSet = true;
+    m_type = type;
+    m_type_isSet = true;
 }
 
 bool PFXApiResponse::is_type_Set() const{
@@ -116,11 +116,11 @@ bool PFXApiResponse::is_type_Valid() const{
 }
 
 QString PFXApiResponse::getMessage() const {
-    return message;
+    return m_message;
 }
 void PFXApiResponse::setMessage(const QString &message) {
-    this->message = message;
-    this->m_message_isSet = true;
+    m_message = message;
+    m_message_isSet = true;
 }
 
 bool PFXApiResponse::is_message_Set() const{

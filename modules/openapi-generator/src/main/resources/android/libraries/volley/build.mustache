@@ -64,8 +64,8 @@ android {
 
 ext {
     swagger_annotations_version = "1.6.6"
-    gson_version = "2.8.9"
-    httpmime_version = "4.5.13"
+    gson_version = "2.10.1"
+    httpmime_version = "4.5.14"
     volley_version = "1.2.1"
     junit_version = "4.13.2"
     robolectric_version = "4.5.1"
@@ -87,9 +87,9 @@ afterEvaluate {
         def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
         task.description = "Create jar artifact for ${variant.name}"
         task.dependsOn variant.javaCompile
-        task.from variant.javaCompile.destinationDir
-        task.destinationDir = project.file("${project.buildDir}/outputs/jar")
-        task.archiveName = "${project.name}-${variant.baseName}-${version}.jar"
+        task.from variant.javaCompile.destinationDirectory
+        task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
+        task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
         artifacts.add('archives', task);
     }
 }

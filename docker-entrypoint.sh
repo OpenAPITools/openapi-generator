@@ -4,7 +4,7 @@ set -euo pipefail
 
 # GEN_DIR allows to share the entrypoint between Dockerfile and run-in-docker.sh (backward compatible)
 GEN_DIR=${GEN_DIR:-/opt/openapi-generator}
-JAVA_OPTS=${JAVA_OPTS:-"-Xmx1024M -DloggerPath=conf/log4j.properties"}
+JAVA_OPTS=${JAVA_OPTS:-"-DloggerPath=conf/log4j.properties"}
 
 cli="${GEN_DIR}/modules/openapi-generator-cli"
 codegen="${cli}/target/openapi-generator-cli.jar"

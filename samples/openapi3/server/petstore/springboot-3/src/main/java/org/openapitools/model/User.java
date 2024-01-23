@@ -8,8 +8,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -19,31 +22,27 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "User", description = "A User who is purchasing from the pet store")
+@JacksonXmlRootElement(localName = "User")
+@XmlRootElement(name = "User")
+@XmlAccessorType(XmlAccessType.FIELD)
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("username")
   private String username;
 
-  @JsonProperty("firstName")
   private String firstName;
 
-  @JsonProperty("lastName")
   private String lastName;
 
-  @JsonProperty("email")
   private String email;
 
-  @JsonProperty("password")
   private String password;
 
-  @JsonProperty("phone")
   private String phone;
 
-  @JsonProperty("userStatus")
   private Integer userStatus;
 
   public User id(Long id) {
@@ -57,6 +56,8 @@ public class User {
   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -76,6 +77,8 @@ public class User {
   */
   
   @Schema(name = "username", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("username")
+  @JacksonXmlProperty(localName = "username")
   public String getUsername() {
     return username;
   }
@@ -95,6 +98,8 @@ public class User {
   */
   
   @Schema(name = "firstName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("firstName")
+  @JacksonXmlProperty(localName = "firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -114,6 +119,8 @@ public class User {
   */
   
   @Schema(name = "lastName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("lastName")
+  @JacksonXmlProperty(localName = "lastName")
   public String getLastName() {
     return lastName;
   }
@@ -133,6 +140,8 @@ public class User {
   */
   
   @Schema(name = "email", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("email")
+  @JacksonXmlProperty(localName = "email")
   public String getEmail() {
     return email;
   }
@@ -152,6 +161,8 @@ public class User {
   */
   
   @Schema(name = "password", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("password")
+  @JacksonXmlProperty(localName = "password")
   public String getPassword() {
     return password;
   }
@@ -171,6 +182,8 @@ public class User {
   */
   
   @Schema(name = "phone", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("phone")
+  @JacksonXmlProperty(localName = "phone")
   public String getPhone() {
     return phone;
   }
@@ -190,6 +203,8 @@ public class User {
   */
   
   @Schema(name = "userStatus", description = "User Status", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("userStatus")
+  @JacksonXmlProperty(localName = "userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

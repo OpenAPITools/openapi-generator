@@ -191,12 +191,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Authorization
 
-{{^authMethods}}
-All endpoints do not require authorization.
-{{/authMethods}}
+{{^authMethods}}Endpoints do not require authorization.{{/authMethods}}
+{{#hasAuthMethods}}Authentication schemes defined for the API:{{/hasAuthMethods}}
 {{#authMethods}}
-{{#last}} Authentication schemes defined for the API:{{/last}}
-
 ### {{name}}
 
 {{#isApiKey}}
@@ -207,11 +204,17 @@ All endpoints do not require authorization.
 {{/isApiKey}}
 {{#isBasic}}
 {{#isBasicBasic}}
+
 - **Type**: HTTP basic authentication
 {{/isBasicBasic}}
 {{#isBasicBearer}}
+
 - **Type**: Bearer authentication{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}
 {{/isBasicBearer}}
+{{#isHttpSignature}}
+
+- **Type**: HTTP signature authentication
+{{/isHttpSignature}}
 {{/isBasic}}
 {{#isOAuth}}
 

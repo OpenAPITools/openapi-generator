@@ -8,6 +8,10 @@ paths:
       summary: Ping
       description: Pingy Ping
       parameters:
+        - name: annotation
+          in: header
+          schema:
+            type: string
         - name: as
           in: header
           schema:
@@ -146,6 +150,8 @@ components:
       description: OK, Good
       type: object
       properties:
+        annotation:
+          type: string
         as:
           type: string
         break:
@@ -217,6 +223,8 @@ components:
       description: Reference links
       type: object
       properties:
+        annotation:
+          $ref: '#/components/schemas/annotation'
         as:
           $ref: '#/components/schemas/as'
         break:
@@ -281,6 +289,14 @@ components:
           $ref: '#/components/schemas/external'
         internal:
           $ref: '#/components/schemas/internal'
+    annotation:
+      title: Testing reserved word 'annotation'
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
     as:
       title: Testing reserved word 'as'
       type: object

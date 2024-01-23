@@ -2,6 +2,7 @@ README.md
 build.gradle
 docs/DefaultApi.md
 docs/ModelWithEnumPropertyHavingDefault.md
+docs/PropertyOfDay.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
 gradlew
@@ -27,3 +28,4 @@ src/main/kotlin/org/openapitools/client/infrastructure/SerializerHelper.kt
 src/main/kotlin/org/openapitools/client/infrastructure/URIAdapter.kt
 src/main/kotlin/org/openapitools/client/infrastructure/UUIDAdapter.kt
 src/main/kotlin/org/openapitools/client/models/ModelWithEnumPropertyHavingDefault.kt
+src/main/kotlin/org/openapitools/client/models/PropertyOfDay.kt

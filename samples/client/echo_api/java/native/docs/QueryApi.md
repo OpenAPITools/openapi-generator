@@ -4,6 +4,8 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**testEnumRefString**](QueryApi.md#testEnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s) |
+| [**testEnumRefStringWithHttpInfo**](QueryApi.md#testEnumRefStringWithHttpInfo) | **GET** /query/enum_ref_string | Test query parameter(s) |
 | [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s) |
 | [**testQueryDatetimeDateStringWithHttpInfo**](QueryApi.md#testQueryDatetimeDateStringWithHttpInfo) | **GET** /query/datetime/date/string | Test query parameter(s) |
 | [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s) |
@@ -19,6 +21,144 @@ All URIs are relative to *http://localhost:3000*
 | [**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOfWithHttpInfo) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
 
+
+
+## testEnumRefString
+
+> String testEnumRefString(enumNonrefStringQuery, enumRefStringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        String enumNonrefStringQuery = "success"; // String | 
+        StringEnumRef enumRefStringQuery = StringEnumRef.fromValue("success"); // StringEnumRef | 
+        try {
+            String result = apiInstance.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testEnumRefString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
+| **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
+
+### Return type
+
+**String**
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+## testEnumRefStringWithHttpInfo
+
+> ApiResponse<String> testEnumRefString testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery)
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.QueryApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        QueryApi apiInstance = new QueryApi(defaultClient);
+        String enumNonrefStringQuery = "success"; // String | 
+        StringEnumRef enumRefStringQuery = StringEnumRef.fromValue("success"); // StringEnumRef | 
+        try {
+            ApiResponse<String> response = apiInstance.testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling QueryApi#testEnumRefString");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **enumNonrefStringQuery** | **String**|  | [optional] [enum: success, failure, unclassified] |
+| **enumRefStringQuery** | [**StringEnumRef**](.md)|  | [optional] [enum: success, failure, unclassified] |
+
+### Return type
+
+ApiResponse<**String**>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
 
 
 ## testQueryDatetimeDateString
@@ -45,7 +185,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -67,7 +207,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 
@@ -115,7 +255,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        OffsetDateTime datetimeQuery = OffsetDateTime.now(); // OffsetDateTime | 
+        Instant datetimeQuery = new Instant(); // Instant | 
         LocalDate dateQuery = LocalDate.now(); // LocalDate | 
         String stringQuery = "stringQuery_example"; // String | 
         try {
@@ -139,7 +279,7 @@ public class Example {
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **datetimeQuery** | **OffsetDateTime**|  | [optional] |
+| **datetimeQuery** | **Instant**|  | [optional] |
 | **dateQuery** | **LocalDate**|  | [optional] |
 | **stringQuery** | **String**|  | [optional] |
 
@@ -329,7 +469,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             String result = apiInstance.testQueryStyleDeepObjectExplodeTrueObject(queryObject);
             System.out.println(result);
@@ -395,7 +535,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());
@@ -597,7 +737,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
         try {
             String result = apiInstance.testQueryStyleFormExplodeTrueArrayString(queryObject);
             System.out.println(result);
@@ -663,7 +803,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new HashMap(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
+        TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject = new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(); // TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());
@@ -731,7 +871,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             String result = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject);
             System.out.println(result);
@@ -797,7 +937,7 @@ public class Example {
         defaultClient.setBasePath("http://localhost:3000");
 
         QueryApi apiInstance = new QueryApi(defaultClient);
-        Pet queryObject = new HashMap(); // Pet | 
+        Pet queryObject = new Pet(); // Pet | 
         try {
             ApiResponse<String> response = apiInstance.testQueryStyleFormExplodeTrueObjectWithHttpInfo(queryObject);
             System.out.println("Status code: " + response.getStatusCode());

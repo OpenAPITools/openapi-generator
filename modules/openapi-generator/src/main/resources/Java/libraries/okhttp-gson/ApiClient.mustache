@@ -53,6 +53,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,8 +136,8 @@ public class ApiClient {
         initHttpClient();
 
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
         authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
@@ -155,8 +156,8 @@ public class ApiClient {
         httpClient = client;
 
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
         authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}{{#withAWSV4Signature}}
         authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
@@ -228,8 +229,8 @@ public class ApiClient {
         );
         initHttpClient(Collections.<Interceptor>singletonList(retryingOAuth));
         // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
-        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{#isBasicBearer}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
         authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{/authMethods}}{{#withAWSV4Signature}}
         authentications.put("AWS4Auth", new AWS4Auth());{{/withAWSV4Signature}}
 
@@ -528,14 +529,23 @@ public class ApiClient {
     }
 
     {{#hasHttpBearerMethods}}
-        /**
-        * Helper method to set access token for the first Bearer authentication.
-        * @param bearerToken Bearer token
-        */
+    /**
+     * Helper method to set access token for the first Bearer authentication.
+     * @param bearerToken Bearer token
+     */
     public void setBearerToken(String bearerToken) {
+        setBearerToken(() -> bearerToken);
+    }
+
+    /**
+     * Helper method to set the supplier of access tokens for Bearer authentication.
+     *
+     * @param tokenSupplier The supplier of bearer tokens
+     */
+    public void setBearerToken(Supplier<String> tokenSupplier) {
         for (Authentication auth : authentications.values()) {
             if (auth instanceof HttpBearerAuth) {
-                ((HttpBearerAuth) auth).setBearerToken(bearerToken);
+                ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
                 return;
             }
         }
@@ -919,7 +929,7 @@ public class ApiClient {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null || value.isEmpty()) {
             return params;
         }
 
@@ -1426,12 +1436,15 @@ public class ApiClient {
         // prepare HTTP request body
         RequestBody reqBody;
         String contentType = headerParams.get("Content-Type");
-
+        String contentTypePure = contentType;
+        if (contentTypePure != null && contentTypePure.contains(";")) {
+            contentTypePure = contentType.substring(0, contentType.indexOf(";"));
+        }
         if (!HttpMethod.permitsRequestBody(method)) {
             reqBody = null;
-        } else if ("application/x-www-form-urlencoded".equals(contentType)) {
+        } else if ("application/x-www-form-urlencoded".equals(contentTypePure)) {
             reqBody = buildRequestBodyFormEncoding(formParams);
-        } else if ("multipart/form-data".equals(contentType)) {
+        } else if ("multipart/form-data".equals(contentTypePure)) {
             reqBody = buildRequestBodyMultipart(formParams);
         } else if (body == null) {
             if ("DELETE".equals(method)) {

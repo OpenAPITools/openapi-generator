@@ -2,15 +2,14 @@
 {{#models}}
 {{#model}}
 {{#isAlias}}
-if !isdefined(@__MODULE__, :{{classname}})
-    const {{classname}} = {{dataType}}
-else
-    @warn("Skipping redefinition of {{classname}} to {{dataType}}")
-end
+{{>partial_model_alias}}
 {{/isAlias}}{{^isAlias}}{{#oneOf}}{{#-first}}
 {{>partial_model_oneof}}
 {{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}
 {{>partial_model_anyof}}
-{{/-first}}{{/anyOf}}{{^anyOf}}
+{{/-first}}{{/anyOf}}{{^anyOf}}{{#hasVars}}
 {{>partial_model_single}}
+{{/hasVars}}{{^hasVars}}
+{{>partial_model_alias}}
+{{/hasVars}}
 {{/anyOf}}{{/oneOf}}{{/isAlias}}{{/model}}{{/models}}

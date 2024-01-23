@@ -28,8 +28,8 @@ use Data::Dumper;
 use {{moduleName}}::{{classname}};
 my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-    # Configure HTTP basic authorization: {{{name}}}
     {{#isBasicBasic}}
+    # Configure HTTP basic authorization: {{{name}}}
     username => 'YOUR_USERNAME',
     password => 'YOUR_PASSWORD',
     {{/isBasicBasic}}

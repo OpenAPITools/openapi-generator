@@ -31,13 +31,13 @@ paths:
   # will response with the same body in the HTTP request.
   #
   # path parameter tests
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       tags:
         - path 
       summary: Test path parameter(s)
       description: Test path parameter(s)
-      operationId: tests/path/string/{path_string}/integer/{path_integer}
+      operationId: tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
       parameters:
       - in: path 
         name: path_string
@@ -49,6 +49,20 @@ paths:
         required: true
         schema:
           type: integer 
+      - in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -83,14 +97,48 @@ paths:
             text/plain:
               schema:
                 type: string
+  # form parameter tests for oneOf schema
+  /form/oneof:
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for oneOf schema
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              oneOf:
+                - type: object
+                  properties:
+                    form1:
+                      type: string
+                    form2:
+                      type: integer
+                - type: object
+                  properties:
+                    form3:
+                      type: string
+                    form4:
+                      type: boolean
+                - $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # header parameter tests
-  /header/integer/boolean/string:
+  /header/integer/boolean/string/enums:
     get:
       tags:
         - header
       summary: Test header parameter(s)
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - in: header
         name: integer_header
@@ -110,6 +158,22 @@ paths:
         explode: true #default
         schema:
           type: string
+      - in: header
+        name: enum_nonref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: header
+        name: enum_ref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -118,6 +182,37 @@ paths:
               schema:
                 type: string
   # query parameter tests
+  /query/enum_ref_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/enum_ref_string
+      parameters:
+      - in: query
+        name: enum_nonref_string_query
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: query
+        name: enum_ref_string_query
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/datetime/date/string:
     get:
       tags:
@@ -298,6 +393,27 @@ paths:
             text/plain:
               schema:
                 type: string
+  # body parameter tests
+  /body/application/octetstream/binary:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/body/application/octetstream/binary
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /echo/body/Pet:
     post:
       tags:
@@ -307,6 +423,22 @@ paths:
       operationId: test/echo/body/Pet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+  /echo/body/allOf/Pet:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/echo/body/allOf/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/AllOfPet'
       responses:
         '200':
           description: Successful operation
@@ -330,8 +462,151 @@ paths:
             text/plain:
               schema:
                 type: string
-
+  /echo/body/Tag/response_string:
+    post:
+      tags:
+        - body
+      summary: Test empty json (request body)
+      description: Test empty json (request body)
+      operationId: test/echo/body/Tag/response_string
+      requestBody:
+        $ref: '#/components/requestBodies/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /echo/body/FreeFormObject/response_string:
+    post:
+      tags:
+        - body
+      summary: Test free form object
+      description: Test free form object
+      operationId: test/echo/body/FreeFormObject/response_string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+        description: Free form object
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /binary/gif:
+    post:
+      tags:
+        - body
+      summary: Test binary (gif) response body
+      description: Test binary (gif) response body
+      operationId: test/binary/gif
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            image/gif:
+              schema:
+                type: string
+                format: binary
+  # Single binary in multipart mime test
+  /body/application/octetstream/single_binary:
+    post:
+      tags:
+        - body
+      summary: Test single binary in multipart mime
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                my-file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # Array of binary in multipart mime tests
+  /body/application/octetstream/array_of_binary:
+    post:
+      tags:
+        - body
+      summary: Test array of binary in multipart mime
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - files
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # To test http basic auth
+  /auth/http/basic:
+    post:
+      tags:
+        - auth
+      security:
+        - http_auth: []
+      summary: To test HTTP basic authentication
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # To test http bearer auth
+  /auth/http/bearer:
+    post:
+      tags:
+        - auth
+      security:
+        - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
+  securitySchemes:
+    http_auth:
+      type: http
+      scheme: basic
+    http_bearer_auth:
+      type: http
+      scheme: bearer
   requestBodies:
     Pet:
       content:
@@ -339,6 +614,19 @@ components:
           schema:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
+    AllOfPet:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    Tag:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Tag'
+      description: Tag object
   schemas:
     Category:
       type: object
@@ -501,3 +789,16 @@ components:
             format: date-time
             description: A date
       - $ref: '#/components/schemas/Query'
+    NumberPropertiesOnly:
+      type: object
+      properties:
+        number:
+          type: number
+        float:
+          type: number
+          format: float
+        double:
+          type: number
+          format: double
+          minimum: 0.8
+          maximum: 50.2

@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,13 +38,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -102,7 +105,6 @@ public class AdditionalPropertiesClass implements Parcelable {
   }
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
-    
     this.mapString = mapString;
     return this;
   }
@@ -120,11 +122,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapString
   **/
   @javax.annotation.Nullable
-
   public Map<String, String> getMapString() {
     return mapString;
   }
-
 
   public void setMapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -132,7 +132,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
-    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -150,11 +149,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapNumber
   **/
   @javax.annotation.Nullable
-
   public Map<String, BigDecimal> getMapNumber() {
     return mapNumber;
   }
-
 
   public void setMapNumber(Map<String, BigDecimal> mapNumber) {
     this.mapNumber = mapNumber;
@@ -162,7 +159,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
-    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -180,11 +176,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapInteger
   **/
   @javax.annotation.Nullable
-
   public Map<String, Integer> getMapInteger() {
     return mapInteger;
   }
-
 
   public void setMapInteger(Map<String, Integer> mapInteger) {
     this.mapInteger = mapInteger;
@@ -192,7 +186,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
-    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -210,11 +203,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapBoolean
   **/
   @javax.annotation.Nullable
-
   public Map<String, Boolean> getMapBoolean() {
     return mapBoolean;
   }
-
 
   public void setMapBoolean(Map<String, Boolean> mapBoolean) {
     this.mapBoolean = mapBoolean;
@@ -222,7 +213,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
-    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -240,11 +230,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayInteger
   **/
   @javax.annotation.Nullable
-
   public Map<String, List<Integer>> getMapArrayInteger() {
     return mapArrayInteger;
   }
-
 
   public void setMapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
     this.mapArrayInteger = mapArrayInteger;
@@ -252,7 +240,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
-    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -270,11 +257,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapArrayAnytype
   **/
   @javax.annotation.Nullable
-
   public Map<String, List<Object>> getMapArrayAnytype() {
     return mapArrayAnytype;
   }
-
 
   public void setMapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
     this.mapArrayAnytype = mapArrayAnytype;
@@ -282,7 +267,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
-    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -300,11 +284,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapString
   **/
   @javax.annotation.Nullable
-
   public Map<String, Map<String, String>> getMapMapString() {
     return mapMapString;
   }
-
 
   public void setMapMapString(Map<String, Map<String, String>> mapMapString) {
     this.mapMapString = mapMapString;
@@ -312,7 +294,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
-    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -330,11 +311,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return mapMapAnytype
   **/
   @javax.annotation.Nullable
-
   public Map<String, Map<String, Object>> getMapMapAnytype() {
     return mapMapAnytype;
   }
-
 
   public void setMapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
     this.mapMapAnytype = mapMapAnytype;
@@ -342,7 +321,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
     this.anytype1 = anytype1;
     return this;
   }
@@ -352,11 +330,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-
   public Object getAnytype1() {
     return anytype1;
   }
-
 
   public void setAnytype1(Object anytype1) {
     this.anytype1 = anytype1;
@@ -364,7 +340,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
-    
     this.anytype2 = anytype2;
     return this;
   }
@@ -374,11 +349,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-
   public Object getAnytype2() {
     return anytype2;
   }
-
 
   public void setAnytype2(Object anytype2) {
     this.anytype2 = anytype2;
@@ -386,7 +359,6 @@ public class AdditionalPropertiesClass implements Parcelable {
 
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    
     this.anytype3 = anytype3;
     return this;
   }
@@ -396,11 +368,9 @@ public class AdditionalPropertiesClass implements Parcelable {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-
   public Object getAnytype3() {
     return anytype3;
   }
-
 
   public void setAnytype3(Object anytype3) {
     this.anytype3 = anytype3;
@@ -530,25 +500,26 @@ public class AdditionalPropertiesClass implements Parcelable {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to AdditionalPropertiesClass
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to AdditionalPropertiesClass
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!AdditionalPropertiesClass.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in AdditionalPropertiesClass is not found in the empty JSON string", AdditionalPropertiesClass.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!AdditionalPropertiesClass.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `AdditionalPropertiesClass` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
   }
 
   public static class CustomTypeAdapterFactory implements TypeAdapterFactory {
@@ -571,9 +542,9 @@ public class AdditionalPropertiesClass implements Parcelable {
 
            @Override
            public AdditionalPropertiesClass read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**getOrderById**](#getOrderById) | **GET** /store/order/{orderId} | Find purchase order by ID
 [**placeOrder**](#placeOrder) | **POST** /store/order | Place an order for a pet
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 ```java
 Mono<Object> StoreController.deleteOrder(orderId)
@@ -32,7 +32,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: Not defined
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 ```java
 Mono<Map<String, Integer>> StoreController.getInventory()
@@ -53,7 +53,7 @@ Returns a map of status codes to quantities
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: `application/json`
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 ```java
 Mono<Order> StoreController.getOrderById(orderId)
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
  - **Accepts Content-Type**: Not defined
  - **Produces Content-Type**: `application/xml`, `application/json`
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 ```java
 Mono<Order> StoreController.placeOrder(order)

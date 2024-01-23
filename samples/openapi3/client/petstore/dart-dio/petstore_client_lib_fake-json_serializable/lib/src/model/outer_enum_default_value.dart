@@ -8,11 +8,18 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum OuterEnumDefaultValue {
   @JsonValue(r'placed')
-  placed,
+  placed(r'placed'),
   @JsonValue(r'approved')
-  approved,
+  approved(r'approved'),
   @JsonValue(r'delivered')
-  delivered,
+  delivered(r'delivered'),
   @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi,
+  unknownDefaultOpenApi(r'unknown_default_open_api');
+
+  const OuterEnumDefaultValue(this.value);
+
+  final String value;
+
+  @override
+  String toString() => value;
 }

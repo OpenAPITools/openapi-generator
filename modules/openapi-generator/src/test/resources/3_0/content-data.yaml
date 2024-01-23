@@ -95,6 +95,9 @@ paths:
                   type: number
                 long:
                   type: number
+            example:
+              lat: 52.377956
+              long: 4.897070
           text/plain:
             schema:
               type: string

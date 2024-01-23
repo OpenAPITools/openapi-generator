@@ -89,8 +89,10 @@ Category | Method | HTTP request | Description
 
 ## Documentation for Models
 
+ - [MappedModel_t](docs/MappedModel.md)
  - [api_response_t](docs/api_response.md)
  - [category_t](docs/category.md)
+ - [model_with_set_propertes_t](docs/model_with_set_propertes.md)
  - [order_t](docs/order.md)
  - [pet_t](docs/pet.md)
  - [tag_t](docs/tag.md)
@@ -100,6 +102,7 @@ Category | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -109,7 +112,6 @@ Category | Method | HTTP request | Description
 - **Scopes**: 
   - write:pets: modify pets in your account
   - read:pets: read your pets
-
 
 ### api_key
 

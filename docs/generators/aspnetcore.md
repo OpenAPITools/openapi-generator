@@ -47,6 +47,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sourceFolder|source folder for generated code| |src|
 |swashbuckleVersion|Swashbuckle version: 3.0.0 (deprecated), 4.0.0 (deprecated), 5.0.0 (deprecated), 6.4.0|<dl><dt>**3.0.0**</dt><dd>Swashbuckle 3.0.0</dd><dt>**4.0.0**</dt><dd>Swashbuckle 4.0.0</dd><dt>**5.0.0**</dt><dd>Swashbuckle 5.0.0</dd><dt>**6.4.0**</dt><dd>Swashbuckle 6.4.0</dd></dl>|3.0.0|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
+|useDateTimeForDate|Use DateTime to model date properties even if DateOnly supported. (.net 6.0+ only)| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useDefaultRouting|Use default routing for the ASP.NET Core version.| |true|
 |useFrameworkReference|Use frameworkReference for ASP.NET Core 3.0+ and PackageReference ASP.NET Core 2.2 or earlier.| |false|
@@ -74,6 +75,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Boolean</li>
 <li>Collection</li>
+<li>DateOnly</li>
+<li>DateOnly?</li>
 <li>DateTime</li>
 <li>DateTime?</li>
 <li>DateTimeOffset</li>
@@ -116,6 +119,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <ul class="column-ul">
 <li>Client</li>
 <li>Configuration</li>
+<li>Environment</li>
+<li>OperatingSystem</li>
+<li>TimeZone</li>
 <li>Version</li>
 <li>abstract</li>
 <li>as</li>
@@ -197,6 +203,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>string</li>
 <li>struct</li>
 <li>switch</li>
+<li>system</li>
 <li>this</li>
 <li>throw</li>
 <li>true</li>
@@ -324,6 +331,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_Password|✗|OAS2,OAS3
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
+|SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

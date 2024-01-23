@@ -17,12 +17,15 @@ import okhttp3.MultipartBody;
 {{#imports}}import {{import}};
 {{/imports}}
 
-{{^fullJavaUtil}}
+{{#useBeanValidation}}
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
+{{/useBeanValidation}}
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-{{/fullJavaUtil}}
 
 import java.util.concurrent.*;
 import retrofit2.Response;

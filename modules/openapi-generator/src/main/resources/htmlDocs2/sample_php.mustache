@@ -2,10 +2,10 @@
 require_once(__DIR__ . '/vendor/autoload.php');
 {{#hasAuthMethods}}
 {{#authMethods}}
-{{^isBasicBearer}}{{#isBasic}}
+{{#isBasicBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 {{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
-{{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+{{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasicBasic}}{{#isBasicBearer}}
 // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 {{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setAccessToken('{{{keyParamName}}}', 'YOUR_ACCESS_TOKEN');{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}

@@ -22,6 +22,7 @@
 #include "OAIApiResponse.h"
 #include "OAIHttpFileElement.h"
 #include "OAIPet.h"
+#include <QList>
 #include <QString>
 #include "OAIPetApiHandler.h"
 
@@ -75,7 +76,7 @@ public:
 
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
-signals:
+Q_SIGNALS:
     void addPet(OAIPet body);
     void deletePet(qint64 pet_id, QString api_key);
     void findPetsByStatus(QList<QString> status);

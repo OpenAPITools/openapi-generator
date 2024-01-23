@@ -21,6 +21,7 @@ abstract class AllOfWithSingleRef implements Built<AllOfWithSingleRef, AllOfWith
 
   @BuiltValueField(wireName: r'SingleRefType')
   SingleRefType? get singleRefType;
+  // enum singleRefTypeEnum {  admin,  user,  };
 
   AllOfWithSingleRef._();
 

@@ -29,7 +29,17 @@ import com.fasterxml.jackson.databind.ObjectMapper
     {{#jackson}}
     jsonBlock: ObjectMapper.() -> Unit = ApiClient.JSON_DEFAULT,
     {{/jackson}}
-    ) : ApiClient(baseUrl, httpClientEngine, httpClientConfig, jsonBlock) {
+    ) : ApiClient(
+        baseUrl,
+        httpClientEngine,
+        httpClientConfig,
+        {{#gson}}
+        jsonBlock,
+        {{/gson}}
+        {{#jackson}}
+        jsonBlock,
+        {{/jackson}}
+    ) {
 
     {{#operation}}
         /**

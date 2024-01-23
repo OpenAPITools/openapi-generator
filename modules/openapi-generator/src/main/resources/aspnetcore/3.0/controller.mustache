@@ -14,7 +14,12 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 {{/useSwashbuckle}}
 {{^isLibrary}}
+{{#useNewtonsoft}}
 using Newtonsoft.Json;
+{{/useNewtonsoft}}
+{{^useNewtonsoft}}
+using System.Text.Json;
+{{/useNewtonsoft}}
 {{/isLibrary}}
 using {{packageName}}.Attributes;
 using {{modelPackage}};

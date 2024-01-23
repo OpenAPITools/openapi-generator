@@ -153,7 +153,7 @@ to{{{x-param-name-type}}} = \case{{#allowableValues}}{{#enumVars}}
 
 {{#authMethods}}{{#-first}}-- * Auth Methods
 
-{{/-first}}{{#isBasic}}-- ** {{name}}
+{{/-first}}{{#isBasicBasic}}-- ** {{name}}
 data {{name}} =
   {{name}} B.ByteString B.ByteString -- ^ username password
   deriving (P.Eq, P.Show, P.Typeable)
@@ -167,7 +167,7 @@ instance AuthMethod {{name}} where
       else req
     where cred = BC.append "Basic " (B64.encode $ BC.concat [ user, ":", pw ])
 
-{{/isBasic}}{{#isApiKey}}-- ** {{name}}
+{{/isBasicBasic}}{{#isApiKey}}-- ** {{name}}
 data {{name}} =
   {{name}} Text -- ^ secret
   deriving (P.Eq, P.Show, P.Typeable)

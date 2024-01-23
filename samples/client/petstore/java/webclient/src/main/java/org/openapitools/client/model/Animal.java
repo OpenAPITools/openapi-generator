@@ -23,8 +23,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.Cat;
-import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -42,8 +40,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 )
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
-  @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Cat.class, name = "CAT"),
+  @JsonSubTypes.Type(value = Dog.class, name = "DOG"),
 })
 
 public class Animal {
@@ -106,7 +104,6 @@ public class Animal {
   public void setColor(String color) {
     this.color = color;
   }
-
 
   @Override
   public boolean equals(Object o) {

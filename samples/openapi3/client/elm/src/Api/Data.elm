@@ -48,6 +48,8 @@ module Api.Data exposing
     , encodeRecursion
     , encodeRecursionLoop
     , encodeUnsafeCharacters
+    , stringFromEnum
+    , stringFromEnumeric
     , absentDecoder
     , arrayDecoder
     , composedDecoder
@@ -89,10 +91,10 @@ type alias Absent =
 {-| Model with arrays
 -}
 type alias Array =
-    { array : List (String)
-    , arrayOfArray : List (List (String))
-    , arrayOfPrimitive : Maybe (List (Primitive))
-    , arrayOfEnum : Maybe (List (Enum))
+    { array : List String
+    , arrayOfArray : List (List String)
+    , arrayOfPrimitive : Maybe ( List Primitive )
+    , arrayOfEnum : Maybe ( List Enum )
     }
 
 
@@ -216,10 +218,10 @@ unwrapRecursionMaybe : RecursionMaybe -> Maybe Recursion
 unwrapRecursionMaybe (RecursionMaybe maybe) = maybe
 
 
-type RecursionList = RecursionList (Maybe (List (Recursion)))
+type RecursionList = RecursionList (Maybe ( List Recursion ))
 
 
-unwrapRecursionList : RecursionList -> Maybe (List (Recursion))
+unwrapRecursionList : RecursionList -> Maybe ( List Recursion )
 unwrapRecursionList (RecursionList list) = list
 
 

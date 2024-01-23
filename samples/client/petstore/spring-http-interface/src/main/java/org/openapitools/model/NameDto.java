@@ -21,16 +21,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NameDto {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
   private Integer snakeCase;
 
-  @JsonProperty("property")
   private String property;
 
-  @JsonProperty("123Number")
   private Integer _123number;
 
   public NameDto name(Integer name) {
@@ -43,6 +39,7 @@ public class NameDto {
    * @return name
   */
   @NotNull
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -61,6 +58,7 @@ public class NameDto {
    * @return snakeCase
   */
   
+  @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
@@ -79,6 +77,7 @@ public class NameDto {
    * @return property
   */
   
+  @JsonProperty("property")
   public String getProperty() {
     return property;
   }
@@ -97,6 +96,7 @@ public class NameDto {
    * @return _123number
   */
   
+  @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }

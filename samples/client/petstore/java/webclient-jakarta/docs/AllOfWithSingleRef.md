@@ -8,7 +8,7 @@
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
 |**username** | **String** |  |  [optional] |
-|**singleRefType** | [**SingleRefType**](SingleRefType.md) |  |  [optional] |
+|**singleRefType** | **SingleRefType** |  |  [optional] |
 
 
 

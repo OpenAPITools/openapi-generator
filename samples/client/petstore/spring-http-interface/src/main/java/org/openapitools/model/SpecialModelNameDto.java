@@ -17,11 +17,10 @@ import jakarta.annotation.Generated;
  * SpecialModelNameDto
  */
 
-@JsonTypeName("$special[model.name]")
+@JsonTypeName("_special_model.name_")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelNameDto {
 
-  @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;
 
   public SpecialModelNameDto $specialPropertyName(Long $specialPropertyName) {
@@ -34,6 +33,7 @@ public class SpecialModelNameDto {
    * @return $specialPropertyName
   */
   
+  @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
@@ -50,8 +50,8 @@ public class SpecialModelNameDto {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelNameDto $specialModelName = (SpecialModelNameDto) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelNameDto specialModelName = (SpecialModelNameDto) o;
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
   }
 
   @Override

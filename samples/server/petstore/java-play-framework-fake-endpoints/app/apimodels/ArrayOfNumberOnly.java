@@ -2,12 +2,14 @@ package apimodels;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 /**
  * ArrayOfNumberOnly
  */
@@ -25,10 +27,10 @@ public class ArrayOfNumberOnly   {
   }
 
   public ArrayOfNumberOnly addArrayNumberItem(BigDecimal arrayNumberItem) {
-    if (arrayNumber == null) {
-      arrayNumber = new ArrayList<>();
+    if (this.arrayNumber == null) {
+      this.arrayNumber = new ArrayList<>();
     }
-    arrayNumber.add(arrayNumberItem);
+    this.arrayNumber.add(arrayNumberItem);
     return this;
   }
 

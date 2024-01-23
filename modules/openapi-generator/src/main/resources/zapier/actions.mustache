@@ -1,0 +1,23 @@
+{{#apiInfo}}
+{{#apis}}
+const {{classname}} = require('../{{apiPackage}}/{{classname}}');
+{{/apis}}
+{{/apiInfo}}
+const { searchMiddleware, hasSearchRequisites, isSearchAction } = require('../utils/utils');
+
+const actions = {
+    {{#apiInfo}}
+    {{#apis}}
+    {{#operations}}
+    {{#operation}}
+    [{{classname}}.{{operationId}}.key]: {{classname}}.{{operationId}},
+    {{/operation}}
+    {{/operations}}
+    {{/apis}}
+    {{/apiInfo}}
+}
+
+module.exports = {
+    searchActions: () => Object.entries(actions).reduce((actions, [key, value]) => isSearchAction(key) && hasSearchRequisites(value) ? {...actions, [key]: searchMiddleware(value)} : actions, {}),
+    createActions: () => Object.entries(actions).reduce((actions, [key, value]) => !isSearchAction(key) ? {...actions, [key]: value} : actions, {}),
+}

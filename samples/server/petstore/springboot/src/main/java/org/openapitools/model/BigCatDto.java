@@ -69,14 +69,8 @@ public class BigCatDto extends CatDto {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link BigCatDto#BigCatDto(String)}
-   */
-  @Deprecated
   public BigCatDto() {
     super();
   }
@@ -99,6 +93,7 @@ public class BigCatDto extends CatDto {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -107,21 +102,21 @@ public class BigCatDto extends CatDto {
     this.kind = kind;
   }
 
+
   public BigCatDto declawed(Boolean declawed) {
-    super.setDeclawed(declawed);
+    super.declawed(declawed);
     return this;
   }
 
   public BigCatDto className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public BigCatDto color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

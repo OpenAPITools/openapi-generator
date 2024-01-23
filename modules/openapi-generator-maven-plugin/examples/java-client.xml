@@ -13,7 +13,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>6.5.0-SNAPSHOT</version>
+                <version>7.3.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -67,6 +67,7 @@
                             <apiPackage>remote.org.openapitools.client.api</apiPackage>
                             <modelPackage>remote.org.openapitools.client.model</modelPackage>
                             <invokerPackage>remote.org.openapitools.client</invokerPackage>
+                            <cleanupOutput>true</cleanupOutput>
                         </configuration>
                     </execution>
                 </executions>
@@ -76,8 +77,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <proc>none</proc>
                 </configuration>
             </plugin>
@@ -93,7 +94,7 @@
          <!-- dependencies are needed for the client being generated -->
 
         <dependency>
-            <groupId>io.swagger</groupId>
+            <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
@@ -190,13 +191,13 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-annotations-version>1.6.3</swagger-annotations-version>
+        <swagger-annotations-version>2.2.16</swagger-annotations-version>
         <jersey-version>2.35</jersey-version>
-        <jackson-version>2.13.0</jackson-version>
-        <jackson-databind-version>2.13.0</jackson-databind-version>
-        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-version>2.15.2</jackson-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
+        <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
         <junit-version>4.13.2</junit-version>
-        <scribejava-apis-version>8.3.1</scribejava-apis-version>
+        <scribejava-apis-version>8.3.3</scribejava-apis-version>
     </properties>
 </project>
