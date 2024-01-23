@@ -79,6 +79,17 @@ class TestManual(unittest.TestCase):
             "/query/enum_ref_string?enum_nonref_string_query=success&enum_ref_string_query=unclassified",
         )
 
+    def test_query_style_form_explode_false_array_integer_test(self):
+        api_instance = openapi_client.QueryApi()
+        api_response = api_instance.test_query_style_form_explode_false_array_integer([1,2,3])
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_false/array_integer?query_object=1,2,3")
+
+    def test_query_style_form_explode_false_array_string_test(self):
+        api_instance = openapi_client.QueryApi()
+        api_response = api_instance.test_query_style_form_explode_false_array_string(["Oh, hello world","abc","DEF"])
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(e.path, "/query/style_form/explode_false/array_string?query_object=Oh%2C%20hello%20world,abc,DEF")
 
     def testDateTimeQueryWithDateTimeFormat(self):
         api_instance = openapi_client.QueryApi()
