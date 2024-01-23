@@ -163,6 +163,12 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
+    @Override
+    public String toOperationId(String operationId) {
+        // replace $ with _
+        return super.toOperationId(operationId.replace("$", "_"));
+    }
+
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reserved words
@@ -208,7 +214,7 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

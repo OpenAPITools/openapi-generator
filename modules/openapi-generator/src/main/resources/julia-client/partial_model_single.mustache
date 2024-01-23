@@ -40,7 +40,7 @@ function OpenAPI.validate_property(::Type{ {{classname}} }, name::Symbol, val)
 {{#allVars}}
 {{#isEnum}}
     if name === Symbol("{{#lambda.escapeDollar}}{{baseName}}{{/lambda.escapeDollar}}")
-        OpenAPI.validate_param(name, "{{classname}}", :enum, val, [{{#_enum}}"{{.}}"{{^-last}}, {{/-last}}{{/_enum}}])
+        OpenAPI.validate_param(name, "{{classname}}", :enum, val, [{{#_enum}}{{#isString}}"{{.}}"{{/isString}}{{^isString}}{{.}}{{/isString}}{{^-last}}, {{/-last}}{{/_enum}}])
     end
 {{/isEnum}}
 {{^isEnum}}

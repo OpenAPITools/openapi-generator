@@ -7,6 +7,18 @@ const objectSerializerFile = rewire(__dirname + "/../../node_modules/ts-petstore
 
 const ObjectSerializer = objectSerializerFile.__get__("ObjectSerializer")
 
+const htmlContent = `
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Error 404 Not Found</title>
+  </head>
+  <body>
+    <h2>HTTP ERROR 404</h2>
+    <p>Resource not found</p>
+  </body>
+</html>
+`;
 
 describe("ObjectSerializer", () => {
     describe("Serialize", () => {
@@ -80,7 +92,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             expect(ObjectSerializer.serialize(pet, "Pet", "")).to.deep.equal({
@@ -187,7 +199,7 @@ describe("ObjectSerializer", () => {
             pet.category = category
             pet.name = "PetName"
             pet.photoUrls = [ "url", "other url"] 
-            pet.status = "available"
+            pet.status = petstore.PetStatusEnum.Available
             pet.tags = tags
 
             const deserialized = ObjectSerializer.deserialize({
@@ -229,12 +241,54 @@ describe("ObjectSerializer", () => {
                 expect(deserialized[i].constructor.name).to.equal("Category")
             }
             expect(deserialized).to.deep.equal(categories)
-        })        
+        })
     })
+
     describe("Parse", () => {
-        it("text/html", () => {
-            const input = "<html>\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"/>\n<title>Error 404 Not Found</title>\n</head>\n<body><h2>HTTP ERROR 404</h2>\n<p>Resource not found</p>\n</body>\n</html>\n"
-            expect(ObjectSerializer.parse(input, "text/html")).to.equal(input)
+        it("Text", () => {
+            expect(ObjectSerializer.parse("test", "text/plain")).to.equal("test")
+            expect(ObjectSerializer.parse(htmlContent, "text/html")).to.equal(htmlContent)
+        });
+
+        it("JSON", () => {
+            const jsonContent = { foo: "bar"};
+
+            expect(ObjectSerializer.parse(JSON.stringify(jsonContent), "application/json")).to.deep.equal(jsonContent)
+            expect(ObjectSerializer.parse(JSON.stringify(jsonContent), "application/json-patch+json")).to.deep.equal(jsonContent)
+            expect(ObjectSerializer.parse(JSON.stringify(jsonContent), "application/merge-patch+json")).to.deep.equal(jsonContent)
+        });
+    })
+
+    describe("Stringify", () => {
+        it("Text", () => {
+            expect(ObjectSerializer.stringify("test", "text/plain")).to.equal("test")
+            expect(ObjectSerializer.stringify(htmlContent, "text/html")).to.equal(htmlContent)
+        });
+
+        it("JSON", () => {
+            const jsonContent = { foo: "bar"};
+
+            expect(ObjectSerializer.stringify(jsonContent, "application/json")).to.equal(JSON.stringify(jsonContent))
+            expect(ObjectSerializer.stringify(jsonContent, "application/json-patch+json")).to.equal(JSON.stringify(jsonContent))
+            expect(ObjectSerializer.stringify(jsonContent, "application/merge-patch+json")).to.equal(JSON.stringify(jsonContent))
+        });
+    })
+
+    describe("GetPreferredMediaType", () => {
+        it("Empty media-type", () => {
+            expect(ObjectSerializer.getPreferredMediaType([])).to.equal("application/json")
+        });
+
+        it("JSON media-type", () => {
+            expect(ObjectSerializer.getPreferredMediaType(["application/json"])).to.equal("application/json")
+        });
+
+        it("Multiple media-types", () => {
+            expect(ObjectSerializer.getPreferredMediaType(["text/plain", "application/x-www-form-urlencoded", "application/json"])).to.equal("application/json")
+        });
+
+        it("Unsupported media-type", () => {
+            expect(() => ObjectSerializer.getPreferredMediaType(["foo/bar"])).to.throw('None of the given media types are supported: foo/bar')
         });
     })
 })

@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Arrays;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -77,6 +77,18 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+
+  @Override
+  public Dog className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Dog color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   /**
    * Return true if this Dog object is equal to o.

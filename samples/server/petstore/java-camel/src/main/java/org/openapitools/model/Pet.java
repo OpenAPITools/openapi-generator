@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
@@ -35,27 +36,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
 public class Pet {
 
-  @JsonProperty("id")
-  @JacksonXmlProperty(localName = "id")
   private Long id;
 
-  @JsonProperty("category")
-  @JacksonXmlProperty(localName = "category")
   private Category category;
 
-  @JsonProperty("name")
-  @JacksonXmlProperty(localName = "name")
   private String name;
 
-  @JsonProperty("photoUrls")
-  @JacksonXmlProperty(localName = "photoUrl")
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
-  @JsonProperty("tags")
-  @JacksonXmlProperty(localName = "tag")
   @Valid
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -94,15 +85,9 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
-  @JacksonXmlProperty(localName = "status")
+  @Deprecated
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, List<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -126,6 +111,8 @@ public class Pet {
   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  @JacksonXmlProperty(localName = "id")
   public Long getId() {
     return id;
   }
@@ -145,6 +132,8 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("category")
+  @JacksonXmlProperty(localName = "Category")
   public Category getCategory() {
     return category;
   }
@@ -164,6 +153,8 @@ public class Pet {
   */
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
+  @JacksonXmlProperty(localName = "name")
   public String getName() {
     return name;
   }
@@ -178,6 +169,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new ArrayList<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -188,6 +182,8 @@ public class Pet {
   */
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("photoUrls")
+  @JacksonXmlProperty(localName = "photoUrl")
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -215,6 +211,8 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tags")
+  @JacksonXmlProperty(localName = "tag")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -231,13 +229,21 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
-  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+  @JacksonXmlProperty(localName = "status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

@@ -38,7 +38,8 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
 
     std::shared_ptr<const ApiConfiguration> localVarApiConfiguration( m_ApiClient->getConfiguration() );
     utility::string_t localVarPath = utility::conversions::to_string_t("{{{path}}}");
-    {{#pathParams}}boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("{{baseName}}") + utility::conversions::to_string_t("}"), web::uri::encode(ApiClient::parameterToString({{{paramName}}})));
+    {{#pathParams}}
+    boost::replace_all(localVarPath, utility::conversions::to_string_t("{") + utility::conversions::to_string_t("{{baseName}}") + utility::conversions::to_string_t("}"), web::uri::encode_uri(ApiClient::parameterToString({{{paramName}}})));
     {{/pathParams}}
 
     std::map<utility::string_t, utility::string_t> localVarQueryParams;
@@ -255,9 +256,9 @@ pplx::task<{{{returnType}}}{{^returnType}}void{{/returnType}}> {{classname}}::{{
     }
     {{/isKeyInQuery}}
     {{/isApiKey}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     // Basic authentication is added automatically as part of the http_client_config
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     // oauth2 authentication is added automatically as part of the http_client_config
     {{/isOAuth}}

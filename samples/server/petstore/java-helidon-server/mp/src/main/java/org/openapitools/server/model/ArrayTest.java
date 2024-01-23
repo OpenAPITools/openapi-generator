@@ -13,6 +13,7 @@
 package org.openapitools.server.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ReadOnlyFirst;
 import jakarta.validation.constraints.*;
@@ -30,7 +31,7 @@ public class ArrayTest  {
 
   private List<List<Long>> arrayArrayOfInteger = null;
 
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = null;
 
  /**
    * Get arrayOfString
@@ -86,23 +87,23 @@ public class ArrayTest  {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
   /**
     * Set arrayArrayOfModel
   **/
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }

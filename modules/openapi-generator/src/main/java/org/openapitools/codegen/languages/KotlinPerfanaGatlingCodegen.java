@@ -33,9 +33,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+
+import static org.openapitools.codegen.utils.ModelUtils.getAdditionalProperties;
 
 
 public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implements CodegenConfig {
@@ -395,7 +398,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
 
                             if (operation.getParameters() != null) {
                                 operation.getParameters().forEach(parameter -> {
-                                    String parameterType = parameter.getIn().toLowerCase();
+                                    String parameterType = parameter.getIn().toLowerCase(Locale.ROOT);
                                     Set<Parameter> parameterSet = parametersByType.computeIfAbsent(parameterType,
                                             k -> new HashSet<>());
                                     parameterSet.add(parameter);
@@ -485,14 +488,15 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
                 if (schema.getMaximum() != null) {
                     rootNode.put(propertyName, schema.getMaximum());
                 } else if (schema.getFormat() != null) {
-                    LocalDateTime currentDateTime = LocalDateTime.now();
+                    LocalDateTime currentDateTime = LocalDateTime.now(ZoneOffset.UTC);
                     switch (schema.getFormat()) {
                         case "date":
-                            String dateString = currentDateTime.toLocalDate().toString();
-                            rootNode.put(propertyName, dateString);
+                            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'Z'", Locale.US);
+                            String formattedDate = LocalDateTime.now(ZoneOffset.UTC).format(dateFormatter);
+                            rootNode.put(propertyName, formattedDate);
                             break;
                         case "date-time":
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
                             String formattedDateTime = currentDateTime.format(formatter);
                             rootNode.put(propertyName, formattedDateTime);
                             break;
@@ -658,7 +662,7 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
             Schema<?> inner = ap.getItems();
             return this.getSchemaType(p) + "[" + this.getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = this.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return this.getSchemaType(p) + "[String, " + this.getTypeDeclaration(inner) + "]";
         } else {
             return super.getTypeDeclaration(p);

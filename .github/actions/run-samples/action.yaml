@@ -15,5 +15,5 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: mvn --no-snapshot-updates --batch-mode --quiet ${{ inputs.goal }} -P${{ inputs.name }} -Dintegration-test -Dmaven.javadoc.skip=true ${{ inputs.args }}
+    - run: ./mvnw clean --no-snapshot-updates --batch-mode --quiet ${{ inputs.goal }} -P${{ inputs.name }} -Dintegration-test -Dmaven.javadoc.skip=true ${{ inputs.args }}
       shell: bash

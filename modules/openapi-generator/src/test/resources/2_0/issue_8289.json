@@ -1,0 +1,33 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Test swagger",
+    "version": "0.1.0"
+  },
+  "definitions": {
+    "File": {
+      "title": "File",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Folder": {
+      "title": "Folder",
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/File"
+          }
+        }
+      }
+    }
+  },
+  "paths": {},
+  "host": "localhost:3000",
+  "schemes": ["http"]
+}

@@ -17,19 +17,21 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
+import com.google.common.collect.Iterables;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class GoServerCodegen extends AbstractGoCodegen {
 
@@ -114,7 +116,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optAddResponseHeaders.defaultValue(addResponseHeaders.toString());
         cliOptions.add(optAddResponseHeaders);
 
-        
+
         // option to exclude service factories; only interfaces are rendered
         CliOption optOnlyInterfaces = new CliOption("onlyInterfaces", "Exclude default service creators from output; only generate interfaces");
         optOnlyInterfaces.setType("bool");
@@ -288,35 +290,111 @@ public class GoServerCodegen extends AbstractGoCodegen {
     }
 
     @Override
+    public ModelsMap postProcessModels(ModelsMap objs) {
+        // The superclass determines the list of required golang imports. The actual list of imports
+        // depends on which types are used. So super.postProcessModels must be invoked at the beginning
+        // of this method.
+        objs = super.postProcessModels(objs);
+
+        List<Map<String, String>> imports = objs.getImports();
+
+        for (ModelMap m : objs.getModels()) {
+//            imports.add(createMapping("import", "encoding/json"));
+
+            CodegenModel model = m.getModel();
+            if (model.isEnum) {
+                imports.add(createMapping("import", "fmt"));
+                continue;
+            }
+
+            Boolean importErrors = false;
+
+            for (CodegenProperty param : Iterables.concat(model.vars, model.allVars, model.requiredVars, model.optionalVars)) {
+                if (param.isNumeric && (StringUtils.isNotEmpty(param.minimum) || StringUtils.isNotEmpty(param.maximum))) {
+                    importErrors = true;
+                }
+            }
+
+            if (importErrors) {
+                imports.add(createMapping("import", "errors"));
+            }
+        }
+        return objs;
+    }
+
+    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
+        // TODO: refactor abstractGoCodegen, decouple go client only code and remove this
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
 
+        for (CodegenOperation operation : operations) {
+            // http method verb conversion (e.g. PUT => Put)
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+        }
+
+        // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 
-        // override imports to only include packages for interface parameters
-        imports.clear();
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(apiPackage))
+                iterator.remove();
+        }
 
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
+        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) || "[]*os.File".equals(param.dataType))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter
-                if (param.required) {
-                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
-                        imports.add(createMapping("import", "time"));
-                        addedTimeImport = true;
-                    }
+                // import "time" if the operation has a time parameter.
+                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                    imports.add(createMapping("import", "time"));
+                    addedTimeImport = true;
                 }
+
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
+                }
+
+                // set x-exportParamName
+                char nameFirstChar = param.paramName.charAt(0);
+                if (Character.isUpperCase(nameFirstChar)) {
+                    // First char is already uppercase, just use paramName.
+                    param.vendorExtensions.put("x-export-param-name", param.paramName);
+                } else {
+                    // It's a lowercase first char, let's convert it to uppercase
+                    StringBuilder sb = new StringBuilder(param.paramName);
+                    sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                    param.vendorExtensions.put("x-export-param-name", sb.toString());
+                }
+            }
+
+        }
+
+        // recursively add import for mapping one type to multiple imports
+        List<Map<String, String>> recursiveImports = objs.getImports();
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                listIterator.add(createMapping("import", importMapping.get(_import)));
             }
         }
 
@@ -404,29 +482,4 @@ public class GoServerCodegen extends AbstractGoCodegen {
         this.outputAsLibrary = outputAsLibrary;
     }
 
-    @Override
-    protected void updateModelForObject(CodegenModel m, Schema schema) {
-        /**
-         * we have a custom version of this function so we only set isMap to true if
-         * ModelUtils.isMapSchema
-         * In other generators, isMap is true for all type object schemas
-         */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
-            // passing null to allProperties and allRequired as there's no parent
-            addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
-        }
-        if (ModelUtils.isMapSchema(schema)) {
-            // an object or anyType composed schema that has additionalProperties set
-            addAdditionPropertiesToCodeGenModel(m, schema);
-        } else {
-            m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
-                // non-composed object type with no properties + additionalProperties
-                // additionalProperties must be null, ObjectSchema, or empty Schema
-                addAdditionPropertiesToCodeGenModel(m, schema);
-            }
-        }
-        // process 'additionalProperties'
-        setAddProps(schema, m);
-    }
 }

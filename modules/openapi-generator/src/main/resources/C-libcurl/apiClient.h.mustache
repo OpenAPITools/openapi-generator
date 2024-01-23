@@ -30,10 +30,10 @@ typedef struct apiClient_t {
     long response_code;
     {{#hasAuthMethods}}
     {{#authMethods}}
-    {{#isBasic}}
+    {{#isBasicBasic}}
     char *username;
     char *password;
-    {{/isBasic}}
+    {{/isBasicBasic}}
     {{#isOAuth}}
     char *accessToken;
     {{/isOAuth}}

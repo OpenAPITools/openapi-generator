@@ -28,6 +28,68 @@ class ArrayMapObject < Petstore::Category
       :boolean_false_arr => :'Array<Boolean>',
     }
   end
+
+  def initialize(attributes = {})
+    if (!attributes.is_a?(Hash))
+      fail ArgumentError, "The input argument (attributes) must be a hash in `ArrayMapObject` initialize method"
+    end
+
+    # check to see if the attribute exists and convert string to symbol for hash key
+    attributes = attributes.each_with_object({}) { |(k, v), h|
+      if (!self.class.attribute_map.key?(k.to_sym))
+        fail ArgumentError, "`#{k}` is not a valid attribute in `ArrayMapObject`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+      end
+      h[k.to_sym] = v
+    }
+
+    if attributes.key?(:'int_arr')
+      if (value = attributes[:'int_arr']).is_a?(Array)
+        self.int_arr = value
+      end
+    end
+
+    if attributes.key?(:'pet_arr')
+      if (value = attributes[:'pet_arr']).is_a?(Array)
+        self.pet_arr = value
+      end
+    end
+
+    if attributes.key?(:'int_map')
+      if (value = attributes[:'int_map']).is_a?(Hash)
+        self.int_map = value
+      end
+    end
+
+    if attributes.key?(:'pet_map')
+      if (value = attributes[:'pet_map']).is_a?(Hash)
+        self.pet_map = value
+      end
+    end
+
+    if attributes.key?(:'int_arr_map')
+      if (value = attributes[:'int_arr_map']).is_a?(Hash)
+        self.int_arr_map = value
+      end
+    end
+
+    if attributes.key?(:'pet_arr_map')
+      if (value = attributes[:'pet_arr_map']).is_a?(Hash)
+        self.pet_arr_map = value
+      end
+    end
+
+    if attributes.key?(:'boolean_true_arr')
+      if (value = attributes[:'boolean_true_arr']).is_a?(Array)
+        self.boolean_true_arr = value
+      end
+    end
+
+    if attributes.key?(:'boolean_false_arr')
+      if (value = attributes[:'boolean_false_arr']).is_a?(Array)
+        self.boolean_false_arr = value
+      end
+    end
+  end
 end
 
 describe 'BaseObject' do
@@ -41,22 +103,20 @@ describe 'BaseObject' do
   end
 
   describe 'array and map properties' do
-    let(:obj) { ArrayMapObject.new }
-
     let(:data) do
       { int_arr: [123, 456],
-       pet_arr: [{ name: 'Kitty' }],
+       pet_arr: [{ name: 'Kitty', photoUrls: ['www.photo-url.test'] }],
        int_map: { 'int' => 123 },
-       pet_map: { 'pet' => { name: 'Kitty' } },
+       pet_map: { 'pet' => { name: 'Kitty', photoUrls: ['www.photo-url.test'] } },
        int_arr_map: { 'int_arr' => [123, 456] },
-       pet_arr_map: { 'pet_arr' => [{ name: 'Kitty' }] },
+       pet_arr_map: { 'pet_arr' => [{ name: 'Kitty', photoUrls: ['www.photo-url.test'] }] },
        boolean_true_arr:  [true, "true", "TruE", 1, "y", "yes", "1", "t", "T"],
        boolean_false_arr: [false, "", 0, "0", "f", nil, "null", "\ntrue\n"],
       }
     end
 
     it 'works for #build_from_hash' do
-      obj.build_from_hash(data)
+      obj = ArrayMapObject.build_from_hash(data)
 
       expect(obj.int_arr).to match_array([123, 456])
 
@@ -99,7 +159,7 @@ describe 'BaseObject' do
     end
 
     it 'works for #to_hash' do
-      obj.build_from_hash(data)
+      obj = ArrayMapObject.build_from_hash(data)
       expect_data = data.dup
       expect_data[:boolean_true_arr].map! { true }
       expect_data[:boolean_false_arr].map! { false }

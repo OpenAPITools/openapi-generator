@@ -24,9 +24,8 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTestDto {
 
-  @JsonProperty("map_map_of_string")
   
-  private Map<String, Map<String, String>> mapMapOfString = null;
+  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
 
   /**
    * Gets or Sets inner
@@ -63,17 +62,14 @@ public class MapTestDto {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
   
-  private Map<String, InnerEnum> mapOfEnumString = null;
+  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
 
-  @JsonProperty("direct_map")
   
-  private Map<String, Boolean> directMap = null;
+  private Map<String, Boolean> directMap = new HashMap<>();
 
-  @JsonProperty("indirect_map")
   
-  private Map<String, Boolean> indirectMap = null;
+  private Map<String, Boolean> indirectMap = new HashMap<>();
 
   public MapTestDto mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
@@ -93,6 +89,7 @@ public class MapTestDto {
    * @return mapMapOfString
   */
   
+  @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
@@ -119,6 +116,7 @@ public class MapTestDto {
    * @return mapOfEnumString
   */
   
+  @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
@@ -145,6 +143,7 @@ public class MapTestDto {
    * @return directMap
   */
   
+  @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
@@ -171,6 +170,7 @@ public class MapTestDto {
    * @return indirectMap
   */
   
+  @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }

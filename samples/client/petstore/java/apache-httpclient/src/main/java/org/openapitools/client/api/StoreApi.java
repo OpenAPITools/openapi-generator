@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Order;

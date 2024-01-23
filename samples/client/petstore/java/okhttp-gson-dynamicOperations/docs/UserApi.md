@@ -14,7 +14,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user |
 
 
-<a name="createUser"></a>
+<a id="createUser"></a>
 # **createUser**
 > createUser(body)
 
@@ -75,7 +75,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **0** | successful operation |  -  |
 
-<a name="createUsersWithArrayInput"></a>
+<a id="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
 > createUsersWithArrayInput(body)
 
@@ -134,7 +134,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **0** | successful operation |  -  |
 
-<a name="createUsersWithListInput"></a>
+<a id="createUsersWithListInput"></a>
 # **createUsersWithListInput**
 > createUsersWithListInput(body)
 
@@ -193,7 +193,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **0** | successful operation |  -  |
 
-<a name="deleteUser"></a>
+<a id="deleteUser"></a>
 # **deleteUser**
 > deleteUser(username)
 
@@ -255,7 +255,7 @@ No authorization required
 | **400** | Invalid username supplied |  -  |
 | **404** | User not found |  -  |
 
-<a name="getUserByName"></a>
+<a id="getUserByName"></a>
 # **getUserByName**
 > User getUserByName(username)
 
@@ -317,7 +317,7 @@ No authorization required
 | **400** | Invalid username supplied |  -  |
 | **404** | User not found |  -  |
 
-<a name="loginUser"></a>
+<a id="loginUser"></a>
 # **loginUser**
 > String loginUser(username, password)
 
@@ -380,7 +380,7 @@ No authorization required
 | **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
 | **400** | Invalid username/password supplied |  -  |
 
-<a name="logoutUser"></a>
+<a id="logoutUser"></a>
 # **logoutUser**
 > logoutUser()
 
@@ -435,7 +435,7 @@ No authorization required
 |-------------|-------------|------------------|
 | **0** | successful operation |  -  |
 
-<a name="updateUser"></a>
+<a id="updateUser"></a>
 # **updateUser**
 > updateUser(username, body)
 

@@ -1,0 +1,42 @@
+openapi: 3.0.3
+info:
+  title: Example Hello API
+  description: ''
+  version: v1
+servers:
+  - url: http://localhost
+    description: Global Endpoint
+paths:
+  /v1/hello/{name}:
+    get:
+      tags:
+        - hello_example
+      operationId: Hello
+      description: Say Hello
+      parameters:
+        - name: X-CUSTOM_CONSTANT_HEADER
+          in: header
+          required: true
+          schema:
+            type: string
+            enum:
+            - CONSTANT_VALUE
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      properties:
+        message:
+          type: string

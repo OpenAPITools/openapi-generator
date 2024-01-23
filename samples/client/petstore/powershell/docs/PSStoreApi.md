@@ -1,4 +1,4 @@
-# PSPetstore.PSPetstore/Api.PSStoreApi
+# PSPetstore.PSPetstore\Api.PSStoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 [**Invoke-PSPlaceOrder**](PSStoreApi.md#Invoke-PSPlaceOrder) | **POST** /store/order | Place an order for a pet
 
 
-<a name="Remove-PSOrder"></a>
+<a id="Remove-PSOrder"></a>
 # **Remove-PSOrder**
 > void Remove-PSOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <String><br>
@@ -53,7 +53,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Get-PSInventory"></a>
+<a id="Get-PSInventory"></a>
 # **Get-PSInventory**
 > System.Collections.Hashtable Get-PSInventory<br>
 
@@ -66,9 +66,9 @@ Returns a map of status codes to quantities
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 # Configure API key authorization: api_key
-$Configuration.ApiKey.api_key = "YOUR_API_KEY"
+$Configuration.ApiKey.api_key_name = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration.ApiKeyPrefix.api_key = "Bearer"
+#$Configuration.ApiKeyPrefix.api_key_name = "Bearer"
 
 
 # Returns pet inventories by status
@@ -98,7 +98,7 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Get-PSOrderById"></a>
+<a id="Get-PSOrderById"></a>
 # **Get-PSOrderById**
 > Order Get-PSOrderById<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-OrderId] <Int64><br>
@@ -141,7 +141,7 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="Invoke-PSPlaceOrder"></a>
+<a id="Invoke-PSPlaceOrder"></a>
 # **Invoke-PSPlaceOrder**
 > Order Invoke-PSPlaceOrder<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Order] <PSCustomObject><br>

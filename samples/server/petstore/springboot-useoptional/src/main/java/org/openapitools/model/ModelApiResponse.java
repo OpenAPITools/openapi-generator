@@ -24,17 +24,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 
-  @JsonProperty("code")
-  private Integer code;
+  private Optional<Integer> code = Optional.empty();
 
-  @JsonProperty("type")
-  private String type;
+  private Optional<String> type = Optional.empty();
 
-  @JsonProperty("message")
-  private String message;
+  private Optional<String> message = Optional.empty();
 
   public ModelApiResponse code(Integer code) {
-    this.code = code;
+    this.code = Optional.of(code);
     return this;
   }
 
@@ -44,16 +41,17 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
-  public Integer getCode() {
+  @JsonProperty("code")
+  public Optional<Integer> getCode() {
     return code;
   }
 
-  public void setCode(Integer code) {
+  public void setCode(Optional<Integer> code) {
     this.code = code;
   }
 
   public ModelApiResponse type(String type) {
-    this.type = type;
+    this.type = Optional.of(type);
     return this;
   }
 
@@ -63,16 +61,17 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
-  public String getType() {
+  @JsonProperty("type")
+  public Optional<String> getType() {
     return type;
   }
 
-  public void setType(String type) {
+  public void setType(Optional<String> type) {
     this.type = type;
   }
 
   public ModelApiResponse message(String message) {
-    this.message = message;
+    this.message = Optional.of(message);
     return this;
   }
 
@@ -82,11 +81,12 @@ public class ModelApiResponse {
   */
   
   @ApiModelProperty(value = "")
-  public String getMessage() {
+  @JsonProperty("message")
+  public Optional<String> getMessage() {
     return message;
   }
 
-  public void setMessage(String message) {
+  public void setMessage(Optional<String> message) {
     this.message = message;
   }
 

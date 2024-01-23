@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -60,7 +61,6 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("just_symbol")
   private JustSymbolEnum justSymbol;
 
   /**
@@ -98,9 +98,8 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("array_enum")
   @Valid
-  private List<ArrayEnumEnum> arrayEnum = null;
+  private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
@@ -113,6 +112,7 @@ public class EnumArrays {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("just_symbol")
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -140,6 +140,7 @@ public class EnumArrays {
   */
   
   @ApiModelProperty(value = "")
+  @JsonProperty("array_enum")
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

@@ -91,7 +91,7 @@ export const DefaultConfig = new Configuration();
  */
 export class BaseAPI {
 
-	 private static readonly jsonRegex = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
+    private static readonly jsonRegex = new RegExp('^(:?application\/json|[^;/ \t]+\/[^;/ \t]+[+]json)[ \t]*(:?;.*)?$', 'i');
     private middleware: Middleware[];
 
     constructor(protected configuration = DefaultConfig) {
@@ -172,14 +172,20 @@ export class BaseAPI {
             }))
         };
 
+        let body: any;
+        if (isFormData(overriddenInit.body)
+            || (overriddenInit.body instanceof URLSearchParams)
+            || isBlob(overriddenInit.body)) {
+          body = overriddenInit.body;
+        } else if (this.isJsonMime(headers['Content-Type'])) {
+          body = JSON.stringify(overriddenInit.body);
+        } else {
+          body = overriddenInit.body;
+        }
+
         const init: RequestInit = {
             ...overriddenInit,
-            body:
-                isFormData(overriddenInit.body) ||
-                overriddenInit.body instanceof URLSearchParams ||
-                isBlob(overriddenInit.body)
-                    ? overriddenInit.body
-                    : JSON.stringify(overriddenInit.body),
+            body
         };
 
         return { url, init };

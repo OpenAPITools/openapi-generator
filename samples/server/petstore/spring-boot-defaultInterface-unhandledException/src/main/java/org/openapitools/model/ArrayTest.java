@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -24,17 +25,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest {
 
-  @JsonProperty("array_of_string")
   @Valid
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
-  @JsonProperty("array_array_of_integer")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
-  @JsonProperty("array_array_of_model")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -55,6 +53,7 @@ public class ArrayTest {
   */
   
   @Schema(name = "array_of_string", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -82,6 +81,7 @@ public class ArrayTest {
   */
   @Valid 
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -90,7 +90,7 @@ public class ArrayTest {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -109,11 +109,12 @@ public class ArrayTest {
   */
   @Valid 
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  @JsonProperty("array_array_of_model")
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

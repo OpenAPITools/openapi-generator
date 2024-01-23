@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
@@ -16,6 +18,7 @@ pub struct AdditionalPropertiesClass {
     pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
 }
+
 
 impl AdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -140,7 +143,7 @@ impl AdditionalPropertiesClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Animal {
     #[serde(rename = "className")]
@@ -151,6 +154,7 @@ pub struct Animal {
     pub color: Option<String>,
 
 }
+
 
 impl Animal {
     #[allow(clippy::new_without_default)]
@@ -174,7 +178,7 @@ impl std::string::ToString for Animal {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -422,7 +426,7 @@ impl AnimalFarm {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ApiResponse {
     #[serde(rename = "code")]
@@ -438,6 +442,7 @@ pub struct ApiResponse {
     pub message: Option<String>,
 
 }
+
 
 impl ApiResponse {
     #[allow(clippy::new_without_default)]
@@ -458,7 +463,7 @@ impl std::string::ToString for ApiResponse {
         let params: Vec<Option<String>> = vec![
 
             self.code.as_ref().map(|code| {
-                vec![
+                [
                     "code".to_string(),
                     code.to_string(),
                 ].join(",")
@@ -466,7 +471,7 @@ impl std::string::ToString for ApiResponse {
 
 
             self.r#type.as_ref().map(|r#type| {
-                vec![
+                [
                     "type".to_string(),
                     r#type.to_string(),
                 ].join(",")
@@ -474,7 +479,7 @@ impl std::string::ToString for ApiResponse {
 
 
             self.message.as_ref().map(|message| {
-                vec![
+                [
                     "message".to_string(),
                     message.to_string(),
                 ].join(",")
@@ -588,7 +593,7 @@ impl ApiResponse {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfArrayOfNumberOnly {
     #[serde(rename = "ArrayArrayNumber")]
@@ -596,6 +601,7 @@ pub struct ArrayOfArrayOfNumberOnly {
     pub array_array_number: Option<Vec<Vec<f64>>>,
 
 }
+
 
 impl ArrayOfArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -713,7 +719,7 @@ impl ArrayOfArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayOfNumberOnly {
     #[serde(rename = "ArrayNumber")]
@@ -721,6 +727,7 @@ pub struct ArrayOfNumberOnly {
     pub array_number: Option<Vec<f64>>,
 
 }
+
 
 impl ArrayOfNumberOnly {
     #[allow(clippy::new_without_default)]
@@ -739,7 +746,7 @@ impl std::string::ToString for ArrayOfNumberOnly {
         let params: Vec<Option<String>> = vec![
 
             self.array_number.as_ref().map(|array_number| {
-                vec![
+                [
                     "ArrayNumber".to_string(),
                     array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -844,7 +851,7 @@ impl ArrayOfNumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ArrayTest {
     #[serde(rename = "array_of_string")]
@@ -866,6 +873,7 @@ pub struct ArrayTest {
 
 }
 
+
 impl ArrayTest {
     #[allow(clippy::new_without_default)]
     pub fn new() -> ArrayTest {
@@ -886,7 +894,7 @@ impl std::string::ToString for ArrayTest {
         let params: Vec<Option<String>> = vec![
 
             self.array_of_string.as_ref().map(|array_of_string| {
-                vec![
+                [
                     "array_of_string".to_string(),
                     array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -898,7 +906,7 @@ impl std::string::ToString for ArrayTest {
 
 
             self.array_of_enum.as_ref().map(|array_of_enum| {
-                vec![
+                [
                     "array_of_enum".to_string(),
                     array_of_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -1012,7 +1020,7 @@ impl ArrayTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Capitalization {
     #[serde(rename = "smallCamel")]
@@ -1042,6 +1050,7 @@ pub struct Capitalization {
 
 }
 
+
 impl Capitalization {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Capitalization {
@@ -1064,7 +1073,7 @@ impl std::string::ToString for Capitalization {
         let params: Vec<Option<String>> = vec![
 
             self.small_camel.as_ref().map(|small_camel| {
-                vec![
+                [
                     "smallCamel".to_string(),
                     small_camel.to_string(),
                 ].join(",")
@@ -1072,7 +1081,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.capital_camel.as_ref().map(|capital_camel| {
-                vec![
+                [
                     "CapitalCamel".to_string(),
                     capital_camel.to_string(),
                 ].join(",")
@@ -1080,7 +1089,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.small_snake.as_ref().map(|small_snake| {
-                vec![
+                [
                     "small_Snake".to_string(),
                     small_snake.to_string(),
                 ].join(",")
@@ -1088,7 +1097,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.capital_snake.as_ref().map(|capital_snake| {
-                vec![
+                [
                     "Capital_Snake".to_string(),
                     capital_snake.to_string(),
                 ].join(",")
@@ -1096,7 +1105,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.sca_eth_flow_points.as_ref().map(|sca_eth_flow_points| {
-                vec![
+                [
                     "SCA_ETH_Flow_Points".to_string(),
                     sca_eth_flow_points.to_string(),
                 ].join(",")
@@ -1104,7 +1113,7 @@ impl std::string::ToString for Capitalization {
 
 
             self.att_name.as_ref().map(|att_name| {
-                vec![
+                [
                     "ATT_NAME".to_string(),
                     att_name.to_string(),
                 ].join(",")
@@ -1230,7 +1239,7 @@ impl Capitalization {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Cat {
     #[serde(rename = "className")]
@@ -1245,6 +1254,7 @@ pub struct Cat {
     pub declawed: Option<bool>,
 
 }
+
 
 impl Cat {
     #[allow(clippy::new_without_default)]
@@ -1269,7 +1279,7 @@ impl std::string::ToString for Cat {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -1277,7 +1287,7 @@ impl std::string::ToString for Cat {
 
 
             self.declawed.as_ref().map(|declawed| {
-                vec![
+                [
                     "declawed".to_string(),
                     declawed.to_string(),
                 ].join(",")
@@ -1391,139 +1401,7 @@ impl Cat {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct CatAllOf {
-    #[serde(rename = "declawed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub declawed: Option<bool>,
-
-}
-
-impl CatAllOf {
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> CatAllOf {
-        CatAllOf {
-            declawed: None,
-        }
-    }
-}
-
-/// Converts the CatAllOf value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for CatAllOf {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![
-
-            self.declawed.as_ref().map(|declawed| {
-                vec![
-                    "declawed".to_string(),
-                    declawed.to_string(),
-                ].join(",")
-            }),
-
-        ];
-
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a CatAllOf value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for CatAllOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        /// An intermediate representation of the struct to use for parsing.
-        #[derive(Default)]
-        #[allow(dead_code)]
-        struct IntermediateRep {
-            pub declawed: Vec<bool>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',');
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing CatAllOf".to_string())
-            };
-
-            if let Some(key) = key_result {
-                #[allow(clippy::match_single_binding)]
-                match key {
-                    #[allow(clippy::redundant_clone)]
-                    "declawed" => intermediate_rep.declawed.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing CatAllOf".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(CatAllOf {
-            declawed: intermediate_rep.declawed.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<CatAllOf> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<CatAllOf>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<CatAllOf>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for CatAllOf - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<CatAllOf> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <CatAllOf as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into CatAllOf - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl CatAllOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Category")]
 pub struct Category {
@@ -1536,6 +1414,7 @@ pub struct Category {
     pub name: Option<String>,
 
 }
+
 
 impl Category {
     #[allow(clippy::new_without_default)]
@@ -1555,7 +1434,7 @@ impl std::string::ToString for Category {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -1563,7 +1442,7 @@ impl std::string::ToString for Category {
 
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -1674,7 +1553,7 @@ impl Category {
 }
 
 /// Model for testing model with \"_class\" property
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ClassModel {
     #[serde(rename = "_class")]
@@ -1682,6 +1561,7 @@ pub struct ClassModel {
     pub _class: Option<String>,
 
 }
+
 
 impl ClassModel {
     #[allow(clippy::new_without_default)]
@@ -1700,7 +1580,7 @@ impl std::string::ToString for ClassModel {
         let params: Vec<Option<String>> = vec![
 
             self._class.as_ref().map(|_class| {
-                vec![
+                [
                     "_class".to_string(),
                     _class.to_string(),
                 ].join(",")
@@ -1806,7 +1686,7 @@ impl ClassModel {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Client {
     #[serde(rename = "client")]
@@ -1814,6 +1694,7 @@ pub struct Client {
     pub client: Option<String>,
 
 }
+
 
 impl Client {
     #[allow(clippy::new_without_default)]
@@ -1832,7 +1713,7 @@ impl std::string::ToString for Client {
         let params: Vec<Option<String>> = vec![
 
             self.client.as_ref().map(|client| {
-                vec![
+                [
                     "client".to_string(),
                     client.to_string(),
                 ].join(",")
@@ -1938,7 +1819,7 @@ impl Client {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct Dog {
     #[serde(rename = "className")]
@@ -1953,6 +1834,7 @@ pub struct Dog {
     pub breed: Option<String>,
 
 }
+
 
 impl Dog {
     #[allow(clippy::new_without_default)]
@@ -1977,7 +1859,7 @@ impl std::string::ToString for Dog {
 
 
             self.color.as_ref().map(|color| {
-                vec![
+                [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
@@ -1985,7 +1867,7 @@ impl std::string::ToString for Dog {
 
 
             self.breed.as_ref().map(|breed| {
-                vec![
+                [
                     "breed".to_string(),
                     breed.to_string(),
                 ].join(",")
@@ -2099,139 +1981,7 @@ impl Dog {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
-pub struct DogAllOf {
-    #[serde(rename = "breed")]
-    #[serde(skip_serializing_if="Option::is_none")]
-    pub breed: Option<String>,
-
-}
-
-impl DogAllOf {
-    #[allow(clippy::new_without_default)]
-    pub fn new() -> DogAllOf {
-        DogAllOf {
-            breed: None,
-        }
-    }
-}
-
-/// Converts the DogAllOf value to the Query Parameters representation (style=form, explode=false)
-/// specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde serializer
-impl std::string::ToString for DogAllOf {
-    fn to_string(&self) -> String {
-        let params: Vec<Option<String>> = vec![
-
-            self.breed.as_ref().map(|breed| {
-                vec![
-                    "breed".to_string(),
-                    breed.to_string(),
-                ].join(",")
-            }),
-
-        ];
-
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
-    }
-}
-
-/// Converts Query Parameters representation (style=form, explode=false) to a DogAllOf value
-/// as specified in https://swagger.io/docs/specification/serialization/
-/// Should be implemented in a serde deserializer
-impl std::str::FromStr for DogAllOf {
-    type Err = String;
-
-    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
-        /// An intermediate representation of the struct to use for parsing.
-        #[derive(Default)]
-        #[allow(dead_code)]
-        struct IntermediateRep {
-            pub breed: Vec<String>,
-        }
-
-        let mut intermediate_rep = IntermediateRep::default();
-
-        // Parse into intermediate representation
-        let mut string_iter = s.split(',');
-        let mut key_result = string_iter.next();
-
-        while key_result.is_some() {
-            let val = match string_iter.next() {
-                Some(x) => x,
-                None => return std::result::Result::Err("Missing value while parsing DogAllOf".to_string())
-            };
-
-            if let Some(key) = key_result {
-                #[allow(clippy::match_single_binding)]
-                match key {
-                    #[allow(clippy::redundant_clone)]
-                    "breed" => intermediate_rep.breed.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
-                    _ => return std::result::Result::Err("Unexpected key while parsing DogAllOf".to_string())
-                }
-            }
-
-            // Get the next key
-            key_result = string_iter.next();
-        }
-
-        // Use the intermediate representation to return the struct
-        std::result::Result::Ok(DogAllOf {
-            breed: intermediate_rep.breed.into_iter().next(),
-        })
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<DogAllOf> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DogAllOf>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<DogAllOf>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DogAllOf - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DogAllOf> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <DogAllOf as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DogAllOf - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
-impl DogAllOf {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn as_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "$special[model.name]")]
 pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
@@ -2240,6 +1990,7 @@ pub struct DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     pub dollar_special_left_square_bracket_property_period_name_right_square_bracket: Option<i64>,
 
 }
+
 
 impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     #[allow(clippy::new_without_default)]
@@ -2258,7 +2009,7 @@ impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRigh
         let params: Vec<Option<String>> = vec![
 
             self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
-                vec![
+                [
                     "$special[property.name]".to_string(),
                     dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
                 ].join(",")
@@ -2364,7 +2115,7 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumArrays {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2383,6 +2134,7 @@ pub struct EnumArrays {
     pub array_array_enum: Option<Vec<Vec<String>>>,
 
 }
+
 
 impl EnumArrays {
     #[allow(clippy::new_without_default)]
@@ -2403,7 +2155,7 @@ impl std::string::ToString for EnumArrays {
         let params: Vec<Option<String>> = vec![
 
             self.just_symbol.as_ref().map(|just_symbol| {
-                vec![
+                [
                     "just_symbol".to_string(),
                     just_symbol.to_string(),
                 ].join(",")
@@ -2411,7 +2163,7 @@ impl std::string::ToString for EnumArrays {
 
 
             self.array_enum.as_ref().map(|array_enum| {
-                vec![
+                [
                     "array_enum".to_string(),
                     array_enum.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
@@ -2573,7 +2325,7 @@ impl EnumClass {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct EnumTest {
     // Note: inline enums are not fully supported by openapi-generator
@@ -2601,6 +2353,7 @@ pub struct EnumTest {
 
 }
 
+
 impl EnumTest {
     #[allow(clippy::new_without_default)]
     pub fn new(enum_string_required: String, ) -> EnumTest {
@@ -2622,7 +2375,7 @@ impl std::string::ToString for EnumTest {
         let params: Vec<Option<String>> = vec![
 
             self.enum_string.as_ref().map(|enum_string| {
-                vec![
+                [
                     "enum_string".to_string(),
                     enum_string.to_string(),
                 ].join(",")
@@ -2634,7 +2387,7 @@ impl std::string::ToString for EnumTest {
 
 
             self.enum_integer.as_ref().map(|enum_integer| {
-                vec![
+                [
                     "enum_integer".to_string(),
                     enum_integer.to_string(),
                 ].join(",")
@@ -2642,7 +2395,7 @@ impl std::string::ToString for EnumTest {
 
 
             self.enum_number.as_ref().map(|enum_number| {
-                vec![
+                [
                     "enum_number".to_string(),
                     enum_number.to_string(),
                 ].join(",")
@@ -2766,14 +2519,20 @@ impl EnumTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct FormatTest {
     #[serde(rename = "integer")]
+    #[validate(
+            range(min = 10, max = 100),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub integer: Option<u8>,
 
     #[serde(rename = "int32")]
+    #[validate(
+            range(min = 20, max = 200),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub int32: Option<u32>,
 
@@ -2782,21 +2541,36 @@ pub struct FormatTest {
     pub int64: Option<i64>,
 
     #[serde(rename = "number")]
+    #[validate(
+            range(min = 32.1, max = 543.2),
+        )]
     pub number: f64,
 
     #[serde(rename = "float")]
+    #[validate(
+            range(min = 54.3, max = 987.6),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub float: Option<f32>,
 
     #[serde(rename = "double")]
+    #[validate(
+            range(min = 67.8, max = 123.4),
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub double: Option<f64>,
 
     #[serde(rename = "string")]
+    #[validate(
+           regex = "RE_FORMATTEST_STRING",
+        )]
     #[serde(skip_serializing_if="Option::is_none")]
     pub string: Option<String>,
 
     #[serde(rename = "byte")]
+    #[validate(
+           custom ="validate_byte_formattest_byte"
+        )]
     pub byte: swagger::ByteArray,
 
     #[serde(rename = "binary")]
@@ -2804,7 +2578,7 @@ pub struct FormatTest {
     pub binary: Option<swagger::ByteArray>,
 
     #[serde(rename = "date")]
-    pub date: chrono::DateTime::<chrono::Utc>,
+    pub date: chrono::naive::NaiveDate,
 
     #[serde(rename = "dateTime")]
     #[serde(skip_serializing_if="Option::is_none")]
@@ -2815,13 +2589,31 @@ pub struct FormatTest {
     pub uuid: Option<uuid::Uuid>,
 
     #[serde(rename = "password")]
+    #[validate(
+            length(min = 10, max = 64),
+        )]
     pub password: String,
 
 }
 
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_STRING: regex::Regex = regex::Regex::new(r"/[a-z]/i").unwrap();
+}
+lazy_static::lazy_static! {
+    static ref RE_FORMATTEST_BYTE: regex::bytes::Regex = regex::bytes::Regex::new(r"^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}&#x3D;&#x3D;|[A-Za-z0-9+/]{3}&#x3D;)?$").unwrap();
+}
+fn validate_byte_formattest_byte(
+    b: &swagger::ByteArray
+) -> Result<(), validator::ValidationError> {
+    if !RE_FORMATTEST_BYTE.is_match(b) {
+        return Err(validator::ValidationError::new("Character not allowed"));
+    }
+    Ok(())
+}
+
 impl FormatTest {
     #[allow(clippy::new_without_default)]
-    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::DateTime::<chrono::Utc>, password: String, ) -> FormatTest {
+    pub fn new(number: f64, byte: swagger::ByteArray, date: chrono::naive::NaiveDate, password: String, ) -> FormatTest {
         FormatTest {
             integer: None,
             int32: None,
@@ -2848,7 +2640,7 @@ impl std::string::ToString for FormatTest {
         let params: Vec<Option<String>> = vec![
 
             self.integer.as_ref().map(|integer| {
-                vec![
+                [
                     "integer".to_string(),
                     integer.to_string(),
                 ].join(",")
@@ -2856,7 +2648,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.int32.as_ref().map(|int32| {
-                vec![
+                [
                     "int32".to_string(),
                     int32.to_string(),
                 ].join(",")
@@ -2864,7 +2656,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.int64.as_ref().map(|int64| {
-                vec![
+                [
                     "int64".to_string(),
                     int64.to_string(),
                 ].join(",")
@@ -2876,7 +2668,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.float.as_ref().map(|float| {
-                vec![
+                [
                     "float".to_string(),
                     float.to_string(),
                 ].join(",")
@@ -2884,7 +2676,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.double.as_ref().map(|double| {
-                vec![
+                [
                     "double".to_string(),
                     double.to_string(),
                 ].join(",")
@@ -2892,7 +2684,7 @@ impl std::string::ToString for FormatTest {
 
 
             self.string.as_ref().map(|string| {
-                vec![
+                [
                     "string".to_string(),
                     string.to_string(),
                 ].join(",")
@@ -2940,7 +2732,7 @@ impl std::str::FromStr for FormatTest {
             pub string: Vec<String>,
             pub byte: Vec<swagger::ByteArray>,
             pub binary: Vec<swagger::ByteArray>,
-            pub date: Vec<chrono::DateTime::<chrono::Utc>>,
+            pub date: Vec<chrono::naive::NaiveDate>,
             pub date_time: Vec<chrono::DateTime::<chrono::Utc>>,
             pub uuid: Vec<uuid::Uuid>,
             pub password: Vec<String>,
@@ -2978,7 +2770,7 @@ impl std::str::FromStr for FormatTest {
                     "byte" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     "binary" => return std::result::Result::Err("Parsing binary data in this style is not supported in FormatTest".to_string()),
                     #[allow(clippy::redundant_clone)]
-                    "date" => intermediate_rep.date.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "date" => intermediate_rep.date.push(<chrono::naive::NaiveDate as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
                     "dateTime" => intermediate_rep.date_time.push(<chrono::DateTime::<chrono::Utc> as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
@@ -3060,7 +2852,7 @@ impl FormatTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct HasOnlyReadOnly {
     #[serde(rename = "bar")]
@@ -3072,6 +2864,7 @@ pub struct HasOnlyReadOnly {
     pub foo: Option<String>,
 
 }
+
 
 impl HasOnlyReadOnly {
     #[allow(clippy::new_without_default)]
@@ -3091,7 +2884,7 @@ impl std::string::ToString for HasOnlyReadOnly {
         let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
-                vec![
+                [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
@@ -3099,7 +2892,7 @@ impl std::string::ToString for HasOnlyReadOnly {
 
 
             self.foo.as_ref().map(|foo| {
-                vec![
+                [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
@@ -3209,7 +3002,7 @@ impl HasOnlyReadOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct List {
     #[serde(rename = "123-list")]
@@ -3217,6 +3010,7 @@ pub struct List {
     pub param_123_list: Option<String>,
 
 }
+
 
 impl List {
     #[allow(clippy::new_without_default)]
@@ -3235,7 +3029,7 @@ impl std::string::ToString for List {
         let params: Vec<Option<String>> = vec![
 
             self.param_123_list.as_ref().map(|param_123_list| {
-                vec![
+                [
                     "123-list".to_string(),
                     param_123_list.to_string(),
                 ].join(",")
@@ -3341,7 +3135,7 @@ impl List {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
@@ -3359,6 +3153,7 @@ pub struct MapTest {
     pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 
 }
+
 
 impl MapTest {
     #[allow(clippy::new_without_default)]
@@ -3490,7 +3285,7 @@ impl MapTest {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct MixedPropertiesAndAdditionalPropertiesClass {
     #[serde(rename = "uuid")]
@@ -3506,6 +3301,7 @@ pub struct MixedPropertiesAndAdditionalPropertiesClass {
     pub map: Option<std::collections::HashMap<String, models::Animal>>,
 
 }
+
 
 impl MixedPropertiesAndAdditionalPropertiesClass {
     #[allow(clippy::new_without_default)]
@@ -3639,7 +3435,7 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 }
 
 /// Model for testing model name starting with number
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Model200Response {
@@ -3652,6 +3448,7 @@ pub struct Model200Response {
     pub class: Option<String>,
 
 }
+
 
 impl Model200Response {
     #[allow(clippy::new_without_default)]
@@ -3671,7 +3468,7 @@ impl std::string::ToString for Model200Response {
         let params: Vec<Option<String>> = vec![
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -3679,7 +3476,7 @@ impl std::string::ToString for Model200Response {
 
 
             self.class.as_ref().map(|class| {
-                vec![
+                [
                     "class".to_string(),
                     class.to_string(),
                 ].join(",")
@@ -3790,7 +3587,7 @@ impl Model200Response {
 }
 
 /// Model for testing model name same as property name
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Name")]
 pub struct Name {
@@ -3810,6 +3607,7 @@ pub struct Name {
     pub param_123_number: Option<i32>,
 
 }
+
 
 impl Name {
     #[allow(clippy::new_without_default)]
@@ -3835,7 +3633,7 @@ impl std::string::ToString for Name {
 
 
             self.snake_case.as_ref().map(|snake_case| {
-                vec![
+                [
                     "snake_case".to_string(),
                     snake_case.to_string(),
                 ].join(",")
@@ -3843,7 +3641,7 @@ impl std::string::ToString for Name {
 
 
             self.property.as_ref().map(|property| {
-                vec![
+                [
                     "property".to_string(),
                     property.to_string(),
                 ].join(",")
@@ -3851,7 +3649,7 @@ impl std::string::ToString for Name {
 
 
             self.param_123_number.as_ref().map(|param_123_number| {
-                vec![
+                [
                     "123Number".to_string(),
                     param_123_number.to_string(),
                 ].join(",")
@@ -3969,7 +3767,7 @@ impl Name {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NumberOnly {
     #[serde(rename = "JustNumber")]
@@ -3977,6 +3775,7 @@ pub struct NumberOnly {
     pub just_number: Option<f64>,
 
 }
+
 
 impl NumberOnly {
     #[allow(clippy::new_without_default)]
@@ -3995,7 +3794,7 @@ impl std::string::ToString for NumberOnly {
         let params: Vec<Option<String>> = vec![
 
             self.just_number.as_ref().map(|just_number| {
-                vec![
+                [
                     "JustNumber".to_string(),
                     just_number.to_string(),
                 ].join(",")
@@ -4101,7 +3900,7 @@ impl NumberOnly {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
@@ -4109,6 +3908,7 @@ pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
 }
+
 
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
     #[allow(clippy::new_without_default)]
@@ -4286,7 +4086,7 @@ impl ObjectWithOnlyAdditionalProperties {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Order")]
 pub struct Order {
@@ -4318,6 +4118,7 @@ pub struct Order {
 
 }
 
+
 impl Order {
     #[allow(clippy::new_without_default)]
     pub fn new() -> Order {
@@ -4340,7 +4141,7 @@ impl std::string::ToString for Order {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -4348,7 +4149,7 @@ impl std::string::ToString for Order {
 
 
             self.pet_id.as_ref().map(|pet_id| {
-                vec![
+                [
                     "petId".to_string(),
                     pet_id.to_string(),
                 ].join(",")
@@ -4356,7 +4157,7 @@ impl std::string::ToString for Order {
 
 
             self.quantity.as_ref().map(|quantity| {
-                vec![
+                [
                     "quantity".to_string(),
                     quantity.to_string(),
                 ].join(",")
@@ -4366,7 +4167,7 @@ impl std::string::ToString for Order {
 
 
             self.status.as_ref().map(|status| {
-                vec![
+                [
                     "status".to_string(),
                     status.to_string(),
                 ].join(",")
@@ -4374,7 +4175,7 @@ impl std::string::ToString for Order {
 
 
             self.complete.as_ref().map(|complete| {
-                vec![
+                [
                     "complete".to_string(),
                     complete.to_string(),
                 ].join(",")
@@ -4539,7 +4340,7 @@ impl OuterBoolean {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct OuterComposite {
     #[serde(rename = "my_number")]
@@ -4555,6 +4356,7 @@ pub struct OuterComposite {
     pub my_boolean: Option<bool>,
 
 }
+
 
 impl OuterComposite {
     #[allow(clippy::new_without_default)]
@@ -4575,7 +4377,7 @@ impl std::string::ToString for OuterComposite {
         let params: Vec<Option<String>> = vec![
 
             self.my_number.as_ref().map(|my_number| {
-                vec![
+                [
                     "my_number".to_string(),
                     my_number.to_string(),
                 ].join(",")
@@ -4583,7 +4385,7 @@ impl std::string::ToString for OuterComposite {
 
 
             self.my_string.as_ref().map(|my_string| {
-                vec![
+                [
                     "my_string".to_string(),
                     my_string.to_string(),
                 ].join(",")
@@ -4591,7 +4393,7 @@ impl std::string::ToString for OuterComposite {
 
 
             self.my_boolean.as_ref().map(|my_boolean| {
-                vec![
+                [
                     "my_boolean".to_string(),
                     my_boolean.to_string(),
                 ].join(",")
@@ -4844,7 +4646,7 @@ impl OuterString {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Pet")]
 pub struct Pet {
@@ -4874,6 +4676,7 @@ pub struct Pet {
 
 }
 
+
 impl Pet {
     #[allow(clippy::new_without_default)]
     pub fn new(name: String, photo_urls: Vec<String>, ) -> Pet {
@@ -4896,7 +4699,7 @@ impl std::string::ToString for Pet {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -4916,7 +4719,7 @@ impl std::string::ToString for Pet {
 
 
             self.status.as_ref().map(|status| {
-                vec![
+                [
                     "status".to_string(),
                     status.to_string(),
                 ].join(",")
@@ -5040,7 +4843,7 @@ impl Pet {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ReadOnlyFirst {
     #[serde(rename = "bar")]
@@ -5052,6 +4855,7 @@ pub struct ReadOnlyFirst {
     pub baz: Option<String>,
 
 }
+
 
 impl ReadOnlyFirst {
     #[allow(clippy::new_without_default)]
@@ -5071,7 +4875,7 @@ impl std::string::ToString for ReadOnlyFirst {
         let params: Vec<Option<String>> = vec![
 
             self.bar.as_ref().map(|bar| {
-                vec![
+                [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
@@ -5079,7 +4883,7 @@ impl std::string::ToString for ReadOnlyFirst {
 
 
             self.baz.as_ref().map(|baz| {
-                vec![
+                [
                     "baz".to_string(),
                     baz.to_string(),
                 ].join(",")
@@ -5190,7 +4994,7 @@ impl ReadOnlyFirst {
 }
 
 /// Model for testing reserved words
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Return")]
 pub struct Return {
@@ -5199,6 +5003,7 @@ pub struct Return {
     pub r#return: Option<i32>,
 
 }
+
 
 impl Return {
     #[allow(clippy::new_without_default)]
@@ -5217,7 +5022,7 @@ impl std::string::ToString for Return {
         let params: Vec<Option<String>> = vec![
 
             self.r#return.as_ref().map(|r#return| {
-                vec![
+                [
                     "return".to_string(),
                     r#return.to_string(),
                 ].join(",")
@@ -5323,7 +5128,7 @@ impl Return {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "Tag")]
 pub struct Tag {
@@ -5336,6 +5141,7 @@ pub struct Tag {
     pub name: Option<String>,
 
 }
+
 
 impl Tag {
     #[allow(clippy::new_without_default)]
@@ -5355,7 +5161,7 @@ impl std::string::ToString for Tag {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -5363,7 +5169,7 @@ impl std::string::ToString for Tag {
 
 
             self.name.as_ref().map(|name| {
-                vec![
+                [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
@@ -5473,7 +5279,7 @@ impl Tag {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "User")]
 pub struct User {
@@ -5512,6 +5318,7 @@ pub struct User {
 
 }
 
+
 impl User {
     #[allow(clippy::new_without_default)]
     pub fn new() -> User {
@@ -5536,7 +5343,7 @@ impl std::string::ToString for User {
         let params: Vec<Option<String>> = vec![
 
             self.id.as_ref().map(|id| {
-                vec![
+                [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
@@ -5544,7 +5351,7 @@ impl std::string::ToString for User {
 
 
             self.username.as_ref().map(|username| {
-                vec![
+                [
                     "username".to_string(),
                     username.to_string(),
                 ].join(",")
@@ -5552,7 +5359,7 @@ impl std::string::ToString for User {
 
 
             self.first_name.as_ref().map(|first_name| {
-                vec![
+                [
                     "firstName".to_string(),
                     first_name.to_string(),
                 ].join(",")
@@ -5560,7 +5367,7 @@ impl std::string::ToString for User {
 
 
             self.last_name.as_ref().map(|last_name| {
-                vec![
+                [
                     "lastName".to_string(),
                     last_name.to_string(),
                 ].join(",")
@@ -5568,7 +5375,7 @@ impl std::string::ToString for User {
 
 
             self.email.as_ref().map(|email| {
-                vec![
+                [
                     "email".to_string(),
                     email.to_string(),
                 ].join(",")
@@ -5576,7 +5383,7 @@ impl std::string::ToString for User {
 
 
             self.password.as_ref().map(|password| {
-                vec![
+                [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
@@ -5584,7 +5391,7 @@ impl std::string::ToString for User {
 
 
             self.phone.as_ref().map(|phone| {
-                vec![
+                [
                     "phone".to_string(),
                     phone.to_string(),
                 ].join(",")
@@ -5592,7 +5399,7 @@ impl std::string::ToString for User {
 
 
             self.user_status.as_ref().map(|user_status| {
-                vec![
+                [
                     "userStatus".to_string(),
                     user_status.to_string(),
                 ].join(",")

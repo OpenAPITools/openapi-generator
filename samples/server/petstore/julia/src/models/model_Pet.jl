@@ -2,7 +2,8 @@
 # Do not modify this file directly. Modify the OpenAPI specification instead.
 
 
-@doc raw"""A pet for sale in the pet store
+@doc raw"""Pet
+A pet for sale in the pet store
 
     Pet(;
         id=nothing,

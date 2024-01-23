@@ -41,6 +41,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.languages.AbstractJavaCodegen.DATE_LIBRARY;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
+import static org.openapitools.codegen.utils.ModelUtils.getAdditionalProperties;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen {
@@ -859,7 +860,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen {
 
         // operationId starts with a number
         if (operationId.matches("^\\d.*")) {
-            String formattedString = String.format("%s (starting with a number) cannot be used as method name. Renamed to %s%s",
+            String formattedString = String.format(Locale.US, "%s (starting with a number) cannot be used as method name. Renamed to %s%s",
                     operationId,
                     camelize(CALL_ + operationId),
                     LOWERCASE_FIRST_LETTER);

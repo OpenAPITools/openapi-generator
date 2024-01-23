@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -25,10 +27,13 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -43,7 +48,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String GEM_METADATA = "gemMetadata";
     public static final String FARADAY = "faraday";
+    public static final String HTTPX = "httpx";
     public static final String TYPHOEUS = "typhoeus";
     public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
@@ -60,6 +67,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
+    protected String gemMetadata = "{}";
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -164,6 +172,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
+        cliOptions.add(new CliOption(GEM_METADATA, "gem metadata.").
+                defaultValue("{}"));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
@@ -171,6 +182,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
+        supportedLibraries.put(HTTPX, "HTTPX >= 1.0.0 (https://gitlab.com/os85/httpx)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -239,6 +251,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(GEM_METADATA)) {
+            setGemMetadata((String) additionalProperties.get(GEM_METADATA));
+        }
+
         if (additionalProperties.containsKey(USE_AUTOLOAD)) {
             setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
         }
@@ -269,11 +285,15 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (TYPHOEUS.equals(getLibrary())) {
             // for Typhoeus
+            additionalProperties.put("isTyphoeus", Boolean.TRUE);
         } else if (FARADAY.equals(getLibrary())) {
             // for Faraday
             additionalProperties.put("isFaraday", Boolean.TRUE);
+        } else if (HTTPX.equals(getLibrary())) {
+            // for Faraday
+            additionalProperties.put("isHttpx", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
         }
 
         // test files should not be overwritten
@@ -281,10 +301,18 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
                 .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
-                .doNotOverwrite());
+
+        // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
+        additionalProperties.put("lambdaFixHeaderKey", new Mustache.Lambda() {
+            @Override
+            public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+                String content = fragment.execute();
+                if (content.contains("_")) {
+                    content = content.substring(1);
+                }
+                writer.write(content);
+            }
+        });
     }
 
     @Override
@@ -382,6 +410,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return schemaMapping.get(name);
         }
 
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
@@ -476,6 +508,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -503,6 +539,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
@@ -590,13 +630,17 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         this.gemAuthorEmail = gemAuthorEmail;
     }
 
+    public void setGemMetadata(String gemMetadata) {
+        this.gemMetadata = gemMetadata;
+    }
+
     public void setUseAutoload(boolean useAutoload) {
         this.useAutoload = useAutoload;
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        final Schema additionalProperties = getAdditionalProperties(schema);
+        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);

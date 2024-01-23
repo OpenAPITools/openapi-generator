@@ -1,0 +1,35 @@
+# OAS document that tests for a regression when using optional fields with additionalProperties
+openapi: 3.1.0
+info:
+  title: double-option-hashmap
+  version: 0.1.0
+  license:
+    name: MIT
+    identifier: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /repro:
+    post:
+      deprecated: false
+      operationId: repro
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Parent"
+          description: Reproduce bug in Rust generation code.
+components:
+  schemas:
+    Child:
+      additionalProperties: {}
+      type: object
+    Parent:
+      additionalProperties: false
+      properties:
+        child:
+          $ref: "#/components/schemas/Child"
+      required: []
+      type: object

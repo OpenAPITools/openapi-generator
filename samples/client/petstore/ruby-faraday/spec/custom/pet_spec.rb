@@ -42,8 +42,7 @@ describe "Pet" do
       expect(pet.category.name).to eq('category unknown')
 
       # test build_from_hash
-      pet2 = Petstore::Pet.new
-      pet2.build_from_hash(pet.to_hash)
+      pet2 = Petstore::Pet.build_from_hash(pet.to_hash)
       expect(pet.to_hash).to eq(pet2.to_hash)
 
       # make sure sub-object has different object id
@@ -157,7 +156,7 @@ describe "Pet" do
     it "should create a pet" do
       id = @pet_id + 1
 
-      pet = Petstore::Pet.new('id' => id, 'name' => "RUBY UNIT TESTING")
+      pet = Petstore::Pet.new('id' => id, 'name' => "RUBY UNIT TESTING", 'photo_urls' => ['www.photo-url.test'])
       result = @pet_api.add_pet(pet)
       # nothing is returned
       expect(result).to be_nil
@@ -165,6 +164,7 @@ describe "Pet" do
       pet = @pet_api.get_pet_by_id(id)
       expect(pet.id).to eq(id)
       expect(pet.name).to eq("RUBY UNIT TESTING")
+      expect(pet.photo_urls).to match_array(['www.photo-url.test'])
 
       @pet_api.delete_pet(id)
     end
@@ -182,8 +182,12 @@ describe "Pet" do
     end
 
     it "should implement eql? and hash" do
-      pet1 = Petstore::Pet.new
-      pet2 = Petstore::Pet.new
+      pet_hash = {
+        name: 'test_name',
+        photo_urls: ['www.photo-url.test']
+      }
+      pet1 = Petstore::Pet.new(pet_hash)
+      pet2 = Petstore::Pet.new(pet_hash)
       expect(pet1).to eq(pet2)
       expect(pet2).to eq(pet1)
       expect(pet1.eql?(pet2)).to eq(true)

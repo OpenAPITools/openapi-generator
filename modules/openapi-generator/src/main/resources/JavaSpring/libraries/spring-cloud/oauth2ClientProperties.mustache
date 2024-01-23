@@ -1,0 +1,25 @@
+{{#authMethods}}
+{{#isOAuth}}
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.enabled=false
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id=set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-client-id
+{{#scopes}}{{#-first}}spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.scope={{/-first}}{{scope}}{{^-last}},{{/-last}}{{/scopes}}
+    {{#isCode}}
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type=authorization_code
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.redirect-uri=set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-redirect-uri
+spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri={{{tokenUrl}}}
+spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri={{{authorizationUrl}}}
+    {{/isCode}}
+    {{#isPassword}}
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type=password
+spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri={{{tokenUrl}}}
+    {{/isPassword}}
+    {{#isApplication}}
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type=client_credentials
+spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri={{{tokenUrl}}}
+    {{/isApplication}}
+    {{#isImplicit}}
+spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type=implicit
+spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri={{{authorizationUrl}}}
+    {{/isImplicit}}
+{{/isOAuth}}
+{{/authMethods}}

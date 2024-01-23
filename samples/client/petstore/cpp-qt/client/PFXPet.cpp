@@ -61,22 +61,22 @@ void PFXPet::fromJson(QString jsonString) {
 
 void PFXPet::fromJsonObject(QJsonObject json) {
 
-    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(m_id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_category_isValid = ::test_namespace::fromJsonValue(category, json[QString("category")]);
+    m_category_isValid = ::test_namespace::fromJsonValue(m_category, json[QString("category")]);
     m_category_isSet = !json[QString("category")].isNull() && m_category_isValid;
 
-    m_name_isValid = ::test_namespace::fromJsonValue(name, json[QString("name")]);
+    m_name_isValid = ::test_namespace::fromJsonValue(m_name, json[QString("name")]);
     m_name_isSet = !json[QString("name")].isNull() && m_name_isValid;
 
-    m_photo_urls_isValid = ::test_namespace::fromJsonValue(photo_urls, json[QString("photoUrls")]);
+    m_photo_urls_isValid = ::test_namespace::fromJsonValue(m_photo_urls, json[QString("photoUrls")]);
     m_photo_urls_isSet = !json[QString("photoUrls")].isNull() && m_photo_urls_isValid;
 
-    m_tags_isValid = ::test_namespace::fromJsonValue(tags, json[QString("tags")]);
+    m_tags_isValid = ::test_namespace::fromJsonValue(m_tags, json[QString("tags")]);
     m_tags_isSet = !json[QString("tags")].isNull() && m_tags_isValid;
 
-    m_status_isValid = ::test_namespace::fromJsonValue(status, json[QString("status")]);
+    m_status_isValid = ::test_namespace::fromJsonValue(m_status, json[QString("status")]);
     m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
 }
 
@@ -90,32 +90,32 @@ QString PFXPet::asJson() const {
 QJsonObject PFXPet::asJsonObject() const {
     QJsonObject obj;
     if (m_id_isSet) {
-        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
-    if (category.isSet()) {
-        obj.insert(QString("category"), ::test_namespace::toJsonValue(category));
+    if (m_category.isSet()) {
+        obj.insert(QString("category"), ::test_namespace::toJsonValue(m_category));
     }
     if (m_name_isSet) {
-        obj.insert(QString("name"), ::test_namespace::toJsonValue(name));
+        obj.insert(QString("name"), ::test_namespace::toJsonValue(m_name));
     }
-    if (photo_urls.size() > 0) {
-        obj.insert(QString("photoUrls"), ::test_namespace::toJsonValue(photo_urls));
+    if (m_photo_urls.size() > 0) {
+        obj.insert(QString("photoUrls"), ::test_namespace::toJsonValue(m_photo_urls));
     }
-    if (tags.size() > 0) {
-        obj.insert(QString("tags"), ::test_namespace::toJsonValue(tags));
+    if (m_tags.size() > 0) {
+        obj.insert(QString("tags"), ::test_namespace::toJsonValue(m_tags));
     }
     if (m_status_isSet) {
-        obj.insert(QString("status"), ::test_namespace::toJsonValue(status));
+        obj.insert(QString("status"), ::test_namespace::toJsonValue(m_status));
     }
     return obj;
 }
 
 qint64 PFXPet::getId() const {
-    return id;
+    return m_id;
 }
 void PFXPet::setId(const qint64 &id) {
-    this->id = id;
-    this->m_id_isSet = true;
+    m_id = id;
+    m_id_isSet = true;
 }
 
 bool PFXPet::is_id_Set() const{
@@ -127,11 +127,11 @@ bool PFXPet::is_id_Valid() const{
 }
 
 PFXCategory PFXPet::getCategory() const {
-    return category;
+    return m_category;
 }
 void PFXPet::setCategory(const PFXCategory &category) {
-    this->category = category;
-    this->m_category_isSet = true;
+    m_category = category;
+    m_category_isSet = true;
 }
 
 bool PFXPet::is_category_Set() const{
@@ -143,11 +143,11 @@ bool PFXPet::is_category_Valid() const{
 }
 
 QString PFXPet::getName() const {
-    return name;
+    return m_name;
 }
 void PFXPet::setName(const QString &name) {
-    this->name = name;
-    this->m_name_isSet = true;
+    m_name = name;
+    m_name_isSet = true;
 }
 
 bool PFXPet::is_name_Set() const{
@@ -159,11 +159,11 @@ bool PFXPet::is_name_Valid() const{
 }
 
 QList<QString> PFXPet::getPhotoUrls() const {
-    return photo_urls;
+    return m_photo_urls;
 }
 void PFXPet::setPhotoUrls(const QList<QString> &photo_urls) {
-    this->photo_urls = photo_urls;
-    this->m_photo_urls_isSet = true;
+    m_photo_urls = photo_urls;
+    m_photo_urls_isSet = true;
 }
 
 bool PFXPet::is_photo_urls_Set() const{
@@ -175,11 +175,11 @@ bool PFXPet::is_photo_urls_Valid() const{
 }
 
 QList<PFXTag> PFXPet::getTags() const {
-    return tags;
+    return m_tags;
 }
 void PFXPet::setTags(const QList<PFXTag> &tags) {
-    this->tags = tags;
-    this->m_tags_isSet = true;
+    m_tags = tags;
+    m_tags_isSet = true;
 }
 
 bool PFXPet::is_tags_Set() const{
@@ -191,11 +191,11 @@ bool PFXPet::is_tags_Valid() const{
 }
 
 QString PFXPet::getStatus() const {
-    return status;
+    return m_status;
 }
 void PFXPet::setStatus(const QString &status) {
-    this->status = status;
-    this->m_status_isSet = true;
+    m_status = status;
+    m_status_isSet = true;
 }
 
 bool PFXPet::is_status_Set() const{
@@ -214,7 +214,7 @@ bool PFXPet::isSet() const {
             break;
         }
 
-        if (category.isSet()) {
+        if (m_category.isSet()) {
             isObjectUpdated = true;
             break;
         }
@@ -224,12 +224,12 @@ bool PFXPet::isSet() const {
             break;
         }
 
-        if (photo_urls.size() > 0) {
+        if (m_photo_urls.size() > 0) {
             isObjectUpdated = true;
             break;
         }
 
-        if (tags.size() > 0) {
+        if (m_tags.size() > 0) {
             isObjectUpdated = true;
             break;
         }

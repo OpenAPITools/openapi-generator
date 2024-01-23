@@ -167,12 +167,10 @@ Method | HTTP request | Description
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket](docs/DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
@@ -202,7 +200,8 @@ Method | HTTP request | Description
 
 ## Documentation For Authorization
 
-## petstore_auth
+Authentication schemes defined for the API:
+### petstore_auth
 - **Type**: OAuth
 - **Flow**: implicit
 - **Authorization URL**: http://petstore.swagger.io/api/oauth/dialog
@@ -217,19 +216,19 @@ Example
 Or via OAuth2 module to automatically refresh tokens and perform user authentication.
 ```
 ```
-## api_key
+### api_key
 - **Type**: API key
 
 Example
 ```
 ```
-## api_key_query
+### api_key_query
 - **Type**: API key
 
 Example
 ```
 ```
-## http_basic_test
+### http_basic_test
 - **Type**: HTTP basic authentication
 
 Example

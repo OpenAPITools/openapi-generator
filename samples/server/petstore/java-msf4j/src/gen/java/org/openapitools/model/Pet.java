@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class Pet   {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
-  private List<Tag> tags = null;
+  private List<@Valid Tag> tags = null;
 
   /**
    * pet status in the store
@@ -148,14 +149,14 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<>();
+      this.tags = ;
     }
     this.tags.add(tagsItem);
     return this;
@@ -166,11 +167,11 @@ public class Pet   {
    * @return tags
   **/
   @ApiModelProperty(value = "")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

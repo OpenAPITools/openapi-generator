@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -22,17 +23,14 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest {
 
-  @JsonProperty("array_of_string")
   
-  private List<String> arrayOfString = null;
+  private List<String> arrayOfString;
 
-  @JsonProperty("array_array_of_integer")
   
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List<Long>> arrayArrayOfInteger;
 
-  @JsonProperty("array_array_of_model")
   
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -52,6 +50,7 @@ public class ArrayTest {
    * @return arrayOfString
   */
   
+  @JsonProperty("array_of_string")
   public List<String> getArrayOfString() {
     return arrayOfString;
   }
@@ -78,6 +77,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   */
   
+  @JsonProperty("array_array_of_integer")
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
@@ -104,6 +104,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   */
   
+  @JsonProperty("array_array_of_model")
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }

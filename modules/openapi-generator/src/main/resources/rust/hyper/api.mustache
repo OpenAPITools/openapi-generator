@@ -49,9 +49,9 @@ impl<C: hyper::client::connect::Connect>{{{classname}}} for {{{classname}}}Clien
                 param_name: "{{{keyParamName}}}".to_owned(),
             }))
         {{/isApiKey}}
-        {{#isBasic}}
+        {{#isBasicBasic}}
             .with_auth(__internal_request::Auth::Basic)
-        {{/isBasic}}
+        {{/isBasicBasic}}
         {{#isOAuth}}
             .with_auth(__internal_request::Auth::Oauth)
         {{/isOAuth}}

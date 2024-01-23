@@ -2,7 +2,18 @@
 pragma Warnings (Off, "*is not referenced");
 with {{openApiPackageName}}.Streams;
 package body {{package}}.Clients is
-   pragma Style_Checks ("-mr");
+   pragma Style_Checks ("-bmrIu");
+
+{{#mediaVariables}}
+   {{name}} : aliased constant String := "{{value}}";
+{{/mediaVariables}}
+{{#mediaLists}}
+   Media_List_{{-index}} : constant {{openApiPackageName}}.Mime_List := ({{#this}}
+     {{-index}} => {{name}}{{^-last}},
+     {{/-last}}
+   {{/this}});
+{{/mediaLists}}
+
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -12,8 +23,8 @@ package body {{package}}.Clients is
    --  {{#lambdaAdaComment}}{{unescapedNotes}}{{/lambdaAdaComment}}{{/vendorExtensions.x-has-notes}}
    procedure {{operationId}}
       (Client : in out Client_Type{{#hasParams}};{{/hasParams}}{{#allParams}}
-       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{dataType}}{{^-last}};{{/-last}}{{/allParams}}{{#returnType}};
-       Result : out {{.}}{{/returnType}}) is
+       {{paramName}} : in {{^isFile}}{{^isString}}{{^isPrimitiveType}}{{^isContainer}}{{package}}.Models.{{/isContainer}}{{/isPrimitiveType}}{{/isString}}{{/isFile}}{{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};{{/-last}}{{/allParams}}{{#returnProperty}};
+       Result : out {{#vendorExtensions.x-ada-type-name}}{{.}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{/returnProperty}}) is
       URI   : {{openApiPackageName}}.Clients.URI_Type;{{#hasBodyParam}}
       Req   : {{openApiPackageName}}.Clients.Request_Type;{{/hasBodyParam}}{{#hasFormParams}}
       Req   : {{openApiPackageName}}.Clients.Request_Type;{{/hasFormParams}}
@@ -21,35 +32,36 @@ package body {{package}}.Clients is
       Reply : {{openApiPackageName}}.Value_Type;
       {{/returnType}}
    begin
-{{#hasProduces}}
-      Client.Set_Accept (({{#produces}}{{#vendorExtensions.x-has-uniq-produces}}1 => {{/vendorExtensions.x-has-uniq-produces}}{{openApiPackageName}}.Clients.{{adaMediaType}}{{^-last}},
-                          {{/-last}}{{/produces}}));{{/hasProduces}}{{#hasBodyParam}}
-      Client.Initialize (Req, ({{#hasConsumes}}{{#consumes}}{{#vendorExtensions.x-has-uniq-consumes}}1 => {{/vendorExtensions.x-has-uniq-consumes}}{{openApiPackageName}}.Clients.{{adaMediaType}}{{^-last}},
-                               {{/-last}}{{/consumes}}{{/hasConsumes}}{{^hasConsumes}}1 => {{openApiPackageName}}.Clients.APPLICATION_JSON{{/hasConsumes}}));{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
+{{#vendorExtensions.x-produces-media-index}}
+      Client.Set_Accept (Media_List_{{vendorExtensions.x-produces-media-index}});
+{{/vendorExtensions.x-produces-media-index}}
+      {{#hasBodyParam}}
+      Client.Initialize (Req{{#hasConsumes}}, Media_List_{{vendorExtensions.x-consumes-media-index}}{{/hasConsumes}});{{#bodyParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{#isFile}}
       --  TODO: Serialize (Req.Stream, "{{basename}}", {{paramName}});{{/isFile}}{{^isFile}}{{^isLong}}
       Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/isLong}}{{#isLong}}
       Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/isLong}}{{/isFile}}{{/vendorExtensions.x-is-model-type}}{{/bodyParams}}{{/hasBodyParam}}{{#hasFormParams}}
-      Client.Initialize (Req, (1 => {{openApiPackageName}}.Clients.APPLICATION_FORM));{{#formParams}}{{#vendorExtensions.x-is-model-type}}
+      Client.Initialize (Req, Media_List_{{vendorExtensions.x-consumes-media-index}});{{#formParams}}{{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Serialize (Req.Stream, "{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
       Req.Stream.Write_Entity ("{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{/formParams}}{{/hasFormParams}}
-{{#queryParams}}{{#isQueryParam}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}
-      URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isContainer}}{{/isString}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{^isLong}}
+{{#queryParams}}{{#isQueryParam}}{{^isPrimitiveType}}{{^isString}}{{^isContainer}}{{^isDateTime}}{{#vendorExtensions.x-is-model-type}}
+      URI.Add_Param ("{{baseName}}", {{package}}.Models.To_String ({{paramName}}));{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}
+      URI.Add_Param ("{{baseName}}", {{paramName}});{{/vendorExtensions.x-is-model-type}}{{/isDateTime}}{{/isContainer}}{{/isString}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{^isLong}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isLong}}{{/isPrimitiveType}}{{#isLong}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isLong}}{{#isContainer}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isContainer}}{{#isDateTime}}
       URI.Add_Param ("{{baseName}}", {{paramName}});{{/isDateTime}}{{/isQueryParam}}{{/queryParams}}
       URI.Set_Path ("{{path}}");{{#pathParams}}
-      URI.Set_Path_Param ("{{baseName}}", {{^isString}}{{openApiPackageName}}.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
+      URI.Set_Path_Param ("{{baseName}}", {{^isString}}{{#vendorExtensions.x-is-model-type}}{{package}}.Models{{/vendorExtensions.x-is-model-type}}{{^vendorExtensions.x-is-model-type}}{{openApiPackageName}}{{/vendorExtensions.x-is-model-type}}.To_String ({{/isString}}{{paramName}}{{^isString}}){{/isString}});{{/pathParams}}
       Client.Call ({{openApiPackageName}}.Clients.{{httpMethod}}, URI{{#hasBodyParam}}, Req{{/hasBodyParam}}{{#hasFormParams}}, Req{{/hasFormParams}}{{#returnType}}, Reply{{/returnType}});
-      {{#returnType}}
+      {{#returnProperty}}
       {{^vendorExtensions.x-is-model-type}}
       {{openApiPackageName}}.Streams.Deserialize (Reply, "", Result);
       {{/vendorExtensions.x-is-model-type}}
       {{#vendorExtensions.x-is-model-type}}
       {{package}}.Models.Deserialize (Reply, "", Result);
       {{/vendorExtensions.x-is-model-type}}
-      {{/returnType}}
+      {{/returnProperty}}
    end {{operationId}};
 {{/operation}}
 {{/operations}}

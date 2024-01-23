@@ -2,3 +2,6 @@ generatorName: c
 outputDir: samples/client/petstore/c
 inputSpec: modules/openapi-generator/src/test/resources/2_0/c/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/C-libcurl
+modelNameMappings:
+  another_model: MappedModel
+  another_property: mappedProperty

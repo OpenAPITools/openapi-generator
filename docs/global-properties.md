@@ -14,9 +14,9 @@ title: Global Properties
 | verbose | Defines the verbosity | `true` or `false` |
 | generateAliasAsModel | Defines whether primitive types defined at the model/schema level will be wrapped in a model | `true` or `false` |
 | org.openapitools.codegen.utils.oncelogger.enabled | Enable/disable the "OnceLogger" which reduces noise for select repeated logs | `true` or `false` |
-| supportingFiles | Allows the user to define which supporting files will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of file names |
-| models | Allows the user to define which models will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of model names |
-| apis | Allows the user to define which apis will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a comma-separated string of api names |
+| supportingFiles | Allows the user to define which supporting files will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a colon-separated string of file names |
+| models | Allows the user to define which models will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a colon-separated string of model names |
+| apis | Allows the user to define which apis will be generated. Prefer using the more robust `.openapi-generator-ignore`. | no value, or a colon-separated string of api names |
 | apiDocs | Allows the user to define if api docs will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
 | modelDocs | Allows the user to define if model docs will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |
 | apiTests | Allows the user to define if api tests will be generated. Prefer using the more robust `.openapi-generator-ignore`. | `true` or `false` |

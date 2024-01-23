@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import javax.validation.constraints.*;
@@ -80,6 +79,17 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  @Override
+  public Cat className(String className) {
+    this.setClassName(className);
+    return this;
+  }
+
+  @Override
+  public Cat color(String color) {
+    this.setColor(color);
+    return this;
+  }
 
   @Override
   public boolean equals(Object o) {

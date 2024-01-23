@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -55,6 +56,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
+    if (this.arrayOfString == null) {
+      this.arrayOfString = new ArrayList<>();
+    }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
   }
@@ -86,6 +90,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
+    if (this.arrayArrayOfInteger == null) {
+      this.arrayArrayOfInteger = new ArrayList<>();
+    }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
   }
@@ -117,6 +124,9 @@ public class ArrayTest {
   }
 
   public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+    if (this.arrayArrayOfModel == null) {
+      this.arrayArrayOfModel = new ArrayList<>();
+    }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }
@@ -139,7 +149,6 @@ public class ArrayTest {
   public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
-
 
   @Override
   public boolean equals(Object o) {

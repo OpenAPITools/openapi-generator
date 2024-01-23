@@ -8,21 +8,48 @@
 with "config";
 with "utilada_sys";
 with "utilada_xml";
-with "utilada_http";
+with "utilada_{{httpClientGprName}}";
 with "security";
-with "swagger";{{#isServer}}
+with "{{openApiGprName}}";{{#isServer}}
 with "servletada";
-with "swagger_server";{{/isServer}}
+with "servletada_aws";
+--  with "servletada_ews";
+with "{{openApiGprName}}_server";{{/isServer}}
 project {{{projectName}}} is
 
-    Mains := ("{{{packageName}}}-{{{mainName}}}.adb");
-    for Main use Mains;
-    for Source_Dirs use ("src", "src/model", "src/{{{packageDir}}}");
-    for Object_Dir use "./" & Config'Exec_Dir & "/bin";
+   for Object_Dir use "obj/";
+   for Source_Dirs use ("src", "src/model", "src/{{{packageDir}}}");
+{{^isServer}}
+   Mains := ("{{{packageName}}}-{{{mainName}}}.adb");
+{{/isServer}}
+{{#isServer}}
+   for Main use ();
 
-    package Binder renames Config.Binder;
-    package Builder renames Config.Builder;
-    package Compiler renames Config.Compiler;
-    package Linker renames Config.Linker;
+   Build_AWS : Config.Yes_No := external ("BUILD_AWS", "yes");
+   Build_EWS : Config.Yes_No := external ("BUILD_EWS", "no");
+
+   case Build_AWS is
+      when "yes" =>
+         for Main use Project'Main & ("{{{packageName}}}_aws.adb");
+         for Source_Dirs use Project'Source_Dirs & ("src/aws");
+
+      when others =>
+         null;
+   end case;
+
+   case Build_EWS is
+      when "yes" =>
+         for Main use Project'Main & ("{{{packageName}}}_ews.adb");
+         for Source_Dirs use Project'Source_Dirs & ("src/ews");
+
+      when others =>
+         null;
+   end case;
+{{/isServer}}
+
+   package Binder renames Config.Binder;
+   package Builder renames Config.Builder;
+   package Compiler renames Config.Compiler;
+   package Linker renames Config.Linker;
 
 end {{{projectName}}};

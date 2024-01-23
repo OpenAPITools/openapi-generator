@@ -22,7 +22,6 @@ import ArrayTest from './model/ArrayTest';
 import BasquePig from './model/BasquePig';
 import Capitalization from './model/Capitalization';
 import Cat from './model/Cat';
-import CatAllOf from './model/CatAllOf';
 import Category from './model/Category';
 import ClassModel from './model/ClassModel';
 import Client from './model/Client';
@@ -30,7 +29,6 @@ import Color from './model/Color';
 import DanishPig from './model/DanishPig';
 import DeprecatedObject from './model/DeprecatedObject';
 import Dog from './model/Dog';
-import DogAllOf from './model/DogAllOf';
 import EnumArrays from './model/EnumArrays';
 import EnumClass from './model/EnumClass';
 import EnumTest from './model/EnumTest';
@@ -65,6 +63,7 @@ import Return from './model/Return';
 import SpecialModelName from './model/SpecialModelName';
 import StringOrBoolean from './model/StringOrBoolean';
 import Tag from './model/Tag';
+import TestInlineFreeformAdditionalPropertiesRequest from './model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from './model/User';
 import AnotherFakeApi from './api/AnotherFakeApi';
 import DefaultApi from './api/DefaultApi';
@@ -168,12 +167,6 @@ export {
     Cat,
 
     /**
-     * The CatAllOf model constructor.
-     * @property {module:model/CatAllOf}
-     */
-    CatAllOf,
-
-    /**
      * The Category model constructor.
      * @property {module:model/Category}
      */
@@ -214,12 +207,6 @@ export {
      * @property {module:model/Dog}
      */
     Dog,
-
-    /**
-     * The DogAllOf model constructor.
-     * @property {module:model/DogAllOf}
-     */
-    DogAllOf,
 
     /**
      * The EnumArrays model constructor.
@@ -424,6 +411,12 @@ export {
      * @property {module:model/Tag}
      */
     Tag,
+
+    /**
+     * The TestInlineFreeformAdditionalPropertiesRequest model constructor.
+     * @property {module:model/TestInlineFreeformAdditionalPropertiesRequest}
+     */
+    TestInlineFreeformAdditionalPropertiesRequest,
 
     /**
      * The User model constructor.

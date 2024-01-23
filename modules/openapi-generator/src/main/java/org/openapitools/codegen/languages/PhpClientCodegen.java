@@ -35,6 +35,8 @@ import java.util.List;
 public class PhpClientCodegen extends AbstractPhpCodegen {
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(PhpClientCodegen.class);
+    public static final String GUZZLE = "guzzle";
+    public static final String PSR18 = "psr-18";
 
     public PhpClientCodegen() {
         super();
@@ -42,7 +44,11 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
-                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.BearerToken,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -78,6 +84,15 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+
+        supportedLibraries.put(GUZZLE, "Guzzle");
+        supportedLibraries.put(PSR18, "psr/http-client-implementation, also known as PSR-18. (beta support)");
+        CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
+        libraryOption.setEnum(supportedLibraries);
+        // set GUZZLE as the default
+        libraryOption.setDefault(GUZZLE);
+        cliOptions.add(libraryOption);
+        setLibrary(GUZZLE);
     }
 
     @Override
@@ -110,5 +125,14 @@ public class PhpClientCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile(".php-cs-fixer.dist.php", "", ".php-cs-fixer.dist.php"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+
+        if (additionalProperties.containsKey(CodegenConstants.LIBRARY)) {
+            this.setLibrary((String) additionalProperties.get(CodegenConstants.LIBRARY));
+        }
+
+        if (PSR18.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("DebugPlugin.mustache", toSrcPath(invokerPackage, srcBasePath), "DebugPlugin.php"));
+        }
+
     }
 }

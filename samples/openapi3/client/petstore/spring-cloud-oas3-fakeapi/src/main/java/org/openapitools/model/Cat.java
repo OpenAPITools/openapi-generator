@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.openapitools.model.Animal;
-import org.openapitools.model.BigCat;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import javax.validation.Valid;
@@ -35,7 +34,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal {
 
-  @JsonProperty("declawed")
   private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
@@ -49,6 +47,7 @@ public class Cat extends Animal {
   */
   
   @Schema(name = "declawed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("declawed")
   public Boolean getDeclawed() {
     return declawed;
   }
@@ -57,16 +56,16 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+
   public Cat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public Cat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

@@ -36,7 +36,7 @@ class OuterEnumDefaultValue {
 
   static OuterEnumDefaultValue? fromJson(dynamic value) => OuterEnumDefaultValueTypeTransformer().decode(value);
 
-  static List<OuterEnumDefaultValue>? listFromJson(dynamic json, {bool growable = false,}) {
+  static List<OuterEnumDefaultValue> listFromJson(dynamic json, {bool growable = false,}) {
     final result = <OuterEnumDefaultValue>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {

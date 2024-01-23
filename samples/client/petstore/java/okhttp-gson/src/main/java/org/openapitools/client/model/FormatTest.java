@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.google.gson.Gson;
@@ -37,13 +37,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -125,7 +128,6 @@ public class FormatTest {
   }
 
   public FormatTest integer(Integer integer) {
-    
     this.integer = integer;
     return this;
   }
@@ -137,11 +139,9 @@ public class FormatTest {
    * @return integer
   **/
   @javax.annotation.Nullable
-
   public Integer getInteger() {
     return integer;
   }
-
 
   public void setInteger(Integer integer) {
     this.integer = integer;
@@ -149,7 +149,6 @@ public class FormatTest {
 
 
   public FormatTest int32(Integer int32) {
-    
     this.int32 = int32;
     return this;
   }
@@ -161,11 +160,9 @@ public class FormatTest {
    * @return int32
   **/
   @javax.annotation.Nullable
-
   public Integer getInt32() {
     return int32;
   }
-
 
   public void setInt32(Integer int32) {
     this.int32 = int32;
@@ -173,7 +170,6 @@ public class FormatTest {
 
 
   public FormatTest int64(Long int64) {
-    
     this.int64 = int64;
     return this;
   }
@@ -183,11 +179,9 @@ public class FormatTest {
    * @return int64
   **/
   @javax.annotation.Nullable
-
   public Long getInt64() {
     return int64;
   }
-
 
   public void setInt64(Long int64) {
     this.int64 = int64;
@@ -195,7 +189,6 @@ public class FormatTest {
 
 
   public FormatTest number(BigDecimal number) {
-    
     this.number = number;
     return this;
   }
@@ -207,11 +200,9 @@ public class FormatTest {
    * @return number
   **/
   @javax.annotation.Nonnull
-
   public BigDecimal getNumber() {
     return number;
   }
-
 
   public void setNumber(BigDecimal number) {
     this.number = number;
@@ -219,7 +210,6 @@ public class FormatTest {
 
 
   public FormatTest _float(Float _float) {
-    
     this._float = _float;
     return this;
   }
@@ -231,11 +221,9 @@ public class FormatTest {
    * @return _float
   **/
   @javax.annotation.Nullable
-
   public Float getFloat() {
     return _float;
   }
-
 
   public void setFloat(Float _float) {
     this._float = _float;
@@ -243,7 +231,6 @@ public class FormatTest {
 
 
   public FormatTest _double(Double _double) {
-    
     this._double = _double;
     return this;
   }
@@ -255,11 +242,9 @@ public class FormatTest {
    * @return _double
   **/
   @javax.annotation.Nullable
-
   public Double getDouble() {
     return _double;
   }
-
 
   public void setDouble(Double _double) {
     this._double = _double;
@@ -267,7 +252,6 @@ public class FormatTest {
 
 
   public FormatTest decimal(BigDecimal decimal) {
-    
     this.decimal = decimal;
     return this;
   }
@@ -277,11 +261,9 @@ public class FormatTest {
    * @return decimal
   **/
   @javax.annotation.Nullable
-
   public BigDecimal getDecimal() {
     return decimal;
   }
-
 
   public void setDecimal(BigDecimal decimal) {
     this.decimal = decimal;
@@ -289,7 +271,6 @@ public class FormatTest {
 
 
   public FormatTest string(String string) {
-    
     this.string = string;
     return this;
   }
@@ -299,11 +280,9 @@ public class FormatTest {
    * @return string
   **/
   @javax.annotation.Nullable
-
   public String getString() {
     return string;
   }
-
 
   public void setString(String string) {
     this.string = string;
@@ -311,7 +290,6 @@ public class FormatTest {
 
 
   public FormatTest _byte(byte[] _byte) {
-    
     this._byte = _byte;
     return this;
   }
@@ -321,11 +299,9 @@ public class FormatTest {
    * @return _byte
   **/
   @javax.annotation.Nonnull
-
   public byte[] getByte() {
     return _byte;
   }
-
 
   public void setByte(byte[] _byte) {
     this._byte = _byte;
@@ -333,7 +309,6 @@ public class FormatTest {
 
 
   public FormatTest binary(File binary) {
-    
     this.binary = binary;
     return this;
   }
@@ -343,11 +318,9 @@ public class FormatTest {
    * @return binary
   **/
   @javax.annotation.Nullable
-
   public File getBinary() {
     return binary;
   }
-
 
   public void setBinary(File binary) {
     this.binary = binary;
@@ -355,7 +328,6 @@ public class FormatTest {
 
 
   public FormatTest date(LocalDate date) {
-    
     this.date = date;
     return this;
   }
@@ -365,11 +337,9 @@ public class FormatTest {
    * @return date
   **/
   @javax.annotation.Nonnull
-
   public LocalDate getDate() {
     return date;
   }
-
 
   public void setDate(LocalDate date) {
     this.date = date;
@@ -377,7 +347,6 @@ public class FormatTest {
 
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -387,11 +356,9 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
-
 
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
@@ -399,7 +366,6 @@ public class FormatTest {
 
 
   public FormatTest uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -409,11 +375,9 @@ public class FormatTest {
    * @return uuid
   **/
   @javax.annotation.Nullable
-
   public UUID getUuid() {
     return uuid;
   }
-
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
@@ -421,7 +385,6 @@ public class FormatTest {
 
 
   public FormatTest uuidWithDefault(UUID uuidWithDefault) {
-    
     this.uuidWithDefault = uuidWithDefault;
     return this;
   }
@@ -431,11 +394,9 @@ public class FormatTest {
    * @return uuidWithDefault
   **/
   @javax.annotation.Nullable
-
   public UUID getUuidWithDefault() {
     return uuidWithDefault;
   }
-
 
   public void setUuidWithDefault(UUID uuidWithDefault) {
     this.uuidWithDefault = uuidWithDefault;
@@ -443,7 +404,6 @@ public class FormatTest {
 
 
   public FormatTest password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -453,11 +413,9 @@ public class FormatTest {
    * @return password
   **/
   @javax.annotation.Nonnull
-
   public String getPassword() {
     return password;
   }
-
 
   public void setPassword(String password) {
     this.password = password;
@@ -465,7 +423,6 @@ public class FormatTest {
 
 
   public FormatTest patternWithDigits(String patternWithDigits) {
-    
     this.patternWithDigits = patternWithDigits;
     return this;
   }
@@ -475,11 +432,9 @@ public class FormatTest {
    * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-
   public String getPatternWithDigits() {
     return patternWithDigits;
   }
-
 
   public void setPatternWithDigits(String patternWithDigits) {
     this.patternWithDigits = patternWithDigits;
@@ -487,7 +442,6 @@ public class FormatTest {
 
 
   public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
-    
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
     return this;
   }
@@ -497,11 +451,9 @@ public class FormatTest {
    * @return patternWithDigitsAndDelimiter
   **/
   @javax.annotation.Nullable
-
   public String getPatternWithDigitsAndDelimiter() {
     return patternWithDigitsAndDelimiter;
   }
-
 
   public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
     this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
@@ -605,7 +557,7 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    uuidWithDefault: ").append(toIndentedString(uuidWithDefault)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    password: ").append("*").append("\n");
     sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
     sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
@@ -658,24 +610,25 @@ public class FormatTest {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to FormatTest
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to FormatTest
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!FormatTest.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in FormatTest is not found in the empty JSON string", FormatTest.openapiRequiredFields.toString()));
         }
       }
 
       // check to make sure all required properties/fields are present in the JSON string
       for (String requiredField : FormatTest.openapiRequiredFields) {
-        if (jsonObj.get(requiredField) == null) {
-          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonObj.toString()));
+        if (jsonElement.getAsJsonObject().get(requiredField) == null) {
+          throw new IllegalArgumentException(String.format("The required field `%s` is not found in the JSON string: %s", requiredField, jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("string") != null && !jsonObj.get("string").isJsonNull()) && !jsonObj.get("string").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `string` to be a primitive type in the JSON string but got `%s`", jsonObj.get("string").toString()));
       }
@@ -733,8 +686,9 @@ public class FormatTest {
 
            @Override
            public FormatTest read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              FormatTest instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

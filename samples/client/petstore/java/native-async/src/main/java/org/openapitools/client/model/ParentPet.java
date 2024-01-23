@@ -17,7 +17,6 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -28,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.client.model.ChildCat;
+import java.util.Arrays;
 import org.openapitools.client.model.GrandparentAnimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -51,6 +50,12 @@ import org.openapitools.client.JSON;
 
 public class ParentPet extends GrandparentAnimal {
   public ParentPet() { 
+  }
+
+  @Override
+  public ParentPet petType(String petType) {
+    this.setPetType(petType);
+    return this;
   }
 
   /**

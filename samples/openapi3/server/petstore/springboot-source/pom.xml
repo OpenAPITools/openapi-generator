@@ -10,12 +10,12 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <swagger-ui.version>4.15.5</swagger-ui.version>
+        <swagger-ui.version>5.3.1</swagger-ui.version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.6</version>
+        <version>2.7.15</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <build>

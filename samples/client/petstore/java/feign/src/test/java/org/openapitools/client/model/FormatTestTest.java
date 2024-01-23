@@ -25,7 +25,6 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Model tests for FormatTest
  */

@@ -17,15 +17,12 @@ ArrayOfArrayOfNumberOnly : org.openapitools.model.ArrayOfArrayOfNumberOnly
 ArrayOfNumberOnly : org.openapitools.model.ArrayOfNumberOnly
 ArrayTest : org.openapitools.model.ArrayTest
 BigCat : org.openapitools.model.BigCat
-BigCatAllOf : org.openapitools.model.BigCatAllOf
 Capitalization : org.openapitools.model.Capitalization
 Cat : org.openapitools.model.Cat
-CatAllOf : org.openapitools.model.CatAllOf
 Category : org.openapitools.model.Category
 ClassModel : org.openapitools.model.ClassModel
 Client : org.openapitools.model.Client
 Dog : org.openapitools.model.Dog
-DogAllOf : org.openapitools.model.DogAllOf
 EnumArrays : org.openapitools.model.EnumArrays
 EnumClass : org.openapitools.model.EnumClass
 EnumTest : org.openapitools.model.EnumTest

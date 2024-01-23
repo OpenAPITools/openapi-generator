@@ -16,8 +16,8 @@
   <div class="model" data-model="{{returnBaseType}}"><a href="">{{returnType}}</a></div>
   <h3 class="section">Parameters</h3>
   <ul>
-  	{{#allParams}}
-	  <li class="parameter">
+    {{#allParams}}
+      <li class="parameter">
       {{#isFormParam}}<span class="param-in">Form: </span>{{/isFormParam}}
       {{#isQueryParam}}<span class="param-in">Query: </span>{{/isQueryParam}}
       {{#isPathParam}}<span class="param-in">Path: </span>{{/isPathParam}}
@@ -27,7 +27,7 @@
       <span class="param-type">{{dataType}}{{#baseType}}({{.}}){{/baseType}}</span>
       {{#optional}}<span class="param-optional-flag">(optional)</span>{{/optional}}
       <p class="param-description">{{description}}</p>
-	  </li>
+      </li>
     {{/allParams}}
   </ul>
   {{/operation}}

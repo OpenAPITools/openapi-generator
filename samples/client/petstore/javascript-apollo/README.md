@@ -129,6 +129,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *OpenApiPetstore.FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*OpenApiPetstore.FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *OpenApiPetstore.FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -137,6 +138,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*OpenApiPetstore.FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
@@ -174,7 +176,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.BasquePig](docs/BasquePig.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
- - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
@@ -182,7 +183,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
- - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
@@ -217,13 +217,14 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 
 ## Documentation for Authorization
 
 
-
+Authentication schemes defined for the API:
 ### petstore_auth
 
 
@@ -234,16 +235,12 @@ Class | Method | HTTP request | Description
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
-
-
 ### api_key
 
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
-
 
 ### api_key_query
 
@@ -252,20 +249,15 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
-
-
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
-
-
 
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
 
-
-
 ### http_signature_test
 
+- **Type**: HTTP signature authentication
 

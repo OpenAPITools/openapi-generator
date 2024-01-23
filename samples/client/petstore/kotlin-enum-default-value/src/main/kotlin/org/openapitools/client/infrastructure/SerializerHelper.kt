@@ -8,5 +8,11 @@ object SerializerHelper {
         return moshiBuilder
             .add(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java, EnumJsonAdapter.create(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName::class.java)
                 .withUnknownFallback(org.openapitools.client.models.ModelWithEnumPropertyHavingDefault.PropertyName.unknownDefaultOpenApi))
+            .add(org.openapitools.client.models.PropertyOfDay.DaysOfWeek::class.java, EnumJsonAdapter.create(org.openapitools.client.models.PropertyOfDay.DaysOfWeek::class.java)
+                .withUnknownFallback(org.openapitools.client.models.PropertyOfDay.DaysOfWeek.unknownDefaultOpenApi))
+            .add(org.openapitools.client.models.PropertyOfDay.MonthOfYear::class.java, EnumJsonAdapter.create(org.openapitools.client.models.PropertyOfDay.MonthOfYear::class.java)
+                .withUnknownFallback(org.openapitools.client.models.PropertyOfDay.MonthOfYear.unknownDefaultOpenApi))
+            .add(org.openapitools.client.models.PropertyOfDay.HolidayTypes::class.java, EnumJsonAdapter.create(org.openapitools.client.models.PropertyOfDay.HolidayTypes::class.java)
+                .withUnknownFallback(org.openapitools.client.models.PropertyOfDay.HolidayTypes.unknownDefaultOpenApi))
     }
 }

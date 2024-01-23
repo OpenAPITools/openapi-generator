@@ -10,7 +10,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**placeOrder**](StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet |
 
 
-<a name="deleteOrder"></a>
+<a id="deleteOrder"></a>
 # **deleteOrder**
 > deleteOrder(orderId)
 
@@ -72,7 +72,7 @@ No authorization required
 | **400** | Invalid ID supplied |  -  |
 | **404** | Order not found |  -  |
 
-<a name="getInventory"></a>
+<a id="getInventory"></a>
 # **getInventory**
 > Map&lt;String, Integer&gt; getInventory()
 
@@ -137,7 +137,7 @@ This endpoint does not need any parameter.
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
-<a name="getOrderById"></a>
+<a id="getOrderById"></a>
 # **getOrderById**
 > Order getOrderById(orderId)
 
@@ -201,7 +201,7 @@ No authorization required
 | **400** | Invalid ID supplied |  -  |
 | **404** | Order not found |  -  |
 
-<a name="placeOrder"></a>
+<a id="placeOrder"></a>
 # **placeOrder**
 > Order placeOrder(order)
 

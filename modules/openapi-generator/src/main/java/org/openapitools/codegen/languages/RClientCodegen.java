@@ -102,7 +102,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -392,6 +393,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
@@ -416,6 +422,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // escape item reserved words with "item_" prefix
         if (itemReservedWords.contains(name)) {
             LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
@@ -433,11 +444,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return underscore(modelNameMapping.get(name));
+        }
+
         return underscore(toModelName(name));
     }
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
@@ -518,7 +539,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
         }
 
@@ -944,10 +965,14 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
-        if (depth > 10) return "...";
+        if (depth > 10) {
+            return "...";
+        }
         depth++;
 
-        if (codegenProperty.isArray) { // array
+        if (codegenProperty == null) {
+            return "TODO";
+        } else if (codegenProperty.isArray) { // array
             return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
             return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";

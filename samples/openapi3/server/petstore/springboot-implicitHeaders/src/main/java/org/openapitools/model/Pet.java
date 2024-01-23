@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,22 +30,17 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  @JsonProperty("id")
   private Long id;
 
-  @JsonProperty("category")
   private Category category;
 
-  @JsonProperty("name")
   private String name;
 
-  @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
   @Valid
-  private List<@Valid Tag> tags = null;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -83,14 +79,9 @@ public class Pet {
     }
   }
 
-  @JsonProperty("status")
+  @Deprecated
   private StatusEnum status;
 
-  /**
-   * Default constructor
-   * @deprecated Use {@link Pet#Pet(String, Set<String>)}
-   */
-  @Deprecated
   public Pet() {
     super();
   }
@@ -114,6 +105,7 @@ public class Pet {
   */
   
   @Schema(name = "id", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -133,6 +125,7 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "category", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
@@ -152,6 +145,7 @@ public class Pet {
   */
   @NotNull 
   @Schema(name = "name", example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -166,6 +160,9 @@ public class Pet {
   }
 
   public Pet addPhotoUrlsItem(String photoUrlsItem) {
+    if (this.photoUrls == null) {
+      this.photoUrls = new LinkedHashSet<>();
+    }
     this.photoUrls.add(photoUrlsItem);
     return this;
   }
@@ -176,6 +173,7 @@ public class Pet {
   */
   @NotNull 
   @Schema(name = "photoUrls", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("photoUrls")
   public Set<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -204,6 +202,7 @@ public class Pet {
   */
   @Valid 
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("tags")
   public List<@Valid Tag> getTags() {
     return tags;
   }
@@ -220,13 +219,20 @@ public class Pet {
   /**
    * pet status in the store
    * @return status
+   * @deprecated
   */
   
-  @Schema(name = "status", description = "pet status in the store", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @Schema(name = "status", description = "pet status in the store", deprecated = true, requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("status")
+  @Deprecated
   public StatusEnum getStatus() {
     return status;
   }
 
+  /**
+   * @deprecated
+  */
+  @Deprecated
   public void setStatus(StatusEnum status) {
     this.status = status;
   }

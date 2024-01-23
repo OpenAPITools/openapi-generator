@@ -21,31 +21,44 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.*;
+import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
+import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
+import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
+import static org.openapitools.codegen.languages.SpringCodegen.IMPLICIT_HEADERS;
+import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
+import static org.openapitools.codegen.languages.SpringCodegen.OPENAPI_NULLABLE;
+import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
+import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
+import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
+import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
+import static org.openapitools.codegen.languages.SpringCodegen.SKIP_DEFAULT_INTERFACE;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
+import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CONTROLLER;
+import static org.openapitools.codegen.languages.SpringCodegen.SSE;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_ENUM_CASE_INSENSITIVE;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_RESPONSE_ENTITY;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
+import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
-
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.openapitools.codegen.config.GlobalSettings;
-import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -56,7 +69,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.config.CodegenConfigurator;
+import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -67,6 +84,14 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import com.google.common.collect.ImmutableMap;
+
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class SpringCodegenTest {
 
@@ -152,6 +177,84 @@ public class SpringCodegenTest {
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
                 .bodyContainsLines("this.born = born")
+                .doesNotHaveComment();
+    }
+
+    @Test
+    public void doAnnotateDatesOnModelParametersWithOptionalAndJsonNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_5436.yml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenApiNullable(true);
+        codegen.setUseOptional(true);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/api/ZebrasApi.java"))
+                .assertTypeAnnotations()
+                .hasSize(3)
+                .containsWithName("Validated")
+                .containsWithName("Generated")
+                .containsWithNameAndAttributes("Generated", ImmutableMap.of(
+                        "value", "\"org.openapitools.codegen.languages.SpringCodegen\""
+                ))
+                .containsWithNameAndAttributes("Tag", ImmutableMap.of(
+                        "name", "\"zebras\""
+                ))
+                .toType()
+                .assertMethod("getZebras")
+                .hasReturnType("ResponseEntity<Void>")
+                .assertMethodAnnotations()
+                .hasSize(2)
+                .containsWithNameAndAttributes("Operation", ImmutableMap.of("operationId", "\"getZebras\""))
+                .containsWithNameAndAttributes("RequestMapping", ImmutableMap.of(
+                        "method", "RequestMethod.GET",
+                        "value", "\"/zebras\""
+                ))
+                .toMethod()
+                .hasParameter("limit").withType("Optional<BigDecimal>")
+                .assertParameterAnnotations()
+                .containsWithName("Valid")
+                .containsWithNameAndAttributes("Parameter", ImmutableMap.of("name", "\"limit\""))
+                .containsWithNameAndAttributes("RequestParam", ImmutableMap.of("required", "false", "value", "\"limit\""))
+                .toParameter()
+                .toMethod()
+                .hasParameter("animalParams").withType("Optional<AnimalParams>")
+                .toMethod()
+                .commentContainsLines("GET /zebras", "@param limit  (optional)")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED)");
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/AnimalParams.java"))
+                .hasImports("org.springframework.format.annotation.DateTimeFormat")
+                .hasProperty("born").withType("Optional<LocalDate>")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE"))
+                .toProperty()
+                .toType()
+                .hasProperty("lastSeen").withType("Optional<OffsetDateTime>")
+                .assertPropertyAnnotations()
+                .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
+                .toProperty().toType()
+                .assertMethod("born", "LocalDate")
+                .bodyContainsLines("this.born = Optional.of(born)")
                 .doesNotHaveComment();
     }
 
@@ -398,6 +501,46 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testJavaClientCorrectConstructorOrderForRequiredFields_issue15825() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.MICROPROFILE_REST_CLIENT_VERSION, "3.0");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setAdditionalProperties(properties)
+                .setGeneratorName("spring")
+                .setLibrary(SPRING_BOOT)
+                .setInputSpec("src/test/resources/bugs/issue_constructor-required-values-with-multiple-inheritance.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("SubType.java"))
+                .assertConstructor("TypeEnum", "SchemaVersion", "UUID", "Boolean", "Boolean", "SomeEnum")
+                .bodyContainsLines("super(someBoolean, someEnum, schemaVersion, id, oneBoolean);",
+                        "this.type = type;");
+        JavaFileAssert.assertThat(files.get("IntermediateSubType.java"))
+                .assertConstructor("Boolean", "SomeEnum", "SchemaVersion", "UUID", "Boolean")
+                .bodyContainsLines("super(oneBoolean, schemaVersion, id);",
+                        "this.someBoolean = someBoolean;",
+                        "this.someEnum = someEnum");
+        JavaFileAssert.assertThat(files.get("IntermediateType.java"))
+                .assertConstructor("Boolean", "SchemaVersion", "UUID")
+                .bodyContainsLines("super(schemaVersion, id);",
+                        "this.oneBoolean = oneBoolean;");
+        JavaFileAssert.assertThat(files.get("BaseType.java"))
+                .assertConstructor("SchemaVersion", "UUID")
+                .bodyContainsLines(
+                        "this.schemaVersion = schemaVersion;",
+                        "this.id = id;");
+    }
+
+    @Test
     public void springcloudWithAsyncAndJava8HasResponseWrapperCompletableFuture() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(SpringCodegen.ASYNC, true);
@@ -552,6 +695,7 @@ public class SpringCodegenTest {
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.CONFIG_PACKAGE), "org.openapitools.configuration");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.SERVER_PORT), "8082");
         Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.UNHANDLED_EXCEPTION_HANDLING), false);
+        Assert.assertEquals(codegen.additionalProperties().get(SpringCodegen.USE_RESPONSE_ENTITY), true);
     }
 
     @Test
@@ -614,6 +758,34 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void testAdditionalProperties_issue1466() throws IOException {
+        final SpringCodegen codegen = new SpringCodegen();
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesAnyType.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Object>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Object")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Object");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesArray.java"))
+            .hasProperty("additionalProperties").withType("Map<String, List>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "List")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("List");
+
+        JavaFileAssert.assertThat(files.get("AdditionalPropertiesInteger.java"))
+            .hasProperty("additionalProperties").withType("Map<String, Integer>")
+            .toType()
+            .assertMethod("putAdditionalProperty", "String", "Integer")
+            .toFileAssert()
+            .assertMethod("getAdditionalProperty", "String").hasReturnType("Integer");
+    }
+
+    @Test
     public void shouldAddParameterWithInHeaderWhenImplicitHeadersIsTrue_issue14418() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -650,6 +822,101 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldApiNameSuffixForApiClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/3_1/petstore.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetController.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetApi.java");
+        assertThat(notExisting).isNull();
+
+    }
+    @Test
+    public void shouldUseTagsForClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_15933.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetTagApi.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetApi.java");
+        assertThat(notExisting).isNull();
+
+    }
+
+    @Test
+    public void shouldNotUseTagsForClassname() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+              .readLocation("src/test/resources/bugs/issue_15933.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_TAGS, "false");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+
+
+
+        ClientOptInput input = new ClientOptInput()
+              .openAPI(openAPI)
+              .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+              .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+              .isInterface();
+
+        File notExisting = files.get("PetTagApi.java");
+        assertThat(notExisting).isNull();
+    }
+
+    @Test
     public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue14723() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -679,7 +946,7 @@ public class SpringCodegenTest {
               .withType( "Map<String, Object>" )
               .toType()
               .hasProperty("response")
-              .withType( "JsonNullable<Set<ResponseTest2>>" )
+              .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )
               .toType()
               .hasProperty("nullableDtos")
               .withType( "JsonNullable<Set<@Valid ResponseTest2>>" )
@@ -704,6 +971,100 @@ public class SpringCodegenTest {
               .toType()
               .hasProperty("ints")
               .withType( "Set<Integer>" );
+    }
+
+
+
+    @Test
+    public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue17150() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/spring/issue_17150.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(SpringCodegen.USE_BEANVALIDATION, "true");
+       // codegen.additionalProperties().put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("Foo.java"))
+                .isNormalClass()
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+                .hasProperty("stringPattern")
+                .withType( "Set<@Pattern(regexp = \"[a-z]\") String>" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "Set<@Size(min = 1, max = 10) String>" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "List<@Size(min = 1) String>" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "Set<@Size(max = 1) String>" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "List<@Min(1) @Max(10) Integer>" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "List<@Min(1) Integer>" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "List<@Max(10) Integer>" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "JsonNullable<Set<@Pattern(regexp = \"[a-z]\") String>>" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "JsonNullable<Set<@Size(min = 1, max = 10) String>>" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "JsonNullable<List<@Size(min = 1) String>>" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "JsonNullable<Set<@Size(max = 1) String>>" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "JsonNullable<List<@Min(1) @Max(10) Integer>>" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "JsonNullable<List<@Min(1) Integer>>" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "JsonNullable<List<@Max(10) Integer>>" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>>" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "JsonNullable<List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .toType()
+        ;
     }
 
     // Helper function, intended to reduce boilerplate
@@ -829,16 +1190,25 @@ public class SpringCodegenTest {
 
     @Test
     public void useBeanValidationTruePerformBeanValidationFalseJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, false, true, "@Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, false, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8FalseForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, false, "@Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, false, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
+    }
+
+    @Test
+    public void useBeanValidationTruePerformBeanValidationFalseJava8TrueJakartaeeTrueForFormatEmail() throws IOException {
+        beanValidationForFormatEmail(true, false, true, true,"@jakarta.validation.constraints.Email", "@javax.validation.constraints.Email");
     }
 
     // note: java8 option/mustache tag has been removed and default to true
     private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, String contains, String notContains) throws IOException {
+        this.beanValidationForFormatEmail(useBeanValidation, performBeanValidation, java8, false, contains, notContains);
+    }
+
+    private void beanValidationForFormatEmail(boolean useBeanValidation, boolean performBeanValidation, boolean java8, boolean useJakarta, String contains, String notContains) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -850,6 +1220,7 @@ public class SpringCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.setUseBeanValidation(useBeanValidation);
         codegen.setPerformBeanValidation(performBeanValidation);
+        codegen.setUseSpringBoot3(useJakarta);
 
         ClientOptInput input = new ClientOptInput();
         input.openAPI(openAPI);
@@ -863,15 +1234,19 @@ public class SpringCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
 
-        List<File> files = generator.opts(input).generate();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
 
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("PersonWithEmail.java"));
+        if (useBeanValidation) javaFileAssert.hasImports((useJakarta? "jakarta" : "javax") + ".validation.constraints");
+        if (performBeanValidation) javaFileAssert.hasImports("org.hibernate.validator.constraints");
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), contains);
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PersonWithEmail.java"), notContains);
     }
 
     @Test
     public void useBeanValidationTruePerformBeanValidationTrueJava8TrueForFormatEmail() throws IOException {
-        beanValidationForFormatEmail(true, true, true, "@Email", "@org.hibernate.validator.constraints.Email");
+        beanValidationForFormatEmail(true, true, true, "@javax.validation.constraints.Email", "@org.hibernate.validator.constraints.Email");
     }
 
     @Test
@@ -906,6 +1281,102 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<Map<String, DummyRequest>>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
+    }
+
+    @Test
+    public void shouldGenerateValidCodeForReactiveControllerWithoutParams_issue14907() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_14907.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("readAgreements", "ServerWebExchange");
+    }
+
+    @Test
+    public void shouldGenerateValidCodeWithPaginated_reactive_issue15265() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_15265.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("paginated", "ServerWebExchange", "Pageable")
+            .toFileAssert()
+            .assertMethod("paginatedWithParams", "String", "ServerWebExchange", "Pageable");
+    }
+
+    @Test
+    public void shouldGenerateValidCodeWithPaginated_nonReactive_issue15265() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_15265.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(USE_TAGS, "true");
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(SKIP_DEFAULT_INTERFACE, "true");
+        codegen.additionalProperties().put(IMPLICIT_HEADERS, "true");
+        codegen.additionalProperties().put(OPENAPI_NULLABLE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ConsentControllerApi.java"))
+            .assertMethod("paginated", "Pageable")
+            .toFileAssert()
+            .assertMethod("paginatedWithParams", "String", "Pageable");
     }
 
     @Test
@@ -1213,7 +1684,7 @@ public class SpringCodegenTest {
         codegen.setHateoas(true);
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-        
+
 
         codegen.setUseOneOfInterfaces(true);
         codegen.setLegacyDiscriminatorBehavior(false);
@@ -1272,6 +1743,55 @@ public class SpringCodegenTest {
     }
 
     @Test
+    void testOneOfWithEnumDiscriminator() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/oneOfDiscriminator.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        //generator.setGeneratorPropertyDefault(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/FruitOneOfEnumMappingDisc.java"),
+            "public FruitTypeEnum getFruitType();"
+        );
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/AppleOneOfEnumMappingDisc.java"),
+            "private FruitTypeEnum fruitType;",
+            "public FruitTypeEnum getFruitType() {"
+        );
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/java/org/openapitools/model/BananaOneOfEnumMappingDisc.java"),
+            "private FruitTypeEnum fruitType;",
+            "public FruitTypeEnum getFruitType() {"
+        );
+    }
+
+    @Test
     public void testTypeMappings() {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
@@ -1283,7 +1803,6 @@ public class SpringCodegenTest {
         final SpringCodegen codegen = new SpringCodegen();
         codegen.processOpts();
         Assert.assertEquals(codegen.importMapping().get("org.springframework.core.io.Resource"), "org.springframework.core.io.Resource");
-        Assert.assertEquals(codegen.importMapping().get("Pageable"), "org.springframework.data.domain.Pageable");
         Assert.assertEquals(codegen.importMapping().get("DateTimeFormat"), "org.springframework.format.annotation.DateTimeFormat");
         Assert.assertEquals(codegen.importMapping().get("ApiIgnore"), "springfox.documentation.annotations.ApiIgnore");
         Assert.assertEquals(codegen.importMapping().get("ParameterObject"), "org.springdoc.api.annotations.ParameterObject");
@@ -1445,7 +1964,6 @@ public class SpringCodegenTest {
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-            .printFileContent()
             .hasImports("io.swagger.v3.oas.annotations.ExternalDocumentation")
             .assertMethod("updatePet")
             .assertMethodAnnotations()
@@ -1551,7 +2069,6 @@ public class SpringCodegenTest {
     @Test
     public void testResponseWithArray_issue11897() throws Exception {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1572,6 +2089,73 @@ public class SpringCodegenTest {
                 .assertMethod("getWithMapOfObjects").hasReturnType("ResponseEntity<Map<String, TestResponse>>")
                 .toFileAssert()
                 .assertMethod("getWithMapOfStrings").hasReturnType("ResponseEntity<Map<String, String>>");
+    }
+
+    @Test
+    public void shouldGenerateMethodsWithoutUsingResponseEntityAndWithoutDelegation_issue11537() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
+        additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        additionalProperties.put(USE_RESPONSE_ENTITY, "false");
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("MetadataApi.java"))
+                .assertMethod("getSomething")
+                .hasReturnType("List<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.OK")
+                )
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("putSomething")
+                .hasReturnType("String")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.CREATED")
+                );
+    }
+
+    @Test
+    public void shouldGenerateMethodsWithoutUsingResponseEntityAndDelegation_issue11537() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
+        additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        additionalProperties.put(USE_RESPONSE_ENTITY, "false");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_11537.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("MetadataApiDelegate.java"))
+                .assertMethod("getSomething").hasReturnType("List<String>")
+                .toFileAssert()
+                .assertMethod("putSomething").hasReturnType("String");
+
+        JavaFileAssert.assertThat(files.get("MetadataApi.java"))
+                .assertMethod("getSomething")
+                .hasReturnType("List<String>")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.OK")
+                )
+                .toMethod()
+                .toFileAssert()
+                .assertMethod("putSomething")
+                .hasReturnType("String")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes(
+                        "ResponseStatus",
+                        ImmutableMap.of("value", "HttpStatus.CREATED")
+                );
     }
 
     @Test
@@ -1614,7 +2198,7 @@ public class SpringCodegenTest {
         files = generateFromContract("src/test/resources/2_0/petstore-with-spring-pageable.yaml", SPRING_BOOT, additionalProperties);
 
         JavaFileAssert.assertThat(files.get("PetApi.java"))
-            .hasImports("org.springdoc.core.annotations.ParameterObject")
+            .hasImports("org.springdoc.core.annotations.ParameterObject", "org.springframework.data.domain.Pageable")
             .assertMethod("findPetsByStatus")
             .hasParameter("pageable").withType("Pageable")
             .assertParameterAnnotations()
@@ -1622,9 +2206,26 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void paramPageableIsNotSpringPaginated_issue13052() throws Exception {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, "springdoc");
+        additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(USE_SPRING_BOOT3, "true");
+
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_13052.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PetApi.java"))
+                .hasImports("org.openapitools.model.Pageable")
+                .hasNoImports("org.springframework.data.domain.Pageable", "org.springdoc.core.annotations.ParameterObject")
+                .assertMethod("findPageable")
+                .hasParameter("pageable").withType("Pageable");
+    }
+
+    @Test
     public void shouldSetDefaultValueForMultipleArrayItems() throws IOException {
         Map<String, Object> additionalProperties = new HashMap<>();
-        additionalProperties.put(AbstractJavaCodegen.FULL_JAVA_UTIL, "true");
         additionalProperties.put(SpringCodegen.USE_TAGS, "true");
         additionalProperties.put(SpringCodegen.INTERFACE_ONLY, "true");
         additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
@@ -1724,7 +2325,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("SomeMethodApi.java"))
-                .printFileContent()
                 .assertMethod("methodWithValidation")
                 .hasParameter("headerOne")
                 .assertParameterAnnotations()
@@ -1765,8 +2365,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
@@ -1797,8 +2396,7 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
         //Assert that NotNull annotation exists alone with no other BeanValidation annotations
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
                 .containsWithName("NotNull").anyMatch(annotation ->
                         !annotation.getNameAsString().equals("Valid") ||
@@ -1826,8 +2424,7 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Alien.java"));
         javaFileAssert.assertMethod("getName")
                 .assertMethodAnnotations().anyMatch(annotation -> !annotation.getNameAsString().equals("NotNull"));
         javaFileAssert.hasNoImports("javax.validation.constraints.NotNull");
@@ -1843,7 +2440,6 @@ public class SpringCodegenTest {
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_14252.yaml");
 
         JavaFileAssert.assertThat(files.get("MyResponse.java"))
-            .printFileContent()
             .hasImports("com.fasterxml.jackson.databind.annotation.JsonSerialize", "com.fasterxml.jackson.databind.ser.std.ToStringSerializer")
             .assertMethod("getMyPropTypeNumber")
             .assertMethodAnnotations()
@@ -1870,15 +2466,15 @@ public class SpringCodegenTest {
 
         Map<String, File> files = generateFiles(codegen, "src/test/resources/bugs/issue_13365.yml");
 
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"))
-                .printFileContent();
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("Person.java"));
         javaFileAssert.assertMethod("getName").assertMethodAnnotations()
-                .containsWithName("NotNull").containsWithName("Size").containsWithName("Email");
+                .containsWithName("NotNull").containsWithName("Size").containsWithName("javax.validation.constraints.Email");
         javaFileAssert
             .hasNoImports("javax.validation.constraints.NotNull")
             .hasImports("javax.validation.constraints");
     }
 
+    @Test
     public void shouldUseEqualsNullableForArrayWhenSetInConfig_issue13385() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -1903,7 +2499,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
-                .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return equalsNullable(this.picture, testObject.picture);");
 
@@ -1934,7 +2529,6 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("TestObject.java"))
-                .printFileContent()
                 .assertMethod("equals")
                 .bodyContainsLines("return Arrays.equals(this.picture, testObject.picture);");
     }
@@ -1964,13 +2558,12 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         JavaFileAssert.assertThat(files.get("AddApi.java"))
-                .printFileContent()
                 .assertMethod("addPost")
                 .hasParameter("body")
                 .assertParameterAnnotations()
                 .containsWithNameAndAttributes("Min", ImmutableMap.of("value", "2"));
     }
-    
+
     @Test
     public void shouldHandleSeparatelyInterfaceAndModelAdditionalAnnotations() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -2082,5 +2675,1756 @@ public class SpringCodegenTest {
 
         return generator.opts(input).generate().stream()
                 .collect(Collectors.toMap(File::getName, Function.identity()));
+    }
+
+    @Test
+    public void testMappingSubtypesIssue13150() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/bugs/issue_13150.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+        codegen.setUseOneOfInterfaces(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        codegen.setHateoas(true);
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
+
+        codegen.setUseOneOfInterfaces(true);
+        codegen.setLegacyDiscriminatorBehavior(false);
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        String jsonSubType = "@JsonSubTypes({\n" +
+            "  @JsonSubTypes.Type(value = Foo.class, name = \"foo\")\n" +
+            "})";
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Parent.java"), jsonSubType);
+    }
+
+    @Test
+    public void shouldGenerateJsonPropertyAnnotationLocatedInGetters_issue5705() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_BOOT);
+        codegen.setWithXml(true);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput()
+            .openAPI(openAPI)
+            .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("ResponseObjectWithDifferentFieldNames.java"))
+            .hasProperty("normalPropertyName")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
+                .toProperty().toType()
+            .hasProperty("UPPER_CASE_PROPERTY_SNAKE")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
+                .toProperty().toType()
+            .hasProperty("lowerCasePropertyDashes")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
+                .toProperty().toType()
+            .hasProperty("propertyNameWithSpaces")
+                .assertPropertyAnnotations()
+                .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
+                .toProperty().toType()
+            .assertMethod("getNormalPropertyName")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"normalPropertyName\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"normalPropertyName\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getUPPERCASEPROPERTYSNAKE")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"UPPER_CASE_PROPERTY_SNAKE\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"UPPER_CASE_PROPERTY_SNAKE\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getLowerCasePropertyDashes")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"lower-case-property-dashes\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"lower-case-property-dashes\""))
+                .toMethod().toFileAssert()
+            .assertMethod("getPropertyNameWithSpaces")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"property name with spaces\""));
+    }
+
+    @Test
+    public void testReturnTypeVoidWithResponseEntity_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<ObjTest>")
+                .bodyContainsLines("return postToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<ObjTest>")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);");
+        javaFileAssert
+                .assertMethod("_putToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<Void>")
+                .bodyContainsLines("return putToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("ResponseEntity<Void>")
+                .bodyContainsLines("return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithDelegate_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("return postToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("_putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("putToTest(objToTest);")
+                .bodyNotContainsLines("return putToTest(objToTest);");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithoutDelegateWithAsync_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "false");
+        codegen.additionalProperties().put(ASYNC, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("CompletableFuture<ObjTest>")
+                .bodyContainsLines("return CompletableFuture.supplyAsync(()-> {")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("CompletableFuture<Void>")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
+    @Test
+    public void testReturnTypeVoidWithoutResponseEntityWithoutDelegateWithoutAsync_issue12341() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12341.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "false");
+        codegen.additionalProperties().put(ASYNC, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("postToTest", "ObjTest")
+                .hasReturnType("ObjTest")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+        javaFileAssert
+                .assertMethod("putToTest", "ObjTest")
+                .hasReturnType("void")
+                .bodyContainsLines("throw new IllegalArgumentException(\"Not implemented\");");
+    }
+
+    @Test
+    public void testHasRestControllerDoesNotHaveController_issue15264() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue15264.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .isInterface()
+                .hasImports("org.springframework.web.bind.annotation.RestController")
+                .hasNoImports("org.springframework.stereotype.Controller")
+                .assertTypeAnnotations()
+                .containsWithName("RestController")
+                .doesNotContainsWithName("Controller");
+    }
+
+    @Test
+    public void testDoesNotHasRestControllerHaveController_issue15264() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue15264.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "true");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .isInterface()
+                .hasImports("org.springframework.stereotype.Controller")
+                .hasNoImports("org.springframework.web.bind.annotation.RestController")
+                .assertTypeAnnotations()
+                .containsWithName("Controller")
+                .doesNotContainsWithName("RestController");
+    }
+
+    @Test
+    public void testXPatternMessage_issue5857() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue5857.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("ObjTest.java"));
+        javaFileAssert
+                .assertMethod("getField2")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"\\\\w\"",
+                        "message", "\"Only letters, numbers and underscore\""
+                ));
+        javaFileAssert
+                .assertMethod("getField3")
+                .assertMethodAnnotations()
+                .containsWithNameAndAttributes("Pattern", ImmutableMap.of(
+                        "regexp", "\"\\\\w\""
+                ));
+    }
+
+    @Test
+    public void testEnumCaseInsensitive_issue8084() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue8084.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        javaFileAssert
+                .assertMethod("fromValue")
+                .bodyContainsLines("if (b.value.equalsIgnoreCase(value)) {");
+    }
+
+    @Test
+    public void testEnumCaseSensitive_issue8084() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue8084.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(USE_ENUM_CASE_INSENSITIVE, "false");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("EnumTest.java"));
+        javaFileAssert
+                .assertMethod("fromValue")
+                .bodyContainsLines("if (b.value.equals(value)) {");
+    }
+
+
+    @Test
+    public void testHasOperationExtraAnnotation_issue15822() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue15822.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertMethodAnnotations()
+                .containsWithName("javax.annotation.security.RolesAllowed");
+    }
+
+    @Test
+    public void testHasOperationExtraAnnotation_issue12219() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12219.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertMethodAnnotations()
+                .containsWithName("javax.annotation.security.RolesAllowed")
+                .containsWithName("org.springframework.security.access.annotation.Secured")
+                .containsWithName("org.springframework.security.access.prepost.PreAuthorize");
+    }
+
+    @Test
+    public void testHasOperationExtraAnnotation_issue12219_array() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/issue12219_array.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.DATE_LIBRARY, "java8-localdatetime");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "true");
+        codegen.additionalProperties().put(USE_RESPONSE_ENTITY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+        codegen.additionalProperties().put(REQUEST_MAPPING_OPTION, "api_interface");
+        codegen.additionalProperties().put(SPRING_CONTROLLER, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(files.get("TestApi.java"));
+        javaFileAssert
+                .assertMethod("_postToTest")
+                .assertMethodAnnotations()
+                .containsWithName("javax.annotation.security.RolesAllowed")
+                .containsWithName("org.springframework.security.access.annotation.Secured")
+                .containsWithName("org.springframework.security.access.prepost.PreAuthorize");
+    }
+
+    @Test
+    public void doCallFluentParentSettersFromChildModel() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/3_0/issue_16496.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+            // Fluent method assertions
+            .assertMethod("alias")
+            .hasReturnType("Animal")
+            .bodyContainsLines("this.alias = JsonNullable.of(alias);", "return this;")
+            .hasParameter("alias")
+            .withType("String")
+            .toMethod()
+            .toFileAssert()
+
+            // Setter method assertions
+            .assertMethod("setAlias")
+            .hasReturnType("void")
+            .hasParameter("alias")
+            .withType("JsonNullable<String>");
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Zebra.java"))
+            // Fluent method assertions
+            .assertMethod("alias")
+            .hasReturnType("Zebra")
+            .bodyContainsLines("super.alias(alias);", "return this;")
+            .hasParameter("alias")
+            .withType("String")
+            .toMethod()
+            .toFileAssert()
+
+            // No overridden setter on child object
+            .assertNoMethod("setAlias");
+    }
+
+
+
+    @Test
+    public void testModelsWithNoneOptionalAndJsonNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_14765.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.setUseOptional(false);
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+
+                .hasProperty("name")
+                .withType( "String" )
+                .toType()
+                .hasProperty("age")
+                .withType( "JsonNullable<Integer>" )
+                .toType()
+                .hasProperty("alias")
+                .withType( "JsonNullable<String>" )
+                .toType()
+                .hasProperty("color")
+                .withType( "String" )
+                .toType()
+                .hasProperty("names")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("colors")
+                .withType( "JsonNullable<List<String>>" )
+                .toType()
+                .hasProperty("stringPattern")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringEmail")
+                .withType( "String" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
+                .hasProperty("zebra")
+                .withType( "Zebra" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "JsonNullable<@Pattern(regexp = \"[a-z]\") String>" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "JsonNullable<@Size(min = 1, max = 10) String>" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "JsonNullable<@Size(min = 1) String>" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "JsonNullable<@Min(1) @Max(10) Integer>" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "JsonNullable<@Min(1) Integer>" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "JsonNullable<@Max(10) Integer>" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "JsonNullable<@DecimalMin(\"1\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "JsonNullable<@DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefaultNullable = JsonNullable.<String>undefined();")
+
+                .assertMethod("name")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.name = name;", "return this;")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setName")
+                .hasReturnType("void")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getName")
+                .hasReturnType("String")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("colors")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setColors")
+                .hasReturnType("void")
+                .hasParameter("colors")
+                .withType("JsonNullable<List<String>>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getColors")
+                .hasReturnType("JsonNullable<List<String>>")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("names")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.names = names;", "return this;")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setNames")
+                .hasReturnType("void")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getNames")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert();
+
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "age", "JsonNullable<Integer>");
+        assertJsonNullableMethod(javaFileAssert, String.class, "alias", "JsonNullable<String>");
+        assertMethod(javaFileAssert, String.class, "color");
+
+        assertMethod(javaFileAssert, String.class, "stringPattern");
+        assertMethod(javaFileAssert, String.class, "stringMaxMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMaxLength");
+        assertMethod(javaFileAssert, String.class, "stringEmail");
+        assertMethod(javaFileAssert, Integer.class, "intMinMax");
+        assertMethod(javaFileAssert, Integer.class, "intMin");
+        assertMethod(javaFileAssert, Integer.class, "intMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
+
+        assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
+        assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable", "JsonNullable<@Size(min = 1, max = 10) String>");
+        assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
+        assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
+        assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
+        assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
+        assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+
+    }
+
+    @Test
+    public void testModelsWithOptionalAndJsonNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_14765.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(true);
+        codegen.setUseOptional(true);
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+
+                .hasProperty("name")
+                .withType( "String" )
+                .toType()
+                .hasProperty("age")
+                .withType( "JsonNullable<Integer>" )
+                .toType()
+                .hasProperty("alias")
+                .withType( "JsonNullable<String>" )
+                .toType()
+                .hasProperty("color")
+                .withType( "Optional<String>" )
+                .toType()
+                .hasProperty("names")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("colors")
+                .withType( "JsonNullable<List<String>>" )
+                .toType()
+                .hasProperty("stringPattern")
+                .withType( "Optional<@Pattern(regexp = \"[a-z]\") String>" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "Optional<@Size(min = 1, max = 10) String>" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "Optional<@Size(min = 1) String>" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "Optional<@Size(max = 1) String>" )
+                .toType()
+                .hasProperty("stringEmail")
+                .withType( "Optional<@jakarta.validation.constraints.Email String>" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "Optional<@Min(1) @Max(10) Integer>" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "Optional<@Min(1) Integer>" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "Optional<@Max(10) Integer>" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "Optional<@DecimalMin(\"1\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "Optional<@DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("stringDefault")
+                .withType( "Optional<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefault = Optional.of(\"ABC\")")
+                .hasProperty("zebra")
+                .withType( "Optional<Zebra>" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "JsonNullable<@Pattern(regexp = \"[a-z]\") String>" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "JsonNullable<@Size(min = 1, max = 10) String>" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "JsonNullable<@Size(min = 1) String>" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "JsonNullable<@Min(1) @Max(10) Integer>" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "JsonNullable<@Min(1) Integer>" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "JsonNullable<@Max(10) Integer>" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "JsonNullable<@DecimalMin(\"1\") BigDecimal>" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "JsonNullable<@DecimalMax(\"10\") BigDecimal>" )
+                .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "JsonNullable<@Size(max = 1) String>" )
+                .toType()
+                .fileContains("stringDefaultNullable = JsonNullable.<String>undefined();")
+
+                .assertMethod("name")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.name = name;", "return this;")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                 // Setter method assertions
+                .assertMethod("setName")
+                .hasReturnType("void")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getName")
+                .hasReturnType("String")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("colors")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.colors = JsonNullable.of(colors);", "return this;")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setColors")
+                .hasReturnType("void")
+                .hasParameter("colors")
+                .withType("JsonNullable<List<String>>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getColors")
+                .hasReturnType("JsonNullable<List<String>>")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("names")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.names = names;", "return this;")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setNames")
+                .hasReturnType("void")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getNames")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert();
+
+            assertJsonNullableMethod(javaFileAssert, String.class, "alias", "JsonNullable<String>");
+            assertJsonNullableMethod(javaFileAssert, Integer.class, "age", "JsonNullable<Integer>");
+            assertOptionalMethod(javaFileAssert, String.class, "color", "Optional<String>");
+
+            assertOptionalMethod(javaFileAssert, String.class, "stringPattern", "Optional<@Pattern(regexp = \"[a-z]\") String>");
+            assertOptionalMethod(javaFileAssert, String.class, "stringMaxMinLength", "Optional<@Size(min = 1, max = 10) String>");
+            assertOptionalMethod(javaFileAssert, String.class, "stringMinLength", "Optional<@Size(min = 1) String>");
+            assertOptionalMethod(javaFileAssert, String.class, "stringMaxLength", "Optional<@Size(max = 1) String>");
+            assertOptionalMethod(javaFileAssert, String.class, "stringEmail", "Optional<@jakarta.validation.constraints.Email String>");
+            assertOptionalMethod(javaFileAssert, Integer.class, "intMinMax", "Optional<@Min(1) @Max(10) Integer>");
+            assertOptionalMethod(javaFileAssert, Integer.class, "intMin", "Optional<@Min(1) Integer>");
+            assertOptionalMethod(javaFileAssert, Integer.class, "intMax", "Optional<@Max(10) Integer>");
+            assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMinMax", "Optional<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
+            assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMin", "Optional<@DecimalMin(\"1\") BigDecimal>");
+            assertOptionalMethod(javaFileAssert, BigDecimal.class, "numberMax", "Optional<@DecimalMax(\"10\") BigDecimal>");
+            assertOptionalMethod(javaFileAssert,"Zebra", "zebra", "Optional<Zebra>");
+
+            assertJsonNullableMethod(javaFileAssert, String.class, "stringPatternNullable", "JsonNullable<@Pattern(regexp = \"[a-z]\") String>");
+            assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable", "JsonNullable<@Size(min = 1, max = 10) String>");
+            assertJsonNullableMethod(javaFileAssert, String.class, "stringMinLengthNullable", "JsonNullable<@Size(min = 1) String>");
+            assertJsonNullableMethod(javaFileAssert, String.class, "stringMaxLengthNullable", "JsonNullable<@Size(max = 1) String>");
+            assertJsonNullableMethod(javaFileAssert, String.class, "stringEmailNullable", "JsonNullable<@jakarta.validation.constraints.Email String>");
+            assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinMaxNullable", "JsonNullable<@Min(1) @Max(10) Integer>");
+            assertJsonNullableMethod(javaFileAssert, Integer.class, "intMinNullable", "JsonNullable<@Min(1) Integer>");
+            assertJsonNullableMethod(javaFileAssert, Integer.class, "intMaxNullable", "JsonNullable<@Max(10) Integer>");
+            assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable", "JsonNullable<@DecimalMin(\"1\") @DecimalMax(\"10\") BigDecimal>");
+            assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMinNullable", "JsonNullable<@DecimalMin(\"1\") BigDecimal>");
+            assertJsonNullableMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable", "JsonNullable<@DecimalMax(\"10\") BigDecimal>");
+
+    }
+
+    @Test
+    public void testModelsWithOptionalAndNoneJsonNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_14765.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(false);
+        codegen.setUseOptional(true);
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+
+                .hasProperty("name")
+                .withType( "String" )
+                .toType()
+                .hasProperty("age")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("alias")
+                .withType( "String" )
+                .toType()
+                .hasProperty("color")
+                .withType( "String" )
+                .toType()
+                .hasProperty("names")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("colors")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("stringPattern")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringEmail")
+                .withType( "String" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
+                .hasProperty("zebra")
+                .withType( "Zebra" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefaultNullable = null;")
+
+                .assertMethod("name")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.name = name;", "return this;")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setName")
+                .hasReturnType("void")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getName")
+                .hasReturnType("String")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("age")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.age = age;", "return this;")
+                .hasParameter("age")
+                .withType("Integer")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setAge")
+                .hasReturnType("void")
+                .hasParameter("age")
+                .withType("Integer")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getAge")
+                .hasReturnType("Integer")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("colors")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.colors = colors;", "return this;")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setColors")
+                .hasReturnType("void")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getColors")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("names")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.names = names;", "return this;")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setNames")
+                .hasReturnType("void")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getNames")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert();
+
+        assertMethod(javaFileAssert, String.class, "alias");
+        assertMethod(javaFileAssert, String.class, "color");
+
+        assertMethod(javaFileAssert, String.class, "stringPattern");
+        assertMethod(javaFileAssert, String.class, "stringMaxMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMaxLength");
+        assertMethod(javaFileAssert, String.class, "stringEmail");
+        assertMethod(javaFileAssert, Integer.class, "intMinMax");
+        assertMethod(javaFileAssert, Integer.class, "intMin");
+        assertMethod(javaFileAssert, Integer.class, "intMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
+
+        assertMethod(javaFileAssert, String.class, "stringPatternNullable");
+        assertMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringMinLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringMaxLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringEmailNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMinMaxNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMinNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMaxNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable");
+
+    }
+
+    @Test
+    public void testModelsWithNoneOptionalAndNoneOpenApiNullable() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_14765.yaml", null, new ParseOptions()).getOpenAPI();
+
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setOpenApiNullable(false);
+        codegen.setUseOptional(false);
+        codegen.setUseSpringBoot3(true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.opts(input).generate();
+
+
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Animal.java"))
+                .hasImports("jakarta.validation.Valid")
+                .hasImports("jakarta.validation.constraints")
+
+                .hasProperty("name")
+                .withType( "String" )
+                .toType()
+                .hasProperty("age")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("alias")
+                .withType( "String" )
+                .toType()
+                .hasProperty("color")
+                .withType( "String" )
+                .toType()
+                .hasProperty("names")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("colors")
+                .withType( "List<String>" )
+                .toType()
+                .hasProperty("stringPattern")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMinLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxLength")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringEmail")
+                .withType( "String" )
+                .toType()
+                .hasProperty("intMinMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMin")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMax")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("numberMinMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMin")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMax")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("stringDefault")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefault = \"ABC\"")
+                .hasProperty("zebra")
+                .withType( "Zebra" )
+                .toType()
+
+                .hasProperty("stringPatternNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxMinLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMinLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("stringMaxLengthNullable")
+                .withType( "String" )
+                .toType()
+                .hasProperty("intMinMaxNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMinNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("intMaxNullable")
+                .withType( "Integer" )
+                .toType()
+                .hasProperty("numberMinMaxNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMinNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("numberMaxNullable")
+                .withType( "BigDecimal" )
+                .toType()
+                .hasProperty("stringDefaultNullable")
+                .withType( "String" )
+                .toType()
+                .fileContains("stringDefaultNullable = null;")
+
+                .assertMethod("name")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.name = name;", "return this;")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setName")
+                .hasReturnType("void")
+                .hasParameter("name")
+                .withType("String")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getName")
+                .hasReturnType("String")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("age")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.age = age;", "return this;")
+                .hasParameter("age")
+                .withType("Integer")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setAge")
+                .hasReturnType("void")
+                .hasParameter("age")
+                .withType("Integer")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getAge")
+                .hasReturnType("Integer")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("colors")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.colors = colors;", "return this;")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setColors")
+                .hasReturnType("void")
+                .hasParameter("colors")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getColors")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert()
+
+                .assertMethod("names")
+                .hasReturnType("Animal")
+                .bodyContainsLines("this.names = names;", "return this;")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("setNames")
+                .hasReturnType("void")
+                .hasParameter("names")
+                .withType("List<String>")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("getNames")
+                .hasReturnType("List<String>")
+                .doesNotHaveParameters()
+                .toFileAssert();
+
+        assertMethod(javaFileAssert, String.class, "alias");
+        assertMethod(javaFileAssert, String.class, "color");
+
+        assertMethod(javaFileAssert, String.class, "stringPattern");
+        assertMethod(javaFileAssert, String.class, "stringMaxMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMinLength");
+        assertMethod(javaFileAssert, String.class, "stringMaxLength");
+        assertMethod(javaFileAssert, String.class, "stringEmail");
+        assertMethod(javaFileAssert, Integer.class, "intMinMax");
+        assertMethod(javaFileAssert, Integer.class, "intMin");
+        assertMethod(javaFileAssert, Integer.class, "intMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinMax");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMin");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMax");
+        assertMethod(javaFileAssert, "Zebra", "zebra");
+
+        assertMethod(javaFileAssert, String.class, "stringPatternNullable");
+        assertMethod(javaFileAssert, String.class, "stringMaxMinLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringMinLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringMaxLengthNullable");
+        assertMethod(javaFileAssert, String.class, "stringEmailNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMinMaxNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMinNullable");
+        assertMethod(javaFileAssert, Integer.class, "intMaxNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinMaxNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMinNullable");
+        assertMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable");
+
+    }
+    
+    private void assertOptionalMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
+        assertOptionalMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
+    }
+
+    private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
+        assertWrapperMethod(javaFileAssert, "Optional", type, expectedName, getterReturnType);
+    }
+
+    private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
+        assertJsonNullableMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
+    }
+
+    private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
+        assertWrapperMethod(javaFileAssert, "JsonNullable", type, expectedName, getterReturnType);
+    }
+
+    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
+        String methodName = StringUtils.capitalize(expectedName);
+        javaFileAssert.assertMethod(expectedName)
+                .hasReturnType("Animal")
+                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
+                .hasParameter(expectedName)
+                .withType(type)
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("set"+methodName)
+                .hasReturnType("void")
+                .hasParameter(expectedName)
+                .withType(wrapperType+"<"+type+">")
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("get"+methodName)
+                .hasReturnType(getterReturnType)
+                .doesNotHaveParameters()
+                .toFileAssert();
+    }
+
+    private void assertMethod(JavaFileAssert javaFileAssert, String type, String expectedName){
+        String methodName = StringUtils.capitalize(expectedName);
+        javaFileAssert.assertMethod(expectedName)
+                .hasReturnType("Animal")
+                .bodyContainsLines("this."+expectedName+" = "+ expectedName + ";", "return this;")
+                .hasParameter(expectedName)
+                .withType(type)
+                .toMethod()
+                .toFileAssert()
+                // Setter method assertions
+                .assertMethod("set"+methodName)
+                .hasReturnType("void")
+                .hasParameter(expectedName)
+                .withType(type)
+                .toMethod()
+                .toFileAssert()
+                // Getter method assertions
+                .assertMethod("get"+methodName)
+                .hasReturnType(type)
+                .doesNotHaveParameters()
+                .toFileAssert();
+    }
+
+    private void assertMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName){
+        assertMethod(javaFileAssert,type.getSimpleName(), expectedName);
+    }
+
+
+    @Test
+    public void multiLineOperationDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        String expectedDescription = "# Multi-line descriptions  This is an example of a multi-line description.  It: - has multiple lines - uses Markdown (CommonMark) for rich text representation";
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains(expectedDescription);
+    }
+
+    @Test
+    public void multiLineTagDescription() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGDOC.name());
+
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/spring/issue12474-multiline-description.yaml", SPRING_BOOT, additionalProperties);
+
+        JavaFileAssert.assertThat(files.get("PingTagApi.java"))
+                .fileContains("This is a multine tag : * tag item 1 * tag item 2 ");
+    }
+
+    @Test
+    public void testSSEOperationSupport() throws Exception {
+
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/sse.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SSE, "true");
+        codegen.additionalProperties().put(REACTIVE, "true");
+        codegen.additionalProperties().put(INTERFACE_ONLY, "false");
+        codegen.additionalProperties().put(DELEGATE_PATTERN, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        MapAssert.assertThatMap(files).isNotEmpty();
+        File api = files.get("PathApi.java");
+        File delegate = files.get("PathApiDelegate.java");
+
+        JavaFileAssert.assertThat(api)
+                .assertMethod("sseVariant1", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<String>")
+                .toFileAssert()
+                .assertMethod("sseVariant2", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<EventType>")
+                .toFileAssert()
+                .assertMethod("nonSSE", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Mono<ResponseEntity<String>>");
+
+        JavaFileAssert.assertThat(delegate)
+                .assertMethod("sseVariant1", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<String>")
+                .bodyContainsLines("return Flux.empty();")
+                .toFileAssert()
+                .assertMethod("sseVariant2", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Flux<EventType>")
+                .bodyContainsLines("return Flux.empty();")
+                .toFileAssert()
+                .assertMethod("nonSSE", "ServerWebExchange")
+                .isNotNull()
+                .hasReturnType("Mono<ResponseEntity<String>>")
+                .bodyContainsLines("return result.then(Mono.empty());")
+        ;
+
+    }
+
+    @Test
+    public void givenMultipartForm_whenGenerateReactiveServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/petstore-with-tags.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        codegen.additionalProperties().put(SpringCodegen.REACTIVE, "true");
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    @Test
+    public void givenMultipartForm_whenGenerateBlockedServer_thenParameterAreCreatedAsRequestPart() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/petstore-with-tags.yaml");
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+
+        generator.opts(input).generate();
+
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
+                "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue16797() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
+        // constructor should as
+        //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
+        //            super(responseType, requestId, success, pageInfo);
+        //        }
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+    }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT);
+        // constructor should as this
+        //public Poodle(String race, String type) {
+        //    super(race, type);
+        //}
+        JavaFileAssert.assertThat(output.get("Poodle.java"))
+                .assertConstructor("String", "String")
+                .hasParameter("type").toConstructor()
+                .hasParameter("race").toConstructor()
+        ;
     }
 }

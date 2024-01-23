@@ -1,6 +1,11 @@
 # coding: utf-8
 
 from typing import Dict, List  # noqa: F401
+import importlib
+import pkgutil
+
+from {{apiPackage}}.{{classFilename}}_{{baseSuffix}} import Base{{classname}}
+import {{fastapiImplementationPackage}}
 
 from fastapi import (  # noqa: F401
     APIRouter,
@@ -23,6 +28,10 @@ from {{modelPackage}}.extra_models import TokenModel  # noqa: F401
 {{#securityImports.0}}from {{packageName}}.security_api import {{#securityImports}}get_token_{{.}}{{^-last}}, {{/-last}}{{/securityImports}}{{/securityImports.0}}
 
 router = APIRouter()
+
+ns_pkg = {{fastapiImplementationPackage}}
+for _, name, _ in pkgutil.iter_modules(ns_pkg.__path__, ns_pkg.__name__ + "."):
+    importlib.import_module(name)
 
 
 {{#operations}}
@@ -56,7 +65,7 @@ async def {{operationId}}(
     {{/hasAuthMethods}}
 ) -> {{returnType}}{{^returnType}}None{{/returnType}}:
     {{#notes}}"""{{.}}"""
-    ...{{/notes}}{{^notes}}...{{/notes}}
+    return Base{{classname}}.subclasses[0]().{{operationId}}({{#allParams}}{{>impl_argument}}{{^-last}}, {{/-last}}{{/allParams}}){{/notes}}{{^notes}}...{{/notes}}
 {{^-last}}
 
 

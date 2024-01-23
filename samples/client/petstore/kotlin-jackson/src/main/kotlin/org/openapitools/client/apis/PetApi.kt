@@ -71,7 +71,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -141,7 +141,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -190,10 +190,10 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
     /**
      * enum for parameter status
      */
-     enum class Status_findPetsByStatus(val value: kotlin.String) {
+     enum class StatusFindPetsByStatus(val value: kotlin.String) {
          @JsonProperty(value = "available") AVAILABLE("available"),
          @JsonProperty(value = "pending") PENDING("pending"),
-         @JsonProperty(value = "sold") SOLD("sold")
+         @JsonProperty(value = "sold") SOLD("sold"),
      }
 
     /**
@@ -209,7 +209,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class, UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun findPetsByStatus(status: kotlin.collections.List<Status_findPetsByStatus>) : kotlin.collections.List<Pet> {
+    fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>) : kotlin.collections.List<Pet> {
         val localVarResponse = findPetsByStatusWithHttpInfo(status = status)
 
         return when (localVarResponse.responseType) {
@@ -222,7 +222,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -237,7 +237,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<Status_findPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
+    fun findPetsByStatusWithHttpInfo(status: kotlin.collections.List<StatusFindPetsByStatus>) : ApiResponse<kotlin.collections.List<Pet>?> {
         val localVariableConfig = findPetsByStatusRequestConfig(status = status)
 
         return request<Unit, kotlin.collections.List<Pet>>(
@@ -251,7 +251,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      * @param status Status values that need to be considered for filter
      * @return RequestConfig
      */
-    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<Status_findPetsByStatus>) : RequestConfig<Unit> {
+    fun findPetsByStatusRequestConfig(status: kotlin.collections.List<StatusFindPetsByStatus>) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
             .apply {
@@ -298,7 +298,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -375,7 +375,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -445,7 +445,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -516,7 +516,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }
@@ -593,7 +593,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
             }
             ResponseType.ServerError -> {
                 val localVarError = localVarResponse as ServerError<*>
-                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()}", localVarError.statusCode, localVarResponse)
+                throw ServerException("Server error : ${localVarError.statusCode} ${localVarError.message.orEmpty()} ${localVarError.body}", localVarError.statusCode, localVarResponse)
             }
         }
     }

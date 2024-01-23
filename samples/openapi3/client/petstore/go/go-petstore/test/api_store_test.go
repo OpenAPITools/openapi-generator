@@ -1,7 +1,7 @@
 /*
 OpenAPI Petstore
 
-Testing StoreApiService
+Testing StoreAPIService
 
 */
 
@@ -17,30 +17,29 @@ import (
 	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
-func Test_petstore_StoreApiService(t *testing.T) {
+func Test_petstore_StoreAPIService(t *testing.T) {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
 
-	t.Run("Test StoreApiService DeleteOrder", func(t *testing.T) {
+	t.Run("Test StoreAPIService DeleteOrder", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var orderId string
 
-		resp, httpRes, err := apiClient.StoreApi.DeleteOrder(context.Background(), orderId).Execute()
+		httpRes, err := apiClient.StoreAPI.DeleteOrder(context.Background(), orderId).Execute()
 
 		require.Nil(t, err)
-		require.NotNil(t, resp)
 		assert.Equal(t, 200, httpRes.StatusCode)
 
 	})
 
-	t.Run("Test StoreApiService GetInventory", func(t *testing.T) {
+	t.Run("Test StoreAPIService GetInventory", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.StoreApi.GetInventory(context.Background()).Execute()
+		resp, httpRes, err := apiClient.StoreAPI.GetInventory(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,13 +47,13 @@ func Test_petstore_StoreApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StoreApiService GetOrderById", func(t *testing.T) {
+	t.Run("Test StoreAPIService GetOrderById", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
 		var orderId int64
 
-		resp, httpRes, err := apiClient.StoreApi.GetOrderById(context.Background(), orderId).Execute()
+		resp, httpRes, err := apiClient.StoreAPI.GetOrderById(context.Background(), orderId).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -62,11 +61,11 @@ func Test_petstore_StoreApiService(t *testing.T) {
 
 	})
 
-	t.Run("Test StoreApiService PlaceOrder", func(t *testing.T) {
+	t.Run("Test StoreAPIService PlaceOrder", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.StoreApi.PlaceOrder(context.Background()).Execute()
+		resp, httpRes, err := apiClient.StoreAPI.PlaceOrder(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

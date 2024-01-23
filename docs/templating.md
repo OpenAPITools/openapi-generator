@@ -62,13 +62,13 @@ In OpenAPI Generator 5.0 and later, you can use the CLI command `author template
 openapi-generator author template -g java --library webclient
 ```
 
-For OpenAPI Generator versions prior to 5.0, you will want to find the [resources directory](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources) for the generator you want to extend. This is generally easy to find as directories commonly follow the convention of `resources/<generator name>`. In cases where you're unsure, you will need to find the `embeddedTemplateDir` assignment in your desired generator. This is almost always assigned in the constructor of the generator class. The C# .Net Core generator assigns this as:
+For OpenAPI Generator versions prior to 5.0, you will want to find the [resources directory](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources) for the generator you want to extend. This is generally easy to find as directories commonly follow the convention of `resources/<generator name>`. In cases where you're unsure, you will need to find the `embeddedTemplateDir` assignment in your desired generator. This is almost always assigned in the constructor of the generator class. The C# generator assigns this as:
 
 ```
-embeddedTemplateDir = templateDir = "csharp-netcore";
+embeddedTemplateDir = templateDir = "csharp";
 ```
 
-These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp-netcore](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp-netcore). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
+These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
 
 **NOTE** If you have specific logic you'd like to modify such as modifying the generated README, you _only_ need to pull and modify this individual template. OpenAPI Generator will lookup templates in this order:
 
@@ -810,6 +810,9 @@ Supporting files can either be processed through the templating engine or copied
 - **complexType**: stores the name of the model (e.g. Pet)
 - **isContainer**: true if the parameter or property is an array or a map.
 - **isPrimitiveType**: true if the parameter or property type is a primitive type (e.g. string, integer, etc) as defined in the spec.
+
+More variables can be found [here](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/java/org/openapitools/codegen/CodegenProperty.java).
+
 
 ## Mustache Lambdas
 

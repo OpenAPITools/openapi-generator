@@ -1,0 +1,9 @@
+{{#isNullable}}
+if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
+    {{#lambda.pasteLine}}{{/lambda.pasteLine}}
+else
+    writer.WriteNull("{{baseName}}");
+{{/isNullable}}
+{{^isNullable}}
+{{#lambda.pasteLine}}{{/lambda.pasteLine}}
+{{/isNullable}}

@@ -614,7 +614,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -879,8 +879,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && getAdditionalProperties(model) != null) {
-                String itemType = getSchemaType(getAdditionalProperties(model));
+            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-is-map", true);
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             } else {
@@ -1233,7 +1233,7 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.JAVASCRIPT; }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName ) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName ) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

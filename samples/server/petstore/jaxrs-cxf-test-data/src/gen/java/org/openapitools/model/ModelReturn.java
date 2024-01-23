@@ -1,5 +1,6 @@
 package org.openapitools.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -42,6 +43,23 @@ public class ModelReturn  {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ModelReturn _return = (ModelReturn) o;
+    return Objects.equals(_return, _return._return);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(_return);
+  }
 
   @Override
   public String toString() {

@@ -33,7 +33,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-@JsonTypeName("$special[model.name]")
+@JsonTypeName("_special_model.name_")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "$special[model.name]")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -73,7 +73,6 @@ public class SpecialModelName {
     this.$specialPropertyName = $specialPropertyName;
   }
 
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -82,8 +81,8 @@ public class SpecialModelName {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
+    SpecialModelName specialModelName = (SpecialModelName) o;
+    return Objects.equals(this.$specialPropertyName, specialModelName.$specialPropertyName);
   }
 
   @Override

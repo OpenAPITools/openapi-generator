@@ -14,13 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -33,13 +33,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -101,7 +104,6 @@ public class User {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -111,11 +113,9 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -123,7 +123,6 @@ public class User {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -133,11 +132,9 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-
   public String getUsername() {
     return username;
   }
-
 
   public void setUsername(String username) {
     this.username = username;
@@ -145,7 +142,6 @@ public class User {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -155,11 +151,9 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-
   public String getFirstName() {
     return firstName;
   }
-
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -167,7 +161,6 @@ public class User {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -177,11 +170,9 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-
   public String getLastName() {
     return lastName;
   }
-
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -189,7 +180,6 @@ public class User {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -199,11 +189,9 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-
   public String getEmail() {
     return email;
   }
-
 
   public void setEmail(String email) {
     this.email = email;
@@ -211,7 +199,6 @@ public class User {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -221,11 +208,9 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-
   public String getPassword() {
     return password;
   }
-
 
   public void setPassword(String password) {
     this.password = password;
@@ -233,7 +218,6 @@ public class User {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -243,11 +227,9 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-
   public String getPhone() {
     return phone;
   }
-
 
   public void setPhone(String phone) {
     this.phone = phone;
@@ -255,7 +237,6 @@ public class User {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -265,11 +246,9 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -277,7 +256,6 @@ public class User {
 
 
   public User objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
-    
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
     return this;
   }
@@ -287,11 +265,9 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @javax.annotation.Nullable
-
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
   }
-
 
   public void setObjectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
@@ -299,7 +275,6 @@ public class User {
 
 
   public User objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
-    
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
     return this;
   }
@@ -309,11 +284,9 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @javax.annotation.Nullable
-
   public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
   }
-
 
   public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
@@ -321,7 +294,6 @@ public class User {
 
 
   public User anyTypeProp(Object anyTypeProp) {
-    
     this.anyTypeProp = anyTypeProp;
     return this;
   }
@@ -331,11 +303,9 @@ public class User {
    * @return anyTypeProp
   **/
   @javax.annotation.Nullable
-
   public Object getAnyTypeProp() {
     return anyTypeProp;
   }
-
 
   public void setAnyTypeProp(Object anyTypeProp) {
     this.anyTypeProp = anyTypeProp;
@@ -343,7 +313,6 @@ public class User {
 
 
   public User anyTypePropNullable(Object anyTypePropNullable) {
-    
     this.anyTypePropNullable = anyTypePropNullable;
     return this;
   }
@@ -353,11 +322,9 @@ public class User {
    * @return anyTypePropNullable
   **/
   @javax.annotation.Nullable
-
   public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
   }
-
 
   public void setAnyTypePropNullable(Object anyTypePropNullable) {
     this.anyTypePropNullable = anyTypePropNullable;
@@ -506,17 +473,18 @@ public class User {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to User
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to User
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
@@ -574,8 +542,9 @@ public class User {
 
            @Override
            public User read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              User instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {

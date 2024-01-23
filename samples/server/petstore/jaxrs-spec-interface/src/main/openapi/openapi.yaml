@@ -131,7 +131,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
   /pet/findByTags:
@@ -178,7 +178,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -245,7 +245,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
     post:
@@ -362,7 +362,7 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: store
   /store/order/{order_id}:
@@ -423,7 +423,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: store
   /user:
@@ -540,7 +540,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: user
   /user/logout:
@@ -608,7 +608,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: user
     put:
@@ -1079,6 +1079,14 @@ paths:
     patch:
       description: To test special tags and operation ID starting with number
       operationId: 123_test_@#$%_special_tags
+      parameters:
+      - description: to test uuid example value
+        in: header
+        name: uuid_test
+        required: true
+        schema:
+          format: uuid
+          type: string
       requestBody:
         content:
           application/json:
@@ -1438,15 +1446,29 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCat_allOf'
+      - properties:
+          kind:
+            enum:
+            - lions
+            - tigers
+            - leopards
+            - jaguars
+            type: string
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2239,29 +2261,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    BigCat_allOf:
-      properties:
-        kind:
-          enum:
-          - lions
-          - tigers
-          - leopards
-          - jaguars
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

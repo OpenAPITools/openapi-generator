@@ -36,6 +36,8 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.openapitools.codegen.utils.ModelUtils.getAdditionalProperties;
+
 public class ScalaPerfanaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaPerfanaGatlingCodegen.class);
     public static final String PREFIX_INTEGER_VAR = "I@";
@@ -520,7 +522,7 @@ public class ScalaPerfanaGatlingCodegen extends AbstractScalaCodegen implements 
             Schema inner = ap.getItems();
             return this.getSchemaType(p) + "[" + this.getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = this.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return this.getSchemaType(p) + "[String, " + this.getTypeDeclaration(inner) + "]";
         } else {
             return super.getTypeDeclaration(p);

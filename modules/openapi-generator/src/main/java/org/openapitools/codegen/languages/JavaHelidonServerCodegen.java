@@ -254,6 +254,8 @@ public class JavaHelidonServerCodegen extends JavaHelidonCommonCodegen {
                 }
                 break;
             case SERIALIZATION_LIBRARY_JSONB:
+                openApiNullable = false;
+                additionalProperties.put(OPENAPI_NULLABLE, false);
                 additionalProperties.put(SERIALIZATION_LIBRARY_JSONB, "true");
                 additionalProperties.remove(SERIALIZATION_LIBRARY_JACKSON);
                 break;

@@ -110,6 +110,8 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**call123testSpecialTagsWithHttpInfo**](docs/AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
 *DefaultApi* | [**fooGetWithHttpInfo**](docs/DefaultApi.md#fooGetWithHttpInfo) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/FakeApi.md#fakeBigDecimalMap) | **GET** /fake/BigDecimalMap | 
+*FakeApi* | [**fakeBigDecimalMapWithHttpInfo**](docs/FakeApi.md#fakeBigDecimalMapWithHttpInfo) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHealthGetWithHttpInfo**](docs/FakeApi.md#fakeHealthGetWithHttpInfo) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
@@ -122,6 +124,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
 *FakeApi* | [**getArrayOfEnums**](docs/FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**getArrayOfEnumsWithHttpInfo**](docs/FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
+*FakeApi* | [**testAdditionalPropertiesReferenceWithHttpInfo**](docs/FakeApi.md#testAdditionalPropertiesReferenceWithHttpInfo) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithFileSchemaWithHttpInfo**](docs/FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -136,6 +140,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testGroupParametersWithHttpInfo**](docs/FakeApi.md#testGroupParametersWithHttpInfo) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testInlineAdditionalPropertiesWithHttpInfo**](docs/FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalPropertiesWithHttpInfo**](docs/FakeApi.md#testInlineFreeformAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testJsonFormDataWithHttpInfo**](docs/FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
@@ -200,22 +206,20 @@ Class | Method | HTTP request | Description
  - [BasquePig](docs/BasquePig.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [ChildCat](docs/ChildCat.md)
- - [ChildCatAllOf](docs/ChildCatAllOf.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
  - [ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
  - [Drawing](docs/Drawing.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [EnumTest](docs/EnumTest.md)
  - [EquilateralTriangle](docs/EquilateralTriangle.md)
+ - [FakeBigDecimalMap200Response](docs/FakeBigDecimalMap200Response.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [Foo](docs/Foo.md)
  - [FooGetDefaultResponse](docs/FooGetDefaultResponse.md)
@@ -259,6 +263,7 @@ Class | Method | HTTP request | Description
  - [SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [SpecialModelName](docs/SpecialModelName.md)
  - [Tag](docs/Tag.md)
+ - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Triangle](docs/Triangle.md)
  - [TriangleInterface](docs/TriangleInterface.md)
  - [User](docs/User.md)
@@ -266,9 +271,12 @@ Class | Method | HTTP request | Description
  - [Zebra](docs/Zebra.md)
 
 
+<a id="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
+
 Authentication schemes defined for the API:
+<a id="petstore_auth"></a>
 ### petstore_auth
 
 
@@ -279,6 +287,7 @@ Authentication schemes defined for the API:
   - write:pets: modify pets in your account
   - read:pets: read your pets
 
+<a id="api_key"></a>
 ### api_key
 
 
@@ -286,6 +295,7 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
+<a id="api_key_query"></a>
 ### api_key_query
 
 
@@ -293,20 +303,23 @@ Authentication schemes defined for the API:
 - **API key parameter name**: api_key_query
 - **Location**: URL query string
 
+<a id="http_basic_test"></a>
 ### http_basic_test
 
 
 - **Type**: HTTP basic authentication
 
+<a id="bearer_test"></a>
 ### bearer_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer Token authentication (JWT)
 
+<a id="http_signature_test"></a>
 ### http_signature_test
 
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP signature authentication
 
 
 ## Recommendation

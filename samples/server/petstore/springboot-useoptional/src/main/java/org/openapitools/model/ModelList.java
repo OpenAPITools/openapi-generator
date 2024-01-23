@@ -24,11 +24,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList {
 
-  @JsonProperty("123-list")
-  private String _123list;
+  private Optional<String> _123list = Optional.empty();
 
   public ModelList _123list(String _123list) {
-    this._123list = _123list;
+    this._123list = Optional.of(_123list);
     return this;
   }
 
@@ -38,11 +37,12 @@ public class ModelList {
   */
   
   @ApiModelProperty(value = "")
-  public String get123list() {
+  @JsonProperty("123-list")
+  public Optional<String> get123list() {
     return _123list;
   }
 
-  public void set123list(String _123list) {
+  public void set123list(Optional<String> _123list) {
     this._123list = _123list;
   }
 

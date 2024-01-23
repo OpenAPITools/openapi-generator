@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/client/others/java/resttemplate-useAbstractionForFiles
+library: resttemplate 
+inputSpec: modules/openapi-generator/src/test/resources/3_0/issue13146_file_abstraction_response.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  artifactId: file-resttemplate
+  hideGenerationTimestamp: "true"
+  useAbstractionForFiles: true

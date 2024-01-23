@@ -9,6 +9,8 @@ import 'package:openapi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **foorefPropA** | **String** |  | [optional] 
+**name** | **String** | Name of the related entity. | [optional] 
+**atReferredType** | **String** | The actual type of the target instance when needed for disambiguation. | [optional] 
 **href** | **String** | Hyperlink reference | [optional] 
 **id** | **String** | unique identifier | [optional] 
 **atSchemaLocation** | **String** | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional] 
