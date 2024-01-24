@@ -771,7 +771,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
         if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
-            throw new RuntimeException("This library muse use spring boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+            throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
         }
 
         proccessJvmSpring(infrastructureFolder);

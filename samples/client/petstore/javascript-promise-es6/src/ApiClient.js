@@ -159,7 +159,7 @@ class ApiClient {
             url = apiBasePath + path;
         }
 
-        url = url.replace(/\{([\w-\.]+)\}/g, (fullMatch, key) => {
+        url = url.replace(/\{([\w-\.#]+)\}/g, (fullMatch, key) => {
             var value;
             if (pathParams.hasOwnProperty(key)) {
                 value = this.paramToString(pathParams[key]);

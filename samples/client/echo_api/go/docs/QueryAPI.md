@@ -9,6 +9,8 @@ Method | HTTP request | Description
 [**TestQueryIntegerBooleanString**](QueryAPI.md#TestQueryIntegerBooleanString) | **Get** /query/integer/boolean/string | Test query parameter(s)
 [**TestQueryStyleDeepObjectExplodeTrueObject**](QueryAPI.md#TestQueryStyleDeepObjectExplodeTrueObject) | **Get** /query/style_deepObject/explode_true/object | Test query parameter(s)
 [**TestQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryAPI.md#TestQueryStyleDeepObjectExplodeTrueObjectAllOf) | **Get** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+[**TestQueryStyleFormExplodeFalseArrayInteger**](QueryAPI.md#TestQueryStyleFormExplodeFalseArrayInteger) | **Get** /query/style_form/explode_false/array_integer | Test query parameter(s)
+[**TestQueryStyleFormExplodeFalseArrayString**](QueryAPI.md#TestQueryStyleFormExplodeFalseArrayString) | **Get** /query/style_form/explode_false/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueArrayString**](QueryAPI.md#TestQueryStyleFormExplodeTrueArrayString) | **Get** /query/style_form/explode_true/array_string | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObject**](QueryAPI.md#TestQueryStyleFormExplodeTrueObject) | **Get** /query/style_form/explode_true/object | Test query parameter(s)
 [**TestQueryStyleFormExplodeTrueObjectAllOf**](QueryAPI.md#TestQueryStyleFormExplodeTrueObjectAllOf) | **Get** /query/style_form/explode_true/object/allOf | Test query parameter(s)
@@ -337,6 +339,138 @@ Other parameters are passed through a pointer to a apiTestQueryStyleDeepObjectEx
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **queryObject** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md) |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryStyleFormExplodeFalseArrayInteger
+
+> string TestQueryStyleFormExplodeFalseArrayInteger(ctx).QueryObject(queryObject).Execute()
+
+Test query parameter(s)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	queryObject := []int32{int32(123)} // []int32 |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeFalseArrayInteger(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeFalseArrayInteger``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleFormExplodeFalseArrayInteger`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeFalseArrayInteger`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryStyleFormExplodeFalseArrayIntegerRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryObject** | **[]int32** |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestQueryStyleFormExplodeFalseArrayString
+
+> string TestQueryStyleFormExplodeFalseArrayString(ctx).QueryObject(queryObject).Execute()
+
+Test query parameter(s)
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	queryObject := []string{"Inner_example"} // []string |  (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.QueryAPI.TestQueryStyleFormExplodeFalseArrayString(context.Background()).QueryObject(queryObject).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `QueryAPI.TestQueryStyleFormExplodeFalseArrayString``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestQueryStyleFormExplodeFalseArrayString`: string
+	fmt.Fprintf(os.Stdout, "Response from `QueryAPI.TestQueryStyleFormExplodeFalseArrayString`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryStyleFormExplodeFalseArrayStringRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **queryObject** | **[]string** |  | 
 
 ### Return type
 

@@ -71,6 +71,8 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**Test-QueryIntegerBooleanString**](docs/QueryApi.md#Test-QueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**Test-QueryStyleFormExplodeFalseArrayInteger**](docs/QueryApi.md#Test-QueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+*QueryApi* | [**Test-QueryStyleFormExplodeFalseArrayString**](docs/QueryApi.md#Test-QueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueObject**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)

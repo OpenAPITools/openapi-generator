@@ -414,7 +414,6 @@
         </pluginManagement>
     </build>
     <profiles>
-
         <profile>
             <id>release</id>
             <build>
@@ -447,7 +446,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
