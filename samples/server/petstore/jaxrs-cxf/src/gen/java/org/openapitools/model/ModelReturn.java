@@ -1,22 +1,23 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
-  * Model for testing reserved words
- **/
+ * Model for testing reserved words
+ */
 @ApiModel(description="Model for testing reserved words")
 
 public class ModelReturn  {
   
   @ApiModelProperty(value = "")
+
   private Integer _return;
  /**
    * Get _return

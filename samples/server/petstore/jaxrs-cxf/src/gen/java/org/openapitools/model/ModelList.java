@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ModelList  {
   
   @ApiModelProperty(value = "")
+
   private String _123list;
  /**
    * Get _123list
