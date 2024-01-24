@@ -98,3 +98,8 @@
   image: "img/companies/alloyautomation.png"
   infoLink: "https://runalloy.com/signup?utm_source=github&utm_medium=referral&utm_campaign=1524_openapigenerator"
   bronze: true
+-
+  caption: "sss Twitter"
+  image: "img/companies/ssstwitter.png"
+  infoLink: "https://ssstwitter.com/signup?utm_source=github&utm_medium=referral&utm_campaign=sponsor"
+  bronze: true
