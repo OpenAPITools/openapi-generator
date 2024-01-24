@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
@@ -26,7 +25,6 @@ import org.openapitools.codegen.languages.features.LoggingTestFeatures;
 import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -248,11 +246,34 @@ public class JavaCXFServerCodegen extends AbstractJavaJAXRSServerCodegen
     }
 
     @Override
+    public List<DocumentationProvider> supportedDocumentationProvider() {
+        return List.of(DocumentationProvider.NONE, DocumentationProvider.SWAGGER1, DocumentationProvider.SWAGGER2);
+    }
+
+    @Override
+    public List<AnnotationLibrary> supportedAnnotationLibraries() {
+        return List.of(AnnotationLibrary.NONE, AnnotationLibrary.SWAGGER1, AnnotationLibrary.SWAGGER2);
+    }
+
+    @Override
+    public DocumentationProvider defaultDocumentationProvider() {
+        return DocumentationProvider.SWAGGER1;
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel m = super.fromModel(name, model);
+        m.imports.remove("ApiModel");
+        return m;
+    }
+
+    @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
         model.imports.remove("JsonSerialize");
+        model.imports.remove("JsonTypeName");
         model.imports.remove("ToStringSerializer");
 
         //Add imports for Jackson when model has inner enum
