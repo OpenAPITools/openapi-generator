@@ -11,6 +11,7 @@ OpenAPI Generator version: 7.2.0-SNAPSHOT
 =end
 
 require 'spec_helper'
+require 'base64'
 
 describe "Body API tests" do
   describe 'the test_binary_gif method' do
