@@ -7,6 +7,8 @@ on:
   pull_request:
     paths:
       - samples/openapi3/client/petstore/spring-cloud-3-with-optional
+      - samples/server/petstore/springboot-lombok-data
+      - samples/server/petstore/springboot-lombok-tostring
 jobs:
   build:
     name: Build Java Spring (JDK17)
