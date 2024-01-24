@@ -49,6 +49,8 @@ jobs:
           - samples/openapi3/server/petstore/springboot-delegate
           - samples/server/petstore/spring-boot-nullable-set
           - samples/server/petstore/spring-boot-defaultInterface-unhandledException
+          - samples/server/petstore/spring-boot-lombok-data
+          - samples/server/petstore/spring-boot-lombok-tostring
           - samples/openapi3/server/petstore/spring-boot-oneof
           - samples/server/petstore/springboot-virtualan
           - samples/server/petstore/springboot-implicitHeaders-annotationLibrary
