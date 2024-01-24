@@ -279,6 +279,54 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
+  /query/style_form/explode_false/array_integer:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: integer
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_false/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)

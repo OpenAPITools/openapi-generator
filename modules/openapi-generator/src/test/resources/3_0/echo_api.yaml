@@ -307,6 +307,52 @@ paths:
             text/plain:
               schema:
                 type: string
+  /query/style_form/explode_false/array_integer:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_false/array_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/style_form/explode_true/object:
     get:
       tags:
