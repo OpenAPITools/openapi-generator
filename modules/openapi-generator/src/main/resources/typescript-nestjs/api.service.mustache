@@ -121,7 +121,7 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             headers['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }
 
@@ -130,7 +130,7 @@ export class {{classname}} {
         {{^hasQueryParams}}
         let queryParameters = new URLSearchParams();
         {{/hasQueryParams}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             queryParameters.append('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
