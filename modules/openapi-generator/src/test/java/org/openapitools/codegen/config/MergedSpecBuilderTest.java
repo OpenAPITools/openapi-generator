@@ -41,7 +41,7 @@ public class MergedSpecBuilderTest {
 
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
-        String mergedSpec = new MergedSpecBuilder(outputPath, "_merged_file")
+        String mergedSpec = new MergedSpecBuilder(outputPath, outputPath, "_merged_file")
             .buildMergedSpec();
 
         assertFilesFromMergedSpec(mergedSpec);

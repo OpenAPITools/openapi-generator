@@ -327,7 +327,7 @@ public class Generate extends OpenApiGeneratorCommand {
     @Override
     public void execute() {
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            spec = new MergedSpecBuilder(inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
+            spec = new MergedSpecBuilder(inputSpecRootDirectory, inputSpecRootDirectory, StringUtils.isBlank(mergedFileName) ? "_merged_spec" : mergedFileName)
                 .buildMergedSpec();
             System.out.println("Merge input spec would be used - " + spec);
         }

@@ -32,10 +32,12 @@ public class MergedSpecBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(MergedSpecBuilder.class);
 
     private final String inputSpecRootDirectory;
+    private final String outputDirectory;
     private final String mergeFileName;
 
-    public MergedSpecBuilder(final String rootDirectory, final String mergeFileName) {
+    public MergedSpecBuilder(final String rootDirectory, final String outputDirectory, final String mergeFileName) {
         this.inputSpecRootDirectory = rootDirectory;
+        this.outputDirectory = outputDirectory;
         this.mergeFileName = mergeFileName;
     }
 
@@ -76,7 +78,7 @@ public class MergedSpecBuilder {
 
         Map<String, Object> mergedSpec = generatedMergedSpec(openapiVersion, allPaths);
         String mergedFilename = this.mergeFileName + (isJson ? ".json" : ".yaml");
-        Path mergedFilePath = Paths.get(inputSpecRootDirectory, mergedFilename);
+        Path mergedFilePath = Paths.get(outputDirectory, mergedFilename);
 
         try {
             ObjectMapper objectMapper = isJson ? new ObjectMapper() : new ObjectMapper(new YAMLFactory());

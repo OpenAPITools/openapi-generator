@@ -33,6 +33,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.Component;
 import org.apache.maven.project.MavenProject;
 
+import org.apache.maven.project.MavenProjectHelper;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -84,6 +86,17 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Component
     private BuildContext buildContext = new DefaultBuildContext();
+
+    /**
+     * The Maven project context.
+     */
+    @Parameter(defaultValue = "${project}", required = true, readonly = true)
+    MavenProject mavenProject;
+    /**
+     * Helper library for managing the Maven artifacts.
+     */
+    @Component
+    MavenProjectHelper mavenProjectHelper;
 
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
@@ -120,6 +133,18 @@ public class CodeGenMojo extends AbstractMojo {
      */
     @Parameter(name = "mergedFileName", property = "openapi.generator.maven.plugin.mergedFileName", defaultValue = "_merged_spec")
     private String mergedFileName;
+
+    /**
+     * Puts the merged file in the output directory instead of the input spec root directory.
+     */
+    @Parameter(name = "mergedFileInOutput", property = "openapi.generator.maven.plugin.mergedFileInOutput", defaultValue = "false")
+    private boolean mergedFileInOutput;
+
+    /**
+     * Includes the merged file in the Maven artifacts.
+     */
+    @Parameter(name = "includeMergedFileInArtifacts", property = "openapi.generator.maven.plugin.includeMergedFileInArtifacts", defaultValue = "false")
+    private boolean includeMergedFileInArtifacts;
 
     /**
      * Git host, e.g. gitlab.com.
@@ -518,19 +543,29 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
-        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
-            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
-                .buildMergedSpec();
-            LOGGER.info("Merge input spec would be used - {}", inputSpec);
-        }
-
-        File inputSpecFile = new File(inputSpec);
-
         if (output == null) {
             output = new File(project.getBuild().getDirectory(),
                     LifecyclePhase.GENERATE_TEST_SOURCES.id().equals(mojo.getLifecyclePhase()) ?
                             "generated-test-sources/openapi" : "generated-sources/openapi");
         }
+
+        if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
+            final String outputDirectory = mergedFileInOutput ? output.getAbsolutePath(): inputSpecRootDirectory;
+            inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, outputDirectory, mergedFileName)
+                .buildMergedSpec();
+            LOGGER.info("Merge input spec would be used - {}", inputSpec);
+
+            if (includeMergedFileInArtifacts) {
+                LOGGER.debug("Including {} in project artifacts.", inputSpec);
+                mavenProjectHelper.attachArtifact(
+                        mavenProject,
+                        "openapi",
+                        mergedFileName,
+                        Paths.get(inputSpec).toFile());
+            }
+        }
+
+        File inputSpecFile = new File(inputSpec);
 
         addCompileSourceRootIfConfigured();
 
