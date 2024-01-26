@@ -60,6 +60,7 @@ import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
@@ -132,7 +133,7 @@ public class DefaultCodegen implements CodegenConfig {
                         SecurityFeature.BasicAuth, SecurityFeature.ApiKey, SecurityFeature.BearerToken,
                         SecurityFeature.OAuth2_Implicit, SecurityFeature.OAuth2_Password,
                         SecurityFeature.OAuth2_ClientCredentials, SecurityFeature.OAuth2_AuthorizationCode
-                        // OpenIdConnect and SignatureAuth are not yet 100% supported
+                        // OpenIdConnect and SignatureAuth and AW4Signature are not yet 100% supported
                 )
                 .includeWireFormatFeatures(
                         WireFormatFeature.JSON, WireFormatFeature.XML
@@ -980,6 +981,13 @@ public class DefaultCodegen implements CodegenConfig {
     // override with any special post-processing
     @Override
     @SuppressWarnings("static-method")
+    public WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels) {
+        return objs;
+    }
+
+    // override with any special post-processing
+    @Override
+    @SuppressWarnings("static-method")
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
         return objs;
     }
@@ -988,6 +996,12 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+    }
+
+    // override to post-process any response
+    @Override
+    @SuppressWarnings("unused")
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
     }
 
     // override to post-process any parameters
@@ -3037,6 +3051,9 @@ public class DefaultCodegen implements CodegenConfig {
             // NOTE: UUID schemas as CodegenModel is a rare use case and may be removed at a later date.
             model.setIsString(false);
             model.setIsUuid(true);
+        } else if (ModelUtils.isURISchema(schema)) {
+            model.setIsString(false);
+            model.setIsUri(true);
         }
     }
 
@@ -3707,6 +3724,10 @@ public class DefaultCodegen implements CodegenConfig {
             return;
         }
         if (ModelUtils.isComposedSchema(schema)) {
+            // fix issue #16797 and #15796, constructor fail by missing parent required params
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                properties.putAll(schema.getProperties());
+            }
 
             if (schema.getAllOf() != null) {
                 for (Object component : schema.getAllOf()) {
@@ -3730,6 +3751,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
+            for (String r : required) {
+                if (!properties.containsKey(r)) {
+                    LOGGER.error("Required var %s not in properties", r);
+                }
+            }
             return;
         }
 
@@ -4175,6 +4201,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getDeprecated() != null) {
                 property.deprecated = p.getDeprecated();
             }
+            if (original.getDescription() != null) {
+                property.description = p.getDescription();
+            }
         }
 
         // set the default value
@@ -4423,18 +4452,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
 
-            // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
-            if (!isSkipOperationExample()) {
-                // generate examples
-                String exampleStatusCode = "200";
-                for (String key : operation.getResponses().keySet()) {
-                    if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                        exampleStatusCode = key;
-                    }
-                }
-                op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-            }
-
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
@@ -4489,6 +4506,11 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("fromOperation => operation: {}", operation);
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
+
+        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
+            LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
+                    httpMethod, path, operation.getOperationId());
+        }
 
         Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
@@ -4611,6 +4633,35 @@ public class DefaultCodegen implements CodegenConfig {
             if (methodResponse != null) {
                 handleMethodResponse(operation, schemas, op, methodResponse, importMapping);
             }
+        }
+
+        // check skipOperationExample, which can be set to true to avoid out of memory errors for large spec
+        if (!isSkipOperationExample() && operation.getResponses() != null) {
+            // generate examples
+            ExampleGenerator generator = new ExampleGenerator(schemas, this.openAPI);
+            List<Map<String, String>> examples = new ArrayList<>();
+
+            for (String statusCode : operation.getResponses().keySet()) {
+                ApiResponse apiResponse = operation.getResponses().get(statusCode);
+                Schema schema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, apiResponse));
+                if (schema == null) {
+                    continue;
+                }
+
+                if (apiResponse.getContent() != null) {
+                    Set<String> producesInfo = new ConcurrentSkipListSet<>(apiResponse.getContent().keySet());
+
+                    String exampleStatusCode = statusCode;
+                    if (exampleStatusCode.equals("default")) {
+                        exampleStatusCode = "200";
+                    }
+                    List<Map<String, String>> examplesForResponse = generator.generateFromResponseSchema(exampleStatusCode, schema, producesInfo);
+                    if (examplesForResponse != null) {
+                        examples.addAll(examplesForResponse);
+                    }
+                }
+            }
+            op.examples = examples;
         }
 
         if (operation.getCallbacks() != null && !operation.getCallbacks().isEmpty()) {
@@ -4991,6 +5042,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.simpleType = true;
         }
 
+        postProcessResponseWithProperty(r, cp);
         return r;
     }
 
@@ -7306,7 +7358,7 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected void updateRequestBodyForMap(CodegenParameter codegenParameter, Schema schema, String name, Set<String> imports, String bodyParameterName) {
-        if (StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(name) && !(ModelUtils.isFreeFormObject(schema) && !ModelUtils.shouldGenerateFreeFormObjectModel(name, this))) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
@@ -8148,51 +8200,6 @@ public class DefaultCodegen implements CodegenConfig {
         public int hashCode() {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
         }
-    }
-
-    /**
-     * This method has been kept to keep the introduction of ModelUtils.isAnyType as a non-breaking change
-     * this way, existing forks of our generator can continue to use this method
-     * TODO in 6.0.0 replace this method with ModelUtils.isAnyType
-     * Return true if the schema value can be any type, i.e. it can be
-     * the null value, integer, number, string, object or array.
-     * One use case is when the "type" attribute in the OAS schema is unspecified.
-     *
-     * Examples:
-     *
-     *     arbitraryTypeValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type except the 'null' value.
-     *     arbitraryTypeNullableValue:
-     *       description: This is an arbitrary type schema.
-     *         It is not a free-form object.
-     *         The value can be any type, including the 'null' value.
-     *       nullable: true
-     *
-     * @param schema the OAS schema.
-     * @return true if the schema value can be an arbitrary type.
-     */
-    public boolean isAnyTypeSchema(Schema schema) {
-        if (schema == null) {
-            once(LOGGER).error("Schema cannot be null in isAnyTypeSchema check");
-            return false;
-        }
-
-        if (ModelUtils.isFreeFormObject(schema)) {
-            // make sure it's not free form object
-            return false;
-        }
-
-        if (schema.getClass().equals(Schema.class) && schema.get$ref() == null && schema.getType() == null &&
-                (schema.getProperties() == null || schema.getProperties().isEmpty()) &&
-                schema.getAdditionalProperties() == null && schema.getNot() == null &&
-                schema.getEnum() == null) {
-            return true;
-            // If and when type arrays are supported in a future OAS specification,
-            // we could return true if the type array includes all possible JSON schema types.
-        }
-        return false;
     }
 
     /**

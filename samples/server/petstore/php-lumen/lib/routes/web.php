@@ -87,6 +87,13 @@ $router->delete('/v2/fake', 'FakeApi@testGroupParameters');
 $router->get('/v2/fake/BigDecimalMap', 'FakeApi@fakeBigDecimalMap');
 
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+ */
+$router->post('/v2/fake/additionalProperties-reference', 'FakeApi@testAdditionalPropertiesReference');
+
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.

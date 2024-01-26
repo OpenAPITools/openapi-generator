@@ -587,4 +587,17 @@ public class JSONTest {
         });
         assertTrue(exception.getMessage().contains("Unexpected value 'sleeping'"));
     }
+
+    @Test
+    public void testPetUsingAllOf() {
+        Gson gson = json.getGson();
+        String json = "{\"photoUrls\":[\"http://a.com\"], \"id\": 5847, \"name\":\"tag test 1\", \"category\": {\"id\":888, \"name\":\"cat 1\"}, \"tags\":[ {\"id\":777, \"name\":\"tag 1\"}] }";
+        PetUsingAllOf p = gson.fromJson(json, PetUsingAllOf.class);
+	assertEquals(p.getId(), 5847L);
+	assertEquals(p.getName(), "tag test 1");
+	assertEquals(p.getCategory().getId(), 888L);
+	assertEquals(p.getCategory().getName(), "cat 1");
+	assertEquals(p.getTags().get(0).getId(), 777L);
+	assertEquals(p.getTags().get(0).getName(), "tag 1");
+    }
 }

@@ -373,6 +373,13 @@ public class PetApiTest {
         assertTrue(pet1.hashCode() == pet1.hashCode());
     }
 
+    @Test
+    public void testAnyType() { // test any type in v3.1 spec
+        AnyTypeTest a = new AnyTypeTest();
+        a.setAnyTypeProperty("test"); // shouldn't throw exception
+        assertEquals("test", a.getAnyTypeProperty());
+    }
+
     private Pet createPet() {
         Pet pet = new Pet();
         pet.setId(ThreadLocalRandom.current().nextLong(Long.MAX_VALUE));

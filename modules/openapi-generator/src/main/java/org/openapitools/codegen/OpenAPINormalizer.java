@@ -109,7 +109,6 @@ public class OpenAPINormalizer {
         this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
-            LOGGER.info("Disabled all rules in OpenAPI Normalizer (DISABLE_ALL=true)");
             this.disableAll = true;
             return; // skip the rest
         }
@@ -306,6 +305,11 @@ public class OpenAPINormalizer {
         }
 
         for (Parameter parameter : parameters) {
+            // dereference parameter
+            if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+            }
+
             if (parameter.getSchema() == null) {
                 continue;
             } else {
@@ -569,6 +573,10 @@ public class OpenAPINormalizer {
             return;
         }
 
+        if (schema.getAllOf().size() == 1) {
+            return;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -733,6 +741,16 @@ public class OpenAPINormalizer {
     private boolean isNullTypeSchema(Schema schema) {
         if (schema == null) {
             return true;
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // 3.1 spec
+            if (schema.getTypes().size() ==1) { // 1 type only
+                String type = (String) schema.getTypes().iterator().next();
+                return type == null || "null".equals(type);
+            } else { // more than 1 type so must not be just null
+                return false;
+            }
         }
 
         if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
@@ -911,8 +929,23 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if (schema == null || schema.getTypes() == null) {
+        if (schema == null) {
             return null;
+        }
+
+        if (schema instanceof JsonSchema &&
+                schema.get$schema() == null &&
+                schema.getTypes() == null && schema.getType() == null) {
+            // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
+            // components:
+            //  schemas:
+            //    any_type: {}
+            return new Schema();
+        }
+
+        // return schema if nothing in 3.1 spec types to normalize
+        if (schema.getTypes() == null) {
+            return schema;
         }
 
         // process null
@@ -926,6 +959,17 @@ public class OpenAPINormalizer {
             String type = String.valueOf(schema.getTypes().iterator().next());
             if ("array".equals(type)) {
                 ArraySchema as = new ArraySchema();
+                as.setDescription(schema.getDescription());
+                as.setDefault(schema.getDefault());
+                if (schema.getExample() != null) {
+                    as.setExample(schema.getExample());
+                }
+                if (schema.getExamples() != null) {
+                    as.setExamples(schema.getExamples());
+                }
+                as.setMinItems(schema.getMinItems());
+                as.setMaxItems(schema.getMaxItems());
+                as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
                 // `items` is also a json schema
                 if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {

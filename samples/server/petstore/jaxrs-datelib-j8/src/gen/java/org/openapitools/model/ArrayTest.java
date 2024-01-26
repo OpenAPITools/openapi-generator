@@ -47,7 +47,7 @@ public class ArrayTest  implements Serializable {
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -105,12 +105,12 @@ public class ArrayTest  implements Serializable {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -125,11 +125,11 @@ public class ArrayTest  implements Serializable {
   @JsonProperty(value = "array_array_of_model")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -143,9 +143,9 @@ public class ArrayTest  implements Serializable {
       return false;
     }
     ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
+    return Objects.equals(this.arrayOfString, arrayTest.arrayOfString) &&
+        Objects.equals(this.arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
+        Objects.equals(this.arrayArrayOfModel, arrayTest.arrayArrayOfModel);
   }
 
   @Override

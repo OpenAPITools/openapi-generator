@@ -114,6 +114,11 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Carlsberg Group
+  image: "img/companies/carlsberggroup.png"
+  infoLink: "https://www.carlsberggroup.com/"
+  pinned: false
+-
   caption: Cisco 
   image: "img/companies/cisco.png"
   infoLink: "https://www.cisco.com"

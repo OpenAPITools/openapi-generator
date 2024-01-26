@@ -466,6 +466,8 @@ No authorization required
 | **200** | successful operation |  -  |
 | **400** | Invalid username supplied |  -  |
 | **404** | User not found |  -  |
+| **598** | Not a real HTTP status code |  -  |
+| **599** | Not a real HTTP status code with a return object |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

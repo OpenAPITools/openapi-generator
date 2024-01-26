@@ -5,15 +5,16 @@
         <artifactId>fednot-corporate</artifactId>
         <version>2.7.12</version>
         <relativePath/>
+    <!-- lookup parent from repository -->
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-project</artifactId>
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.2.0.fednot-SNAPSHOT</version>
+    <version>7.3.0-SNAPSHOT</version>
+<!--    <version>7.2.0.fednot-SNAPSHOT</version>-->
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -412,7 +413,6 @@
         </pluginManagement>
     </build>
     <profiles>
-
         <profile>
             <id>release</id>
             <build>
@@ -445,7 +445,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>release-sign-artifacts</id>
             <activation>
@@ -1237,7 +1236,7 @@
         <slf4j.version>1.7.36</slf4j.version>
         <spotbugs-plugin.version>3.1.12.2</spotbugs-plugin.version>
         <swagger-parser-groupid.version>io.swagger.parser.v3</swagger-parser-groupid.version>
-        <swagger-parser.version>2.1.18</swagger-parser.version>
+        <swagger-parser.version>2.1.19</swagger-parser.version>
         <testng.version>7.5</testng.version>
         <violations-maven-plugin.version>1.34</violations-maven-plugin.version>
         <wagon-ssh-external.version>3.4.3</wagon-ssh-external.version>

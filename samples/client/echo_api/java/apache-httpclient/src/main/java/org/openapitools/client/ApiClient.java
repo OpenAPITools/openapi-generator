@@ -67,6 +67,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -541,7 +542,7 @@ public class ApiClient extends JavaTimeFormatter {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null) {
+    if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
       return params;
     }
 
@@ -703,7 +704,7 @@ public class ApiClient extends JavaTimeFormatter {
     String mimeType = contentType.getMimeType();
     if (isJsonMime(mimeType)) {
       try {
-        return new StringEntity(objectMapper.writeValueAsString(obj), contentType);
+        return new StringEntity(objectMapper.writeValueAsString(obj), contentType.withCharset(StandardCharsets.UTF_8));
       } catch (JsonProcessingException e) {
         throw new ApiException(e);
       }

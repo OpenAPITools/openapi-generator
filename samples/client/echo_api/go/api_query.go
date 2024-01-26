@@ -609,6 +609,222 @@ func (a *QueryAPIService) TestQueryStyleDeepObjectExplodeTrueObjectAllOfExecute(
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest struct {
+	ctx context.Context
+	ApiService *QueryAPIService
+	queryObject *[]int32
+}
+
+func (r ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest) QueryObject(queryObject []int32) ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest {
+	r.queryObject = &queryObject
+	return r
+}
+
+func (r ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestQueryStyleFormExplodeFalseArrayIntegerExecute(r)
+}
+
+/*
+TestQueryStyleFormExplodeFalseArrayInteger Test query parameter(s)
+
+Test query parameter(s)
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest
+*/
+func (a *QueryAPIService) TestQueryStyleFormExplodeFalseArrayInteger(ctx context.Context) ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest {
+	return ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *QueryAPIService) TestQueryStyleFormExplodeFalseArrayIntegerExecute(r ApiTestQueryStyleFormExplodeFalseArrayIntegerRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryAPIService.TestQueryStyleFormExplodeFalseArrayInteger")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/query/style_form/explode_false/array_integer"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.queryObject != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "query_object", r.queryObject, "csv")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiTestQueryStyleFormExplodeFalseArrayStringRequest struct {
+	ctx context.Context
+	ApiService *QueryAPIService
+	queryObject *[]string
+}
+
+func (r ApiTestQueryStyleFormExplodeFalseArrayStringRequest) QueryObject(queryObject []string) ApiTestQueryStyleFormExplodeFalseArrayStringRequest {
+	r.queryObject = &queryObject
+	return r
+}
+
+func (r ApiTestQueryStyleFormExplodeFalseArrayStringRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestQueryStyleFormExplodeFalseArrayStringExecute(r)
+}
+
+/*
+TestQueryStyleFormExplodeFalseArrayString Test query parameter(s)
+
+Test query parameter(s)
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestQueryStyleFormExplodeFalseArrayStringRequest
+*/
+func (a *QueryAPIService) TestQueryStyleFormExplodeFalseArrayString(ctx context.Context) ApiTestQueryStyleFormExplodeFalseArrayStringRequest {
+	return ApiTestQueryStyleFormExplodeFalseArrayStringRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *QueryAPIService) TestQueryStyleFormExplodeFalseArrayStringExecute(r ApiTestQueryStyleFormExplodeFalseArrayStringRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryAPIService.TestQueryStyleFormExplodeFalseArrayString")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/query/style_form/explode_false/array_string"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.queryObject != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "query_object", r.queryObject, "csv")
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiTestQueryStyleFormExplodeTrueArrayStringRequest struct {
 	ctx context.Context
 	ApiService *QueryAPIService

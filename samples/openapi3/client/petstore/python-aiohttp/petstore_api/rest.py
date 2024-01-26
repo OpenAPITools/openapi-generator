@@ -16,6 +16,7 @@ import io
 import json
 import re
 import ssl
+from typing import Optional, Union
 
 import aiohttp
 import aiohttp_retry
@@ -82,6 +83,7 @@ class RESTClientObject:
         )
 
         retries = configuration.retries
+        self.retry_client: Optional[aiohttp_retry.RetryClient]
         if retries is not None:
             self.retry_client = aiohttp_retry.RetryClient(
                 client_session=self.pool_manager,
@@ -197,6 +199,7 @@ class RESTClientObject:
                          declared content type."""
                 raise ApiException(status=0, reason=msg)
 
+        pool_manager: Union[aiohttp.ClientSession, aiohttp_retry.RetryClient]
         if self.retry_client is not None and method in ALLOW_RETRY_METHODS:
             pool_manager = self.retry_client
         else:

@@ -294,4 +294,19 @@ public class ModelUtilsTest {
         String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
         Assert.assertEquals(decoded, "~1 Hallo/Welt");
     }
+
+    // 3.1 spec test
+    @Test
+    public void testIsMapSchema() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_1/schema.yaml");
+        Schema misc = ModelUtils.getSchema(openAPI, "Misc");
+
+        // test map
+        Assert.assertTrue(ModelUtils.isMapSchema((Schema) misc.getProperties().get("map1")));
+
+        // test free form object
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_1")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_2")));
+        Assert.assertTrue(ModelUtils.isFreeFormObject((Schema) misc.getProperties().get("free_form_object_3")));
+    }
 }

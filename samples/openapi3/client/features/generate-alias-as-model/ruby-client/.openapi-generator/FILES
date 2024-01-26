@@ -19,6 +19,4 @@ lib/petstore/models/array_alias.rb
 lib/petstore/models/map_alias.rb
 lib/petstore/version.rb
 petstore.gemspec
-spec/api_client_spec.rb
-spec/configuration_spec.rb
 spec/spec_helper.rb

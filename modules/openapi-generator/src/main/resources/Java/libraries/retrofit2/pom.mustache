@@ -211,6 +211,11 @@
             <artifactId>swagger-annotations</artifactId>
             <version>${swagger-annotations-version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -296,11 +301,6 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson-version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson-databind-version}</version>
-            </dependency>
             {{#openApiNullable}}
             <dependency>
                 <groupId>org.openapitools</groupId>
@@ -362,9 +362,9 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <gson-fire-version>1.9.0</gson-fire-version>
         <swagger-annotations-version>1.6.3</swagger-annotations-version>
+        <jackson-databind-version>2.15.2</jackson-databind-version>
         {{#usePlayWS}}
         <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
         <play-version>2.6.7</play-version>
         {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>

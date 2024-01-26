@@ -10,7 +10,7 @@ import java.util.Optional
 class StoreApiController(
         @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: StoreApiDelegate?
 ) : StoreApi {
-    private val delegate: StoreApiDelegate
+    private lateinit var delegate: StoreApiDelegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : StoreApiDelegate {})

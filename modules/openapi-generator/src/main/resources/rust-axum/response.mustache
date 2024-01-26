@@ -1,0 +1,69 @@
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[must_use]
+#[allow(clippy::large_enum_variant)]
+pub enum {{{operationId}}}Response {
+{{#responses}}
+  {{#message}}
+    /// {{{.}}}{{/message}}
+    {{#vendorExtensions}}
+    {{{x-response-id}}}
+    {{/vendorExtensions}}
+    {{^dataType}}
+      {{#hasHeaders}}
+    {
+      {{/hasHeaders}}
+    {{/dataType}}
+    {{#dataType}}
+      {{^hasHeaders}}
+        {{#vendorExtensions}}
+          {{#x-produces-plain-text}}
+    (String)
+          {{/x-produces-plain-text}}
+          {{#x-produces-bytes}}
+    (ByteArray)
+          {{/x-produces-bytes}}
+          {{^x-produces-plain-text}}
+          {{^x-produces-bytes}}
+    ({{{dataType}}})
+          {{/x-produces-bytes}}
+          {{/x-produces-plain-text}}
+        {{/vendorExtensions}}
+      {{/hasHeaders}}
+      {{#hasHeaders}}
+    {
+        {{#vendorExtensions}}
+          {{#x-produces-plain-text}}
+        body: String,
+          {{/x-produces-plain-text}}
+          {{#x-produces-bytes}}
+        body: ByteArray,
+          {{/x-produces-bytes}}
+          {{^x-produces-plain-text}}
+          {{^x-produces-bytes}}
+        body: {{{dataType}}},
+          {{/x-produces-bytes}}
+          {{/x-produces-plain-text}}
+        {{/vendorExtensions}}
+      {{/hasHeaders}}
+    {{/dataType}}
+    {{#headers}}
+        {{{name}}}:
+      {{^required}}
+        Option<
+      {{/required}}
+        {{{dataType}}}
+      {{^required}}
+        >
+      {{/required}}
+        {{^-last}}
+        ,
+        {{/-last}}
+      {{#-last}}
+    }
+      {{/-last}}
+    {{/headers}}
+    {{^-last}}
+    ,
+    {{/-last}}
+{{/responses}}
+}

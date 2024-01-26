@@ -22,28 +22,28 @@ Test header parameter(s)
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    integerHeader := int32(56) // int32 |  (optional)
-    booleanHeader := true // bool |  (optional)
-    stringHeader := "stringHeader_example" // string |  (optional)
-    enumNonrefStringHeader := "enumNonrefStringHeader_example" // string |  (optional)
-    enumRefStringHeader := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
+	integerHeader := int32(56) // int32 |  (optional)
+	booleanHeader := true // bool |  (optional)
+	stringHeader := "stringHeader_example" // string |  (optional)
+	enumNonrefStringHeader := "enumNonrefStringHeader_example" // string |  (optional)
+	enumRefStringHeader := openapiclient.StringEnumRef("success") // StringEnumRef |  (optional)
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HeaderAPI.TestHeaderIntegerBooleanStringEnums(context.Background()).IntegerHeader(integerHeader).BooleanHeader(booleanHeader).StringHeader(stringHeader).EnumNonrefStringHeader(enumNonrefStringHeader).EnumRefStringHeader(enumRefStringHeader).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HeaderAPI.TestHeaderIntegerBooleanStringEnums``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `TestHeaderIntegerBooleanStringEnums`: string
-    fmt.Fprintf(os.Stdout, "Response from `HeaderAPI.TestHeaderIntegerBooleanStringEnums`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.HeaderAPI.TestHeaderIntegerBooleanStringEnums(context.Background()).IntegerHeader(integerHeader).BooleanHeader(booleanHeader).StringHeader(stringHeader).EnumNonrefStringHeader(enumNonrefStringHeader).EnumRefStringHeader(enumRefStringHeader).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `HeaderAPI.TestHeaderIntegerBooleanStringEnums``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestHeaderIntegerBooleanStringEnums`: string
+	fmt.Fprintf(os.Stdout, "Response from `HeaderAPI.TestHeaderIntegerBooleanStringEnums`: %v\n", resp)
 }
 ```
 

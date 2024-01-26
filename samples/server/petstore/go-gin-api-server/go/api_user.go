@@ -14,28 +14,61 @@ import (
 )
 
 type UserAPI struct {
-	// Post /v2/user
-	// Create user
-	CreateUser gin.HandlerFunc
-	// Post /v2/user/createWithArray
-	// Creates list of users with given input array
-	CreateUsersWithArrayInput gin.HandlerFunc
-	// Post /v2/user/createWithList
-	// Creates list of users with given input array
-	CreateUsersWithListInput gin.HandlerFunc
-	// Delete /v2/user/:username
-	// Delete user
-	DeleteUser gin.HandlerFunc
-	// Get /v2/user/:username
-	// Get user by user name
-	GetUserByName gin.HandlerFunc
-	// Get /v2/user/login
-	// Logs user into the system
-	LoginUser gin.HandlerFunc
-	// Get /v2/user/logout
-	// Logs out current logged in user session
-	LogoutUser gin.HandlerFunc
-	// Put /v2/user/:username
-	// Updated user
-	UpdateUser gin.HandlerFunc
 }
+
+// Post /v2/user
+// Create user 
+func (api *UserAPI) CreateUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Post /v2/user/createWithArray
+// Creates list of users with given input array 
+func (api *UserAPI) CreateUsersWithArrayInput(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Post /v2/user/createWithList
+// Creates list of users with given input array 
+func (api *UserAPI) CreateUsersWithListInput(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Delete /v2/user/:username
+// Delete user 
+func (api *UserAPI) DeleteUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/user/:username
+// Get user by user name 
+func (api *UserAPI) GetUserByName(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/user/login
+// Logs user into the system 
+func (api *UserAPI) LoginUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/user/logout
+// Logs out current logged in user session 
+func (api *UserAPI) LogoutUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Put /v2/user/:username
+// Updated user 
+func (api *UserAPI) UpdateUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+

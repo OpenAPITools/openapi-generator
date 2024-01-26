@@ -1,0 +1,21 @@
+{{#pathParams}}
+      {{baseName}}: {{{vendorExtensions.x-type}}},
+{{/pathParams}}
+{{#queryParams}}
+  {{#isArray}}
+    {{#required}}
+      {{baseName}}: List[{{{items.vendorExtensions.x-type}}}],
+    {{/required}}
+    {{^required}}
+      {{baseName}}: Option[List[{{{items.vendorExtensions.x-type}}}]],
+    {{/required}}
+  {{/isArray}}
+  {{^isArray}}
+    {{#required}}
+      {{baseName}}: {{{vendorExtensions.x-type}}},
+    {{/required}}
+    {{^required}}
+      {{baseName}}: Option[{{{vendorExtensions.x-type}}}],
+    {{/required}}
+  {{/isArray}}
+{{/queryParams}}

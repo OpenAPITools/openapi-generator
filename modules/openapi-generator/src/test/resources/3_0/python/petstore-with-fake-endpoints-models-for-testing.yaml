@@ -983,6 +983,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1365,6 +1382,19 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ListOfObjects"
+  /fake/ref_enum_string:
+    get:
+      tags:
+        - fake
+      summary: test ref to enum string
+      operationId: fake_ref_enum_string
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                $ref: "#/components/schemas/EnumClass"
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1893,6 +1923,12 @@ components:
             type: string
           minItems: 0
           maxItems: 3
+        array_of_nullable_float:
+          type: array
+          items:
+            type: number
+            format: float
+            nullable: true
         array_array_of_integer:
           type: array
           items:
@@ -1942,6 +1978,10 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     OuterEnum:
       nullable: true
       type: string

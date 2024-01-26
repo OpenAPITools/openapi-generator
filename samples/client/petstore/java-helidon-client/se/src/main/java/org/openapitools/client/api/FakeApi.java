@@ -65,6 +65,14 @@ public interface FakeApi {
 
   ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
+ /**
+  * test referenced additionalProperties
+  * 
+  * @param requestBody request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody);
+
   ApiResponse<Void> testBodyWithBinary(File body);
 
   ApiResponse<Void> testBodyWithFileSchema(FileSchemaTestClass fileSchemaTestClass);

@@ -301,10 +301,6 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
                 .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
-                .doNotOverwrite());
 
         // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
         additionalProperties.put("lambdaFixHeaderKey", new Mustache.Lambda() {
@@ -414,6 +410,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             return schemaMapping.get(name);
         }
 
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // memoization
         String origName = name;
         if (schemaKeyToModelNameCache.containsKey(origName)) {
@@ -508,6 +508,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumVarName(String name, String datatype) {
+        if (enumNameMapping.containsKey(name)) {
+            return enumNameMapping.get(name);
+        }
+
         if (name.length() == 0) {
             return "EMPTY";
         }
@@ -535,6 +539,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     @Override
     public String toEnumName(CodegenProperty property) {
+        if (enumNameMapping.containsKey(property.name)) {
+            return enumNameMapping.get(property.name);
+        }
+
         String enumName = underscore(toModelName(property.name)).toUpperCase(Locale.ROOT);
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");

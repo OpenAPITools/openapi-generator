@@ -66,7 +66,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean>  {
       return false;
     }
     AdditionalPropertiesBoolean additionalPropertiesBoolean = (AdditionalPropertiesBoolean) o;
-    return super.equals(o) && Objects.equals(name, additionalPropertiesBoolean.name);
+    return super.equals(o) && Objects.equals(this.name, additionalPropertiesBoolean.name);
   }
 
   @Override

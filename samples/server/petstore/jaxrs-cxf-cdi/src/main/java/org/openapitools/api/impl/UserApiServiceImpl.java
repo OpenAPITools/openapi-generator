@@ -11,6 +11,9 @@ import java.util.List;
 
 import java.io.InputStream;
 
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -24,12 +27,12 @@ public class UserApiServiceImpl implements UserApiService {
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response createUsersWithArrayInput(List<User> user, SecurityContext securityContext) {
+      public Response createUsersWithArrayInput(List<@Valid User> user, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }
       @Override
-      public Response createUsersWithListInput(List<User> user, SecurityContext securityContext) {
+      public Response createUsersWithListInput(List<@Valid User> user, SecurityContext securityContext) {
       // do some magic!
       return Response.ok().entity("magic!").build();
   }
