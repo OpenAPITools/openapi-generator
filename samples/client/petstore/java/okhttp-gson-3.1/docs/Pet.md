@@ -8,11 +8,11 @@ A pet for sale in the pet store
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **Long** |  |  [optional] |
+|**id** | **Object** |  |  [optional] |
 |**category** | [**Category**](Category.md) |  |  [optional] |
-|**name** | **String** |  |  |
-|**photoUrls** | **List&lt;String&gt;** |  |  |
-|**tags** | [**List&lt;Tag&gt;**](Tag.md) |  |  [optional] |
+|**name** | **Object** |  |  |
+|**photoUrls** | **Object** |  |  |
+|**tags** | **Object** |  |  [optional] |
 |**status** | [**StatusEnum**](#StatusEnum) | pet status in the store |  [optional] |
 
 

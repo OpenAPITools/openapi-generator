@@ -7,7 +7,7 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**declawed** | **Boolean** |  |  [optional] |
+|**declawed** | **Object** |  |  [optional] |
 
 
 

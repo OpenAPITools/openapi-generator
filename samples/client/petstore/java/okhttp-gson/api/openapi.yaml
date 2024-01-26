@@ -137,7 +137,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /pet/findByTags:
     get:
       deprecated: true
@@ -178,7 +178,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /pet/{petId}:
     delete:
       description: ""
@@ -243,7 +243,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
     post:
       description: ""
       operationId: updatePetWithForm
@@ -356,7 +356,7 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -413,7 +413,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -512,7 +512,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
   /user/logout:
     get:
       description: ""
@@ -575,7 +575,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts: application/json
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser

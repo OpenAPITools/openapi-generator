@@ -29,7 +29,7 @@ class ArrayTest(BaseModel):
     ArrayTest
     """ # noqa: E501
     array_of_string: Optional[Annotated[List[StrictStr], Field(min_length=0, max_length=3)]] = None
-    array_of_nullable_float: Optional[List[Optional[StrictFloat]]] = None
+    array_of_nullable_float: Optional[List[StrictFloat]] = None
     array_array_of_integer: Optional[List[List[StrictInt]]] = None
     array_array_of_model: Optional[List[List[ReadOnlyFirst]]] = None
     additional_properties: Dict[str, Any] = {}

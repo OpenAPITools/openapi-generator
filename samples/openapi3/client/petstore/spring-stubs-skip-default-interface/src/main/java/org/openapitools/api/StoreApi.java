@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -123,7 +124,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/order/{orderId}",
-        produces = "application/json,application/xml"
+        produces = "application/json"
     )
     
     ResponseEntity<Order> getOrderById(
@@ -155,7 +156,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json,application/xml",
+        produces = "application/json",
         consumes = "application/json"
     )
     

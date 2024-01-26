@@ -7,8 +7,8 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**className** | **String** |  |  |
-|**color** | **String** |  |  [optional] |
+|**className** | **Object** |  |  |
+|**color** | **Object** |  |  [optional] |
 
 
 

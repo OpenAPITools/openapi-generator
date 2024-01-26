@@ -8,8 +8,8 @@ A category for a pet
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-|**id** | **Long** |  |  [optional] |
-|**name** | **String** |  |  [optional] |
+|**id** | **Object** |  |  [optional] |
+|**name** | **Object** |  |  [optional] |
 
 
 
