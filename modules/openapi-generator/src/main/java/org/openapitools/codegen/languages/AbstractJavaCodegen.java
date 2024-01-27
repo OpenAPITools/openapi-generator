@@ -53,6 +53,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -89,7 +90,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
-
+    public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -128,6 +129,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected Map<String, Boolean> lombokAnnotations = null;
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
@@ -1675,6 +1677,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
+        }
+
+        // parse lombok additional model type annotations
+        Map<String, Boolean> lombokOptions = new HashMap<>();
+        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        Pattern pattern = Pattern.compile(regexp);
+        for (String annotation : additionalModelTypeAnnotations) {
+            Matcher matcher = pattern.matcher(annotation);
+            if  (matcher.find()) {
+                String className = matcher.group("ClassName");
+                lombokOptions.put(className, true);
+            }
+        }
+        if (!lombokOptions.isEmpty()) {
+            lombokAnnotations = lombokOptions;
+            writePropertyBack(LOMBOK, lombokOptions);
         }
 
         return postProcessModelsEnum(objs);
