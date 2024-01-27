@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(CppQtPetstoreClient)
 
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Network Gui)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Network Gui)
 
 include(GNUInstallDirs)
