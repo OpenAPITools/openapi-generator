@@ -25,11 +25,11 @@ public class Name {
 
   private Integer name;
 
-  private Optional<Integer> snakeCase = Optional.empty();
+  private Integer snakeCase;
 
-  private Optional<String> property = Optional.empty();
+  private String property;
 
-  private Optional<Integer> _123number = Optional.empty();
+  private Integer _123number;
 
   public Name() {
     super();
@@ -63,7 +63,7 @@ public class Name {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = Optional.of(snakeCase);
+    this.snakeCase = snakeCase;
     return this;
   }
 
@@ -74,16 +74,16 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("snake_case")
-  public Optional<Integer> getSnakeCase() {
+  public Integer getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Optional<Integer> snakeCase) {
+  public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
-    this.property = Optional.of(property);
+    this.property = property;
     return this;
   }
 
@@ -94,16 +94,16 @@ public class Name {
   
   @ApiModelProperty(value = "")
   @JsonProperty("property")
-  public Optional<String> getProperty() {
+  public String getProperty() {
     return property;
   }
 
-  public void setProperty(Optional<String> property) {
+  public void setProperty(String property) {
     this.property = property;
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = Optional.of(_123number);
+    this._123number = _123number;
     return this;
   }
 
@@ -114,11 +114,11 @@ public class Name {
   
   @ApiModelProperty(readOnly = true, value = "")
   @JsonProperty("123Number")
-  public Optional<Integer> get123number() {
+  public Integer get123number() {
     return _123number;
   }
 
-  public void set123number(Optional<Integer> _123number) {
+  public void set123number(Integer _123number) {
     this._123number = _123number;
   }
 

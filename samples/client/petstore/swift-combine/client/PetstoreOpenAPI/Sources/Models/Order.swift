@@ -12,7 +12,7 @@ public struct Order: Codable {
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"
         case approved = "approved"
-        case shipped = "delivered"
+        case delivered = "delivered"
     }
     public var id: Int64?
     public var petId: Int64?

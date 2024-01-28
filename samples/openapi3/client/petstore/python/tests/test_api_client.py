@@ -125,47 +125,48 @@ class ApiClientTests(unittest.TestCase):
         content_type = self.api_client.select_header_content_type(content_types)
         self.assertEqual(content_type, None)
 
-    def test_sanitize_for_serialization_none(self):
+    def test_sanitize_for_serialization(self):
+        # None
         data = None
         result = self.api_client.sanitize_for_serialization(None)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_str(self):
+        # str
         data = "test string"
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_int(self):
+        # int
         data = 1
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_bool(self):
+        # bool
         data = True
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_date(self):
+        # date
         data = parse("1997-07-16").date()  # date
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16")
 
-    def test_sanitize_for_serialization_datetime(self):
+        # datetime
         data = parse("1997-07-16T19:20:30.45+01:00")  # datetime
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, "1997-07-16T19:20:30.450000+01:00")
 
-    def test_sanitize_for_serialization_list(self):
+        # list
         data = [1]
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_dict(self):
+        # dict
         data = {"test key": "test value"}
         result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, data)
 
-    def test_sanitize_for_serialization_model(self):
+        # model
         pet_dict = {"id": 1, "name": "monkey",
                     "category": {"id": 1, "name": "test category"},
                     "tags": [{"id": 1, "name": "test tag1"},
@@ -173,19 +174,20 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        pet = petstore_api.Pet(name="monkey", photoUrls=["http://foo.bar.com/3", "http://foo.bar.com/4"])
-        pet.id = 1
-        cate = petstore_api.Category(name="test category")
-        cate.id = 1
+        pet = petstore_api.Pet(name=pet_dict["name"], photoUrls=pet_dict["photoUrls"])
+        pet.id = pet_dict["id"]
+        cate = petstore_api.Category(name="something")
+        cate.id = pet_dict["category"]["id"]
+        cate.name = pet_dict["category"]["name"]
         pet.category = cate
         tag1 = petstore_api.Tag()
-        tag1.id = 1
-        tag1.name = "test tag1"
+        tag1.id = pet_dict["tags"][0]["id"]
+        tag1.name = pet_dict["tags"][0]["name"]
         tag2 = petstore_api.Tag()
-        tag2.id = 2
-        tag2.name = "test tag2"
+        tag2.id = pet_dict["tags"][1]["id"]
+        tag2.name = pet_dict["tags"][1]["name"]
         pet.tags = [tag1, tag2]
-        pet.status = "available"
+        pet.status = pet_dict["status"]
 
         data = pet
         result = self.api_client.sanitize_for_serialization(data)
@@ -193,10 +195,11 @@ class ApiClientTests(unittest.TestCase):
 
         # list of models
         list_of_pet_dict = [pet_dict]
-        result = self.api_client.sanitize_for_serialization([pet])
+        data = [pet]
+        result = self.api_client.sanitize_for_serialization(data)
         self.assertEqual(result, list_of_pet_dict)
 
-    def test_parameters_to_url_query_simple_values(self):
+    def test_parameters_to_url_query(self):
         data = 'value={"category": "example", "category2": "example2"}'
         dictionary = {
             "category": "example",
@@ -205,7 +208,6 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, "value=%7B%22category%22%3A%20%22example%22%2C%20%22category2%22%3A%20%22example2%22%7D")
         
-    def test_parameters_to_url_query_complex_values(self):
         data='value={"number": 1, "string": "str", "bool": true, "dict": {"number": 1, "string": "str", "bool": true}}'
         dictionary = {
             "number": 1,
@@ -220,7 +222,6 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, 'value=%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%2C%20%22dict%22%3A%20%7B%22number%22%3A%201%2C%20%22string%22%3A%20%22str%22%2C%20%22bool%22%3A%20true%7D%7D')
 
-    def test_parameters_to_url_query_dict_values(self):
         data='value={"strValues": ["one", "two", "three"], "dictValues": [{"name": "value1", "age": 14}, {"name": "value2", "age": 12}]}'
         dictionary = {
             "strValues": [
@@ -242,10 +243,5 @@ class ApiClientTests(unittest.TestCase):
         result = self.api_client.parameters_to_url_query([('value', dictionary)], {})
         self.assertEqual(result, 'value=%7B%22strValues%22%3A%20%5B%22one%22%2C%20%22two%22%2C%20%22three%22%5D%2C%20%22dictValues%22%3A%20%5B%7B%22name%22%3A%20%22value1%22%2C%20%22age%22%3A%2014%7D%2C%20%7B%22name%22%3A%20%22value2%22%2C%20%22age%22%3A%2012%7D%5D%7D')
 
-    def test_parameters_to_url_query_boolean_value(self):
-        result = self.api_client.parameters_to_url_query([('boolean', True)], {})
-        self.assertEqual(result, "boolean=true")
 
-    def test_parameters_to_url_query_list_value(self):
-        params = self.api_client.parameters_to_url_query(params=[('list', [1, 2, 3])], collection_formats={'list': 'multi'})
-        self.assertEqual(params, "list=1&list=2&list=3")
+

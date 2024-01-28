@@ -17,10 +17,14 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictStr
+
 from typing import Any, ClassVar, Dict, List, Optional, Union
-from typing import Optional, Set
-from typing_extensions import Self
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Animal(BaseModel):
     """
@@ -33,13 +37,12 @@ class Animal(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = 'className'
+    __discriminator_property_name: ClassVar[List[str]] = 'className'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
@@ -47,7 +50,7 @@ class Animal(BaseModel):
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -65,7 +68,7 @@ class Animal(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[Self, Self]]:
+    def from_json(cls, json_str: str) -> Union[Self, Self]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -80,13 +83,11 @@ class Animal(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
-            "additional_properties",
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+                "additional_properties",
+            },
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -97,7 +98,7 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Self, Self]]:
+    def from_dict(cls, obj: Dict) -> Union[Self, Self]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -111,6 +112,9 @@ class Animal(BaseModel):
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-# TODO: Rewrite to not use raise_errors
-Animal.model_rebuild(raise_errors=False)
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    # TODO: pydantic v2
+    # Animal.model_rebuild()
+    pass
 

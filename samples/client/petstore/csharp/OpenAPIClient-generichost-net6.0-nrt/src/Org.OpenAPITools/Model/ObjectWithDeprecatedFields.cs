@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -39,71 +38,43 @@ namespace Org.OpenAPITools.Model
         /// <param name="id">id</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public ObjectWithDeprecatedFields(Option<List<string>?> bars = default, Option<DeprecatedObject?> deprecatedRef = default, Option<decimal?> id = default, Option<string?> uuid = default)
+        public ObjectWithDeprecatedFields(List<string> bars, DeprecatedObject deprecatedRef, decimal id, string uuid)
         {
-            BarsOption = bars;
-            DeprecatedRefOption = deprecatedRef;
-            IdOption = id;
-            UuidOption = uuid;
+            Bars = bars;
+            DeprecatedRef = deprecatedRef;
+            Id = id;
+            Uuid = uuid;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Bars
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<string>?> BarsOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Bars
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string>? Bars { get { return this. BarsOption; } set { this.BarsOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of DeprecatedRef
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DeprecatedObject?> DeprecatedRefOption { get; private set; }
+        public List<string> Bars { get; set; }
 
         /// <summary>
         /// Gets or Sets DeprecatedRef
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject? DeprecatedRef { get { return this. DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Id
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<decimal?> IdOption { get; private set; }
+        public DeprecatedObject DeprecatedRef { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Uuid
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> UuidOption { get; private set; }
+        public decimal Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
+        public string Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -133,7 +104,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -161,10 +132,10 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<string>?> bars = default;
-            Option<DeprecatedObject?> deprecatedRef = default;
-            Option<decimal?> id = default;
-            Option<string?> uuid = default;
+            List<string>? bars = default;
+            DeprecatedObject? deprecatedRef = default;
+            decimal? id = default;
+            string? uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -183,18 +154,18 @@ namespace Org.OpenAPITools.Model
                     {
                         case "bars":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                bars = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                bars = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "deprecatedRef":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                deprecatedRef = new Option<DeprecatedObject?>(JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                deprecatedRef = JsonSerializer.Deserialize<DeprecatedObject>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                                id = utf8JsonReader.GetDecimal();
                             break;
                         case "uuid":
-                            uuid = new Option<string?>(utf8JsonReader.GetString()!);
+                            uuid = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -202,19 +173,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bars.IsSet && bars.Value == null)
-                throw new ArgumentNullException(nameof(bars), "Property is not nullable for class ObjectWithDeprecatedFields.");
+            if (bars == null)
+                throw new ArgumentNullException(nameof(bars), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (deprecatedRef.IsSet && deprecatedRef.Value == null)
-                throw new ArgumentNullException(nameof(deprecatedRef), "Property is not nullable for class ObjectWithDeprecatedFields.");
+            if (deprecatedRef == null)
+                throw new ArgumentNullException(nameof(deprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class ObjectWithDeprecatedFields.");
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class ObjectWithDeprecatedFields.");
 
-            if (uuid.IsSet && uuid.Value == null)
-                throw new ArgumentNullException(nameof(uuid), "Property is not nullable for class ObjectWithDeprecatedFields.");
+            if (uuid == null)
+                throw new ArgumentNullException(nameof(uuid), "Property is required for class ObjectWithDeprecatedFields.");
 
-            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id, uuid);
+            return new ObjectWithDeprecatedFields(bars, deprecatedRef, id.Value, uuid);
         }
 
         /// <summary>
@@ -241,30 +212,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ObjectWithDeprecatedFields objectWithDeprecatedFields, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (objectWithDeprecatedFields.BarsOption.IsSet && objectWithDeprecatedFields.Bars == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Bars), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet && objectWithDeprecatedFields.DeprecatedRef == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.DeprecatedRef), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (objectWithDeprecatedFields.UuidOption.IsSet && objectWithDeprecatedFields.Uuid == null)
-                throw new ArgumentNullException(nameof(objectWithDeprecatedFields.Uuid), "Property is required for class ObjectWithDeprecatedFields.");
-
-            if (objectWithDeprecatedFields.BarsOption.IsSet)
-            {
-                writer.WritePropertyName("bars");
-                JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
-            }
-            if (objectWithDeprecatedFields.DeprecatedRefOption.IsSet)
-            {
-                writer.WritePropertyName("deprecatedRef");
-                JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
-            }
-            if (objectWithDeprecatedFields.IdOption.IsSet)
-                writer.WriteNumber("id", objectWithDeprecatedFields.IdOption.Value!.Value);
-
-            if (objectWithDeprecatedFields.UuidOption.IsSet)
-                writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
+            writer.WritePropertyName("bars");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.Bars, jsonSerializerOptions);
+            writer.WritePropertyName("deprecatedRef");
+            JsonSerializer.Serialize(writer, objectWithDeprecatedFields.DeprecatedRef, jsonSerializerOptions);
+            writer.WriteNumber("id", objectWithDeprecatedFields.Id);
+            writer.WriteString("uuid", objectWithDeprecatedFields.Uuid);
         }
     }
 }

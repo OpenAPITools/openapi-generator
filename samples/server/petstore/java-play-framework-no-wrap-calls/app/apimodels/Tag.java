@@ -5,7 +5,6 @@ import java.util.Set;
 import javax.validation.*;
 import java.util.Objects;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 /**
  * A tag for a pet
  */

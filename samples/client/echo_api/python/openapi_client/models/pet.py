@@ -18,12 +18,16 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictInt, StrictStr, field_validator
+
 from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictInt, StrictStr, field_validator
+from pydantic import Field
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
-from typing import Optional, Set
-from typing_extensions import Self
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class Pet(BaseModel):
     """
@@ -49,8 +53,7 @@ class Pet(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
@@ -64,7 +67,7 @@ class Pet(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of Pet from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -78,12 +81,10 @@ class Pet(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+            },
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of category
@@ -99,7 +100,7 @@ class Pet(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of Pet from a dict"""
         if obj is None:
             return None
@@ -110,9 +111,9 @@ class Pet(BaseModel):
         _obj = cls.model_validate({
             "id": obj.get("id"),
             "name": obj.get("name"),
-            "category": Category.from_dict(obj["category"]) if obj.get("category") is not None else None,
+            "category": Category.from_dict(obj.get("category")) if obj.get("category") is not None else None,
             "photoUrls": obj.get("photoUrls"),
-            "tags": [Tag.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None,
+            "tags": [Tag.from_dict(_item) for _item in obj.get("tags")] if obj.get("tags") is not None else None,
             "status": obj.get("status")
         })
         return _obj

@@ -23,7 +23,6 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 @SuppressWarnings("RedundantThrows")
 public abstract class StoreApiControllerImpInterface {

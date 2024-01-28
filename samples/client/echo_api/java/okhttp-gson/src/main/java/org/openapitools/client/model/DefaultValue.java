@@ -106,11 +106,6 @@ public class DefaultValue {
         return ArrayStringEnumDefaultEnum.fromValue(value);
       }
     }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      ArrayStringEnumDefaultEnum.fromValue(value);
-    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
@@ -145,6 +140,7 @@ public class DefaultValue {
   }
 
   public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
+    
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
     return this;
   }
@@ -166,12 +162,14 @@ public class DefaultValue {
     return arrayStringEnumRefDefault;
   }
 
+
   public void setArrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
   }
 
 
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
+    
     this.arrayStringEnumDefault = arrayStringEnumDefault;
     return this;
   }
@@ -193,12 +191,14 @@ public class DefaultValue {
     return arrayStringEnumDefault;
   }
 
+
   public void setArrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
   }
 
 
   public DefaultValue arrayStringDefault(List<String> arrayStringDefault) {
+    
     this.arrayStringDefault = arrayStringDefault;
     return this;
   }
@@ -220,12 +220,14 @@ public class DefaultValue {
     return arrayStringDefault;
   }
 
+
   public void setArrayStringDefault(List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
   }
 
 
   public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
+    
     this.arrayIntegerDefault = arrayIntegerDefault;
     return this;
   }
@@ -247,12 +249,14 @@ public class DefaultValue {
     return arrayIntegerDefault;
   }
 
+
   public void setArrayIntegerDefault(List<Integer> arrayIntegerDefault) {
     this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
 
   public DefaultValue arrayString(List<String> arrayString) {
+    
     this.arrayString = arrayString;
     return this;
   }
@@ -274,12 +278,14 @@ public class DefaultValue {
     return arrayString;
   }
 
+
   public void setArrayString(List<String> arrayString) {
     this.arrayString = arrayString;
   }
 
 
   public DefaultValue arrayStringNullable(List<String> arrayStringNullable) {
+    
     this.arrayStringNullable = arrayStringNullable;
     return this;
   }
@@ -301,12 +307,14 @@ public class DefaultValue {
     return arrayStringNullable;
   }
 
+
   public void setArrayStringNullable(List<String> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
   }
 
 
   public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
+    
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
     return this;
   }
@@ -328,12 +336,14 @@ public class DefaultValue {
     return arrayStringExtensionNullable;
   }
 
+
   public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
   }
 
 
   public DefaultValue stringNullable(String stringNullable) {
+    
     this.stringNullable = stringNullable;
     return this;
   }
@@ -346,6 +356,7 @@ public class DefaultValue {
   public String getStringNullable() {
     return stringNullable;
   }
+
 
   public void setStringNullable(String stringNullable) {
     this.stringNullable = stringNullable;

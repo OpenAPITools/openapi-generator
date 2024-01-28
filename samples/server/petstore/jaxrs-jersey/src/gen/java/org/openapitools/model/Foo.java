@@ -64,7 +64,7 @@ public class Foo   {
       return false;
     }
     Foo foo = (Foo) o;
-    return Objects.equals(this.bar, foo.bar);
+    return Objects.equals(bar, foo.bar);
   }
 
   @Override

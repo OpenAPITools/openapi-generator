@@ -14,9 +14,7 @@
 
 import copy
 import logging
-from logging import FileHandler
 import sys
-from typing import Optional
 import urllib3
 
 import http.client as httplib
@@ -199,7 +197,7 @@ conf = petstore_api.Configuration(
         self.logger_stream_handler = None
         """Log stream handler
         """
-        self.logger_file_handler: Optional[FileHandler] = None
+        self.logger_file_handler = None
         """Log file handler
         """
         self.logger_file = None
@@ -236,7 +234,7 @@ conf = petstore_api.Configuration(
            Default values is 100, None means no-limit.
         """
 
-        self.proxy: Optional[str] = None
+        self.proxy = None
         """Proxy URL
         """
         self.proxy_headers = None

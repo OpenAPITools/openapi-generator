@@ -74,7 +74,7 @@ public interface StoreApi extends ApiClient.Api {
    */
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
-    "Accept: application/json,application/xml",
+    "Accept: application/json",
   })
   Order getOrderById(@Param("orderId") Long orderId);
 
@@ -87,7 +87,7 @@ public interface StoreApi extends ApiClient.Api {
    */
   @RequestLine("GET /store/order/{orderId}")
   @Headers({
-    "Accept: application/json,application/xml",
+    "Accept: application/json",
   })
   ApiResponse<Order> getOrderByIdWithHttpInfo(@Param("orderId") Long orderId);
 
@@ -102,7 +102,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("POST /store/order")
   @Headers({
     "Content-Type: application/json",
-    "Accept: application/json,application/xml",
+    "Accept: application/json",
   })
   Order placeOrder(Order order);
 
@@ -116,7 +116,7 @@ public interface StoreApi extends ApiClient.Api {
   @RequestLine("POST /store/order")
   @Headers({
     "Content-Type: application/json",
-    "Accept: application/json,application/xml",
+    "Accept: application/json",
   })
   ApiResponse<Order> placeOrderWithHttpInfo(Order order);
 

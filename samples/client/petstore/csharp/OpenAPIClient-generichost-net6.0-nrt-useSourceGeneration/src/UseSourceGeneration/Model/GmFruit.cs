@@ -38,52 +38,31 @@ namespace UseSourceGeneration.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public GmFruit(Option<Apple?> apple, Option<Banana?> banana, Option<string?> color = default)
+        public GmFruit(Apple? apple, Banana? banana, string color)
         {
-            AppleOption = apple;
-            BananaOption = banana;
-            ColorOption = color;
+            Apple = apple;
+            Banana = banana;
+            Color = color;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Apple
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Apple?> AppleOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Banana
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Banana?> BananaOption { get; private set; }
+        public Apple? Apple { get; set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Color
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> ColorOption { get; private set; }
+        public Banana? Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
+        public string Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -103,7 +82,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -131,7 +110,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> color = default;
+            string? color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -171,7 +150,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -179,17 +158,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class GmFruit.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class GmFruit.");
 
-            Option<Apple?> appleParsedValue = apple == null
-                ? default
-                : new Option<Apple?>(apple);
-            Option<Banana?> bananaParsedValue = banana == null
-                ? default
-                : new Option<Banana?>(banana);
-
-            return new GmFruit(appleParsedValue, bananaParsedValue, color);
+            return new GmFruit(apple, banana, color);
         }
 
         /// <summary>
@@ -203,16 +175,16 @@ namespace UseSourceGeneration.Model
         {
             writer.WriteStartObject();
 
-            if (gmFruit.AppleOption.IsSet && gmFruit.AppleOption.Value != null)
+            if (gmFruit.Apple != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.AppleOption.Value.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, gmFruit.AppleOption.Value, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Apple.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, gmFruit.Apple, jsonSerializerOptions);
             }
 
-            if (gmFruit.BananaOption.IsSet && gmFruit.BananaOption.Value != null)
+            if (gmFruit.Banana != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.BananaOption.Value.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, gmFruit.BananaOption.Value, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(gmFruit.Banana.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, gmFruit.Banana, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, gmFruit, jsonSerializerOptions);
@@ -228,11 +200,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GmFruit gmFruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (gmFruit.ColorOption.IsSet && gmFruit.Color == null)
-                throw new ArgumentNullException(nameof(gmFruit.Color), "Property is required for class GmFruit.");
-
-            if (gmFruit.ColorOption.IsSet)
-                writer.WriteString("color", gmFruit.Color);
+            writer.WriteString("color", gmFruit.Color);
         }
     }
 

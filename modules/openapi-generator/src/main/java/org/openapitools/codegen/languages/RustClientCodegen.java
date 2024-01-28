@@ -93,8 +93,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                         SecurityFeature.BasicAuth,
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.AWSV4Signature
+                        SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,

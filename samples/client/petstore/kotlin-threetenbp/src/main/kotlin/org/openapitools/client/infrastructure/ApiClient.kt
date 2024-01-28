@@ -15,6 +15,7 @@ import okhttp3.MultipartBody
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import okhttp3.internal.EMPTY_REQUEST
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -27,8 +28,6 @@ import org.threeten.bp.LocalTime
 import org.threeten.bp.OffsetDateTime
 import org.threeten.bp.OffsetTime
 import com.squareup.moshi.adapter
-
- val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
 open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
     companion object {
@@ -220,7 +219,6 @@ open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClie
         val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
 
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        @Suppress("UNNECESSARY_SAFE_CALL")
         return when {
             response.isRedirect -> Redirection(
                 response.code,

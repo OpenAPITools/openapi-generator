@@ -14,9 +14,6 @@ import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
 import java.util.Set;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

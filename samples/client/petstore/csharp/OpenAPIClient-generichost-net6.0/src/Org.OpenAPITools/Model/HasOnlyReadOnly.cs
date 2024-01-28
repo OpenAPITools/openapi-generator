@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,40 +34,26 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="foo">foo</param>
         [JsonConstructor]
-        internal HasOnlyReadOnly(Option<string> bar = default, Option<string> foo = default)
+        internal HasOnlyReadOnly(string bar, string foo)
         {
-            BarOption = bar;
-            FooOption = foo;
+            Bar = bar;
+            Foo = foo;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Bar
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> BarOption { get; }
-
-        /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get { return this. BarOption; } }
-
-        /// <summary>
-        /// Used to track the state of Foo
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string> FooOption { get; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string Foo { get { return this. FooOption; } }
+        public string Foo { get; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -120,12 +105,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (Bar != null)
-                    hashCode = (hashCode * 59) + Bar.GetHashCode();
-
-                if (Foo != null)
-                    hashCode = (hashCode * 59) + Foo.GetHashCode();
-
+                hashCode = (hashCode * 59) + Bar.GetHashCode();
+                hashCode = (hashCode * 59) + Foo.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -137,7 +118,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -165,8 +146,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> bar = default;
-            Option<string> foo = default;
+            string bar = default;
+            string foo = default;
 
             while (utf8JsonReader.Read())
             {
@@ -184,10 +165,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string>(utf8JsonReader.GetString());
+                            bar = utf8JsonReader.GetString();
                             break;
                         case "foo":
-                            foo = new Option<string>(utf8JsonReader.GetString());
+                            foo = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -195,11 +176,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class HasOnlyReadOnly.");
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class HasOnlyReadOnly.");
 
-            if (foo.IsSet && foo.Value == null)
-                throw new ArgumentNullException(nameof(foo), "Property is not nullable for class HasOnlyReadOnly.");
+            if (foo == null)
+                throw new ArgumentNullException(nameof(foo), "Property is required for class HasOnlyReadOnly.");
 
             return new HasOnlyReadOnly(bar, foo);
         }
@@ -228,17 +209,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HasOnlyReadOnly hasOnlyReadOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (hasOnlyReadOnly.BarOption.IsSet && hasOnlyReadOnly.Bar == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Bar), "Property is required for class HasOnlyReadOnly.");
-
-            if (hasOnlyReadOnly.FooOption.IsSet && hasOnlyReadOnly.Foo == null)
-                throw new ArgumentNullException(nameof(hasOnlyReadOnly.Foo), "Property is required for class HasOnlyReadOnly.");
-
-            if (hasOnlyReadOnly.BarOption.IsSet)
-                writer.WriteString("bar", hasOnlyReadOnly.Bar);
-
-            if (hasOnlyReadOnly.FooOption.IsSet)
-                writer.WriteString("foo", hasOnlyReadOnly.Foo);
+            writer.WriteString("bar", hasOnlyReadOnly.Bar);
+            writer.WriteString("foo", hasOnlyReadOnly.Foo);
         }
     }
 }

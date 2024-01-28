@@ -73,11 +73,8 @@ interface PetApiInterface
      *
      * @return array|object|null
      */
-    public function addPet(
-        Pet $pet,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function addPet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation deletePet
@@ -91,12 +88,8 @@ interface PetApiInterface
      *
      * @return void
      */
-    public function deletePet(
-        int $petId,
-        ?string $apiKey,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function deletePet(int $petId, ?string $apiKey, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation findPetsByStatus
@@ -109,11 +102,8 @@ interface PetApiInterface
      *
      * @return array|object|null
      */
-    public function findPetsByStatus(
-        array $status,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function findPetsByStatus(array $status, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation findPetsByTags
@@ -127,11 +117,8 @@ interface PetApiInterface
      * @return array|object|null
      * @deprecated
      */
-    public function findPetsByTags(
-        array $tags,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function findPetsByTags(array $tags, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation getPetById
@@ -144,11 +131,8 @@ interface PetApiInterface
      *
      * @return array|object|null
      */
-    public function getPetById(
-        int $petId,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function getPetById(int $petId, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation updatePet
@@ -161,11 +145,8 @@ interface PetApiInterface
      *
      * @return array|object|null
      */
-    public function updatePet(
-        Pet $pet,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function updatePet(Pet $pet, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation updatePetWithForm
@@ -180,13 +161,8 @@ interface PetApiInterface
      *
      * @return void
      */
-    public function updatePetWithForm(
-        int $petId,
-        ?string $name,
-        ?string $status,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function updatePetWithForm(int $petId, ?string $name, ?string $status, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation uploadFile
@@ -201,11 +177,6 @@ interface PetApiInterface
      *
      * @return array|object|null
      */
-    public function uploadFile(
-        int $petId,
-        ?string $additionalMetadata,
-        ?UploadedFile $file,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function uploadFile(int $petId, ?string $additionalMetadata, ?UploadedFile $file, int &$responseCode, array &$responseHeaders): array|object|null;
+
 }

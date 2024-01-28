@@ -37,26 +37,19 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="value">value</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordList(Option<string?> value = default)
+        public TestCollectionEndingWithWordList(string value)
         {
-            ValueOption = value;
+            Value = value;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Value
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> ValueOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Value
         /// </summary>
         [JsonPropertyName("value")]
-        public string? Value { get { return this. ValueOption; } set { this.ValueOption = new(value); } }
+        public string Value { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> value = default;
+            string? value = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "value":
-                            value = new Option<string?>(utf8JsonReader.GetString()!);
+                            value = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -137,8 +130,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (value.IsSet && value.Value == null)
-                throw new ArgumentNullException(nameof(value), "Property is not nullable for class TestCollectionEndingWithWordList.");
+            if (value == null)
+                throw new ArgumentNullException(nameof(value), "Property is required for class TestCollectionEndingWithWordList.");
 
             return new TestCollectionEndingWithWordList(value);
         }
@@ -167,11 +160,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordList testCollectionEndingWithWordList, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testCollectionEndingWithWordList.ValueOption.IsSet && testCollectionEndingWithWordList.Value == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList.Value), "Property is required for class TestCollectionEndingWithWordList.");
-
-            if (testCollectionEndingWithWordList.ValueOption.IsSet)
-                writer.WriteString("value", testCollectionEndingWithWordList.Value);
+            writer.WriteString("value", testCollectionEndingWithWordList.Value);
         }
     }
 

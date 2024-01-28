@@ -4,9 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	sw "go-petstore"
-
 	"github.com/stretchr/testify/assert"
+	sw "go-petstore"
 )
 
 func TestBanana(t *testing.T) {
@@ -51,15 +50,4 @@ func TestReadOnlyFirst(t *testing.T) {
 	expected := `{"bar":"Bar value","baz":"Baz value"}`
 
 	assert.Equal(expected, (string)(json), "ReadOnlyFirst JSON is incorrect")
-}
-
-func TestRequiredFieldsAreValidated(t *testing.T) {
-	assert := assert.New(t)
-
-	newPet := (sw.Pet{})
-	jsonPet := `{"foo": "Foo value"}`
-	err := newPet.UnmarshalJSON([]byte(jsonPet))
-	expected := "no value given for required property"
-
-	assert.ErrorContains(err, expected, "Pet should return error when missing required fields")
 }

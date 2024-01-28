@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **VarString** | **string** |  | [optional] 
 **VarByte** | **byte[]** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 
-**Date** | **DateOnly** |  | 
+**Date** | **DateTime** |  | 
 **DateTime** | **DateTime** |  | [optional] 
 **Uuid** | **Guid** |  | [optional] 
 **Password** | **string** |  | 

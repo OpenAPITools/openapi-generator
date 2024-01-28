@@ -3,7 +3,6 @@
 Model for testing reserved words
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **var_return** | **int** |  | [optional] 

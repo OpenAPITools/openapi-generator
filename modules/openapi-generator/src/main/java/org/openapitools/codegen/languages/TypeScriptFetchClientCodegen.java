@@ -530,7 +530,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
+                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
                     ExtendedCodegenProperty cp = null;
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
@@ -1303,7 +1303,6 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
-            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;

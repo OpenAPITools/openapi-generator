@@ -64,6 +64,7 @@ public class Dog extends Animal implements Parcelable {
   }
 
   public Dog breed(String breed) {
+    
     this.breed = breed;
     return this;
   }
@@ -76,6 +77,7 @@ public class Dog extends Animal implements Parcelable {
   public String getBreed() {
     return breed;
   }
+
 
   public void setBreed(String breed) {
     this.breed = breed;

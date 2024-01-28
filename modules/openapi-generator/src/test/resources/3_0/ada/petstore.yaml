@@ -784,13 +784,3 @@ components:
           type: string
         type_:
           type: string
-    AnotherStatus:
-      type: string
-      description: pet status in the store
-      deprecated: true
-      enum:
-        - available
-        - pending
-        - sold
-
-

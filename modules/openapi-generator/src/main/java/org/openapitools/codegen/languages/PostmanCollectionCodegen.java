@@ -75,9 +75,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    protected Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
-    public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
+    protected List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
     /**
      * Configures the type of generator.
@@ -131,7 +131,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
-        // create Postman variable from every path parameter
         if(pathParamsAsVariables && parameter.isPathParam) {
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
@@ -217,16 +216,13 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         for(CodegenOperation codegenOperation : opList) {
 
-            // use Postman notation for path parameter
-            codegenOperation.path = replacesBracesInPath(codegenOperation.path);
-
             if(pathParamsAsVariables) {
-                // set value of path parameter with corresponding env variable
-                for(CodegenParameter codegenParameter : codegenOperation.pathParams) {
-                    codegenParameter.defaultValue = "{{" + codegenParameter.paramName + "}}";
-                }
+                // create Postman variable from path parameter
+                codegenOperation.path = doubleCurlyBraces(codegenOperation.path);
+            } else {
+                // use Postman notation for path parameter
+                codegenOperation.path = replacesBracesInPath(codegenOperation.path);
             }
-
             codegenOperation.summary = getSummary(codegenOperation);
 
             // request headers
@@ -311,7 +307,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * The map groups the CodegenOperations by tag as defined in the OpenAPI spec
      * @param codegenOperation Codegen operation instance
      */
-    public void addToMap(CodegenOperation codegenOperation){
+    void addToMap(CodegenOperation codegenOperation){
 
         String key = null;
         if(codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
@@ -329,16 +325,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         codegenOperationsByTag.put(key, list);
 
-        // sort requests by path
-        Collections.sort(list, Comparator.comparing(obj -> obj.path));
     }
 
-    public void addToList(CodegenOperation codegenOperation) {
-
+    void addToList(CodegenOperation codegenOperation) {
         codegenOperationsList.add(codegenOperation);
-
-        // sort requests by path
-        Collections.sort(codegenOperationsList, Comparator.comparing(obj -> obj.path));
     }
 
     String getResponseBody(CodegenResponse codegenResponse) {
@@ -503,6 +493,17 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public String escapeQuotationMark(String input) {
         //TODO: check that this logic is safe to escape quotation mark to avoid code injection
         return input.replace("\"", "\\\"");
+    }
+
+    public String doubleCurlyBraces(String str) {
+
+        // remove doublebraces first
+        String s = str.replace("{{", "{").replace("}}", "}");
+        // change all singlebraces to doublebraces
+        s = s.replace("{", "{{").replace("}", "}}");
+
+        return s;
+
     }
 
     // convert path from /users/{id} to /users/:id

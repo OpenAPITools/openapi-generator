@@ -38,9 +38,9 @@ namespace UseSourceGeneration.Model
         /// <param name="id">id</param>
         /// <param name="name">name (default to &quot;default-name&quot;)</param>
         [JsonConstructor]
-        public Category(Option<long?> id = default, string name = @"default-name")
+        public Category(long id, string name = @"default-name")
         {
-            IdOption = id;
+            Id = id;
             Name = name;
             OnCreated();
         }
@@ -48,17 +48,10 @@ namespace UseSourceGeneration.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Id
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<long?> IdOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -92,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -120,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<long?> id = default;
-            Option<string?> name = default;
+            long? id = default;
+            string? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -140,10 +133,10 @@ namespace UseSourceGeneration.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            name = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -151,16 +144,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Category.", nameof(name));
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Category.");
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Category.");
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Category.");
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Category.");
-
-            return new Category(id, name.Value!);
+            return new Category(id.Value, name);
         }
 
         /// <summary>
@@ -187,12 +177,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Category category, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (category.Name == null)
-                throw new ArgumentNullException(nameof(category.Name), "Property is required for class Category.");
-
-            if (category.IdOption.IsSet)
-                writer.WriteNumber("id", category.IdOption.Value!.Value);
-
+            writer.WriteNumber("id", category.Id);
             writer.WriteString("name", category.Name);
         }
     }

@@ -3,6 +3,7 @@ package org.openapitools.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
@@ -17,7 +18,7 @@ public class MapTest  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private Map<String, Map<String, String>> mapMapOfString = new HashMap<>();
+  private Map<String, Map<String, String>> mapMapOfString = null;
 
 public enum InnerEnum {
 
@@ -50,14 +51,14 @@ public enum InnerEnum {
 }
 
   @ApiModelProperty(value = "")
-  private Map<String, InnerEnum> mapOfEnumString = new HashMap<>();
+  private Map<String, InnerEnum> mapOfEnumString = null;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> directMap = new HashMap<>();
+  private Map<String, Boolean> directMap = null;
 
   @ApiModelProperty(value = "")
   @Valid
-  private StringBooleanMap indirectMap = new HashMap<>();
+  private StringBooleanMap indirectMap = new StringBooleanMap();
  /**
   * Get mapMapOfString
   * @return mapMapOfString
@@ -178,26 +179,6 @@ public enum InnerEnum {
     return this;
   }
 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    MapTest mapTest = (MapTest) o;
-    return Objects.equals(mapMapOfString, mapTest.mapMapOfString) &&
-        Objects.equals(mapOfEnumString, mapTest.mapOfEnumString) &&
-        Objects.equals(directMap, mapTest.directMap) &&
-        Objects.equals(indirectMap, mapTest.indirectMap);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(mapMapOfString, mapOfEnumString, directMap, indirectMap);
-  }
 
   @Override
   public String toString() {

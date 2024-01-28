@@ -13,5 +13,5 @@ import AnyCodable
 public enum OuterEnum: String, Codable, CaseIterable {
     case placed = "placed"
     case approved = "approved"
-    case shipped = "delivered"
+    case delivered = "delivered"
 }

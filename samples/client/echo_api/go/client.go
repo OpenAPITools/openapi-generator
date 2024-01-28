@@ -431,11 +431,6 @@ func (c *APIClient) prepareRequest(
 			localVarRequest.SetBasicAuth(auth.UserName, auth.Password)
 		}
 
-		// AccessToken Authentication
-		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
-			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
-		}
-
 	}
 
 	for header, value := range c.cfg.DefaultHeader {
@@ -462,6 +457,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = f.Seek(0, io.SeekStart)
+		err = os.Remove(f.Name())
 		return
 	}
 	if f, ok := v.(**os.File); ok {
@@ -474,6 +470,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = (*f).Seek(0, io.SeekStart)
+		err = os.Remove((*f).Name())
 		return
 	}
 	if XmlCheck.MatchString(contentType) {

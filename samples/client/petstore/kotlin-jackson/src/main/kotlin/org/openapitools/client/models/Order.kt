@@ -16,7 +16,6 @@
 package org.openapitools.client.models
 
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -57,13 +56,12 @@ data class Order (
     /**
      * Order Status
      *
-     * Values: PLACED,APPROVED,DELIVERED,UNKNOWN_DEFAULT_OPEN_API
+     * Values: PLACED,APPROVED,DELIVERED
      */
     enum class Status(val value: kotlin.String) {
         @JsonProperty(value = "placed") PLACED("placed"),
         @JsonProperty(value = "approved") APPROVED("approved"),
-        @JsonProperty(value = "delivered") DELIVERED("delivered"),
-        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue UNKNOWN_DEFAULT_OPEN_API("unknown_default_open_api");
+        @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
 }
 

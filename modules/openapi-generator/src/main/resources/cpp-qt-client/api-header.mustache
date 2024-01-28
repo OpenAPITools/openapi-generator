@@ -85,25 +85,22 @@ private:
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
-Q_SIGNALS:
+signals:
 {{#operations}}{{#operation}}
     void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalFull({{prefix}}HttpRequestWorker *worker{{#returnType}}, {{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    Q_DECL_DEPRECATED_X("Use {{nickname}}SignalError() instead")
-    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);
-    void {{nickname}}SignalError({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
+    void {{nickname}}SignalE({{#returnType}}{{{.}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
-    Q_DECL_DEPRECATED_X("Use {{nickname}}SignalErrorFull() instead")
-    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);
-    void {{nickname}}SignalErrorFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, const QString &error_str);{{/operation}}{{/operations}}
+    void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public Q_SLOTS:
+public slots:
     void tokenAvailable();
+    
 };
 
 {{#cppNamespaceDeclarations}}

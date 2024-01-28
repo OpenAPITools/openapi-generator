@@ -85,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> quadrilateralType = default;
-            Option<string?> shapeType = default;
+            string? quadrilateralType = default;
+            string? shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,10 +132,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
+                            quadrilateralType = utf8JsonReader.GetString();
                             break;
                         case "shapeType":
-                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -143,19 +143,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(quadrilateralType));
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class ComplexQuadrilateral.");
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ComplexQuadrilateral.", nameof(shapeType));
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ComplexQuadrilateral.");
 
-            if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class ComplexQuadrilateral.");
-
-            if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ComplexQuadrilateral.");
-
-            return new ComplexQuadrilateral(quadrilateralType.Value!, shapeType.Value!);
+            return new ComplexQuadrilateral(quadrilateralType, shapeType);
         }
 
         /// <summary>
@@ -182,14 +176,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ComplexQuadrilateral complexQuadrilateral, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (complexQuadrilateral.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(complexQuadrilateral.QuadrilateralType), "Property is required for class ComplexQuadrilateral.");
-
-            if (complexQuadrilateral.ShapeType == null)
-                throw new ArgumentNullException(nameof(complexQuadrilateral.ShapeType), "Property is required for class ComplexQuadrilateral.");
-
             writer.WriteString("quadrilateralType", complexQuadrilateral.QuadrilateralType);
-
             writer.WriteString("shapeType", complexQuadrilateral.ShapeType);
         }
     }

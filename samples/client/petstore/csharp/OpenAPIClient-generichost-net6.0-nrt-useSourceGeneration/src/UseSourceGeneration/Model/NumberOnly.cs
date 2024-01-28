@@ -37,26 +37,19 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="justNumber">justNumber</param>
         [JsonConstructor]
-        public NumberOnly(Option<decimal?> justNumber = default)
+        public NumberOnly(decimal justNumber)
         {
-            JustNumberOption = justNumber;
+            JustNumber = justNumber;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of JustNumber
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<decimal?> JustNumberOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal? JustNumber { get { return this. JustNumberOption; } set { this.JustNumberOption = new(value); } }
+        public decimal JustNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<decimal?> justNumber = default;
+            decimal? justNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,7 +123,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "JustNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                justNumber = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                                justNumber = utf8JsonReader.GetDecimal();
                             break;
                         default:
                             break;
@@ -138,10 +131,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (justNumber.IsSet && justNumber.Value == null)
-                throw new ArgumentNullException(nameof(justNumber), "Property is not nullable for class NumberOnly.");
+            if (justNumber == null)
+                throw new ArgumentNullException(nameof(justNumber), "Property is required for class NumberOnly.");
 
-            return new NumberOnly(justNumber);
+            return new NumberOnly(justNumber.Value);
         }
 
         /// <summary>
@@ -168,8 +161,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NumberOnly numberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (numberOnly.JustNumberOption.IsSet)
-                writer.WriteNumber("JustNumber", numberOnly.JustNumberOption.Value!.Value);
+            writer.WriteNumber("JustNumber", numberOnly.JustNumber);
         }
     }
 

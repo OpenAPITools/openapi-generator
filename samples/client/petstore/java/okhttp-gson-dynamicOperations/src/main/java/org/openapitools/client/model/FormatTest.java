@@ -116,6 +116,7 @@ public class FormatTest {
   }
 
   public FormatTest integer(Integer integer) {
+    
     this.integer = integer;
     return this;
   }
@@ -131,12 +132,14 @@ public class FormatTest {
     return integer;
   }
 
+
   public void setInteger(Integer integer) {
     this.integer = integer;
   }
 
 
   public FormatTest int32(Integer int32) {
+    
     this.int32 = int32;
     return this;
   }
@@ -152,12 +155,14 @@ public class FormatTest {
     return int32;
   }
 
+
   public void setInt32(Integer int32) {
     this.int32 = int32;
   }
 
 
   public FormatTest int64(Long int64) {
+    
     this.int64 = int64;
     return this;
   }
@@ -171,12 +176,14 @@ public class FormatTest {
     return int64;
   }
 
+
   public void setInt64(Long int64) {
     this.int64 = int64;
   }
 
 
   public FormatTest number(BigDecimal number) {
+    
     this.number = number;
     return this;
   }
@@ -192,12 +199,14 @@ public class FormatTest {
     return number;
   }
 
+
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
 
   public FormatTest _float(Float _float) {
+    
     this._float = _float;
     return this;
   }
@@ -213,12 +222,14 @@ public class FormatTest {
     return _float;
   }
 
+
   public void setFloat(Float _float) {
     this._float = _float;
   }
 
 
   public FormatTest _double(Double _double) {
+    
     this._double = _double;
     return this;
   }
@@ -234,12 +245,14 @@ public class FormatTest {
     return _double;
   }
 
+
   public void setDouble(Double _double) {
     this._double = _double;
   }
 
 
   public FormatTest string(String string) {
+    
     this.string = string;
     return this;
   }
@@ -253,12 +266,14 @@ public class FormatTest {
     return string;
   }
 
+
   public void setString(String string) {
     this.string = string;
   }
 
 
   public FormatTest _byte(byte[] _byte) {
+    
     this._byte = _byte;
     return this;
   }
@@ -272,12 +287,14 @@ public class FormatTest {
     return _byte;
   }
 
+
   public void setByte(byte[] _byte) {
     this._byte = _byte;
   }
 
 
   public FormatTest binary(File binary) {
+    
     this.binary = binary;
     return this;
   }
@@ -291,12 +308,14 @@ public class FormatTest {
     return binary;
   }
 
+
   public void setBinary(File binary) {
     this.binary = binary;
   }
 
 
   public FormatTest date(LocalDate date) {
+    
     this.date = date;
     return this;
   }
@@ -310,12 +329,14 @@ public class FormatTest {
     return date;
   }
 
+
   public void setDate(LocalDate date) {
     this.date = date;
   }
 
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
+    
     this.dateTime = dateTime;
     return this;
   }
@@ -329,12 +350,14 @@ public class FormatTest {
     return dateTime;
   }
 
+
   public void setDateTime(OffsetDateTime dateTime) {
     this.dateTime = dateTime;
   }
 
 
   public FormatTest uuid(UUID uuid) {
+    
     this.uuid = uuid;
     return this;
   }
@@ -348,12 +371,14 @@ public class FormatTest {
     return uuid;
   }
 
+
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
   }
 
 
   public FormatTest password(String password) {
+    
     this.password = password;
     return this;
   }
@@ -367,12 +392,14 @@ public class FormatTest {
     return password;
   }
 
+
   public void setPassword(String password) {
     this.password = password;
   }
 
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
+    
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -385,6 +412,7 @@ public class FormatTest {
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }
+
 
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;

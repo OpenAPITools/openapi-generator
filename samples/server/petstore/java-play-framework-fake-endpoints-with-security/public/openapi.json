@@ -148,7 +148,7 @@
         },
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : "application/json"
       }
     }
   },

@@ -23,14 +23,14 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterComposite {
 
-  private Optional<BigDecimal> myNumber = Optional.empty();
+  private BigDecimal myNumber;
 
-  private Optional<String> myString = Optional.empty();
+  private String myString;
 
-  private Optional<Boolean> myBoolean = Optional.empty();
+  private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.of(myNumber);
+    this.myNumber = myNumber;
     return this;
   }
 
@@ -41,16 +41,16 @@ public class OuterComposite {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
-  public Optional<BigDecimal> getMyNumber() {
+  public BigDecimal getMyNumber() {
     return myNumber;
   }
 
-  public void setMyNumber(Optional<BigDecimal> myNumber) {
+  public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
   public OuterComposite myString(String myString) {
-    this.myString = Optional.of(myString);
+    this.myString = myString;
     return this;
   }
 
@@ -61,16 +61,16 @@ public class OuterComposite {
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
-  public Optional<String> getMyString() {
+  public String getMyString() {
     return myString;
   }
 
-  public void setMyString(Optional<String> myString) {
+  public void setMyString(String myString) {
     this.myString = myString;
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.of(myBoolean);
+    this.myBoolean = myBoolean;
     return this;
   }
 
@@ -81,11 +81,11 @@ public class OuterComposite {
   
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
-  public Optional<Boolean> getMyBoolean() {
+  public Boolean getMyBoolean() {
     return myBoolean;
   }
 
-  public void setMyBoolean(Optional<Boolean> myBoolean) {
+  public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
 

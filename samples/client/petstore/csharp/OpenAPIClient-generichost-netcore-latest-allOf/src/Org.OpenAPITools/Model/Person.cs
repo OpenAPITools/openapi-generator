@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -38,54 +37,33 @@ namespace Org.OpenAPITools.Model
         /// <param name="lastName">lastName</param>
         /// <param name="type">type</param>
         [JsonConstructor]
-        public Person(Option<string?> firstName = default, Option<string?> lastName = default, Option<string?> type = default)
+        public Person(string firstName, string lastName, string type)
         {
-            FirstNameOption = firstName;
-            LastNameOption = lastName;
-            TypeOption = type;
+            FirstName = firstName;
+            LastName = lastName;
+            Type = type;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of FirstName
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> FirstNameOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string? FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of LastName
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> LastNameOption { get; private set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string? LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Type
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> TypeOption { get; private set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("$_type")]
-        public string? Type { get { return this. TypeOption; } set { this.TypeOption = new(value); } }
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -114,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -124,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -152,9 +130,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> firstName = default;
-            Option<string?> lastName = default;
-            Option<string?> type = default;
+            string? firstName = default;
+            string? lastName = default;
+            string? type = default;
 
             while (utf8JsonReader.Read())
             {
@@ -172,13 +150,13 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "firstName":
-                            firstName = new Option<string?>(utf8JsonReader.GetString()!);
+                            firstName = utf8JsonReader.GetString();
                             break;
                         case "lastName":
-                            lastName = new Option<string?>(utf8JsonReader.GetString()!);
+                            lastName = utf8JsonReader.GetString();
                             break;
                         case "$_type":
-                            type = new Option<string?>(utf8JsonReader.GetString()!);
+                            type = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -186,14 +164,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (firstName.IsSet && firstName.Value == null)
-                throw new ArgumentNullException(nameof(firstName), "Property is not nullable for class Person.");
+            if (firstName == null)
+                throw new ArgumentNullException(nameof(firstName), "Property is required for class Person.");
 
-            if (lastName.IsSet && lastName.Value == null)
-                throw new ArgumentNullException(nameof(lastName), "Property is not nullable for class Person.");
+            if (lastName == null)
+                throw new ArgumentNullException(nameof(lastName), "Property is required for class Person.");
 
-            if (type.IsSet && type.Value == null)
-                throw new ArgumentNullException(nameof(type), "Property is not nullable for class Person.");
+            if (type == null)
+                throw new ArgumentNullException(nameof(type), "Property is required for class Person.");
 
             return new Person(firstName, lastName, type);
         }
@@ -222,23 +200,9 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Person person, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (person.FirstNameOption.IsSet && person.FirstName == null)
-                throw new ArgumentNullException(nameof(person.FirstName), "Property is required for class Person.");
-
-            if (person.LastNameOption.IsSet && person.LastName == null)
-                throw new ArgumentNullException(nameof(person.LastName), "Property is required for class Person.");
-
-            if (person.TypeOption.IsSet && person.Type == null)
-                throw new ArgumentNullException(nameof(person.Type), "Property is required for class Person.");
-
-            if (person.FirstNameOption.IsSet)
-                writer.WriteString("firstName", person.FirstName);
-
-            if (person.LastNameOption.IsSet)
-                writer.WriteString("lastName", person.LastName);
-
-            if (person.TypeOption.IsSet)
-                writer.WriteString("$_type", person.Type);
+            writer.WriteString("firstName", person.FirstName);
+            writer.WriteString("lastName", person.LastName);
+            writer.WriteString("$_type", person.Type);
         }
     }
 }

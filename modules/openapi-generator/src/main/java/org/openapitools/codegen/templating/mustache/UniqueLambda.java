@@ -51,7 +51,7 @@ public class UniqueLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
 
-        String[] parts = fragment.execute().split(this.delimiter, -1);
+        String[] parts = fragment.execute().split(this.delimiter);
 
         List<String> uniqueLines = Arrays.stream(parts).distinct().collect(Collectors.toList());
 

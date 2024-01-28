@@ -25,8 +25,9 @@ Add a new pet to the store
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -125,7 +126,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -144,7 +144,6 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -162,8 +161,9 @@ Deletes a pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -199,7 +199,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| Pet id to delete | 
@@ -219,7 +218,6 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -237,8 +235,9 @@ Multiple status values can be provided with comma separated strings
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -339,7 +338,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **status** | [**List[str]**](str.md)| Status values that need to be considered for filter | 
@@ -358,7 +356,6 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -376,8 +373,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -478,7 +476,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **tags** | [**List[str]**](str.md)| Tags to filter by | 
@@ -497,7 +494,6 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -515,8 +511,9 @@ Returns a single pet
 ### Example
 
 * Api Key Authentication (api_key):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -558,7 +555,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to return | 
@@ -577,7 +573,6 @@ Name | Type | Description  | Notes
  - **Accept**: application/xml, application/json
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -596,8 +591,9 @@ Update an existing pet
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.models.pet import Pet
 from petstore_api.rest import ApiException
@@ -696,7 +692,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
@@ -715,7 +710,6 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -735,8 +729,9 @@ Updates a pet in the store with form data
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -773,7 +768,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet that needs to be updated | 
@@ -794,7 +788,6 @@ void (empty response body)
  - **Accept**: Not defined
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -803,7 +796,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file**
-> ModelApiResponse upload_file(pet_id, additional_metadata=additional_metadata, file=file)
+> ApiResponse upload_file(pet_id, additional_metadata=additional_metadata, file=file)
 
 uploads an image
 
@@ -812,10 +805,11 @@ uploads an image
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
-from petstore_api.models.model_api_response import ModelApiResponse
+from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -853,7 +847,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
@@ -862,7 +855,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -874,7 +867,6 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |
@@ -882,7 +874,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **upload_file_with_required_file**
-> ModelApiResponse upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
+> ApiResponse upload_file_with_required_file(pet_id, required_file, additional_metadata=additional_metadata)
 
 uploads an image (required)
 
@@ -891,10 +883,11 @@ uploads an image (required)
 ### Example
 
 * OAuth Authentication (petstore_auth):
-
 ```python
+import time
+import os
 import petstore_api
-from petstore_api.models.model_api_response import ModelApiResponse
+from petstore_api.models.api_response import ApiResponse
 from petstore_api.rest import ApiException
 from pprint import pprint
 
@@ -932,7 +925,6 @@ async with petstore_api.ApiClient(configuration) as api_client:
 
 ### Parameters
 
-
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update | 
@@ -941,7 +933,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+[**ApiResponse**](ApiResponse.md)
 
 ### Authorization
 
@@ -953,7 +945,6 @@ Name | Type | Description  | Notes
  - **Accept**: application/json
 
 ### HTTP response details
-
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | successful operation |  -  |

@@ -64,7 +64,7 @@ public class DeprecatedObject   {
       return false;
     }
     DeprecatedObject deprecatedObject = (DeprecatedObject) o;
-    return Objects.equals(this.name, deprecatedObject.name);
+    return Objects.equals(name, deprecatedObject.name);
   }
 
   @Override

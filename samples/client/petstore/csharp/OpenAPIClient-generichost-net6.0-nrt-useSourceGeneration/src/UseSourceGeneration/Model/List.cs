@@ -37,26 +37,19 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="var123List">var123List</param>
         [JsonConstructor]
-        public List(Option<string?> var123List = default)
+        public List(string var123List)
         {
-            Var123ListOption = var123List;
+            Var123List = var123List;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Var123List
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> Var123ListOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string? Var123List { get { return this. Var123ListOption; } set { this.Var123ListOption = new(value); } }
+        public string Var123List { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> var123List = default;
+            string? var123List = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "123-list":
-                            var123List = new Option<string?>(utf8JsonReader.GetString()!);
+                            var123List = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -137,8 +130,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (var123List.IsSet && var123List.Value == null)
-                throw new ArgumentNullException(nameof(var123List), "Property is not nullable for class List.");
+            if (var123List == null)
+                throw new ArgumentNullException(nameof(var123List), "Property is required for class List.");
 
             return new List(var123List);
         }
@@ -167,11 +160,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, List list, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (list.Var123ListOption.IsSet && list.Var123List == null)
-                throw new ArgumentNullException(nameof(list.Var123List), "Property is required for class List.");
-
-            if (list.Var123ListOption.IsSet)
-                writer.WriteString("123-list", list.Var123List);
+            writer.WriteString("123-list", list.Var123List);
         }
     }
 

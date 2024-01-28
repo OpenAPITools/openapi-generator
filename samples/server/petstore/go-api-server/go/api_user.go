@@ -173,29 +173,15 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 // DeleteUser - Delete user
 func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	query, err := parseQuery(r.URL.RawQuery)
+	query := r.URL.Query()
+	usernameParam := params["username"]
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
-	}
-	usernameParam := params["username"]
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
 	}
 	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
@@ -211,10 +197,6 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
 	result, err := c.service.GetUserByName(r.Context(), usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -227,42 +209,16 @@ func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request
 
 // LoginUser - Logs user into the system
 func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
+	query := r.URL.Query()
+	usernameParam := query.Get("username")
+	passwordParam := query.Get("password")
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
-	}
-	var usernameParam string
-	if query.Has("username") {
-		param := query.Get("username")
-
-		usernameParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "username"}, nil)
-		return
-	}
-	var passwordParam string
-	if query.Has("password") {
-		param := query.Get("password")
-
-		passwordParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
-		return
-	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
 	}
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
@@ -290,10 +246,6 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	usernameParam := params["username"]
-	if usernameParam == "" {
-		c.errorHandler(w, r, &RequiredError{"username"}, nil)
-		return
-	}
 	userParam := User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()

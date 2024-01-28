@@ -8,18 +8,11 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum ModelEnumClass {
   @JsonValue(r'_abc')
-  abc(r'_abc'),
+  abc,
   @JsonValue(r'-efg')
-  efg(r'-efg'),
+  efg,
   @JsonValue(r'(xyz)')
-  leftParenthesisXyzRightParenthesis(r'(xyz)'),
+  leftParenthesisXyzRightParenthesis,
   @JsonValue(r'unknown_default_open_api')
-  unknownDefaultOpenApi(r'unknown_default_open_api');
-
-  const ModelEnumClass(this.value);
-
-  final String value;
-
-  @override
-  String toString() => value;
+  unknownDefaultOpenApi,
 }

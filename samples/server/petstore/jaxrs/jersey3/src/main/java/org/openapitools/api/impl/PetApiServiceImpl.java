@@ -16,7 +16,6 @@ import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class PetApiServiceImpl extends PetApiService {
     @Override

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,52 +36,31 @@ namespace Org.OpenAPITools.Model
         /// <param name="apple"></param>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Option<Apple?> apple, Option<Banana?> banana, Option<string?> color = default)
+        public Fruit(Apple? apple, Banana? banana, string color)
         {
-            AppleOption = apple;
-            BananaOption = banana;
-            ColorOption = color;
+            Apple = apple;
+            Banana = banana;
+            Color = color;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Apple
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Apple?> AppleOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Apple
         /// </summary>
-        public Apple? Apple { get { return this.AppleOption; } set { this.AppleOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Banana
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Banana?> BananaOption { get; private set; }
+        public Apple? Apple { get; set; }
 
         /// <summary>
         /// Gets or Sets Banana
         /// </summary>
-        public Banana? Banana { get { return this.BananaOption; } set { this.BananaOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Color
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> ColorOption { get; private set; }
+        public Banana? Banana { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
+        public string Color { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -137,7 +115,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> color = default;
+            string? color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -177,7 +155,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -185,17 +163,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
-            Option<Apple?> appleParsedValue = apple == null
-                ? default
-                : new Option<Apple?>(apple);
-            Option<Banana?> bananaParsedValue = banana == null
-                ? default
-                : new Option<Banana?>(banana);
-
-            return new Fruit(appleParsedValue, bananaParsedValue, color);
+            return new Fruit(apple, banana, color);
         }
 
         /// <summary>
@@ -209,16 +180,16 @@ namespace Org.OpenAPITools.Model
         {
             writer.WriteStartObject();
 
-            if (fruit.AppleOption.IsSet && fruit.AppleOption.Value != null)
+            if (fruit.Apple != null)
             {
-                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.AppleOption.Value.GetType()));
-                AppleJsonConverter.WriteProperties(ref writer, fruit.AppleOption.Value, jsonSerializerOptions);
+                AppleJsonConverter AppleJsonConverter = (AppleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Apple.GetType()));
+                AppleJsonConverter.WriteProperties(ref writer, fruit.Apple, jsonSerializerOptions);
             }
 
-            if (fruit.BananaOption.IsSet && fruit.BananaOption.Value != null)
+            if (fruit.Banana != null)
             {
-                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.BananaOption.Value.GetType()));
-                BananaJsonConverter.WriteProperties(ref writer, fruit.BananaOption.Value, jsonSerializerOptions);
+                BananaJsonConverter BananaJsonConverter = (BananaJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(fruit.Banana.GetType()));
+                BananaJsonConverter.WriteProperties(ref writer, fruit.Banana, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, fruit, jsonSerializerOptions);
@@ -234,11 +205,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fruit.ColorOption.IsSet && fruit.Color == null)
-                throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
-
-            if (fruit.ColorOption.IsSet)
-                writer.WriteString("color", fruit.Color);
+            writer.WriteString("color", fruit.Color);
         }
     }
 }

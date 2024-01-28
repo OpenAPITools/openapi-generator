@@ -17,10 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, StrictStr
+
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
-from typing_extensions import Self
+from pydantic import BaseModel, StrictStr
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class AdditionalPropertiesClass(BaseModel):
     """
@@ -33,8 +36,7 @@ class AdditionalPropertiesClass(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
@@ -48,7 +50,7 @@ class AdditionalPropertiesClass(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of AdditionalPropertiesClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -63,13 +65,11 @@ class AdditionalPropertiesClass(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
-            "additional_properties",
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+                "additional_properties",
+            },
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -80,7 +80,7 @@ class AdditionalPropertiesClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of AdditionalPropertiesClass from a dict"""
         if obj is None:
             return None

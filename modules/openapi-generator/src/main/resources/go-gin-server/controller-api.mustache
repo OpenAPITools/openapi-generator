@@ -7,18 +7,12 @@ import (
 )
 
 type {{classname}} struct {
-}
-
 {{#operation}}
-// {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}{{#summary}}
-// {{{.}}} {{/summary}}
+	// {{httpMethod}} {{{basePathWithoutHost}}}{{{path}}}
+	// {{{summary}}}
 {{#isDeprecated}}
-// Deprecated
+	// Deprecated
 {{/isDeprecated}}
-func (api *{{classname}}) {{nickname}}(c *gin.Context) {
-	// Your handler implementation
-	c.JSON(200, gin.H{"status": "OK"})
-}
-
+	{{nickname}} gin.HandlerFunc
 {{/operation}}
-{{/operations}}
+}{{/operations}}

@@ -13,7 +13,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -144,11 +143,7 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 
 // FindPetsByStatus - Finds Pets by status
 func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
+	query := r.URL.Query()
 	var statusParam []string
 	if query.Has("status") {
 		statusParam = strings.Split(query.Get("status"), ",")
@@ -166,11 +161,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 // FindPetsByTags - Finds Pets by tags
 // Deprecated
 func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
+	query := r.URL.Query()
 	var tagsParam []string
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")
@@ -279,15 +270,10 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-	var fileParam *os.File
-	{
-		param, err := ReadFormFileToTempFile(r, "file")
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		fileParam = param
+	fileParam, err := ReadFormFileToTempFile(r, "file")
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
 	
 	

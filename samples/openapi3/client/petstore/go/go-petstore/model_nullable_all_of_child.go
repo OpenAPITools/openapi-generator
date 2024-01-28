@@ -95,10 +95,10 @@ func (o NullableAllOfChild) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NullableAllOfChild) UnmarshalJSON(data []byte) (err error) {
+func (o *NullableAllOfChild) UnmarshalJSON(bytes []byte) (err error) {
 	varNullableAllOfChild := _NullableAllOfChild{}
 
-	err = json.Unmarshal(data, &varNullableAllOfChild)
+	err = json.Unmarshal(bytes, &varNullableAllOfChild)
 
 	if err != nil {
 		return err
@@ -108,7 +108,7 @@ func (o *NullableAllOfChild) UnmarshalJSON(data []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "name")
 		o.AdditionalProperties = additionalProperties
 	}

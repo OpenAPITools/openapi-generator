@@ -15,13 +15,11 @@ module.exports = {
             {
                 key: `${keyPrefix}name`,
                 label: `[${labelPrefix}name]`,
-                required: true,
                 type: 'string',
             },
             {
                 key: `${keyPrefix}photoUrls`,
                 label: `[${labelPrefix}photoUrls]`,
-                required: true,
                 list: true,
                 type: 'string',
             },

@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,27 +35,20 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public NullableGuidClass(Option<Guid?> uuid = default)
+        public NullableGuidClass(Guid? uuid = default)
         {
-            UuidOption = uuid;
+            Uuid = uuid;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Uuid
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Guid?> UuidOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
+        public Guid? Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +103,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Guid?> uuid = default;
+            Guid? uuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -130,7 +122,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                uuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                                uuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -165,11 +157,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, NullableGuidClass nullableGuidClass, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (nullableGuidClass.UuidOption.IsSet)
-                if (nullableGuidClass.UuidOption.Value != null)
-                    writer.WriteString("uuid", nullableGuidClass.UuidOption.Value!.Value);
-                else
-                    writer.WriteNull("uuid");
+
+            if (nullableGuidClass.Uuid == null)
+                writer.WriteNull("uuid");
+            else
+                writer.WriteString("uuid", nullableGuidClass.Uuid.Value);
         }
     }
 }

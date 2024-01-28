@@ -14,9 +14,6 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-/**
-* Represents a collection of functions to interact with the API endpoints.
-*/
 @Path("/store")
 @Api(description = "the store API")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")

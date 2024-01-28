@@ -1,9 +1,0 @@
-# for csharp generichost
-generatorName: csharp
-outputDir: samples/client/petstore/csharp/OpenAPIClient-generichost-net7.0-useDateTimeForDate
-inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/dates-api.yaml
-library: generichost
-templateDir: modules/openapi-generator/src/main/resources/csharp
-additionalProperties:
-  packageGuid: '{2E60EF87-DB0B-4D01-A36E-F5E90F7EC757}'
-  useDateTimeForDate: true

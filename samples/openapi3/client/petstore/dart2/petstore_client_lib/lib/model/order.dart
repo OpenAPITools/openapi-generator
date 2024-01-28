@@ -201,13 +201,13 @@ class OrderStatusEnum {
 
   static const placed = OrderStatusEnum._(r'placed');
   static const approved = OrderStatusEnum._(r'approved');
-  static const shipped = OrderStatusEnum._(r'delivered');
+  static const delivered = OrderStatusEnum._(r'delivered');
 
   /// List of all possible values in this [enum][OrderStatusEnum].
   static const values = <OrderStatusEnum>[
     placed,
     approved,
-    shipped,
+    delivered,
   ];
 
   static OrderStatusEnum? fromJson(dynamic value) => OrderStatusEnumTypeTransformer().decode(value);
@@ -248,7 +248,7 @@ class OrderStatusEnumTypeTransformer {
       switch (data) {
         case r'placed': return OrderStatusEnum.placed;
         case r'approved': return OrderStatusEnum.approved;
-        case r'delivered': return OrderStatusEnum.shipped;
+        case r'delivered': return OrderStatusEnum.delivered;
         default:
           if (!allowNull) {
             throw ArgumentError('Unknown enum value to decode: $data');

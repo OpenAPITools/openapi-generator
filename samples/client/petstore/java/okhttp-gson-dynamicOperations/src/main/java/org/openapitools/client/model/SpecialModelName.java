@@ -59,6 +59,7 @@ public class SpecialModelName {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -71,6 +72,7 @@ public class SpecialModelName {
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
 
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;

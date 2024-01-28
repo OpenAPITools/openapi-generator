@@ -110,13 +110,14 @@ namespace Org.OpenAPITools.Client
             const string HEADER_AUTHORIZATION = "Authorization";
 
             //Read the api key from the file
-            if(File.Exists(KeyFilePath))
+            if(string.IsNullOrEmpty(this.KeyString))
             {
                 this.KeyString = ReadApiKeyFromFile(KeyFilePath);
             }
-            else if(string.IsNullOrEmpty(KeyString))
+
+            if(string.IsNullOrEmpty(KeyString))
             {
-                throw new Exception("No API key has been provided. Supply it using either KeyFilePath or KeyString");
+                throw new Exception("No API key has been provided.");
             }
 
             //Hash table to store singed headers
@@ -324,10 +325,6 @@ namespace Org.OpenAPITools.Client
 
         private string GetRSASignature(byte[] stringToSign)
         {
-            if (string.IsNullOrEmpty(KeyString))
-            {
-                throw new Exception("No API key has been provided.");
-            }
             RSA rsa = GetRSAProviderFromPemFile(KeyString, KeyPassPhrase);
             if (SigningAlgorithm == "RSASSA-PSS")
             {
@@ -415,11 +412,6 @@ namespace Org.OpenAPITools.Client
 
         private  RSACryptoServiceProvider GetRSAProviderFromPemFile(string keyString, SecureString keyPassPhrase = null)
         {
-            if (string.IsNullOrEmpty(KeyString))
-            {
-                throw new Exception("No API key has been provided.");
-            }
-
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";
             bool isPrivateKeyFile = true;

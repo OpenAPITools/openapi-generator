@@ -42,14 +42,14 @@ namespace UseSourceGeneration.Model
         /// <param name="status">pet status in the store</param>
         /// <param name="tags">tags</param>
         [JsonConstructor]
-        public Pet(string name, List<string> photoUrls, Option<Category?> category = default, Option<long?> id = default, Option<StatusEnum?> status = default, Option<List<Tag>?> tags = default)
+        public Pet(string name, List<string> photoUrls, Category category, long id, StatusEnum status, List<Tag> tags)
         {
             Name = name;
             PhotoUrls = photoUrls;
-            CategoryOption = category;
-            IdOption = id;
-            StatusOption = status;
-            TagsOption = tags;
+            Category = category;
+            Id = id;
+            Status = status;
+            Tags = tags;
             OnCreated();
         }
 
@@ -122,8 +122,9 @@ namespace UseSourceGeneration.Model
         /// <param name="value"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static string StatusEnumToJsonValue(StatusEnum? value)
+        public static string StatusEnumToJsonValue(StatusEnum value)
         {
+
             if (value == StatusEnum.Available)
                 return "available";
 
@@ -137,18 +138,11 @@ namespace UseSourceGeneration.Model
         }
 
         /// <summary>
-        /// Used to track the state of Status
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<StatusEnum?> StatusOption { get; private set; }
-
-        /// <summary>
         /// pet status in the store
         /// </summary>
         /// <value>pet status in the store</value>
         [JsonPropertyName("status")]
-        public StatusEnum? Status { get { return this.StatusOption; } set { this.StatusOption = new(value); } }
+        public StatusEnum Status { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -164,43 +158,22 @@ namespace UseSourceGeneration.Model
         public List<string> PhotoUrls { get; set; }
 
         /// <summary>
-        /// Used to track the state of Category
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Category?> CategoryOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get { return this. CategoryOption; } set { this.CategoryOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Id
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<long?> IdOption { get; private set; }
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Tags
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<Tag>?> TagsOption { get; private set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get { return this. TagsOption; } set { this.TagsOption = new(value); } }
+        public List<Tag> Tags { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -232,7 +205,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -260,12 +233,12 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> name = default;
-            Option<List<string>?> photoUrls = default;
-            Option<Category?> category = default;
-            Option<long?> id = default;
-            Option<Pet.StatusEnum?> status = default;
-            Option<List<Tag>?> tags = default;
+            string? name = default;
+            List<string>? photoUrls = default;
+            Category? category = default;
+            long? id = default;
+            Pet.StatusEnum? status = default;
+            List<Tag>? tags = default;
 
             while (utf8JsonReader.Read())
             {
@@ -283,28 +256,29 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            name = utf8JsonReader.GetString();
                             break;
                         case "photoUrls":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                photoUrls = new Option<List<string>?>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                photoUrls = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "category":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                category = new Option<Category?>(JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                category = JsonSerializer.Deserialize<Category>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "status":
                             string? statusRawValue = utf8JsonReader.GetString();
-                            if (statusRawValue != null)
-                                status = new Option<Pet.StatusEnum?>(Pet.StatusEnumFromStringOrDefault(statusRawValue));
+                            status = statusRawValue == null
+                                ? null
+                                : Pet.StatusEnumFromStringOrDefault(statusRawValue);
                             break;
                         case "tags":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                tags = new Option<List<Tag>?>(JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                tags = JsonSerializer.Deserialize<List<Tag>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -312,31 +286,25 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!name.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(name));
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Pet.");
 
-            if (!photoUrls.IsSet)
-                throw new ArgumentException("Property is required for class Pet.", nameof(photoUrls));
+            if (photoUrls == null)
+                throw new ArgumentNullException(nameof(photoUrls), "Property is required for class Pet.");
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Pet.");
+            if (category == null)
+                throw new ArgumentNullException(nameof(category), "Property is required for class Pet.");
 
-            if (photoUrls.IsSet && photoUrls.Value == null)
-                throw new ArgumentNullException(nameof(photoUrls), "Property is not nullable for class Pet.");
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Pet.");
 
-            if (category.IsSet && category.Value == null)
-                throw new ArgumentNullException(nameof(category), "Property is not nullable for class Pet.");
+            if (status == null)
+                throw new ArgumentNullException(nameof(status), "Property is required for class Pet.");
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Pet.");
+            if (tags == null)
+                throw new ArgumentNullException(nameof(tags), "Property is required for class Pet.");
 
-            if (status.IsSet && status.Value == null)
-                throw new ArgumentNullException(nameof(status), "Property is not nullable for class Pet.");
-
-            if (tags.IsSet && tags.Value == null)
-                throw new ArgumentNullException(nameof(tags), "Property is not nullable for class Pet.");
-
-            return new Pet(name.Value!, photoUrls.Value!, category, id, status, tags);
+            return new Pet(name, photoUrls, category, id.Value, status.Value, tags);
         }
 
         /// <summary>
@@ -363,37 +331,21 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pet pet, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pet.Name == null)
-                throw new ArgumentNullException(nameof(pet.Name), "Property is required for class Pet.");
-
-            if (pet.PhotoUrls == null)
-                throw new ArgumentNullException(nameof(pet.PhotoUrls), "Property is required for class Pet.");
-
-            if (pet.CategoryOption.IsSet && pet.Category == null)
-                throw new ArgumentNullException(nameof(pet.Category), "Property is required for class Pet.");
-
-            if (pet.TagsOption.IsSet && pet.Tags == null)
-                throw new ArgumentNullException(nameof(pet.Tags), "Property is required for class Pet.");
-
             writer.WriteString("name", pet.Name);
-
             writer.WritePropertyName("photoUrls");
             JsonSerializer.Serialize(writer, pet.PhotoUrls, jsonSerializerOptions);
-            if (pet.CategoryOption.IsSet)
-            {
-                writer.WritePropertyName("category");
-                JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
-            }
-            if (pet.IdOption.IsSet)
-                writer.WriteNumber("id", pet.IdOption.Value!.Value);
+            writer.WritePropertyName("category");
+            JsonSerializer.Serialize(writer, pet.Category, jsonSerializerOptions);
+            writer.WriteNumber("id", pet.Id);
 
-            var statusRawValue = Pet.StatusEnumToJsonValue(pet.StatusOption.Value!.Value);
-            writer.WriteString("status", statusRawValue);
-            if (pet.TagsOption.IsSet)
-            {
-                writer.WritePropertyName("tags");
-                JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
-            }
+            var statusRawValue = Pet.StatusEnumToJsonValue(pet.Status);
+            if (statusRawValue != null)
+                writer.WriteString("status", statusRawValue);
+            else
+                writer.WriteNull("status");
+
+            writer.WritePropertyName("tags");
+            JsonSerializer.Serialize(writer, pet.Tags, jsonSerializerOptions);
         }
     }
 

@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -96,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -106,7 +105,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -134,7 +133,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> shapeType = default;
+            string shapeType = default;
 
             Quadrilateral quadrilateral = null;
             Triangle triangle = null;
@@ -185,7 +184,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = new Option<string>(utf8JsonReader.GetString());
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -193,17 +192,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ShapeOrNull.", nameof(shapeType));
-
-            if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeOrNull.");
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeOrNull.");
 
             if (quadrilateral != null)
-                return new ShapeOrNull(quadrilateral, shapeType.Value);
+                return new ShapeOrNull(quadrilateral, shapeType);
 
             if (triangle != null)
-                return new ShapeOrNull(triangle, shapeType.Value);
+                return new ShapeOrNull(triangle, shapeType);
 
             throw new JsonException();
         }
@@ -242,9 +238,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeOrNull shapeOrNull, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shapeOrNull.ShapeType == null)
-                throw new ArgumentNullException(nameof(shapeOrNull.ShapeType), "Property is required for class ShapeOrNull.");
-
             writer.WriteString("shapeType", shapeOrNull.ShapeType);
         }
     }

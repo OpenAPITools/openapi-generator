@@ -85,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -113,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> shapeType = default;
-            Option<string?> triangleType = default;
+            string? shapeType = default;
+            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -132,10 +132,10 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         case "triangleType":
-                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
+                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -143,19 +143,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(shapeType));
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ScaleneTriangle.");
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class ScaleneTriangle.", nameof(triangleType));
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class ScaleneTriangle.");
 
-            if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ScaleneTriangle.");
-
-            if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class ScaleneTriangle.");
-
-            return new ScaleneTriangle(shapeType.Value!, triangleType.Value!);
+            return new ScaleneTriangle(shapeType, triangleType);
         }
 
         /// <summary>
@@ -182,14 +176,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ScaleneTriangle scaleneTriangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (scaleneTriangle.ShapeType == null)
-                throw new ArgumentNullException(nameof(scaleneTriangle.ShapeType), "Property is required for class ScaleneTriangle.");
-
-            if (scaleneTriangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(scaleneTriangle.TriangleType), "Property is required for class ScaleneTriangle.");
-
             writer.WriteString("shapeType", scaleneTriangle.ShapeType);
-
             writer.WriteString("triangleType", scaleneTriangle.TriangleType);
         }
     }

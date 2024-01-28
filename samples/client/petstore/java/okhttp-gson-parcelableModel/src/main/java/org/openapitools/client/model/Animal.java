@@ -66,6 +66,7 @@ public class Animal implements Parcelable {
   }
 
   public Animal className(String className) {
+    
     this.className = className;
     return this;
   }
@@ -79,12 +80,14 @@ public class Animal implements Parcelable {
     return className;
   }
 
+
   public void setClassName(String className) {
     this.className = className;
   }
 
 
   public Animal color(String color) {
+    
     this.color = color;
     return this;
   }
@@ -97,6 +100,7 @@ public class Animal implements Parcelable {
   public String getColor() {
     return color;
   }
+
 
   public void setColor(String color) {
     this.color = color;

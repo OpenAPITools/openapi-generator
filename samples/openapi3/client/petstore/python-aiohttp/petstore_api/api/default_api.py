@@ -11,14 +11,21 @@
     Do not edit the class manually.
 """  # noqa: E501
 
+
+import io
 import warnings
+
 from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-from typing import Any, Dict, List, Optional, Tuple, Union
-from typing_extensions import Annotated
+from typing import Dict, List, Optional, Tuple, Union, Any
+
+try:
+    from typing import Annotated
+except ImportError:
+    from typing_extensions import Annotated
 
 from petstore_api.models.foo_get_default_response import FooGetDefaultResponse
 
-from petstore_api.api_client import ApiClient, RequestSerialized
+from petstore_api.api_client import ApiClient
 from petstore_api.api_response import ApiResponse
 from petstore_api.rest import RESTResponseType
 
@@ -85,6 +92,8 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            
+            
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -146,6 +155,8 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            
+            
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -207,6 +218,8 @@ class DefaultApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            
+            
         }
         response_data = await self.api_client.call_api(
             *_param,
@@ -221,11 +234,12 @@ class DefaultApi:
         _content_type,
         _headers,
         _host_index,
-    ) -> RequestSerialized:
+    ) -> Tuple:
 
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            
         }
 
         _path_params: Dict[str, str] = {}

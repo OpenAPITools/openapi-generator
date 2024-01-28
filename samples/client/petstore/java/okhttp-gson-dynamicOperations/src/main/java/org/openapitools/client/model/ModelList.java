@@ -59,6 +59,7 @@ public class ModelList {
   }
 
   public ModelList _123list(String _123list) {
+    
     this._123list = _123list;
     return this;
   }
@@ -71,6 +72,7 @@ public class ModelList {
   public String get123list() {
     return _123list;
   }
+
 
   public void set123list(String _123list) {
     this._123list = _123list;

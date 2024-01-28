@@ -63,7 +63,6 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Invoke-PSFakeOuterNumberSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *PSFakeApi* | [**Invoke-PSFakeOuterStringSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *PSFakeApi* | [**Get-PSArrayOfEnums**](docs/PSFakeApi.md#Get-PSArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
-*PSFakeApi* | [**Test-PSAdditionalPropertiesReference**](docs/PSFakeApi.md#Test-PSAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *PSFakeApi* | [**Test-PSBodyWithFileSchema**](docs/PSFakeApi.md#Test-PSBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *PSFakeApi* | [**Test-PSBodyWithQueryParams**](docs/PSFakeApi.md#Test-PSBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *PSFakeApi* | [**Test-PSClientModel**](docs/PSFakeApi.md#Test-PSClientModel) | **PATCH** /fake | To test ""client"" model
@@ -197,7 +196,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key_name
+- **API key parameter name**: api_key
 - **Location**: HTTP header
 
 <a id="api_key_query"></a>
@@ -205,7 +204,7 @@ Authentication schemes defined for the API:
 
 - **Type**: API key
 
-- **API key parameter name**: api_key_query_name
+- **API key parameter name**: api_key_query
 - **Location**: URL query string
 
 <a id="http_basic_test"></a>

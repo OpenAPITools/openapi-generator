@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -37,40 +36,26 @@ namespace Org.OpenAPITools.Model
         /// <param name="bar">bar</param>
         /// <param name="baz">baz</param>
         [JsonConstructor]
-        public ReadOnlyFirst(Option<string?> bar = default, Option<string?> baz = default)
+        public ReadOnlyFirst(string bar, string baz)
         {
-            BarOption = bar;
-            BazOption = baz;
+            Bar = bar;
+            Baz = baz;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Bar
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> BarOption { get; }
-
-        /// <summary>
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } }
-
-        /// <summary>
-        /// Used to track the state of Baz
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> BazOption { get; private set; }
+        public string Bar { get; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string? Baz { get { return this. BazOption; } set { this.BazOption = new(value); } }
+        public string Baz { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -122,9 +107,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (Bar != null)
-                    hashCode = (hashCode * 59) + Bar.GetHashCode();
-
+                hashCode = (hashCode * 59) + Bar.GetHashCode();
                 hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
 
                 return hashCode;
@@ -136,7 +119,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -164,8 +147,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> bar = default;
-            Option<string?> baz = default;
+            string? bar = default;
+            string? baz = default;
 
             while (utf8JsonReader.Read())
             {
@@ -183,10 +166,10 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "bar":
-                            bar = new Option<string?>(utf8JsonReader.GetString()!);
+                            bar = utf8JsonReader.GetString();
                             break;
                         case "baz":
-                            baz = new Option<string?>(utf8JsonReader.GetString()!);
+                            baz = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -194,11 +177,11 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (bar.IsSet && bar.Value == null)
-                throw new ArgumentNullException(nameof(bar), "Property is not nullable for class ReadOnlyFirst.");
+            if (bar == null)
+                throw new ArgumentNullException(nameof(bar), "Property is required for class ReadOnlyFirst.");
 
-            if (baz.IsSet && baz.Value == null)
-                throw new ArgumentNullException(nameof(baz), "Property is not nullable for class ReadOnlyFirst.");
+            if (baz == null)
+                throw new ArgumentNullException(nameof(baz), "Property is required for class ReadOnlyFirst.");
 
             return new ReadOnlyFirst(bar, baz);
         }
@@ -227,17 +210,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ReadOnlyFirst readOnlyFirst, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (readOnlyFirst.BarOption.IsSet && readOnlyFirst.Bar == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Bar), "Property is required for class ReadOnlyFirst.");
-
-            if (readOnlyFirst.BazOption.IsSet && readOnlyFirst.Baz == null)
-                throw new ArgumentNullException(nameof(readOnlyFirst.Baz), "Property is required for class ReadOnlyFirst.");
-
-            if (readOnlyFirst.BarOption.IsSet)
-                writer.WriteString("bar", readOnlyFirst.Bar);
-
-            if (readOnlyFirst.BazOption.IsSet)
-                writer.WriteString("baz", readOnlyFirst.Baz);
+            writer.WriteString("bar", readOnlyFirst.Bar);
+            writer.WriteString("baz", readOnlyFirst.Baz);
         }
     }
 }

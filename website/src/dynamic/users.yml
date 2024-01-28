@@ -114,11 +114,6 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
-  caption: Carlsberg Group
-  image: "img/companies/carlsberggroup.png"
-  infoLink: "https://www.carlsberggroup.com/"
-  pinned: false
--
   caption: Cisco 
   image: "img/companies/cisco.png"
   infoLink: "https://www.cisco.com"
@@ -409,11 +404,6 @@
   infoLink: "https://www.paxos.com/"
   pinned: false
 -
-  caption: "Passgenau Digital"
-  image: "img/companies/passgenau_digital.svg"
-  infoLink: "https://passgenau.digital/en"
-  pinned: false
--
   caption: "PLAID, Inc."
   image: "img/companies/plaidcojp.jpg"
   infoLink: "https://plaid.co.jp/"
@@ -487,11 +477,6 @@
   caption: "REST United"
   image: "img/companies/rest-united.png"
   infoLink: "https://restunited.com/"
-  pinned: false
--
-  caption: Robocorp
-  image: "img/companies/robocorp.svg"
-  infoLink: "https://www.robocorp.com"
   pinned: false
 -
   caption: "Shotstack"
@@ -607,11 +592,6 @@
   caption: wbt-solutions
   image: "img/companies/wbt_solutions.png"
   infoLink: "https://www.wbt-solutions.de/"
-  pinned: false
--
-  caption: we-make.ai
-  image: "img/companies/wemakeai.svg"
-  infoLink: "https://we-make.ai/"
   pinned: false
 -
   caption: Woleet

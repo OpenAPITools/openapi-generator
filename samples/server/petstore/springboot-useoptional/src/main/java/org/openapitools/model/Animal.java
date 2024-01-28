@@ -38,7 +38,7 @@ public class Animal {
 
   private String className;
 
-  private Optional<String> color = Optional.of("red");
+  private String color = "red";
 
   public Animal() {
     super();
@@ -72,7 +72,7 @@ public class Animal {
   }
 
   public Animal color(String color) {
-    this.color = Optional.of(color);
+    this.color = color;
     return this;
   }
 
@@ -83,11 +83,11 @@ public class Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("color")
-  public Optional<String> getColor() {
+  public String getColor() {
     return color;
   }
 
-  public void setColor(Optional<String> color) {
+  public void setColor(String color) {
     this.color = color;
   }
 

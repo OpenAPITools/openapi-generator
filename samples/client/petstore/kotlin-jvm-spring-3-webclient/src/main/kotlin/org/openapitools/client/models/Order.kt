@@ -16,7 +16,6 @@
 package org.openapitools.client.models
 
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -63,7 +62,7 @@ data class Order (
         @JsonProperty(value = "placed") placed("placed"),
         @JsonProperty(value = "approved") approved("approved"),
         @JsonProperty(value = "delivered") delivered("delivered"),
-        @JsonProperty(value = "unknown_default_open_api") @JsonEnumDefaultValue unknownDefaultOpenApi("unknown_default_open_api");
+        @JsonProperty(value = "unknown_default_open_api") unknownDefaultOpenApi("unknown_default_open_api");
     }
 }
 

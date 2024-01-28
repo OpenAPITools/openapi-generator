@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -73,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -83,7 +82,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +110,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string> petType = default;
+            string petType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "pet_type":
-                            petType = new Option<string>(utf8JsonReader.GetString());
+                            petType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -137,13 +136,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!petType.IsSet)
-                throw new ArgumentException("Property is required for class GrandparentAnimal.", nameof(petType));
+            if (petType == null)
+                throw new ArgumentNullException(nameof(petType), "Property is required for class GrandparentAnimal.");
 
-            if (petType.IsSet && petType.Value == null)
-                throw new ArgumentNullException(nameof(petType), "Property is not nullable for class GrandparentAnimal.");
-
-            return new GrandparentAnimal(petType.Value);
+            return new GrandparentAnimal(petType);
         }
 
         /// <summary>
@@ -170,9 +166,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, GrandparentAnimal grandparentAnimal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (grandparentAnimal.PetType == null)
-                throw new ArgumentNullException(nameof(grandparentAnimal.PetType), "Property is required for class GrandparentAnimal.");
-
             writer.WriteString("pet_type", grandparentAnimal.PetType);
         }
     }

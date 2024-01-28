@@ -1,0 +1,115 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting tox
+  Downloading tox-4.4.12-py3-none-any.whl (148 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 149.0/149.0 KB 3.0 MB/s eta 0:00:00
+Collecting flake8
+  Downloading flake8-6.0.0-py2.py3-none-any.whl (57 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57.8/57.8 KB 10.7 MB/s eta 0:00:00
+Collecting chardet>=5.1
+  Downloading chardet-5.1.0-py3-none-any.whl (199 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 199.1/199.1 KB 8.7 MB/s eta 0:00:00
+Collecting tomli>=2.0.1
+  Downloading tomli-2.0.1-py3-none-any.whl (12 kB)
+Collecting filelock>=3.11
+  Downloading filelock-3.12.0-py3-none-any.whl (10 kB)
+Collecting platformdirs>=3.2
+  Downloading platformdirs-3.2.0-py3-none-any.whl (14 kB)
+Collecting pyproject-api>=1.5.1
+  Downloading pyproject_api-1.5.1-py3-none-any.whl (12 kB)
+Collecting packaging>=23
+  Downloading packaging-23.1-py3-none-any.whl (48 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 48.9/48.9 KB 6.8 MB/s eta 0:00:00
+Collecting pluggy>=1
+  Downloading pluggy-1.0.0-py2.py3-none-any.whl (13 kB)
+Collecting virtualenv>=20.21
+  Downloading virtualenv-20.22.0-py3-none-any.whl (3.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.2/3.2 MB 14.5 MB/s eta 0:00:00
+Collecting colorama>=0.4.6
+  Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting cachetools>=5.3
+  Downloading cachetools-5.3.0-py3-none-any.whl (9.3 kB)
+Collecting mccabe<0.8.0,>=0.7.0
+  Downloading mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+Collecting pycodestyle<2.11.0,>=2.10.0
+  Downloading pycodestyle-2.10.0-py2.py3-none-any.whl (41 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 41.3/41.3 KB 5.0 MB/s eta 0:00:00
+Collecting pyflakes<3.1.0,>=3.0.0
+  Downloading pyflakes-3.0.1-py2.py3-none-any.whl (62 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 62.8/62.8 KB 14.3 MB/s eta 0:00:00
+Requirement already satisfied: distlib<1,>=0.3.6 in /home/robbert/.local/lib/python3.10/site-packages (from virtualenv>=20.21->tox->-r dev-requirements.txt (line 1)) (0.3.6)
+Installing collected packages: tomli, pyflakes, pycodestyle, pluggy, platformdirs, packaging, mccabe, filelock, colorama, chardet, cachetools, virtualenv, pyproject-api, flake8, tox
+  Attempting uninstall: filelock
+    Found existing installation: filelock 3.10.4
+    Uninstalling filelock-3.10.4:
+      Successfully uninstalled filelock-3.10.4
+  Attempting uninstall: virtualenv
+    Found existing installation: virtualenv 20.4.2
+    Uninstalling virtualenv-20.4.2:
+      Successfully uninstalled virtualenv-20.4.2
+Successfully installed cachetools-5.3.0 chardet-5.1.0 colorama-0.4.6 filelock-3.12.0 flake8-6.0.0 mccabe-0.7.0 packaging-23.1 platformdirs-3.2.0 pluggy-1.0.0 pycodestyle-2.10.0 pyflakes-3.0.1 pyproject-api-1.5.1 tomli-2.0.1 tox-4.4.12 virtualenv-20.22.0
+Collecting tox (from -r dev-requirements.txt (line 1))
+  Using cached tox-4.4.12-py3-none-any.whl (148 kB)
+Collecting flake8 (from -r dev-requirements.txt (line 2))
+  Using cached flake8-6.0.0-py2.py3-none-any.whl (57 kB)
+Collecting cachetools>=5.3 (from tox->-r dev-requirements.txt (line 1))
+  Using cached cachetools-5.3.0-py3-none-any.whl (9.3 kB)
+Collecting chardet>=5.1 (from tox->-r dev-requirements.txt (line 1))
+  Using cached chardet-5.1.0-py3-none-any.whl (199 kB)
+Collecting colorama>=0.4.6 (from tox->-r dev-requirements.txt (line 1))
+  Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting filelock>=3.11 (from tox->-r dev-requirements.txt (line 1))
+  Using cached filelock-3.12.0-py3-none-any.whl (10 kB)
+Collecting packaging>=23 (from tox->-r dev-requirements.txt (line 1))
+  Using cached packaging-23.1-py3-none-any.whl (48 kB)
+Collecting platformdirs>=3.2 (from tox->-r dev-requirements.txt (line 1))
+  Using cached platformdirs-3.2.0-py3-none-any.whl (14 kB)
+Collecting pluggy>=1 (from tox->-r dev-requirements.txt (line 1))
+  Using cached pluggy-1.0.0-py2.py3-none-any.whl (13 kB)
+Collecting pyproject-api>=1.5.1 (from tox->-r dev-requirements.txt (line 1))
+  Using cached pyproject_api-1.5.1-py3-none-any.whl (12 kB)
+Collecting tomli>=2.0.1 (from tox->-r dev-requirements.txt (line 1))
+  Using cached tomli-2.0.1-py3-none-any.whl (12 kB)
+Collecting virtualenv>=20.21 (from tox->-r dev-requirements.txt (line 1))
+  Using cached virtualenv-20.22.0-py3-none-any.whl (3.2 MB)
+Collecting mccabe<0.8.0,>=0.7.0 (from flake8->-r dev-requirements.txt (line 2))
+  Using cached mccabe-0.7.0-py2.py3-none-any.whl (7.3 kB)
+Collecting pycodestyle<2.11.0,>=2.10.0 (from flake8->-r dev-requirements.txt (line 2))
+  Using cached pycodestyle-2.10.0-py2.py3-none-any.whl (41 kB)
+Collecting pyflakes<3.1.0,>=3.0.0 (from flake8->-r dev-requirements.txt (line 2))
+  Using cached pyflakes-3.0.1-py2.py3-none-any.whl (62 kB)
+Collecting distlib<1,>=0.3.6 (from virtualenv>=20.21->tox->-r dev-requirements.txt (line 1))
+  Using cached distlib-0.3.6-py2.py3-none-any.whl (468 kB)
+Installing collected packages: distlib, tomli, pyflakes, pycodestyle, pluggy, platformdirs, packaging, mccabe, filelock, colorama, chardet, cachetools, virtualenv, pyproject-api, flake8, tox
+Successfully installed cachetools-5.3.0 chardet-5.1.0 colorama-0.4.6 distlib-0.3.6 filelock-3.12.0 flake8-6.0.0 mccabe-0.7.0 packaging-23.1 platformdirs-3.2.0 pluggy-1.0.0 pycodestyle-2.10.0 pyflakes-3.0.1 pyproject-api-1.5.1 tomli-2.0.1 tox-4.4.12 virtualenv-20.22.0
+Requirement already satisfied: tox in ./venv/lib/python3.10/site-packages (from -r dev-requirements.txt (line 1)) (4.4.12)
+Requirement already satisfied: flake8 in ./venv/lib/python3.10/site-packages (from -r dev-requirements.txt (line 2)) (6.0.0)
+Requirement already satisfied: cachetools>=5.3 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (5.3.0)
+Requirement already satisfied: chardet>=5.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (5.1.0)
+Requirement already satisfied: colorama>=0.4.6 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (0.4.6)
+Requirement already satisfied: filelock>=3.11 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (3.12.0)
+Requirement already satisfied: packaging>=23 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (23.1)
+Requirement already satisfied: platformdirs>=3.2 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (3.2.0)
+Requirement already satisfied: pluggy>=1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (1.0.0)
+Requirement already satisfied: pyproject-api>=1.5.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (1.5.1)
+Requirement already satisfied: tomli>=2.0.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (2.0.1)
+Requirement already satisfied: virtualenv>=20.21 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (20.22.0)
+Requirement already satisfied: mccabe<0.8.0,>=0.7.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (0.7.0)
+Requirement already satisfied: pycodestyle<2.11.0,>=2.10.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (2.10.0)
+Requirement already satisfied: pyflakes<3.1.0,>=3.0.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (3.0.1)
+Requirement already satisfied: distlib<1,>=0.3.6 in ./venv/lib/python3.10/site-packages (from virtualenv>=20.21->tox->-r dev-requirements.txt (line 1)) (0.3.6)
+Requirement already satisfied: tox in ./venv/lib/python3.10/site-packages (from -r dev-requirements.txt (line 1)) (4.4.12)
+Requirement already satisfied: flake8 in ./venv/lib/python3.10/site-packages (from -r dev-requirements.txt (line 2)) (6.0.0)
+Requirement already satisfied: cachetools>=5.3 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (5.3.0)
+Requirement already satisfied: chardet>=5.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (5.1.0)
+Requirement already satisfied: colorama>=0.4.6 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (0.4.6)
+Requirement already satisfied: filelock>=3.11 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (3.12.0)
+Requirement already satisfied: packaging>=23 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (23.1)
+Requirement already satisfied: platformdirs>=3.2 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (3.2.0)
+Requirement already satisfied: pluggy>=1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (1.0.0)
+Requirement already satisfied: pyproject-api>=1.5.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (1.5.1)
+Requirement already satisfied: tomli>=2.0.1 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (2.0.1)
+Requirement already satisfied: virtualenv>=20.21 in ./venv/lib/python3.10/site-packages (from tox->-r dev-requirements.txt (line 1)) (20.22.0)
+Requirement already satisfied: mccabe<0.8.0,>=0.7.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (0.7.0)
+Requirement already satisfied: pycodestyle<2.11.0,>=2.10.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (2.10.0)
+Requirement already satisfied: pyflakes<3.1.0,>=3.0.0 in ./venv/lib/python3.10/site-packages (from flake8->-r dev-requirements.txt (line 2)) (3.0.1)
+Requirement already satisfied: distlib<1,>=0.3.6 in ./venv/lib/python3.10/site-packages (from virtualenv>=20.21->tox->-r dev-requirements.txt (line 1)) (0.3.6)

@@ -6,4 +6,3 @@ templateDir: modules/openapi-generator/src/main/resources/csharp
 library: unityWebRequest
 additionalProperties:
   targetFramework: netstandard2.0
-  equatable: true

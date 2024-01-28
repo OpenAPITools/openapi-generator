@@ -34,7 +34,7 @@ namespace OpenAPI {
 class OAIApiRequestHandler : public  QHttpEngine::QObjectHandler
 {
     Q_OBJECT
-Q_SIGNALS:
+signals:
     void requestReceived(QHttpEngine::Socket *socket);
 
 protected:
@@ -44,10 +44,10 @@ protected:
         // If the slot requires all data to be received, check to see if this is
         // already the case, otherwise, wait until the rest of it arrives
         if (socket->bytesAvailable() >= socket->contentLength()) {
-            Q_EMIT requestReceived(socket);
+            emit requestReceived(socket);
         } else {
             connect(socket, &QHttpEngine::Socket::readChannelFinished, [this, socket]() {
-                Q_EMIT requestReceived(socket);
+                emit requestReceived(socket);
             });
         }
     }

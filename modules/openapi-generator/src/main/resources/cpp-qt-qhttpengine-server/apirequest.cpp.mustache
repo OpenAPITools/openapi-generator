@@ -108,7 +108,7 @@ void {{classname}}Request::{{nickname}}Request({{#hasPathParams}}{{#pathParams}}
     {{/isArray}}
     {{/bodyParam}}{{/bodyParams}}
 
-    Q_EMIT {{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
+    emit {{nickname}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
 }
 
 {{/operation}}{{/operations}}

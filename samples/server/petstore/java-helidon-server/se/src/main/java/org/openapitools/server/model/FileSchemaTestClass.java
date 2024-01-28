@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ModelFile;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 
 
 public class FileSchemaTestClass   {
 
     private ModelFile _file;
-    private List<@Valid ModelFile> files;
+    private List<ModelFile> files;
 
     /**
      * Default constructor.
@@ -29,7 +27,7 @@ public class FileSchemaTestClass   {
      */
     public FileSchemaTestClass(
         ModelFile _file, 
-        List<@Valid ModelFile> files
+        List<ModelFile> files
     ) {
         this._file = _file;
         this.files = files;
@@ -53,11 +51,11 @@ public class FileSchemaTestClass   {
      * Get files
      * @return files
      */
-    public List<@Valid ModelFile> getFiles() {
+    public List<ModelFile> getFiles() {
         return files;
     }
 
-    public void setFiles(List<@Valid ModelFile> files) {
+    public void setFiles(List<ModelFile> files) {
         this.files = files;
     }
 

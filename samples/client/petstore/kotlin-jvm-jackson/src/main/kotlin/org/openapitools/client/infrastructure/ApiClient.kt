@@ -16,7 +16,6 @@ import retrofit2.Converter
 import retrofit2.CallAdapter
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import com.fasterxml.jackson.databind.ObjectMapper
-import retrofit2.converter.jackson.JacksonConverterFactory
 
 
 class ApiClient(
@@ -28,7 +27,6 @@ class ApiClient(
     ),
     private val converterFactories: List<Converter.Factory> = listOf(
         ScalarsConverterFactory.create(),
-        JacksonConverterFactory.create(serializerBuilder),
     )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()

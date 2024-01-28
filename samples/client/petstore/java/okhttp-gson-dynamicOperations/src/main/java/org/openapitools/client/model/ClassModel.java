@@ -59,6 +59,7 @@ public class ClassModel {
   }
 
   public ClassModel propertyClass(String propertyClass) {
+    
     this.propertyClass = propertyClass;
     return this;
   }
@@ -71,6 +72,7 @@ public class ClassModel {
   public String getPropertyClass() {
     return propertyClass;
   }
+
 
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;

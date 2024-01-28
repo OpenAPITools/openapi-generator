@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,26 +35,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="count">count</param>
         [JsonConstructor]
-        public Banana(Option<decimal?> count = default)
+        public Banana(decimal count)
         {
-            CountOption = count;
+            Count = count;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Count
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<decimal?> CountOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Count
         /// </summary>
         [JsonPropertyName("count")]
-        public decimal? Count { get { return this. CountOption; } set { this.CountOption = new(value); } }
+        public decimal Count { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -82,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -110,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<decimal?> count = default;
+            decimal? count = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "count":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                count = new Option<decimal?>(utf8JsonReader.GetDecimal());
+                                count = utf8JsonReader.GetDecimal();
                             break;
                         default:
                             break;
@@ -137,10 +129,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (count.IsSet && count.Value == null)
-                throw new ArgumentNullException(nameof(count), "Property is not nullable for class Banana.");
+            if (count == null)
+                throw new ArgumentNullException(nameof(count), "Property is required for class Banana.");
 
-            return new Banana(count);
+            return new Banana(count.Value);
         }
 
         /// <summary>
@@ -167,8 +159,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Banana banana, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (banana.CountOption.IsSet)
-                writer.WriteNumber("count", banana.CountOption.Value!.Value);
+            writer.WriteNumber("count", banana.Count);
         }
     }
 }

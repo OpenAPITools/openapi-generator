@@ -63,6 +63,7 @@ public class Bird {
   }
 
   public Bird size(String size) {
+    
     this.size = size;
     return this;
   }
@@ -76,12 +77,14 @@ public class Bird {
     return size;
   }
 
+
   public void setSize(String size) {
     this.size = size;
   }
 
 
   public Bird color(String color) {
+    
     this.color = color;
     return this;
   }
@@ -94,6 +97,7 @@ public class Bird {
   public String getColor() {
     return color;
   }
+
 
   public void setColor(String color) {
     this.color = color;

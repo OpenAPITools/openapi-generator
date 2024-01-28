@@ -62,7 +62,7 @@ public:
 
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
-Q_SIGNALS:
+signals:
     void deleteOrder(QString order_id);
     void getInventory();
     void getOrderById(qint64 order_id);

@@ -37,26 +37,19 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="varClass">varClass</param>
         [JsonConstructor]
-        public ClassModel(Option<string?> varClass = default)
+        public ClassModel(string varClass)
         {
-            VarClassOption = varClass;
+            VarClass = varClass;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of VarClass
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> VarClassOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets VarClass
         /// </summary>
         [JsonPropertyName("_class")]
-        public string? VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } }
+        public string VarClass { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> varClass = default;
+            string? varClass = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "_class":
-                            varClass = new Option<string?>(utf8JsonReader.GetString()!);
+                            varClass = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -137,8 +130,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (varClass.IsSet && varClass.Value == null)
-                throw new ArgumentNullException(nameof(varClass), "Property is not nullable for class ClassModel.");
+            if (varClass == null)
+                throw new ArgumentNullException(nameof(varClass), "Property is required for class ClassModel.");
 
             return new ClassModel(varClass);
         }
@@ -167,11 +160,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (classModel.VarClassOption.IsSet && classModel.VarClass == null)
-                throw new ArgumentNullException(nameof(classModel.VarClass), "Property is required for class ClassModel.");
-
-            if (classModel.VarClassOption.IsSet)
-                writer.WriteString("_class", classModel.VarClass);
+            writer.WriteString("_class", classModel.VarClass);
         }
     }
 

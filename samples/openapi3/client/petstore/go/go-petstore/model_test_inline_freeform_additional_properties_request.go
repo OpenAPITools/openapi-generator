@@ -95,10 +95,10 @@ func (o TestInlineFreeformAdditionalPropertiesRequest) ToMap() (map[string]inter
 	return toSerialize, nil
 }
 
-func (o *TestInlineFreeformAdditionalPropertiesRequest) UnmarshalJSON(data []byte) (err error) {
+func (o *TestInlineFreeformAdditionalPropertiesRequest) UnmarshalJSON(bytes []byte) (err error) {
 	varTestInlineFreeformAdditionalPropertiesRequest := _TestInlineFreeformAdditionalPropertiesRequest{}
 
-	err = json.Unmarshal(data, &varTestInlineFreeformAdditionalPropertiesRequest)
+	err = json.Unmarshal(bytes, &varTestInlineFreeformAdditionalPropertiesRequest)
 
 	if err != nil {
 		return err
@@ -108,7 +108,7 @@ func (o *TestInlineFreeformAdditionalPropertiesRequest) UnmarshalJSON(data []byt
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "someProperty")
 		o.AdditionalProperties = additionalProperties
 	}

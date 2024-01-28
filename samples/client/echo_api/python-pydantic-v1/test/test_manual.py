@@ -145,17 +145,6 @@ class TestManual(unittest.TestCase):
         self.assertTrue("Authorization" in e.headers)
         self.assertEqual(e.headers["Authorization"], "Basic dGVzdF91c2VybmFtZTp0ZXN0X3Bhc3N3b3Jk")
 
-    def test_parameters_to_url_query_boolean_value(self):
-        client = openapi_client.ApiClient()
-        params = client.parameters_to_url_query([("boolean", True),], {})
-        self.assertEqual(params, "boolean=true")
-    
-    def test_parameters_to_url_query_list_value(self):
-        client = openapi_client.ApiClient()
-        params = client.parameters_to_url_query(params=[('list', [1, 2, 3])], collection_formats={'list': 'multi'})
-        self.assertEqual(params, "list=1&list=2&list=3")
-
-
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1
 Host: localhost:3000

@@ -17,11 +17,15 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictStr
+
 from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, StrictStr
+from pydantic import Field
 from petstore_api.models.deprecated_object import DeprecatedObject
-from typing import Optional, Set
-from typing_extensions import Self
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class ObjectWithDeprecatedFields(BaseModel):
     """
@@ -35,8 +39,7 @@ class ObjectWithDeprecatedFields(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
@@ -50,7 +53,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of ObjectWithDeprecatedFields from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -64,12 +67,10 @@ class ObjectWithDeprecatedFields(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+            },
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of deprecated_ref
@@ -78,7 +79,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of ObjectWithDeprecatedFields from a dict"""
         if obj is None:
             return None
@@ -89,7 +90,7 @@ class ObjectWithDeprecatedFields(BaseModel):
         _obj = cls.model_validate({
             "uuid": obj.get("uuid"),
             "id": obj.get("id"),
-            "deprecatedRef": DeprecatedObject.from_dict(obj["deprecatedRef"]) if obj.get("deprecatedRef") is not None else None,
+            "deprecatedRef": DeprecatedObject.from_dict(obj.get("deprecatedRef")) if obj.get("deprecatedRef") is not None else None,
             "bars": obj.get("bars")
         })
         return _obj

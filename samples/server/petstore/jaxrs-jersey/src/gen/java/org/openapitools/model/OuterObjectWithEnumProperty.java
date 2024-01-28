@@ -66,7 +66,7 @@ public class OuterObjectWithEnumProperty   {
       return false;
     }
     OuterObjectWithEnumProperty outerObjectWithEnumProperty = (OuterObjectWithEnumProperty) o;
-    return Objects.equals(this.value, outerObjectWithEnumProperty.value);
+    return Objects.equals(value, outerObjectWithEnumProperty.value);
   }
 
   @Override

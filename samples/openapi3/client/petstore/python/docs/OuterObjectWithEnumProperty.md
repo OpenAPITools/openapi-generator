@@ -2,7 +2,6 @@
 
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **str_value** | [**OuterEnum**](OuterEnum.md) |  | [optional] 

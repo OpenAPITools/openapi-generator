@@ -560,10 +560,10 @@ func (o NullableClass) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NullableClass) UnmarshalJSON(data []byte) (err error) {
+func (o *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
 	varNullableClass := _NullableClass{}
 
-	err = json.Unmarshal(data, &varNullableClass)
+	err = json.Unmarshal(bytes, &varNullableClass)
 
 	if err != nil {
 		return err
@@ -573,7 +573,7 @@ func (o *NullableClass) UnmarshalJSON(data []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "integer_prop")
 		delete(additionalProperties, "number_prop")
 		delete(additionalProperties, "boolean_prop")

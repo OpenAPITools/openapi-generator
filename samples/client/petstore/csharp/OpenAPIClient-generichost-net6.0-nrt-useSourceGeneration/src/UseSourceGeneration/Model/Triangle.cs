@@ -116,7 +116,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -126,7 +126,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -154,7 +154,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> triangleType = default;
+            string? triangleType = default;
 
             EquilateralTriangle? equilateralTriangle = null;
             IsoscelesTriangle? isoscelesTriangle = null;
@@ -211,7 +211,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
+                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -219,20 +219,17 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class Triangle.", nameof(triangleType));
-
-            if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class Triangle.");
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class Triangle.");
 
             if (equilateralTriangle != null)
-                return new Triangle(equilateralTriangle, triangleType.Value!);
+                return new Triangle(equilateralTriangle, triangleType);
 
             if (isoscelesTriangle != null)
-                return new Triangle(isoscelesTriangle, triangleType.Value!);
+                return new Triangle(isoscelesTriangle, triangleType);
 
             if (scaleneTriangle != null)
-                return new Triangle(scaleneTriangle, triangleType.Value!);
+                return new Triangle(scaleneTriangle, triangleType);
 
             throw new JsonException();
         }
@@ -276,9 +273,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Triangle triangle, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangle.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangle.TriangleType), "Property is required for class Triangle.");
-
             writer.WriteString("triangleType", triangle.TriangleType);
         }
     }

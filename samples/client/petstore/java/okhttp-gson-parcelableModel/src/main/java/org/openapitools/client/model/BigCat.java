@@ -103,11 +103,6 @@ public class BigCat extends Cat implements Parcelable {
         return KindEnum.fromValue(value);
       }
     }
-
-    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
-      String value = jsonElement.getAsString();
-      KindEnum.fromValue(value);
-    }
   }
 
   public static final String SERIALIZED_NAME_KIND = "kind";
@@ -120,6 +115,7 @@ public class BigCat extends Cat implements Parcelable {
   }
 
   public BigCat kind(KindEnum kind) {
+    
     this.kind = kind;
     return this;
   }
@@ -132,6 +128,7 @@ public class BigCat extends Cat implements Parcelable {
   public KindEnum getKind() {
     return kind;
   }
+
 
   public void setKind(KindEnum kind) {
     this.kind = kind;

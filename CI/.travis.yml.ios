@@ -1,0 +1,37 @@
+sudo: required
+language: objective-c
+osx_image: xcode10.3
+before_install:
+  - export SW=`pwd`
+  - rvm list
+  #- rvm use 2.3.3
+  - gem environment
+  - gem install bundler -N 
+  - gem install cocoapods -v 1.2.1 -N 
+  - gem install xcpretty -N 
+  - pod --version
+  # comment out below to avoid errors
+  #- pod repo update
+  #- pod setup --silent > /dev/null
+  #- mkdir -p ~/.local/bin
+  #- export PATH=$HOME/.local/bin:$PATH
+  ## start local petstore server
+  #- git clone -b docker --single-branch https://github.com/wing328/swagger-samples
+  #- cd swagger-samples/java/java-jersey-jaxrs
+  #- sudo mvn jetty:run &
+  #- cd $SW
+
+  # show host table to confirm petstore.swagger.io is mapped to localhost
+  - cat /etc/hosts
+  # show java version
+  - java -version
+  # show brew version
+  - brew --version
+  # show xcpretty version
+  - xcpretty -v
+  # show go version
+  - go version
+
+script:
+  # run integration tests defined in maven pom.xml
+  - mvn --no-snapshot-updates -q --batch-mode verify -Psamples.ios -Dmaven.javadoc.skip=true

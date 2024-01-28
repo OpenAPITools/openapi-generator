@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Zebra
     /// </summary>
     [DataContract(Name = "zebra")]
-    public partial class Zebra : IEquatable<Zebra>, IValidatableObject
+    public partial class Zebra : Dictionary<String, Object>, IEquatable<Zebra>, IValidatableObject
     {
         /// <summary>
         /// Defines Type
@@ -69,23 +69,23 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Zebra()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
         /// <param name="type">type.</param>
         /// <param name="className">className (required).</param>
-        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string))
+        public Zebra(TypeEnum? type = default(TypeEnum?), string className = default(string)) : base()
         {
             // to ensure "className" is required (not null)
             if (className == null)
             {
                 throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
             }
-            this.ClassName = className;
-            this.Type = type;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            ClassName = className;
+            Type = type;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -108,6 +108,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Zebra {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
@@ -119,9 +120,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -152,15 +153,12 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                if (this.ClassName != null)
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 59) + Type.GetHashCode();
+				hashCode = (hashCode * 59) + ClassName.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.ClassName.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -171,7 +169,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

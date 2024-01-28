@@ -12,7 +12,6 @@ package petstore
 
 import (
 	"encoding/json"
-	"fmt"
 	"reflect"
 	"strings"
 )
@@ -110,35 +109,14 @@ func (o Cat) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *Cat) UnmarshalJSON(data []byte) (err error) {
-	// This validates that all required properties are included in the JSON object
-	// by unmarshalling the object into a generic map with string keys and checking
-	// that every required field exists as a key in the generic map.
-	requiredProperties := []string{
-		"className",
-	}
-
-	allProperties := make(map[string]interface{})
-
-	err = json.Unmarshal(data, &allProperties)
-
-	if err != nil {
-		return err;
-	}
-
-	for _, requiredProperty := range(requiredProperties) {
-		if _, exists := allProperties[requiredProperty]; !exists {
-			return fmt.Errorf("no value given for required property %v", requiredProperty)
-		}
-	}
-
+func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 	type CatWithoutEmbeddedStruct struct {
 		Declawed *bool `json:"declawed,omitempty"`
 	}
 
 	varCatWithoutEmbeddedStruct := CatWithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(data, &varCatWithoutEmbeddedStruct)
+	err = json.Unmarshal(bytes, &varCatWithoutEmbeddedStruct)
 	if err == nil {
 		varCat := _Cat{}
 		varCat.Declawed = varCatWithoutEmbeddedStruct.Declawed
@@ -149,7 +127,7 @@ func (o *Cat) UnmarshalJSON(data []byte) (err error) {
 
 	varCat := _Cat{}
 
-	err = json.Unmarshal(data, &varCat)
+	err = json.Unmarshal(bytes, &varCat)
 	if err == nil {
 		o.Animal = varCat.Animal
 	} else {
@@ -158,7 +136,7 @@ func (o *Cat) UnmarshalJSON(data []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "declawed")
 
 		// remove fields from embedded structs

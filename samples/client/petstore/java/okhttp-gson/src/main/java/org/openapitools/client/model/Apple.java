@@ -63,6 +63,7 @@ public class Apple {
   }
 
   public Apple cultivar(String cultivar) {
+    
     this.cultivar = cultivar;
     return this;
   }
@@ -76,12 +77,14 @@ public class Apple {
     return cultivar;
   }
 
+
   public void setCultivar(String cultivar) {
     this.cultivar = cultivar;
   }
 
 
   public Apple origin(String origin) {
+    
     this.origin = origin;
     return this;
   }
@@ -94,6 +97,7 @@ public class Apple {
   public String getOrigin() {
     return origin;
   }
+
 
   public void setOrigin(String origin) {
     this.origin = origin;

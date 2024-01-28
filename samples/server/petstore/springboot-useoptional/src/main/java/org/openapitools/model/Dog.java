@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  private Optional<String> breed = Optional.empty();
+  private String breed;
 
   public Dog() {
     super();
@@ -41,7 +41,7 @@ public class Dog extends Animal {
   }
 
   public Dog breed(String breed) {
-    this.breed = Optional.of(breed);
+    this.breed = breed;
     return this;
   }
 
@@ -52,11 +52,11 @@ public class Dog extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("breed")
-  public Optional<String> getBreed() {
+  public String getBreed() {
     return breed;
   }
 
-  public void setBreed(Optional<String> breed) {
+  public void setBreed(String breed) {
     this.breed = breed;
   }
 

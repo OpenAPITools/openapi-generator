@@ -63,6 +63,7 @@ public class AppleReq {
   }
 
   public AppleReq cultivar(String cultivar) {
+    
     this.cultivar = cultivar;
     return this;
   }
@@ -76,12 +77,14 @@ public class AppleReq {
     return cultivar;
   }
 
+
   public void setCultivar(String cultivar) {
     this.cultivar = cultivar;
   }
 
 
   public AppleReq mealy(Boolean mealy) {
+    
     this.mealy = mealy;
     return this;
   }
@@ -94,6 +97,7 @@ public class AppleReq {
   public Boolean getMealy() {
     return mealy;
   }
+
 
   public void setMealy(Boolean mealy) {
     this.mealy = mealy;

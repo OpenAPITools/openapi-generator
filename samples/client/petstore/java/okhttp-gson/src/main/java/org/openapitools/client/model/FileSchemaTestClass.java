@@ -66,6 +66,7 @@ public class FileSchemaTestClass {
   }
 
   public FileSchemaTestClass _file(ModelFile _file) {
+    
     this._file = _file;
     return this;
   }
@@ -79,12 +80,14 @@ public class FileSchemaTestClass {
     return _file;
   }
 
+
   public void setFile(ModelFile _file) {
     this._file = _file;
   }
 
 
   public FileSchemaTestClass files(List<ModelFile> files) {
+    
     this.files = files;
     return this;
   }
@@ -105,6 +108,7 @@ public class FileSchemaTestClass {
   public List<ModelFile> getFiles() {
     return files;
   }
+
 
   public void setFiles(List<ModelFile> files) {
     this.files = files;

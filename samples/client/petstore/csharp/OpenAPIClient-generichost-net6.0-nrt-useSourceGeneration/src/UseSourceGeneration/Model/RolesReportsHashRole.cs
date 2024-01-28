@@ -37,26 +37,19 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public RolesReportsHashRole(Option<string?> name = default)
+        public RolesReportsHashRole(string name)
         {
-            NameOption = name;
+            Name = name;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Name
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> NameOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -111,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> name = default;
+            string? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            name = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -137,8 +130,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class RolesReportsHashRole.");
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class RolesReportsHashRole.");
 
             return new RolesReportsHashRole(name);
         }
@@ -167,11 +160,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHashRole rolesReportsHashRole, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (rolesReportsHashRole.NameOption.IsSet && rolesReportsHashRole.Name == null)
-                throw new ArgumentNullException(nameof(rolesReportsHashRole.Name), "Property is required for class RolesReportsHashRole.");
-
-            if (rolesReportsHashRole.NameOption.IsSet)
-                writer.WriteString("name", rolesReportsHashRole.Name);
+            writer.WriteString("name", rolesReportsHashRole.Name);
         }
     }
 

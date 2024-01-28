@@ -71,6 +71,7 @@ public class DataQuery extends Query {
   }
 
   public DataQuery suffix(String suffix) {
+    
     this.suffix = suffix;
     return this;
   }
@@ -84,12 +85,14 @@ public class DataQuery extends Query {
     return suffix;
   }
 
+
   public void setSuffix(String suffix) {
     this.suffix = suffix;
   }
 
 
   public DataQuery text(String text) {
+    
     this.text = text;
     return this;
   }
@@ -103,12 +106,14 @@ public class DataQuery extends Query {
     return text;
   }
 
+
   public void setText(String text) {
     this.text = text;
   }
 
 
   public DataQuery date(OffsetDateTime date) {
+    
     this.date = date;
     return this;
   }
@@ -121,6 +126,7 @@ public class DataQuery extends Query {
   public OffsetDateTime getDate() {
     return date;
   }
+
 
   public void setDate(OffsetDateTime date) {
     this.date = date;

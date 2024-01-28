@@ -17,10 +17,13 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, StrictStr
+
 from typing import Any, ClassVar, Dict, List, Optional
-from typing import Optional, Set
-from typing_extensions import Self
+from pydantic import BaseModel, StrictStr
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class DummyModel(BaseModel):
     """
@@ -33,8 +36,7 @@ class DummyModel(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
@@ -48,7 +50,7 @@ class DummyModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of DummyModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -63,13 +65,11 @@ class DummyModel(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
-        excluded_fields: Set[str] = set([
-            "additional_properties",
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+                "additional_properties",
+            },
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of self_ref
@@ -83,7 +83,7 @@ class DummyModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of DummyModel from a dict"""
         if obj is None:
             return None
@@ -93,7 +93,7 @@ class DummyModel(BaseModel):
 
         _obj = cls.model_validate({
             "category": obj.get("category"),
-            "self_ref": SelfReferenceModel.from_dict(obj["self_ref"]) if obj.get("self_ref") is not None else None
+            "self_ref": SelfReferenceModel.from_dict(obj.get("self_ref")) if obj.get("self_ref") is not None else None
         })
         # store additional fields in additional_properties
         for _key in obj.keys():
@@ -103,6 +103,9 @@ class DummyModel(BaseModel):
         return _obj
 
 from petstore_api.models.self_reference_model import SelfReferenceModel
-# TODO: Rewrite to not use raise_errors
-DummyModel.model_rebuild(raise_errors=False)
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    # TODO: pydantic v2
+    # DummyModel.model_rebuild()
+    pass
 

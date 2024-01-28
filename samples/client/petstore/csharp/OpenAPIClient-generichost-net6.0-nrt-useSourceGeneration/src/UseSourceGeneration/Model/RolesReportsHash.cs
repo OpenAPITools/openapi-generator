@@ -38,40 +38,26 @@ namespace UseSourceGeneration.Model
         /// <param name="role">role</param>
         /// <param name="roleUuid">roleUuid</param>
         [JsonConstructor]
-        public RolesReportsHash(Option<RolesReportsHashRole?> role = default, Option<Guid?> roleUuid = default)
+        public RolesReportsHash(RolesReportsHashRole role, Guid roleUuid)
         {
-            RoleOption = role;
-            RoleUuidOption = roleUuid;
+            Role = role;
+            RoleUuid = roleUuid;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Role
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<RolesReportsHashRole?> RoleOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole? Role { get { return this. RoleOption; } set { this.RoleOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of RoleUuid
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Guid?> RoleUuidOption { get; private set; }
+        public RolesReportsHashRole Role { get; set; }
 
         /// <summary>
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid? RoleUuid { get { return this. RoleUuidOption; } set { this.RoleUuidOption = new(value); } }
+        public Guid RoleUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -99,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -127,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<RolesReportsHashRole?> role = default;
-            Option<Guid?> roleUuid = default;
+            RolesReportsHashRole? role = default;
+            Guid? roleUuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -147,11 +133,11 @@ namespace UseSourceGeneration.Model
                     {
                         case "role":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                role = new Option<RolesReportsHashRole?>(JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                role = JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "role_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                roleUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
+                                roleUuid = utf8JsonReader.GetGuid();
                             break;
                         default:
                             break;
@@ -159,13 +145,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (role.IsSet && role.Value == null)
-                throw new ArgumentNullException(nameof(role), "Property is not nullable for class RolesReportsHash.");
+            if (role == null)
+                throw new ArgumentNullException(nameof(role), "Property is required for class RolesReportsHash.");
 
-            if (roleUuid.IsSet && roleUuid.Value == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
+            if (roleUuid == null)
+                throw new ArgumentNullException(nameof(roleUuid), "Property is required for class RolesReportsHash.");
 
-            return new RolesReportsHash(role, roleUuid);
+            return new RolesReportsHash(role, roleUuid.Value);
         }
 
         /// <summary>
@@ -192,16 +178,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHash rolesReportsHash, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (rolesReportsHash.RoleOption.IsSet && rolesReportsHash.Role == null)
-                throw new ArgumentNullException(nameof(rolesReportsHash.Role), "Property is required for class RolesReportsHash.");
-
-            if (rolesReportsHash.RoleOption.IsSet)
-            {
-                writer.WritePropertyName("role");
-                JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
-            }
-            if (rolesReportsHash.RoleUuidOption.IsSet)
-                writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value!.Value);
+            writer.WritePropertyName("role");
+            JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
+            writer.WriteString("role_uuid", rolesReportsHash.RoleUuid);
         }
     }
 

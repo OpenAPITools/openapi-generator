@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,26 +35,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="nullableMessage">nullableMessage</param>
         [JsonConstructor]
-        public HealthCheckResult(Option<string?> nullableMessage = default)
+        public HealthCheckResult(string? nullableMessage = default)
         {
-            NullableMessageOption = nullableMessage;
+            NullableMessage = nullableMessage;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of NullableMessage
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> NullableMessageOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string? NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
+        public string? NullableMessage { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -82,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -110,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> nullableMessage = default;
+            string? nullableMessage = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "NullableMessage":
-                            nullableMessage = new Option<string?>(utf8JsonReader.GetString());
+                            nullableMessage = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -163,11 +155,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, HealthCheckResult healthCheckResult, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (healthCheckResult.NullableMessageOption.IsSet)
-                if (healthCheckResult.NullableMessageOption.Value != null)
-                    writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
-                else
-                    writer.WriteNull("NullableMessage");
+            writer.WriteString("NullableMessage", healthCheckResult.NullableMessage);
         }
     }
 }

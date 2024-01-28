@@ -63,11 +63,8 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUser(
-        User $user,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function createUser(User $user, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation createUsersWithArrayInput
@@ -80,11 +77,8 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUsersWithArrayInput(
-        array $user,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function createUsersWithArrayInput(array $user, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation createUsersWithListInput
@@ -97,11 +91,8 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function createUsersWithListInput(
-        array $user,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function createUsersWithListInput(array $user, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation deleteUser
@@ -114,11 +105,8 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function deleteUser(
-        string $username,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function deleteUser(string $username, int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation getUserByName
@@ -131,11 +119,8 @@ interface UserApiInterface
      *
      * @return array|object|null
      */
-    public function getUserByName(
-        string $username,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function getUserByName(string $username, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation loginUser
@@ -149,12 +134,8 @@ interface UserApiInterface
      *
      * @return array|object|null
      */
-    public function loginUser(
-        string $username,
-        string $password,
-        int &$responseCode,
-        array &$responseHeaders
-    ): array|object|null;
+    public function loginUser(string $username, string $password, int &$responseCode, array &$responseHeaders): array|object|null;
+
 
     /**
      * Operation logoutUser
@@ -166,10 +147,8 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function logoutUser(
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function logoutUser(int &$responseCode, array &$responseHeaders): void;
+
 
     /**
      * Operation updateUser
@@ -183,10 +162,6 @@ interface UserApiInterface
      *
      * @return void
      */
-    public function updateUser(
-        string $username,
-        User $user,
-        int &$responseCode,
-        array &$responseHeaders
-    ): void;
+    public function updateUser(string $username, User $user, int &$responseCode, array &$responseHeaders): void;
+
 }

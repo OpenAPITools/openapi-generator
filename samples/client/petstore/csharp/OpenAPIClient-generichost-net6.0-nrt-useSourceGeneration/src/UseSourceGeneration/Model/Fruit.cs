@@ -37,10 +37,10 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="apple"></param>
         /// <param name="color">color</param>
-        public Fruit(Apple apple, Option<string?> color = default)
+        public Fruit(Apple apple, string color)
         {
             Apple = apple;
-            ColorOption = color;
+            Color = color;
             OnCreated();
         }
 
@@ -49,10 +49,10 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="banana"></param>
         /// <param name="color">color</param>
-        public Fruit(Banana banana, Option<string?> color = default)
+        public Fruit(Banana banana, string color)
         {
             Banana = banana;
-            ColorOption = color;
+            Color = color;
             OnCreated();
         }
 
@@ -69,17 +69,10 @@ namespace UseSourceGeneration.Model
         public Banana? Banana { get; set; }
 
         /// <summary>
-        /// Used to track the state of Color
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> ColorOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
+        public string Color { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -99,7 +92,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -127,7 +120,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> color = default;
+            string? color = default;
 
             Apple? apple = default;
             Banana? banana = default;
@@ -167,7 +160,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "color":
-                            color = new Option<string?>(utf8JsonReader.GetString()!);
+                            color = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -175,8 +168,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (color.IsSet && color.Value == null)
-                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Fruit.");
+            if (color == null)
+                throw new ArgumentNullException(nameof(color), "Property is required for class Fruit.");
 
             if (apple != null)
                 return new Fruit(apple, color);
@@ -211,11 +204,7 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Fruit fruit, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fruit.ColorOption.IsSet && fruit.Color == null)
-                throw new ArgumentNullException(nameof(fruit.Color), "Property is required for class Fruit.");
-
-            if (fruit.ColorOption.IsSet)
-                writer.WriteString("color", fruit.Color);
+            writer.WriteString("color", fruit.Color);
         }
     }
 

@@ -2,7 +2,6 @@
 
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **optional_dict** | [**Dict[str, InnerDictWithProperty]**](InnerDictWithProperty.md) |  | [optional] 

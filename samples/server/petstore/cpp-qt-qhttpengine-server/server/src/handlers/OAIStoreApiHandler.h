@@ -29,7 +29,7 @@ public:
     virtual ~OAIStoreApiHandler();
 
 
-public Q_SLOTS:
+public slots:
     virtual void deleteOrder(QString order_id);
     virtual void getInventory();
     virtual void getOrderById(qint64 order_id);

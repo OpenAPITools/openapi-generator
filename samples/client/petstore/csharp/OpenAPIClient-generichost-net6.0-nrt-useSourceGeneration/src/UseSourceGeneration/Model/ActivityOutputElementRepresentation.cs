@@ -38,40 +38,26 @@ namespace UseSourceGeneration.Model
         /// <param name="prop1">prop1</param>
         /// <param name="prop2">prop2</param>
         [JsonConstructor]
-        public ActivityOutputElementRepresentation(Option<string?> prop1 = default, Option<Object?> prop2 = default)
+        public ActivityOutputElementRepresentation(string prop1, Object prop2)
         {
-            Prop1Option = prop1;
-            Prop2Option = prop2;
+            Prop1 = prop1;
+            Prop2 = prop2;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Prop1
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> Prop1Option { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Prop1
         /// </summary>
         [JsonPropertyName("prop1")]
-        public string? Prop1 { get { return this. Prop1Option; } set { this.Prop1Option = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Prop2
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Object?> Prop2Option { get; private set; }
+        public string Prop1 { get; set; }
 
         /// <summary>
         /// Gets or Sets Prop2
         /// </summary>
         [JsonPropertyName("prop2")]
-        public Object? Prop2 { get { return this. Prop2Option; } set { this.Prop2Option = new(value); } }
+        public Object Prop2 { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -99,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -127,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> prop1 = default;
-            Option<Object?> prop2 = default;
+            string? prop1 = default;
+            Object? prop2 = default;
 
             while (utf8JsonReader.Read())
             {
@@ -146,11 +132,11 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "prop1":
-                            prop1 = new Option<string?>(utf8JsonReader.GetString()!);
+                            prop1 = utf8JsonReader.GetString();
                             break;
                         case "prop2":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                prop2 = new Option<Object?>(JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                prop2 = JsonSerializer.Deserialize<Object>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -158,11 +144,11 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (prop1.IsSet && prop1.Value == null)
-                throw new ArgumentNullException(nameof(prop1), "Property is not nullable for class ActivityOutputElementRepresentation.");
+            if (prop1 == null)
+                throw new ArgumentNullException(nameof(prop1), "Property is required for class ActivityOutputElementRepresentation.");
 
-            if (prop2.IsSet && prop2.Value == null)
-                throw new ArgumentNullException(nameof(prop2), "Property is not nullable for class ActivityOutputElementRepresentation.");
+            if (prop2 == null)
+                throw new ArgumentNullException(nameof(prop2), "Property is required for class ActivityOutputElementRepresentation.");
 
             return new ActivityOutputElementRepresentation(prop1, prop2);
         }
@@ -191,20 +177,9 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ActivityOutputElementRepresentation activityOutputElementRepresentation, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (activityOutputElementRepresentation.Prop1Option.IsSet && activityOutputElementRepresentation.Prop1 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop1), "Property is required for class ActivityOutputElementRepresentation.");
-
-            if (activityOutputElementRepresentation.Prop2Option.IsSet && activityOutputElementRepresentation.Prop2 == null)
-                throw new ArgumentNullException(nameof(activityOutputElementRepresentation.Prop2), "Property is required for class ActivityOutputElementRepresentation.");
-
-            if (activityOutputElementRepresentation.Prop1Option.IsSet)
-                writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
-
-            if (activityOutputElementRepresentation.Prop2Option.IsSet)
-            {
-                writer.WritePropertyName("prop2");
-                JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
-            }
+            writer.WriteString("prop1", activityOutputElementRepresentation.Prop1);
+            writer.WritePropertyName("prop2");
+            JsonSerializer.Serialize(writer, activityOutputElementRepresentation.Prop2, jsonSerializerOptions);
         }
     }
 

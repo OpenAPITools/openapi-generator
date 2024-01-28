@@ -70,6 +70,7 @@ public class ArrayOfInlineAllOf {
   }
 
   public ArrayOfInlineAllOf id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -83,12 +84,14 @@ public class ArrayOfInlineAllOf {
     return id;
   }
 
+
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public ArrayOfInlineAllOf name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -102,12 +105,14 @@ public class ArrayOfInlineAllOf {
     return name;
   }
 
+
   public void setName(String name) {
     this.name = name;
   }
 
 
   public ArrayOfInlineAllOf arrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
+    
     this.arrayAllofDogProperty = arrayAllofDogProperty;
     return this;
   }
@@ -128,6 +133,7 @@ public class ArrayOfInlineAllOf {
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }
+
 
   public void setArrayAllofDogProperty(List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> arrayAllofDogProperty) {
     this.arrayAllofDogProperty = arrayAllofDogProperty;

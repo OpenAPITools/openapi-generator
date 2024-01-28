@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByStatusApiResponse"/>&gt;</returns>
         Task<IFindPetsByStatusApiResponse> FindPetsByStatusAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Api
         /// <remarks>
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
-        /// <param name="status">Status values that need to be considered for filter (deprecated)</param>
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByStatusApiResponse"/>?&gt;</returns>
         Task<IFindPetsByStatusApiResponse?> FindPetsByStatusOrDefaultAsync(List<string> status, System.Threading.CancellationToken cancellationToken = default);
@@ -116,7 +116,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByTagsApiResponse"/>&gt;</returns>
-        [Obsolete]
         Task<IFindPetsByTagsApiResponse> FindPetsByTagsAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -128,7 +127,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="IFindPetsByTagsApiResponse"/>?&gt;</returns>
-        [Obsolete]
         Task<IFindPetsByTagsApiResponse?> FindPetsByTagsOrDefaultAsync(List<string> tags, System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -770,22 +768,23 @@ namespace Org.OpenAPITools.Api
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
-                    HttpSignatureToken httpSignatureTokenLocalVar2 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
                     if (httpRequestMessageLocalVar.Content != null) {
                         string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
 
                     string[] contentTypes = new string[] {
@@ -987,13 +986,14 @@ namespace Org.OpenAPITools.Api
                         httpRequestMessageLocalVar.Headers.Add("api_key", ClientUtils.ParameterToString(apiKey.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 
@@ -1180,22 +1180,23 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
-                    HttpSignatureToken httpSignatureTokenLocalVar2 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
                     if (httpRequestMessageLocalVar.Content != null) {
                         string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
 
                     string[] acceptLocalVars = new string[] {
@@ -1431,22 +1432,23 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
-                    HttpSignatureToken httpSignatureTokenLocalVar2 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
                     if (httpRequestMessageLocalVar.Content != null) {
                         string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
 
                     string[] acceptLocalVars = new string[] {
@@ -1663,19 +1665,12 @@ namespace Org.OpenAPITools.Api
                     uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/pet/{petId}";
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7BpetId%7D", Uri.EscapeDataString(petId.ToString()));
 
-                    System.Collections.Specialized.NameValueCollection parseQueryStringLocalVar = System.Web.HttpUtility.ParseQueryString(string.Empty);
-
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-                    ApiKeyToken apiKeyTokenLocalVar1 = (ApiKeyToken) await ApiKeyProvider.GetAsync("api_key", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar1);
-                    apiKeyTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar);
+                    ApiKeyToken apiKeyTokenLocalVar;
+                    apiKeyTokenLocalVar = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar);
+                    apiKeyTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "api_key");
 
-                    ApiKeyToken apiKeyTokenLocalVar2 = (ApiKeyToken) await ApiKeyProvider.GetAsync("api_key_query", cancellationToken).ConfigureAwait(false);
-                    tokenBaseLocalVars.Add(apiKeyTokenLocalVar2);
-
-                    apiKeyTokenLocalVar2.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
-
-                    uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
                     string[] acceptLocalVars = new string[] {
@@ -1915,22 +1910,23 @@ namespace Org.OpenAPITools.Api
                         : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(pet, _jsonSerializerOptions));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
-                    HttpSignatureToken httpSignatureTokenLocalVar2 = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar2);
+                    tokenBaseLocalVars.Add(httpSignatureTokenLocalVar);
 
                     if (httpRequestMessageLocalVar.Content != null) {
                         string requestBodyLocalVar = await httpRequestMessageLocalVar.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-                        httpSignatureTokenLocalVar2.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
+                        httpSignatureTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, requestBodyLocalVar, cancellationToken);
                     }
 
                     string[] contentTypes = new string[] {
@@ -2163,13 +2159,14 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("status", ClientUtils.ParameterToString(status.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
                         "application/x-www-form-urlencoded"
@@ -2388,13 +2385,14 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
                         "multipart/form-data"
@@ -2653,13 +2651,14 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("additionalMetadata", ClientUtils.ParameterToString(additionalMetadata.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
+
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    OAuthToken oauthTokenLocalVar1 = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(oauthTokenLocalVar1);
+                    tokenBaseLocalVars.Add(oauthTokenLocalVar);
 
-                    oauthTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
+                    oauthTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
                         "multipart/form-data"

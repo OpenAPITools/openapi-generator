@@ -241,7 +241,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::naive::NaiveDate>,
+        date: Option<chrono::DateTime::<chrono::Utc>>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,

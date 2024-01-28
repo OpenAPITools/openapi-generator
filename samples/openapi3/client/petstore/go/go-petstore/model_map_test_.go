@@ -203,10 +203,10 @@ func (o MapTest) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *MapTest) UnmarshalJSON(data []byte) (err error) {
+func (o *MapTest) UnmarshalJSON(bytes []byte) (err error) {
 	varMapTest := _MapTest{}
 
-	err = json.Unmarshal(data, &varMapTest)
+	err = json.Unmarshal(bytes, &varMapTest)
 
 	if err != nil {
 		return err
@@ -216,7 +216,7 @@ func (o *MapTest) UnmarshalJSON(data []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "map_map_of_string")
 		delete(additionalProperties, "map_of_enum_string")
 		delete(additionalProperties, "direct_map")

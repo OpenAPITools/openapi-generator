@@ -67,6 +67,7 @@ public class Whale {
   }
 
   public Whale hasBaleen(Boolean hasBaleen) {
+    
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -80,12 +81,14 @@ public class Whale {
     return hasBaleen;
   }
 
+
   public void setHasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
   public Whale hasTeeth(Boolean hasTeeth) {
+    
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -99,12 +102,14 @@ public class Whale {
     return hasTeeth;
   }
 
+
   public void setHasTeeth(Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
   public Whale className(String className) {
+    
     this.className = className;
     return this;
   }
@@ -117,6 +122,7 @@ public class Whale {
   public String getClassName() {
     return className;
   }
+
 
   public void setClassName(String className) {
     this.className = className;

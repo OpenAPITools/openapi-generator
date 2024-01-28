@@ -45,10 +45,10 @@ namespace Org.OpenAPITools.Model
         Approved = 2,
 
         /// <summary>
-        /// Enum Shipped for value: delivered
+        /// Enum Delivered for value: delivered
         /// </summary>
         [EnumMember(Value = "delivered")]
-        Shipped = 3
+        Delivered = 3
     }
 
 }

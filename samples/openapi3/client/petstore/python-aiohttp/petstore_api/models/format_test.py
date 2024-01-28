@@ -18,12 +18,15 @@ import re  # noqa: F401
 import json
 
 from datetime import date, datetime
-from decimal import Decimal
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, StrictBytes, StrictInt, StrictStr, field_validator
+from decimal import Decimal
+from pydantic import Field
 from typing_extensions import Annotated
-from typing import Optional, Set
-from typing_extensions import Self
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class FormatTest(BaseModel):
     """
@@ -90,8 +93,7 @@ class FormatTest(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
@@ -105,7 +107,7 @@ class FormatTest(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Self]:
+    def from_json(cls, json_str: str) -> Self:
         """Create an instance of FormatTest from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -119,18 +121,16 @@ class FormatTest(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
-        excluded_fields: Set[str] = set([
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+            },
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FormatTest from a dict"""
         if obj is None:
             return None

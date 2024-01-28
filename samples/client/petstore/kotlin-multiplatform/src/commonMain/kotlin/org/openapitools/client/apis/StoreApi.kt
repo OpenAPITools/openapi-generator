@@ -105,8 +105,9 @@ open class StoreApi : ApiClient {
         ).wrap<GetInventoryResponse>().map { value }
     }
 
-    @Serializable(GetInventoryResponse.Companion::class)
+    @Serializable
     private class GetInventoryResponse(val value: Map<kotlin.String, kotlin.Int>) {
+        @Serializer(GetInventoryResponse::class)
         companion object : KSerializer<GetInventoryResponse> {
             private val serializer: KSerializer<Map<kotlin.String, kotlin.Int>> = serializer<Map<String, kotlin.Int>>()
             override val descriptor = serializer.descriptor

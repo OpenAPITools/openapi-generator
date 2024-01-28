@@ -4,7 +4,7 @@
                  "item": [
                         {{#vendorExtensions.postmanRequests}}
                             {
-                                "name": "{{{name}}}",
+                                "name": "{{name}}",
                                 "request": {
                                     "method": "{{httpMethod}}",
                                     "header": [
@@ -12,7 +12,6 @@
                                         {
                                             "key": "{{baseName}}",
                                             "value": "{{schema.defaultValue}}",
-                                            "description": "{{{description}}}",
                                             "disabled": {{#schema.defaultValue}}false{{/schema.defaultValue}}{{^schema.defaultValue}}true{{/schema.defaultValue}}
                                         }{{^-last}},{{/-last}}
                                     {{/headerParams}}
@@ -40,8 +39,8 @@
                                             {{#pathParams}}
                                             {
                                                 "key": "{{paramName}}",
-                                                "value": "{{defaultValue}}",
-                                                "description": "{{{description}}}"
+                                                "value": "",
+                                                "description": "{{description}}"
                                             }{{^-last}},{{/-last}}
                                         {{/pathParams}}
                                         ],
@@ -49,9 +48,7 @@
                                             {{#queryParams}}
                                             {
                                                 "key": "{{paramName}}",
-                                                "value": "{{example}}",
-                                                "description": "{{{description}}}",
-                                                "disabled": {{#required}}false{{/required}}{{^required}}true{{/required}}
+                                                "value": "{{example}}"
                                             }{{^-last}},{{/-last}}
                                             {{/queryParams}}
                                         ]

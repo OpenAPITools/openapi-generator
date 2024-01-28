@@ -24,7 +24,6 @@ import org.springframework.http.codec.json.Jackson2JsonEncoder
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 import reactor.core.publisher.Mono
-import org.springframework.util.LinkedMultiValueMap
 
 import org.openapitools.client.models.Order
 import org.openapitools.client.infrastructure.*
@@ -44,7 +43,7 @@ class StoreApi(client: WebClient) : ApiClient(client) {
     @Throws(WebClientResponseException::class)
     fun deleteOrder(orderId: kotlin.String): Mono<Unit> {
         return deleteOrderWithHttpInfo(orderId = orderId)
-            .map { Unit }
+            .map { it.body }
     }
 
     @Throws(WebClientResponseException::class)
@@ -60,14 +59,9 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         
-        val params = mutableMapOf<String, Any>(
-            "orderId" to orderId,
-        )
-
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/store/order/{orderId}",
-            params = params,
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -96,13 +90,9 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/json"
 
-        val params = mutableMapOf<String, Any>(
-        )
-
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/store/inventory",
-            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -131,14 +121,9 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
-            "orderId" to orderId,
-        )
-
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/store/order/{orderId}",
-            params = params,
+            path = "/store/order/{orderId}".replace("{"+"orderId"+"}", encodeURIComponent(orderId.toString())),
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,
@@ -168,13 +153,9 @@ class StoreApi(client: WebClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/json"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
-        val params = mutableMapOf<String, Any>(
-        )
-
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/store/order",
-            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = false,

@@ -167,10 +167,10 @@ func (o ApiResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *ApiResponse) UnmarshalJSON(data []byte) (err error) {
+func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {
 	varApiResponse := _ApiResponse{}
 
-	err = json.Unmarshal(data, &varApiResponse)
+	err = json.Unmarshal(bytes, &varApiResponse)
 
 	if err != nil {
 		return err
@@ -180,7 +180,7 @@ func (o *ApiResponse) UnmarshalJSON(data []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "code")
 		delete(additionalProperties, "type")
 		delete(additionalProperties, "message")

@@ -3,8 +3,6 @@ package org.openapitools.server.model;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.HashMap;
 import java.util.Map;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 
 

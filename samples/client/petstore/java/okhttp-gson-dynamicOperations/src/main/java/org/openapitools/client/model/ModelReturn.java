@@ -59,6 +59,7 @@ public class ModelReturn {
   }
 
   public ModelReturn _return(Integer _return) {
+    
     this._return = _return;
     return this;
   }
@@ -71,6 +72,7 @@ public class ModelReturn {
   public Integer getReturn() {
     return _return;
   }
+
 
   public void setReturn(Integer _return) {
     this._return = _return;

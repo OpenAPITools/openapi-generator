@@ -20,12 +20,12 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag {
 
-  private Optional<Long> id = Optional.empty();
+  private Long id;
 
-  private Optional<String> name = Optional.empty();
+  private String name;
 
   public Tag id(Long id) {
-    this.id = Optional.of(id);
+    this.id = id;
     return this;
   }
 
@@ -35,16 +35,16 @@ public class Tag {
   */
   
   @JsonProperty("id")
-  public Optional<Long> getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
   public Tag name(String name) {
-    this.name = Optional.of(name);
+    this.name = name;
     return this;
   }
 
@@ -54,11 +54,11 @@ public class Tag {
   */
   
   @JsonProperty("name")
-  public Optional<String> getName() {
+  public String getName() {
     return name;
   }
 
-  public void setName(Optional<String> name) {
+  public void setName(String name) {
     this.name = name;
   }
 

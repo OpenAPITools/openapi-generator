@@ -64,6 +64,7 @@ public class BananaReq {
   }
 
   public BananaReq lengthCm(BigDecimal lengthCm) {
+    
     this.lengthCm = lengthCm;
     return this;
   }
@@ -77,12 +78,14 @@ public class BananaReq {
     return lengthCm;
   }
 
+
   public void setLengthCm(BigDecimal lengthCm) {
     this.lengthCm = lengthCm;
   }
 
 
   public BananaReq sweet(Boolean sweet) {
+    
     this.sweet = sweet;
     return this;
   }
@@ -95,6 +98,7 @@ public class BananaReq {
   public Boolean getSweet() {
     return sweet;
   }
+
 
   public void setSweet(Boolean sweet) {
     this.sweet = sweet;

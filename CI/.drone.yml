@@ -1,0 +1,98 @@
+kind: pipeline
+type: docker
+name: java11-test
+steps:
+# test Java 11 HTTP client
+- name: java11-test
+  image: openjdk:11.0
+  commands:
+  - ./mvnw --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - ./mvnw --quiet verify -Psamples.droneio -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # test java native client
+  - ./mvnw clean test -f samples/client/petstore/java/native/pom.xml
+  - ./mvnw clean test -f samples/client/petstore/java/native-async/pom.xml
+  - ./mvnw clean test -f samples/openapi3/client/petstore/java/native/pom.xml
+  # test all generators with fake petstore spec (2.0, 3.0)
+  - /bin/bash bin/utils/test-fake-petstore-for-all.sh
+  # generate test scripts
+  - /bin/bash bin/tests/run-all-test
+
+---
+kind: pipeline
+type: docker
+name: nim-client-test
+steps:
+# test nim client
+- name: nim-client-test
+  image: nimlang/nim
+  commands:
+  - (cd samples/client/petstore/nim/ && nim c sample_client.nim)
+
+---
+kind: pipeline
+type: docker
+name: protobuf-schema-test
+steps:
+# test protobuf schema generator
+- name: protobuf-schema-test
+  image: nanoservice/protobuf-go
+  commands:
+  - protoc --version
+  - mkdir /var/tmp/go/
+  - cd samples/config/petstore/protobuf-schema
+  - protoc --go_out=/var/tmp/go/ services/*
+  - protoc --go_out=/var/tmp/go/ models/*
+
+---
+kind: pipeline
+type: docker
+name: aspnetcore-test
+steps:
+# test aspnetcore 3.x
+- name: aspnetcore-test
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  commands:
+  - (cd samples/server/petstore/aspnetcore-3.1/ && /bin/sh build.sh)
+  - (cd samples/server/petstore/aspnetcore-3.0/ && /bin/sh build.sh)
+
+---
+kind: pipeline
+type: docker
+name: ocaml-test
+steps:
+# test ocaml petstore client
+- name: ocaml-test
+  image: ocaml/opam2:4.07
+  commands:
+  - sudo apt-get -y install m4
+  - cd samples/client/petstore/ocaml
+  - opam install ppx_deriving_yojson cohttp ppx_deriving cohttp-lwt-unix 
+  - opam pin add ocaml-migrate-parsetree 1.3.1
+  - eval $(opam env)
+  - sudo chmod -R 777 .
+  - dune build --build-dir=./_build
+
+---
+kind: pipeline
+type: docker
+name: haskell-client-test
+steps:
+# test haskell client
+- name: haskell-client-test
+  image: haskell:8.10.4
+  commands:
+  - (cd samples/client/petstore/haskell-http-client/ && stack --allow-different-user --install-ghc --no-haddock-deps haddock --fast && stack --allow-different-user test --fast)
+
+---
+kind: pipeline
+type: docker
+name: erlang
+steps:
+# test erlang client and server
+- name: erlang
+  image: erlang:alpine
+  commands:
+  - (cd samples/client/petstore/erlang-client && rebar3 compile)
+  - (cd samples/client/petstore/erlang-proper && rebar3 compile)
+  # comment out as the tests pass locally but not in the CI
+  #- (cd samples/server/petstore/erlang-server && rebar3 compile)

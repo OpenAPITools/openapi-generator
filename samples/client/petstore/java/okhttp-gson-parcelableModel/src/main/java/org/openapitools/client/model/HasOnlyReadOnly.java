@@ -64,6 +64,7 @@ public class HasOnlyReadOnly implements Parcelable {
   public HasOnlyReadOnly() {
   }
 
+  
   public HasOnlyReadOnly(
      String bar, 
      String foo
@@ -84,6 +85,7 @@ public class HasOnlyReadOnly implements Parcelable {
 
 
 
+
    /**
    * Get foo
    * @return foo
@@ -92,6 +94,7 @@ public class HasOnlyReadOnly implements Parcelable {
   public String getFoo() {
     return foo;
   }
+
 
 
 

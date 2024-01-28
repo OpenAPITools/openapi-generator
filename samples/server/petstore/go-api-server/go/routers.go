@@ -17,7 +17,6 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
-	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -141,9 +140,7 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 
 	defer formFile.Close()
 
-	// Use .* as suffix, because the asterisk is a placeholder for the random value,
-	// and the period allows consumers of this file to remove the suffix to obtain the original file name
-	file, err := os.CreateTemp("", fileHeader.Filename+".*")
+	file, err := os.CreateTemp("", fileHeader.Filename)
 	if err != nil {
 		return nil, err
 	}
@@ -341,10 +338,4 @@ func parseNumericArrayParameter[T Number](param, delim string, required bool, fn
 	}
 
 	return values, nil
-}
-
-
-// parseQuery parses query paramaters and returns an error if any malformed value pairs are encountered.
-func parseQuery(rawQuery string) (url.Values, error) {
-	return url.ParseQuery(rawQuery)
 }

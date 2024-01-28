@@ -53,7 +53,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     public static final String COMPATIBILITY_VERSION = "compatibilityVersion";
     public static final String USE_NEWTONSOFT = "useNewtonsoft";
     public static final String NEWTONSOFT_VERSION = "newtonsoftVersion";
-    public static final String NET_60_OR_LATER = "net60OrLater";
 
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
@@ -189,10 +188,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
-                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
-                useDateTimeForDateFlag);
-
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 useCollection);
@@ -268,8 +263,18 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
     }
 
     @Override
-    protected boolean useNet60OrLater() {
-        return additionalProperties.containsKey(NET_60_OR_LATER);
+    protected void setTypeMapping() {
+        super.setTypeMapping();
+        typeMapping.put("boolean", "bool");
+        typeMapping.put("integer", "int");
+        typeMapping.put("float", "float");
+        typeMapping.put("long", "long");
+        typeMapping.put("double", "double");
+        typeMapping.put("number", "decimal");
+        typeMapping.put("DateTime", "DateTime");
+        typeMapping.put("date", "DateTime");
+        typeMapping.put("UUID", "Guid");
+        typeMapping.put("URI", "string");
     }
 
     @Override
@@ -602,13 +607,6 @@ public class CSharpFunctionsServerCodegen extends AbstractCSharpCodegen {
         //set .NET target version
         String targetFrameworkVersion = "net" + netCoreVersion.getOptValue();
         additionalProperties.put(TARGET_FRAMEWORK, targetFrameworkVersion);
-        setAddititonalPropertyForFramework();
-    }
-
-    private void setAddititonalPropertyForFramework() {
-        if (((String)additionalProperties.get(TARGET_FRAMEWORK)).startsWith("net6.0")) {
-            additionalProperties.put(NET_60_OR_LATER, true);
-        }
     }
 
     private void setOperationIsAsync() {

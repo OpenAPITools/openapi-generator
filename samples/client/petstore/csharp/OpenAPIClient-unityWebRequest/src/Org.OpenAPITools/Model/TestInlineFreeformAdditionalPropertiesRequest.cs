@@ -28,16 +28,16 @@ namespace Org.OpenAPITools.Model
     /// TestInlineFreeformAdditionalPropertiesRequest
     /// </summary>
     [DataContract(Name = "testInlineFreeformAdditionalProperties_request")]
-    public partial class TestInlineFreeformAdditionalPropertiesRequest : IEquatable<TestInlineFreeformAdditionalPropertiesRequest>
+    public partial class TestInlineFreeformAdditionalPropertiesRequest : Dictionary<String, Object>, IEquatable<TestInlineFreeformAdditionalPropertiesRequest>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
+        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string)) : base()
         {
-            this.SomeProperty = someProperty;
-            this.AdditionalProperties = new Dictionary<string, object>();
+            SomeProperty = someProperty;
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -60,6 +60,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -70,9 +71,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as TestInlineFreeformAdditionalPropertiesRequest);
+            return Equals(input as TestInlineFreeformAdditionalPropertiesRequest);
         }
 
         /// <summary>
@@ -96,13 +97,12 @@ namespace Org.OpenAPITools.Model
             {
                 return false;
             }
-            return 
+            return base.Equals(input) && 
                 (
-                    this.SomeProperty == input.SomeProperty ||
-                    (this.SomeProperty != null &&
-                    this.SomeProperty.Equals(input.SomeProperty))
+                    SomeProperty == input.SomeProperty ||
+					SomeProperty.Equals(input.SomeProperty)
                 )
-                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
+                && (AdditionalProperties.Count == input.AdditionalProperties.Count && !AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
 
         /// <summary>
@@ -113,14 +113,11 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.SomeProperty != null)
+                int hashCode = base.GetHashCode();
+				hashCode = (hashCode * 59) + SomeProperty.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.SomeProperty.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }

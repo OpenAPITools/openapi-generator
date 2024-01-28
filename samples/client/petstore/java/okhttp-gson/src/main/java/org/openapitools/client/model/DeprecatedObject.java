@@ -61,6 +61,7 @@ public class DeprecatedObject {
   }
 
   public DeprecatedObject name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -73,6 +74,7 @@ public class DeprecatedObject {
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

@@ -17,14 +17,11 @@ import json
 import os
 import re
 import shutil
-from typing import Union
 import unittest
 from urllib.parse import urlencode, urlparse
 
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import ECC, RSA
-from Crypto.Hash.SHA512 import SHA512Hash
-from Crypto.Hash.SHA256 import SHA256Hash
 from Crypto.Signature import pkcs1_15, pss, DSS
 
 import petstore_api
@@ -76,7 +73,7 @@ class TimeoutWithEqual(urllib3.Timeout):
     def __eq__(self, other):
         return self._read == other._read and self._connect == other._connect and self.total == other.total
 
-class MockPoolManager(urllib3.PoolManager):
+class MockPoolManager(object):
     def __init__(self, tc):
         self._tc = tc
         self._reqs = []
@@ -86,9 +83,9 @@ class MockPoolManager(urllib3.PoolManager):
 
     def set_signing_config(self, signing_cfg):
         self.signing_cfg = signing_cfg
-        assert self.signing_cfg is not None
+        self._tc.assertIsNotNone(self.signing_cfg)
         self.pubkey = self.signing_cfg.get_public_key()
-        assert self.pubkey is not None
+        self._tc.assertIsNotNone(self.pubkey)
 
     def request(self, *actual_request_target, **actual_request_headers_and_body):
         self._tc.assertTrue(len(self._reqs) > 0)
@@ -127,13 +124,13 @@ class MockPoolManager(urllib3.PoolManager):
         # Extract (created)
         r1 = re.compile(r'created=([0-9]+)')
         m1 = r1.search(authorization_header)
-        assert m1 is not None
+        self._tc.assertIsNotNone(m1)
         created = m1.group(1)
 
         # Extract list of signed headers
         r1 = re.compile(r'headers="([^"]+)"')
         m1 = r1.search(authorization_header)
-        assert m1 is not None
+        self._tc.assertIsNotNone(m1)
         headers = m1.group(1).split(' ')
         signed_headers_list = []
         for h in headers:
@@ -145,26 +142,25 @@ class MockPoolManager(urllib3.PoolManager):
                 signed_headers_list.append((h, "{0} {1}".format(request_target[0].lower(), target_path)))
             else:
                 value = next((v for k, v in actual_headers.items() if k.lower() == h), None)
-                assert value is not None
+                self._tc.assertIsNotNone(value)
                 signed_headers_list.append((h, value))
         header_items = [
             "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_list]
         string_to_sign = "\n".join(header_items)
-        digest: Union[SHA512Hash, SHA256Hash]
+        digest = None
         if self.signing_cfg.hash_algorithm == signing.HASH_SHA512:
             digest = SHA512.new()
         elif self.signing_cfg.hash_algorithm == signing.HASH_SHA256:
             digest = SHA256.new()
         else:
             self._tc.fail("Unsupported hash algorithm: {0}".format(self.signing_cfg.hash_algorithm))
-
         digest.update(string_to_sign.encode())
         b64_body_digest = base64.b64encode(digest.digest()).decode()
 
         # Extract the signature
         r2 = re.compile(r'signature="([^"]+)"')
         m2 = r2.search(authorization_header)
-        assert m2 is not None
+        self._tc.assertIsNotNone(m2)
         b64_signature = m2.group(1)
         signature = base64.b64decode(b64_signature)
         # Build the message
@@ -194,12 +190,6 @@ class MockPoolManager(urllib3.PoolManager):
             self._tc.fail("Unsupported signing algorithm: {0}".format(signing_alg))
 
 class PetApiTests(unittest.TestCase):
-    rsa_key_path: str
-    rsa4096_key_path: str
-    ec_p521_key_path: str
-    pet: petstore_api.Pet
-    test_file_dir: str
-    private_key_passphrase: str
 
     @classmethod
     def setUpClass(cls):
@@ -218,19 +208,19 @@ class PetApiTests(unittest.TestCase):
 
     @classmethod
     def setUpModels(cls):
-        category = petstore_api.Category(name="dog")
-        category.id = id_gen()
-        tag = petstore_api.Tag()
-        tag.id = id_gen()
-        tag.name = "python-pet-tag"
+        cls.category = petstore_api.Category(name="dog")
+        cls.category.id = id_gen()
+        cls.tag = petstore_api.Tag()
+        cls.tag.id = id_gen()
+        cls.tag.name = "python-pet-tag"
         cls.pet = petstore_api.Pet(
             name="hello kity",
             photoUrls=["http://foo.bar.com/1", "http://foo.bar.com/2"]
         )
         cls.pet.id = id_gen()
         cls.pet.status = "sold"
-        cls.pet.category = category
-        cls.pet.tags = [tag]
+        cls.pet.category = cls.category
+        cls.pet.tags = [cls.tag]
 
     @classmethod
     def setUpFiles(cls):
@@ -249,8 +239,6 @@ class PetApiTests(unittest.TestCase):
             with open(cls.rsa_key_path, 'w') as f:
                 f.write(RSA_TEST_PRIVATE_KEY)
 
-        key: Union[RSA.RsaKey, ECC.EccKey]
-
         if not os.path.exists(cls.rsa4096_key_path):
             key = RSA.generate(4096)
             private_key = key.export_key(
@@ -262,17 +250,13 @@ class PetApiTests(unittest.TestCase):
 
         if not os.path.exists(cls.ec_p521_key_path):
             key = ECC.generate(curve='P-521')
-            pkey = key.export_key(
+            private_key = key.export_key(
                 format='PEM',
                 passphrase=cls.private_key_passphrase,
                 use_pkcs8=True,
                 protection='PBKDF2WithHMAC-SHA1AndAES128-CBC'
             )
-            if isinstance(pkey, str):
-                private_key = pkey.encode("ascii")
-            else:
-                private_key = pkey
-            with open(cls.ec_p521_key_path, "wb") as f:
+            with open(cls.ec_p521_key_path, "wt") as f:
                 f.write(private_key)
 
     def test_valid_http_signature(self):
@@ -475,7 +459,7 @@ class PetApiTests(unittest.TestCase):
             signing_cfg = signing.HttpSigningConfiguration(
                 key_id="my-key-id",
                 private_key_path=self.ec_p521_key_path,
-                signing_scheme=None  # type: ignore
+                signing_scheme=None
             )
         self.assertTrue(re.match('Unsupported security scheme', str(cm.exception)),
             'Exception message: {0}'.format(str(cm.exception)))

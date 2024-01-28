@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,26 +35,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="activityOutputs">activityOutputs</param>
         [JsonConstructor]
-        public Activity(Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> activityOutputs = default)
+        public Activity(Dictionary<string, List<ActivityOutputElementRepresentation>> activityOutputs)
         {
-            ActivityOutputsOption = activityOutputs;
+            ActivityOutputs = activityOutputs;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of ActivityOutputs
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> ActivityOutputsOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>>? ActivityOutputs { get { return this. ActivityOutputsOption; } set { this.ActivityOutputsOption = new(value); } }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -82,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -110,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?> activityOutputs = default;
+            Dictionary<string, List<ActivityOutputElementRepresentation>>? activityOutputs = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,7 +121,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "activity_outputs":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                activityOutputs = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>?>(JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions)!);
+                                activityOutputs = JsonSerializer.Deserialize<Dictionary<string, List<ActivityOutputElementRepresentation>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -137,8 +129,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (activityOutputs.IsSet && activityOutputs.Value == null)
-                throw new ArgumentNullException(nameof(activityOutputs), "Property is not nullable for class Activity.");
+            if (activityOutputs == null)
+                throw new ArgumentNullException(nameof(activityOutputs), "Property is required for class Activity.");
 
             return new Activity(activityOutputs);
         }
@@ -167,14 +159,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Activity activity, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (activity.ActivityOutputsOption.IsSet && activity.ActivityOutputs == null)
-                throw new ArgumentNullException(nameof(activity.ActivityOutputs), "Property is required for class Activity.");
-
-            if (activity.ActivityOutputsOption.IsSet)
-            {
-                writer.WritePropertyName("activity_outputs");
-                JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
-            }
+            writer.WritePropertyName("activity_outputs");
+            JsonSerializer.Serialize(writer, activity.ActivityOutputs, jsonSerializerOptions);
         }
     }
 }

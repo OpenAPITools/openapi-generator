@@ -44,9 +44,6 @@
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            {{#responses}}
-            {{^isWildcard}}
-            '{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}},
-            {{/isWildcard}}
-            {{/responses}}
+            {{#returnType}}{{#responses}}{{^isWildcard}}'{{code}}': {{#dataType}}"{{.}}"{{/dataType}}{{^dataType}}None{{/dataType}}{{/isWildcard}}{{^-last}},{{/-last}}
+            {{/responses}}{{/returnType}}
         }

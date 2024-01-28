@@ -116,7 +116,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -126,7 +126,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -154,7 +154,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
+            string? className = default;
 
             Pig? pig = null;
             Whale? whale = null;
@@ -211,7 +211,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
+                            className = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -219,20 +219,17 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Mammal.", nameof(className));
-
-            if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Mammal.");
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Mammal.");
 
             if (pig != null)
-                return new Mammal(pig, className.Value!);
+                return new Mammal(pig, className);
 
             if (whale != null)
-                return new Mammal(whale, className.Value!);
+                return new Mammal(whale, className);
 
             if (zebra != null)
-                return new Mammal(zebra, className.Value!);
+                return new Mammal(zebra, className);
 
             throw new JsonException();
         }
@@ -276,9 +273,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Mammal mammal, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (mammal.ClassName == null)
-                throw new ArgumentNullException(nameof(mammal.ClassName), "Property is required for class Mammal.");
-
             writer.WriteString("className", mammal.ClassName);
         }
     }

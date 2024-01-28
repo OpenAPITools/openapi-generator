@@ -20,7 +20,6 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import java.util.Map;
 import java.util.List;
 import javax.validation.constraints.*;
-import javax.validation.Valid;
 @Path("/user")
 @RequestScoped
 
@@ -60,7 +59,7 @@ public class UserApi  {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<@Valid User> user) {
+    public Response createUsersWithArrayInput(@ApiParam(value = "List of user object" ,required=true) List<User> user) {
         return delegate.createUsersWithArrayInput(user, securityContext);
     }
 
@@ -74,7 +73,7 @@ public class UserApi  {
          }, tags={ "user" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<@Valid User> user) {
+    public Response createUsersWithListInput(@ApiParam(value = "List of user object" ,required=true) List<User> user) {
         return delegate.createUsersWithListInput(user, securityContext);
     }
 

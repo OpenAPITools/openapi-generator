@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -36,54 +35,33 @@ namespace Org.OpenAPITools.Model
         /// <param name="arrayArrayOfModel">arrayArrayOfModel</param>
         /// <param name="arrayOfString">arrayOfString</param>
         [JsonConstructor]
-        public ArrayTest(Option<List<List<long>>> arrayArrayOfInteger = default, Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default, Option<List<string>> arrayOfString = default)
+        public ArrayTest(List<List<long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel, List<string> arrayOfString)
         {
-            ArrayArrayOfIntegerOption = arrayArrayOfInteger;
-            ArrayArrayOfModelOption = arrayArrayOfModel;
-            ArrayOfStringOption = arrayOfString;
+            ArrayArrayOfInteger = arrayArrayOfInteger;
+            ArrayArrayOfModel = arrayArrayOfModel;
+            ArrayOfString = arrayOfString;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of ArrayArrayOfInteger
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<List<long>>> ArrayArrayOfIntegerOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
-        public List<List<long>> ArrayArrayOfInteger { get { return this. ArrayArrayOfIntegerOption; } set { this.ArrayArrayOfIntegerOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of ArrayArrayOfModel
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<List<ReadOnlyFirst>>> ArrayArrayOfModelOption { get; private set; }
+        public List<List<long>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
-        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get { return this. ArrayArrayOfModelOption; } set { this.ArrayArrayOfModelOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of ArrayOfString
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<string>> ArrayOfStringOption { get; private set; }
+        public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
         [JsonPropertyName("array_of_string")]
-        public List<string> ArrayOfString { get { return this. ArrayOfStringOption; } set { this.ArrayOfStringOption = new(value); } }
+        public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -112,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -140,9 +118,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<List<long>>> arrayArrayOfInteger = default;
-            Option<List<List<ReadOnlyFirst>>> arrayArrayOfModel = default;
-            Option<List<string>> arrayOfString = default;
+            List<List<long>> arrayArrayOfInteger = default;
+            List<List<ReadOnlyFirst>> arrayArrayOfModel = default;
+            List<string> arrayOfString = default;
 
             while (utf8JsonReader.Read())
             {
@@ -161,15 +139,15 @@ namespace Org.OpenAPITools.Model
                     {
                         case "array_array_of_integer":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfInteger = new Option<List<List<long>>>(JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions));
+                                arrayArrayOfInteger = JsonSerializer.Deserialize<List<List<long>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "array_array_of_model":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayArrayOfModel = new Option<List<List<ReadOnlyFirst>>>(JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions));
+                                arrayArrayOfModel = JsonSerializer.Deserialize<List<List<ReadOnlyFirst>>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         case "array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayOfString = new Option<List<string>>(JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions));
+                                arrayOfString = JsonSerializer.Deserialize<List<string>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -177,14 +155,14 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayArrayOfInteger.IsSet && arrayArrayOfInteger.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is not nullable for class ArrayTest.");
+            if (arrayArrayOfInteger == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfInteger), "Property is required for class ArrayTest.");
 
-            if (arrayArrayOfModel.IsSet && arrayArrayOfModel.Value == null)
-                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is not nullable for class ArrayTest.");
+            if (arrayArrayOfModel == null)
+                throw new ArgumentNullException(nameof(arrayArrayOfModel), "Property is required for class ArrayTest.");
 
-            if (arrayOfString.IsSet && arrayOfString.Value == null)
-                throw new ArgumentNullException(nameof(arrayOfString), "Property is not nullable for class ArrayTest.");
+            if (arrayOfString == null)
+                throw new ArgumentNullException(nameof(arrayOfString), "Property is required for class ArrayTest.");
 
             return new ArrayTest(arrayArrayOfInteger, arrayArrayOfModel, arrayOfString);
         }
@@ -213,30 +191,12 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayTest arrayTest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (arrayTest.ArrayArrayOfIntegerOption.IsSet && arrayTest.ArrayArrayOfInteger == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfInteger), "Property is required for class ArrayTest.");
-
-            if (arrayTest.ArrayArrayOfModelOption.IsSet && arrayTest.ArrayArrayOfModel == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayArrayOfModel), "Property is required for class ArrayTest.");
-
-            if (arrayTest.ArrayOfStringOption.IsSet && arrayTest.ArrayOfString == null)
-                throw new ArgumentNullException(nameof(arrayTest.ArrayOfString), "Property is required for class ArrayTest.");
-
-            if (arrayTest.ArrayArrayOfIntegerOption.IsSet)
-            {
-                writer.WritePropertyName("array_array_of_integer");
-                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
-            }
-            if (arrayTest.ArrayArrayOfModelOption.IsSet)
-            {
-                writer.WritePropertyName("array_array_of_model");
-                JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
-            }
-            if (arrayTest.ArrayOfStringOption.IsSet)
-            {
-                writer.WritePropertyName("array_of_string");
-                JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
-            }
+            writer.WritePropertyName("array_array_of_integer");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfInteger, jsonSerializerOptions);
+            writer.WritePropertyName("array_array_of_model");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayArrayOfModel, jsonSerializerOptions);
+            writer.WritePropertyName("array_of_string");
+            JsonSerializer.Serialize(writer, arrayTest.ArrayOfString, jsonSerializerOptions);
         }
     }
 }

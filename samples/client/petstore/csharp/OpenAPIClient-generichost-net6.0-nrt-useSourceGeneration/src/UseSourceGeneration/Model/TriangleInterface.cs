@@ -76,7 +76,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> triangleType = default;
+            string? triangleType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,7 +122,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "triangleType":
-                            triangleType = new Option<string?>(utf8JsonReader.GetString()!);
+                            triangleType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -130,13 +130,10 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!triangleType.IsSet)
-                throw new ArgumentException("Property is required for class TriangleInterface.", nameof(triangleType));
+            if (triangleType == null)
+                throw new ArgumentNullException(nameof(triangleType), "Property is required for class TriangleInterface.");
 
-            if (triangleType.IsSet && triangleType.Value == null)
-                throw new ArgumentNullException(nameof(triangleType), "Property is not nullable for class TriangleInterface.");
-
-            return new TriangleInterface(triangleType.Value!);
+            return new TriangleInterface(triangleType);
         }
 
         /// <summary>
@@ -163,9 +160,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TriangleInterface triangleInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (triangleInterface.TriangleType == null)
-                throw new ArgumentNullException(nameof(triangleInterface.TriangleType), "Property is required for class TriangleInterface.");
-
             writer.WriteString("triangleType", triangleInterface.TriangleType);
         }
     }

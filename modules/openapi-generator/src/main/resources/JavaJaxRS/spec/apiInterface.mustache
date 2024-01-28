@@ -1,13 +1,3 @@
-    /**
-     * {{{notes}}}
-     *
-     {{#allParams}}
-     * @param {{paramName}} {{description}}
-     {{/allParams}}
-     {{#responses}}
-     * @return {{{message}}}
-     {{/responses}}
-     */
     @{{httpMethod}}{{#subresourceOperation}}
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}

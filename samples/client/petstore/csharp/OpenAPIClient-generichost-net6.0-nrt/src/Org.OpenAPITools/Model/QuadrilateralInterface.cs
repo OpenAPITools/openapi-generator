@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -75,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -103,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> quadrilateralType = default;
+            string? quadrilateralType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "quadrilateralType":
-                            quadrilateralType = new Option<string?>(utf8JsonReader.GetString()!);
+                            quadrilateralType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -129,13 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!quadrilateralType.IsSet)
-                throw new ArgumentException("Property is required for class QuadrilateralInterface.", nameof(quadrilateralType));
+            if (quadrilateralType == null)
+                throw new ArgumentNullException(nameof(quadrilateralType), "Property is required for class QuadrilateralInterface.");
 
-            if (quadrilateralType.IsSet && quadrilateralType.Value == null)
-                throw new ArgumentNullException(nameof(quadrilateralType), "Property is not nullable for class QuadrilateralInterface.");
-
-            return new QuadrilateralInterface(quadrilateralType.Value!);
+            return new QuadrilateralInterface(quadrilateralType);
         }
 
         /// <summary>
@@ -162,9 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, QuadrilateralInterface quadrilateralInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (quadrilateralInterface.QuadrilateralType == null)
-                throw new ArgumentNullException(nameof(quadrilateralInterface.QuadrilateralType), "Property is required for class QuadrilateralInterface.");
-
             writer.WriteString("quadrilateralType", quadrilateralInterface.QuadrilateralType);
         }
     }

@@ -13,5 +13,3 @@ parameterNameMappings:
 additionalProperties:
   modelPackage: Samples.Petstore
   projectName: Petstore
-enumNameMappings:
-  sold: UNAVAILABLE

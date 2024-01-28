@@ -9,7 +9,7 @@ class UserApiTests : public QObject {
 
     PFXUser createRandomUser();
 
-private Q_SLOTS:
+private slots:
     void createUserTest();
     void createUsersWithArrayInputTest();
     void createUsersWithListInputTest();

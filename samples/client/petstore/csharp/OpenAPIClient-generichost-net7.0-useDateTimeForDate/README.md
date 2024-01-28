@@ -1,1 +1,0 @@
-# Created with Openapi Generator

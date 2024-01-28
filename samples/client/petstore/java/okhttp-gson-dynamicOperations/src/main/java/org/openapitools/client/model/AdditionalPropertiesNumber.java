@@ -60,6 +60,7 @@ public class AdditionalPropertiesNumber {
   }
 
   public AdditionalPropertiesNumber name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -72,6 +73,7 @@ public class AdditionalPropertiesNumber {
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;

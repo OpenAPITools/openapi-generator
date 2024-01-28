@@ -30,20 +30,20 @@ namespace Org.OpenAPITools.Model
     /// TestInlineFreeformAdditionalPropertiesRequest
     /// </summary>
     [DataContract(Name = "testInlineFreeformAdditionalProperties_request")]
-    public partial class TestInlineFreeformAdditionalPropertiesRequest : IEquatable<TestInlineFreeformAdditionalPropertiesRequest>, IValidatableObject
+    public partial class TestInlineFreeformAdditionalPropertiesRequest : Dictionary<String, Object>, IEquatable<TestInlineFreeformAdditionalPropertiesRequest>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty.</param>
-        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string))
+        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty = default(string)) : base()
         {
-            this._SomeProperty = someProperty;
-            if (this.SomeProperty != null)
+            _SomeProperty = someProperty;
+            if (SomeProperty != null)
             {
-                this._flagSomeProperty = true;
+                _flagSomeProperty = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -84,6 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -94,9 +95,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -127,14 +128,11 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.SomeProperty != null)
+                int hashCode = base.GetHashCode();
+				hashCode = (hashCode * 59) + SomeProperty.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.SomeProperty.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -145,7 +143,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

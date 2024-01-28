@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Drawing
     /// </summary>
     [DataContract(Name = "Drawing")]
-    public partial class Drawing : IEquatable<Drawing>, IValidatableObject
+    public partial class Drawing : Dictionary<String, Fruit>, IEquatable<Drawing>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Drawing" /> class.
@@ -39,29 +39,29 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeOrNull">shapeOrNull.</param>
         /// <param name="nullableShape">nullableShape.</param>
         /// <param name="shapes">shapes.</param>
-        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>))
+        public Drawing(Shape mainShape = default(Shape), ShapeOrNull shapeOrNull = default(ShapeOrNull), NullableShape nullableShape = default(NullableShape), List<Shape> shapes = default(List<Shape>)) : base()
         {
-            this._MainShape = mainShape;
-            if (this.MainShape != null)
+            _MainShape = mainShape;
+            if (MainShape != null)
             {
-                this._flagMainShape = true;
+                _flagMainShape = true;
             }
-            this._ShapeOrNull = shapeOrNull;
-            if (this.ShapeOrNull != null)
+            _ShapeOrNull = shapeOrNull;
+            if (ShapeOrNull != null)
             {
-                this._flagShapeOrNull = true;
+                _flagShapeOrNull = true;
             }
-            this._NullableShape = nullableShape;
-            if (this.NullableShape != null)
+            _NullableShape = nullableShape;
+            if (NullableShape != null)
             {
-                this._flagNullableShape = true;
+                _flagNullableShape = true;
             }
-            this._Shapes = shapes;
-            if (this.Shapes != null)
+            _Shapes = shapes;
+            if (Shapes != null)
             {
-                this._flagShapes = true;
+                _flagShapes = true;
             }
-            this.AdditionalProperties = new Dictionary<string, object>();
+            AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -174,6 +174,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Drawing {\n");
+            sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  MainShape: ").Append(MainShape).Append("\n");
             sb.Append("  ShapeOrNull: ").Append(ShapeOrNull).Append("\n");
             sb.Append("  NullableShape: ").Append(NullableShape).Append("\n");
@@ -187,9 +188,9 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -220,26 +221,20 @@ namespace Org.OpenAPITools.Model
         {
             unchecked // Overflow is fine, just wrap
             {
-                int hashCode = 41;
-                if (this.MainShape != null)
+                int hashCode = base.GetHashCode();
+				hashCode = (hashCode * 59) + MainShape.GetHashCode();
+                if (ShapeOrNull != null)
                 {
-                    hashCode = (hashCode * 59) + this.MainShape.GetHashCode();
+                    hashCode = (hashCode * 59) + ShapeOrNull.GetHashCode();
                 }
-                if (this.ShapeOrNull != null)
+                if (NullableShape != null)
                 {
-                    hashCode = (hashCode * 59) + this.ShapeOrNull.GetHashCode();
+                    hashCode = (hashCode * 59) + NullableShape.GetHashCode();
                 }
-                if (this.NullableShape != null)
+				hashCode = (hashCode * 59) + Shapes.GetHashCode();
+                if (AdditionalProperties != null)
                 {
-                    hashCode = (hashCode * 59) + this.NullableShape.GetHashCode();
-                }
-                if (this.Shapes != null)
-                {
-                    hashCode = (hashCode * 59) + this.Shapes.GetHashCode();
-                }
-                if (this.AdditionalProperties != null)
-                {
-                    hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
+                    hashCode = (hashCode * 59) + AdditionalProperties.GetHashCode();
                 }
                 return hashCode;
             }
@@ -250,7 +245,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

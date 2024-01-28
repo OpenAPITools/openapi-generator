@@ -22,40 +22,32 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
     /// TestInlineFreeformAdditionalPropertiesRequest
     /// </summary>
-    public partial class TestInlineFreeformAdditionalPropertiesRequest : IValidatableObject
+    public partial class TestInlineFreeformAdditionalPropertiesRequest : Dictionary<String, Object>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestInlineFreeformAdditionalPropertiesRequest" /> class.
         /// </summary>
         /// <param name="someProperty">someProperty</param>
         [JsonConstructor]
-        public TestInlineFreeformAdditionalPropertiesRequest(Option<string?> someProperty = default)
+        public TestInlineFreeformAdditionalPropertiesRequest(string someProperty) : base()
         {
-            SomePropertyOption = someProperty;
+            SomeProperty = someProperty;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of SomeProperty
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> SomePropertyOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string? SomeProperty { get { return this. SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
+        public string SomeProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -71,6 +63,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class TestInlineFreeformAdditionalPropertiesRequest {\n");
+            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  SomeProperty: ").Append(SomeProperty).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -82,7 +75,17 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            return this.BaseValidate(validationContext);
+        }
+
+        /// <summary>
+        /// To validate all properties of the instance
+        /// </summary>
+        /// <param name="validationContext">Validation context</param>
+        /// <returns>Validation Result</returns>
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -110,7 +113,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> someProperty = default;
+            string? someProperty = default;
 
             while (utf8JsonReader.Read())
             {
@@ -128,7 +131,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "someProperty":
-                            someProperty = new Option<string?>(utf8JsonReader.GetString()!);
+                            someProperty = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -136,8 +139,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (someProperty.IsSet && someProperty.Value == null)
-                throw new ArgumentNullException(nameof(someProperty), "Property is not nullable for class TestInlineFreeformAdditionalPropertiesRequest.");
+            if (someProperty == null)
+                throw new ArgumentNullException(nameof(someProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
 
             return new TestInlineFreeformAdditionalPropertiesRequest(someProperty);
         }
@@ -166,11 +169,7 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet && testInlineFreeformAdditionalPropertiesRequest.SomeProperty == null)
-                throw new ArgumentNullException(nameof(testInlineFreeformAdditionalPropertiesRequest.SomeProperty), "Property is required for class TestInlineFreeformAdditionalPropertiesRequest.");
-
-            if (testInlineFreeformAdditionalPropertiesRequest.SomePropertyOption.IsSet)
-                writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
+            writer.WriteString("someProperty", testInlineFreeformAdditionalPropertiesRequest.SomeProperty);
         }
     }
 }

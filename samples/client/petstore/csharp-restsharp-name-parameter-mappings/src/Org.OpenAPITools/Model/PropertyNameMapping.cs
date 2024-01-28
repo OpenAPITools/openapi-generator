@@ -40,10 +40,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="typeWithUnderscore">typeWithUnderscore.</param>
         public PropertyNameMapping(string httpDebugOperation = default(string), string underscoreType = default(string), string type = default(string), string typeWithUnderscore = default(string))
         {
-            this.HttpDebugOperation = httpDebugOperation;
-            this.UnderscoreType = underscoreType;
-            this.Type = type;
-            this.TypeWithUnderscore = typeWithUnderscore;
+            HttpDebugOperation = httpDebugOperation;
+            UnderscoreType = underscoreType;
+            Type = type;
+            TypeWithUnderscore = typeWithUnderscore;
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as PropertyNameMapping);
+            return Equals(input as PropertyNameMapping);
         }
 
         /// <summary>
@@ -118,24 +118,20 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.HttpDebugOperation == input.HttpDebugOperation ||
-                    (this.HttpDebugOperation != null &&
-                    this.HttpDebugOperation.Equals(input.HttpDebugOperation))
+                    HttpDebugOperation == input.HttpDebugOperation ||
+					HttpDebugOperation.Equals(input.HttpDebugOperation)
                 ) && 
                 (
-                    this.UnderscoreType == input.UnderscoreType ||
-                    (this.UnderscoreType != null &&
-                    this.UnderscoreType.Equals(input.UnderscoreType))
+                    UnderscoreType == input.UnderscoreType ||
+					UnderscoreType.Equals(input.UnderscoreType)
                 ) && 
                 (
-                    this.Type == input.Type ||
-                    (this.Type != null &&
-                    this.Type.Equals(input.Type))
+                    Type == input.Type ||
+					Type.Equals(input.Type)
                 ) && 
                 (
-                    this.TypeWithUnderscore == input.TypeWithUnderscore ||
-                    (this.TypeWithUnderscore != null &&
-                    this.TypeWithUnderscore.Equals(input.TypeWithUnderscore))
+                    TypeWithUnderscore == input.TypeWithUnderscore ||
+					TypeWithUnderscore.Equals(input.TypeWithUnderscore)
                 );
         }
 
@@ -148,22 +144,10 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.HttpDebugOperation != null)
-                {
-                    hashCode = (hashCode * 59) + this.HttpDebugOperation.GetHashCode();
-                }
-                if (this.UnderscoreType != null)
-                {
-                    hashCode = (hashCode * 59) + this.UnderscoreType.GetHashCode();
-                }
-                if (this.Type != null)
-                {
-                    hashCode = (hashCode * 59) + this.Type.GetHashCode();
-                }
-                if (this.TypeWithUnderscore != null)
-                {
-                    hashCode = (hashCode * 59) + this.TypeWithUnderscore.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + HttpDebugOperation.GetHashCode();
+				hashCode = (hashCode * 59) + UnderscoreType.GetHashCode();
+				hashCode = (hashCode * 59) + Type.GetHashCode();
+				hashCode = (hashCode * 59) + TypeWithUnderscore.GetHashCode();
                 return hashCode;
             }
         }
@@ -173,7 +157,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }

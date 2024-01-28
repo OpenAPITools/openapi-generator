@@ -427,10 +427,6 @@ namespace Example
             config.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // config.AddApiKeyPrefix("api_key", "Bearer");
-            // Configure API key authorization: api_key_query
-            config.AddApiKey("api_key_query", "YOUR_API_KEY");
-            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // config.AddApiKeyPrefix("api_key_query", "Bearer");
 
             // create instances of HttpClient, HttpClientHandler to be reused later with different Api classes
             HttpClient httpClient = new HttpClient();
@@ -487,7 +483,7 @@ catch (ApiException e)
 
 ### Authorization
 
-[api_key](../README.md#api_key), [api_key_query](../README.md#api_key_query)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

@@ -20,7 +20,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,26 +33,19 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="arrayNumber">arrayNumber</param>
         [JsonConstructor]
-        public ArrayOfNumberOnly(Option<List<decimal>> arrayNumber = default)
+        public ArrayOfNumberOnly(List<decimal> arrayNumber)
         {
-            ArrayNumberOption = arrayNumber;
+            ArrayNumber = arrayNumber;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of ArrayNumber
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<List<decimal>> ArrayNumberOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets ArrayNumber
         /// </summary>
         [JsonPropertyName("ArrayNumber")]
-        public List<decimal> ArrayNumber { get { return this. ArrayNumberOption; } set { this.ArrayNumberOption = new(value); } }
+        public List<decimal> ArrayNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -80,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -108,7 +100,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<List<decimal>> arrayNumber = default;
+            List<decimal> arrayNumber = default;
 
             while (utf8JsonReader.Read())
             {
@@ -127,7 +119,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "ArrayNumber":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                arrayNumber = new Option<List<decimal>>(JsonSerializer.Deserialize<List<decimal>>(ref utf8JsonReader, jsonSerializerOptions));
+                                arrayNumber = JsonSerializer.Deserialize<List<decimal>>(ref utf8JsonReader, jsonSerializerOptions);
                             break;
                         default:
                             break;
@@ -135,8 +127,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (arrayNumber.IsSet && arrayNumber.Value == null)
-                throw new ArgumentNullException(nameof(arrayNumber), "Property is not nullable for class ArrayOfNumberOnly.");
+            if (arrayNumber == null)
+                throw new ArgumentNullException(nameof(arrayNumber), "Property is required for class ArrayOfNumberOnly.");
 
             return new ArrayOfNumberOnly(arrayNumber);
         }
@@ -165,14 +157,8 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ArrayOfNumberOnly arrayOfNumberOnly, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (arrayOfNumberOnly.ArrayNumberOption.IsSet && arrayOfNumberOnly.ArrayNumber == null)
-                throw new ArgumentNullException(nameof(arrayOfNumberOnly.ArrayNumber), "Property is required for class ArrayOfNumberOnly.");
-
-            if (arrayOfNumberOnly.ArrayNumberOption.IsSet)
-            {
-                writer.WritePropertyName("ArrayNumber");
-                JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);
-            }
+            writer.WritePropertyName("ArrayNumber");
+            JsonSerializer.Serialize(writer, arrayOfNumberOnly.ArrayNumber, jsonSerializerOptions);
         }
     }
 }

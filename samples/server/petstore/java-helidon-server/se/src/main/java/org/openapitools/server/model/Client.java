@@ -1,7 +1,5 @@
 package org.openapitools.server.model;
 
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 
 

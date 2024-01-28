@@ -31,7 +31,6 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -92,8 +91,6 @@ class ApiResponse
         return $this->code;
     }
 
-
-
     /**
      * Sets code.
      *
@@ -118,8 +115,6 @@ class ApiResponse
         return $this->type;
     }
 
-
-
     /**
      * Sets type.
      *
@@ -143,8 +138,6 @@ class ApiResponse
     {
         return $this->message;
     }
-
-
 
     /**
      * Sets message.

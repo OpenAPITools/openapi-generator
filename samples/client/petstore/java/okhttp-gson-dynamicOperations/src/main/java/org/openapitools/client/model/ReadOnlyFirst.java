@@ -62,6 +62,7 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
 
+  
   public ReadOnlyFirst(
      String bar
   ) {
@@ -80,7 +81,9 @@ public class ReadOnlyFirst {
 
 
 
+
   public ReadOnlyFirst baz(String baz) {
+    
     this.baz = baz;
     return this;
   }
@@ -93,6 +96,7 @@ public class ReadOnlyFirst {
   public String getBaz() {
     return baz;
   }
+
 
   public void setBaz(String baz) {
     this.baz = baz;

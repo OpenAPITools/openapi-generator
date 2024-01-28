@@ -29,7 +29,7 @@ oauthToken OauthBase::getToken(QString scope)
 void OauthBase::addToken(oauthToken token)
 {
     m_oauthTokenMap.insert(token.getScope(),token);
-    Q_EMIT tokenReceived();
+    emit tokenReceived();
 
 }
 
@@ -339,7 +339,7 @@ void ReplyServer::read()
     }
     socket->close();
 
-    Q_EMIT dataReceived(queryParams);
+    emit dataReceived(queryParams);
 }
 
 } // namespace test_namespace

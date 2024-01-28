@@ -25,9 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
@@ -90,14 +87,14 @@ public class KotlinSpringServerCodegenTest {
         codegen.setLibrary("spring-cloud");
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13488_use_kotlinSpring_with_springCloud.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13488_use_kotlinSpring_with_springCloud.yaml"))
+                        .config(codegen))
+                .generate();
 
         // Check that the @RequestMapping annotation is not generated in the Api file
         assertFileNotContains(
-            Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-            "@RequestMapping(\"\\${api.base-path"
+                Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                "@RequestMapping(\"\\${api.base-path"
         );
     }
 
@@ -217,18 +214,18 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue5497-use-tags-kotlin.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue5497-use-tags-kotlin.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Helpers.assertContainsAllOf(files,
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
         );
     }
 
@@ -242,51 +239,51 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_TAGS, true);
 
         List<File> files = new DefaultGenerator()
-            .opts(
-                new ClientOptInput()
-                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue7325-use-delegate-reactive-tags-kotlin.yaml"))
-                    .config(codegen)
-            )
-            .generate();
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue7325-use-delegate-reactive-tags-kotlin.yaml"))
+                                .config(codegen)
+                )
+                .generate();
 
         Helpers.assertContainsAllOf(files,
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiController.kt"),
-            new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt")
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiController.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt")
         );
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-            "suspend fun");
+                "suspend fun");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1Api.kt"),
-            "exchange");
+                "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-            "suspend fun");
+                "suspend fun");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV1ApiDelegate.kt"),
-            "ApiUtil");
+                "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2Api.kt"),
-            "exchange");
+                "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-            "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
+                "import kotlinx.coroutines.flow.Flow", "ResponseEntity<Flow<kotlin.String>>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt"),
-            "suspend fun", "ApiUtil");
+                "suspend fun", "ApiUtil");
 
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
-            "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
+                "import kotlinx.coroutines.flow.Flow", "requestBody: Flow<kotlin.Long>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3Api.kt"),
-            "exchange");
+                "exchange");
         assertFileContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
-            "import kotlinx.coroutines.flow.Flow", "suspend fun", "requestBody: Flow<kotlin.Long>");
+                "import kotlinx.coroutines.flow.Flow", "suspend fun", "requestBody: Flow<kotlin.Long>");
         assertFileNotContains(Paths.get(output + "/src/main/kotlin/org/openapitools/api/TestV3ApiDelegate.kt"),
-            "ApiUtil");
+                "ApiUtil");
     }
 
     @Test
@@ -296,7 +293,7 @@ public class KotlinSpringServerCodegenTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/objectQueryParam.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/objectQueryParam.yaml", null, new ParseOptions()).getOpenAPI();
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -326,7 +323,7 @@ public class KotlinSpringServerCodegenTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_3248.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_3248.yaml", null, new ParseOptions()).getOpenAPI();
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -363,7 +360,7 @@ public class KotlinSpringServerCodegenTest {
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/3_0/issue_2053.yaml", null, new ParseOptions()).getOpenAPI();
+                .readLocation("src/test/resources/3_0/issue_2053.yaml", null, new ParseOptions()).getOpenAPI();
 
         KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
         codegen.setOutputDir(output.getAbsolutePath());
@@ -383,12 +380,12 @@ public class KotlinSpringServerCodegenTest {
         generator.opts(input).generate();
 
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ElephantsApiController.kt"),
-            "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ElephantsApiController.kt"),
+                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ZebrasApiController.kt"),
-            "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ZebrasApiController.kt"),
+                "@org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)"
         );
     }
 
@@ -403,13 +400,13 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.BEAN_QUALIFIERS, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/bean-qualifiers.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/bean-qualifiers.yaml"))
+                        .config(codegen))
+                .generate();
 
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
-            "@RestController(\"org.openapitools.api.PingApiController\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "@RestController(\"org.openapitools.api.PingApiController\")"
         );
     }
 
@@ -425,13 +422,13 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/skip-default-interface.yaml"))
-                .config(codegen))
-            .generate();
+                    .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/skip-default-interface.yaml"))
+                    .config(codegen))
+                .generate();
 
         assertFileNotContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
-            "return "
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApi.kt"),
+                "return "
         );
     }
 
@@ -446,21 +443,21 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_SPRING_BOOT3, true);
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13578_use_springboot3_jakarta_extension.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/feat13578_use_springboot3_jakarta_extension.yaml"))
+                        .config(codegen))
+                .generate();
 
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ApiUtil.kt"),
-            "import jakarta.servlet.http.HttpServletResponse"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/ApiUtil.kt"),
+                "import jakarta.servlet.http.HttpServletResponse"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/Exceptions.kt"),
-            "import jakarta.validation.ConstraintViolationException"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/Exceptions.kt"),
+                "import jakarta.validation.ConstraintViolationException"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
-            "import jakarta.validation.Valid"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/PingApiController.kt"),
+                "import jakarta.validation.Valid"
         );
     }
 
@@ -518,25 +515,25 @@ public class KotlinSpringServerCodegenTest {
         codegen.setOutputDir(output.getAbsolutePath());
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
+                        .config(codegen))
+                .generate();
 
         assertFileNotContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@Schema(example = \"null\", description = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@Schema(example = \"null\", description = \"\")"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@get:Schema(example = \"null\", description = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(example = \"null\", description = \"\")"
         );
         assertFileNotContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@get:Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:Schema(example = \"null\", requiredMode = Schema.RequiredMode.REQUIRED, description = \"\")"
         );
     }
 
@@ -552,53 +549,25 @@ public class KotlinSpringServerCodegenTest {
         codegen.additionalProperties().put(DOCUMENTATION_PROVIDER, DocumentationProvider.SPRINGFOX.toCliOptValue());
 
         new DefaultGenerator().opts(new ClientOptInput()
-                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
-                .config(codegen))
-            .generate();
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/issue3596-use-correct-get-annotation-target.yaml"))
+                        .config(codegen))
+                .generate();
 
         assertFileNotContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@ApiModelProperty(example = \"null\", value = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@ApiModelProperty(example = \"null\", value = \"\")"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@get:ApiModelProperty(example = \"null\", value = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(example = \"null\", value = \"\")"
         );
         assertFileNotContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@ApiModelProperty(example = \"null\", required = true, value = \"\")"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@ApiModelProperty(example = \"null\", required = true, value = \"\")"
         );
         assertFileContains(
-            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
-            "@get:ApiModelProperty(example = \"null\", required = true, value = \"\")"
-        );
-    }
-
-    @Test
-    public void useBeanValidationGenerateAnnotationsForRequestBody() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/bugs/issue_13932.yml", null, new ParseOptions()).getOpenAPI();
-        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, "true");
-        codegen.additionalProperties().put(KotlinSpringServerCodegen.USE_BEANVALIDATION, "true");
-        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
-        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
-
-        ClientOptInput input = new ClientOptInput()
-            .openAPI(openAPI)
-            .config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        Map<String, File> files = generator.opts(input).generate().stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        assertFileContains(
-            Paths.get(files.get("AddApi.kt").getAbsolutePath()),
-            "@Min(2)"
+                Paths.get(outputPath + "/src/main/kotlin/org/openapitools/model/Animal.kt"),
+                "@get:ApiModelProperty(example = \"null\", required = true, value = \"\")"
         );
     }
 }

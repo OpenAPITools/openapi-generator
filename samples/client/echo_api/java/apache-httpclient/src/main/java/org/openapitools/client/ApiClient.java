@@ -55,7 +55,6 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.function.Supplier;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,7 +66,6 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.charset.UnsupportedCharsetException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -79,7 +77,6 @@ import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient extends JavaTimeFormatter {
@@ -132,7 +129,6 @@ public class ApiClient extends JavaTimeFormatter {
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
     authentications.put("http_auth", new HttpBasicAuth());
-    authentications.put("http_bearer_auth", new HttpBearerAuth("bearer"));
     // Prevent the authentications from being modified.
     authentications = Collections.unmodifiableMap(authentications);
 
@@ -292,35 +288,6 @@ public class ApiClient extends JavaTimeFormatter {
     return tempFolderPath;
   }
 
-  /**
-   * Helper method to set access token for the first Bearer authentication.
-   * @param bearerToken Bearer token
-   * @return API client
-   */
-  public ApiClient setBearerToken(String bearerToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return this;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
-
-  /**
-   * Helper method to set the supplier of access tokens for Bearer authentication.
-   *
-   * @param tokenSupplier the token supplier function
-   */
-  public void setBearerToken(Supplier<String> tokenSupplier) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(tokenSupplier);
-        return;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
 
   /**
    * Helper method to set username for the first HTTP basic authentication.
@@ -542,7 +509,7 @@ public class ApiClient extends JavaTimeFormatter {
     List<Pair> params = new ArrayList<Pair>();
 
     // preconditions
-    if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
+    if (name == null || name.isEmpty() || value == null) {
       return params;
     }
 
@@ -704,7 +671,7 @@ public class ApiClient extends JavaTimeFormatter {
     String mimeType = contentType.getMimeType();
     if (isJsonMime(mimeType)) {
       try {
-        return new StringEntity(objectMapper.writeValueAsString(obj), contentType.withCharset(StandardCharsets.UTF_8));
+        return new StringEntity(objectMapper.writeValueAsString(obj), contentType);
       } catch (JsonProcessingException e) {
         throw new ApiException(e);
       }

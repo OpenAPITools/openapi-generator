@@ -82,20 +82,26 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
+import org.openapitools.client.api.PetApi;
 
 public class Example {
   public static void main(String[] args) {
     ApiClient defaultClient = Configuration.getDefaultApiClient();
     defaultClient.setBasePath("http://petstore.swagger.io/v2");
+    
+    // Configure OAuth2 access token for authorization: petstore_auth
+    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
-    FakeApi apiInstance = new FakeApi(defaultClient);
+    PetApi apiInstance = new PetApi(defaultClient);
+    Pet pet = new Pet(); // Pet | Pet object that needs to be added to the store
     try {
-      Object result = apiInstance.op1();
+      Pet result = apiInstance.addPet(pet);
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#op1");
+      System.err.println("Exception when calling PetApi#addPet");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -112,12 +118,6 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*FakeApi* | [**op1**](docs/FakeApi.md#op1) | **POST** /fake/api/changeowner | op1
-*FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
-*FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
-*FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
-*FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
-*FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
@@ -143,8 +143,6 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Animal](docs/Animal.md)
- - [AnyOfArray](docs/AnyOfArray.md)
- - [AnyTypeTest](docs/AnyTypeTest.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [Dog](docs/Dog.md)

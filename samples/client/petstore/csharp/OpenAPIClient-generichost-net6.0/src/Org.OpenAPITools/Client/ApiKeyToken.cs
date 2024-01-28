@@ -12,20 +12,13 @@ namespace Org.OpenAPITools.Client
         private string _raw;
 
         /// <summary>
-        /// The header that this token will be used with.
-        /// </summary>
-        public ClientUtils.ApiKeyHeader Header { get; }
-
-        /// <summary>
         /// Constructs an ApiKeyToken object.
         /// </summary>
         /// <param name="value"></param>
-        /// <param name="header"></param>
         /// <param name="prefix"></param>
         /// <param name="timeout"></param>
-        public ApiKeyToken(string value, ClientUtils.ApiKeyHeader header, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
+        public ApiKeyToken(string value, string prefix = "Bearer ", TimeSpan? timeout = null) : base(timeout)
         {
-            Header = header;
             _raw = $"{ prefix }{ value }";
         }
 
@@ -33,20 +26,22 @@ namespace Org.OpenAPITools.Client
         /// Places the token in the header.
         /// </summary>
         /// <param name="request"></param>
-        public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request)
+        /// <param name="headerName"></param>
+        public virtual void UseInHeader(System.Net.Http.HttpRequestMessage request, string headerName)
         {
-            request.Headers.Add(ClientUtils.ApiKeyHeaderToString(Header), _raw);
+            request.Headers.Add(headerName, _raw);
         }
-
+        
         /// <summary>
         /// Places the token in the query.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="uriBuilder"></param>
         /// <param name="parseQueryString"></param>
-        public virtual void UseInQuery(System.Net.Http.HttpRequestMessage request, UriBuilder uriBuilder, System.Collections.Specialized.NameValueCollection parseQueryString)
+        /// <param name="parameterName"></param>
+        public virtual void UseInQuery(System.Net.Http.HttpRequestMessage request, UriBuilder uriBuilder, System.Collections.Specialized.NameValueCollection parseQueryString, string parameterName)
         {
-            parseQueryString[ClientUtils.ApiKeyHeaderToString(Header)] = Uri.EscapeDataString(_raw).ToString();
+            parseQueryString[parameterName] = Uri.EscapeDataString(_raw).ToString();
         }
     }
 }

@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         public Foo(string bar = @"bar")
         {
             // use default value if no "bar" provided
-            this.Bar = bar ?? @"bar";
+            Bar = bar ?? @"bar";
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Newtonsoft.Json.Formatting.Indented);
+            return JsonConvert.SerializeObject(this, Formatting.Indented);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Foo);
+            return Equals(input as Foo);
         }
 
         /// <summary>
@@ -91,9 +91,8 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.Bar == input.Bar ||
-                    (this.Bar != null &&
-                    this.Bar.Equals(input.Bar))
+                    Bar == input.Bar ||
+					Bar.Equals(input.Bar)
                 );
         }
 
@@ -106,10 +105,7 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Bar != null)
-                {
-                    hashCode = (hashCode * 59) + this.Bar.GetHashCode();
-                }
+				hashCode = (hashCode * 59) + Bar.GetHashCode();
                 return hashCode;
             }
         }

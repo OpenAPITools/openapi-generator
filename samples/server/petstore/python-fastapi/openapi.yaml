@@ -590,7 +590,7 @@ paths:
       - description: has default value
         explode: true
         in: query
-        name: hasDefault
+        name: has_default
         required: false
         schema:
           default: Hello World
@@ -599,7 +599,7 @@ paths:
       - description: no default value
         explode: true
         in: query
-        name: noDefault
+        name: no_default
         required: false
         schema:
           type: string

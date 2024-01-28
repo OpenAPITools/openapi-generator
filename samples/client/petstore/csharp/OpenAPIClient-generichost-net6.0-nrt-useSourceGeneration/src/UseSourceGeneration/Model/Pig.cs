@@ -99,7 +99,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             return this.BaseValidate(validationContext);
         }
@@ -109,7 +109,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
+        protected IEnumerable<ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -137,7 +137,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> className = default;
+            string? className = default;
 
             BasquePig? basquePig = null;
             DanishPig? danishPig = null;
@@ -188,7 +188,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "className":
-                            className = new Option<string?>(utf8JsonReader.GetString()!);
+                            className = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -196,17 +196,14 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (!className.IsSet)
-                throw new ArgumentException("Property is required for class Pig.", nameof(className));
-
-            if (className.IsSet && className.Value == null)
-                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Pig.");
+            if (className == null)
+                throw new ArgumentNullException(nameof(className), "Property is required for class Pig.");
 
             if (basquePig != null)
-                return new Pig(basquePig, className.Value!);
+                return new Pig(basquePig, className);
 
             if (danishPig != null)
-                return new Pig(danishPig, className.Value!);
+                return new Pig(danishPig, className);
 
             throw new JsonException();
         }
@@ -245,9 +242,6 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Pig pig, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (pig.ClassName == null)
-                throw new ArgumentNullException(nameof(pig.ClassName), "Property is required for class Pig.");
-
             writer.WriteString("className", pig.ClassName);
         }
     }

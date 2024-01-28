@@ -68,6 +68,7 @@ public class NumberPropertiesOnly {
   }
 
   public NumberPropertiesOnly number(BigDecimal number) {
+    
     this.number = number;
     return this;
   }
@@ -81,12 +82,14 @@ public class NumberPropertiesOnly {
     return number;
   }
 
+
   public void setNumber(BigDecimal number) {
     this.number = number;
   }
 
 
   public NumberPropertiesOnly _float(Float _float) {
+    
     this._float = _float;
     return this;
   }
@@ -100,12 +103,14 @@ public class NumberPropertiesOnly {
     return _float;
   }
 
+
   public void setFloat(Float _float) {
     this._float = _float;
   }
 
 
   public NumberPropertiesOnly _double(Double _double) {
+    
     this._double = _double;
     return this;
   }
@@ -120,6 +125,7 @@ public class NumberPropertiesOnly {
   public Double getDouble() {
     return _double;
   }
+
 
   public void setDouble(Double _double) {
     this._double = _double;

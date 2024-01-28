@@ -592,20 +592,14 @@ private class OctetStreamEncoding: ParameterEncoding {
 
         var urlRequest = urlRequest
 
-        guard let body = parameters?["body"] else { return urlRequest }
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = APIHelper.mapValuesToQueryItems(parameters ?? [:])
 
         if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
             urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         }
 
-        switch body {
-        case let fileURL as URL:
-            urlRequest.httpBody = try Data(contentsOf: fileURL)
-        case let data as Data:
-            urlRequest.httpBody = data
-        default:
-            fatalError("Unprocessable body \(body)")
-        }
+        urlRequest.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         return urlRequest
     }

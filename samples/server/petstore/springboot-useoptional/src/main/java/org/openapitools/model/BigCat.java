@@ -67,7 +67,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private Optional<KindEnum> kind = Optional.empty();
+  private KindEnum kind;
 
   public BigCat() {
     super();
@@ -81,7 +81,7 @@ public class BigCat extends Cat {
   }
 
   public BigCat kind(KindEnum kind) {
-    this.kind = Optional.of(kind);
+    this.kind = kind;
     return this;
   }
 
@@ -92,11 +92,11 @@ public class BigCat extends Cat {
   
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
-  public Optional<KindEnum> getKind() {
+  public KindEnum getKind() {
     return kind;
   }
 
-  public void setKind(Optional<KindEnum> kind) {
+  public void setKind(KindEnum kind) {
     this.kind = kind;
   }
 

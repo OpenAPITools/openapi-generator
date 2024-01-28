@@ -419,8 +419,6 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isArray = o.isArray;
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
-            this.isResponseFile = o.isResponseFile;
-            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;

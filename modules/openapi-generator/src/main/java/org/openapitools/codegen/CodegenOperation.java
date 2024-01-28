@@ -153,15 +153,6 @@ public class CodegenOperation {
     }
 
     /**
-     * Check if there's at least one parameter which is not a body parameter
-     *
-     * @return true if any non body parameter exists, false otherwise
-     */
-    public boolean getHasNonBodyParams() {
-        return nonEmpty(queryParams) || nonEmpty(headerParams) || nonEmpty(pathParams) || nonEmpty(cookieParams) || nonEmpty(formParams);
-    }
-
-    /**
      * Check if there's at least one optional parameter
      *
      * @return true if any optional parameter exists, false otherwise
@@ -347,7 +338,7 @@ public class CodegenOperation {
         sb.append(", isVoid=").append(isVoid);
         sb.append(", isResponseBinary=").append(isResponseBinary);
         sb.append(", isResponseFile=").append(isResponseFile);
-        sb.append(", isResponseOptional=").append(isResponseOptional);
+        sb.append(", isResponseFile=").append(isResponseOptional);
         sb.append(", hasReference=").append(hasReference);
         sb.append(", hasDefaultResponse=").append(hasDefaultResponse);
         sb.append(", hasErrorResponseObject=").append(hasErrorResponseObject);

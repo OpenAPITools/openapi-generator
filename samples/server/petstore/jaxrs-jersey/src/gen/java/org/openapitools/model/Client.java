@@ -64,7 +64,7 @@ public class Client   {
       return false;
     }
     Client client = (Client) o;
-    return Objects.equals(this.client, client.client);
+    return Objects.equals(client, client.client);
   }
 
   @Override

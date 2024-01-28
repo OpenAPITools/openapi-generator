@@ -78,7 +78,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected static final String NET_48_OR_LATER = "net48OrLater";
     protected static final String NET_60_OR_LATER = "net60OrLater";
     protected static final String NET_70_OR_LATER = "net70OrLater";
-    protected static final String NET_80_OR_LATER = "net80OrLater";
 
     @SuppressWarnings("hiding")
     private final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
@@ -92,8 +91,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETFRAMEWORK_4_7,
             FrameworkStrategy.NETFRAMEWORK_4_8,
             FrameworkStrategy.NET_6_0,
-            FrameworkStrategy.NET_7_0,
-            FrameworkStrategy.NET_8_0
+            FrameworkStrategy.NET_7_0
     );
     private static FrameworkStrategy latestFramework = frameworkStrategies.get(frameworkStrategies.size() - 1);
     protected final Map<String, String> frameworks;
@@ -114,10 +112,9 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
-    protected boolean supportsDateOnly = Boolean.FALSE;
 
     protected boolean validatable = Boolean.TRUE;
-    protected boolean equatable = Boolean.FALSE;
+    protected boolean equatable = Boolean.TRUE;
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
@@ -265,10 +262,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
 
-        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
-                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
-                useDateTimeForDateFlag);
-
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 this.useCollection);
@@ -362,11 +355,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return GENERICHOST.equals(getLibrary())
                 ? super.getValueTypes()
                 : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
-    }
-
-    @Override
-    protected boolean useNet60OrLater() {
-        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override
@@ -466,13 +454,14 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             Collections.sort(codegenModel.readWriteVars, propertyComparatorByName);
             Collections.sort(codegenModel.parentVars, propertyComparatorByName);
 
-            Collections.sort(codegenModel.vars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.allVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.requiredVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.optionalVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.readOnlyVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.readWriteVars, propertyComparatorByNotNullableRequiredNoDefault);
-            Collections.sort(codegenModel.parentVars, propertyComparatorByNotNullableRequiredNoDefault);
+            Comparator<CodegenProperty> comparator = propertyComparatorByNullable.thenComparing(propertyComparatorByDefaultValue);
+            Collections.sort(codegenModel.vars, comparator);
+            Collections.sort(codegenModel.allVars, comparator);
+            Collections.sort(codegenModel.requiredVars, comparator);
+            Collections.sort(codegenModel.optionalVars, comparator);
+            Collections.sort(codegenModel.readOnlyVars, comparator);
+            Collections.sort(codegenModel.readWriteVars, comparator);
+            Collections.sort(codegenModel.parentVars, comparator);
         }
 
         return codegenModel;
@@ -485,12 +474,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         }
     };
 
-    public static Comparator<CodegenProperty> propertyComparatorByNotNullableRequiredNoDefault = new Comparator<CodegenProperty>() {
+    public static Comparator<CodegenProperty> propertyComparatorByDefaultValue = new Comparator<CodegenProperty>() {
         @Override
         public int compare(CodegenProperty one, CodegenProperty another) {
-            if (one.isNullable == another.isNullable && one.required == another.required && (one.defaultValue == null) == (another.defaultValue == null))
+            if ((one.defaultValue == null) == (another.defaultValue == null))
                 return 0;
-            else if (!one.isNullable && one.required && one.defaultValue == null)
+            else if (one.defaultValue == null)
+                return -1;
+            else
+                return 1;
+        }
+    };
+
+    public static Comparator<CodegenProperty> propertyComparatorByNullable = new Comparator<CodegenProperty>() {
+        @Override
+        public int compare(CodegenProperty one, CodegenProperty another) {
+            if (one.isNullable == another.isNullable)
+                return 0;
+            else if (Boolean.FALSE.equals(one.isNullable))
                 return -1;
             else
                 return 1;
@@ -792,7 +793,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
-        syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -854,10 +854,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
-        if (useDateOnly()) {
-            setSupportsDateOnly(true);
-            additionalProperties.put("supportsDateOnly", true);
-        }
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
@@ -1003,10 +999,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
-        if (useDateOnly()) {
-            supportingFiles.add(new SupportingFile("DateOnlyJsonConverter.mustache", clientPackageDir, "DateOnlyJsonConverter.cs"));
-            supportingFiles.add(new SupportingFile("DateOnlyNullableJsonConverter.mustache", clientPackageDir, "DateOnlyNullableJsonConverter.cs"));
-        }
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
@@ -1111,10 +1103,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         this.supportsFileParameters = supportsFileParameters;
     }
 
-    public void setSupportsDateOnly(Boolean supportsDateOnly) {
-        this.supportsDateOnly = supportsDateOnly;
-    }
-
     public void setSupportsRetry(Boolean supportsRetry) {
         this.supportsRetry = supportsRetry;
     }
@@ -1200,10 +1188,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public String toEnumVarName(String value, String datatype) {
-        if (enumNameMapping.containsKey(value)) {
-            return enumNameMapping.get(value);
-        }
-
         if (value.length() == 0) {
             return "Empty";
         }
@@ -1357,8 +1341,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         };
         static FrameworkStrategy NET_7_0 = new FrameworkStrategy("net7.0", ".NET 7.0", "net7.0", Boolean.FALSE) {
         };
-        static FrameworkStrategy NET_8_0 = new FrameworkStrategy("net8.0", ".NET 8.0", "net8.0", Boolean.FALSE) {
-        };
         protected String name;
         protected String description;
         protected String testTargetFramework;
@@ -1482,19 +1464,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 properties.put(NET_48_OR_LATER, true);
                 properties.put(NET_60_OR_LATER, true);
                 properties.put(NET_70_OR_LATER, true);
-            } else if (strategies.stream().anyMatch(p -> "net8.0".equals(p.name))) {
-                properties.put(NET_STANDARD_14_OR_LATER, true);
-                properties.put(NET_STANDARD_15_OR_LATER, true);
-                properties.put(NET_STANDARD_16_OR_LATER, true);
-                properties.put(NET_STANDARD_20_OR_LATER, true);
-                properties.put(NET_STANDARD_21_OR_LATER, true);
-                properties.put(NET_47_OR_LATER, true);
-                properties.put(NET_48_OR_LATER, true);
-                properties.put(NET_60_OR_LATER, true);
-                properties.put(NET_70_OR_LATER, true);
-                properties.put(NET_80_OR_LATER, true);
             } else {
-                throw new RuntimeException("Unhandled case");
+                throw new RuntimeException("Unhanlded case");
             }
         }
     }

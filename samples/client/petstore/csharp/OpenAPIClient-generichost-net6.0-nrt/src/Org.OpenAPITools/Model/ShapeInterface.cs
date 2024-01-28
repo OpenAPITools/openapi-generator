@@ -22,7 +22,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -75,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -103,7 +102,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> shapeType = default;
+            string? shapeType = default;
 
             while (utf8JsonReader.Read())
             {
@@ -121,7 +120,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "shapeType":
-                            shapeType = new Option<string?>(utf8JsonReader.GetString()!);
+                            shapeType = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -129,13 +128,10 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (!shapeType.IsSet)
-                throw new ArgumentException("Property is required for class ShapeInterface.", nameof(shapeType));
+            if (shapeType == null)
+                throw new ArgumentNullException(nameof(shapeType), "Property is required for class ShapeInterface.");
 
-            if (shapeType.IsSet && shapeType.Value == null)
-                throw new ArgumentNullException(nameof(shapeType), "Property is not nullable for class ShapeInterface.");
-
-            return new ShapeInterface(shapeType.Value!);
+            return new ShapeInterface(shapeType);
         }
 
         /// <summary>
@@ -162,9 +158,6 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ShapeInterface shapeInterface, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (shapeInterface.ShapeType == null)
-                throw new ArgumentNullException(nameof(shapeInterface.ShapeType), "Property is required for class ShapeInterface.");
-
             writer.WriteString("shapeType", shapeInterface.ShapeType);
         }
     }

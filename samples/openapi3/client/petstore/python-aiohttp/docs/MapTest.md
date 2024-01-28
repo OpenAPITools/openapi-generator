@@ -2,7 +2,6 @@
 
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **map_map_of_string** | **Dict[str, Dict[str, str]]** |  | [optional] 

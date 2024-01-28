@@ -12,6 +12,7 @@
 """  # noqa: E501
 
 
+import atexit
 import datetime
 from dateutil.parser import parse
 import json
@@ -21,10 +22,10 @@ import re
 import tempfile
 
 from urllib.parse import quote
-from typing import Tuple, Optional, List, Dict
+from typing import Tuple, Optional, List
 
 from petstore_api.configuration import Configuration
-from petstore_api.api_response import ApiResponse, T as ApiResponseT
+from petstore_api.api_response import ApiResponse
 import petstore_api.models
 from petstore_api import rest
 from petstore_api.exceptions import (
@@ -37,7 +38,6 @@ from petstore_api.exceptions import (
     ServiceException
 )
 
-RequestSerialized = Tuple[str, str, Dict[str, str], Optional[str], List[str]]
 
 class ApiClient:
     """Generic API client for OpenAPI client library builds.
@@ -150,7 +150,7 @@ class ApiClient:
         collection_formats=None,
         _host=None,
         _request_auth=None
-    ) -> RequestSerialized:
+    ) -> Tuple:
 
         """Builds the HTTP request params needed by the request.
         :param method: Method to call.
@@ -276,52 +276,63 @@ class ApiClient:
             )
 
         except ApiException as e:
+            if e.body:
+                e.body = e.body.decode('utf-8')
             raise e
 
         return response_data
 
     def response_deserialize(
         self,
-        response_data: rest.RESTResponse,
-        response_types_map: Optional[Dict[str, ApiResponseT]]=None
-    ) -> ApiResponse[ApiResponseT]:
+        response_data=None,
+        response_types_map=None
+    ) -> ApiResponse:
         """Deserializes response into an object.
         :param response_data: RESTResponse object to be deserialized.
         :param response_types_map: dict of response types.
         :return: ApiResponse
         """
 
-        msg = "RESTResponse.read() must be called before passing it to response_deserialize()"
-        assert response_data.data is not None, msg
 
         response_type = response_types_map.get(str(response_data.status), None)
         if not response_type and isinstance(response_data.status, int) and 100 <= response_data.status <= 599:
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(str(response_data.status)[0] + "XX", None)
 
-        # deserialize response data
-        response_text = None
-        return_data = None
-        try:
-            if response_type == "bytearray":
-                return_data = response_data.data
-            elif response_type == "file":
-                return_data = self.__deserialize_file(response_data)
-            elif response_type is not None:
-                match = None
-                content_type = response_data.getheader('content-type')
-                if content_type is not None:
-                    match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
-                encoding = match.group(1) if match else "utf-8"
-                response_text = response_data.data.decode(encoding)
-                return_data = self.deserialize(response_text, response_type)
-        finally:
+        if response_type is None:
             if not 200 <= response_data.status <= 299:
-                raise ApiException.from_response(
-                    http_resp=response_data,
-                    body=response_text,
-                    data=return_data,
-                )
+                if response_data.status == 400:
+                    raise BadRequestException(http_resp=response_data)
+
+                if response_data.status == 401:
+                    raise UnauthorizedException(http_resp=response_data)
+
+                if response_data.status == 403:
+                    raise ForbiddenException(http_resp=response_data)
+
+                if response_data.status == 404:
+                    raise NotFoundException(http_resp=response_data)
+
+                if 500 <= response_data.status <= 599:
+                    raise ServiceException(http_resp=response_data)
+                raise ApiException(http_resp=response_data)
+
+        # deserialize response data
+
+        if response_type == "bytearray":
+            return_data = response_data.data
+        elif response_type is None:
+            return_data = None
+        elif response_type == "file":
+            return_data = self.__deserialize_file(response_data)
+        else:
+            match = None
+            content_type = response_data.getheader('content-type')
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_text = response_data.data.decode(encoding)
+            return_data = self.deserialize(response_text, response_type)
 
         return ApiResponse(
             status_code = response_data.status,
@@ -405,16 +416,12 @@ class ApiClient:
 
         if isinstance(klass, str):
             if klass.startswith('List['):
-                m = re.match(r'List\[(.*)]', klass)
-                assert m is not None, "Malformed List type definition"
-                sub_kls = m.group(1)
+                sub_kls = re.match(r'List\[(.*)]', klass).group(1)
                 return [self.__deserialize(sub_data, sub_kls)
                         for sub_data in data]
 
             if klass.startswith('Dict['):
-                m = re.match(r'Dict\[([^,]*), (.*)]', klass)
-                assert m is not None, "Malformed Dict type definition"
-                sub_kls = m.group(2)
+                sub_kls = re.match(r'Dict\[([^,]*), (.*)]', klass).group(2)
                 return {k: self.__deserialize(v, sub_kls)
                         for k, v in data.items()}
 
@@ -442,7 +449,7 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: Parameters as list of tuples, collections formatted
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
@@ -472,21 +479,21 @@ class ApiClient:
         :param dict collection_formats: Parameter collection formats
         :return: URL query string (e.g. a=Hello%20World&b=123)
         """
-        new_params: List[Tuple[str, str]] = []
+        new_params = []
         if collection_formats is None:
             collection_formats = {}
         for k, v in params.items() if isinstance(params, dict) else params:
-            if isinstance(v, bool):
-                v = str(v).lower()
             if isinstance(v, (int, float)):
                 v = str(v)
+            if isinstance(v, bool):
+                v = str(v).lower()
             if isinstance(v, dict):
                 v = json.dumps(v)
 
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
-                    new_params.extend((k, str(value)) for value in v)
+                    new_params.extend((k, value) for value in v)
                 else:
                     if collection_format == 'ssv':
                         delimiter = ' '
@@ -502,7 +509,7 @@ class ApiClient:
             else:
                 new_params.append((k, quote(str(v))))
 
-        return "&".join(["=".join(map(str, item)) for item in new_params])
+        return "&".join(["=".join(item) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.
@@ -664,12 +671,10 @@ class ApiClient:
 
         content_disposition = response.getheader("Content-Disposition")
         if content_disposition:
-            m = re.search(
+            filename = re.search(
                 r'filename=[\'"]?([^\'"\s]+)[\'"]?',
                 content_disposition
-            )
-            assert m is not None, "Unexpected 'content-disposition' header value"
-            filename = m.group(1)
+            ).group(1)
             path = os.path.join(os.path.dirname(path), filename)
 
         with open(path, "wb") as f:

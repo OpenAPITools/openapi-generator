@@ -6,7 +6,6 @@ from aiohttp import web
 
 from openapi_server.models.order import Order
 
-pytestmark = pytest.mark.asyncio
 
 async def test_delete_order(client):
     """Test case for delete_order

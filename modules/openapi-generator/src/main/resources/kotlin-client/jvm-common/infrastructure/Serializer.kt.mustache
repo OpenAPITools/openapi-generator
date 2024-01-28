@@ -22,15 +22,9 @@ import org.threeten.bp.LocalDate
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
-{{#kotlinx-datetime}}
-import kotlinx.datetime.Instant
-{{/kotlinx-datetime}}
 import java.util.UUID
 {{/gson}}
 {{#jackson}}
-{{#enumUnknownDefaultCase}}
-import com.fasterxml.jackson.databind.DeserializationFeature
-{{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -64,9 +58,6 @@ import java.util.concurrent.atomic.AtomicLong
     @JvmStatic
     val moshiBuilder: Moshi.Builder = Moshi.Builder()
         .add(OffsetDateTimeAdapter())
-        {{#kotlinx-datetime}}
-        .add(InstantAdapter())
-        {{/kotlinx-datetime}}
         .add(LocalDateTimeAdapter())
         .add(LocalDateAdapter())
         .add(UUIDAdapter())
@@ -90,9 +81,6 @@ import java.util.concurrent.atomic.AtomicLong
     @JvmStatic
     val gsonBuilder: GsonBuilder = GsonBuilder()
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
-        {{#kotlinx-datetime}}
-        .registerTypeAdapter(Instant::class.java, InstantAdapter())
-        {{/kotlinx-datetime}}
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
@@ -107,9 +95,6 @@ import java.util.concurrent.atomic.AtomicLong
     val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
         .findAndRegisterModules()
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
-        {{#enumUnknownDefaultCase}}
-        .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-        {{/enumUnknownDefaultCase}}
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
 {{#kotlinx_serialization}}

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Set;
 import org.openapitools.server.model.Category;
 import org.openapitools.server.model.Tag;
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 
 
@@ -21,7 +19,7 @@ public class Pet   {
     private Category category;
     private String name;
     private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<@Valid Tag> tags;
+    private List<Tag> tags;
 
     /**
     * pet status in the store
@@ -84,7 +82,7 @@ public class Pet   {
         Category category, 
         String name, 
         Set<String> photoUrls, 
-        List<@Valid Tag> tags, 
+        List<Tag> tags, 
         StatusEnum status
     ) {
         this.id = id;
@@ -149,11 +147,11 @@ public class Pet   {
      * Get tags
      * @return tags
      */
-    public List<@Valid Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<@Valid Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 

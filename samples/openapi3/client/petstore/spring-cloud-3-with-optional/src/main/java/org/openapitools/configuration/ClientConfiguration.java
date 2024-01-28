@@ -1,7 +1,6 @@
 package org.openapitools.configuration;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -14,6 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

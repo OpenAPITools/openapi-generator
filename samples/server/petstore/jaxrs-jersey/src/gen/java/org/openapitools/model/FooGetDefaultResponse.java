@@ -66,7 +66,7 @@ public class FooGetDefaultResponse   {
       return false;
     }
     FooGetDefaultResponse fooGetDefaultResponse = (FooGetDefaultResponse) o;
-    return Objects.equals(this.string, fooGetDefaultResponse.string);
+    return Objects.equals(string, fooGetDefaultResponse.string);
   }
 
   @Override

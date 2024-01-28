@@ -1,7 +1,6 @@
 package org.openapitools.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.ReadOnlyFirst;
 import javax.validation.constraints.*;
@@ -15,15 +14,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArrayTest  {
   
   @ApiModelProperty(value = "")
-  private List<String> arrayOfString;
+  private List<String> arrayOfString = null;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger = null;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
  /**
   * Get arrayOfString
   * @return arrayOfString
@@ -120,25 +119,6 @@ public class ArrayTest  {
     return this;
   }
 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ArrayTest arrayTest = (ArrayTest) o;
-    return Objects.equals(arrayOfString, arrayTest.arrayOfString) &&
-        Objects.equals(arrayArrayOfInteger, arrayTest.arrayArrayOfInteger) &&
-        Objects.equals(arrayArrayOfModel, arrayTest.arrayArrayOfModel);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(arrayOfString, arrayArrayOfInteger, arrayArrayOfModel);
-  }
 
   @Override
   public String toString() {

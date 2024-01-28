@@ -62,6 +62,7 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
 
+  
   public HasOnlyReadOnly(
      String bar, 
      String foo
@@ -82,6 +83,7 @@ public class HasOnlyReadOnly {
 
 
 
+
    /**
    * Get foo
    * @return foo
@@ -90,6 +92,7 @@ public class HasOnlyReadOnly {
   public String getFoo() {
     return foo;
   }
+
 
 
 

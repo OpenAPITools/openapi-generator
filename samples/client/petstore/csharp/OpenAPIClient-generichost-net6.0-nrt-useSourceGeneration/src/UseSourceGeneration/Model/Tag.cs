@@ -38,40 +38,26 @@ namespace UseSourceGeneration.Model
         /// <param name="id">id</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Tag(Option<long?> id = default, Option<string?> name = default)
+        public Tag(long id, string name)
         {
-            IdOption = id;
-            NameOption = name;
+            Id = id;
+            Name = name;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of Id
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<long?> IdOption { get; private set; }
-
-        /// <summary>
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
-
-        /// <summary>
-        /// Used to track the state of Name
-        /// </summary>
-        [JsonIgnore]
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> NameOption { get; private set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -99,7 +85,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
-        IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -127,8 +113,8 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<long?> id = default;
-            Option<string?> name = default;
+            long? id = default;
+            string? name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -147,10 +133,10 @@ namespace UseSourceGeneration.Model
                     {
                         case "id":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                id = new Option<long?>(utf8JsonReader.GetInt64());
+                                id = utf8JsonReader.GetInt64();
                             break;
                         case "name":
-                            name = new Option<string?>(utf8JsonReader.GetString()!);
+                            name = utf8JsonReader.GetString();
                             break;
                         default:
                             break;
@@ -158,13 +144,13 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (id.IsSet && id.Value == null)
-                throw new ArgumentNullException(nameof(id), "Property is not nullable for class Tag.");
+            if (id == null)
+                throw new ArgumentNullException(nameof(id), "Property is required for class Tag.");
 
-            if (name.IsSet && name.Value == null)
-                throw new ArgumentNullException(nameof(name), "Property is not nullable for class Tag.");
+            if (name == null)
+                throw new ArgumentNullException(nameof(name), "Property is required for class Tag.");
 
-            return new Tag(id, name);
+            return new Tag(id.Value, name);
         }
 
         /// <summary>
@@ -191,14 +177,8 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Tag tag, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (tag.NameOption.IsSet && tag.Name == null)
-                throw new ArgumentNullException(nameof(tag.Name), "Property is required for class Tag.");
-
-            if (tag.IdOption.IsSet)
-                writer.WriteNumber("id", tag.IdOption.Value!.Value);
-
-            if (tag.NameOption.IsSet)
-                writer.WriteString("name", tag.Name);
+            writer.WriteNumber("id", tag.Id);
+            writer.WriteString("name", tag.Name);
         }
     }
 

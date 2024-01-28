@@ -6,4 +6,3 @@ additionalProperties:
   serializationLibrary: jackson
   artifactId: kotlin-petstore-jackson
   enumPropertyNaming: UPPERCASE
-  enumUnknownDefaultCase: "true"

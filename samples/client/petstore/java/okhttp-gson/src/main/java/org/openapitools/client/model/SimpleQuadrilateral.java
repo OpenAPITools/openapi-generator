@@ -63,6 +63,7 @@ public class SimpleQuadrilateral {
   }
 
   public SimpleQuadrilateral shapeType(String shapeType) {
+    
     this.shapeType = shapeType;
     return this;
   }
@@ -76,12 +77,14 @@ public class SimpleQuadrilateral {
     return shapeType;
   }
 
+
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
 
 
   public SimpleQuadrilateral quadrilateralType(String quadrilateralType) {
+    
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -94,6 +97,7 @@ public class SimpleQuadrilateral {
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
+
 
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;

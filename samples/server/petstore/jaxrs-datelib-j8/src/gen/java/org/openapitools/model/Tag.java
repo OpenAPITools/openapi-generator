@@ -90,8 +90,8 @@ public class Tag  implements Serializable {
       return false;
     }
     Tag tag = (Tag) o;
-    return Objects.equals(this.id, tag.id) &&
-        Objects.equals(this.name, tag.name);
+    return Objects.equals(id, tag.id) &&
+        Objects.equals(name, tag.name);
   }
 
   @Override

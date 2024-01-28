@@ -3,14 +3,19 @@ import pprint
 import re  # noqa: F401
 import json
 
+{{#vendorExtensions.x-py-datetime-imports}}{{#-first}}from datetime import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-datetime-imports}}
+{{#vendorExtensions.x-py-typing-imports}}{{#-first}}from typing import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-typing-imports}}
+{{#vendorExtensions.x-py-pydantic-imports}}{{#-first}}from pydantic import{{/-first}} {{{.}}}{{^-last}},{{/-last}}{{/vendorExtensions.x-py-pydantic-imports}}
 {{#vendorExtensions.x-py-other-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-other-imports}}
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Optional, Set
-from typing_extensions import Self
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
 
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
@@ -77,15 +82,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
+        "validate_assignment": True
     }
 
 
 {{#hasChildren}}
 {{#discriminator}}
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[str] = '{{discriminator.propertyBaseName}}'
+    __discriminator_property_name: ClassVar[List[str]] = '{{discriminator.propertyBaseName}}'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
@@ -93,7 +97,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -113,7 +117,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[{{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}]:
+    def from_json(cls, json_str: str) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -133,18 +137,16 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         * Fields in `self.additional_properties` are added to the output dict.
         {{/isAdditionalPropertiesTrue}}
         """
-        excluded_fields: Set[str] = set([
-            {{#vendorExtensions.x-py-readonly}}
-            "{{{.}}}",
-            {{/vendorExtensions.x-py-readonly}}
-            {{#isAdditionalPropertiesTrue}}
-            "additional_properties",
-            {{/isAdditionalPropertiesTrue}}
-        ])
-
         _dict = self.model_dump(
             by_alias=True,
-            exclude=excluded_fields,
+            exclude={
+                {{#vendorExtensions.x-py-readonly}}
+                "{{{.}}}",
+                {{/vendorExtensions.x-py-readonly}}
+                {{#isAdditionalPropertiesTrue}}
+                "additional_properties",
+                {{/isAdditionalPropertiesTrue}}
+            },
             exclude_none=True,
         )
         {{#allVars}}
@@ -234,10 +236,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/allVars}}
         return _dict
 
-    {{#hasChildren}}
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}]:
+    def from_dict(cls, obj: Dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
+        {{#hasChildren}}
         {{#discriminator}}
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -249,11 +251,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
                              ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
         {{/discriminator}}
-    {{/hasChildren}}
-    {{^hasChildren}}
-    @classmethod
-    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of {{{classname}}} from a dict"""
+        {{/hasChildren}}
+        {{^hasChildren}}
         if obj is None:
             return None
 
@@ -280,7 +279,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{^items.items.isPrimitiveType}}
             "{{{baseName}}}": [
                     [{{{items.items.dataType}}}.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj["{{{baseName}}}"]
+                    for _item in obj.get("{{{baseName}}}")
                 ] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.items.isPrimitiveType}}
             {{/items.isArray}}
@@ -290,7 +289,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{^items.isEnumOrRef}}
-            "{{{baseName}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj["{{{baseName}}}"]] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{baseName}}}": [{{{items.dataType}}}.from_dict(_item) for _item in obj.get("{{{baseName}}}")] if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/items.isEnumOrRef}}
             {{/items.isPrimitiveType}}
             {{#items.isPrimitiveType}}
@@ -323,14 +322,14 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
                         if _v is not None
                         else None
                 )
-                for _k, _v in obj.get("{{{baseName}}}", {}).items()
+                for _k, _v in obj.get("{{{baseName}}}").items()
             ){{^-last}},{{/-last}}
             {{/items.isArray}}
             {{/items.isContainer}}
             {{^items.isContainer}}
             "{{{baseName}}}": dict(
                 (_k, {{{items.dataType}}}.from_dict(_v))
-                for _k, _v in obj["{{{baseName}}}"].items()
+                for _k, _v in obj.get("{{{baseName}}}").items()
             )
             if obj.get("{{{baseName}}}") is not None
             else None{{^-last}},{{/-last}}
@@ -348,7 +347,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
             {{^isContainer}}
             {{^isPrimitiveType}}
             {{^isEnumOrRef}}
-            "{{{baseName}}}": {{{dataType}}}.from_dict(obj["{{{baseName}}}"]) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
+            "{{{baseName}}}": {{{dataType}}}.from_dict(obj.get("{{{baseName}}}")) if obj.get("{{{baseName}}}") is not None else None{{^-last}},{{/-last}}
             {{/isEnumOrRef}}
             {{#isEnumOrRef}}
             "{{{baseName}}}": obj.get("{{{baseName}}}"){{^-last}},{{/-last}}
@@ -373,12 +372,15 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
         {{/isAdditionalPropertiesTrue}}
         return _obj
-    {{/hasChildren}}
+        {{/hasChildren}}
 
 {{#vendorExtensions.x-py-postponed-model-imports.size}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-# TODO: Rewrite to not use raise_errors
-{{classname}}.model_rebuild(raise_errors=False)
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    # TODO: pydantic v2
+    # {{classname}}.model_rebuild()
+    pass
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

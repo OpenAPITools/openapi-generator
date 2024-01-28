@@ -31,9 +31,9 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet {
 
-  private Optional<Long> id = Optional.empty();
+  private Long id;
 
-  private Optional<Category> category = Optional.empty();
+  private Category category;
 
   private String name;
 
@@ -81,7 +81,7 @@ public class Pet {
   }
 
   @Deprecated
-  private Optional<StatusEnum> status = Optional.empty();
+  private StatusEnum status;
 
   public Pet() {
     super();
@@ -96,7 +96,7 @@ public class Pet {
   }
 
   public Pet id(Long id) {
-    this.id = Optional.of(id);
+    this.id = id;
     return this;
   }
 
@@ -107,16 +107,16 @@ public class Pet {
   
   @ApiModelProperty(value = "")
   @JsonProperty("id")
-  public Optional<Long> getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(Optional<Long> id) {
+  public void setId(Long id) {
     this.id = id;
   }
 
   public Pet category(Category category) {
-    this.category = Optional.of(category);
+    this.category = category;
     return this;
   }
 
@@ -127,11 +127,11 @@ public class Pet {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("category")
-  public Optional<Category> getCategory() {
+  public Category getCategory() {
     return category;
   }
 
-  public void setCategory(Optional<Category> category) {
+  public void setCategory(Category category) {
     this.category = category;
   }
 
@@ -213,7 +213,7 @@ public class Pet {
   }
 
   public Pet status(StatusEnum status) {
-    this.status = Optional.of(status);
+    this.status = status;
     return this;
   }
 
@@ -226,7 +226,7 @@ public class Pet {
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   @Deprecated
-  public Optional<StatusEnum> getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
@@ -234,7 +234,7 @@ public class Pet {
    * @deprecated
   */
   @Deprecated
-  public void setStatus(Optional<StatusEnum> status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 

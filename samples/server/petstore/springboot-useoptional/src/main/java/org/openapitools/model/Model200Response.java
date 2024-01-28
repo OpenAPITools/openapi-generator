@@ -25,12 +25,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response {
 
-  private Optional<Integer> name = Optional.empty();
+  private Integer name;
 
-  private Optional<String> propertyClass = Optional.empty();
+  private String propertyClass;
 
   public Model200Response name(Integer name) {
-    this.name = Optional.of(name);
+    this.name = name;
     return this;
   }
 
@@ -41,16 +41,16 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public Optional<Integer> getName() {
+  public Integer getName() {
     return name;
   }
 
-  public void setName(Optional<Integer> name) {
+  public void setName(Integer name) {
     this.name = name;
   }
 
   public Model200Response propertyClass(String propertyClass) {
-    this.propertyClass = Optional.of(propertyClass);
+    this.propertyClass = propertyClass;
     return this;
   }
 
@@ -61,11 +61,11 @@ public class Model200Response {
   
   @ApiModelProperty(value = "")
   @JsonProperty("class")
-  public Optional<String> getPropertyClass() {
+  public String getPropertyClass() {
     return propertyClass;
   }
 
-  public void setPropertyClass(Optional<String> propertyClass) {
+  public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
 

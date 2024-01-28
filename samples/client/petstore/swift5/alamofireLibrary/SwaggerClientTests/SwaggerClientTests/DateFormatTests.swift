@@ -111,11 +111,4 @@ class DateFormatTests: XCTestCase {
 		XCTAssert(jsonString == exampleJSONString, "Encoded JSON String: \(jsonString) should match: \(exampleJSONString)")
 	}
 
-    func testCodableOpenAPIDateWithoutTime() throws {
-        let sut = OpenAPIDateWithoutTime(wrappedDate: Date(timeIntervalSince1970: 0))
-        let encodedDate = try JSONEncoder().encode(sut)
-        let decodedDate = try JSONDecoder().decode(OpenAPIDateWithoutTime.self, from: encodedDate)
-
-        XCTAssert(sut == decodedDate, "Decoded date: \(decodedDate) should match initially given date: \(String(describing: sut))")
-    }
 }

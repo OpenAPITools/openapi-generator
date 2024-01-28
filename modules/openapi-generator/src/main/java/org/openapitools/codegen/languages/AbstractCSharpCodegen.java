@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class AbstractCSharpCodegen extends DefaultCodegen implements CodegenConfig {
 
@@ -55,7 +54,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
-    protected boolean useDateTimeForDateFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
@@ -86,7 +84,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected String sourceFolder = "src";
     protected String invalidNamePrefix = "var";
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
     //       This would require updating relative paths (e.g. path to main project file in test project file)
@@ -137,8 +134,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // set "client" as a reserved word to avoid conflicts with Org.OpenAPITools.Client
                         // this is a workaround and can be removed if c# api client is updated to use
                         // fully qualified name
-                        "Client", "client", "parameter", "Configuration", "Version", "Environment",
-                        "TimeZone", "OperatingSystem",
+                        "Client", "client", "parameter", "Configuration", "Version",
                         // local variable names in API methods (endpoints)
                         "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
@@ -187,8 +183,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTime",
                         "DateTimeOffset?",
                         "DateTimeOffset",
-                        "DateOnly?",
-                        "DateOnly",
                         "Boolean",
                         "Double",
                         "Decimal",
@@ -237,16 +231,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.setTypeMapping();
     }
 
-    public void useDateTimeForDate(boolean flag) {
-        this.useDateTimeForDateFlag = flag;
-        this.setTypeMapping();
-    }
-
-    @Override
-    protected void addParentFromContainer(CodegenModel model, Schema schema) {
-        // we do not want to inherit simply because additionalProperties is true
-        // do nothing here
-    }
 
     @Override
     public void processOpts() {
@@ -362,13 +346,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
-        // {{useDateTimeForDate}}
-        if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_FOR_DATE)) {
-            useDateTimeForDate(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_FOR_DATE));
-        } else {
-            additionalProperties.put(CodegenConstants.USE_DATETIME_FOR_DATE, useDateTimeForDateFlag);
-        }
-
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
             setUseCollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COLLECTION));
         } else {
@@ -414,10 +391,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             setEnumValueSuffix(additionalProperties.get(CodegenConstants.ENUM_VALUE_SUFFIX).toString());
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
-            setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
-        }
-
         // This either updates additionalProperties with the above fixes, or sets the default if the option was not specified.
         additionalProperties.put(CodegenConstants.INTERFACE_PREFIX, interfacePrefix);
 
@@ -438,14 +411,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     protected ImmutableMap.Builder<String, Lambda> addMustacheLambdas() {
-        CopyLambda copyLambda = new CopyLambda();
-
         return super.addMustacheLambdas()
                 .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
-                .put("joinWithAmpersand", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("joinLinesWithComma", new JoinWithCommaLambda(false, "\n", ",\n"))
                 .put("joinConditions", new JoinWithCommaLambda(true, "  ", " && "))
                 .put("trimLineBreaks", new TrimLineBreaksLambda())
@@ -453,15 +423,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("trimTrailing", new TrimTrailingWhiteSpaceLambda(false))
                 .put("first", new FirstLambda("  "))
                 .put("firstDot", new FirstLambda("\\."))
-                .put("indent1", new IndentedLambda(4, " ", false, true))
                 .put("indent3", new IndentedLambda(12, " ", false, true))
                 .put("indent4", new IndentedLambda(16, " ", false, true))
-                .put("copy", copyLambda)
-                .put("paste", new PasteLambda(copyLambda, true, true, true, false))
-                .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
-                .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
-                .put("uniqueLines", new UniqueLambda("\n", false))
-                .put("unique", new UniqueLambda("\n", true));
+                .put("uniqueLinesWithNewLine", new UniqueLambda("\n", true));
     }
 
     @Override
@@ -808,11 +772,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 response.vendorExtensions.put("x-is-reference-type", !isValueType);
                             }
 
-                            if (response.headers != null && response.headers.stream().anyMatch(h -> h.baseName.equals("Set-Cookie"))) {
-                                response.vendorExtensions.put("x-set-cookie", true);
-                                operation.vendorExtensions.put("x-set-cookie", true);
-                            }
-
                             String code = response.code.toLowerCase(Locale.ROOT);
                             switch(code) {
                                 case "default":
@@ -1001,7 +960,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
                                     break;
                                 default:
-                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
+                                    throw new RuntimeException("Unhandled case: " + code);
                             }
                         }
                     }
@@ -1639,22 +1598,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         this.supportNullable = supportNullable;
     }
 
-    public CodegenConstants.ENUM_PROPERTY_NAMING_TYPE getEnumPropertyNaming() {
-        return this.enumPropertyNaming;
-    }
-
-    public void setEnumPropertyNaming(final String enumPropertyNamingType) {
-        try {
-            this.enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.valueOf(enumPropertyNamingType);
-        } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
-            for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
-                sb.append("\n  ").append(t.name());
-            }
-            throw new RuntimeException(sb.toString());
-        }
-    }
-
     @Override
     public String toEnumValue(String value, String datatype) {
         // C# only supports enums as literals for int, int?, long, long?, byte, and byte?. All else must be treated as strings.
@@ -1678,17 +1621,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumVarName(String name, String datatype) {
-        if (enumNameMapping.containsKey(name)) {
-            return enumNameMapping.get(name);
-        }
-
         if (name.length() == 0) {
-            return adjustNamingStyle("Empty");
+            return "Empty";
         }
 
         // for symbol, e.g. $, #
         if (getSymbolName(name) != null) {
-            return adjustNamingStyle(getSymbolName(name));
+            return camelize(getSymbolName(name));
         }
 
         String enumName = sanitizeName(name);
@@ -1696,39 +1635,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         enumName = enumName.replaceFirst("^_", "");
         enumName = enumName.replaceFirst("_$", "");
 
-        enumName = adjustNamingStyle(enumName) + this.enumValueSuffix;
+        enumName = camelize(enumName) + this.enumValueSuffix;
 
         if (enumName.matches("\\d.*")) { // starts with number
             return "_" + enumName;
         } else {
             return enumName;
-        }
-    }
-
-    /**
-     * Adjust the naming style of a given name based on the enumPropertyNaming option.
-     *
-     * @param name The original name
-     * @return The adjusted name
-     */
-    private String adjustNamingStyle(String name)
-    {
-        switch (getEnumPropertyNaming()) {
-            case original:
-                return name;
-            case camelCase:
-                // NOTE: Removes hyphens and underscores
-                return camelize(name, LOWERCASE_FIRST_LETTER);
-            case PascalCase:
-                // NOTE: Removes hyphens and underscores
-                return camelize(name);
-            case snake_case:
-                // NOTE: Removes hyphens
-                return underscore(name);
-            case UPPERCASE:
-                return underscore(name).toUpperCase(Locale.ROOT);
-            default:
-                return name;
         }
     }
 
@@ -1769,12 +1681,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected boolean isValueType(CodegenProperty var) {
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
-    }
-
-    protected boolean useNet60OrLater() { return false; }
-
-    protected boolean useDateOnly() {
-        return useNet60OrLater() && !useDateTimeForDateFlag;
     }
 
     @Override
@@ -1841,18 +1747,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
             example = "System.Text.Encoding.ASCII.GetBytes(\"" + escapeText(example) + "\")";
         } else if (p.isDate) {
-            String dateType = typeMapping.get("date");
             if (example == null) {
-                example = dateType + ".Parse(\"2013-10-20\")";
+                example = "DateTime.Parse(\"2013-10-20\")";
             } else {
-                example = dateType + ".Parse(\"" + example + "\")";
+                example = "DateTime.Parse(\"" + example + "\")";
             }
         } else if (p.isDateTime) {
-            String dateType = typeMapping.get("DateTime");
             if (example == null) {
-                example = dateType + ".Parse(\"2013-10-20T19:20:30+01:00\")";
+                example = "DateTime.Parse(\"2013-10-20T19:20:30+01:00\")";
             } else {
-                example = dateType + ".Parse(\"" + example + "\")";
+                example = "DateTime.Parse(\"" + example + "\")";
             }
         } else if (p.isDecimal) {
             if (example == null) {
@@ -2016,7 +1920,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
     }
 
     protected void setTypeMapping() {
@@ -2035,7 +1939,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
-        typeMapping.put("date", this.useDateOnly() ? "DateOnly" : "DateTime");
+        typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");

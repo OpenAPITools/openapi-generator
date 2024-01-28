@@ -71,7 +71,6 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_async_with_result(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
 
         tasks = [
             asyncio.create_task(coro)
@@ -101,32 +100,31 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_add_pet_and_get_pet_by_id(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
 
         fetched = await self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched.id)
-        assert self.pet.category is not None
-        assert fetched.category is not None
+        self.assertIsNotNone(fetched.category)
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
     @async_test
     async def test_add_pet_and_get_pet_by_id_with_http_info(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
 
         fetched = await self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched.data.id)
-        assert self.pet.category is not None
-        assert fetched.data.category is not None
+        self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
 
     @async_test
     async def test_add_pet_and_get_pet_by_id_without_preload_content(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
 
         fetched = await self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
         self.assertIsInstance(fetched, aiohttp.ClientResponse)
+        # self.assertFalse(fetched.closed)
+        # self.assertFalse(fetched.content._eof)
         read = await fetched.content.read()
         self.assertTrue(fetched.closed)
         self.assertTrue(fetched.content._eof)
@@ -138,19 +136,17 @@ class TestPetApiTests(unittest.TestCase):
     async def test_update_pet(self):
         self.pet.name = "hello kity with updated"
         await self.pet_api.update_pet(self.pet)
-        assert self.pet.id is not None
 
         fetched = await self.pet_api.get_pet_by_id(pet_id=self.pet.id)
+        self.assertIsNotNone(fetched)
         self.assertEqual(self.pet.id, fetched.id)
         self.assertEqual(self.pet.name, fetched.name)
-        assert self.pet.category is not None
-        assert fetched.category is not None
+        self.assertIsNotNone(fetched.category)
         self.assertEqual(fetched.category.name, self.pet.category.name)
 
     @async_test
     async def test_find_pets_by_status(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.status is not None
         pets = await self.pet_api.find_pets_by_status(status=[self.pet.status])
         self.assertIn(
             self.pet.id,
@@ -160,7 +156,6 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_find_pets_by_tags(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.tag.name is not None
         pets = await self.pet_api.find_pets_by_tags(tags=[self.tag.name])
         self.assertIn(
             self.pet.id,
@@ -170,7 +165,6 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_update_pet_with_form(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
 
         name = "hello kity with form updated"
         status = "pending"
@@ -186,7 +180,6 @@ class TestPetApiTests(unittest.TestCase):
         # upload file with form parameter
         try:
             additional_metadata = "special"
-            assert self.pet.id is not None
             await self.pet_api.upload_file(
                 pet_id=self.pet.id,
                 additional_metadata=additional_metadata,
@@ -204,7 +197,6 @@ class TestPetApiTests(unittest.TestCase):
     @async_test
     async def test_delete_pet(self):
         await self.pet_api.add_pet(self.pet)
-        assert self.pet.id is not None
         await self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
 
         try:
@@ -221,7 +213,6 @@ class TestPetApiTests(unittest.TestCase):
         config.proxy = 'http://localhost:8080/proxy'
         async with petstore_api.ApiClient(config) as client:
             pet_api = petstore_api.PetApi(client)
-            assert self.pet.id is not None
 
             with self.assertRaisesRegex(petstore_api.rest.aiohttp.client_exceptions.ClientProxyConnectionError,
                                         'Cannot connect to host localhost:8080'):

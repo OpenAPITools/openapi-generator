@@ -163,12 +163,6 @@ public class JMeterClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    @Override
-    public String toOperationId(String operationId) {
-        // replace $ with _
-        return super.toOperationId(operationId.replace("$", "_"));
-    }
-
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reserved words

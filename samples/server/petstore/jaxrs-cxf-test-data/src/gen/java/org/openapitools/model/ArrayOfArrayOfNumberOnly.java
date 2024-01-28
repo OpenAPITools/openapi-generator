@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -16,7 +15,7 @@ public class ArrayOfArrayOfNumberOnly  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber = null;
  /**
   * Get arrayArrayNumber
   * @return arrayArrayNumber
@@ -49,23 +48,6 @@ public class ArrayOfArrayOfNumberOnly  {
     return this;
   }
 
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ArrayOfArrayOfNumberOnly arrayOfArrayOfNumberOnly = (ArrayOfArrayOfNumberOnly) o;
-    return Objects.equals(arrayArrayNumber, arrayOfArrayOfNumberOnly.arrayArrayNumber);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(arrayArrayNumber);
-  }
 
   @Override
   public String toString() {

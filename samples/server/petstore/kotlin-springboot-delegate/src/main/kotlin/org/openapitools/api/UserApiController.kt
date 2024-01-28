@@ -10,7 +10,7 @@ import java.util.Optional
 class UserApiController(
         @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: UserApiDelegate?
 ) : UserApi {
-    private lateinit var delegate: UserApiDelegate
+    private val delegate: UserApiDelegate
 
     init {
         this.delegate = Optional.ofNullable(delegate).orElse(object : UserApiDelegate {})

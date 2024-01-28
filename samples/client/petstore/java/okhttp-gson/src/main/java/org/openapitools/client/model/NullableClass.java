@@ -111,6 +111,7 @@ public class NullableClass {
   }
 
   public NullableClass integerProp(Integer integerProp) {
+    
     this.integerProp = integerProp;
     return this;
   }
@@ -124,12 +125,14 @@ public class NullableClass {
     return integerProp;
   }
 
+
   public void setIntegerProp(Integer integerProp) {
     this.integerProp = integerProp;
   }
 
 
   public NullableClass numberProp(BigDecimal numberProp) {
+    
     this.numberProp = numberProp;
     return this;
   }
@@ -143,12 +146,14 @@ public class NullableClass {
     return numberProp;
   }
 
+
   public void setNumberProp(BigDecimal numberProp) {
     this.numberProp = numberProp;
   }
 
 
   public NullableClass booleanProp(Boolean booleanProp) {
+    
     this.booleanProp = booleanProp;
     return this;
   }
@@ -162,12 +167,14 @@ public class NullableClass {
     return booleanProp;
   }
 
+
   public void setBooleanProp(Boolean booleanProp) {
     this.booleanProp = booleanProp;
   }
 
 
   public NullableClass stringProp(String stringProp) {
+    
     this.stringProp = stringProp;
     return this;
   }
@@ -181,12 +188,14 @@ public class NullableClass {
     return stringProp;
   }
 
+
   public void setStringProp(String stringProp) {
     this.stringProp = stringProp;
   }
 
 
   public NullableClass dateProp(LocalDate dateProp) {
+    
     this.dateProp = dateProp;
     return this;
   }
@@ -200,12 +209,14 @@ public class NullableClass {
     return dateProp;
   }
 
+
   public void setDateProp(LocalDate dateProp) {
     this.dateProp = dateProp;
   }
 
 
   public NullableClass datetimeProp(OffsetDateTime datetimeProp) {
+    
     this.datetimeProp = datetimeProp;
     return this;
   }
@@ -219,12 +230,14 @@ public class NullableClass {
     return datetimeProp;
   }
 
+
   public void setDatetimeProp(OffsetDateTime datetimeProp) {
     this.datetimeProp = datetimeProp;
   }
 
 
   public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
+    
     this.arrayNullableProp = arrayNullableProp;
     return this;
   }
@@ -246,12 +259,14 @@ public class NullableClass {
     return arrayNullableProp;
   }
 
+
   public void setArrayNullableProp(List<Object> arrayNullableProp) {
     this.arrayNullableProp = arrayNullableProp;
   }
 
 
   public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
+    
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
     return this;
   }
@@ -273,12 +288,14 @@ public class NullableClass {
     return arrayAndItemsNullableProp;
   }
 
+
   public void setArrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = arrayAndItemsNullableProp;
   }
 
 
   public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
+    
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -300,12 +317,14 @@ public class NullableClass {
     return arrayItemsNullable;
   }
 
+
   public void setArrayItemsNullable(List<Object> arrayItemsNullable) {
     this.arrayItemsNullable = arrayItemsNullable;
   }
 
 
   public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
+    
     this.objectNullableProp = objectNullableProp;
     return this;
   }
@@ -327,12 +346,14 @@ public class NullableClass {
     return objectNullableProp;
   }
 
+
   public void setObjectNullableProp(Map<String, Object> objectNullableProp) {
     this.objectNullableProp = objectNullableProp;
   }
 
 
   public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
+    
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
     return this;
   }
@@ -354,12 +375,14 @@ public class NullableClass {
     return objectAndItemsNullableProp;
   }
 
+
   public void setObjectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = objectAndItemsNullableProp;
   }
 
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
+    
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -380,6 +403,7 @@ public class NullableClass {
   public Map<String, Object> getObjectItemsNullable() {
     return objectItemsNullable;
   }
+
 
   public void setObjectItemsNullable(Map<String, Object> objectItemsNullable) {
     this.objectItemsNullable = objectItemsNullable;

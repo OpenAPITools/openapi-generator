@@ -31,7 +31,7 @@ public:
     virtual ~OAIPetApiHandler();
 
 
-public Q_SLOTS:
+public slots:
     virtual void addPet(OAIPet body);
     virtual void deletePet(qint64 pet_id, QString api_key);
     virtual void findPetsByStatus(QList<QString> status);

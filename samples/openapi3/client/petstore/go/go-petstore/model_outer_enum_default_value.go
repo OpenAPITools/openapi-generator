@@ -22,7 +22,7 @@ type OuterEnumDefaultValue string
 const (
 	OUTERENUMDEFAULTVALUE_PLACED OuterEnumDefaultValue = "placed"
 	OUTERENUMDEFAULTVALUE_APPROVED OuterEnumDefaultValue = "approved"
-	OUTERENUMDEFAULTVALUE_SHIPPED OuterEnumDefaultValue = "delivered"
+	OUTERENUMDEFAULTVALUE_DELIVERED OuterEnumDefaultValue = "delivered"
 )
 
 // All allowed values of OuterEnumDefaultValue enum

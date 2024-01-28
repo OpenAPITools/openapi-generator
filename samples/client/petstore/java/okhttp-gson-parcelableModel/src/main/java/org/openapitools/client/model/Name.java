@@ -72,6 +72,7 @@ public class Name implements Parcelable {
   public Name() {
   }
 
+  
   public Name(
      Integer snakeCase, 
      Integer _123number
@@ -82,6 +83,7 @@ public class Name implements Parcelable {
   }
 
   public Name name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -94,6 +96,7 @@ public class Name implements Parcelable {
   public Integer getName() {
     return name;
   }
+
 
   public void setName(Integer name) {
     this.name = name;
@@ -111,7 +114,9 @@ public class Name implements Parcelable {
 
 
 
+
   public Name property(String property) {
+    
     this.property = property;
     return this;
   }
@@ -124,6 +129,7 @@ public class Name implements Parcelable {
   public String getProperty() {
     return property;
   }
+
 
   public void setProperty(String property) {
     this.property = property;
@@ -138,6 +144,7 @@ public class Name implements Parcelable {
   public Integer get123number() {
     return _123number;
   }
+
 
 
 

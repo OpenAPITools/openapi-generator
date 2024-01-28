@@ -18,8 +18,8 @@
         /// </summary>
         public {{classname}}()
         {
-            this.IsNullable = true;
-            this.SchemaType= "anyOf";
+            IsNullable = true;
+            SchemaType= "anyOf";
         }
 
         {{/isNullable}}
@@ -33,9 +33,9 @@
         /// <param name="actualInstance">An instance of {{dataType}}.</param>
         public {{classname}}({{{dataType}}} actualInstance)
         {
-            this.IsNullable = {{#model.isNullable}}true{{/model.isNullable}}{{^model.isNullable}}false{{/model.isNullable}};
-            this.SchemaType= "anyOf";
-            this.ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isFreeFormObject}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isString}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
+            IsNullable = {{#model.isNullable}}true{{/model.isNullable}}{{^model.isNullable}}false{{/model.isNullable}};
+            SchemaType= "anyOf";
+            ActualInstance = actualInstance{{^model.isNullable}}{{^isPrimitiveType}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isPrimitiveType}}{{#isPrimitiveType}}{{#isArray}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isArray}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isFreeFormObject}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isFreeFormObject}}{{/isPrimitiveType}}{{#isPrimitiveType}}{{#isString}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isString}}{{/isPrimitiveType}}{{/model.isNullable}};
         }
 
         {{/isNull}}
@@ -58,7 +58,7 @@
                 {{#anyOf}}
                 {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))
                 {
-                    this._actualInstance = value;
+                    _actualInstance = value;
                 }
                 {{/anyOf}}
                 else
@@ -78,7 +78,7 @@
         /// <returns>An instance of {{dataType}}</returns>
         public {{{dataType}}} Get{{#lambda.titlecase}}{{baseType}}{{/lambda.titlecase}}{{#isArray}}{{#lambda.titlecase}}{{{dataFormat}}}{{/lambda.titlecase}}{{/isArray}}()
         {
-            return ({{{dataType}}})this.ActualInstance;
+            return ({{{dataType}}})ActualInstance;
         }
         {{/isNull}}
         {{/vendorExtensions.x-duplicated-data-type}}
@@ -92,7 +92,7 @@
         {
             var sb = new StringBuilder();
             sb.Append("class {{classname}} {\n");
-            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
+            sb.Append("  ActualInstance: ").Append(ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,7 +103,7 @@
         /// <returns>JSON string presentation of the object</returns>
         public override string ToJson()
         {
-            return JsonConvert.SerializeObject(this.ActualInstance, {{classname}}.SerializerSettings);
+            return JsonConvert.SerializeObject(ActualInstance, {{classname}}.SerializerSettings);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@
             return OpenAPIClientUtils.compareLogic.Compare(this, input as {{classname}}).AreEqual;
             {{/useCompareNetObjects}}
             {{^useCompareNetObjects}}
-            return this.Equals(input as {{classname}});
+            return Equals(input as {{classname}});
             {{/useCompareNetObjects}}
         }
 
@@ -168,7 +168,7 @@
             if (input == null)
                 return false;
 
-            return this.ActualInstance.Equals(input.ActualInstance);
+            return ActualInstance.Equals(input.ActualInstance);
             {{/useCompareNetObjects}}
         }
 
@@ -181,8 +181,8 @@
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ActualInstance != null)
-                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
+                if (ActualInstance != null)
+                    hashCode = hashCode * 59 + ActualInstance.GetHashCode();
                 return hashCode;
             }
         }

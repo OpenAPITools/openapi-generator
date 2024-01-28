@@ -31,7 +31,6 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
-use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -42,11 +41,27 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
-enum EnumStringModel: string
+class EnumStringModel
 {
-        case AVAILABLE = "available";
-        case PENDING = "pending";
-        case SOLD = "sold";
+    /**
+     * Possible values of this enum
+     */
+    const AVAILABLE = "available";
+    const PENDING = "pending";
+    const SOLD = "sold";
+    
+    /**
+     * Gets allowable values of the enum
+     * @return string[]
+     */
+    public static function getAllowableEnumValues()
+    {
+        return [
+            self::AVAILABLE,
+            self::PENDING,
+            self::SOLD,
+        ];
+    }
 }
 
 

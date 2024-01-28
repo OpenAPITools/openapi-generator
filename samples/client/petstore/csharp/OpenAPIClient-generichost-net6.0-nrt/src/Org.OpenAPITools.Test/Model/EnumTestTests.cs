@@ -54,15 +54,6 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'EnumStringRequired'
-        /// </summary>
-        [Fact]
-        public void EnumStringRequiredTest()
-        {
-            // TODO unit test for the property 'EnumStringRequired'
-        }
-
-        /// <summary>
         /// Test the property 'EnumInteger'
         /// </summary>
         [Fact]
@@ -99,12 +90,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'OuterEnum'
+        /// Test the property 'EnumStringRequired'
         /// </summary>
         [Fact]
-        public void OuterEnumTest()
+        public void EnumStringRequiredTest()
         {
-            // TODO unit test for the property 'OuterEnum'
+            // TODO unit test for the property 'EnumStringRequired'
         }
 
         /// <summary>
@@ -132,6 +123,15 @@ namespace Org.OpenAPITools.Test.Model
         public void OuterEnumIntegerDefaultValueTest()
         {
             // TODO unit test for the property 'OuterEnumIntegerDefaultValue'
+        }
+
+        /// <summary>
+        /// Test the property 'OuterEnum'
+        /// </summary>
+        [Fact]
+        public void OuterEnumTest()
+        {
+            // TODO unit test for the property 'OuterEnum'
         }
     }
 }

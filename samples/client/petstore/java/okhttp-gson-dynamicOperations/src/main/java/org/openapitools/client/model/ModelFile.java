@@ -59,6 +59,7 @@ public class ModelFile {
   }
 
   public ModelFile sourceURI(String sourceURI) {
+    
     this.sourceURI = sourceURI;
     return this;
   }
@@ -71,6 +72,7 @@ public class ModelFile {
   public String getSourceURI() {
     return sourceURI;
   }
+
 
   public void setSourceURI(String sourceURI) {
     this.sourceURI = sourceURI;

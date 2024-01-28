@@ -26,7 +26,5 @@ pub mod tag;
 pub use self::tag::Tag;
 pub mod type_testing;
 pub use self::type_testing::TypeTesting;
-pub mod unique_item_array_testing;
-pub use self::unique_item_array_testing::UniqueItemArrayTesting;
 pub mod user;
 pub use self::user::User;

@@ -3,7 +3,6 @@
 Must be named `File` for test.
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **source_uri** | **str** | Test capitalization | [optional] 

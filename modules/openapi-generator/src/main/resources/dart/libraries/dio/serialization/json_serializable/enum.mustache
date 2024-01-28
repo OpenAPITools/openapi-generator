@@ -11,14 +11,7 @@ enum {{{classname}}} {
   /// {{{.}}}
   {{/description}}
   @JsonValue({{#isString}}r{{/isString}}{{{value}}})
-  {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{{name}}},
 {{/enumVars}}
 {{/allowableValues}}
-
-  const {{{classname}}}(this.value);
-
-  final String value;
-
-  @override
-  String toString() => value;
 }

@@ -58,10 +58,10 @@ public:
 private:
     QByteArray m_reply;
 
-Q_SIGNALS:
+signals:
     void dataReceived(QMap<QString, QString>);
 
-public Q_SLOTS:
+public slots:
     void onConnected();
     void read();
     void start();
@@ -88,11 +88,11 @@ protected:
     QString m_scope, m_accessType, m_state, m_redirectUri, m_clientId, m_clientSecret;
     bool m_linked;
 
-public Q_SLOTS:
+public slots:
     virtual void authenticationNeededCallback()=0;
     void onFinish(QNetworkReply *rep);
 
-Q_SIGNALS:
+signals:
     void authenticationNeeded();
     void tokenReceived();
 };
@@ -110,7 +110,7 @@ public:
 private:
     ReplyServer m_server;
 
-public Q_SLOTS:
+public slots:
     void authenticationNeededCallback() override;
     void onVerificationReceived(const QMap<QString, QString> response);
 
@@ -129,7 +129,7 @@ public:
 private:
     ReplyServer m_server;
 
-public Q_SLOTS:
+public slots:
     void authenticationNeededCallback() override;
     void ImplicitTokenReceived(const QMap<QString, QString> response);
 };
@@ -144,7 +144,7 @@ public:
     void unlink() override;
     void setVariables(QString tokenUrl, QString scope, QString clientId, QString clientSecret);
 
-public Q_SLOTS:
+public slots:
     void authenticationNeededCallback() override;
 
 };
@@ -162,7 +162,7 @@ public:
 private:
     QString m_username, m_password;
 
-public Q_SLOTS:
+public slots:
     void authenticationNeededCallback() override;
 
 };

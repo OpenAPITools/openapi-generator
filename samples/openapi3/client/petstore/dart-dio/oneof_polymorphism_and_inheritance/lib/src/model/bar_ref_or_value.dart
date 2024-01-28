@@ -3,7 +3,6 @@
 //
 
 // ignore_for_file: unused_element
-import 'package:openapi/src/model/foo_ref_or_value.dart';
 import 'package:openapi/src/model/bar_ref.dart';
 import 'package:openapi/src/model/bar.dart';
 import 'package:built_value/built_value.dart';
@@ -15,16 +14,11 @@ part 'bar_ref_or_value.g.dart';
 /// BarRefOrValue
 ///
 /// Properties:
-/// * [id] - unique identifier
-/// * [barPropA] 
-/// * [fooPropB] 
-/// * [foo] 
 /// * [href] - Hyperlink reference
+/// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
-/// * [name] - Name of the related entity.
-/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilder> {
   /// One Of [Bar], [BarRef]

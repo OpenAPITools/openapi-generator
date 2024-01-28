@@ -25,10 +25,10 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn {
 
-  private Optional<Integer> _return = Optional.empty();
+  private Integer _return;
 
   public ModelReturn _return(Integer _return) {
-    this._return = Optional.of(_return);
+    this._return = _return;
     return this;
   }
 
@@ -39,11 +39,11 @@ public class ModelReturn {
   
   @ApiModelProperty(value = "")
   @JsonProperty("return")
-  public Optional<Integer> getReturn() {
+  public Integer getReturn() {
     return _return;
   }
 
-  public void setReturn(Optional<Integer> _return) {
+  public void setReturn(Integer _return) {
     this._return = _return;
   }
 

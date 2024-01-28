@@ -2,7 +2,6 @@
 
 
 ## Properties
-
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **dict_property** | **Dict[str, List[CreatureInfo]]** |  | [optional] 

@@ -141,10 +141,6 @@ Serializers serializers = (_$serializers.toBuilder()
         () => ListBuilder<Pet>(),
       )
       ..addBuilderFactory(
-        const FullType(BuiltMap, [FullType(String), FullType.nullable(JsonObject)]),
-        () => MapBuilder<String, JsonObject>(),
-      )
-      ..addBuilderFactory(
         const FullType(BuiltMap, [FullType(String), FullType(int)]),
         () => MapBuilder<String, int>(),
       )

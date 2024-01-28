@@ -4,8 +4,9 @@ import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.*
 import kotlinx.serialization.encoding.*
 
-@Serializable(OctetByteArray.Companion::class)
+@Serializable
 class OctetByteArray(val value: ByteArray) {
+    @Serializer(OctetByteArray::class)
     companion object : KSerializer<OctetByteArray> {
         override val descriptor = PrimitiveSerialDescriptor("OctetByteArray", PrimitiveKind.STRING)
         override fun serialize(encoder: Encoder, obj: OctetByteArray) = encoder.encodeString(hex(obj.value))

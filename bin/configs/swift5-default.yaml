@@ -8,5 +8,3 @@ additionalProperties:
   podSummary: PetstoreClient
   projectName: PetstoreClient
   podHomepage: https://github.com/openapitools/openapi-generator
-enumNameMappings:
-  delivered: shipped
