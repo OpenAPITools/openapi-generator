@@ -738,9 +738,13 @@ public class OpenAPINormalizer {
      *
      * @param schema Schema
      */
-    private boolean isNullTypeSchema(Schema schema) {
+    public boolean isNullTypeSchema(Schema schema) {
         if (schema == null) {
             return true;
+        }
+
+        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+            return false;
         }
 
         if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
@@ -753,7 +757,7 @@ public class OpenAPINormalizer {
             }
         }
 
-        if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
             return true;
         }
 
