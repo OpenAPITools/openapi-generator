@@ -22,9 +22,11 @@ import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
+import org.openapitools.codegen.config.GeneratorSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.languages.*;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -408,25 +410,45 @@ public class JavaValidationArrayPrimitivesTest {
         asserts.accept(files);
     }
 
-    @Test
-    public void shouldNotAddAnnotationForReturnType() throws IOException {
+    @DataProvider(name = "typeMappings")
+    public Object[] typeMappings(){
+        return new String[]{
+            "List",
+            "Set"
+        };
+    };
+
+    @Test(dataProvider = "typeMappings")
+    public void shouldNotAddAnnotationForReturnType(String typeMapping) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final OpenAPI openAPI = new OpenAPIParser()
             .readLocation("src/test/resources/bugs/issue_17472.yaml", null, new ParseOptions()).getOpenAPI();
         final SpringCodegen codegen = new SpringCodegen();
+        codegen.setUseTags(true);codegen.setOutputDir(output.getAbsolutePath());
         codegen.setOpenAPI(openAPI);
-        codegen.setOutputDir(output.getAbsolutePath());
+        final GeneratorSettings generatorSettings = GeneratorSettings.newBuilder()
+            .withTypeMappings(Map.of("array", typeMapping))
+                .build();
         ClientOptInput input = new ClientOptInput();
+        input.generatorSettings(generatorSettings);
         input.openAPI(openAPI);
         input.config(codegen);
         final DefaultGenerator generator = new DefaultGenerator();
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
-        JavaFileAssert.assertThat(files.get("TestApi.java"))
-            .fileContains("ResponseEntity<List<String>>")
-            .fileContains("List<@Size(min = 2, max = 2)String> requestBody");
+        JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
+            .fileContains("ResponseEntity<" + typeMapping + "<String>>")
+            .fileContains(typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody");
+
+        JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
+            .fileContains("ResponseEntity<" + typeMapping + "<String>>")
+            .fileContains(typeMapping + "<@Size(min = 2, max = 2)String> requestBody");
+
+        JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
+            .fileContains("ResponseEntity<" + typeMapping + "<ListOfObjectsInner>>")
+            .fileContains("@Valid @RequestBody(required = false) " + typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner");
     }
 }

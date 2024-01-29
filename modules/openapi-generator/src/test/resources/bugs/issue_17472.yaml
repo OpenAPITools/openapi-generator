@@ -3,28 +3,81 @@ info:
   title: TEST 17472
   description: TEST 17472
   version: 1.0.0
-
+tags:
+  - listOfStrings
+  - listOfObjects
+  - listOfPatterns
 paths:
-  /test:
+  /testListOfStrings:
     post:
       description: test list of string in argument and response
+      tags:
+        - listOfStrings
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ListOfString'
+              $ref: '#/components/schemas/ListOfStrings'
       responses:
         200:
           description: 'response'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListOfString'
+                $ref: '#/components/schemas/ListOfStrings'
+  /testListOfObjects:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfObjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfObjects'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfObjects'
+  /testListOfPatterns:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfPatterns
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfPatterns'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfPatterns'
 components:
   schemas:
-    ListOfString:
+    ListOfStrings:
       type: array
       items:
         maxLength: 2
         minLength: 2
+        type: string
+    ListOfObjects:
+      type: array
+      items:
+        type: object
+        properties:
+          text:
+            maxLength: 2
+            minLength: 2
+            type: string
+    ListOfPatterns:
+      type: array
+      items:
+        pattern: '([a-z]+)'
         type: string
