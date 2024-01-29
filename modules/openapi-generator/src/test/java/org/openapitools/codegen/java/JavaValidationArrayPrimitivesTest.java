@@ -443,19 +443,19 @@ public class JavaValidationArrayPrimitivesTest {
         // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
             .fileContains("ResponseEntity<" + typeMapping + "<String>>",
-                "@Valid@Size(min = 5)  @RequestBody",
-                typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody");
+                typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
+            .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
             .fileContains(
                 "ResponseEntity<" + typeMapping + "<String>>",
-                "@Valid@Size(min = 5)  @RequestBody",
-                typeMapping + "<@Size(min = 2, max = 2)String> requestBody");
+                typeMapping + "<@Size(min = 2, max = 2)String> requestBody")
+            .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
             .fileContains(
                 "ResponseEntity<" + typeMapping + "<ListOfObjectsInner>>",
-                "@Valid@Size(min = 5)  @RequestBody",
-                typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner");
+                typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
+            .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
     }
 }
