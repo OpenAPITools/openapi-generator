@@ -63,12 +63,14 @@ components:
   schemas:
     ListOfStrings:
       type: array
+      minItems: 5
       items:
         maxLength: 2
         minLength: 2
         type: string
     ListOfObjects:
       type: array
+      minItems: 5
       items:
         type: object
         properties:
@@ -78,6 +80,7 @@ components:
             type: string
     ListOfPatterns:
       type: array
+      minItems: 5
       items:
         pattern: '([a-z]+)'
         type: string

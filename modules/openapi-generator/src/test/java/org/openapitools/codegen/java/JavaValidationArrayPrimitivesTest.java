@@ -439,16 +439,23 @@ public class JavaValidationArrayPrimitivesTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
+        // @Valid@Size(min = 5) is not nice, but not related to this fix
+        // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
-            .fileContains("ResponseEntity<" + typeMapping + "<String>>")
-            .fileContains(typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody");
+            .fileContains("ResponseEntity<" + typeMapping + "<String>>",
+                "@Valid@Size(min = 5)  @RequestBody",
+                typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
-            .fileContains("ResponseEntity<" + typeMapping + "<String>>")
-            .fileContains(typeMapping + "<@Size(min = 2, max = 2)String> requestBody");
+            .fileContains(
+                "ResponseEntity<" + typeMapping + "<String>>",
+                "@Valid@Size(min = 5)  @RequestBody",
+                typeMapping + "<@Size(min = 2, max = 2)String> requestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
-            .fileContains("ResponseEntity<" + typeMapping + "<ListOfObjectsInner>>")
-            .fileContains("@Valid @RequestBody(required = false) " + typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner");
+            .fileContains(
+                "ResponseEntity<" + typeMapping + "<ListOfObjectsInner>>",
+                "@Valid@Size(min = 5)  @RequestBody",
+                typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner");
     }
 }
