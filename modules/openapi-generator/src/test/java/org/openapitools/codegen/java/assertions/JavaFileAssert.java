@@ -167,7 +167,7 @@ public class JavaFileAssert extends AbstractAssert<JavaFileAssert, CompilationUn
             .toString();
         Assertions.assertThat(actualBody)
             .withFailMessage(
-                "File should contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                "File should contains pattern\n====\n%s\n====\nbut actually was\n====\n%s\n====",
                 pattern, actualBody
             )
             .containsPattern(pattern);
