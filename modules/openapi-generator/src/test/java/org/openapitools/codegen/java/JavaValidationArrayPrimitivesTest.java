@@ -407,4 +407,26 @@ public class JavaValidationArrayPrimitivesTest {
 
         asserts.accept(files);
     }
+
+    @Test
+    public void shouldNotAddAnnotationForReturnType() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = new OpenAPIParser()
+            .readLocation("src/test/resources/bugs/issue_17472.yaml", null, new ParseOptions()).getOpenAPI();
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        final DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+            .fileContains("ResponseEntity<List<String>>")
+            .fileContains("List<@Size(min = 2, max = 2)String> requestBody");
+    }
 }

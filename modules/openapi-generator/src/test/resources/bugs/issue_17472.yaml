@@ -1,0 +1,30 @@
+openapi: 3.0.1
+info:
+  title: TEST 17472
+  description: TEST 17472
+  version: 1.0.0
+
+paths:
+  /test:
+    post:
+      description: test list of string in argument and response
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfString'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfString'
+components:
+  schemas:
+    ListOfString:
+      type: array
+      items:
+        maxLength: 2
+        minLength: 2
+        type: string
