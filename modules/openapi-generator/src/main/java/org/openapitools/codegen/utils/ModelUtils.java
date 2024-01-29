@@ -35,6 +35,7 @@ import io.swagger.v3.parser.util.RemoteUrl;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
@@ -423,7 +424,16 @@ public class ModelUtils {
      * @return true if the specified schema is an Object schema.
      */
     public static boolean isTypeObjectSchema(Schema schema) {
-        return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (schema.getTypes() != null && schema.getTypes().size() == 1) {
+                return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
+            } else {
+                // null type or  multiple types, e.g. [string, integer]
+                return false;
+            }
+        } else { // 3.0.x or 2.0 spec
+            return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType());
+        }
     }
 
     /**
@@ -573,9 +583,14 @@ public class ModelUtils {
             return false;
         }
 
-        return (schema instanceof MapSchema) ||
-                (schema.getAdditionalProperties() instanceof Schema) ||
-                (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            return ((schema.getAdditionalProperties() instanceof JsonSchema) ||
+                    (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()));
+        } else { // 3.0 or 2.x spec
+            return (schema instanceof MapSchema) ||
+                    (schema.getAdditionalProperties() instanceof Schema) ||
+                    (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties());
+        }
     }
 
     /**
@@ -796,6 +811,31 @@ public class ModelUtils {
             return false;
         }
 
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (isComposedSchema(schema)) { // composed schema, e.g. allOf, oneOf, anyOf
+                return false;
+            }
+
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) { // has properties
+                return false;
+            }
+
+            if (schema.getAdditionalProperties() instanceof Boolean && (Boolean) schema.getAdditionalProperties()) {
+                return true;
+            } else if (schema.getAdditionalProperties() instanceof JsonSchema) {
+                return true;
+            } else if (schema.getTypes() != null) {
+                if (schema.getTypes().size() == 1) { // types = [object]
+                    return SchemaTypeUtil.OBJECT_TYPE.equals(schema.getTypes().iterator().next());
+                } else { // has more than 1 type, e.g. types = [integer, string]
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        // 3.0.x spec or 2.x spec
         // not free-form if allOf, anyOf, oneOf is not empty
         if (isComposedSchema(schema)) {
             List<Schema> interfaces = ModelUtils.getInterfaces(schema);
@@ -836,6 +876,19 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    public static boolean shouldGenerateFreeFormObjectModel(String name, CodegenConfig config) {
+        // there are 3 free form use cases
+        // 1. free form with no validation that is not allOf included in any composed schemas
+        // 2. free form with validation
+        // 3. free form that is allOf included in any composed schemas
+        //      this use case arises when using interface schemas
+        // generators may choose to make models for use case 2 + 3
+        Schema refSchema = new Schema();
+        refSchema.set$ref("#/components/schemas/" + name);
+        Schema unaliasedSchema = config.unaliasSchema(refSchema);
+        return unaliasedSchema.get$ref() != null;
     }
 
     /**

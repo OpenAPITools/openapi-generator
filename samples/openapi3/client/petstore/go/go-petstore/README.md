@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
 *FakeAPI* | [**GetParameterNameMapping**](docs/FakeAPI.md#getparameternamemapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+*FakeAPI* | [**TestAdditionalPropertiesReference**](docs/FakeAPI.md#testadditionalpropertiesreference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeAPI* | [**TestClientModel**](docs/FakeAPI.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -156,6 +157,7 @@ Class | Method | HTTP request | Description
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IncidentData](docs/IncidentData.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
  - [MapOfFileTest](docs/MapOfFileTest.md)

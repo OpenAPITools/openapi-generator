@@ -17,15 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from pydantic import BaseModel
-from pydantic import Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Parent(BaseModel):
     """
@@ -51,7 +47,7 @@ class Parent(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of Parent from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -65,10 +61,12 @@ class Parent(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each value in optional_dict (dict)
@@ -81,7 +79,7 @@ class Parent(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of Parent from a dict"""
         if obj is None:
             return None
@@ -92,7 +90,7 @@ class Parent(BaseModel):
         _obj = cls.model_validate({
             "optionalDict": dict(
                 (_k, InnerDictWithProperty.from_dict(_v))
-                for _k, _v in obj.get("optionalDict").items()
+                for _k, _v in obj["optionalDict"].items()
             )
             if obj.get("optionalDict") is not None
             else None

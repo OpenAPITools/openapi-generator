@@ -63,6 +63,10 @@ public class FakeServiceImpl implements FakeService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
     public void testBodyWithBinary(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }

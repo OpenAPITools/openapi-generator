@@ -25,7 +25,7 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-maven-repository
         with:
@@ -53,7 +53,7 @@ jobs:
           # generator names containing "-" caused problems in the past, see https://github.com/OpenAPITools/openapi-generator/issues/9528
           java -jar ./openapi-generator-cli.jar author template --verbose  -g jaxrs-spec --library quarkus
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Gradle tests
         run: |
           gradle -b modules/openapi-generator-gradle-plugin/samples/local-spec/build.gradle buildGoSdk --stacktrace

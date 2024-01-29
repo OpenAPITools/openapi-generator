@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**FakeOuterNumberSerialize**](FakeAPI.md#FakeOuterNumberSerialize) | **Post** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeAPI.md#FakeOuterStringSerialize) | **Post** /fake/outer/string | 
 [**GetParameterNameMapping**](FakeAPI.md#GetParameterNameMapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+[**TestAdditionalPropertiesReference**](FakeAPI.md#TestAdditionalPropertiesReference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 [**TestBodyWithFileSchema**](FakeAPI.md#TestBodyWithFileSchema) | **Put** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeAPI.md#TestBodyWithQueryParams) | **Put** /fake/body-with-query-params | 
 [**TestClientModel**](FakeAPI.md#TestClientModel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -409,6 +410,70 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestAdditionalPropertiesReference
+
+> TestAdditionalPropertiesReference(ctx).RequestBody(requestBody).Execute()
+
+test referenced additionalProperties
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	requestBody := map[string]interface{}{"key": interface{}(123)} // map[string]interface{} | request body
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.FakeAPI.TestAdditionalPropertiesReference(context.Background()).RequestBody(requestBody).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FakeAPI.TestAdditionalPropertiesReference``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestAdditionalPropertiesReferenceRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requestBody** | **map[string]interface{}** | request body | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

@@ -14,16 +14,33 @@ import (
 )
 
 type StoreAPI struct {
-	// Delete /v2/store/order/:orderId
-	// Delete purchase order by ID
-	DeleteOrder gin.HandlerFunc
-	// Get /v2/store/inventory
-	// Returns pet inventories by status
-	GetInventory gin.HandlerFunc
-	// Get /v2/store/order/:orderId
-	// Find purchase order by ID
-	GetOrderById gin.HandlerFunc
-	// Post /v2/store/order
-	// Place an order for a pet
-	PlaceOrder gin.HandlerFunc
 }
+
+// Delete /v2/store/order/:orderId
+// Delete purchase order by ID 
+func (api *StoreAPI) DeleteOrder(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/store/inventory
+// Returns pet inventories by status 
+func (api *StoreAPI) GetInventory(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/store/order/:orderId
+// Find purchase order by ID 
+func (api *StoreAPI) GetOrderById(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Post /v2/store/order
+// Place an order for a pet 
+func (api *StoreAPI) PlaceOrder(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+

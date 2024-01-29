@@ -56,6 +56,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**Test-BinaryGif**](docs/BodyApi.md#Test-BinaryGif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**Test-BodyApplicationOctetstreamBinary**](docs/BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**Test-BodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**Test-BodyMultipartFormdataSingleBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
 *BodyApi* | [**Test-EchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#Test-EchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**Test-EchoBodyPet**](docs/BodyApi.md#Test-EchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**Test-EchoBodyPetResponseString**](docs/BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
@@ -70,6 +71,8 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**Test-QueryIntegerBooleanString**](docs/QueryApi.md#Test-QueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#Test-QueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**Test-QueryStyleFormExplodeFalseArrayInteger**](docs/QueryApi.md#Test-QueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+*QueryApi* | [**Test-QueryStyleFormExplodeFalseArrayString**](docs/QueryApi.md#Test-QueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueObject**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**Test-QueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#Test-QueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)

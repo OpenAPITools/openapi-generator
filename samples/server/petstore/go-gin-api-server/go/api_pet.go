@@ -14,29 +14,62 @@ import (
 )
 
 type PetAPI struct {
-	// Post /v2/pet
-	// Add a new pet to the store
-	AddPet gin.HandlerFunc
-	// Delete /v2/pet/:petId
-	// Deletes a pet
-	DeletePet gin.HandlerFunc
-	// Get /v2/pet/findByStatus
-	// Finds Pets by status
-	FindPetsByStatus gin.HandlerFunc
-	// Get /v2/pet/findByTags
-	// Finds Pets by tags
-	// Deprecated
-	FindPetsByTags gin.HandlerFunc
-	// Get /v2/pet/:petId
-	// Find pet by ID
-	GetPetById gin.HandlerFunc
-	// Put /v2/pet
-	// Update an existing pet
-	UpdatePet gin.HandlerFunc
-	// Post /v2/pet/:petId
-	// Updates a pet in the store with form data
-	UpdatePetWithForm gin.HandlerFunc
-	// Post /v2/pet/:petId/uploadImage
-	// uploads an image
-	UploadFile gin.HandlerFunc
 }
+
+// Post /v2/pet
+// Add a new pet to the store 
+func (api *PetAPI) AddPet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Delete /v2/pet/:petId
+// Deletes a pet 
+func (api *PetAPI) DeletePet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/pet/findByStatus
+// Finds Pets by status 
+func (api *PetAPI) FindPetsByStatus(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/pet/findByTags
+// Finds Pets by tags 
+// Deprecated
+func (api *PetAPI) FindPetsByTags(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Get /v2/pet/:petId
+// Find pet by ID 
+func (api *PetAPI) GetPetById(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Put /v2/pet
+// Update an existing pet 
+func (api *PetAPI) UpdatePet(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Post /v2/pet/:petId
+// Updates a pet in the store with form data 
+func (api *PetAPI) UpdatePetWithForm(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+
+// Post /v2/pet/:petId/uploadImage
+// uploads an image 
+func (api *PetAPI) UploadFile(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+

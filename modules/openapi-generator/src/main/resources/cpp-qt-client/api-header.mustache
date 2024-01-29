@@ -85,7 +85,7 @@ private:
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
-signals:
+Q_SIGNALS:
 {{#operations}}{{#operation}}
     void {{nickname}}Signal({{#returnType}}{{{.}}} summary{{/returnType}});{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
@@ -102,7 +102,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

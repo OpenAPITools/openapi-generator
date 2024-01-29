@@ -1031,6 +1031,23 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1296,7 +1313,7 @@ paths:
       operationId: getParameterNameMapping
       parameters:
         - name: _type
-          in: header 
+          in: header
           description: _type
           required: true
           schema:
@@ -1309,7 +1326,7 @@ paths:
           schema:
             type: string
         - name: type_
-          in: header 
+          in: header
           description: type_
           required: true
           schema:
@@ -1883,6 +1900,10 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
     OuterEnum:
       nullable: true
       type: string
@@ -2070,6 +2091,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
+    mamal_with_enum:
+      oneOf:
+        - $ref: '#/components/schemas/cow'
     mammal:
       oneOf:
         - $ref: '#/components/schemas/whale'
@@ -2101,9 +2125,14 @@ components:
       required:
         - classname
       additionalProperties: true
+    cow:
+      type: string
+      enum:
+        - BlackAndWhiteCow
+        - BrownCow
     PropertyNameMapping:
-      properties: 
-        http_debug_operation: 
+      properties:
+        http_debug_operation:
           type: string
         _type:
           type: string

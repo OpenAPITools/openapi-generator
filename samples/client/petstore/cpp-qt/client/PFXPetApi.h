@@ -140,7 +140,7 @@ private:
     void updatePetWithFormCallback(PFXHttpRequestWorker *worker);
     void uploadFileCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void addPetSignal();
     void allPetsSignal(QSet<PFXPet> summary);
@@ -221,7 +221,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

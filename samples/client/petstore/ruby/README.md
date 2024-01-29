@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 *Petstore::FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *Petstore::FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
 *Petstore::FakeApi* | [**get_parameter_name_mapping**](docs/FakeApi.md#get_parameter_name_mapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*Petstore::FakeApi* | [**test_additional_properties_reference**](docs/FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *Petstore::FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *Petstore::FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *Petstore::FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -135,6 +136,7 @@ Class | Method | HTTP request | Description
  - [Petstore::Category](docs/Category.md)
  - [Petstore::ClassModel](docs/ClassModel.md)
  - [Petstore::Client](docs/Client.md)
+ - [Petstore::Cow](docs/Cow.md)
  - [Petstore::DeprecatedObject](docs/DeprecatedObject.md)
  - [Petstore::Dog](docs/Dog.md)
  - [Petstore::EnumArrays](docs/EnumArrays.md)
@@ -149,6 +151,7 @@ Class | Method | HTTP request | Description
  - [Petstore::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [Petstore::HealthCheckResult](docs/HealthCheckResult.md)
  - [Petstore::List](docs/List.md)
+ - [Petstore::MamalWithEnum](docs/MamalWithEnum.md)
  - [Petstore::Mammal](docs/Mammal.md)
  - [Petstore::MammalAnyof](docs/MammalAnyof.md)
  - [Petstore::MammalWithoutDiscriminator](docs/MammalWithoutDiscriminator.md)

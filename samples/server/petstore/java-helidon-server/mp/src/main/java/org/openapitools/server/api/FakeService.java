@@ -87,6 +87,11 @@ public interface FakeService {
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody);
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })

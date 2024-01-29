@@ -175,6 +175,18 @@ public class FakeApi  {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
 
+    @jakarta.ws.rs.POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    @Operation(summary = "test referenced additionalProperties", description = "", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = 
+                @Content(schema = @Schema(implementation = Void.class))),
+            }, tags={ "fake", }) 
+    public Response testAdditionalPropertiesReference(@Schema(description = "request body", required = true) @NotNull @Valid  Map<String, Object> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testAdditionalPropertiesReference(requestBody, securityContext);
+    }
+
     @jakarta.ws.rs.PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })

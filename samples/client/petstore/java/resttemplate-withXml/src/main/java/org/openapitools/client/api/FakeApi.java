@@ -175,7 +175,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query_1", query1));
-
+        
 
         if (header1 != null)
         localVarHeaderParams.add("header_1", apiClient.parameterToString(header1));
@@ -413,6 +413,51 @@ public class FakeApi {
         return apiClient.invokeAPI("/fake/property/enum-int", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
     /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body (required)
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws RestClientException {
+        testAdditionalPropertiesReferenceWithHttpInfo(requestBody);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * <p><b>200</b> - successful operation
+     * @param requestBody request body (required)
+     * @return ResponseEntity&lt;Void&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws RestClientException {
+        Object localVarPostBody = requestBody;
+        
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+        }
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        final String[] localVarAccepts = {  };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<Void> localReturnType = new ParameterizedTypeReference<Void>() {};
+        return apiClient.invokeAPI("/fake/additionalProperties-reference", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
      * 
      * For this test, the body has to be a binary file.
      * <p><b>200</b> - Success
@@ -543,7 +588,7 @@ public class FakeApi {
         final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "query", query));
-
+        
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
@@ -773,7 +818,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_integer", enumQueryInteger));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "enum_query_double", enumQueryDouble));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "enum_query_model_array", enumQueryModelArray));
-
+        
 
         if (enumHeaderStringArray != null)
         localVarHeaderParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
@@ -854,7 +899,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "required_int64_group", requiredInt64Group));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "string_group", stringGroup));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "int64_group", int64Group));
-
+        
 
         if (requiredBooleanGroup != null)
         localVarHeaderParams.add("required_boolean_group", apiClient.parameterToString(requiredBooleanGroup));
@@ -1140,7 +1185,7 @@ public class FakeApi {
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("multi".toUpperCase(Locale.ROOT)), "context", context));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "language", language));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "allowEmpty", allowEmpty));
-
+        
 
         final String[] localVarAccepts = {  };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);

@@ -137,8 +137,8 @@ FISH(String.valueOf("fish")), CRAB(String.valueOf("crab"));
       return false;
     }
     EnumArrays enumArrays = (EnumArrays) o;
-    return Objects.equals(justSymbol, enumArrays.justSymbol) &&
-        Objects.equals(arrayEnum, enumArrays.arrayEnum);
+    return Objects.equals(this.justSymbol, enumArrays.justSymbol) &&
+        Objects.equals(this.arrayEnum, enumArrays.arrayEnum);
   }
 
   @Override

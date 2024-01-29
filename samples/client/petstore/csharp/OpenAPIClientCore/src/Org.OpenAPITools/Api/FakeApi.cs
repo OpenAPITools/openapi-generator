@@ -158,6 +158,26 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
         ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo(int operationIndex = 0);
         /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns></returns>
+        void TestAdditionalPropertiesReference(Dictionary<string, Object> requestBody, int operationIndex = 0);
+
+        /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(Dictionary<string, Object> requestBody, int operationIndex = 0);
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -248,7 +268,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
+        void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -273,7 +293,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
+        ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0);
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -603,6 +623,31 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(Dictionary<string, Object> requestBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -703,7 +748,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -729,7 +774,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -1837,6 +1882,148 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns></returns>
+        public void TestAdditionalPropertiesReference(Dictionary<string, Object> requestBody, int operationIndex = 0)
+        {
+            TestAdditionalPropertiesReferenceWithHttpInfo(requestBody);
+        }
+
+        /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <returns>ApiResponse of Object(void)</returns>
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestAdditionalPropertiesReferenceWithHttpInfo(Dictionary<string, Object> requestBody, int operationIndex = 0)
+        {
+            // verify the required parameter 'requestBody' is set
+            if (requestBody == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
+            }
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.Data = requestBody;
+
+            localVarRequestOptions.Operation = "FakeApi.TestAdditionalPropertiesReference";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Post<Object>("/fake/additionalProperties-reference", localVarRequestOptions, this.Configuration);
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestAdditionalPropertiesReference", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of void</returns>
+        public async System.Threading.Tasks.Task TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            await TestAdditionalPropertiesReferenceWithHttpInfoAsync(requestBody, operationIndex, cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="operationIndex">Index associated with the operation.</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestAdditionalPropertiesReferenceWithHttpInfoAsync(Dictionary<string, Object> requestBody, int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            // verify the required parameter 'requestBody' is set
+            if (requestBody == null)
+            {
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'requestBody' when calling FakeApi->TestAdditionalPropertiesReference");
+            }
+
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            string[] _contentTypes = new string[] {
+                "application/json"
+            };
+
+            // to determine the Accept header
+            string[] _accepts = new string[] {
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+            }
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null)
+            {
+                localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+            }
+
+            localVarRequestOptions.Data = requestBody;
+
+            localVarRequestOptions.Operation = "FakeApi.TestAdditionalPropertiesReference";
+            localVarRequestOptions.OperationIndex = operationIndex;
+
+
+            // make the HTTP request
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/additionalProperties-reference", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("TestAdditionalPropertiesReference", localVarResponse);
+                if (_exception != null)
+                {
+                    throw _exception;
+                }
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -2304,7 +2491,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns></returns>
-        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
+        public void TestEndpointParameters(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
         {
             TestEndpointParametersWithHttpInfo(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback);
         }
@@ -2329,7 +2516,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
+        public Org.OpenAPITools.Client.ApiResponse<Object> TestEndpointParametersWithHttpInfo(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0)
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2455,7 +2642,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             await TestEndpointParametersWithHttpInfoAsync(number, varDouble, patternWithoutDelimiter, varByte, integer, int32, int64, varFloat, varString, binary, date, dateTime, password, callback, operationIndex, cancellationToken).ConfigureAwait(false);
         }
@@ -2481,7 +2668,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="operationIndex">Index associated with the operation.</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync(decimal number, double varDouble, string patternWithoutDelimiter, byte[] varByte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? varFloat = default(float?), string? varString = default(string?), System.IO.Stream? binary = default(System.IO.Stream?), DateOnly? date = default(DateOnly?), DateTime? dateTime = default(DateTime?), string? password = default(string?), string? callback = default(string?), int operationIndex = 0, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)

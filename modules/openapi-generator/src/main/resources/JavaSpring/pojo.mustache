@@ -48,14 +48,17 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     {{/mostInnerItems}}
     {{/isContainer}}
     {{/isEnum}}
-  {{#jackson}}
-  {{#withXml}}
-  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
-  {{/withXml}}
-  {{/jackson}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
+  {{#lombok}}
+  {{#required}}
+  @lombok.NonNull
+  {{/required}}
+  {{#isPassword}}
+  @lombok.ToString.Exclude
+  {{/isPassword}}
+  {{/lombok}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
@@ -86,13 +89,17 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/isContainer}}
   {{/vars}}
+  {{^lombok.Data}}
+  {{^lombok.RequiredArgsConstructor}}
   {{#generatedConstructorWithRequiredArgs}}
   {{#hasRequired}}
 
+  {{^lombok.NoArgsConstructor}}
   public {{classname}}() {
     super();
   }
 
+  {{/lombok.NoArgsConstructor}}
   /**
    * Constructor with only required parameters
    */
@@ -113,7 +120,10 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
+  {{/lombok.RequiredArgsConstructor}}
+  {{/lombok.Data}}
   {{#vars}}
+  {{^lombok.Data}}
 
   {{! begin feature: fluent setter methods }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
@@ -163,6 +173,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/isMap}}
   {{! end feature: fluent setter methods }}
   {{! begin feature: getter and setter }}
+  {{^lombok.Getter}}
 
   /**
   {{#description}}
@@ -199,6 +210,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/swagger1AnnotationLibrary}}
   {{#jackson}}
   @JsonProperty("{{baseName}}")
+  {{#withXml}}
+  @JacksonXmlProperty({{#isXmlAttribute}}isAttribute = true, {{/isXmlAttribute}}{{#xmlNamespace}}namespace="{{.}}", {{/xmlNamespace}}localName = "{{xmlName}}{{^xmlName}}{{baseName}}{{/xmlName}}")
+  {{/withXml}}
   {{/jackson}}
   {{#deprecated}}
   @Deprecated
@@ -206,7 +220,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public {{>nullableDataTypeBeanValidation}} {{getter}}() {
     return {{name}};
   }
+  {{/lombok.Getter}}
 
+  {{^lombok.Setter}}
   {{#deprecated}}
   /**
    * @deprecated
@@ -221,11 +237,15 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   public void {{setter}}({{>nullableDataType}} {{name}}) {
     this.{{name}} = {{name}};
   }
+  {{/lombok.Setter}}
+  {{/lombok.Data}}
   {{! end feature: getter and setter }}
   {{/vars}}
 {{>additionalProperties}}
+  {{^lombok.Data}}
   {{#parentVars}}
 
+  {{^lombok.Setter}}
   {{! begin feature: fluent setter methods for inherited properties }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     super.{{name}}({{name}});
@@ -245,8 +265,10 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return this;
   }
   {{/isMap}}
+  {{/lombok.Setter}}
   {{! end feature: fluent setter methods for inherited properties }}
   {{/parentVars}}
+  {{^lombok.EqualsAndHashCode}}
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -278,7 +300,9 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     }
     return a.isPresent() ? Arrays.deepHashCode(new Object[]{a.get()}) : 31;
   }{{/vendorExtensions.x-jackson-optional-nullable-helpers}}
+  {{/lombok.EqualsAndHashCode}}
 
+  {{^lombok.ToString}}
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -303,4 +327,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     }
     return o.toString().replace("\n", "\n    ");
   }
+  {{/lombok.ToString}}
+  {{/lombok.Data}}
 }
