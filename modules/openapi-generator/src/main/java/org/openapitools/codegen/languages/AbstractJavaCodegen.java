@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -144,7 +143,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean containerDefaultToNull = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
-    private boolean internalSkipValidation;
 
     public AbstractJavaCodegen() {
         super();
@@ -930,24 +928,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        try {
-            // do not generate validation for response
-            internalSkipValidation = true;
-            return super.fromResponse(responseCode, response);
-        } finally {
-            internalSkipValidation = false;
-        }
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            String validationAnnotation = internalSkipValidation ? "": getBeanValidation(items);
-            return getSchemaType(target) + "<" + validationAnnotation + getTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -1647,6 +1633,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // if data type happens to be the same as the property name and both are upper case
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
+        }
+    }
+
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+        if (response == null || property == null || response.dataType == null || property.dataType == null) {
+            return;
+        }
+
+        // the response data types should not contains a bean validation annotation.
+        if (property.dataType.contains("@")) {
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+        }
+        // the response data types should not contains a bean validation annotation.
+        if (response.dataType.contains("@")) {
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
         }
     }
 
