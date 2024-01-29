@@ -159,7 +159,6 @@ Class | Method | HTTP request | Description
 *UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 *ValuesApi* | [**getSomeValues**](docs/ValuesApi.md#getSomeValues) | **GET** /values | Get some primitive variable values
-*ValuesApi* | [**internalOnlyGet**](docs/ValuesApi.md#internalOnlyGet) | **GET** /internal/only | internal only
 
 
 ## Documentation for Models
