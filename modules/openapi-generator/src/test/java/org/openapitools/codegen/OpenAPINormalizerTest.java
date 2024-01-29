@@ -385,7 +385,7 @@ public class OpenAPINormalizerTest {
 
         Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         // verify schema for property id
-        Schema petSchema = (Schema)pet.getProperties().get("id");
+        Schema petSchema = (Schema) pet.getProperties().get("id");
         // both type and types are defined
         assertNotNull(petSchema.getType());
         assertNotNull(petSchema.getTypes());
