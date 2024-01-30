@@ -4507,11 +4507,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (operation == null)
             throw new RuntimeException("operation cannot be null in fromOperation");
 
-        if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
-            LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
-                    httpMethod, path, operation.getOperationId());
-        }
-
         Map<String, Schema> schemas = ModelUtils.getSchemas(this.openAPI);
         CodegenOperation op = CodegenModelFactory.newInstance(CodegenModelType.OPERATION);
         Set<String> imports = new HashSet<>();
@@ -5083,25 +5078,31 @@ public class DefaultCodegen implements CodegenConfig {
                         String method = p.getKey();
                         Operation op = p.getValue();
 
-                        boolean genId = op.getOperationId() == null;
-                        if (genId) {
-                            op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), method));
-                        }
+                        if (op.getExtensions() != null && Boolean.TRUE.equals(op.getExtensions().get("x-internal"))) {
+                            // skip operation if x-internal sets to true
+                            LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
+                                    method, expression, op.getOperationId());
+                        } else {
+                            boolean genId = op.getOperationId() == null;
+                            if (genId) {
+                                op.setOperationId(getOrGenerateOperationId(op, c.name + "_" + expression.replaceAll("\\{\\$.*}", ""), method));
+                            }
 
-                        if (op.getExtensions() == null) {
-                            op.setExtensions(new HashMap<>());
-                        }
-                        // This extension will be removed later by `fromOperation()` as it is only needed here to
-                        // distinguish between normal operations and callback requests
-                        op.getExtensions().put("x-callback-request", true);
+                            if (op.getExtensions() == null) {
+                                op.setExtensions(new HashMap<>());
+                            }
+                            // This extension will be removed later by `fromOperation()` as it is only needed here to
+                            // distinguish between normal operations and callback requests
+                            op.getExtensions().put("x-callback-request", true);
 
-                        CodegenOperation co = fromOperation(expression, method, op, servers);
-                        if (genId) {
-                            co.operationIdOriginal = null;
-                            // legacy (see `fromOperation()`)
-                            co.nickname = co.operationId;
+                            CodegenOperation co = fromOperation(expression, method, op, servers);
+                            if (genId) {
+                                co.operationIdOriginal = null;
+                                // legacy (see `fromOperation()`)
+                                co.nickname = co.operationId;
+                            }
+                            u.requests.add(co);
                         }
-                        u.requests.add(co);
                     });
 
             c.urls.add(u);

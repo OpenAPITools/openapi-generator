@@ -1492,31 +1492,36 @@ public class DefaultGenerator implements Generator {
         final List<SecurityRequirement> globalSecurities = openAPI.getSecurity();
         for (Tag tag : tags) {
             try {
-                CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
-                codegenOperation.tags = new ArrayList<>(tags);
-                config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
-
-                List<SecurityRequirement> securities = operation.getSecurity();
-                if (securities != null && securities.isEmpty()) {
-                    continue;
-                }
-
-                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
-
-                if (authMethods != null && !authMethods.isEmpty()) {
-                    List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                    codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
-                    codegenOperation.hasAuthMethods = true;
+                if (operation.getExtensions() != null && Boolean.TRUE.equals(operation.getExtensions().get("x-internal"))) {
+                    // skip operation if x-internal sets to true
+                    LOGGER.info("Operation ({} {} - {}) not generated since x-internal is set to true",
+                            httpMethod, resourcePath, operation.getOperationId());
                 } else {
-                    authMethods = getAuthMethods(globalSecurities, securitySchemes);
+                    CodegenOperation codegenOperation = config.fromOperation(resourcePath, httpMethod, operation, path.getServers());
+                    codegenOperation.tags = new ArrayList<>(tags);
+                    config.addOperationToGroup(config.sanitizeTag(tag.getName()), resourcePath, operation, codegenOperation, operations);
+
+                    List<SecurityRequirement> securities = operation.getSecurity();
+                    if (securities != null && securities.isEmpty()) {
+                        continue;
+                    }
+
+                    Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
 
                     if (authMethods != null && !authMethods.isEmpty()) {
                         List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
-                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                        codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, securities);
                         codegenOperation.hasAuthMethods = true;
+                    } else {
+                        authMethods = getAuthMethods(globalSecurities, securitySchemes);
+
+                        if (authMethods != null && !authMethods.isEmpty()) {
+                            List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
+                            codegenOperation.authMethods = filterAuthMethods(fullAuthMethods, globalSecurities);
+                            codegenOperation.hasAuthMethods = true;
+                        }
                     }
                 }
-
             } catch (Exception ex) {
                 String msg = "Could not process operation:\n" //
                         + "  Tag: " + tag + "\n"//
@@ -1527,7 +1532,6 @@ public class DefaultGenerator implements Generator {
                 throw new RuntimeException(msg, ex);
             }
         }
-
     }
 
     private static String generateParameterId(Parameter parameter) {
