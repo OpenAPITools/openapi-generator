@@ -3753,7 +3753,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             for (String r : required) {
                 if (!properties.containsKey(r)) {
-                    LOGGER.error("Required var %s not in properties", r);
+                    LOGGER.error("Required var {} not in properties", r);
                 }
             }
             return;
