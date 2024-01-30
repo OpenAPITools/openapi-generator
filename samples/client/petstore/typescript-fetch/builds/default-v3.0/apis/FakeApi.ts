@@ -164,6 +164,10 @@ export interface TestQueryParameterCollectionFormatRequest {
     language?: { [key: string]: string; };
 }
 
+export interface TestStringMapReferenceRequest {
+    requestBody: { [key: string]: string; };
+}
+
 /**
  * 
  */
@@ -1096,6 +1100,40 @@ export class FakeApi extends runtime.BaseAPI {
      */
     async testQueryParameterCollectionFormat(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.testQueryParameterCollectionFormatRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     * 
+     * test referenced string map
+     */
+    async testStringMapReferenceRaw(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+            throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testStringMapReference.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/fake/stringMap-reference`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: requestParameters.requestBody,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * 
+     * test referenced string map
+     */
+    async testStringMapReference(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.testStringMapReferenceRaw(requestParameters, initOverrides);
     }
 
 }

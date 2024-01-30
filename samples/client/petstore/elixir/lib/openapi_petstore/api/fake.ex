@@ -757,4 +757,35 @@ defmodule OpenapiPetstore.Api.Fake do
       {200, false}
     ])
   end
+
+  @doc """
+  test referenced string map
+  
+
+  ### Parameters
+
+  - `connection` (OpenapiPetstore.Connection): Connection to server
+  - `request_body` (%{optional(String.t) => String.t}): request body
+  - `opts` (keyword): Optional parameters
+
+  ### Returns
+
+  - `{:ok, nil}` on success
+  - `{:error, Tesla.Env.t}` on failure
+  """
+  @spec test_string_map_reference(Tesla.Env.client, %{optional(String.t) => String.t}, keyword()) :: {:ok, nil} | {:error, Tesla.Env.t}
+  def test_string_map_reference(connection, request_body, _opts \\ []) do
+    request =
+      %{}
+      |> method(:post)
+      |> url("/fake/stringMap-reference")
+      |> add_param(:body, :body, request_body)
+      |> Enum.into([])
+
+    connection
+    |> Connection.request(request)
+    |> evaluate_response([
+      {200, false}
+    ])
+  end
 end

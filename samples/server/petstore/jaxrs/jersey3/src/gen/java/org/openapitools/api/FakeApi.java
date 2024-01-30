@@ -331,6 +331,18 @@ public class FakeApi  {
     }
 
     @jakarta.ws.rs.POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    @Operation(summary = "test referenced string map", description = "", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = 
+                @Content(schema = @Schema(implementation = Void.class))),
+            }, tags={ "fake", }) 
+    public Response testStringMapReference(@Schema(description = "request body", required = true) @NotNull @Valid  Map<String, String> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testStringMapReference(requestBody, securityContext);
+    }
+
+    @jakarta.ws.rs.POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
