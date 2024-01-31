@@ -191,13 +191,13 @@ export class {{classname}} extends runtime.BaseAPI {
         {{#isApiKey}}
         {{#isKeyInHeader}}
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
+            headerParameters["{{keyParamName}}"] = await this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
         }
 
         {{/isKeyInHeader}}
         {{#isKeyInQuery}}
         if (this.configuration && this.configuration.apiKey) {
-            queryParameters["{{keyParamName}}"] = this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
+            queryParameters["{{keyParamName}}"] = await this.configuration.apiKey("{{keyParamName}}"); // {{name}} authentication
         }
 
         {{/isKeyInQuery}}
