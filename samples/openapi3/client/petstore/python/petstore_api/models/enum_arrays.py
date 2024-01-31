@@ -37,7 +37,7 @@ class EnumArrays(BaseModel):
         if value is None:
             return value
 
-        if value not in ('>=', '$'):
+        if value not in set(['>=', '$']):
             raise ValueError("must be one of enum values ('>=', '$')")
         return value
 
@@ -48,7 +48,7 @@ class EnumArrays(BaseModel):
             return value
 
         for i in value:
-            if i not in ('fish', 'crab'):
+            if i not in set(['fish', 'crab']):
                 raise ValueError("each list item must be one of ('fish', 'crab')")
         return value
 

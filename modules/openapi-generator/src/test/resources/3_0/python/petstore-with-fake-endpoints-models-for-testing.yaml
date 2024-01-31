@@ -1579,6 +1579,67 @@ components:
           type: string
       xml:
         name: Tag
+    PoopCleaning:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Feeding:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Bathing:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning_deep]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Task:
+      title: Task
+      type: object
+      description: Used to test oneOf enums with only one string value.
+      properties:
+        id:
+          type: string
+          format: uuid
+        activity:
+          oneOf:
+            - $ref: '#/components/schemas/PoopCleaning'
+            - $ref: '#/components/schemas/Feeding'
+            - $ref: '#/components/schemas/Bathing'
+      required:
+        - id
+        - activity
     Pet:
       type: object
       required:
