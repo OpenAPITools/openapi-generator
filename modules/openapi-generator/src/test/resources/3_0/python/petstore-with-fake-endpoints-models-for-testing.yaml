@@ -2474,3 +2474,13 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    InputAllOf:
+      allOf:
+        - $ref: '#/components/schemas/PropertyMap'
+    PropertyMap:
+      type: object
+      properties:
+        some_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tag'
