@@ -612,8 +612,8 @@ public class InlineModelResolver {
                 Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
                 // Recurse to create $refs for inner models
                 gatherInlineModels(innerModel, innerModelName);
-                String existing = matchGenerated(innerModel);
                 if (!skipAllOfInlineSchemas) {
+                    String existing = matchGenerated(innerModel);
                     if (existing == null) {
                         innerModelName = addSchemas(innerModelName, innerModel);
                         Schema schema = new Schema().$ref(innerModelName);
