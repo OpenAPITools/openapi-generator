@@ -57,7 +57,7 @@ public class TypescriptAngularParamsStrategyCustomIntegrationTest extends Abstra
         return new IntegrationTestPathsConfig("typescript/custom-path-params");
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void generatesCorrectDirectoryStructure() throws IOException {
         // test are currently disabled in Superclass

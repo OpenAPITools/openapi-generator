@@ -44,7 +44,7 @@ public:
 
     void setResponseHeaders(const QMultiMap<QString,QString>& headers);
 
-signals:
+Q_SIGNALS:
     {{#operations}}{{#operation}}void {{nickname}}({{#allParams}}{{{dataType}}} {{paramName}}{{^-last}}, {{/-last}}{{/allParams}});
     {{/operation}}{{/operations}}
 

@@ -14,6 +14,7 @@ DependencyInjection/Compiler/OpenAPIServerApiPass.php
 DependencyInjection/OpenAPIServerExtension.php
 Model/ApiResponse.php
 Model/Category.php
+Model/EnumStringModel.php
 Model/Order.php
 Model/Pet.php
 Model/Tag.php
@@ -39,6 +40,7 @@ docs/Api/StoreApiInterface.md
 docs/Api/UserApiInterface.md
 docs/Model/ApiResponse.md
 docs/Model/Category.md
+docs/Model/EnumStringModel.md
 docs/Model/Order.md
 docs/Model/Pet.md
 docs/Model/Tag.md

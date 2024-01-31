@@ -15,6 +15,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
    companion object Authentication {
     // Where a header factory requires parameters a client will need to bind these
     // TODO Generate appropriate header factories based on settings
+    // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
      // Api Key auth supports query header and cookie.
      // Query is supported in the path generation only with a hardcoded value.
      // TODO: Not sure about cookie auth form
@@ -32,7 +33,6 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
          }
      }
 
-    // TODO: Oauth not implemented yet - comment out below as OAuth does not exist
    }
 
 
@@ -58,7 +58,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
             val allHeaders = headerFactories.fold(afterMarketHeaders) { acc, factory -> (acc + factory.invoke()).toMutableMap() }
 
             // If we decide to support auth parameters in the url, then you will reference them by supplying a url string
-            // with known variable name refernces in the string. We will then apply
+            // with known variable name references in the string. We will then apply
             val updatedUrl = if (!queryParams.isNullOrEmpty()) {
                 queryParams.asSequence().fold("$url?") {acc, param ->
                 "$acc${escapeString(param.key)}=${escapeString(param.value)}&"

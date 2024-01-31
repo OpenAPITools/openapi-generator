@@ -1,5 +1,4 @@
 import connexion
-import six
 from typing import Dict
 from typing import Tuple
 from typing import Union
@@ -35,7 +34,7 @@ def get_inventory():  # noqa: E501
 def get_order_by_id(order_id):  # noqa: E501
     """Find purchase order by ID
 
-    For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions # noqa: E501
+    For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions # noqa: E501
 
     :param order_id: ID of pet that needs to be fetched
     :type order_id: int

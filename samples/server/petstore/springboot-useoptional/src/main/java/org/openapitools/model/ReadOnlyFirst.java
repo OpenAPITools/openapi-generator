@@ -22,14 +22,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ReadOnlyFirst {
 
-  @JsonProperty("bar")
-  private String bar;
+  private Optional<String> bar = Optional.empty();
 
-  @JsonProperty("baz")
-  private String baz;
+  private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = bar;
+    this.bar = Optional.of(bar);
     return this;
   }
 
@@ -39,16 +37,17 @@ public class ReadOnlyFirst {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
-  public String getBar() {
+  @JsonProperty("bar")
+  public Optional<String> getBar() {
     return bar;
   }
 
-  public void setBar(String bar) {
+  public void setBar(Optional<String> bar) {
     this.bar = bar;
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = baz;
+    this.baz = Optional.of(baz);
     return this;
   }
 
@@ -58,11 +57,12 @@ public class ReadOnlyFirst {
   */
   
   @ApiModelProperty(value = "")
-  public String getBaz() {
+  @JsonProperty("baz")
+  public Optional<String> getBaz() {
     return baz;
   }
 
-  public void setBaz(String baz) {
+  public void setBaz(Optional<String> baz) {
     this.baz = baz;
   }
 

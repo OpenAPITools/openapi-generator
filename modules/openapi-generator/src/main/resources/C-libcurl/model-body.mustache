@@ -77,12 +77,12 @@ end:
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+char* {{classname}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
     char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}}];
+    return {{name}}Array[{{name}}];
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_{{name}}_FromString(char* {{name}}){
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -101,12 +101,12 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}} - 1];
+char* {{classname}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
+    return {{name}}Array[{{name}} - 1];
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_{{name}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -629,13 +629,13 @@ fail:
     {
     goto end; //Enum
     }
-    {{name}}Variable = {{name}}{{classname}}_FromString({{{name}}}->valuestring);
+    {{name}}Variable = {{classname}}_{{name}}_FromString({{{name}}}->valuestring);
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
     {{#isString}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}))
+    if(!cJSON_IsString({{{name}}}){{^required}} && !cJSON_IsNull({{{name}}}){{/required}})
     {
     goto end; //String
     }
@@ -669,7 +669,7 @@ fail:
     {{/isDate}}
     {{#isDateTime}}
     {{^required}}if ({{{name}}}) { {{/required}}
-    if(!cJSON_IsString({{{name}}}))
+    if(!cJSON_IsString({{{name}}}) && !cJSON_IsNull({{{name}}}))
     {
     goto end; //DateTime
     }
@@ -821,7 +821,7 @@ fail:
             }
             localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
             {{/isNumeric}}
-		    {{/items}}
+            {{/items}}
             list_addElement({{{name}}}List , localMapKeyPair);
         }
     }
@@ -880,7 +880,7 @@ fail:
         {{/isEnum}}
         {{^isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{#isByteArray}}
@@ -893,7 +893,7 @@ fail:
         {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDate}}
         {{#isDateTime}}
-        {{^required}}{{{name}}} ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} && !cJSON_IsNull({{{name}}}) ? {{/required}}strdup({{{name}}}->valuestring){{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
         {{/isDateTime}}
         {{/isPrimitiveType}}
         {{/isContainer}}

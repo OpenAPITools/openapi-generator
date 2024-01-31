@@ -6,6 +6,35 @@ package {{package}};
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+{{#withXml}}
+import com.fasterxml.jackson.dataformat.xml.annotation.*;
+{{/withXml}}
+{{#vendorExtensions.x-has-readonly-properties}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/jackson}}
+{{#withXml}}
+import {{rootJavaEEPackage}}.xml.bind.annotation.*;
+import {{rootJavaEEPackage}}.xml.bind.annotation.adapters.*;
+{{/withXml}}
+{{#jsonb}}
+import java.lang.reflect.Type;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeDeserializer;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbTypeSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.DeserializationContext;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbDeserializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.JsonbSerializer;
+import {{rootJavaEEPackage}}.json.bind.serializer.SerializationContext;
+import {{rootJavaEEPackage}}.json.stream.JsonGenerator;
+import {{rootJavaEEPackage}}.json.stream.JsonParser;
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbProperty;
+{{#vendorExtensions.x-has-readonly-properties}}
+import {{rootJavaEEPackage}}.json.bind.annotation.JsonbCreator;
+{{/vendorExtensions.x-has-readonly-properties}}
+{{/jsonb}}
 {{#useBeanValidation}}
 import {{rootJavaEEPackage}}.validation.constraints.*;
 import {{rootJavaEEPackage}}.validation.Valid;

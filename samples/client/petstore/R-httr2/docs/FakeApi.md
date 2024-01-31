@@ -25,7 +25,7 @@ library(petstore)
 # Add a new pet to the store (optional body)
 #
 # prepare function argument(s)
-var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
+var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
 
 api_instance <- FakeApi$new()
 # Configure HTTP basic authorization: http_auth
@@ -140,7 +140,7 @@ No authorization required
 | **200** | successful operation |  -  |
 
 # **fake_path_array**
-> fake_path_array(path_array)
+> fake_path_array(path_array_parameter)
 
 test array parameter in path
 
@@ -153,11 +153,11 @@ library(petstore)
 # test array parameter in path
 #
 # prepare function argument(s)
-var_path_array <- list("inner_example") # array[character] | dummy path parameter
+var_path_array_parameter <- c("inner_example") # array[character] | dummy path parameter
 
 api_instance <- FakeApi$new()
 result <- tryCatch(
-             api_instance$fake_path_array(var_path_array),
+             api_instance$fake_path_array(var_path_array_parameter),
              ApiException = function(ex) ex
           )
 # In case of error, print the error object
@@ -174,7 +174,7 @@ if (!is.null(result$ApiException)) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **path_array** | list( **character** )| dummy path parameter | 
+ **path_array_parameter** | list( **character** )| dummy path parameter | 
 
 ### Return type
 
@@ -263,8 +263,8 @@ library(petstore)
 # test set query parameter
 #
 # prepare function argument(s)
-var_set_dummy <- list("inner_example") # set[character] | set query
-var_array_dummy <- list("inner_example") # array[character] | array query
+var_set_dummy <- c("inner_example") # set[character] | set query
+var_array_dummy <- c("inner_example") # array[character] | array query
 
 api_instance <- FakeApi$new()
 result <- tryCatch(

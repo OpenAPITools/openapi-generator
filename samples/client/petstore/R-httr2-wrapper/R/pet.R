@@ -40,14 +40,14 @@ Pet <- R6::R6Class(
     #' @param category category
     #' @param tags tags
     #' @param status pet status in the store
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`name`, `photoUrls`, `id` = NULL, `category` = NULL, `tags` = NULL, `status` = NULL, additional_properties = NULL, ...) {
       if (!missing(`name`)) {
-        stopifnot(is.character(`name`), length(`name`) == 1)
+        if (!(is.character(`name`) && length(`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", `name`))
+        }
         self$`name` <- `name`
       }
       if (!missing(`photoUrls`)) {
@@ -56,7 +56,9 @@ Pet <- R6::R6Class(
         self$`photoUrls` <- `photoUrls`
       }
       if (!is.null(`id`)) {
-        stopifnot(is.numeric(`id`), length(`id`) == 1)
+        if (!(is.numeric(`id`) && length(`id`) == 1)) {
+          stop(paste("Error! Invalid data for `id`. Must be an integer:", `id`))
+        }
         self$`id` <- `id`
       }
       if (!is.null(`category`)) {
@@ -72,7 +74,9 @@ Pet <- R6::R6Class(
         if (!(`status` %in% c("available", "pending", "sold"))) {
           stop(paste("Error! \"", `status`, "\" cannot be assigned to `status`. Must be \"available\", \"pending\", \"sold\".", sep = ""))
         }
-        stopifnot(is.character(`status`), length(`status`) == 1)
+        if (!(is.character(`status`) && length(`status`) == 1)) {
+          stop(paste("Error! Invalid data for `status`. Must be a string:", `status`))
+        }
         self$`status` <- `status`
       }
       if (!is.null(additional_properties)) {
@@ -134,9 +138,9 @@ Pet <- R6::R6Class(
         self$`id` <- this_object$`id`
       }
       if (!is.null(this_object$`category`)) {
-        category_object <- Category$new()
-        category_object$fromJSON(jsonlite::toJSON(this_object$category, auto_unbox = TRUE, digits = NA))
-        self$`category` <- category_object
+        `category_object` <- Category$new()
+        `category_object`$fromJSON(jsonlite::toJSON(this_object$`category`, auto_unbox = TRUE, digits = NA))
+        self$`category` <- `category_object`
       }
       if (!is.null(this_object$`name`)) {
         self$`name` <- this_object$`name`
@@ -239,7 +243,7 @@ Pet <- R6::R6Class(
     fromJSONString = function(input_json) {
       this_object <- jsonlite::fromJSON(input_json)
       self$`id` <- this_object$`id`
-      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(this_object$category, auto_unbox = TRUE, digits = NA))
+      self$`category` <- Category$new()$fromJSON(jsonlite::toJSON(this_object$`category`, auto_unbox = TRUE, digits = NA))
       self$`name` <- this_object$`name`
       self$`photoUrls` <- ApiClient$new()$deserializeObj(this_object$`photoUrls`, "array[character]", loadNamespace("petstore"))
       self$`tags` <- ApiClient$new()$deserializeObj(this_object$`tags`, "array[Tag]", loadNamespace("petstore"))
@@ -267,7 +271,9 @@ Pet <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `name`
       if (!is.null(input_json$`name`)) {
-        stopifnot(is.character(input_json$`name`), length(input_json$`name`) == 1)
+        if (!(is.character(input_json$`name`) && length(input_json$`name`) == 1)) {
+          stop(paste("Error! Invalid data for `name`. Must be a string:", input_json$`name`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Pet: the required field `name` is missing."))
       }
@@ -339,18 +345,19 @@ Pet <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Pet$unlock()
+# Pet$unlock()
 #
-## Below is an example to define the print fnuction
-#Pet$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+## Below is an example to define the print function
+# Pet$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Pet$lock()
+# Pet$lock()
 

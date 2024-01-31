@@ -12,6 +12,8 @@ part 'bar_ref.g.dart';
 /// BarRef
 ///
 /// Properties:
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
@@ -19,14 +21,12 @@ part 'bar_ref.g.dart';
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
 @BuiltValue()
 abstract class BarRef implements EntityRef, Built<BarRef, BarRefBuilder> {
-  static const String discriminatorFieldName = r'atType';
-
   BarRef._();
 
   factory BarRef([void updates(BarRefBuilder b)]) = _$BarRef;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(BarRefBuilder b) => b;
+  static void _defaults(BarRefBuilder b) => b..atType=b.discriminatorValue;
 
   @BuiltValueSerializer(custom: true)
   static Serializer<BarRef> get serializer => _$BarRefSerializer();

@@ -329,7 +329,7 @@ paths:
       tags:
         - store
       summary: Find purchase order by ID
-      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions'
+      description: 'For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions'
       operationId: getOrderById
       produces:
         - application/xml
@@ -837,7 +837,7 @@ paths:
           description: Integer in group parameters
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -1019,6 +1019,13 @@ paths:
           required: true
           schema:
             $ref: '#/definitions/Client'
+        - in: header
+          name: uuid_test
+          description: to test uuid example value
+          required: true
+          default: 1111-2222-3333-4444
+          type: string
+          format: uuid
       responses:
         '200':
           description: successful operation

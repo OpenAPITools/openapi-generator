@@ -93,11 +93,11 @@ func (dst *OneOfPrimitiveType) UnmarshalJSON(data []byte) error {
 		dst.ArrayOfString = nil
 		dst.Int32 = nil
 
-		return fmt.Errorf("Data matches more than one schema in oneOf(OneOfPrimitiveType)")
+		return fmt.Errorf("data matches more than one schema in oneOf(OneOfPrimitiveType)")
 	} else if match == 1 {
 		return nil // exactly one match
 	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(OneOfPrimitiveType)")
+		return fmt.Errorf("data failed to match schemas in oneOf(OneOfPrimitiveType)")
 	}
 }
 

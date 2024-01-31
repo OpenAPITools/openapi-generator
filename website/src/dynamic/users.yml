@@ -49,6 +49,11 @@
   infoLink: "https://www.askul.co.jp/"
   pinned: true
 -
+  caption: Amazon Web Services (AWS)
+  image: "img/companies/aws.png"
+  infoLink: "https://aws.amazon.com/"
+  pinned: false 
+-
   caption: "b<>com"
   image: "img/companies/b-com.png"
   infoLink: "https://b-com.com/en"
@@ -109,6 +114,11 @@
   infoLink: "https://www.camptocamp.com/en"
   pinned: false
 -
+  caption: Carlsberg Group
+  image: "img/companies/carlsberggroup.png"
+  infoLink: "https://www.carlsberggroup.com/"
+  pinned: false
+-
   caption: Cisco 
   image: "img/companies/cisco.png"
   infoLink: "https://www.cisco.com"
@@ -159,6 +169,11 @@
   infoLink: "https://www.deeproute.ai/"
   pinned: false
 -
+  caption: "dmTECH GmbH"
+  image: "img/companies/dmtech.jpeg"
+  infoLink: "https://www.dmTECH.de"
+  pinned: false
+-
   caption: "dwango"
   image: "img/companies/dwango.png"
   infoLink: "https://dwango.co.jp/"
@@ -192,6 +207,11 @@
   caption: "Fenergo"
   image: "img/companies/fenergo.png"
   infoLink: "https://www.fenergo.com/"
+  pinned: false
+-
+  caption: "Flipkart"
+  image: "img/companies/flipkart.png"
+  infoLink: "https://www.flipkart.com/"
   pinned: false
 -
   caption: FiNC Technologies
@@ -277,6 +297,11 @@
   caption: Klarna
   image: "img/companies/klarna.svg"
   infoLink: "https://www.klarna.com/us/"
+  pinned: false
+-
+  caption: "Landeshauptstadt München - it@M"
+  image: "img/companies/it-at-m.png"
+  infoLink: "https://muenchen.digital/it-at-m/"
   pinned: false
 -
   caption: "Linode"
@@ -384,6 +409,11 @@
   infoLink: "https://www.paxos.com/"
   pinned: false
 -
+  caption: "Passgenau Digital"
+  image: "img/companies/passgenau_digital.svg"
+  infoLink: "https://passgenau.digital/en"
+  pinned: false
+-
   caption: "PLAID, Inc."
   image: "img/companies/plaidcojp.jpg"
   infoLink: "https://plaid.co.jp/"
@@ -392,6 +422,11 @@
   caption: Plaid
   image: "img/companies/plaid.png"
   infoLink: "https://www.plaid.com/"
+  pinned: false
+-
+  caption: Pinterest 
+  image: "img/companies/pinterest.png"
+  infoLink: "https://www.pinterest.com/"
   pinned: false
 -
   caption: Ponicode
@@ -408,6 +443,11 @@
   image: "img/companies/prometheus.png"
   infoLink: "https://github.com/prometheus/alertmanager"
   pinned: false
+-
+  caption: "PTV Group"
+  image: "img/companies/ptvgroup.png"
+  infoLink: "https://www.myptv.com/"
+  pinned: false  
 -
   caption: Puppet
   image: "img/companies/puppet.svg"
@@ -449,6 +489,11 @@
   infoLink: "https://restunited.com/"
   pinned: false
 -
+  caption: Robocorp
+  image: "img/companies/robocorp.svg"
+  infoLink: "https://www.robocorp.com"
+  pinned: false
+-
   caption: "Shotstack"
   image: "img/companies/shotstack.svg"
   infoLink: "https://shotstack.io"
@@ -473,6 +518,11 @@
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
   pinned: true
+-
+  caption: SumUp
+  image: "img/companies/sumup.png"
+  infoLink: "https://www.sumup.com/"
+  pinned: false
 -
   caption: Suva
   image: "img/companies/suva.svg"
@@ -512,6 +562,11 @@
   caption: "TUI InfoTec GmbH"
   image: "img/companies/infotec.png"
   infoLink: "http://www.tui-infotec.com/"
+  pinned: false
+-
+  caption: "Twilio"
+  image: "img/companies/twilio.png"
+  infoLink: "https://twilio.com"
   pinned: false
 -
   caption: "Twitter"
@@ -554,6 +609,11 @@
   infoLink: "https://www.wbt-solutions.de/"
   pinned: false
 -
+  caption: we-make.ai
+  image: "img/companies/wemakeai.svg"
+  infoLink: "https://we-make.ai/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
@@ -593,7 +653,6 @@
   image: "img/companies/zozo-technologies.png"
   infoLink: "https://tech.zozo.com/en/"
   pinned: false
-
 -
   caption: 3DS OUTSCALE
   image: "img/companies/outscale.png"

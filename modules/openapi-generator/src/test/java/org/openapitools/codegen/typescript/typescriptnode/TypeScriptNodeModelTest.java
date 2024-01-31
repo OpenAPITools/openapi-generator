@@ -297,7 +297,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "Array<string>");
     }
 
-    @Test(description = "convert an string additional properties model")
+    @Test(description = "convert a string additional properties model")
     public void arrayModelAdditionalPropertiesStringTest() {
         final Schema schema = new Schema()
                 .description("a map model")
@@ -313,7 +313,7 @@ public class TypeScriptNodeModelTest {
         Assert.assertEquals(cm.additionalPropertiesType, "string");
     }
 
-    @Test(description = "convert an complex additional properties model")
+    @Test(description = "convert a complex additional properties model")
     public void arrayModelAdditionalPropertiesComplexTest() {
         final Schema schema = new Schema()
                 .description("a map model")

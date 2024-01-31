@@ -65,8 +65,8 @@ public class RetryingOAuth extends OAuth implements Interceptor {
                 .setClientSecret(clientSecret));
         setFlow(flow);
         if (parameters != null) {
-            for (String paramName : parameters.keySet()) {
-                tokenRequestBuilder.setParameter(paramName, parameters.get(paramName));
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                tokenRequestBuilder.setParameter(entry.getKey(), entry.getValue());
             }
         }
     }
@@ -129,8 +129,8 @@ public class RetryingOAuth extends OAuth implements Interceptor {
             }
 
             Map<String, String> headers = oAuthRequest.getHeaders();
-            for (String headerName : headers.keySet()) {
-                requestBuilder.addHeader(headerName, headers.get(headerName));
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                requestBuilder.addHeader(entry.getKey(), entry.getValue());
             }
             requestBuilder.url(oAuthRequest.getLocationUri());
 

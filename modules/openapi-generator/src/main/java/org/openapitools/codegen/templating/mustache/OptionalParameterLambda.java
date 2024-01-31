@@ -25,10 +25,8 @@ import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import java.io.IOException;
 import java.io.Writer;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-
 /**
- * Appends trailing ? to a text fragement if not already present
+ * Appends trailing ? to a text fragment if not already present
  *
  * Register:
  * <pre>
@@ -42,7 +40,6 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  */
 public class OptionalParameterLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
-    private Boolean escapeParam = false;
 
     public OptionalParameterLambda() {}
 

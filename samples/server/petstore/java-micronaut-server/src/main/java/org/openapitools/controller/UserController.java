@@ -93,7 +93,7 @@ public class UserController {
     @Produces(value = {})
     @Consumes(value = {"application/json"})
     public Mono<Void> createUsersWithArrayInput(
-        @Body @NotNull List<User> user
+        @Body @NotNull List<@Valid User> user
     ) {
         // TODO implement createUsersWithArrayInput();
         return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));
@@ -123,7 +123,7 @@ public class UserController {
     @Produces(value = {})
     @Consumes(value = {"application/json"})
     public Mono<Void> createUsersWithListInput(
-        @Body @NotNull List<User> user
+        @Body @NotNull List<@Valid User> user
     ) {
         // TODO implement createUsersWithListInput();
         return Mono.error(new HttpStatusException(HttpStatus.NOT_IMPLEMENTED, null));

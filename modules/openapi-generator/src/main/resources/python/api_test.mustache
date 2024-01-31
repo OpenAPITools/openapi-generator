@@ -1,0 +1,33 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+import unittest
+
+from {{apiPackage}}.{{classFilename}} import {{classname}}
+
+
+class {{#operations}}Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self) -> None:
+        self.api = {{classname}}()
+
+    def tearDown(self) -> None:
+        pass
+
+   {{#operation}}
+    def test_{{operationId}}(self) -> None:
+        """Test case for {{{operationId}}}
+
+{{#summary}}
+        {{{.}}}
+{{/summary}}
+        """
+        pass
+
+   {{/operation}}
+{{/operations}}
+
+if __name__ == '__main__':
+    unittest.main()

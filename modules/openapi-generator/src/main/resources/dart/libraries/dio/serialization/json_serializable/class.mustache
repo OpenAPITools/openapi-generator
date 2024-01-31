@@ -11,6 +11,9 @@ part '{{classFilename}}.g.dart';
 
 {{/parentModel}}
 
+{{#isDeprecated}}
+@Deprecated('{{{classname}}} has been deprecated')
+{{/isDeprecated}}
 @JsonSerializable(
   checked: true,
   createToJson: true,
@@ -32,12 +35,15 @@ class {{{classname}}} {
           // maximum: {{{maximum}}}
       {{/maximum}}
   {{/isEnum}}
+  {{#deprecated}}
+  @Deprecated('{{{name}}} has been deprecated')
+  {{/deprecated}}
   {{^isBinary}}
   @JsonKey(
     {{#defaultValue}}defaultValue: {{{defaultValue}}},{{/defaultValue}}
     name: r'{{{baseName}}}',
     required: {{#required}}true{{/required}}{{^required}}false{{/required}},
-    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}false{{/required}}{{^required}}false{{/required}}
+    includeIfNull: {{#required}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/required}}{{^required}}false{{/required}}
   )
   {{/isBinary}}
   {{#isBinary}}

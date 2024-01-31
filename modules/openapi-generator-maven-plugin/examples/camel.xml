@@ -42,10 +42,10 @@
 								<camelDataformatProperties>json.out.disableFeatures=WRITE_DATES_AS_TIMESTAMPS</camelDataformatProperties>
 								<withXml>true</withXml>
 								<jackson>true</jackson>
-								<camelUseDefaultValidationtErrorProcessor>true</camelUseDefaultValidationtErrorProcessor>
+								<camelUseDefaultValidationErrorProcessor>true</camelUseDefaultValidationErrorProcessor>
 								<!--
 								Define bean validation error processor
-								<camelUseDefaultValidationtErrorProcessor>false</camelUseDefaultValidationtErrorProcessor>
+								<camelUseDefaultValidationErrorProcessor>false</camelUseDefaultValidationErrorProcessor>
 								<camelValidationErrorProcessor>errorProcessorBeanName</camelValidationErrorProcessor>
 								-->
 								<camelRestClientRequestValidation>true</camelRestClientRequestValidation>
@@ -137,12 +137,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.13.0</version>
+			<version>2.15.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jdk8</artifactId>
-			<version>2.13.0</version>
+			<version>2.15.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>

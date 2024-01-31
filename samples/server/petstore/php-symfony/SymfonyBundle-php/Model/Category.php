@@ -31,6 +31,7 @@ namespace OpenAPI\Server\Model;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation\Accessor;
 use JMS\Serializer\Annotation\SerializedName;
 
 /**
@@ -41,6 +42,7 @@ use JMS\Serializer\Annotation\SerializedName;
  * @package OpenAPI\Server\Model
  * @author  OpenAPI Generator team
  */
+
 class Category 
 {
         /**
@@ -66,8 +68,10 @@ class Category
      */
     public function __construct(array $data = null)
     {
-        $this->id = $data['id'] ?? null;
-        $this->name = $data['name'] ?? null;
+        if (is_array($data)) {
+            $this->id = array_key_exists('id', $data) ? $data['id'] : $this->id;
+            $this->name = array_key_exists('name', $data) ? $data['name'] : $this->name;
+        }
     }
 
     /**
@@ -79,6 +83,8 @@ class Category
     {
         return $this->id;
     }
+
+
 
     /**
      * Sets id.
@@ -103,6 +109,8 @@ class Category
     {
         return $this->name;
     }
+
+
 
     /**
      * Sets name.

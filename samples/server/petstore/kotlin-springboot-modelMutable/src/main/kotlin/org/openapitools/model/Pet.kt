@@ -28,24 +28,24 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class Pet(
 
     @Schema(example = "doggie", required = true, description = "")
-    @field:JsonProperty("name", required = true) var name: kotlin.String,
+    @get:JsonProperty("name", required = true) var name: kotlin.String,
 
     @Schema(example = "null", required = true, description = "")
-    @field:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.MutableList<kotlin.String>,
+    @get:JsonProperty("photoUrls", required = true) var photoUrls: kotlin.collections.MutableList<kotlin.String>,
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("id") var id: kotlin.Long? = null,
-
-    @field:Valid
-    @Schema(example = "null", description = "")
-    @field:JsonProperty("category") var category: Category? = null,
+    @get:JsonProperty("id") var id: kotlin.Long? = null,
 
     @field:Valid
     @Schema(example = "null", description = "")
-    @field:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
+    @get:JsonProperty("category") var category: Category? = null,
+
+    @field:Valid
+    @Schema(example = "null", description = "")
+    @get:JsonProperty("tags") var tags: kotlin.collections.MutableList<Tag>? = null,
 
     @Schema(example = "null", description = "pet status in the store")
-    @field:JsonProperty("status") var status: Pet.Status? = null
+    @get:JsonProperty("status") var status: Pet.Status? = null
 ) {
 
     /**

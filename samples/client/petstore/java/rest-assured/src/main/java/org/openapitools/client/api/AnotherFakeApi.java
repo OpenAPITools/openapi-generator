@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 
 import com.google.gson.reflect.TypeToken;
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +27,9 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.swagger.annotations.*;
+
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -35,7 +38,6 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
-@Api(value = "AnotherFake")
 public class AnotherFakeApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -63,12 +65,6 @@ public class AnotherFakeApi {
         );
     }
 
-    @ApiOperation(value = "To test special tags",
-            notes = "To test special tags and operation ID starting with number",
-            nickname = "call123testSpecialTags",
-            tags = { "$another-fake?" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation")  })
     public Call123testSpecialTagsOper call123testSpecialTags() {
         return new Call123testSpecialTagsOper(createReqSpec());
     }
@@ -87,6 +83,7 @@ public class AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      *
+     * @see #uuidTestHeader to test uuid example value (required)
      * @see #body client model (required)
      * return Client
      */
@@ -132,6 +129,17 @@ public class AnotherFakeApi {
          */
         public Call123testSpecialTagsOper body(Client body) {
             reqSpec.setBody(body);
+            return this;
+        }
+
+        public static final String UUID_TEST_HEADER = "uuid_test";
+
+        /**
+         * @param uuidTest (UUID) to test uuid example value (required)
+         * @return operation
+         */
+        public Call123testSpecialTagsOper uuidTestHeader(String uuidTest) {
+            reqSpec.addHeader(UUID_TEST_HEADER, uuidTest);
             return this;
         }
 

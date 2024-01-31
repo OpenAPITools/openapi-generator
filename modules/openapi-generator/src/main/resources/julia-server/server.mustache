@@ -1,0 +1,69 @@
+{{>partial_header}}
+
+@doc raw"""
+Encapsulates generated server code for {{packageName}}
+
+The following server methods must be implemented:
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+{{#operation}}
+- **{{operationId}}**
+    - *invocation:* {{httpMethod}} {{path}}
+    - *signature:* {{operationId}}(req::HTTP.Request{{#allParams}}{{#required}}, {{paramName}}::{{dataType}}{{/required}}{{/allParams}};{{#allParams}}{{^required}} {{paramName}}=nothing,{{/required}}{{/allParams}}) -> {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Nothing{{/returnType}}
+{{/operation}}
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+"""
+module {{packageName}}
+
+using HTTP
+using URIs
+using Dates
+using TimeZones
+using OpenAPI
+using OpenAPI.Servers
+
+const API_VERSION = "{{appVersion}}"
+
+include("modelincludes.jl")
+{{#apiInfo}}{{#apis}}
+include("apis/api_{{classname}}.jl"){{/apis}}{{/apiInfo}}
+
+"""
+Register handlers for all APIs in this module in the supplied `Router` instance.
+
+Paramerets:
+- `router`: Router to register handlers in
+- `impl`: module that implements the server methods
+
+Optional parameters:
+- `path_prefix`: prefix to be applied to all paths
+- `optional_middlewares`: Register one or more optional middlewares to be applied to all requests.
+
+Optional middlewares can be one or more of:
+    - `init`: called before the request is processed
+    - `pre_validation`: called after the request is parsed but before validation
+    - `pre_invoke`: called after validation but before the handler is invoked
+    - `post_invoke`: called after the handler is invoked but before the response is sent
+
+The order in which middlewares are invoked are:
+`init |> read |> pre_validation |> validate |> pre_invoke |> invoke |> post_invoke`
+"""
+function register(router::HTTP.Router, impl; path_prefix::String="", optional_middlewares...)
+    {{#apiInfo}}
+    {{#apis}}
+    register{{classname}}(router, impl; path_prefix=path_prefix, optional_middlewares...)
+    {{/apis}}
+    {{/apiInfo}}
+    return router
+end
+
+{{#exportModels}}
+# export models
+{{#models}}{{#model}}export {{classname}}
+{{/model}}{{/models}}
+{{/exportModels}}
+end # module {{packageName}}

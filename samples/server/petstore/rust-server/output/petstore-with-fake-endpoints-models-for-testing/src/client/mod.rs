@@ -1250,7 +1250,7 @@ impl<S, C> Api<C> for Client<S, C> where
         param_float: Option<f32>,
         param_string: Option<String>,
         param_binary: Option<swagger::ByteArray>,
-        param_date: Option<chrono::DateTime::<chrono::Utc>>,
+        param_date: Option<chrono::naive::NaiveDate>,
         param_date_time: Option<chrono::DateTime::<chrono::Utc>>,
         param_password: Option<String>,
         param_callback: Option<String>,
@@ -1320,7 +1320,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Basic(ref basic_header) => {
+                AuthData::Basic(basic_header) => {
                     let auth = swagger::auth::Header(basic_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -1442,6 +1442,7 @@ impl<S, C> Api<C> for Client<S, C> where
         });
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_enum_header_string_array {
             Some(param_enum_header_string_array) => {
         request.headers_mut().append(
@@ -1458,6 +1459,7 @@ impl<S, C> Api<C> for Client<S, C> where
             None => {}
         }
 
+        #[allow(clippy::single_match)]
         match param_enum_header_string {
             Some(param_enum_header_string) => {
         request.headers_mut().append(
@@ -1822,7 +1824,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -1912,7 +1914,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -1927,6 +1929,7 @@ impl<S, C> Api<C> for Client<S, C> where
         }
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_api_key {
             Some(param_api_key) => {
         request.headers_mut().append(
@@ -2019,7 +2022,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -2124,7 +2127,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -2334,7 +2337,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -2447,7 +2450,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,
@@ -2593,7 +2596,7 @@ impl<S, C> Api<C> for Client<S, C> where
             // Currently only authentication with Basic and Bearer are supported
             #[allow(clippy::single_match, clippy::match_single_binding)]
             match auth_data {
-                &AuthData::Bearer(ref bearer_header) => {
+                AuthData::Bearer(bearer_header) => {
                     let auth = swagger::auth::Header(bearer_header.clone());
                     let header = match HeaderValue::from_str(&format!("{}", auth)) {
                         Ok(h) => h,

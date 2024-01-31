@@ -1,1 +1,1 @@
-{{#isContainer}}({{#isArray}}Json.Encode.list{{/isArray}}{{#isMap}}Json.Encode.dict identity{{/isMap}} {{#items}}{{>recordFieldValueEncoder}}{{/items}}{{/isContainer}}{{^isContainer}}{{>fieldEncoder}}{{/isContainer}}{{#isContainer}}){{/isContainer}}
+{{#isContainer}}{{#isArray}}Json.Encode.list{{/isArray}}{{#isMap}}Json.Encode.dict identity{{/isMap}} {{#items}}{{#isContainer}}({{/isContainer}}{{>recordFieldValueEncoder}}{{#isContainer}}){{/isContainer}}{{/items}}{{/isContainer}}{{^isContainer}}{{>fieldEncoder}}{{/isContainer}}

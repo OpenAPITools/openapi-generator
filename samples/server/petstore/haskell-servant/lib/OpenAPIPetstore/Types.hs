@@ -8,13 +8,14 @@ module OpenAPIPetstore.Types (
   Category (..),
   Order (..),
   Pet (..),
+  SpecialCharacters (..),
   Tag (..),
   User (..),
   ) where
 
 import Data.Data (Data)
 import Data.UUID (UUID)
-import Data.List (stripPrefix)
+import Data.List (lookup)
 import Data.Maybe (fromMaybe)
 import Data.Aeson (Value, FromJSON(..), ToJSON(..), genericToJSON, genericParseJSON)
 import Data.Aeson.Types (Options(..), defaultOptions)
@@ -27,7 +28,6 @@ import qualified Data.Char as Char
 import qualified Data.Text as T
 import qualified Data.Map as Map
 import GHC.Generics (Generic)
-import Data.Function ((&))
 
 
 -- | Describes the result of uploading an image resource
@@ -38,13 +38,26 @@ data ApiResponse = ApiResponse
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON ApiResponse where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "apiResponse")
+  parseJSON = genericParseJSON optionsApiResponse
 instance ToJSON ApiResponse where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "apiResponse")
+  toJSON = genericToJSON optionsApiResponse
 instance ToSchema ApiResponse where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "apiResponse"
+    $ optionsApiResponse
+
+optionsApiResponse :: Options
+optionsApiResponse =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("apiResponseCode", "code")
+      , ("apiResponseType", "type")
+      , ("apiResponseMessage", "message")
+      ]
 
 
 -- | A category for a pet
@@ -54,13 +67,25 @@ data Category = Category
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Category where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "category")
+  parseJSON = genericParseJSON optionsCategory
 instance ToJSON Category where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "category")
+  toJSON = genericToJSON optionsCategory
 instance ToSchema Category where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "category"
+    $ optionsCategory
+
+optionsCategory :: Options
+optionsCategory =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("categoryId", "id")
+      , ("categoryName", "name")
+      ]
 
 
 -- | An order for a pets from the pet store
@@ -74,13 +99,29 @@ data Order = Order
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Order where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "order")
+  parseJSON = genericParseJSON optionsOrder
 instance ToJSON Order where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "order")
+  toJSON = genericToJSON optionsOrder
 instance ToSchema Order where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "order"
+    $ optionsOrder
+
+optionsOrder :: Options
+optionsOrder =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("orderId", "id")
+      , ("orderPetId", "petId")
+      , ("orderQuantity", "quantity")
+      , ("orderShipDate", "shipDate")
+      , ("orderStatus", "status")
+      , ("orderComplete", "complete")
+      ]
 
 
 -- | A pet for sale in the pet store
@@ -94,13 +135,57 @@ data Pet = Pet
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Pet where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "pet")
+  parseJSON = genericParseJSON optionsPet
 instance ToJSON Pet where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "pet")
+  toJSON = genericToJSON optionsPet
 instance ToSchema Pet where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "pet"
+    $ optionsPet
+
+optionsPet :: Options
+optionsPet =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("petId", "id")
+      , ("petCategory", "category")
+      , ("petName", "name")
+      , ("petPhotoUrls", "photoUrls")
+      , ("petTags", "tags")
+      , ("petStatus", "status")
+      ]
+
+
+-- | description
+data SpecialCharacters = SpecialCharacters
+  { specialCharactersDoubleQuote :: Text -- ^ double quote
+  , specialCharactersBackSlash :: Text -- ^ backslash
+  } deriving (Show, Eq, Generic, Data)
+
+instance FromJSON SpecialCharacters where
+  parseJSON = genericParseJSON optionsSpecialCharacters
+instance ToJSON SpecialCharacters where
+  toJSON = genericToJSON optionsSpecialCharacters
+instance ToSchema SpecialCharacters where
+  declareNamedSchema = Swagger.genericDeclareNamedSchema
+    $ Swagger.fromAesonOptions
+    $ optionsSpecialCharacters
+
+optionsSpecialCharacters :: Options
+optionsSpecialCharacters =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("specialCharactersDoubleQuote", "\"")
+      , ("specialCharactersBackSlash", "\\")
+      ]
 
 
 -- | A tag for a pet
@@ -110,13 +195,25 @@ data Tag = Tag
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON Tag where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "tag")
+  parseJSON = genericParseJSON optionsTag
 instance ToJSON Tag where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "tag")
+  toJSON = genericToJSON optionsTag
 instance ToSchema Tag where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "tag"
+    $ optionsTag
+
+optionsTag :: Options
+optionsTag =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
+    }
+  where
+    table =
+      [ ("tagId", "id")
+      , ("tagName", "name")
+      ]
 
 
 -- | A User who is purchasing from the pet store
@@ -132,74 +229,29 @@ data User = User
   } deriving (Show, Eq, Generic, Data)
 
 instance FromJSON User where
-  parseJSON = genericParseJSON (removeFieldLabelPrefix True "user")
+  parseJSON = genericParseJSON optionsUser
 instance ToJSON User where
-  toJSON = genericToJSON (removeFieldLabelPrefix False "user")
+  toJSON = genericToJSON optionsUser
 instance ToSchema User where
   declareNamedSchema = Swagger.genericDeclareNamedSchema
     $ Swagger.fromAesonOptions
-    $ removeFieldLabelPrefix False "user"
+    $ optionsUser
 
-
-uncapitalize :: String -> String
-uncapitalize (first:rest) = Char.toLower first : rest
-uncapitalize [] = []
-
--- | Remove a field label prefix during JSON parsing.
---   Also perform any replacements for special characters.
---   The @forParsing@ parameter is to distinguish between the cases in which we're using this
---   to power a @FromJSON@ or a @ToJSON@ instance. In the first case we're parsing, and we want
---   to replace special characters with their quoted equivalents (because we cannot have special
---   chars in identifier names), while we want to do vice versa when sending data instead.
-removeFieldLabelPrefix :: Bool -> String -> Options
-removeFieldLabelPrefix forParsing prefix =
+optionsUser :: Options
+optionsUser =
   defaultOptions
     { omitNothingFields  = True
-    , fieldLabelModifier = uncapitalize . fromMaybe (error ("did not find prefix " ++ prefix)) . stripPrefix prefix . replaceSpecialChars
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ lookup s table
     }
   where
-    replaceSpecialChars field = foldl (&) field (map mkCharReplacement specialChars)
-    specialChars =
-      [ ("$", "'Dollar")
-      , ("^", "'Caret")
-      , ("|", "'Pipe")
-      , ("=", "'Equal")
-      , ("*", "'Star")
-      , ("-", "'Dash")
-      , ("&", "'Ampersand")
-      , ("%", "'Percent")
-      , ("#", "'Hash")
-      , ("@", "'At")
-      , ("!", "'Exclamation")
-      , ("+", "'Plus")
-      , (":", "'Colon")
-      , (";", "'Semicolon")
-      , (">", "'GreaterThan")
-      , ("<", "'LessThan")
-      , (".", "'Period")
-      , ("_", "'Underscore")
-      , ("?", "'Question_Mark")
-      , (",", "'Comma")
-      , ("'", "'Quote")
-      , ("/", "'Slash")
-      , ("(", "'Left_Parenthesis")
-      , (")", "'Right_Parenthesis")
-      , ("{", "'Left_Curly_Bracket")
-      , ("}", "'Right_Curly_Bracket")
-      , ("[", "'Left_Square_Bracket")
-      , ("]", "'Right_Square_Bracket")
-      , ("~", "'Tilde")
-      , ("`", "'Backtick")
-      , ("<=", "'Less_Than_Or_Equal_To")
-      , (">=", "'Greater_Than_Or_Equal_To")
-      , ("!=", "'Not_Equal")
-      , ("<>", "'Not_Equal")
-      , ("~=", "'Tilde_Equal")
-      , ("\\", "'Back_Slash")
-      , ("\"", "'Double_Quote")
+    table =
+      [ ("userId", "id")
+      , ("userUsername", "username")
+      , ("userFirstName", "firstName")
+      , ("userLastName", "lastName")
+      , ("userEmail", "email")
+      , ("userPassword", "password")
+      , ("userPhone", "phone")
+      , ("userUserStatus", "userStatus")
       ]
-    mkCharReplacement (replaceStr, searchStr) = T.unpack . replacer (T.pack searchStr) (T.pack replaceStr) . T.pack
-    replacer =
-      if forParsing
-        then flip T.replace
-        else T.replace
+

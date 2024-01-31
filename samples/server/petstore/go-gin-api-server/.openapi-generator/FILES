@@ -1,5 +1,6 @@
 Dockerfile
 api/openapi.yaml
+go.mod
 go/README.md
 go/api_pet.go
 go/api_store.go

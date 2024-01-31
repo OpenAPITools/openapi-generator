@@ -85,7 +85,7 @@ library(petstore)
 # Creates list of users with given input array
 #
 # prepare function argument(s)
-var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- c(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key
@@ -142,7 +142,7 @@ library(petstore)
 # Creates list of users with given input array
 #
 # prepare function argument(s)
-var_user <- list(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
+var_user <- c(User$new(123, "username_example", "firstName_example", "lastName_example", "email_example", "password_example", "phone_example", 123)) # array[User] | List of user object
 
 api_instance <- UserApi$new()
 # Configure API key authorization: api_key

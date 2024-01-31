@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,9 +21,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -166,7 +164,7 @@ public class FruitReq extends AbstractOpenApiSchema {
     }
 
     // store a list of schema names defined in oneOf
-    public static final Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+    public static final Map<String, GenericType> schemas = new HashMap<>();
 
     public FruitReq() {
         super("oneOf", Boolean.TRUE);
@@ -210,12 +208,12 @@ public class FruitReq extends AbstractOpenApiSchema {
            return;
         }
 
-        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<Class<?>>())) {
+        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }

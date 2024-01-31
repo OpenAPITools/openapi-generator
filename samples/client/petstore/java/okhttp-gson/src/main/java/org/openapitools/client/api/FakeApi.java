@@ -36,6 +36,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 import java.lang.reflect.Type;
@@ -43,7 +44,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
 
 public class FakeApi {
     private ApiClient localVarApiClient;
@@ -127,7 +127,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -140,10 +139,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeHealthGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeHealthGetCall(_callback);
-        return localVarCall;
+        return fakeHealthGetCall(_callback);
 
     }
 
@@ -258,10 +254,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterBooleanSerializeValidateBeforeCall(Boolean body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterBooleanSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterBooleanSerializeCall(body, _callback);
 
     }
 
@@ -379,10 +372,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterCompositeSerializeValidateBeforeCall(OuterComposite outerComposite, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterCompositeSerializeCall(outerComposite, _callback);
-        return localVarCall;
+        return fakeOuterCompositeSerializeCall(outerComposite, _callback);
 
     }
 
@@ -500,10 +490,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterNumberSerializeValidateBeforeCall(BigDecimal body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterNumberSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterNumberSerializeCall(body, _callback);
 
     }
 
@@ -621,10 +608,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call fakeOuterStringSerializeValidateBeforeCall(String body, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = fakeOuterStringSerializeCall(body, _callback);
-        return localVarCall;
+        return fakeOuterStringSerializeCall(body, _callback);
 
     }
 
@@ -728,7 +712,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -741,10 +724,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call getArrayOfEnumsValidateBeforeCall(final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = getArrayOfEnumsCall(_callback);
-        return localVarCall;
+        return getArrayOfEnumsCall(_callback);
 
     }
 
@@ -801,6 +781,271 @@ public class FakeApi {
         return localVarCall;
     }
     /**
+     * Build call for getParameterNameMapping
+     * @param underscoreType _type (required)
+     * @param type type (required)
+     * @param typeWithUnderscore type_ (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getParameterNameMappingCall(Long underscoreType, String type, String typeWithUnderscore, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/fake/parameter-name-mapping";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (type != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        }
+
+        if (underscoreType != null) {
+            localVarHeaderParams.put("_type", localVarApiClient.parameterToString(underscoreType));
+        }
+
+        if (typeWithUnderscore != null) {
+            localVarHeaderParams.put("type_", localVarApiClient.parameterToString(typeWithUnderscore));
+        }
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call getParameterNameMappingValidateBeforeCall(Long underscoreType, String type, String typeWithUnderscore, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'underscoreType' is set
+        if (underscoreType == null) {
+            throw new ApiException("Missing the required parameter 'underscoreType' when calling getParameterNameMapping(Async)");
+        }
+
+        // verify the required parameter 'type' is set
+        if (type == null) {
+            throw new ApiException("Missing the required parameter 'type' when calling getParameterNameMapping(Async)");
+        }
+
+        // verify the required parameter 'typeWithUnderscore' is set
+        if (typeWithUnderscore == null) {
+            throw new ApiException("Missing the required parameter 'typeWithUnderscore' when calling getParameterNameMapping(Async)");
+        }
+
+        return getParameterNameMappingCall(underscoreType, type, typeWithUnderscore, _callback);
+
+    }
+
+    /**
+     * parameter name mapping test
+     * 
+     * @param underscoreType _type (required)
+     * @param type type (required)
+     * @param typeWithUnderscore type_ (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public void getParameterNameMapping(Long underscoreType, String type, String typeWithUnderscore) throws ApiException {
+        getParameterNameMappingWithHttpInfo(underscoreType, type, typeWithUnderscore);
+    }
+
+    /**
+     * parameter name mapping test
+     * 
+     * @param underscoreType _type (required)
+     * @param type type (required)
+     * @param typeWithUnderscore type_ (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> getParameterNameMappingWithHttpInfo(Long underscoreType, String type, String typeWithUnderscore) throws ApiException {
+        okhttp3.Call localVarCall = getParameterNameMappingValidateBeforeCall(underscoreType, type, typeWithUnderscore, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * parameter name mapping test (asynchronously)
+     * 
+     * @param underscoreType _type (required)
+     * @param type type (required)
+     * @param typeWithUnderscore type_ (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> OK </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call getParameterNameMappingAsync(Long underscoreType, String type, String typeWithUnderscore, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = getParameterNameMappingValidateBeforeCall(underscoreType, type, typeWithUnderscore, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testAdditionalPropertiesReference
+     * @param requestBody request body (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testAdditionalPropertiesReferenceCall(Map<String, Object> requestBody, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = requestBody;
+
+        // create path and map variables
+        String localVarPath = "/fake/additionalProperties-reference";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testAdditionalPropertiesReferenceValidateBeforeCall(Map<String, Object> requestBody, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new ApiException("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference(Async)");
+        }
+
+        return testAdditionalPropertiesReferenceCall(requestBody, _callback);
+
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param requestBody request body (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException {
+        testAdditionalPropertiesReferenceWithHttpInfo(requestBody);
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param requestBody request body (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> testAdditionalPropertiesReferenceWithHttpInfo(Map<String, Object> requestBody) throws ApiException {
+        okhttp3.Call localVarCall = testAdditionalPropertiesReferenceValidateBeforeCall(requestBody, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * test referenced additionalProperties (asynchronously)
+     * 
+     * @param requestBody request body (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testAdditionalPropertiesReferenceAsync(Map<String, Object> requestBody, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testAdditionalPropertiesReferenceValidateBeforeCall(requestBody, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for testBodyWithFileSchema
      * @param fileSchemaTestClass  (required)
      * @param _callback Callback for upload/download progress
@@ -838,7 +1083,6 @@ public class FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -859,15 +1103,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testBodyWithFileSchemaValidateBeforeCall(FileSchemaTestClass fileSchemaTestClass, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'fileSchemaTestClass' is set
         if (fileSchemaTestClass == null) {
             throw new ApiException("Missing the required parameter 'fileSchemaTestClass' when calling testBodyWithFileSchema(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testBodyWithFileSchemaCall(fileSchemaTestClass, _callback);
-        return localVarCall;
+        return testBodyWithFileSchemaCall(fileSchemaTestClass, _callback);
 
     }
 
@@ -965,7 +1206,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -986,20 +1226,17 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testBodyWithQueryParamsValidateBeforeCall(String query, User user, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'query' is set
         if (query == null) {
             throw new ApiException("Missing the required parameter 'query' when calling testBodyWithQueryParams(Async)");
         }
-        
+
         // verify the required parameter 'user' is set
         if (user == null) {
             throw new ApiException("Missing the required parameter 'user' when calling testBodyWithQueryParams(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testBodyWithQueryParamsCall(query, user, _callback);
-        return localVarCall;
+        return testBodyWithQueryParamsCall(query, user, _callback);
 
     }
 
@@ -1116,15 +1353,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testClientModelValidateBeforeCall(Client client, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'client' is set
         if (client == null) {
             throw new ApiException("Missing the required parameter 'client' when calling testClientModel(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testClientModelCall(client, _callback);
-        return localVarCall;
+        return testClientModelCall(client, _callback);
 
     }
 
@@ -1291,7 +1525,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1312,30 +1545,27 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testEndpointParametersValidateBeforeCall(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'number' is set
         if (number == null) {
             throw new ApiException("Missing the required parameter 'number' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter '_double' is set
         if (_double == null) {
             throw new ApiException("Missing the required parameter '_double' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter 'patternWithoutDelimiter' is set
         if (patternWithoutDelimiter == null) {
             throw new ApiException("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters(Async)");
         }
-        
+
         // verify the required parameter '_byte' is set
         if (_byte == null) {
             throw new ApiException("Missing the required parameter '_byte' when calling testEndpointParameters(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
-        return localVarCall;
+        return testEndpointParametersCall(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, _callback);
 
     }
 
@@ -1510,7 +1740,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1531,10 +1760,7 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testEnumParametersValidateBeforeCall(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, final ApiCallback _callback) throws ApiException {
-        
-
-        okhttp3.Call localVarCall = testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
-        return localVarCall;
+        return testEnumParametersCall(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, _callback);
 
     }
 
@@ -1663,7 +1889,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1671,7 +1896,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -1684,25 +1908,22 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testGroupParametersValidateBeforeCall(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
             throw new ApiException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters(Async)");
         }
-        
+
         // verify the required parameter 'requiredBooleanGroup' is set
         if (requiredBooleanGroup == null) {
             throw new ApiException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters(Async)");
         }
-        
+
         // verify the required parameter 'requiredInt64Group' is set
         if (requiredInt64Group == null) {
             throw new ApiException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
-        return localVarCall;
+        return testGroupParametersCall(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, _callback);
 
     }
 
@@ -1771,7 +1992,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call buildCall(final ApiCallback _callback) throws ApiException {
@@ -1784,7 +2005,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public void execute() throws ApiException {
@@ -1798,7 +2019,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public ApiResponse<Void> executeWithHttpInfo() throws ApiException {
@@ -1813,7 +2034,7 @@ public class FakeApi {
          * @http.response.details
          <table summary="Response Details" border="1">
             <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-            <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+            <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
          </table>
          */
         public okhttp3.Call executeAsync(final ApiCallback<Void> _callback) throws ApiException {
@@ -1831,7 +2052,7 @@ public class FakeApi {
      * @http.response.details
      <table summary="Response Details" border="1">
         <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-        <tr><td> 400 </td><td> Someting wrong </td><td>  -  </td></tr>
+        <tr><td> 400 </td><td> Something wrong </td><td>  -  </td></tr>
      </table>
      */
     public APItestGroupParametersRequest testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group) {
@@ -1875,7 +2096,6 @@ public class FakeApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -1896,15 +2116,12 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testInlineAdditionalPropertiesValidateBeforeCall(Map<String, String> requestBody, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'requestBody' is set
         if (requestBody == null) {
             throw new ApiException("Missing the required parameter 'requestBody' when calling testInlineAdditionalProperties(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testInlineAdditionalPropertiesCall(requestBody, _callback);
-        return localVarCall;
+        return testInlineAdditionalPropertiesCall(requestBody, _callback);
 
     }
 
@@ -1960,6 +2177,124 @@ public class FakeApi {
         return localVarCall;
     }
     /**
+     * Build call for testInlineFreeformAdditionalProperties
+     * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testInlineFreeformAdditionalPropertiesCall(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = testInlineFreeformAdditionalPropertiesRequest;
+
+        // create path and map variables
+        String localVarPath = "/fake/inline-freeform-additionalProperties";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testInlineFreeformAdditionalPropertiesValidateBeforeCall(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+        if (testInlineFreeformAdditionalPropertiesRequest == null) {
+            throw new ApiException("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties(Async)");
+        }
+
+        return testInlineFreeformAdditionalPropertiesCall(testInlineFreeformAdditionalPropertiesRequest, _callback);
+
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+        testInlineFreeformAdditionalPropertiesWithHttpInfo(testInlineFreeformAdditionalPropertiesRequest);
+    }
+
+    /**
+     * test inline free-form additionalProperties
+     * 
+     * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> testInlineFreeformAdditionalPropertiesWithHttpInfo(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException {
+        okhttp3.Call localVarCall = testInlineFreeformAdditionalPropertiesValidateBeforeCall(testInlineFreeformAdditionalPropertiesRequest, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * test inline free-form additionalProperties (asynchronously)
+     * 
+     * @param testInlineFreeformAdditionalPropertiesRequest request body (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testInlineFreeformAdditionalPropertiesAsync(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testInlineFreeformAdditionalPropertiesValidateBeforeCall(testInlineFreeformAdditionalPropertiesRequest, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
      * Build call for testJsonFormData
      * @param param field1 (required)
      * @param param2 field2 (required)
@@ -2006,7 +2341,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2027,20 +2361,17 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testJsonFormDataValidateBeforeCall(String param, String param2, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'param' is set
         if (param == null) {
             throw new ApiException("Missing the required parameter 'param' when calling testJsonFormData(Async)");
         }
-        
+
         // verify the required parameter 'param2' is set
         if (param2 == null) {
             throw new ApiException("Missing the required parameter 'param2' when calling testJsonFormData(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testJsonFormDataCall(param, param2, _callback);
-        return localVarCall;
+        return testJsonFormDataCall(param, param2, _callback);
 
     }
 
@@ -2160,7 +2491,6 @@ public class FakeApi {
         }
 
         final String[] localVarAccepts = {
-            
         };
         final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) {
@@ -2168,7 +2498,6 @@ public class FakeApi {
         }
 
         final String[] localVarContentTypes = {
-            
         };
         final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
         if (localVarContentType != null) {
@@ -2181,35 +2510,32 @@ public class FakeApi {
 
     @SuppressWarnings("rawtypes")
     private okhttp3.Call testQueryParameterCollectionFormatValidateBeforeCall(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback _callback) throws ApiException {
-        
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
             throw new ApiException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'ioutil' is set
         if (ioutil == null) {
             throw new ApiException("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'http' is set
         if (http == null) {
             throw new ApiException("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'url' is set
         if (url == null) {
             throw new ApiException("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
+
         // verify the required parameter 'context' is set
         if (context == null) {
             throw new ApiException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat(Async)");
         }
-        
 
-        okhttp3.Call localVarCall = testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);
-        return localVarCall;
+        return testQueryParameterCollectionFormatCall(pipe, ioutil, http, url, context, _callback);
 
     }
 
@@ -2273,6 +2599,124 @@ public class FakeApi {
     public okhttp3.Call testQueryParameterCollectionFormatAsync(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, final ApiCallback<Void> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryParameterCollectionFormatValidateBeforeCall(pipe, ioutil, http, url, context, _callback);
+        localVarApiClient.executeAsync(localVarCall, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testStringMapReference
+     * @param requestBody request body (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testStringMapReferenceCall(Map<String, String> requestBody, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = requestBody;
+
+        // create path and map variables
+        String localVarPath = "/fake/stringMap-reference";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        final String[] localVarAccepts = {
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "application/json"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testStringMapReferenceValidateBeforeCall(Map<String, String> requestBody, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'requestBody' is set
+        if (requestBody == null) {
+            throw new ApiException("Missing the required parameter 'requestBody' when calling testStringMapReference(Async)");
+        }
+
+        return testStringMapReferenceCall(requestBody, _callback);
+
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param requestBody request body (required)
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public void testStringMapReference(Map<String, String> requestBody) throws ApiException {
+        testStringMapReferenceWithHttpInfo(requestBody);
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param requestBody request body (required)
+     * @return ApiResponse&lt;Void&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+        okhttp3.Call localVarCall = testStringMapReferenceValidateBeforeCall(requestBody, null);
+        return localVarApiClient.execute(localVarCall);
+    }
+
+    /**
+     * test referenced string map (asynchronously)
+     * 
+     * @param requestBody request body (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testStringMapReferenceAsync(Map<String, String> requestBody, final ApiCallback<Void> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testStringMapReferenceValidateBeforeCall(requestBody, _callback);
         localVarApiClient.executeAsync(localVarCall, _callback);
         return localVarCall;
     }

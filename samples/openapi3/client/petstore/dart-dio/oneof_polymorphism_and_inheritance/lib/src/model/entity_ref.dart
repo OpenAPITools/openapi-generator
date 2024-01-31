@@ -32,7 +32,7 @@ abstract class EntityRef implements Addressable, Extensible {
   @BuiltValueField(wireName: r'name')
   String? get name;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'BarRef': BarRef,
@@ -41,6 +41,29 @@ abstract class EntityRef implements Addressable, Extensible {
 
   @BuiltValueSerializer(custom: true)
   static Serializer<EntityRef> get serializer => _$EntityRefSerializer();
+}
+
+extension EntityRefDiscriminatorExt on EntityRef {
+    String? get discriminatorValue {
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        if (this is FooRef) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+extension EntityRefBuilderDiscriminatorExt on EntityRefBuilder {
+    String? get discriminatorValue {
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        if (this is FooRefBuilder) {
+            return r'FooRef';
+        }
+        return null;
+    }
 }
 
 class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
@@ -129,9 +152,9 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     final discIndex = serializedList.indexOf(EntityRef.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case 'BarRef':
+      case r'BarRef':
         return serializers.deserialize(serialized, specifiedType: FullType(BarRef)) as BarRef;
-      case 'FooRef':
+      case r'FooRef':
         return serializers.deserialize(serialized, specifiedType: FullType(FooRef)) as FooRef;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($EntityRef)) as $EntityRef;

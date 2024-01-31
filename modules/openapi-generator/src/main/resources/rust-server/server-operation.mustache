@@ -125,7 +125,7 @@
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
   {{/-first}}
-                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
+                let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.clone())
   {{#isArray}}
     {{^vendorExtensions.x-consumes-json}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
@@ -221,7 +221,7 @@
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
 {{/x-consumes-xml}}
 {{#x-consumes-json}}
-                                    let deserializer = &mut serde_json::Deserializer::from_slice(&*body);
+                                    let deserializer = &mut serde_json::Deserializer::from_slice(&body);
 {{/x-consumes-json}}
 {{^x-consumes-plain-text}}
                                     match serde_ignored::deserialize(deserializer, |path| {
@@ -574,27 +574,27 @@
 {{#vendorExtensions}}
 {{#x-produces-xml}}
 {{^x-has-namespace}}
-                                                    let body = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
+                                                    let body_content = serde_xml_rs::to_string(&body).expect("impossible to fail to serialize");
 {{/x-has-namespace}}
 {{#x-has-namespace}}
                                                     let mut namespaces = std::collections::BTreeMap::new();
 
                                                     // An empty string is used to indicate a global namespace in xmltree.
                                                     namespaces.insert("".to_string(), {{{dataType}}}::NAMESPACE.to_string());
-                                                    let body = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
+                                                    let body_content = serde_xml_rs::to_string_with_namespaces(&body, namespaces).expect("impossible to fail to serialize");
 {{/x-has-namespace}}
 {{/x-produces-xml}}
 {{#x-produces-json}}
-                                                    let body = serde_json::to_string(&body).expect("impossible to fail to serialize");
+                                                    let body_content = serde_json::to_string(&body).expect("impossible to fail to serialize");
 {{/x-produces-json}}
 {{#x-produces-bytes}}
-                                                    let body = body.0;
+                                                    let body_content = body.0;
 {{/x-produces-bytes}}
 {{#x-produces-plain-text}}
-                                                    let body = body;
+                                                    let body_content = body;
 {{/x-produces-plain-text}}
 {{/vendorExtensions}}
-                                                    *response.body_mut() = Body::from(body);
+                                                    *response.body_mut() = Body::from(body_content);
 {{/dataType}}
                                                 },
 {{/responses}}

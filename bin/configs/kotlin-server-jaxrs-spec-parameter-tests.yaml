@@ -1,0 +1,7 @@
+generatorName: kotlin-server
+outputDir: samples/server/others/kotlin-server/jaxrs-spec
+library: jaxrs-spec
+inputSpec: modules/openapi-generator/src/test/resources/3_0/parameter-test-spec.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-server
+additionalProperties:
+  useCoroutines: "true"

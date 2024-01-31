@@ -20,11 +20,10 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -66,7 +65,6 @@ public class TypeHolderDefault {
    * @return stringItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public String getStringItem() {
     return stringItem;
@@ -89,7 +87,6 @@ public class TypeHolderDefault {
    * @return numberItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public BigDecimal getNumberItem() {
     return numberItem;
@@ -112,7 +109,6 @@ public class TypeHolderDefault {
    * @return integerItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Integer getIntegerItem() {
     return integerItem;
@@ -135,7 +131,6 @@ public class TypeHolderDefault {
    * @return boolItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public Boolean getBoolItem() {
     return boolItem;
@@ -154,6 +149,9 @@ public class TypeHolderDefault {
   }
 
   public TypeHolderDefault addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -163,7 +161,6 @@ public class TypeHolderDefault {
    * @return arrayItem
   **/
   @javax.annotation.Nonnull
-  @ApiModelProperty(required = true, value = "")
 
   public List<Integer> getArrayItem() {
     return arrayItem;
@@ -173,7 +170,6 @@ public class TypeHolderDefault {
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
   }
-
 
   @Override
   public boolean equals(Object o) {

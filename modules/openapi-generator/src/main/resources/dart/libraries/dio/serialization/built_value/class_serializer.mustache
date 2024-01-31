@@ -59,14 +59,15 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     {{#anyOf}}
     {{#-first}}
     final anyOf = object.anyOf;
-    final result = {{^vendorExtensions.x-has-self-and-ancestor-only-props}}<Object?>[]{{/vendorExtensions.x-has-self-and-ancestor-only-props}}{{#vendorExtensions.x-has-self-and-ancestor-only-props}}_serializeProperties(serializers, object, specifiedType: specifiedType).toList(){{/vendorExtensions.x-has-self-and-ancestor-only-props}};
-    for (var _valueEntry in anyOf.values.entries) {
-      final _typeIndex = _valueEntry.key;
-      final _type = anyOf.types[_typeIndex];
-      final _value = _valueEntry.value;
-      result.addAll(serializers.serialize(_value, specifiedType: FullType(_type)) as Iterable<Object?>);
-    }
+    {{#vendorExtensions.x-self-and-ancestor-only-props}}
+    final result = _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
+    final serialized = serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()));
+    result.addAll((serialized is Map ? serialized.entries.map((e) => <dynamic>[e.key, e.value]).expand<dynamic>((e) => e) : serialized) as Iterable<Object?>);
     return result;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
+    {{^vendorExtensions.x-self-and-ancestor-only-props}}
+    return serializers.serialize(anyOf, specifiedType: FullType(AnyOf, anyOf.valueTypes.map((type) => FullType(type)).toList()))!;
+    {{/vendorExtensions.x-self-and-ancestor-only-props}}
     {{/-first}}
     {{/anyOf}}
     {{^oneOf}}
@@ -127,7 +128,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     Type oneOfType;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType({{modelName}}),
@@ -210,7 +211,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     Type anyOfType;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         anyOfResult = serializers.deserialize(anyOfDataSrc, specifiedType: FullType({{modelName}})) as {{modelName}};
         anyOfType = {{modelName}};
         break;
@@ -262,7 +263,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
         parent classes don't have builder
         so they must delegate to another serializer using
         1) discriminator + mapping
-        2) concrete implmentation ($classname)
+        2) concrete implementation ($classname)
     }}
     {{#hasDiscriminatorWithNonEmptyMapping}}
     {{#discriminator}}
@@ -271,7 +272,7 @@ class _${{classname}}Serializer implements PrimitiveSerializer<{{classname}}> {
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
       {{#mappedModels}}
-      case '{{mappingName}}':
+      case r'{{mappingName}}':
         return serializers.deserialize(serialized, specifiedType: FullType({{modelName}})) as {{modelName}};
       {{/mappedModels}}
       default:

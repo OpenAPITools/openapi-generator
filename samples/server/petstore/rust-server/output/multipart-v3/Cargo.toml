@@ -1,8 +1,9 @@
 [package]
 name = "multipart-v3"
 version = "1.0.7"
-authors = []
+authors = ["OpenAPI Generator team and contributors"]
 description = "API under test"
+# Override this license by providing a License Object in the OpenAPI.
 license = "Unlicense"
 edition = "2018"
 
@@ -41,6 +42,7 @@ mime = "0.3"
 
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+validator = { version = "0.16", features = ["derive"] }
 
 # Crates included if required by the API definition
 mime_0_2 = { package = "mime", version = "0.2.6", optional = true }

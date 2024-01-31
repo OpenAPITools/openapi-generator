@@ -9,8 +9,11 @@ import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import jakarta.xml.bind.annotation.*;
 
 import java.util.*;
 import jakarta.annotation.Generated;
@@ -21,16 +24,17 @@ import jakarta.annotation.Generated;
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
 @JsonTypeName("ApiResponse")
+@JacksonXmlRootElement(localName = "ModelApiResponse")
+@XmlRootElement(name = "ModelApiResponse")
+@XmlAccessorType(XmlAccessType.FIELD)
+
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 
-  @JsonProperty("code")
   private Integer code;
 
-  @JsonProperty("type")
   private String type;
 
-  @JsonProperty("message")
   private String message;
 
   public ModelApiResponse code(Integer code) {
@@ -43,7 +47,9 @@ public class ModelApiResponse {
    * @return code
   */
   
-  @Schema(name = "code", required = false)
+  @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("code")
+  @JacksonXmlProperty(localName = "code")
   public Integer getCode() {
     return code;
   }
@@ -62,7 +68,9 @@ public class ModelApiResponse {
    * @return type
   */
   
-  @Schema(name = "type", required = false)
+  @Schema(name = "type", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("type")
+  @JacksonXmlProperty(localName = "type")
   public String getType() {
     return type;
   }
@@ -81,7 +89,9 @@ public class ModelApiResponse {
    * @return message
   */
   
-  @Schema(name = "message", required = false)
+  @Schema(name = "message", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("message")
+  @JacksonXmlProperty(localName = "message")
   public String getMessage() {
     return message;
   }

@@ -12,9 +12,13 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"strings"
 )
+
+// checks if the Cat type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Cat{}
 
 // Cat struct for Cat
 type Cat struct {
@@ -47,7 +51,7 @@ func NewCatWithDefaults() *Cat {
 
 // GetDeclawed returns the Declawed field value if set, zero value otherwise.
 func (o *Cat) GetDeclawed() bool {
-	if o == nil || o.Declawed == nil {
+	if o == nil || IsNil(o.Declawed) {
 		var ret bool
 		return ret
 	}
@@ -57,7 +61,7 @@ func (o *Cat) GetDeclawed() bool {
 // GetDeclawedOk returns a tuple with the Declawed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Cat) GetDeclawedOk() (*bool, bool) {
-	if o == nil || o.Declawed == nil {
+	if o == nil || IsNil(o.Declawed) {
 		return nil, false
 	}
 	return o.Declawed, true
@@ -65,7 +69,7 @@ func (o *Cat) GetDeclawedOk() (*bool, bool) {
 
 // HasDeclawed returns a boolean if a field has been set.
 func (o *Cat) HasDeclawed() bool {
-	if o != nil && o.Declawed != nil {
+	if o != nil && !IsNil(o.Declawed) {
 		return true
 	}
 
@@ -78,16 +82,24 @@ func (o *Cat) SetDeclawed(v bool) {
 }
 
 func (o Cat) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Cat) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
-	if o.Declawed != nil {
+	if !IsNil(o.Declawed) {
 		toSerialize["declawed"] = o.Declawed
 	}
 
@@ -95,17 +107,38 @@ func (o Cat) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
-func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Cat) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"className",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
 	type CatWithoutEmbeddedStruct struct {
 		Declawed *bool `json:"declawed,omitempty"`
 	}
 
 	varCatWithoutEmbeddedStruct := CatWithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(bytes, &varCatWithoutEmbeddedStruct)
+	err = json.Unmarshal(data, &varCatWithoutEmbeddedStruct)
 	if err == nil {
 		varCat := _Cat{}
 		varCat.Declawed = varCatWithoutEmbeddedStruct.Declawed
@@ -116,7 +149,7 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 
 	varCat := _Cat{}
 
-	err = json.Unmarshal(bytes, &varCat)
+	err = json.Unmarshal(data, &varCat)
 	if err == nil {
 		o.Animal = varCat.Animal
 	} else {
@@ -125,7 +158,7 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "declawed")
 
 		// remove fields from embedded structs

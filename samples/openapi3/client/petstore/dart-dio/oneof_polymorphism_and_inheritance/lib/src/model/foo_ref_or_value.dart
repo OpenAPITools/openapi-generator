@@ -14,17 +14,22 @@ part 'foo_ref_or_value.g.dart';
 /// FooRefOrValue
 ///
 /// Properties:
+/// * [fooPropA] 
+/// * [fooPropB] 
 /// * [href] - Hyperlink reference
 /// * [id] - unique identifier
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [foorefPropA] 
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilder> {
   /// One Of [Foo], [FooRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Foo': Foo,
@@ -40,6 +45,29 @@ abstract class FooRefOrValue implements Built<FooRefOrValue, FooRefOrValueBuilde
 
   @BuiltValueSerializer(custom: true)
   static Serializer<FooRefOrValue> get serializer => _$FooRefOrValueSerializer();
+}
+
+extension FooRefOrValueDiscriminatorExt on FooRefOrValue {
+    String? get discriminatorValue {
+        if (this is Foo) {
+            return r'Foo';
+        }
+        if (this is FooRef) {
+            return r'FooRef';
+        }
+        return null;
+    }
+}
+extension FooRefOrValueBuilderDiscriminatorExt on FooRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is FooBuilder) {
+            return r'Foo';
+        }
+        if (this is FooRefBuilder) {
+            return r'FooRef';
+        }
+        return null;
+    }
 }
 
 class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
@@ -82,14 +110,14 @@ class _$FooRefOrValueSerializer implements PrimitiveSerializer<FooRefOrValue> {
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
-      case 'Foo':
+      case r'Foo':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(Foo),
         ) as Foo;
         oneOfType = Foo;
         break;
-      case 'FooRef':
+      case r'FooRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(FooRef),

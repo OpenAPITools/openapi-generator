@@ -60,6 +60,7 @@ Code change should conform to the programming style guide of the respective lang
 - Haskell: https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md
 - Java: https://google.github.io/styleguide/javaguide.html
 - JavaScript: https://github.com/airbnb/javascript/
+- Julia: https://docs.julialang.org/en/v1/manual/style-guide/
 - Kotlin: https://kotlinlang.org/docs/reference/coding-conventions.html
 - ObjC: https://github.com/NYTimes/objective-c-style-guide
 - Perl: http://perldoc.perl.org/perlstyle.html
@@ -72,6 +73,7 @@ Code change should conform to the programming style guide of the respective lang
 - Scala: http://docs.scala-lang.org/style/
 - Swift: [Apple Developer](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html)
 - TypeScript: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+- Xojo: https://documentation.xojo.com/topics/code_management/coding_guidelines.html
 
 For other languages, feel free to suggest.
 

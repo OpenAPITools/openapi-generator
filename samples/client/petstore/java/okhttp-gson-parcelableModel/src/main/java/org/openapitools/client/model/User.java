@@ -14,15 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.Arrays;
 import android.os.Parcelable;
 import android.os.Parcel;
 
@@ -36,12 +34,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -87,7 +89,6 @@ public class User implements Parcelable {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -97,12 +98,9 @@ public class User implements Parcelable {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -110,7 +108,6 @@ public class User implements Parcelable {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -120,12 +117,9 @@ public class User implements Parcelable {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getUsername() {
     return username;
   }
-
 
   public void setUsername(String username) {
     this.username = username;
@@ -133,7 +127,6 @@ public class User implements Parcelable {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -143,12 +136,9 @@ public class User implements Parcelable {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getFirstName() {
     return firstName;
   }
-
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -156,7 +146,6 @@ public class User implements Parcelable {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -166,12 +155,9 @@ public class User implements Parcelable {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getLastName() {
     return lastName;
   }
-
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -179,7 +165,6 @@ public class User implements Parcelable {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -189,12 +174,9 @@ public class User implements Parcelable {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getEmail() {
     return email;
   }
-
 
   public void setEmail(String email) {
     this.email = email;
@@ -202,7 +184,6 @@ public class User implements Parcelable {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -212,12 +193,9 @@ public class User implements Parcelable {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getPassword() {
     return password;
   }
-
 
   public void setPassword(String password) {
     this.password = password;
@@ -225,7 +203,6 @@ public class User implements Parcelable {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -235,12 +212,9 @@ public class User implements Parcelable {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getPhone() {
     return phone;
   }
-
 
   public void setPhone(String phone) {
     this.phone = phone;
@@ -248,7 +222,6 @@ public class User implements Parcelable {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -258,12 +231,9 @@ public class User implements Parcelable {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
-
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -378,27 +348,26 @@ public class User implements Parcelable {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to User
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to User
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (User.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!User.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `User` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `User` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
@@ -439,9 +408,9 @@ public class User implements Parcelable {
 
            @Override
            public User read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

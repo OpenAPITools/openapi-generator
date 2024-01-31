@@ -58,7 +58,7 @@ public class TypescriptAngularAdditionalPropertiesIntegrationTest extends Abstra
         return new IntegrationTestPathsConfig("typescript/additional-properties");
     }
 
-    @Test
+    @Test(enabled = false)
     @Override
     public void generatesCorrectDirectoryStructure() throws IOException {
         // test are currently disabled in Superclass

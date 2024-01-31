@@ -21,10 +21,10 @@ package body {{package}}.Servers is
    overriding
    procedure {{operationId}}
       (Server : in out Server_Type{{#hasParams}};{{/hasParams}}
-       {{#allParams}}{{paramName}} : in {{dataType}}{{^-last}};
-       {{/-last}}{{/allParams}}{{#returnType}};
-       Result  : out {{.}}{{/returnType}};
-       Context : in out {{openApiPackageName}.Servers.Context_Type) is
+       {{#allParams}}{{paramName}} : in {{#vendorExtensions.x-ada-type-name}}{{vendorExtensions.x-ada-type-name}}{{/vendorExtensions.x-ada-type-name}}{{^vendorExtensions.x-ada-type-name}}{{dataType}}{{/vendorExtensions.x-ada-type-name}}{{^-last}};
+       {{/-last}}{{/allParams}}{{#returnProperty}};
+       Result  : out {{vendorExtensions.x-ada-type-name}}{{/returnProperty}};
+       Context : in out {{openApiPackageName}}.Servers.Context_Type) is
    begin
       null;
    end {{operationId}};

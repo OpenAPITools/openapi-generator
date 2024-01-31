@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  description: Specification to reproduce nullable issue with Array
+  title: ArrayNullableTest Api
+paths:
+  /arrayNullable:
+    get:
+      summary: dummy
+      operationId: dummy
+      responses:
+        '200':
+          description: OK
+
+components:
+  schemas:
+    TestObject:
+      type: object
+      properties:
+        picture:
+          type: string
+          format: byte
+          nullable: true

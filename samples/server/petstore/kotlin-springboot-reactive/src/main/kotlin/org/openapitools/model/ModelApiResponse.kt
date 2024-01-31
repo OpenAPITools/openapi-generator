@@ -22,13 +22,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class ModelApiResponse(
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("code") val code: kotlin.Int? = null,
+    @get:JsonProperty("code") val code: kotlin.Int? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("type") val type: kotlin.String? = null,
+    @get:JsonProperty("type") val type: kotlin.String? = null,
 
     @Schema(example = "null", description = "")
-    @field:JsonProperty("message") val message: kotlin.String? = null
+    @get:JsonProperty("message") val message: kotlin.String? = null
 ) {
 
 }

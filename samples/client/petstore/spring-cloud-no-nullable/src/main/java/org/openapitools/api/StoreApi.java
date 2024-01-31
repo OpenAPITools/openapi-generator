@@ -72,7 +72,7 @@ public interface StoreApi {
 
     /**
      * GET /store/order/{orderId} : Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
      * @return successful operation (status code 200)
@@ -80,7 +80,7 @@ public interface StoreApi {
      *         or Order not found (status code 404)
      */
 
-    @ApiOperation(value = "Find purchase order by ID", nickname = "getOrderById", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions", response = Order.class, tags={ "store", })
+    @ApiOperation(value = "Find purchase order by ID", nickname = "getOrderById", notes = "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions", response = Order.class, tags={ "store", })
     @ApiResponses(value = { 
 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),

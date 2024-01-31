@@ -11,16 +11,19 @@ import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
 import org.openapitools.client.model.Client;
+import java.util.UUID;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface AnotherFakeApi {
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
+   * @param uuidTest to test uuid example value (required)
    * @param body client model (required)
    * @return Observable&lt;Client&gt;
    */
@@ -29,7 +32,7 @@ public interface AnotherFakeApi {
   })
   @PATCH("another-fake/dummy")
   Observable<Client> call123testSpecialTags(
-    @retrofit2.http.Body Client body
+    @retrofit2.http.Header("uuid_test") UUID uuidTest, @retrofit2.http.Body Client body
   );
 
 }

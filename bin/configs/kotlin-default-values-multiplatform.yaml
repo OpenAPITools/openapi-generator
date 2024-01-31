@@ -5,4 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 additionalProperties:
   artifactId: kotlin-default-values-multiplatform
   library: multiplatform
+  dateLibrary: kotlinx-datetime
   sortParamsByRequiredFlag: false

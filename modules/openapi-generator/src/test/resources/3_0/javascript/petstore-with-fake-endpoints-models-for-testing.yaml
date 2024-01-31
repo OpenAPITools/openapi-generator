@@ -348,7 +348,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -837,7 +837,7 @@ paths:
             format: int64
       responses:
         '400':
-          description: Someting wrong
+          description: Something wrong
   /fake/outer/number:
     post:
       tags:
@@ -959,6 +959,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -976,6 +1010,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1743,6 +1798,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1908,3 +1972,77 @@ components:
           deprecated: true
           items:
             $ref: '#/components/schemas/Bar'
+    Pig:
+      nullable: true
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+        color:
+          type: string
+      required:
+        - className
+        - color
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+        size:
+          type: integer
+      required:
+        - className
+        - size
+    NestedOneOf:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested_pig:
+          $ref: '#/components/schemas/Pig'
+    NestedColor:
+      type: object
+      properties:
+        size:
+          type: integer
+        nested:
+          $ref: '#/components/schemas/Color'
+    RgbColor:
+      description: RGB three element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 3
+      maxItems: 3
+    RgbaColor:
+      description: RGBA four element array with values 0-255.
+      type: array
+      items:
+        type: integer
+        minimum: 0
+        maximum: 255
+      minItems: 4
+      maxItems: 4
+    HexColor:
+      description: 'Hex color string, such as #00FF00.'
+      type: string
+      pattern: ^#(?:[0-9a-fA-F]{3}){1,2}$
+      minLength: 7
+      maxLength: 7
+    Color:
+      description: RGB array, RGBA array, or hex string.
+      oneOf:
+      - $ref: '#/components/schemas/RgbColor'
+      - $ref: '#/components/schemas/RgbaColor'
+      - $ref: '#/components/schemas/HexColor'
+    StringOrBoolean:
+      description: String or boolean
+      oneOf:
+      - type: string
+      - type: boolean

@@ -12,7 +12,7 @@
 #' @field content The deserialized response body.
 #' @field response The raw response from the endpoint.
 #' @field status_code The HTTP response status code.
-#' @field status_code_desc The brief descriptoin of the HTTP response status code.
+#' @field status_code_desc The brief description of the HTTP response status code.
 #' @field headers The HTTP response headers.
 #' @export
 ApiResponse <- R6::R6Class(
@@ -44,6 +44,23 @@ ApiResponse <- R6::R6Class(
       self$status_code <- status_code
       self$status_code_desc <- status_code_desc
       self$headers <- headers
+    },
+
+    #' Return the response as text
+    #'
+    #' @description
+    #' The response is stored as a raw vector. Use this to access the response after
+    #' converting it to text. If the response is not coercible to text NA is returned.
+    #'
+    #' @param from_encoding The encoding of the raw response.
+    #' @param to_encoding The target encoding of the return value.
+    #' @export
+    response_as_text = function(from_encoding = NULL, to_encoding = "UTF-8") {
+      text_response <- iconv(readBin(self$response, character()), from = from_encoding, to = to_encoding)
+      if (is.na(text_response)) {
+        warning("The response is binary and will not be converted to text.")
+      }
+      return(text_response)
     }
   )
 )

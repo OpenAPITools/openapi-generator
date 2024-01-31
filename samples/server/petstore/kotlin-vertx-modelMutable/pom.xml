@@ -20,7 +20,7 @@
         <maven-compiler-plugin.version>3.10.0</maven-compiler-plugin.version>
         <vertx-openapi-router.version>1.0.2</vertx-openapi-router.version>
         <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
-        <jackson-datatype-jsr310.version>2.13.1</jackson-datatype-jsr310.version>
+        <jackson-datatype-jsr310.version>2.15.2</jackson-datatype-jsr310.version>
     </properties>
 
     <dependencies>
@@ -47,7 +47,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.9</version>
+            <version>2.10.1</version>
         </dependency>
 
         <dependency>

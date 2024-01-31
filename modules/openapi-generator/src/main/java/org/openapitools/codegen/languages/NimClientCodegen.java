@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -123,7 +124,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         defaultIncludes = new HashSet<>(
                 Arrays.asList(
-                        "array"
+                        "array",
+                        "map"
                 )
         );
 
@@ -253,10 +255,10 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         String sanitizedOperationId = sanitizeName(operationId);
 
         if (isReservedWord(sanitizedOperationId)) {
-            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId, false);
+            sanitizedOperationId = "call" + StringUtils.camelize(sanitizedOperationId);
         }
 
-        return StringUtils.camelize(sanitizedOperationId, true);
+        return StringUtils.camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
     }
 
     @Override
@@ -280,7 +282,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             if (inner == null) {
                 inner = new StringSchema();
             }
@@ -320,7 +322,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // camelize (lower first character) the variable name
         // pet_id => petId
-        name = camelize(name, true);
+        name = camelize(name, LOWERCASE_FIRST_LETTER);
 
         // for reserved word or word starting with number, append _
         if (isReservedWord(name)) {
@@ -350,7 +352,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        String name = StringUtils.camelize(property.name, false);
+        String name = StringUtils.camelize(property.name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";
@@ -362,7 +364,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toEnumVarName(String name, String datatype) {
         name = name.replace(" ", "_");
-        name = StringUtils.camelize(name, false);
+        name = StringUtils.camelize(name);
 
         if (name.matches("\\d.*")) { // starts with number
             return "`" + name + "`";

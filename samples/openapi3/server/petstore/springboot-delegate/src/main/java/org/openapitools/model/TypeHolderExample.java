@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.time.OffsetDateTime;
@@ -24,24 +25,34 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample {
 
-  @JsonProperty("string_item")
   private String stringItem;
 
-  @JsonProperty("number_item")
   private BigDecimal numberItem;
 
-  @JsonProperty("float_item")
   private Float floatItem;
 
-  @JsonProperty("integer_item")
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
   private Boolean boolItem;
 
-  @JsonProperty("array_item")
   @Valid
   private List<Integer> arrayItem = new ArrayList<>();
+
+  public TypeHolderExample() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public TypeHolderExample(String stringItem, BigDecimal numberItem, Float floatItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+    this.stringItem = stringItem;
+    this.numberItem = numberItem;
+    this.floatItem = floatItem;
+    this.integerItem = integerItem;
+    this.boolItem = boolItem;
+    this.arrayItem = arrayItem;
+  }
 
   public TypeHolderExample stringItem(String stringItem) {
     this.stringItem = stringItem;
@@ -53,7 +64,8 @@ public class TypeHolderExample {
    * @return stringItem
   */
   @NotNull 
-  @Schema(name = "string_item", example = "what", required = true)
+  @Schema(name = "string_item", example = "what", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("string_item")
   public String getStringItem() {
     return stringItem;
   }
@@ -72,7 +84,8 @@ public class TypeHolderExample {
    * @return numberItem
   */
   @NotNull @Valid 
-  @Schema(name = "number_item", example = "1.234", required = true)
+  @Schema(name = "number_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("number_item")
   public BigDecimal getNumberItem() {
     return numberItem;
   }
@@ -91,7 +104,8 @@ public class TypeHolderExample {
    * @return floatItem
   */
   @NotNull 
-  @Schema(name = "float_item", example = "1.234", required = true)
+  @Schema(name = "float_item", example = "1.234", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("float_item")
   public Float getFloatItem() {
     return floatItem;
   }
@@ -110,7 +124,8 @@ public class TypeHolderExample {
    * @return integerItem
   */
   @NotNull 
-  @Schema(name = "integer_item", example = "-2", required = true)
+  @Schema(name = "integer_item", example = "-2", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("integer_item")
   public Integer getIntegerItem() {
     return integerItem;
   }
@@ -129,7 +144,8 @@ public class TypeHolderExample {
    * @return boolItem
   */
   @NotNull 
-  @Schema(name = "bool_item", example = "true", required = true)
+  @Schema(name = "bool_item", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("bool_item")
   public Boolean getBoolItem() {
     return boolItem;
   }
@@ -144,6 +160,9 @@ public class TypeHolderExample {
   }
 
   public TypeHolderExample addArrayItemItem(Integer arrayItemItem) {
+    if (this.arrayItem == null) {
+      this.arrayItem = new ArrayList<>();
+    }
     this.arrayItem.add(arrayItemItem);
     return this;
   }
@@ -153,7 +172,8 @@ public class TypeHolderExample {
    * @return arrayItem
   */
   @NotNull 
-  @Schema(name = "array_item", example = "[0, 1, 2, 3]", required = true)
+  @Schema(name = "array_item", example = "[0,1,2,3]", requiredMode = Schema.RequiredMode.REQUIRED)
+  @JsonProperty("array_item")
   public List<Integer> getArrayItem() {
     return arrayItem;
   }

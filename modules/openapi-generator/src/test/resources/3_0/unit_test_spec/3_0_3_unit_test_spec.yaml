@@ -4659,7 +4659,7 @@ components:
           foo: []
           bar: {}
         valid: false
-      DoesnTInvalidateOtherProperties:
+      DoesntInvalidateOtherProperties:
         description: doesn't invalidate other properties
         data:
           quux: []

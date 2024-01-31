@@ -61,8 +61,32 @@ class ArrayTest {
         return obj;
     }
 
+    /**
+     * Validates the JSON data with respect to <code>ArrayTest</code>.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @return {boolean} to indicate whether the JSON data is valid with respect to <code>ArrayTest</code>.
+     */
+    static validateJSON(data) {
+        // ensure the json data is an array
+        if (!Array.isArray(data['array_of_string'])) {
+            throw new Error("Expected the field `array_of_string` to be an array in the JSON data but got " + data['array_of_string']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['array_array_of_integer'])) {
+            throw new Error("Expected the field `array_array_of_integer` to be an array in the JSON data but got " + data['array_array_of_integer']);
+        }
+        // ensure the json data is an array
+        if (!Array.isArray(data['array_array_of_model'])) {
+            throw new Error("Expected the field `array_array_of_model` to be an array in the JSON data but got " + data['array_array_of_model']);
+        }
+
+        return true;
+    }
+
 
 }
+
+
 
 /**
  * @member {Array.<String>} array_of_string

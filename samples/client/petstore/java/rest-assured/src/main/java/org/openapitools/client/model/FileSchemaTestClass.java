@@ -20,10 +20,9 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.ModelFile;
 import javax.validation.constraints.*;
@@ -41,7 +40,7 @@ public class FileSchemaTestClass {
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<ModelFile> files = null;
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass() {
   }
@@ -58,7 +57,7 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
+
 
   public ModelFile getFile() {
     return _file;
@@ -70,7 +69,7 @@ public class FileSchemaTestClass {
   }
 
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     
     this.files = files;
     return this;
@@ -90,17 +89,16 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @Valid
-  @ApiModelProperty(value = "")
 
-  public List<ModelFile> getFiles() {
+
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(Object o) {

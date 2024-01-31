@@ -1,4 +1,4 @@
-# {{packageName}}.{{apiPackage}}.{{classname}}{{#description}}
+# {{packageName}}.{{#lambda.backslash}}{{apiPackage}}{{/lambda.backslash}}.{{classname}}{{#description}}
 {{.}}{{/description}}
 
 All URIs are relative to *{{{basePath}}}*
@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 {{#operations}}
 {{#operation}}
-<a name="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
+<a id="{{{vendorExtensions.x-powershell-method-name-lowercase}}}"></a>
 # **{{{vendorExtensions.x-powershell-method-name}}}**
 > {{{returnType}}}{{^returnType}}void{{/returnType}} {{{vendorExtensions.x-powershell-method-name}}}<br>
 {{#allParams}}
@@ -27,11 +27,11 @@ Method | HTTP request | Description
 # general setting of the PowerShell module, e.g. base URL, authentication, etc
 $Configuration = Get-Configuration
 {{#authMethods}}
-{{#isBasic}}
+{{#isBasicBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 $Configuration.Username = "YOUR_USERNAME"
 $Configuration.Password = "YOUR_PASSWORD"
-{{/isBasic}}
+{{/isBasicBasic}}
 {{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 $Configuration.ApiKey.{{{keyParamName}}} = "YOUR_API_KEY"

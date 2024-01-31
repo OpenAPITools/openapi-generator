@@ -14,10 +14,16 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesArray type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesArray{}
+
 // AdditionalPropertiesArray struct for AdditionalPropertiesArray
 type AdditionalPropertiesArray struct {
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AdditionalPropertiesArray AdditionalPropertiesArray
 
 // NewAdditionalPropertiesArray instantiates a new AdditionalPropertiesArray object
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,7 @@ func NewAdditionalPropertiesArrayWithDefaults() *AdditionalPropertiesArray {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesArray) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -48,7 +54,7 @@ func (o *AdditionalPropertiesArray) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesArray) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
 	return o.Name, true
@@ -56,7 +62,7 @@ func (o *AdditionalPropertiesArray) GetNameOk() (*string, bool) {
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesArray) HasName() bool {
-	if o != nil && o.Name != nil {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -69,11 +75,45 @@ func (o *AdditionalPropertiesArray) SetName(v string) {
 }
 
 func (o AdditionalPropertiesArray) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesArray) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return toSerialize, nil
+}
+
+func (o *AdditionalPropertiesArray) UnmarshalJSON(data []byte) (err error) {
+	varAdditionalPropertiesArray := _AdditionalPropertiesArray{}
+
+	err = json.Unmarshal(data, &varAdditionalPropertiesArray)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AdditionalPropertiesArray(varAdditionalPropertiesArray)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAdditionalPropertiesArray struct {

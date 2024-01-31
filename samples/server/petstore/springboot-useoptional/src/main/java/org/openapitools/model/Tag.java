@@ -22,14 +22,12 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag {
 
-  @JsonProperty("id")
-  private Long id;
+  private Optional<Long> id = Optional.empty();
 
-  @JsonProperty("name")
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public Tag id(Long id) {
-    this.id = id;
+    this.id = Optional.of(id);
     return this;
   }
 
@@ -39,16 +37,17 @@ public class Tag {
   */
   
   @ApiModelProperty(value = "")
-  public Long getId() {
+  @JsonProperty("id")
+  public Optional<Long> getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Optional<Long> id) {
     this.id = id;
   }
 
   public Tag name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -58,11 +57,12 @@ public class Tag {
   */
   
   @ApiModelProperty(value = "")
-  public String getName() {
+  @JsonProperty("name")
+  public Optional<String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
 

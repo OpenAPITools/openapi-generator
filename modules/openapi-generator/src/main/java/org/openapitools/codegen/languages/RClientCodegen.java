@@ -43,6 +43,7 @@ import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -101,7 +102,8 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.BasicAuth,
                         SecurityFeature.ApiKey,
-                        SecurityFeature.OAuth2_Implicit
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BearerToken
                 ))
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
@@ -176,7 +178,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("map", "map");
         typeMapping.put("object", "object");
 
-        // no need for import mapping as R doesn't reqiure api,model import
+        // no need for import mapping as R doesn't require api,model import
         // https://github.com/OpenAPITools/openapi-generator/issues/2217
         importMapping.clear();
 
@@ -391,6 +393,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // replace - with _ e.g. created-at => created_at
         name = sanitizeName(name.replaceAll("-", "_"));
 
@@ -415,6 +422,11 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         // escape item reserved words with "item_" prefix
         if (itemReservedWords.contains(name)) {
             LOGGER.info("The item `{}` has been renamed to `item_{}` as it's a reserved word.", name, name);
@@ -432,11 +444,21 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return underscore(modelNameMapping.get(name));
+        }
+
         return underscore(toModelName(name));
     }
 
     @Override
     public String toModelName(String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
@@ -517,7 +539,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "(" + getTypeDeclaration(inner) + ")";
         }
 
@@ -566,7 +588,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if ("PascalCase".equals(operationIdNaming)) {
             return camelize(sanitizedOperationId);
         } else if ("camelCase".equals(operationIdNaming)) {
-            return camelize(sanitizedOperationId, true);
+            return camelize(sanitizedOperationId, LOWERCASE_FIRST_LETTER);
         } else if ("snake_case".equals(operationIdNaming)) {
             return underscore(sanitizedOperationId);
         } else {
@@ -829,15 +851,19 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
-                if (Boolean.valueOf(p.getDefault().toString()) == false)
+                if (!Boolean.valueOf(p.getDefault().toString()))
                     return "FALSE";
                 else
                     return "TRUE";
             }
         } else if (ModelUtils.isDateSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isDateTimeSchema(p)) {
-            // TODO
+            if (p.getDefault() != null) {
+                return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
+            }
         } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -848,10 +874,10 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
+                if (Pattern.compile("\r\n|\r|\n").matcher((String.valueOf(p.getDefault()))).find())
+                    return "'''" + p.getDefault().toString() + "'''";
                 else
-                    return "\"" + ((String) p.getDefault()).replaceAll("\"", "\\\"") + "\"";
+                    return "\"" + ((String.valueOf(p.getDefault()))).replaceAll("\"", "\\\"") + "\"";
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -922,9 +948,9 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
         if (codegenParameter.isArray) { // array
-            return "list(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(" + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (codegenParameter.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
+            return "c(key = " + constructExampleCode(codegenParameter.items, modelMaps, 0) + ")";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
             return codegenParameter.example;
         } else { // model
@@ -939,13 +965,17 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, int depth) {
-        if (depth > 10) return "...";
+        if (depth > 10) {
+            return "...";
+        }
         depth++;
 
-        if (codegenProperty.isArray) { // array
-            return "list(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+        if (codegenProperty == null) {
+            return "TODO";
+        } else if (codegenProperty.isArray) { // array
+            return "c(" + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (codegenProperty.isMap) { // map
-            return "list(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
+            return "c(key = " + constructExampleCode(codegenProperty.items, modelMaps, depth) + ")";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
             if ("character".equals(codegenProperty.dataType)) {
                 if (StringUtils.isEmpty(codegenProperty.example)) {

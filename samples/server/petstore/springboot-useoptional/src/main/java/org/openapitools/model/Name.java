@@ -23,17 +23,24 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Name {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("snake_case")
-  private Integer snakeCase;
+  private Optional<Integer> snakeCase = Optional.empty();
 
-  @JsonProperty("property")
-  private String property;
+  private Optional<String> property = Optional.empty();
 
-  @JsonProperty("123Number")
-  private Integer _123number;
+  private Optional<Integer> _123number = Optional.empty();
+
+  public Name() {
+    super();
+  }
+
+  /**
+   * Constructor with only required parameters
+   */
+  public Name(Integer name) {
+    this.name = name;
+  }
 
   public Name name(Integer name) {
     this.name = name;
@@ -46,6 +53,7 @@ public class Name {
   */
   @NotNull 
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -55,7 +63,7 @@ public class Name {
   }
 
   public Name snakeCase(Integer snakeCase) {
-    this.snakeCase = snakeCase;
+    this.snakeCase = Optional.of(snakeCase);
     return this;
   }
 
@@ -65,16 +73,17 @@ public class Name {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
-  public Integer getSnakeCase() {
+  @JsonProperty("snake_case")
+  public Optional<Integer> getSnakeCase() {
     return snakeCase;
   }
 
-  public void setSnakeCase(Integer snakeCase) {
+  public void setSnakeCase(Optional<Integer> snakeCase) {
     this.snakeCase = snakeCase;
   }
 
   public Name property(String property) {
-    this.property = property;
+    this.property = Optional.of(property);
     return this;
   }
 
@@ -84,16 +93,17 @@ public class Name {
   */
   
   @ApiModelProperty(value = "")
-  public String getProperty() {
+  @JsonProperty("property")
+  public Optional<String> getProperty() {
     return property;
   }
 
-  public void setProperty(String property) {
+  public void setProperty(Optional<String> property) {
     this.property = property;
   }
 
   public Name _123number(Integer _123number) {
-    this._123number = _123number;
+    this._123number = Optional.of(_123number);
     return this;
   }
 
@@ -103,11 +113,12 @@ public class Name {
   */
   
   @ApiModelProperty(readOnly = true, value = "")
-  public Integer get123number() {
+  @JsonProperty("123Number")
+  public Optional<Integer> get123number() {
     return _123number;
   }
 
-  public void set123number(Integer _123number) {
+  public void set123number(Optional<Integer> _123number) {
     this._123number = _123number;
   }
 

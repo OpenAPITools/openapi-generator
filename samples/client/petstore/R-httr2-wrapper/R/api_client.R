@@ -163,7 +163,7 @@ ApiClient  <- R6::R6Class(
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
     #' @param file_params The form parameters to upload files.
-    #' @param accepts The HTTP accpet headers.
+    #' @param accepts The HTTP accept headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
@@ -194,7 +194,7 @@ ApiClient  <- R6::R6Class(
     #' @param header_params The header parameters.
     #' @param form_params The form parameters.
     #' @param file_params The form parameters for uploading files.
-    #' @param accepts The HTTP accpet headers.
+    #' @param accepts The HTTP accept headers.
     #' @param content_types The HTTP content-type headers.
     #' @param body The HTTP request body.
     #' @param is_oauth True if the endpoints required OAuth authentication.
@@ -312,7 +312,7 @@ ApiClient  <- R6::R6Class(
         api_response <- ApiResponse$new()
         api_response$status_code <- resp %>% resp_status()
         api_response$status_code_desc <- resp %>% resp_status_desc()
-        api_response$response <- resp %>% resp_body_string()
+        api_response$response <- resp %>% resp_body_raw()
         api_response$headers <- resp %>% resp_headers()
 
         api_response
@@ -405,10 +405,10 @@ ApiClient  <- R6::R6Class(
       }
       return_obj
     },
-    #' Return a propery header (for accept or content-type).
+    #' Return a property header (for accept or content-type).
     #'
     #' @description
-    #' Return a propery header (for accept or content-type). If JSON-related MIME is found,
+    #' Return a property header (for accept or content-type). If JSON-related MIME is found,
     #' return it. Otherwise, return the first one, if any.
     #'
     #' @param headers A list of headers

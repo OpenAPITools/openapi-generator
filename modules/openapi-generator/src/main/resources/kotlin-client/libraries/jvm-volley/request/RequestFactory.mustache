@@ -40,7 +40,7 @@ class RequestFactory(private val headerFactories : List<() -> Map<String, String
             val allHeaders = headerFactories.fold(afterMarketHeaders) { acc, factory -> (acc + factory.invoke()).toMutableMap() }
 
             // If we decide to support auth parameters in the url, then you will reference them by supplying a url string
-            // with known variable name refernces in the string. We will then apply
+            // with known variable name references in the string. We will then apply
             val updatedUrl = if (!queryParams.isNullOrEmpty()) {
                 queryParams.asSequence().fold("$url?") {acc, param ->
                 "$acc${escapeString(param.key)}=${escapeString(param.value)}&"

@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123TestSpecialTags**](docs/Api/AnotherFakeApi.md#call123testspecialtags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**fooGet**](docs/Api/DefaultApi.md#fooget) | **GET** /foo | 
+*FakeApi* | [**fakeBigDecimalMap**](docs/Api/FakeApi.md#fakebigdecimalmap) | **GET** /fake/BigDecimalMap | 
 *FakeApi* | [**fakeHealthGet**](docs/Api/FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**fakeHttpSignatureTest**](docs/Api/FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/Api/FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
@@ -81,6 +82,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/Api/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -89,8 +92,10 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testEnumParameters**](docs/Api/FakeApi.md#testenumparameters) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/Api/FakeApi.md#testgroupparameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/Api/FakeApi.md#testinlineadditionalproperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/Api/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testStringMapReference**](docs/Api/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/Api/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/Api/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -125,16 +130,15 @@ Class | Method | HTTP request | Description
 - [ArrayTest](docs/Model/ArrayTest.md)
 - [Capitalization](docs/Model/Capitalization.md)
 - [Cat](docs/Model/Cat.md)
-- [CatAllOf](docs/Model/CatAllOf.md)
 - [Category](docs/Model/Category.md)
 - [ClassModel](docs/Model/ClassModel.md)
 - [Client](docs/Model/Client.md)
 - [DeprecatedObject](docs/Model/DeprecatedObject.md)
 - [Dog](docs/Model/Dog.md)
-- [DogAllOf](docs/Model/DogAllOf.md)
 - [EnumArrays](docs/Model/EnumArrays.md)
 - [EnumClass](docs/Model/EnumClass.md)
 - [EnumTest](docs/Model/EnumTest.md)
+- [FakeBigDecimalMap200Response](docs/Model/FakeBigDecimalMap200Response.md)
 - [File](docs/Model/File.md)
 - [FileSchemaTestClass](docs/Model/FileSchemaTestClass.md)
 - [Foo](docs/Model/Foo.md)
@@ -159,20 +163,31 @@ Class | Method | HTTP request | Description
 - [OuterEnumIntegerDefaultValue](docs/Model/OuterEnumIntegerDefaultValue.md)
 - [OuterObjectWithEnumProperty](docs/Model/OuterObjectWithEnumProperty.md)
 - [Pet](docs/Model/Pet.md)
+- [PropertyNameMapping](docs/Model/PropertyNameMapping.md)
 - [ReadOnlyFirst](docs/Model/ReadOnlyFirst.md)
 - [SingleRefType](docs/Model/SingleRefType.md)
 - [SpecialModelName](docs/Model/SpecialModelName.md)
 - [Tag](docs/Model/Tag.md)
+- [TestInlineFreeformAdditionalPropertiesRequest](docs/Model/TestInlineFreeformAdditionalPropertiesRequest.md)
 - [User](docs/Model/User.md)
 
 ## Authorization
+
+Authentication schemes defined for the API:
+### petstore_auth
+
+- **Type**: `OAuth`
+- **Flow**: `implicit`
+- **Authorization URL**: `http://petstore.swagger.io/api/oauth/dialog`
+- **Scopes**: 
+    - **write:pets**: modify pets in your account
+    - **read:pets**: read your pets
 
 ### api_key
 
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
-
 
 
 ### api_key_query
@@ -182,28 +197,17 @@ Class | Method | HTTP request | Description
 - **Location**: URL query string
 
 
+### http_basic_test
+
+- **Type**: HTTP basic authentication
 
 ### bearer_test
 
 - **Type**: Bearer authentication (JWT)
 
-
-### http_basic_test
-
-- **Type**: HTTP basic authentication
-
-
 ### http_signature_test
 
-
-### petstore_auth
-
-- **Type**: `OAuth`
-- **Flow**: `implicit`
-- **Authorization URL**: `http://petstore.swagger.io/api/oauth/dialog`
-- **Scopes**: 
-    - **write:pets**: modify pets in your account
-    - **read:pets**: read your pets
+- **Type**: HTTP signature authentication
 
 ## Tests
 

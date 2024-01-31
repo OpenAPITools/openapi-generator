@@ -352,7 +352,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.store_controller
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: get_order_by_id
       parameters:
       - description: ID of pet that needs to be fetched
@@ -780,6 +780,14 @@ components:
           type: string
       title: An uploaded response
       type: object
+    EnumModel:
+      enum:
+      - available>
+      - pending<
+      - sold
+      - "1"
+      - "2"
+      type: string
     updatePetWithForm_request:
       properties:
         name:
@@ -788,6 +796,7 @@ components:
         status:
           description: Updated status of the pet
           type: string
+      type: object
     uploadFile_request:
       properties:
         additionalMetadata:
@@ -797,6 +806,7 @@ components:
           description: file to upload
           format: binary
           type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
@@ -806,11 +816,11 @@ components:
             write:pets: modify pets in your account
             read:pets: read your pets
       type: oauth2
-      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_petstore_auth
-      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_petstore_auth
+      x-tokenInfoFunc: openapi_server.controllers.security_controller.info_from_petstore_auth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller.validate_scope_petstore_auth
     api_key:
       in: header
       name: api_key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller.info_from_api_key
 x-original-swagger-version: "2.0"

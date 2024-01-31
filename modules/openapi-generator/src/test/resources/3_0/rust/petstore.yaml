@@ -335,7 +335,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: orderId
@@ -670,12 +670,14 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
         petId:
           type: integer
           format: int64
         quantity:
           type: integer
           format: int32
+          minimum: 0
         shipDate:
           type: string
           format: date-time
@@ -714,10 +716,14 @@ components:
           format: int64
         username:
           type: string
+          maxLength: 90
+          minLength: 1
+          pattern: '^[a-z][-a-z0-9]*$'
         firstName:
           type: string
         lastName:
           type: string
+          minLength: 1
         email:
           type: string
         password:
@@ -728,6 +734,9 @@ components:
           type: integer
           format: int32
           description: User Status
+      required:
+        - username
+        - lastName
       xml:
         name: User
     Tag:
@@ -801,7 +810,7 @@ components:
       properties:
         uuid:
           type: string
-          format: uuid 
+          format: uuid
     ActionContainer:
       required:
       - action
@@ -859,3 +868,90 @@ components:
           type: boolean
         super:
           type: boolean
+    OptionalTesting:
+      description: Test handling of optional and nullable fields
+      type: object
+      required:
+        - required_nonnull
+        - required_nullable
+      properties:
+        optional_nonnull:
+          type: string
+          nullable: false
+        required_nonnull:
+          type: string
+          nullable: false
+        optional_nullable:
+          type: string
+          nullable: true
+        required_nullable:
+          type: string
+          nullable: true
+    EnumArrayTesting:
+      description: Test of enum array
+      type: object
+      required:
+        - required_enums
+      properties:
+        required_enums:
+          type: array
+          items:
+            type: string
+            enum: ["A", "B", "C"]
+    UniqueItemArrayTesting:
+      description: Test handling of enum array with unique items
+      type: object
+      required:
+        - unique_item_array
+      properties:
+        unique_item_array:
+          type: array
+          description: Helper object for the unique item array test
+          uniqueItems: true
+          items:
+            type: string
+            enum: 
+              - unique_item_1
+              - unique_item_2
+              - unique_item_3
+    ArrayRefItem:
+      description: Helper object for the array item ref test
+      type: array
+      items:
+        type: string
+    ObjectRefItem:
+      description: Helper object for the array item ref test
+      type: object
+      additionalProperties: true
+    ArrayItemRefTest:
+      description: Test handling of object reference in arrays
+      type: object
+      required:
+        - list_with_array_ref
+        - list_with_object_ref
+      properties:
+        list_with_array_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArrayRefItem'
+        list_with_object_ref:
+          type: array
+          items:
+            $ref: '#/components/schemas/ObjectRefItem'
+    NullableArray:
+      type: object
+      properties:
+        array_nullable:
+          type: array
+          nullable: true
+          items:
+            type: string
+        just_array:
+          type: array
+          items:
+            type: string
+        nullable_string:
+          type: string
+          nullable: true
+        just_string:
+          type: string

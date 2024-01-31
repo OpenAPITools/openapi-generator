@@ -1,6 +1,6 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 #![allow(unused_imports, unused_attributes)]
-#![allow(clippy::derive_partial_eq_without_eq, clippy::blacklisted_name)]
+#![allow(clippy::derive_partial_eq_without_eq, clippy::disallowed_names)]
 
 use async_trait::async_trait;
 use futures::Stream;
@@ -387,7 +387,7 @@ pub trait Api<C: Send + Sync> {
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
@@ -624,7 +624,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,
@@ -915,7 +915,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         float: Option<f32>,
         string: Option<String>,
         binary: Option<swagger::ByteArray>,
-        date: Option<chrono::DateTime::<chrono::Utc>>,
+        date: Option<chrono::naive::NaiveDate>,
         date_time: Option<chrono::DateTime::<chrono::Utc>>,
         password: Option<String>,
         callback: Option<String>,

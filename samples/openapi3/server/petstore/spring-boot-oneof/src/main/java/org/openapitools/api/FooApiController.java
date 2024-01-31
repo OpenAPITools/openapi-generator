@@ -29,6 +29,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
+@RequestMapping("${openapi.byRefOrValue.base-path:}")
 public class FooApiController implements FooApi {
 
     private final NativeWebRequest request;

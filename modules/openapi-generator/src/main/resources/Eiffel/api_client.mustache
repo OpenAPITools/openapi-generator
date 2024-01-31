@@ -16,9 +16,9 @@ feature {NONE} -- Initialization
 				--set default user_agent
 			set_user_agent("{{{httpUserAgent}}}{{^httpUserAgent}}OpenAPI-Generator/{{{artifactVersion}}}/Eiffel{{/httpUserAgent}}");
 
-			create authentications.make (3) {{#authMethods}}{{#isBasic}}
+			create authentications.make (3) {{#authMethods}}{{#isBasicBasic}}
 			authentications.force (create {HTTP_BASIC_AUTH}, "{{name}}")
-			is_basic_auth_configured := True {{/isBasic}}{{#isApiKey}}
+			is_basic_auth_configured := True {{/isBasicBasic}}{{#isApiKey}}
 			authentications.force (create {API_KEY_AUTH}.make ({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"), "{{name}}")
 			is_api_key_configured := True {{/isApiKey}}{{#isOAuth}}
 			authentications.force (create {OAUTH},"{{name}}")
@@ -320,7 +320,7 @@ feature -- HTTP client: call api
 			-- Execute an HTTP request with the given options.
 			-- Relative path `a_path'
 			-- Method `a_method'  "GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH" and "DELETE"
-			-- A request `a_request' wth
+			-- A request `a_request' with
 			-- The query parameters: `query_params'.
 			-- The Header parameters: `header_params'.
 			-- The Request Body: `body' could be Void, object to be serialized using the serializer function `a_serializer' with a given content_type.

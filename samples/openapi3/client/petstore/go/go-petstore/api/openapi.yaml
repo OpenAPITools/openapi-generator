@@ -381,7 +381,7 @@ paths:
       - store
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
-        values will generated exceptions
+        values will generate exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -666,7 +666,13 @@ paths:
         style: form
       responses:
         "400":
-          description: Someting wrong
+          description: Something wrong
+        "5XX":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OuterNumber'
+          description: Something wrong
       security:
       - bearer_test: []
       summary: Fake endpoint to test group parameters (optional)
@@ -900,6 +906,40 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -917,6 +957,23 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
       tags:
       - fake
   /fake/body-with-query-params:
@@ -1110,6 +1167,72 @@ paths:
       summary: Health check endpoint
       tags:
       - fake
+  /fake/deep_object_test:
+    get:
+      operationId: test_query_deep_object
+      parameters:
+      - explode: true
+        in: query
+        name: test_pet
+        required: false
+        schema:
+          $ref: '#/components/schemas/Pet'
+        style: deepObject
+      - explode: true
+        in: query
+        name: inputOptions
+        required: false
+        schema:
+          $ref: '#/components/schemas/Category'
+        style: deepObject
+      responses:
+        "200":
+          description: OK
+      tags:
+      - fake
+  /fake/parameter-name-mapping:
+    get:
+      operationId: getParameterNameMapping
+      parameters:
+      - description: _type
+        explode: false
+        in: header
+        name: _type
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      - description: type
+        explode: true
+        in: query
+        name: type
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: type_
+        explode: false
+        in: header
+        name: type_
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: http debug option (to test parameter naming option)
+        explode: true
+        in: query
+        name: http_debug_option
+        required: true
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          description: OK
+      summary: parameter name mapping test
+      tags:
+      - fake
 components:
   requestBodies:
     UserArray:
@@ -1139,13 +1262,33 @@ components:
       description: Pet object that needs to be added to the store
       required: true
   schemas:
+    MapWithDateTime:
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
+      type: object
     Foo:
       example:
         bar: bar
+        map:
+          key:
+          - 2000-01-23T04:56:07.000+00:00
+          - 2000-01-23T04:56:07.000+00:00
       properties:
         bar:
           default: bar
           type: string
+        map:
+          additionalProperties:
+            items:
+              format: date-time
+              type: string
+            type: array
+          type: object
+      required:
+      - bar
       type: object
     Bar:
       default: bar
@@ -1380,12 +1523,18 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Address:
       additionalProperties:
         type: integer
@@ -1669,6 +1818,15 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -1936,7 +2094,9 @@ components:
     NullableAllOf:
       properties:
         child:
-          $ref: '#/components/schemas/NullableAllOf_child'
+          allOf:
+          - $ref: '#/components/schemas/NullableAllOfChild'
+          nullable: true
       type: object
     OneOfPrimitiveType:
       oneOf:
@@ -1956,7 +2116,11 @@ components:
     DuplicatedPropChild:
       allOf:
       - $ref: '#/components/schemas/DuplicatedPropParent'
-      - $ref: '#/components/schemas/DuplicatedPropChild_allOf'
+      - properties:
+          dup-prop:
+            description: A discriminator value
+            type: string
+        type: object
     DuplicatedPropParent:
       description: parent model with duplicated property
       discriminator:
@@ -1978,10 +2142,43 @@ components:
           description: a property to test map of file
           type: object
       type: object
+    OneOfPrimitiveTypes:
+      oneOf:
+      - type: string
+      - format: date-time
+        type: string
+    AllOfPrimitiveTypes:
+      allOf:
+      - properties:
+          test:
+            format: date-time
+            type: string
+        type: object
+    PropertyNameMapping:
+      properties:
+        http_debug_operation:
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+    IncidentData:
+      nullable: true
+      oneOf:
+      - items:
+          type: object
+        type: array
+      - type: object
     _foo_get_default_response:
       example:
         string:
           bar: bar
+          map:
+            key:
+            - 2000-01-23T04:56:07.000+00:00
+            - 2000-01-23T04:56:07.000+00:00
       properties:
         string:
           $ref: '#/components/schemas/Foo'
@@ -2109,6 +2306,12 @@ components:
       - param
       - param2
       type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
+      type: object
     uploadFileWithRequiredFile_request:
       properties:
         additionalMetadata:
@@ -2121,29 +2324,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
-    NullableAllOf_child:
-      allOf:
-      - $ref: '#/components/schemas/NullableAllOfChild'
-      nullable: true
-    DuplicatedPropChild_allOf:
-      properties:
-        dup-prop:
-          description: A discriminator value
-          type: string
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

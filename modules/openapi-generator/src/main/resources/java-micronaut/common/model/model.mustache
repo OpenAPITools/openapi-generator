@@ -22,17 +22,17 @@ import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import com.fasterxml.jackson.annotation.*;
 {{/withXml}}
 {{#withXml}}
-import javax.xml.bind.annotation.*;
+import {{javaxPackage}}.xml.bind.annotation.*;
 {{/withXml}}
 {{#parcelableModel}}
 import android.os.Parcelable;
 import android.os.Parcel;
 {{/parcelableModel}}{{#useBeanValidation}}
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 import io.micronaut.core.annotation.*;
-import javax.annotation.Generated;
+import {{javaxPackage}}.annotation.Generated;
 {{#generateSwagger1Annotations}}
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

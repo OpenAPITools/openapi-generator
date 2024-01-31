@@ -13,10 +13,20 @@ import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/fake_classname_test")
 @Api(description = "the fake_classname_test API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface FakeClassnameTestApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+public interface FakeClassnameTestApi {
 
+    /**
+     * To test class name in snake case
+     *
+     * @param body client model
+     * @return successful operation
+     */
     @PATCH
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
@@ -27,4 +37,5 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
     Response testClassname(@Valid @NotNull Client body);
+
 }

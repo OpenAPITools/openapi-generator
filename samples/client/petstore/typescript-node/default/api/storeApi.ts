@@ -39,8 +39,8 @@ export class StoreApi {
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
-        'api_key': new ApiKeyAuth('header', 'api_key'),
         'petstore_auth': new OAuth(),
+        'api_key': new ApiKeyAuth('header', 'api_key'),
     }
 
     protected interceptors: Interceptor[] = [];
@@ -221,7 +221,7 @@ export class StoreApi {
         });
     }
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */

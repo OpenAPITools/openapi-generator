@@ -27,7 +27,9 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.swagger.annotations.*;
+
+import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 import java.lang.reflect.Type;
 import java.util.function.Consumer;
@@ -36,7 +38,6 @@ import java.util.function.Supplier;
 import org.openapitools.client.JSON;
 import static io.restassured.http.Method.*;
 
-@Api(value = "User")
 public class UserApi {
 
     private Supplier<RequestSpecBuilder> reqSpecSupplier;
@@ -71,87 +72,34 @@ public class UserApi {
         );
     }
 
-    @ApiOperation(value = "Create user",
-            notes = "This can only be done by the logged in user.",
-            nickname = "createUser",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUserOper createUser() {
         return new CreateUserOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Creates list of users with given input array",
-            notes = "",
-            nickname = "createUsersWithArrayInput",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithArrayInputOper createUsersWithArrayInput() {
         return new CreateUsersWithArrayInputOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Creates list of users with given input array",
-            notes = "",
-            nickname = "createUsersWithListInput",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 0, message = "successful operation")  })
     public CreateUsersWithListInputOper createUsersWithListInput() {
         return new CreateUsersWithListInputOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Delete user",
-            notes = "This can only be done by the logged in user.",
-            nickname = "deleteUser",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Invalid username supplied") ,
-            @ApiResponse(code = 404, message = "User not found")  })
     public DeleteUserOper deleteUser() {
         return new DeleteUserOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Get user by user name",
-            notes = "",
-            nickname = "getUserByName",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid username supplied") ,
-            @ApiResponse(code = 404, message = "User not found")  })
     public GetUserByNameOper getUserByName() {
         return new GetUserByNameOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Logs user into the system",
-            notes = "",
-            nickname = "loginUser",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 200, message = "successful operation") ,
-            @ApiResponse(code = 400, message = "Invalid username/password supplied")  })
     public LoginUserOper loginUser() {
         return new LoginUserOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Logs out current logged in user session",
-            notes = "",
-            nickname = "logoutUser",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 0, message = "successful operation")  })
     public LogoutUserOper logoutUser() {
         return new LogoutUserOper(createReqSpec());
     }
 
-    @ApiOperation(value = "Updated user",
-            notes = "This can only be done by the logged in user.",
-            nickname = "updateUser",
-            tags = { "user" })
-    @ApiResponses(value = { 
-            @ApiResponse(code = 400, message = "Invalid user supplied") ,
-            @ApiResponse(code = 404, message = "User not found")  })
     public UpdateUserOper updateUser() {
         return new UpdateUserOper(createReqSpec());
     }
@@ -260,10 +208,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
+        public CreateUsersWithArrayInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -321,10 +269,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
+        public CreateUsersWithListInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -428,7 +376,7 @@ public class UserApi {
 
         public GetUserByNameOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 
@@ -502,7 +450,7 @@ public class UserApi {
 
         public LoginUserOper(RequestSpecBuilder reqSpec) {
             this.reqSpec = reqSpec;
-            reqSpec.setAccept("application/json");
+            reqSpec.setAccept("application/json,application/xml");
             this.respSpec = new ResponseSpecBuilder();
         }
 

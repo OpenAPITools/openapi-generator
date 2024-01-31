@@ -54,6 +54,13 @@ public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration
         return this;
     }
 
+    public MethodAssert doesNotHaveParameters() {
+        Assertions.assertThat(actual.getParameters())
+                .withFailMessage("Method %s shouldn't have parameter, but it does", methodSignature)
+                .isEmpty();
+        return this;
+    }
+
     public MethodAssert bodyContainsLines(final String... lines) {
         Assertions.assertThat(isWithImplementation())
             .withFailMessage("Method %s is abstract", methodSignature)
@@ -67,6 +74,23 @@ public class MethodAssert extends AbstractAssert<MethodAssert, MethodDeclaration
                 methodSignature, Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
             )
             .contains(lines);
+
+        return this;
+    }
+
+    public MethodAssert bodyNotContainsLines(final String... lines) {
+        Assertions.assertThat(isWithImplementation())
+            .withFailMessage("Method %s is abstract", methodSignature)
+            .isTrue();
+        final String actualBody = actual.getTokenRange()
+            .orElseThrow(() -> new IllegalStateException("Not-abstract method doesn't have body"))
+            .toString();
+        Assertions.assertThat(actualBody)
+            .withFailMessage(
+                "Method's %s body shouldn't contains lines\n====\n%s\n====\nbut actually was\n====\n%s\n====",
+                methodSignature, Arrays.stream(lines).collect(Collectors.joining(System.lineSeparator())), actualBody
+            )
+            .doesNotContain(lines);
 
         return this;
     }

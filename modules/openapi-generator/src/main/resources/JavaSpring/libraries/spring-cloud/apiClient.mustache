@@ -3,8 +3,6 @@ package {{package}};
 import org.springframework.cloud.openfeign.FeignClient;
 import {{configPackage}}.ClientConfiguration;
 
-{{=<% %>=}}
-@FeignClient(name="${<%classVarName%>.name:<%classVarName%>}", url="${<%classVarName%>.url:<%basePath%>}", configuration = ClientConfiguration.class)
-<%={{ }}=%>
+@FeignClient(name="${{openbrace}}{{classVarName}}.name:{{classVarName}}{{closebrace}}", {{#useFeignClientUrl}}url="${{openbrace}}{{classVarName}}.url:{{basePath}}{{closebrace}}", {{/useFeignClientUrl}}configuration = ClientConfiguration.class)
 public interface {{classname}}Client extends {{classname}} {
 }

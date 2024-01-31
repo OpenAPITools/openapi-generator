@@ -49,5 +49,10 @@ public class PhpClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSrcBasePath(PhpClientOptionsProvider.SRC_BASE_PATH_VALUE);
         verify(clientCodegen).setArtifactVersion(PhpClientOptionsProvider.ARTIFACT_VERSION_VALUE);
         verify(clientCodegen).setEnumUnknownDefaultCase(Boolean.parseBoolean(PhpClientOptionsProvider.ENUM_UNKNOWN_DEFAULT_CASE_VALUE));
+        verify(clientCodegen).setLicenseName(PhpClientOptionsProvider.LICENSE_VALUE);
+        verify(clientCodegen).setDeveloperOrganizationUrl(PhpClientOptionsProvider.DEVELOPER_ORGANIZATION_URL_VALUE);
+        verify(clientCodegen).setArtifactUrl(PhpClientOptionsProvider.ARTIFACTURL_VALUE);
+        verify(clientCodegen).setDeveloperOrganization(PhpClientOptionsProvider.DEVELOPER_ORGANIZATION_VALUE);
+        verify(clientCodegen).setLibrary(PhpClientOptionsProvider.LIBRARY_VALUE);
     }
 }

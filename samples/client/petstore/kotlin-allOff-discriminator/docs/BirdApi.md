@@ -7,7 +7,7 @@ Method | HTTP request | Description
 [**getBird**](BirdApi.md#getBird) | **GET** /v1/bird/{id} | 
 
 
-<a name="getBird"></a>
+<a id="getBird"></a>
 # **getBird**
 > Bird getBird(id)
 

@@ -14,6 +14,9 @@ import (
 	"encoding/json"
 )
 
+// checks if the ClassModel type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ClassModel{}
+
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
@@ -41,7 +44,7 @@ func NewClassModelWithDefaults() *ClassModel {
 
 // GetClass returns the Class field value if set, zero value otherwise.
 func (o *ClassModel) GetClass() string {
-	if o == nil || o.Class == nil {
+	if o == nil || IsNil(o.Class) {
 		var ret string
 		return ret
 	}
@@ -51,7 +54,7 @@ func (o *ClassModel) GetClass() string {
 // GetClassOk returns a tuple with the Class field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ClassModel) GetClassOk() (*string, bool) {
-	if o == nil || o.Class == nil {
+	if o == nil || IsNil(o.Class) {
 		return nil, false
 	}
 	return o.Class, true
@@ -59,7 +62,7 @@ func (o *ClassModel) GetClassOk() (*string, bool) {
 
 // HasClass returns a boolean if a field has been set.
 func (o *ClassModel) HasClass() bool {
-	if o != nil && o.Class != nil {
+	if o != nil && !IsNil(o.Class) {
 		return true
 	}
 
@@ -72,8 +75,16 @@ func (o *ClassModel) SetClass(v string) {
 }
 
 func (o ClassModel) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ClassModel) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Class != nil {
+	if !IsNil(o.Class) {
 		toSerialize["_class"] = o.Class
 	}
 
@@ -81,19 +92,23 @@ func (o ClassModel) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
-func (o *ClassModel) UnmarshalJSON(bytes []byte) (err error) {
+func (o *ClassModel) UnmarshalJSON(data []byte) (err error) {
 	varClassModel := _ClassModel{}
 
-	if err = json.Unmarshal(bytes, &varClassModel); err == nil {
-		*o = ClassModel(varClassModel)
+	err = json.Unmarshal(data, &varClassModel)
+
+	if err != nil {
+		return err
 	}
+
+	*o = ClassModel(varClassModel)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "_class")
 		o.AdditionalProperties = additionalProperties
 	}

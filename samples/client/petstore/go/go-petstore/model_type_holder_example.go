@@ -12,7 +12,12 @@ package petstore
 
 import (
 	"encoding/json"
+	"bytes"
+	"fmt"
 )
+
+// checks if the TypeHolderExample type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &TypeHolderExample{}
 
 // TypeHolderExample struct for TypeHolderExample
 type TypeHolderExample struct {
@@ -23,6 +28,8 @@ type TypeHolderExample struct {
 	BoolItem bool `json:"bool_item"`
 	ArrayItem []int32 `json:"array_item"`
 }
+
+type _TypeHolderExample TypeHolderExample
 
 // NewTypeHolderExample instantiates a new TypeHolderExample object
 // This constructor will assign default values to properties that have it defined,
@@ -192,26 +199,64 @@ func (o *TypeHolderExample) SetArrayItem(v []int32) {
 }
 
 func (o TypeHolderExample) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["string_item"] = o.StringItem
-	}
-	if true {
-		toSerialize["number_item"] = o.NumberItem
-	}
-	if true {
-		toSerialize["float_item"] = o.FloatItem
-	}
-	if true {
-		toSerialize["integer_item"] = o.IntegerItem
-	}
-	if true {
-		toSerialize["bool_item"] = o.BoolItem
-	}
-	if true {
-		toSerialize["array_item"] = o.ArrayItem
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o TypeHolderExample) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["string_item"] = o.StringItem
+	toSerialize["number_item"] = o.NumberItem
+	toSerialize["float_item"] = o.FloatItem
+	toSerialize["integer_item"] = o.IntegerItem
+	toSerialize["bool_item"] = o.BoolItem
+	toSerialize["array_item"] = o.ArrayItem
+	return toSerialize, nil
+}
+
+func (o *TypeHolderExample) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"string_item",
+		"number_item",
+		"float_item",
+		"integer_item",
+		"bool_item",
+		"array_item",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
+	varTypeHolderExample := _TypeHolderExample{}
+
+	decoder := json.NewDecoder(bytes.NewReader(data))
+	decoder.DisallowUnknownFields()
+	err = decoder.Decode(&varTypeHolderExample)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TypeHolderExample(varTypeHolderExample)
+
+	return err
 }
 
 type NullableTypeHolderExample struct {

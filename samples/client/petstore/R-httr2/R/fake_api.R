@@ -61,7 +61,7 @@
 #' 
 #'
 #' \itemize{
-#' \item \emph{ @param } path_array list( character )
+#' \item \emph{ @param } path_array_parameter list( character )
 #'
 #' \item On encountering errors, an error of subclass ApiException will be thrown.
 #'
@@ -117,7 +117,7 @@
 #' ####################  add_pet_optional  ####################
 #'
 #' library(petstore)
-#' var_pet <- Pet$new() # Pet | Pet object that needs to be added to the store
+#' var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
 #'
 #' #Add a new pet to the store (optional body)
 #' api_instance <- FakeApi$new()
@@ -155,7 +155,7 @@
 #'
 #' library(petstore)
 #' var_dummy <- "dummy_example" # character | dummy required parameter
-#' var_var_data_file <- "var_data_file_example" # character | header data file
+#' var_var_data_file <- "var_data_file_example" # character | header data file (Optional)
 #'
 #' #test data_file to ensure it's escaped correctly
 #' api_instance <- FakeApi$new()
@@ -188,14 +188,14 @@
 #' ####################  fake_path_array  ####################
 #'
 #' library(petstore)
-#' var_path_array <- ["path_array_example"] # array[character] | dummy path parameter
+#' var_path_array_parameter <- c("inner_example") # array[character] | dummy path parameter
 #'
 #' #test array parameter in path
 #' api_instance <- FakeApi$new()
 #'
 #' result <- tryCatch(
 #'              
-#'              api_instance$fake_path_array(var_path_array),
+#'              api_instance$fake_path_array(var_path_array_parameter),
 #'              ApiException = function(ex) ex
 #'           )
 #' # In case of error, print the error object
@@ -238,8 +238,8 @@
 #' ####################  fake_set_query  ####################
 #'
 #' library(petstore)
-#' var_set_dummy <- ["set_dummy_example"] # set[character] | set query
-#' var_array_dummy <- ["array_dummy_example"] # array[character] | array query
+#' var_set_dummy <- c("inner_example") # set[character] | set query
+#' var_array_dummy <- c("inner_example") # array[character] | array query
 #'
 #' #test set query parameter
 #' api_instance <- FakeApi$new()
@@ -361,15 +361,15 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -481,15 +481,15 @@ FakeApi <- R6::R6Class(
       if (local_var_resp$status_code >= 200 && local_var_resp$status_code <= 299) {
         # save response in a file
         if (!is.null(data_file)) {
-            write(local_var_resp$response, data_file)
+          write(local_var_resp$response, data_file)
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "User", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
           error = function(e) {
-             rlang::abort(message = "Failed to deserialize response",
-                          .subclass = "ApiException",
-                          ApiException = ApiException$new(http_response = local_var_resp))
+            rlang::abort(message = "Failed to deserialize response",
+                         .subclass = "ApiException",
+                         ApiException = ApiException$new(http_response = local_var_resp))
           }
         )
         local_var_resp$content <- deserialized_resp_obj
@@ -525,12 +525,12 @@ FakeApi <- R6::R6Class(
     #' @description
     #' test array parameter in path
     #'
-    #' @param path_array dummy path parameter
+    #' @param path_array_parameter dummy path parameter
     #' @param ... Other optional arguments
     #' @return void
     #' @export
-    fake_path_array = function(path_array, ...) {
-      local_var_response <- self$fake_path_array_with_http_info(path_array, ...)
+    fake_path_array = function(path_array_parameter, ...) {
+      local_var_response <- self$fake_path_array_with_http_info(path_array_parameter, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         local_var_response$content
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -546,11 +546,11 @@ FakeApi <- R6::R6Class(
     #' @description
     #' test array parameter in path
     #'
-    #' @param path_array dummy path parameter
+    #' @param path_array_parameter dummy path parameter
     #' @param ... Other optional arguments
     #' @return API response (void) with additional information such as HTTP status code, headers
     #' @export
-    fake_path_array_with_http_info = function(path_array, ...) {
+    fake_path_array_with_http_info = function(path_array_parameter, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()
@@ -560,17 +560,17 @@ FakeApi <- R6::R6Class(
       oauth_scopes <- NULL
       is_oauth <- FALSE
 
-      if (missing(`path_array`)) {
-        rlang::abort(message = "Missing required parameter `path_array`.",
+      if (missing(`path_array_parameter`)) {
+        rlang::abort(message = "Missing required parameter `path_array_parameter`.",
                      .subclass = "ApiException",
                      ApiException = ApiException$new(status = 0,
-                                                     reason = "Missing required parameter `path_array`."))
+                                                     reason = "Missing required parameter `path_array_parameter`."))
       }
 
 
       local_var_url_path <- "/fake/path_array/{path_array}/testing"
-      if (!missing(`path_array`)) {
-        local_var_url_path <- gsub("\\{path_array\\}", paste(URLencode(as.character(`path_array`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
+      if (!missing(`path_array_parameter`)) {
+        local_var_url_path <- gsub("\\{path_array\\}", paste(URLencode(as.character(`path_array_parameter`), reserved = TRUE), collapse= ",", sep=""), local_var_url_path)
       }
 
 

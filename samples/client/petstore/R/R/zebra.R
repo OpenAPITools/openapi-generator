@@ -28,21 +28,23 @@ Zebra <- R6::R6Class(
     #'
     #' @param className className
     #' @param type type
-    #' @param additional_properties additonal properties (optional)
+    #' @param additional_properties additional properties (optional)
     #' @param ... Other optional arguments.
     #' @export
-    initialize = function(
-        `className`, `type` = NULL, additional_properties = NULL, ...
-    ) {
+    initialize = function(`className`, `type` = NULL, additional_properties = NULL, ...) {
       if (!missing(`className`)) {
-        stopifnot(is.character(`className`), length(`className`) == 1)
+        if (!(is.character(`className`) && length(`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", `className`))
+        }
         self$`className` <- `className`
       }
       if (!is.null(`type`)) {
         if (!(`type` %in% c("plains", "mountain", "grevys"))) {
           stop(paste("Error! \"", `type`, "\" cannot be assigned to `type`. Must be \"plains\", \"mountain\", \"grevys\".", sep = ""))
         }
-        stopifnot(is.character(`type`), length(`type`) == 1)
+        if (!(is.character(`type`) && length(`type`) == 1)) {
+          stop(paste("Error! Invalid data for `type`. Must be a string:", `type`))
+        }
         self$`type` <- `type`
       }
       if (!is.null(additional_properties)) {
@@ -171,7 +173,9 @@ Zebra <- R6::R6Class(
       input_json <- jsonlite::fromJSON(input)
       # check the required field `className`
       if (!is.null(input_json$`className`)) {
-        stopifnot(is.character(input_json$`className`), length(input_json$`className`) == 1)
+        if (!(is.character(input_json$`className`) && length(input_json$`className`) == 1)) {
+          stop(paste("Error! Invalid data for `className`. Must be a string:", input_json$`className`))
+        }
       } else {
         stop(paste("The JSON input `", input, "` is invalid for Zebra: the required field `className` is missing."))
       }
@@ -226,18 +230,19 @@ Zebra <- R6::R6Class(
     print = function() {
       print(jsonlite::prettify(self$toJSONString()))
       invisible(self)
-    }),
-    # Lock the class to prevent modifications to the method or field
-    lock_class = TRUE
+    }
+  ),
+  # Lock the class to prevent modifications to the method or field
+  lock_class = TRUE
 )
 ## Uncomment below to unlock the class to allow modifications of the method or field
-#Zebra$unlock()
+# Zebra$unlock()
 #
-## Below is an example to define the print fnuction
-#Zebra$set("public", "print", function(...) {
-#  print(jsonlite::prettify(self$toJSONString()))
-#  invisible(self)
-#})
+## Below is an example to define the print function
+# Zebra$set("public", "print", function(...) {
+#   print(jsonlite::prettify(self$toJSONString()))
+#   invisible(self)
+# })
 ## Uncomment below to lock the class to prevent modifications to the method or field
-#Zebra$lock()
+# Zebra$lock()
 

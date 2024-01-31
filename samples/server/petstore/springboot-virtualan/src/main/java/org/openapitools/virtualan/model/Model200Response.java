@@ -24,10 +24,8 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response {
 
-  @JsonProperty("name")
   private Integer name;
 
-  @JsonProperty("class")
   private String propertyClass;
 
   public Model200Response name(Integer name) {
@@ -40,7 +38,8 @@ public class Model200Response {
    * @return name
   */
   
-  @Schema(name = "name", required = false)
+  @Schema(name = "name", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("name")
   public Integer getName() {
     return name;
   }
@@ -59,7 +58,8 @@ public class Model200Response {
    * @return propertyClass
   */
   
-  @Schema(name = "class", required = false)
+  @Schema(name = "class", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("class")
   public String getPropertyClass() {
     return propertyClass;
   }

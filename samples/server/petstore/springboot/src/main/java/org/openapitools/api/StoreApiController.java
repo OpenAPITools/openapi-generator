@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
 import java.util.Map;
-import org.openapitools.model.Order;
+import org.openapitools.model.OrderDto;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,7 @@ import javax.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
+@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
     private final NativeWebRequest request;

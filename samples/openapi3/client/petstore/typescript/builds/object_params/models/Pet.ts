@@ -77,5 +77,9 @@ export class Pet {
 }
 
 
-export type PetStatusEnum = "available" | "pending" | "sold" ;
+export enum PetStatusEnum {
+    Available = 'available',
+    Pending = 'pending',
+    Sold = 'sold'
+}
 

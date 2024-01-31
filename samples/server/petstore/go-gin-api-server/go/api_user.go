@@ -10,47 +10,65 @@
 package petstoreserver
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-// CreateUser - Create user
-func CreateUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+type UserAPI struct {
 }
 
-// CreateUsersWithArrayInput - Creates list of users with given input array
-func CreateUsersWithArrayInput(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/user
+// Create user 
+func (api *UserAPI) CreateUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// CreateUsersWithListInput - Creates list of users with given input array
-func CreateUsersWithListInput(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/user/createWithArray
+// Creates list of users with given input array 
+func (api *UserAPI) CreateUsersWithArrayInput(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// DeleteUser - Delete user
-func DeleteUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Post /v2/user/createWithList
+// Creates list of users with given input array 
+func (api *UserAPI) CreateUsersWithListInput(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// GetUserByName - Get user by user name
-func GetUserByName(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Delete /v2/user/:username
+// Delete user 
+func (api *UserAPI) DeleteUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// LoginUser - Logs user into the system
-func LoginUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/user/:username
+// Get user by user name 
+func (api *UserAPI) GetUserByName(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// LogoutUser - Logs out current logged in user session
-func LogoutUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/user/login
+// Logs user into the system 
+func (api *UserAPI) LoginUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
 
-// UpdateUser - Updated user
-func UpdateUser(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{})
+// Get /v2/user/logout
+// Logs out current logged in user session 
+func (api *UserAPI) LogoutUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
 }
+
+// Put /v2/user/:username
+// Updated user 
+func (api *UserAPI) UpdateUser(c *gin.Context) {
+	// Your handler implementation
+	c.JSON(200, gin.H{"status": "OK"})
+}
+

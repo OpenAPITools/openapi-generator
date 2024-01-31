@@ -4,7 +4,6 @@
 
 // ignore_for_file: unused_element
 import 'package:openapi/src/model/animal.dart';
-import 'package:openapi/src/model/cat_all_of.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
@@ -17,15 +16,16 @@ part 'cat.g.dart';
 /// * [color] 
 /// * [declawed] 
 @BuiltValue()
-abstract class Cat implements Animal, CatAllOf, Built<Cat, CatBuilder> {
-  static const String discriminatorFieldName = r'className';
+abstract class Cat implements Animal, Built<Cat, CatBuilder> {
+  @BuiltValueField(wireName: r'declawed')
+  bool? get declawed;
 
   Cat._();
 
   factory Cat([void updates(CatBuilder b)]) = _$Cat;
 
   @BuiltValueHook(initializeBuilder: true)
-  static void _defaults(CatBuilder b) => b
+  static void _defaults(CatBuilder b) => b..className=b.discriminatorValue
       ..color = 'red';
 
   @BuiltValueSerializer(custom: true)
@@ -44,11 +44,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
     Cat object, {
     FullType specifiedType = FullType.unspecified,
   }) sync* {
-    yield r'className';
-    yield serializers.serialize(
-      object.className,
-      specifiedType: const FullType(String),
-    );
     if (object.color != null) {
       yield r'color';
       yield serializers.serialize(
@@ -63,6 +58,11 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
         specifiedType: const FullType(bool),
       );
     }
+    yield r'className';
+    yield serializers.serialize(
+      object.className,
+      specifiedType: const FullType(String),
+    );
   }
 
   @override
@@ -86,13 +86,6 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
       final key = serializedList[i] as String;
       final value = serializedList[i + 1];
       switch (key) {
-        case r'className':
-          final valueDes = serializers.deserialize(
-            value,
-            specifiedType: const FullType(String),
-          ) as String;
-          result.className = valueDes;
-          break;
         case r'color':
           final valueDes = serializers.deserialize(
             value,
@@ -106,6 +99,13 @@ class _$CatSerializer implements PrimitiveSerializer<Cat> {
             specifiedType: const FullType(bool),
           ) as bool;
           result.declawed = valueDes;
+          break;
+        case r'className':
+          final valueDes = serializers.deserialize(
+            value,
+            specifiedType: const FullType(String),
+          ) as String;
+          result.className = valueDes;
           break;
         default:
           unhandled.add(key);

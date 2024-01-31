@@ -21,6 +21,7 @@ import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -74,8 +75,8 @@ export default class FakeApi extends ApiClient {
      * test http signature authentication
      * @param {module:model/Pet} pet Pet object that needs to be added to the store
      * @param {Object} opts Optional parameters
-     * @param {String} opts.query1 query parameter
-     * @param {String} opts.header1 header parameter
+     * @param {String} [query1] query parameter
+     * @param {String} [header1] header parameter
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -114,7 +115,7 @@ export default class FakeApi extends ApiClient {
     /**
      * Test serialization of outer boolean types
      * @param {Object} opts Optional parameters
-     * @param {Boolean} opts.body Input boolean as post body
+     * @param {Boolean} [body] Input boolean as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<Boolean>}
      */
@@ -147,7 +148,7 @@ export default class FakeApi extends ApiClient {
     /**
      * Test serialization of object with outer number type
      * @param {Object} opts Optional parameters
-     * @param {module:model/OuterComposite} opts.outerComposite Input composite as post body
+     * @param {module:model/OuterComposite} [outerComposite] Input composite as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<module:model/OuterComposite>}
      */
@@ -180,7 +181,7 @@ export default class FakeApi extends ApiClient {
     /**
      * Test serialization of outer number types
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.body Input number as post body
+     * @param {Number} [body] Input number as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<Number>}
      */
@@ -213,7 +214,7 @@ export default class FakeApi extends ApiClient {
     /**
      * Test serialization of outer string types
      * @param {Object} opts Optional parameters
-     * @param {String} opts.body Input string as post body
+     * @param {String} [body] Input string as post body
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise<String>}
      */
@@ -273,6 +274,42 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/property/enum-int', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testAdditionalPropertiesReference(requestBody, requestInit) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/additionalProperties-reference', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );
@@ -432,16 +469,16 @@ export default class FakeApi extends ApiClient {
      * @param {String} patternWithoutDelimiter None
      * @param {Blob} _byte None
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.integer None
-     * @param {Number} opts.int32 None
-     * @param {Number} opts.int64 None
-     * @param {Number} opts._float None
-     * @param {String} opts.string None
-     * @param {File} opts.binary None
-     * @param {Date} opts.date None
-     * @param {Date} opts.dateTime None
-     * @param {String} opts.password None
-     * @param {String} opts.callback None
+     * @param {Number} [integer] None
+     * @param {Number} [int32] None
+     * @param {Number} [int64] None
+     * @param {Number} [_float] None
+     * @param {String} [string] None
+     * @param {File} [binary] None
+     * @param {Date} [date] None
+     * @param {Date} [dateTime] None
+     * @param {String} [password] None
+     * @param {String} [callback] None
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -505,15 +542,15 @@ export default class FakeApi extends ApiClient {
      * To test enum parameters
      * To test enum parameters
      * @param {Object} opts Optional parameters
-     * @param {Array.<module:model/String>} opts.enumHeaderStringArray Header parameter enum test (string array)
-     * @param {module:model/String} opts.enumHeaderString Header parameter enum test (string) (default to '-efg')
-     * @param {Array.<module:model/String>} opts.enumQueryStringArray Query parameter enum test (string array)
-     * @param {module:model/String} opts.enumQueryString Query parameter enum test (string) (default to '-efg')
-     * @param {module:model/Number} opts.enumQueryInteger Query parameter enum test (double)
-     * @param {module:model/Number} opts.enumQueryDouble Query parameter enum test (double)
-     * @param {Array.<module:model/EnumClass>} opts.enumQueryModelArray 
-     * @param {Array.<module:model/String>} opts.enumFormStringArray Form parameter enum test (string array) (default to '$')
-     * @param {module:model/String} opts.enumFormString Form parameter enum test (string) (default to '-efg')
+     * @param {Array.<module:model/String>} [enumHeaderStringArray] Header parameter enum test (string array)
+     * @param {module:model/String} [enumHeaderString = '-efg'] Header parameter enum test (string)
+     * @param {Array.<module:model/String>} [enumQueryStringArray] Query parameter enum test (string array)
+     * @param {module:model/String} [enumQueryString = '-efg'] Query parameter enum test (string)
+     * @param {module:model/Number} [enumQueryInteger] Query parameter enum test (double)
+     * @param {module:model/Number} [enumQueryDouble] Query parameter enum test (double)
+     * @param {Array.<module:model/EnumClass>} [enumQueryModelArray] 
+     * @param {Array.<module:model/String>} [enumFormStringArray = '$'] Form parameter enum test (string array)
+     * @param {module:model/String} [enumFormString = '-efg'] Form parameter enum test (string)
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -559,9 +596,9 @@ export default class FakeApi extends ApiClient {
      * @param {Boolean} requiredBooleanGroup Required Boolean in group parameters
      * @param {Number} requiredInt64Group Required Integer in group parameters
      * @param {Object} opts Optional parameters
-     * @param {Number} opts.stringGroup String in group parameters
-     * @param {Boolean} opts.booleanGroup Boolean in group parameters
-     * @param {Number} opts.int64Group Integer in group parameters
+     * @param {Number} [stringGroup] String in group parameters
+     * @param {Boolean} [booleanGroup] Boolean in group parameters
+     * @param {Number} [int64Group] Integer in group parameters
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -646,6 +683,42 @@ export default class FakeApi extends ApiClient {
     }
 
     /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, requestInit) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
      * test json serialization of form data
      * 
      * @param {String} param field1
@@ -697,7 +770,7 @@ export default class FakeApi extends ApiClient {
      * @param {Array.<String>} context 
      * @param {String} allowEmpty 
      * @param {Object} opts Optional parameters
-     * @param {Object.<String, {String: String}>} opts.language 
+     * @param {Object.<String, {String: String}>} [language] 
      * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
      * @return {Promise}
      */
@@ -753,6 +826,42 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/test-query-parameters', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testStringMapReference(requestBody, requestInit) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testStringMapReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/stringMap-reference', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );

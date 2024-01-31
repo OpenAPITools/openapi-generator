@@ -66,7 +66,6 @@ public class BigCat extends Cat {
     }
   }
 
-  @JsonProperty("kind")
   private KindEnum kind;
 
   public BigCat kind(KindEnum kind) {
@@ -79,7 +78,8 @@ public class BigCat extends Cat {
    * @return kind
   */
   
-  @Schema(name = "kind", required = false)
+  @Schema(name = "kind", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
@@ -88,21 +88,21 @@ public class BigCat extends Cat {
     this.kind = kind;
   }
 
+
   public BigCat declawed(Boolean declawed) {
-    super.setDeclawed(declawed);
+    super.declawed(declawed);
     return this;
   }
 
   public BigCat className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public BigCat color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

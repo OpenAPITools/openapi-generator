@@ -20,27 +20,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUser(body: User) async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = createUserWithRequestBuilder(body: body).execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await createUserWithRequestBuilder(body: body).execute().body
     }
 
     /**
@@ -76,27 +56,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithArrayInput(body: [User]) async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = createUsersWithArrayInputWithRequestBuilder(body: body).execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await createUsersWithArrayInputWithRequestBuilder(body: body).execute().body
     }
 
     /**
@@ -131,27 +91,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func createUsersWithListInput(body: [User]) async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = createUsersWithListInputWithRequestBuilder(body: body).execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await createUsersWithListInputWithRequestBuilder(body: body).execute().body
     }
 
     /**
@@ -186,27 +126,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func deleteUser(username: String) async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = deleteUserWithRequestBuilder(username: username).execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await deleteUserWithRequestBuilder(username: username).execute().body
     }
 
     /**
@@ -245,27 +165,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func getUserByName(username: String) async throws -> User {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = getUserByNameWithRequestBuilder(username: username).execute { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await getUserByNameWithRequestBuilder(username: username).execute().body
     }
 
     /**
@@ -304,27 +204,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func loginUser(username: String, password: String) async throws -> String {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = loginUserWithRequestBuilder(username: username, password: password).execute { result in
-                    switch result {
-                    case let .success(response):
-                        continuation.resume(returning: response.body)
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await loginUserWithRequestBuilder(username: username, password: password).execute().body
     }
 
     /**
@@ -364,27 +244,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func logoutUser() async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = logoutUserWithRequestBuilder().execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await logoutUserWithRequestBuilder().execute().body
     }
 
     /**
@@ -419,27 +279,7 @@ open class UserAPI {
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func updateUser(username: String, body: User) async throws {
-        var requestTask: RequestTask?
-        return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
-            return try await withCheckedThrowingContinuation { continuation in
-                guard !Task.isCancelled else {
-                  continuation.resume(throwing: CancellationError())
-                  return
-                }
-
-                requestTask = updateUserWithRequestBuilder(username: username, body: body).execute { result in
-                    switch result {
-                    case .success:
-                        continuation.resume(returning: ())
-                    case let .failure(error):
-                        continuation.resume(throwing: error)
-                    }
-                }
-            }
-        } onCancel: { [requestTask] in
-            requestTask?.cancel()
-        }
+        return try await updateUserWithRequestBuilder(username: username, body: body).execute().body
     }
 
     /**

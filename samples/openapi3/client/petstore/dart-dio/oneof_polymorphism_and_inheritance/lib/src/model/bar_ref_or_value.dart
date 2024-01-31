@@ -3,6 +3,7 @@
 //
 
 // ignore_for_file: unused_element
+import 'package:openapi/src/model/foo_ref_or_value.dart';
 import 'package:openapi/src/model/bar_ref.dart';
 import 'package:openapi/src/model/bar.dart';
 import 'package:built_value/built_value.dart';
@@ -14,17 +15,22 @@ part 'bar_ref_or_value.g.dart';
 /// BarRefOrValue
 ///
 /// Properties:
-/// * [href] - Hyperlink reference
 /// * [id] - unique identifier
+/// * [barPropA] 
+/// * [fooPropB] 
+/// * [foo] 
+/// * [href] - Hyperlink reference
 /// * [atSchemaLocation] - A URI to a JSON-Schema file that defines additional attributes and relationships
 /// * [atBaseType] - When sub-classing, this defines the super-class
 /// * [atType] - When sub-classing, this defines the sub-class Extensible name
+/// * [name] - Name of the related entity.
+/// * [atReferredType] - The actual type of the target instance when needed for disambiguation.
 @BuiltValue()
 abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilder> {
   /// One Of [Bar], [BarRef]
   OneOf get oneOf;
 
-  static const String discriminatorFieldName = r'atType';
+  static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
     r'Bar': Bar,
@@ -40,6 +46,29 @@ abstract class BarRefOrValue implements Built<BarRefOrValue, BarRefOrValueBuilde
 
   @BuiltValueSerializer(custom: true)
   static Serializer<BarRefOrValue> get serializer => _$BarRefOrValueSerializer();
+}
+
+extension BarRefOrValueDiscriminatorExt on BarRefOrValue {
+    String? get discriminatorValue {
+        if (this is Bar) {
+            return r'Bar';
+        }
+        if (this is BarRef) {
+            return r'BarRef';
+        }
+        return null;
+    }
+}
+extension BarRefOrValueBuilderDiscriminatorExt on BarRefOrValueBuilder {
+    String? get discriminatorValue {
+        if (this is BarBuilder) {
+            return r'Bar';
+        }
+        if (this is BarRefBuilder) {
+            return r'BarRef';
+        }
+        return null;
+    }
 }
 
 class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
@@ -82,14 +111,14 @@ class _$BarRefOrValueSerializer implements PrimitiveSerializer<BarRefOrValue> {
     Object oneOfResult;
     Type oneOfType;
     switch (discValue) {
-      case 'Bar':
+      case r'Bar':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(Bar),
         ) as Bar;
         oneOfType = Bar;
         break;
-      case 'BarRef':
+      case r'BarRef':
         oneOfResult = serializers.deserialize(
           oneOfDataSrc,
           specifiedType: FullType(BarRef),

@@ -38,7 +38,7 @@ import java.util.Locale;
  * </pre>
  */
 public class TitlecaseLambda implements Mustache.Lambda  {
-    private String delimiter;
+    private final String delimiter;
 
     /**
      * Constructs a new instance of {@link TitlecaseLambda}, which will convert all text
@@ -61,7 +61,15 @@ public class TitlecaseLambda implements Mustache.Lambda  {
     }
 
     private String titleCase(final String input) {
-        return input.substring(0, 1).toUpperCase(Locale.ROOT) + input.substring(1);
+        if(input == null || "".equals(input)){
+            return "";
+        }
+
+        String firstLetter = input.substring(0, 1).toUpperCase(Locale.ROOT);
+        if (input.length() == 1) {
+            return firstLetter;
+        }
+        return firstLetter + input.substring(1);
     }
 
     @Override

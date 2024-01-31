@@ -12,9 +12,13 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"strings"
 )
+
+// checks if the Dog type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Dog{}
 
 // Dog struct for Dog
 type Dog struct {
@@ -47,7 +51,7 @@ func NewDogWithDefaults() *Dog {
 
 // GetBreed returns the Breed field value if set, zero value otherwise.
 func (o *Dog) GetBreed() string {
-	if o == nil || o.Breed == nil {
+	if o == nil || IsNil(o.Breed) {
 		var ret string
 		return ret
 	}
@@ -57,7 +61,7 @@ func (o *Dog) GetBreed() string {
 // GetBreedOk returns a tuple with the Breed field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *Dog) GetBreedOk() (*string, bool) {
-	if o == nil || o.Breed == nil {
+	if o == nil || IsNil(o.Breed) {
 		return nil, false
 	}
 	return o.Breed, true
@@ -65,7 +69,7 @@ func (o *Dog) GetBreedOk() (*string, bool) {
 
 // HasBreed returns a boolean if a field has been set.
 func (o *Dog) HasBreed() bool {
-	if o != nil && o.Breed != nil {
+	if o != nil && !IsNil(o.Breed) {
 		return true
 	}
 
@@ -78,16 +82,24 @@ func (o *Dog) SetBreed(v string) {
 }
 
 func (o Dog) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Dog) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	serializedAnimal, errAnimal := json.Marshal(o.Animal)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
 	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
 	if errAnimal != nil {
-		return []byte{}, errAnimal
+		return map[string]interface{}{}, errAnimal
 	}
-	if o.Breed != nil {
+	if !IsNil(o.Breed) {
 		toSerialize["breed"] = o.Breed
 	}
 
@@ -95,17 +107,38 @@ func (o Dog) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
-func (o *Dog) UnmarshalJSON(bytes []byte) (err error) {
+func (o *Dog) UnmarshalJSON(data []byte) (err error) {
+	// This validates that all required properties are included in the JSON object
+	// by unmarshalling the object into a generic map with string keys and checking
+	// that every required field exists as a key in the generic map.
+	requiredProperties := []string{
+		"className",
+	}
+
+	allProperties := make(map[string]interface{})
+
+	err = json.Unmarshal(data, &allProperties)
+
+	if err != nil {
+		return err;
+	}
+
+	for _, requiredProperty := range(requiredProperties) {
+		if _, exists := allProperties[requiredProperty]; !exists {
+			return fmt.Errorf("no value given for required property %v", requiredProperty)
+		}
+	}
+
 	type DogWithoutEmbeddedStruct struct {
 		Breed *string `json:"breed,omitempty"`
 	}
 
 	varDogWithoutEmbeddedStruct := DogWithoutEmbeddedStruct{}
 
-	err = json.Unmarshal(bytes, &varDogWithoutEmbeddedStruct)
+	err = json.Unmarshal(data, &varDogWithoutEmbeddedStruct)
 	if err == nil {
 		varDog := _Dog{}
 		varDog.Breed = varDogWithoutEmbeddedStruct.Breed
@@ -116,7 +149,7 @@ func (o *Dog) UnmarshalJSON(bytes []byte) (err error) {
 
 	varDog := _Dog{}
 
-	err = json.Unmarshal(bytes, &varDog)
+	err = json.Unmarshal(data, &varDog)
 	if err == nil {
 		o.Animal = varDog.Animal
 	} else {
@@ -125,7 +158,7 @@ func (o *Dog) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "breed")
 
 		// remove fields from embedded structs

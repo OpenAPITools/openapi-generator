@@ -9,6 +9,9 @@
 
 package petstoreserver
 
+
+
+
 // User - A User who is purchasing from the pet store
 type User struct {
 
@@ -48,24 +51,17 @@ func AssertUserRequired(obj User) error {
 	}
 
 	if obj.DeepSliceModel != nil {
-		if err := AssertRecurseTagRequired(*obj.DeepSliceModel); err != nil {
+		if err := AssertRecurseInterfaceRequired(*obj.DeepSliceModel, AssertTagRequired); err != nil {
 			return err
 		}
 	}
-	if err := AssertRecurseAnObjectRequired(obj.DeepSliceMap); err != nil {
+	if err := AssertRecurseInterfaceRequired(obj.DeepSliceMap, AssertAnObjectRequired); err != nil {
 		return err
 	}
 	return nil
 }
 
-// AssertRecurseUserRequired recursively checks if required fields are not zero-ed in a nested slice.
-// Accepts only nested slice of User (e.g. [][]User), otherwise ErrTypeAssertionError is thrown.
-func AssertRecurseUserRequired(objSlice interface{}) error {
-	return AssertRecurseInterfaceRequired(objSlice, func(obj interface{}) error {
-		aUser, ok := obj.(User)
-		if !ok {
-			return ErrTypeAssertionError
-		}
-		return AssertUserRequired(aUser)
-	})
+// AssertUserConstraints checks if the values respects the defined constraints
+func AssertUserConstraints(obj User) error {
+	return nil
 }

@@ -271,6 +271,7 @@ impl<S, C> CallbackApi<C> for Client<S, C> where
         });
 
         // Header parameters
+        #[allow(clippy::single_match)]
         match param_information {
             Some(param_information) => {
         request.headers_mut().append(

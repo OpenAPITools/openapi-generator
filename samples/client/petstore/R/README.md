@@ -55,6 +55,17 @@ install.packages("petstore_1.0.0.tar.gz", repos = NULL, type = "source")
 library(petstore)
 ```
 
+### Reformat code
+
+To reformat code using [styler](https://styler.r-lib.org/index.html), please run the following in the R console:
+
+```R
+install.packages("remotes")
+remotes::install_github("r-lib/styler@v1.7.0.9003")
+library("styler")
+style_dir()
+```
+
 ## Documentation for API Endpoints
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -98,12 +109,12 @@ Class | Method | HTTP request | Description
  - [AnyOfPrimitiveTypeTest](docs/AnyOfPrimitiveTypeTest.md)
  - [BasquePig](docs/BasquePig.md)
  - [Cat](docs/Cat.md)
- - [CatAllOf](docs/CatAllOf.md)
  - [Category](docs/Category.md)
  - [DanishPig](docs/DanishPig.md)
  - [Date](docs/Date.md)
  - [Dog](docs/Dog.md)
- - [DogAllOf](docs/DogAllOf.md)
+ - [DummyModel](docs/DummyModel.md)
+ - [FormatTest](docs/FormatTest.md)
  - [Mammal](docs/Mammal.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
  - [NestedOneOf](docs/NestedOneOf.md)
@@ -122,19 +133,14 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 
-### BearerToken
-
-- **Type**: Bearer authentication
-
-### api_key
-
-- **Type**: API key
-- **API key parameter name**: api_key
-- **Location**: HTTP header
-
+Authentication schemes defined for the API:
 ### http_auth
 
 - **Type**: HTTP basic authentication
+
+### BearerToken
+
+- **Type**: Bearer authentication
 
 ### petstore_auth
 
@@ -144,5 +150,11 @@ Class | Method | HTTP request | Description
 - **Scopes**: 
   - `write:pets`: modify pets in your account
   - `read:pets`: read your pets
+
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
 
 

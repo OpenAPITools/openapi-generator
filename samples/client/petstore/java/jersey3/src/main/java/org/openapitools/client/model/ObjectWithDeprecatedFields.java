@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,10 +21,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -47,13 +45,16 @@ public class ObjectWithDeprecatedFields {
   private String uuid;
 
   public static final String JSON_PROPERTY_ID = "id";
+  @Deprecated
   private BigDecimal id;
 
   public static final String JSON_PROPERTY_DEPRECATED_REF = "deprecatedRef";
+  @Deprecated
   private DeprecatedObject deprecatedRef;
 
   public static final String JSON_PROPERTY_BARS = "bars";
-  private List<String> bars = null;
+  @Deprecated
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields() { 
   }
@@ -68,7 +69,6 @@ public class ObjectWithDeprecatedFields {
    * @return uuid
   **/
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -84,6 +84,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     this.id = id;
     return this;
@@ -96,7 +97,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -105,6 +105,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setId(BigDecimal id) {
@@ -112,6 +113,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
     return this;
@@ -124,7 +126,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -133,6 +134,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
@@ -140,6 +142,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
@@ -160,7 +163,6 @@ public class ObjectWithDeprecatedFields {
   **/
   @Deprecated
   @jakarta.annotation.Nullable
-  @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -169,6 +171,7 @@ public class ObjectWithDeprecatedFields {
   }
 
 
+  @Deprecated
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   public void setBars(List<String> bars) {

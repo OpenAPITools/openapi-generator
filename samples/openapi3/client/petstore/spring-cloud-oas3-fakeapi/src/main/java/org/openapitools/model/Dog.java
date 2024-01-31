@@ -26,7 +26,6 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal {
 
-  @JsonProperty("breed")
   private String breed;
 
   public Dog breed(String breed) {
@@ -39,7 +38,8 @@ public class Dog extends Animal {
    * @return breed
   */
   
-  @Schema(name = "breed", required = false)
+  @Schema(name = "breed", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("breed")
   public String getBreed() {
     return breed;
   }
@@ -48,16 +48,16 @@ public class Dog extends Animal {
     this.breed = breed;
   }
 
+
   public Dog className(String className) {
-    super.setClassName(className);
+    super.className(className);
     return this;
   }
 
   public Dog color(String color) {
-    super.setColor(color);
+    super.color(color);
     return this;
   }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

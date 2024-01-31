@@ -1,10 +1,12 @@
 #![allow(unused_qualifications)]
 
+use validator::Validate;
+
 use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ANullableContainer {
     #[serde(rename = "NullableThing")]
@@ -17,6 +19,7 @@ pub struct ANullableContainer {
     pub required_nullable_thing: swagger::Nullable<String>,
 
 }
+
 
 impl ANullableContainer {
     #[allow(clippy::new_without_default)]
@@ -36,7 +39,7 @@ impl std::string::ToString for ANullableContainer {
         let params: Vec<Option<String>> = vec![
 
             self.nullable_thing.as_ref().map(|nullable_thing| {
-                vec![
+                [
                     "NullableThing".to_string(),
                     nullable_thing.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
@@ -190,25 +193,26 @@ impl ::std::str::FromStr for AdditionalPropertiesObject {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AllOfObject {
     #[serde(rename = "sampleProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
     pub sample_property: Option<String>,
 
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
+
 
 impl AllOfObject {
     #[allow(clippy::new_without_default)]
     pub fn new() -> AllOfObject {
         AllOfObject {
             sample_property: None,
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -221,17 +225,17 @@ impl std::string::ToString for AllOfObject {
         let params: Vec<Option<String>> = vec![
 
             self.sample_property.as_ref().map(|sample_property| {
-                vec![
+                [
                     "sampleProperty".to_string(),
                     sample_property.to_string(),
                 ].join(",")
             }),
 
 
-            self.sample_base_propery.as_ref().map(|sample_base_propery| {
-                vec![
-                    "sampleBasePropery".to_string(),
-                    sample_base_propery.to_string(),
+            self.sample_base_property.as_ref().map(|sample_base_property| {
+                [
+                    "sampleBaseProperty".to_string(),
+                    sample_base_property.to_string(),
                 ].join(",")
             }),
 
@@ -253,7 +257,7 @@ impl std::str::FromStr for AllOfObject {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub sample_property: Vec<String>,
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -274,7 +278,7 @@ impl std::str::FromStr for AllOfObject {
                     #[allow(clippy::redundant_clone)]
                     "sampleProperty" => intermediate_rep.sample_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AllOfObject".to_string())
                 }
             }
@@ -286,7 +290,7 @@ impl std::str::FromStr for AllOfObject {
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(AllOfObject {
             sample_property: intermediate_rep.sample_property.into_iter().next(),
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }
@@ -330,20 +334,21 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct BaseAllOf {
-    #[serde(rename = "sampleBasePropery")]
+    #[serde(rename = "sampleBaseProperty")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub sample_base_propery: Option<String>,
+    pub sample_base_property: Option<String>,
 
 }
+
 
 impl BaseAllOf {
     #[allow(clippy::new_without_default)]
     pub fn new() -> BaseAllOf {
         BaseAllOf {
-            sample_base_propery: None,
+            sample_base_property: None,
         }
     }
 }
@@ -355,10 +360,10 @@ impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
 
-            self.sample_base_propery.as_ref().map(|sample_base_propery| {
-                vec![
-                    "sampleBasePropery".to_string(),
-                    sample_base_propery.to_string(),
+            self.sample_base_property.as_ref().map(|sample_base_property| {
+                [
+                    "sampleBaseProperty".to_string(),
+                    sample_base_property.to_string(),
                 ].join(",")
             }),
 
@@ -379,7 +384,7 @@ impl std::str::FromStr for BaseAllOf {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub sample_base_propery: Vec<String>,
+            pub sample_base_property: Vec<String>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -398,7 +403,7 @@ impl std::str::FromStr for BaseAllOf {
                 #[allow(clippy::match_single_binding)]
                 match key {
                     #[allow(clippy::redundant_clone)]
-                    "sampleBasePropery" => intermediate_rep.sample_base_propery.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "sampleBaseProperty" => intermediate_rep.sample_base_property.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing BaseAllOf".to_string())
                 }
             }
@@ -409,7 +414,7 @@ impl std::str::FromStr for BaseAllOf {
 
         // Use the intermediate representation to return the struct
         std::result::Result::Ok(BaseAllOf {
-            sample_base_propery: intermediate_rep.sample_base_propery.into_iter().next(),
+            sample_base_property: intermediate_rep.sample_base_property.into_iter().next(),
         })
     }
 }
@@ -453,7 +458,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct DummyPutRequest {
     #[serde(rename = "id")]
@@ -464,6 +469,7 @@ pub struct DummyPutRequest {
     pub password: Option<String>,
 
 }
+
 
 impl DummyPutRequest {
     #[allow(clippy::new_without_default)]
@@ -487,7 +493,7 @@ impl std::string::ToString for DummyPutRequest {
 
 
             self.password.as_ref().map(|password| {
-                vec![
+                [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
@@ -589,7 +595,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// structured response
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct GetYamlResponse {
     /// Inner string
@@ -598,6 +604,7 @@ pub struct GetYamlResponse {
     pub value: Option<String>,
 
 }
+
 
 impl GetYamlResponse {
     #[allow(clippy::new_without_default)]
@@ -616,7 +623,7 @@ impl std::string::ToString for GetYamlResponse {
         let params: Vec<Option<String>> = vec![
 
             self.value.as_ref().map(|value| {
-                vec![
+                [
                     "value".to_string(),
                     value.to_string(),
                 ].join(",")
@@ -714,7 +721,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 
 
 /// An object of objects
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjects {
     #[serde(rename = "inner")]
@@ -722,6 +729,7 @@ pub struct ObjectOfObjects {
     pub inner: Option<models::ObjectOfObjectsInner>,
 
 }
+
 
 impl ObjectOfObjects {
     #[allow(clippy::new_without_default)]
@@ -831,7 +839,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
-#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct ObjectOfObjectsInner {
     #[serde(rename = "required_thing")]
@@ -839,9 +847,10 @@ pub struct ObjectOfObjectsInner {
 
     #[serde(rename = "optional_thing")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub optional_thing: Option<isize>,
+    pub optional_thing: Option<i32>,
 
 }
+
 
 impl ObjectOfObjectsInner {
     #[allow(clippy::new_without_default)]
@@ -865,7 +874,7 @@ impl std::string::ToString for ObjectOfObjectsInner {
 
 
             self.optional_thing.as_ref().map(|optional_thing| {
-                vec![
+                [
                     "optional_thing".to_string(),
                     optional_thing.to_string(),
                 ].join(",")
@@ -889,7 +898,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_thing: Vec<String>,
-            pub optional_thing: Vec<isize>,
+            pub optional_thing: Vec<i32>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -910,7 +919,7 @@ impl std::str::FromStr for ObjectOfObjectsInner {
                     #[allow(clippy::redundant_clone)]
                     "required_thing" => intermediate_rep.required_thing.push(<String as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     #[allow(clippy::redundant_clone)]
-                    "optional_thing" => intermediate_rep.optional_thing.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
+                    "optional_thing" => intermediate_rep.optional_thing.push(<i32 as std::str::FromStr>::from_str(val).map_err(|x| x.to_string())?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectOfObjectsInner".to_string())
                 }
             }

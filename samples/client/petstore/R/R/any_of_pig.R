@@ -61,37 +61,37 @@ AnyOfPig <- R6::R6Class(
     fromJSON = function(input) {
       error_messages <- list()
 
-      BasquePig_result <- tryCatch({
-          BasquePig$public_methods$validateJSON(input)
-          BasquePig_instance <- BasquePig$new()
-          self$actual_instance <- BasquePig_instance$fromJSON(input)
+      `BasquePig_result` <- tryCatch({
+          `BasquePig`$public_methods$validateJSON(input)
+          `BasquePig_instance` <- `BasquePig`$new()
+          self$actual_instance <- `BasquePig_instance`$fromJSON(input)
           self$actual_type <- "BasquePig"
           return(self)
         },
         error = function(err) err
       )
 
-      if (!is.null(BasquePig_result["error"])) {
-        error_messages <- append(error_messages, BasquePig_result["message"])
+      if (!is.null(`BasquePig_result`["error"])) {
+        error_messages <- append(error_messages, `BasquePig_result`["message"])
       }
 
-      DanishPig_result <- tryCatch({
-          DanishPig$public_methods$validateJSON(input)
-          DanishPig_instance <- DanishPig$new()
-          self$actual_instance <- DanishPig_instance$fromJSON(input)
+      `DanishPig_result` <- tryCatch({
+          `DanishPig`$public_methods$validateJSON(input)
+          `DanishPig_instance` <- `DanishPig`$new()
+          self$actual_instance <- `DanishPig_instance`$fromJSON(input)
           self$actual_type <- "DanishPig"
           return(self)
         },
         error = function(err) err
       )
 
-      if (!is.null(DanishPig_result["error"])) {
-        error_messages <- append(error_messages, DanishPig_result["message"])
+      if (!is.null(`DanishPig_result`["error"])) {
+        error_messages <- append(error_messages, `DanishPig_result`["message"])
       }
 
       # no match
-      stop(paste("No match found when deserializing the payload into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: ",
-                 paste(error_messages, collapse = ", ")))
+      stop(paste("No match found when deserializing the input into AnyOfPig with anyOf schemas BasquePig, DanishPig. Details: >>",
+                 paste(error_messages, collapse = " >> ")))
     },
     #' Serialize AnyOfPig to JSON string.
     #'
@@ -174,7 +174,7 @@ AnyOfPig <- R6::R6Class(
 ## Uncomment below to unlock the class to allow modifications of the method or field
 #AnyOfPig$unlock()
 #
-## Below is an example to define the print fnuction
+## Below is an example to define the print function
 #AnyOfPig$set("public", "print", function(...) {
 #  print(jsonlite::prettify(self$toJSONString()))
 #  invisible(self)

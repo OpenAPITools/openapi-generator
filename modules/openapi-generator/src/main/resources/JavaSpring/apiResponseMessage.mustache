@@ -1,15 +1,10 @@
 package {{apiPackage}};
 
-{{#useJakartaEe}}
-import jakarta.annotation.Generated;
-{{/useJakartaEe}}
-{{^useJakartaEe}}
-import javax.annotation.Generated;
-{{/useJakartaEe}}
-import javax.xml.bind.annotation.XmlTransient;
+import {{javaxPackage}}.annotation.Generated;
+import {{javaxPackage}}.xml.bind.annotation.XmlTransient;
 
 {{>generatedAnnotation}}
-@javax.xml.bind.annotation.XmlRootElement
+@{{javaxPackage}}.xml.bind.annotation.XmlRootElement
 public class ApiResponseMessage {
     public static final int ERROR = 1;
     public static final int WARNING = 2;

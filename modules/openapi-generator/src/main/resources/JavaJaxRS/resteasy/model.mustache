@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.io.Serializable;
 {{/serializableModel}}
 {{#useBeanValidation}}
-import javax.validation.constraints.*;
+import {{javaxPackage}}.validation.constraints.*;
+import {{javaxPackage}}.validation.Valid;
 {{/useBeanValidation}}
 {{#models}}
 {{#model}}

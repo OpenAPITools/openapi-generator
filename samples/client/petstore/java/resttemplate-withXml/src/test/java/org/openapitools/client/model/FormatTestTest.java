@@ -16,18 +16,16 @@ package org.openapitools.client.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.UUID;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
 
 /**
  * Model tests for FormatTest
@@ -92,6 +90,14 @@ public class FormatTestTest {
     }
 
     /**
+     * Test the property 'decimal'
+     */
+    @Test
+    public void decimalTest() {
+        // TODO: test decimal
+    }
+
+    /**
      * Test the property 'string'
      */
     @Test
@@ -148,11 +154,19 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'bigDecimal'
+     * Test the property 'patternWithDigits'
      */
     @Test
-    public void bigDecimalTest() {
-        // TODO: test bigDecimal
+    public void patternWithDigitsTest() {
+        // TODO: test patternWithDigits
+    }
+
+    /**
+     * Test the property 'patternWithDigitsAndDelimiter'
+     */
+    @Test
+    public void patternWithDigitsAndDelimiterTest() {
+        // TODO: test patternWithDigitsAndDelimiter
     }
 
 }

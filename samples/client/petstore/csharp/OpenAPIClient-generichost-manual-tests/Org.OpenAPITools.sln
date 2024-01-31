@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenAPIClient-generichost-manual-tests", "OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj", "{B120BBFD-C287-4235-A7CC-2C5B37601EB1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.OpenAPITools", "..\OpenAPIClient-generichost-net6.0-nrt\src\Org.OpenAPITools\Org.OpenAPITools.csproj", "{C48E5ACD-1ACD-4084-843E-B29DFEE1779C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManualTests.Latest.UseSourceGeneration", "ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj", "{0CDF58C6-300E-4282-99AF-69A92FD6EAA5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UseSourceGeneration", "..\OpenAPIClient-generichost-net6.0-nrt-useSourceGeneration\src\UseSourceGeneration\UseSourceGeneration.csproj", "{39D8167C-2DF8-42E9-92F5-5DA59E7F281B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B120BBFD-C287-4235-A7CC-2C5B37601EB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B120BBFD-C287-4235-A7CC-2C5B37601EB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B120BBFD-C287-4235-A7CC-2C5B37601EB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B120BBFD-C287-4235-A7CC-2C5B37601EB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C48E5ACD-1ACD-4084-843E-B29DFEE1779C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C48E5ACD-1ACD-4084-843E-B29DFEE1779C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C48E5ACD-1ACD-4084-843E-B29DFEE1779C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C48E5ACD-1ACD-4084-843E-B29DFEE1779C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CDF58C6-300E-4282-99AF-69A92FD6EAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDF58C6-300E-4282-99AF-69A92FD6EAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDF58C6-300E-4282-99AF-69A92FD6EAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDF58C6-300E-4282-99AF-69A92FD6EAA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39D8167C-2DF8-42E9-92F5-5DA59E7F281B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39D8167C-2DF8-42E9-92F5-5DA59E7F281B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39D8167C-2DF8-42E9-92F5-5DA59E7F281B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39D8167C-2DF8-42E9-92F5-5DA59E7F281B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {74A8A1EC-3768-438B-A540-61CF231CE7C0}
+	EndGlobalSection
+EndGlobal

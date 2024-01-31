@@ -26,7 +26,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-@Component("org.openapitools.client.api.StoreApi")
 public class StoreApi {
     private ApiClient apiClient;
 
@@ -34,7 +33,6 @@ public class StoreApi {
         this(new ApiClient());
     }
 
-    @Autowired
     public StoreApi(ApiClient apiClient) {
         this.apiClient = apiClient;
     }
@@ -136,7 +134,7 @@ public class StoreApi {
     }
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -150,7 +148,7 @@ public class StoreApi {
 
     /**
      * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
@@ -192,12 +190,12 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return Order
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public Order placeOrder(Order body) throws RestClientException {
-        return placeOrderWithHttpInfo(body).getBody();
+    public Order placeOrder(Order order) throws RestClientException {
+        return placeOrderWithHttpInfo(order).getBody();
     }
 
     /**
@@ -205,16 +203,16 @@ public class StoreApi {
      * 
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid Order
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return ResponseEntity&lt;Order&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
-    public ResponseEntity<Order> placeOrderWithHttpInfo(Order body) throws RestClientException {
-        Object localVarPostBody = body;
+    public ResponseEntity<Order> placeOrderWithHttpInfo(Order order) throws RestClientException {
+        Object localVarPostBody = order;
         
-        // verify the required parameter 'body' is set
-        if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
+        // verify the required parameter 'order' is set
+        if (order == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'order' when calling placeOrder");
         }
         
 
@@ -227,7 +225,9 @@ public class StoreApi {
             "application/xml", "application/json"
          };
         final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        final String[] localVarContentTypes = {  };
+        final String[] localVarContentTypes = { 
+            "application/json"
+         };
         final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
         String[] localVarAuthNames = new String[] {  };

@@ -14,15 +14,13 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.Arrays;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 import com.google.gson.Gson;
@@ -35,12 +33,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import java.io.IOException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -102,7 +104,6 @@ public class User {
   }
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -112,12 +113,9 @@ public class User {
    * @return id
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public Long getId() {
     return id;
   }
-
 
   public void setId(Long id) {
     this.id = id;
@@ -125,7 +123,6 @@ public class User {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -135,12 +132,9 @@ public class User {
    * @return username
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getUsername() {
     return username;
   }
-
 
   public void setUsername(String username) {
     this.username = username;
@@ -148,7 +142,6 @@ public class User {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -158,12 +151,9 @@ public class User {
    * @return firstName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getFirstName() {
     return firstName;
   }
-
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
@@ -171,7 +161,6 @@ public class User {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -181,12 +170,9 @@ public class User {
    * @return lastName
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getLastName() {
     return lastName;
   }
-
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
@@ -194,7 +180,6 @@ public class User {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -204,12 +189,9 @@ public class User {
    * @return email
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getEmail() {
     return email;
   }
-
 
   public void setEmail(String email) {
     this.email = email;
@@ -217,7 +199,6 @@ public class User {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -227,12 +208,9 @@ public class User {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getPassword() {
     return password;
   }
-
 
   public void setPassword(String password) {
     this.password = password;
@@ -240,7 +218,6 @@ public class User {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -250,12 +227,9 @@ public class User {
    * @return phone
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-
   public String getPhone() {
     return phone;
   }
-
 
   public void setPhone(String phone) {
     this.phone = phone;
@@ -263,7 +237,6 @@ public class User {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -273,12 +246,9 @@ public class User {
    * @return userStatus
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "User Status")
-
   public Integer getUserStatus() {
     return userStatus;
   }
-
 
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
@@ -286,7 +256,6 @@ public class User {
 
 
   public User objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
-    
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
     return this;
   }
@@ -296,12 +265,9 @@ public class User {
    * @return objectWithNoDeclaredProps
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.")
-
   public Object getObjectWithNoDeclaredProps() {
     return objectWithNoDeclaredProps;
   }
-
 
   public void setObjectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
     this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
@@ -309,7 +275,6 @@ public class User {
 
 
   public User objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
-    
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
     return this;
   }
@@ -319,12 +284,9 @@ public class User {
    * @return objectWithNoDeclaredPropsNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.")
-
   public Object getObjectWithNoDeclaredPropsNullable() {
     return objectWithNoDeclaredPropsNullable;
   }
-
 
   public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
     this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
@@ -332,7 +294,6 @@ public class User {
 
 
   public User anyTypeProp(Object anyTypeProp) {
-    
     this.anyTypeProp = anyTypeProp;
     return this;
   }
@@ -342,12 +303,9 @@ public class User {
    * @return anyTypeProp
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
-
   public Object getAnyTypeProp() {
     return anyTypeProp;
   }
-
 
   public void setAnyTypeProp(Object anyTypeProp) {
     this.anyTypeProp = anyTypeProp;
@@ -355,7 +313,6 @@ public class User {
 
 
   public User anyTypePropNullable(Object anyTypePropNullable) {
-    
     this.anyTypePropNullable = anyTypePropNullable;
     return this;
   }
@@ -365,12 +322,9 @@ public class User {
    * @return anyTypePropNullable
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.")
-
   public Object getAnyTypePropNullable() {
     return anyTypePropNullable;
   }
-
 
   public void setAnyTypePropNullable(Object anyTypePropNullable) {
     this.anyTypePropNullable = anyTypePropNullable;
@@ -386,6 +340,10 @@ public class User {
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
+   *
+   * @param key name of the property
+   * @param value value of the property
+   * @return the User instance itself
    */
   public User putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
@@ -397,6 +355,8 @@ public class User {
 
   /**
    * Return the additional (undeclared) property.
+   *
+   * @return a map of objects
    */
   public Map<String, Object> getAdditionalProperties() {
     return additionalProperties;
@@ -404,6 +364,9 @@ public class User {
 
   /**
    * Return the additional (undeclared) property with the specified name.
+   *
+   * @param key name of the property
+   * @return an object
    */
   public Object getAdditionalProperty(String key) {
     if (this.additionalProperties == null) {
@@ -510,19 +473,18 @@ public class User {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to User
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to User
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (User.openapiRequiredFields.isEmpty()) {
-          return;
-        } else { // has required fields
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!User.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in User is not found in the empty JSON string", User.openapiRequiredFields.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       if ((jsonObj.get("username") != null && !jsonObj.get("username").isJsonNull()) && !jsonObj.get("username").isJsonPrimitive()) {
         throw new IllegalArgumentException(String.format("Expected the field `username` to be a primitive type in the JSON string but got `%s`", jsonObj.get("username").toString()));
       }
@@ -559,7 +521,7 @@ public class User {
            public void write(JsonWriter out, User value) throws IOException {
              JsonObject obj = thisAdapter.toJsonTree(value).getAsJsonObject();
              obj.remove("additionalProperties");
-             // serialize additonal properties
+             // serialize additional properties
              if (value.getAdditionalProperties() != null) {
                for (Map.Entry<String, Object> entry : value.getAdditionalProperties().entrySet()) {
                  if (entry.getValue() instanceof String)
@@ -580,8 +542,9 @@ public class User {
 
            @Override
            public User read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             JsonObject jsonObj = jsonElement.getAsJsonObject();
              // store additional fields in the deserialized instance
              User instance = thisAdapter.fromJsonTree(jsonObj);
              for (Map.Entry<String, JsonElement> entry : jsonObj.entrySet()) {
@@ -595,8 +558,10 @@ public class User {
                      instance.putAdditionalProperty(entry.getKey(), entry.getValue().getAsBoolean());
                    else
                      throw new IllegalArgumentException(String.format("The field `%s` has unknown primitive type. Value: %s", entry.getKey(), entry.getValue().toString()));
-                 } else { // non-primitive type
-                   instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
+                 } else if (entry.getValue().isJsonArray()) {
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), List.class));
+                 } else { // JSON object
+                     instance.putAdditionalProperty(entry.getKey(), gson.fromJson(entry.getValue(), HashMap.class));
                  }
                }
              }

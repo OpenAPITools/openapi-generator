@@ -74,7 +74,7 @@ export class StoreApi extends BaseAPI {
     };
 
     /**
-     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
      * Find purchase order by ID
      */
     getOrderById({ orderId }: GetOrderByIdRequest): Observable<Order>

@@ -23,7 +23,7 @@ components:
           nullable: true
           items:
             type: string
-    BodyWithRequiredNullalble:
+    BodyWithRequiredNullable:
       type: object
       required:
       - arrayThatIsNull

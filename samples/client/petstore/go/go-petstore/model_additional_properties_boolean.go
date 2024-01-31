@@ -14,10 +14,16 @@ import (
 	"encoding/json"
 )
 
+// checks if the AdditionalPropertiesBoolean type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AdditionalPropertiesBoolean{}
+
 // AdditionalPropertiesBoolean struct for AdditionalPropertiesBoolean
 type AdditionalPropertiesBoolean struct {
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AdditionalPropertiesBoolean AdditionalPropertiesBoolean
 
 // NewAdditionalPropertiesBoolean instantiates a new AdditionalPropertiesBoolean object
 // This constructor will assign default values to properties that have it defined,
@@ -38,7 +44,7 @@ func NewAdditionalPropertiesBooleanWithDefaults() *AdditionalPropertiesBoolean {
 
 // GetName returns the Name field value if set, zero value otherwise.
 func (o *AdditionalPropertiesBoolean) GetName() string {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		var ret string
 		return ret
 	}
@@ -48,7 +54,7 @@ func (o *AdditionalPropertiesBoolean) GetName() string {
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AdditionalPropertiesBoolean) GetNameOk() (*string, bool) {
-	if o == nil || o.Name == nil {
+	if o == nil || IsNil(o.Name) {
 		return nil, false
 	}
 	return o.Name, true
@@ -56,7 +62,7 @@ func (o *AdditionalPropertiesBoolean) GetNameOk() (*string, bool) {
 
 // HasName returns a boolean if a field has been set.
 func (o *AdditionalPropertiesBoolean) HasName() bool {
-	if o != nil && o.Name != nil {
+	if o != nil && !IsNil(o.Name) {
 		return true
 	}
 
@@ -69,11 +75,45 @@ func (o *AdditionalPropertiesBoolean) SetName(v string) {
 }
 
 func (o AdditionalPropertiesBoolean) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
 	return json.Marshal(toSerialize)
+}
+
+func (o AdditionalPropertiesBoolean) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.Name) {
+		toSerialize["name"] = o.Name
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return toSerialize, nil
+}
+
+func (o *AdditionalPropertiesBoolean) UnmarshalJSON(data []byte) (err error) {
+	varAdditionalPropertiesBoolean := _AdditionalPropertiesBoolean{}
+
+	err = json.Unmarshal(data, &varAdditionalPropertiesBoolean)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AdditionalPropertiesBoolean(varAdditionalPropertiesBoolean)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAdditionalPropertiesBoolean struct {

@@ -17,7 +17,7 @@
 namespace {{modelNamespace}}
 {
 
-struct {{classname}}
+struct {{declspec}} {{classname}}
 {
     {{#isEnum}}{{#allowableValues}}
     enum e{{classname}} {
@@ -59,8 +59,8 @@ struct {{classname}}
     static {{classname}} from_json(const nlohmann::json& j);
 };
 
-void to_json(nlohmann::json& j, const {{classname}}& o);
-void from_json(const nlohmann::json& j, {{classname}}& o);
+{{declspec}} void to_json(nlohmann::json& j, const {{classname}}& o);
+{{declspec}} void from_json(const nlohmann::json& j, {{classname}}& o);
 
 
 } // namespace {{modelNamespace}}

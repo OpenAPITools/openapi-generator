@@ -1,9 +1,10 @@
     # Call an API with given options.
     #
     # @return [Array<(Object, Integer, Hash)>] an array of 3 elements:
-    #   the data deserialized from response body (could be nil), response status code and response headers.
+    #   the data deserialized from response body (may be a Tempfile or nil), response status code and response headers.
     def call_api(http_method, path, opts = {})
       request = build_request(http_method, path, opts)
+      tempfile = download_file(request) if opts[:return_type] == 'File'
       response = request.run
 
       if @config.debugging
@@ -25,7 +26,9 @@
         end
       end
 
-      if opts[:return_type]
+      if opts[:return_type] == 'File'
+        data = tempfile
+      elsif opts[:return_type]
         data = deserialize(response, opts[:return_type])
       else
         data = nil
@@ -83,9 +86,7 @@
         end
       end
 
-      request = Typhoeus::Request.new(url, req_opts)
-      download_file(request) if opts[:return_type] == 'File'
-      request
+      Typhoeus::Request.new(url, req_opts)
     end
 
     # Builds the HTTP request body
@@ -123,6 +124,8 @@
     # process can use.
     #
     # @see Configuration#temp_folder_path
+    #
+    # @return [Tempfile] the tempfile generated
     def download_file(request)
       tempfile = nil
       encoding = nil
@@ -137,19 +140,22 @@
         prefix = prefix + '-' unless prefix.end_with?('-')
         encoding = response.body.encoding
         tempfile = Tempfile.open(prefix, @config.temp_folder_path, encoding: encoding)
-        @tempfile = tempfile
       end
       request.on_body do |chunk|
         chunk.force_encoding(encoding)
         tempfile.write(chunk)
       end
-      request.on_complete do |response|
-        if tempfile
-          tempfile.close
-          @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
-                              "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
-                              "will be deleted automatically with GC. It's also recommended to delete the temp file "\
-                              "explicitly with `tempfile.delete`"
-        end
+      # run the request to ensure the tempfile is created successfully before returning it
+      request.run
+      if tempfile
+        tempfile.close
+        @config.logger.info "Temp file written to #{tempfile.path}, please copy the file to a proper folder "\
+                            "with e.g. `FileUtils.cp(tempfile.path, '/new/file/path')` otherwise the temp file "\
+                            "will be deleted automatically with GC. It's also recommended to delete the temp file "\
+                            "explicitly with `tempfile.delete`"
+      else
+        fail ApiError.new("Failed to create the tempfile based on the HTTP response from the server: #{request.inspect}") 
       end
+
+      tempfile
     end

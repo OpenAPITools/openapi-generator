@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import java.time.OffsetDateTime;
 import apimodels.User;
 
@@ -24,6 +23,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 
 @SuppressWarnings("RedundantThrows")
 public abstract class UserApiControllerImpInterface {
@@ -46,7 +46,7 @@ public abstract class UserApiControllerImpInterface {
 
     public abstract void createUser(Http.Request request, User body) throws Exception;
 
-    public CompletionStage<Result> createUsersWithArrayInputHttp(Http.Request request, List<User> body) throws Exception {
+    public CompletionStage<Result> createUsersWithArrayInputHttp(Http.Request request, List<@Valid User> body) throws Exception {
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
             createUsersWithArrayInput(request, body);
@@ -59,9 +59,9 @@ public abstract class UserApiControllerImpInterface {
 
     }
 
-    public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception;
+    public abstract void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception;
 
-    public CompletionStage<Result> createUsersWithListInputHttp(Http.Request request, List<User> body) throws Exception {
+    public CompletionStage<Result> createUsersWithListInputHttp(Http.Request request, List<@Valid User> body) throws Exception {
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {
         try {
             createUsersWithListInput(request, body);
@@ -74,7 +74,7 @@ public abstract class UserApiControllerImpInterface {
 
     }
 
-    public abstract void createUsersWithListInput(Http.Request request, List<User> body) throws Exception;
+    public abstract void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception;
 
     public CompletionStage<Result> deleteUserHttp(Http.Request request, String username) throws Exception {
         CompletableFuture<Result> result = CompletableFuture.supplyAsync(() -> {

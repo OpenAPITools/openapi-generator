@@ -19,6 +19,8 @@
 #define StoreApi_H_
 
 
+#include "ApiBase.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -33,11 +35,11 @@
 namespace org::openapitools::server::api
 {
 
-class  StoreApi {
+class  StoreApi : public ApiBase {
 public:
     explicit StoreApi(const std::shared_ptr<Pistache::Rest::Router>& rtr);
-    virtual ~StoreApi() = default;
-    void init();
+    ~StoreApi() override = default;
+    void init() override;
 
     static const std::string base;
 
@@ -49,8 +51,6 @@ private:
     void get_order_by_id_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void place_order_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
     void store_api_default_handler(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter response);
-
-    const std::shared_ptr<Pistache::Rest::Router> router;
 
     /// <summary>
     /// Helper function to handle unexpected Exceptions during Parameter parsing and validation.
@@ -85,7 +85,7 @@ private:
     /// Find purchase order by ID
     /// </summary>
     /// <remarks>
-    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generate exceptions
     /// </remarks>
     /// <param name="orderId">ID of pet that needs to be fetched</param>
     virtual void get_order_by_id(const int64_t &orderId, Pistache::Http::ResponseWriter &response) = 0;

@@ -25,7 +25,7 @@ library(petstore)
 # Add a new pet to the store (optional body)
 #
 # prepare function argument(s)
-var_pet <- Pet$new("name_example", list("photoUrls_example"), 123, Category$new(123, "name_example"), list(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
+var_pet <- Pet$new("name_example", c("photoUrls_example"), 123, Category$new(123, "name_example"), c(Tag$new(123, "name_example")), "available") # Pet | Pet object that needs to be added to the store (Optional)
 
 api_instance <- petstore_api$new()
 # Configure HTTP basic authorization: http_auth
@@ -153,7 +153,7 @@ library(petstore)
 # test array parameter in path
 #
 # prepare function argument(s)
-var_path_array <- list("inner_example") # array[character] | dummy path parameter
+var_path_array <- c("inner_example") # array[character] | dummy path parameter
 
 api_instance <- petstore_api$new()
 result <- tryCatch(
@@ -263,8 +263,8 @@ library(petstore)
 # test set query parameter
 #
 # prepare function argument(s)
-var_set_dummy <- list("inner_example") # set[character] | set query
-var_array_dummy <- list("inner_example") # array[character] | array query
+var_set_dummy <- c("inner_example") # set[character] | set query
+var_array_dummy <- c("inner_example") # array[character] | array query
 
 api_instance <- petstore_api$new()
 result <- tryCatch(

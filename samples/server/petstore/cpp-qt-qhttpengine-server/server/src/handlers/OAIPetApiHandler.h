@@ -17,6 +17,7 @@
 #include "OAIApiResponse.h"
 #include "OAIHttpFileElement.h"
 #include "OAIPet.h"
+#include <QList>
 #include <QString>
 
 namespace OpenAPI {
@@ -30,7 +31,7 @@ public:
     virtual ~OAIPetApiHandler();
 
 
-public slots:
+public Q_SLOTS:
     virtual void addPet(OAIPet body);
     virtual void deletePet(qint64 pet_id, QString api_key);
     virtual void findPetsByStatus(QList<QString> status);

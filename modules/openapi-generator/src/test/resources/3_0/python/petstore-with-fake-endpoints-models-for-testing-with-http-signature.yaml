@@ -338,7 +338,7 @@ paths:
       summary: Find purchase order by ID
       description: >-
         For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
+        will generate exceptions
       operationId: getOrderById
       parameters:
         - name: order_id
@@ -545,8 +545,8 @@ paths:
           schema:
             type: string
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
   /fake_classname_test:
@@ -651,10 +651,14 @@ paths:
               - 1.1
               - -1.2
       responses:
-        '400':
-          description: Invalid request
+        '200':
+          description: Success
         '404':
           description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
       requestBody:
         content:
           application/x-www-form-urlencoded:
@@ -693,8 +697,8 @@ paths:
         가짜 엔드 포인트
       operationId: EndpointParameters
       responses:
-        '400':
-          description: Invalid username supplied
+        '200':
+          description: Success
         '404':
           description: User not found
       security:
@@ -822,8 +826,8 @@ paths:
             type: integer
             format: int64
       responses:
-        '400':
-          description: Someting wrong
+        '200':
+          description: succeeded
   /fake/refs/number:
     post:
       tags:
@@ -1130,7 +1134,7 @@ paths:
     put:
       tags:
         - fake
-      description: Ensures that original naming is used in endpoint params, that way we on't have collisions
+      description: Ensures that original naming is used in endpoint params, that way we won't have collisions
       operationId: CaseSensitiveParams
       parameters:
         - name: someVar
@@ -1151,7 +1155,7 @@ paths:
       responses:
         "200":
           description: Success
-  /fake/test-query-paramters:
+  /fake/test-query-parameters:
     put:
       tags:
         - fake
@@ -1590,8 +1594,36 @@ paths:
       responses:
         '200':
           description: OK
+        '202':
+          description: header only
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              schema:
+                type: string
+                format: number
         default:
           description: Unexpected error
+  /fake/queryParamWithJsonContentType:
+    get:
+      operationId: queryParamWithJsonContentType
+      summary: query param with json content-type
+      tags:
+        - fake
+      parameters:
+        - name: someParam
+          in: query
+          description: The internal object id
+          required: true
+          content:
+            application/json:
+              schema: {}
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema: {}
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2012,6 +2044,16 @@ components:
         - (xyz)
         - COUNT_1M
         - COUNT_50M
+    ObjectModelWithArgAndArgsProperties:
+      type: object
+      properties:
+        arg:
+          type: string
+        args:
+          type: string
+      required:
+      - arg
+      - args
     Enum_Test:
       type: object
       required:
@@ -2769,8 +2811,8 @@ components:
     Player:
       type: object
       description: a model that includes a self reference this forces properties and additionalProperties
-                   to be lazy loaded in python models because the Player class has not fully loaded when defining
-                   properties
+        to be lazy loaded in python models because the Player class has not fully loaded when defining
+        properties
       properties:
         name:
           type: string
@@ -2942,3 +2984,33 @@ components:
           format: double
         float:
           format: float
+    FromSchema:
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+    ObjectWithInvalidNamedRefedProperties:
+      type: object
+      properties:
+        from:
+          $ref: "#/components/schemas/FromSchema"
+        "!reference":
+          $ref: "#/components/schemas/ArrayWithValidationsInItems"
+      required:
+        - from
+        - "!reference"
+    ObjectWithOptionalTestProp:
+      type: object
+      properties:
+        test:
+          type: string
+    ObjectWithAllOfWithReqTestPropFromUnsetAddProp:
+      allOf:
+        - $ref: '#/components/schemas/ObjectWithOptionalTestProp'
+        - type: object
+          required: [ test ]
+          properties:
+            name:
+              type: string

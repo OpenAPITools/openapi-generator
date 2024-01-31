@@ -87,6 +87,15 @@ export class Configuration {
             this.credentials = {};
         }
 
+        // init default petstore_auth credential
+        if (!this.credentials['petstore_auth']) {
+            this.credentials['petstore_auth'] = () => {
+                return typeof this.accessToken === 'function'
+                    ? this.accessToken()
+                    : this.accessToken;
+            };
+        }
+
         // init default api_key credential
         if (!this.credentials['api_key']) {
             this.credentials['api_key'] = () => {
@@ -95,15 +104,6 @@ export class Configuration {
                 } else {
                     return this.apiKeys['api_key'] || this.apiKeys['api_key'];
                 }
-            };
-        }
-
-        // init default petstore_auth credential
-        if (!this.credentials['petstore_auth']) {
-            this.credentials['petstore_auth'] = () => {
-                return typeof this.accessToken === 'function'
-                    ? this.accessToken()
-                    : this.accessToken;
             };
         }
     }
@@ -177,7 +177,7 @@ export class Configuration {
         //
         // But: if that's all you need (i.e.: the most common use-case): no need for customization!
 
-        const value = param.dataFormat === 'date-time'
+        const value = param.dataFormat === 'date-time' && param.value instanceof Date
             ? (param.value as Date).toISOString()
             : param.value;
 

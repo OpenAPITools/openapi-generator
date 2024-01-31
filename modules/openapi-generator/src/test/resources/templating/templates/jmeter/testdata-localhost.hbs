@@ -1,2 +1,2 @@
-testCase,httpStatusCode{{#each operations}}{{#each .}}{{#if hasParams}},{{/if}}{{#each allParams}}{{paramName}}{{#unless @last}},{{/unless}}{{/each}}{{/each}}{{/each}}
-Success,200{{#each operations}}{{#each .}}{{#if hasParams}},{{/if}}{{#each allParams}}0{{#unless @last}},{{/unless}}{{/each}}{{/each}}{{/each}}
+testCase,httpStatusCode{{#with operations}}{{#each operation}}{{#if hasParams}},{{/if}}{{#each allParams}}{{paramName}}{{#unless @last}},{{/unless}}{{/each}}{{/each}}{{/with}}
+Success,200{{#with operations}}{{#each operation}}{{#if hasParams}},{{/if}}{{#each allParams}}0{{#unless @last}},{{/unless}}{{/each}}{{/each}}{{/with}}

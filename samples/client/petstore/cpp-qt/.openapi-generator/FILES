@@ -1,5 +1,6 @@
 README.md
 client/CMakeLists.txt
+client/Config.cmake.in
 client/PFXApiResponse.cpp
 client/PFXApiResponse.h
 client/PFXCategory.cpp
