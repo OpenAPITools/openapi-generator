@@ -57,7 +57,7 @@ function Invoke-PSApiClient {
     }
 
     # accept, content-type headers
-    $Accept = SelectHeaders -Headers $Accepts
+    $Accept = SelectHeaders -Headers $Accepts -Multiple
     if ($Accept) {
         $HeaderParameters['Accept'] = $Accept
     }
@@ -198,24 +198,30 @@ function Invoke-PSApiClient {
     }
 }
 
-# Select JSON MIME if present, otherwise choose the first one if available
+# Select multiple types for Accept header
+# Select JSON MIME if present, otherwise choose the first one if available for Content-Type header
 function SelectHeaders {
     Param(
         [Parameter(Mandatory)]
         [AllowEmptyCollection()]
-        [String[]]$Headers
+        [String[]]$Headers,
+        [Parameter(Mandatory=$false)]
+        [switch]$Multiple
     )
-
-    foreach ($Header in $Headers) {
-        if (IsJsonMIME -MIME $Header) {
-            return $Header
-        }
-    }
 
     if (!($Headers) -or $Headers.Count -eq 0) {
         return $null
+    }
+
+    if ($Multiple) {
+        return [string]::Join(', ', $Headers) # join multiple types if they are provided
     } else {
-        return $Headers[0] # return the first one
+        foreach ($Header in $Headers) {
+            if (IsJsonMIME -MIME $Header) {
+                return $Header # return the first type matching a JSON MIME
+            }
+        }
+        return $Headers[0] # else return the first one
     }
 }
 
