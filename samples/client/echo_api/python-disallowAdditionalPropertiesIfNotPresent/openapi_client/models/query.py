@@ -38,7 +38,7 @@ class Query(BaseModel):
             return value
 
         for i in value:
-            if i not in ('SUCCESS', 'FAILURE', 'SKIPPED'):
+            if i not in set(['SUCCESS', 'FAILURE', 'SKIPPED']):
                 raise ValueError("each list item must be one of ('SUCCESS', 'FAILURE', 'SKIPPED')")
         return value
 

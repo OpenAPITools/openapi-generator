@@ -400,7 +400,7 @@ public class OpenAPINormalizerTest {
 
         Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         // verify schema for property id
-        Schema petSchema = (Schema)pet.getProperties().get("id");
+        Schema petSchema = (Schema) pet.getProperties().get("id");
         // both type and types are defined
         assertNotNull(petSchema.getType());
         assertNotNull(petSchema.getTypes());
@@ -428,5 +428,25 @@ public class OpenAPINormalizerTest {
         assertEquals(pathItem.getDelete().getParameters().size(), 1);
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getType());
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getTypes());
+    }
+
+    @Test
+    public void testRemoveXInternal() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+        Schema s = openAPI.getComponents().getSchemas().get("Dummy");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(s.getExtensions().get("x-internal"), true);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_X_INTERNAL", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema s2 = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), null);
+        assertEquals(s2.getExtensions().get("x-internal"), null);
     }
 }

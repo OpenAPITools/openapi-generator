@@ -2903,7 +2903,7 @@ namespace Org.OpenAPITools.Api
             }
             if (enumFormStringArray != null)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray)); // form parameter
             }
             if (enumFormString != null)
             {
@@ -3014,7 +3014,7 @@ namespace Org.OpenAPITools.Api
             }
             if (enumFormStringArray != null)
             {
-                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.ParameterToString(enumFormStringArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("enum_form_string_array", Org.OpenAPITools.Client.ClientUtils.Serialize(enumFormStringArray)); // form parameter
             }
             if (enumFormString != null)
             {

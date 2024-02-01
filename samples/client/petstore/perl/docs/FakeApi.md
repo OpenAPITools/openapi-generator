@@ -30,7 +30,6 @@ Method | HTTP request | Description
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 [**test_nullable**](FakeApi.md#test_nullable) | **POST** /fake/nullable | test nullable parent property
 [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
-[**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 
 
 # **fake_big_decimal_map**
@@ -1051,51 +1050,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **test_string_map_reference**
-> test_string_map_reference(request_body => $request_body)
-
-test referenced string map
-
-
-
-### Example
-```perl
-use Data::Dumper;
-use WWW::OpenAPIClient::FakeApi;
-my $api_instance = WWW::OpenAPIClient::FakeApi->new(
-);
-
-my $request_body = WWW::OpenAPIClient::Object::HASH[string,string]->new(); # HASH[string,string] | request body
-
-eval {
-    $api_instance->test_string_map_reference(request_body => $request_body);
-};
-if ($@) {
-    warn "Exception when calling FakeApi->test_string_map_reference: $@\n";
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **request_body** | [**HASH[string,string]**](string.md)| request body | 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
  - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
