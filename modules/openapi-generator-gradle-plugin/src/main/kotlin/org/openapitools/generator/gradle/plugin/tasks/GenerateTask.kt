@@ -308,6 +308,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val enumNameMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between the operation id name and the new name
+     */
+    @Optional
+    @Input
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     @Optional
@@ -869,6 +876,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (enumNameMappings.isPresent) {
                 enumNameMappings.get().forEach { entry ->
                     configurator.addEnumNameMapping(entry.key, entry.value)
+                }
+            }
+
+            if (operationIdNameMappings.isPresent) {
+                operationIdNameMappings.get().forEach { entry ->
+                    configurator.addOperationIdNameMapping(entry.key, entry.value)
                 }
             }
 

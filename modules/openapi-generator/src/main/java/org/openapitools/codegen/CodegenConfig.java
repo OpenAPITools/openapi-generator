@@ -158,6 +158,8 @@ public interface CodegenConfig {
 
     Map<String, String> enumNameMapping();
 
+    Map<String, String> operationIdNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
