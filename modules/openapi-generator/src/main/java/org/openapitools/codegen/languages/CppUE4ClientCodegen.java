@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.*; // to use DocumentationFeature 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -49,6 +50,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
     protected boolean optionalProjectFileFlag = true;
+    protected boolean generateReadme = false;
 
     public CppUE4ClientCodegen() {
         super();
@@ -59,6 +61,30 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
 
         // set the output folder here
         outputFolder = "generated-code/cpp-ue4";
+
+        //generate Readme doc and get the other feature from cpp codegen
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.MultiServer
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+        );
+        
 
         // set modelNamePrefix as default for cpp-ue4
         if ("".equals(modelNamePrefix)) {
@@ -100,6 +126,14 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                 "api-operations-source.mustache",   // the template to use
                 ".cpp");       // the extension for each file to write
 
+        modelDocTemplateFiles.put(
+                "model_doc.mustache",  // the template to use
+                ".md"); // the extension for each file to write
+        
+        apiDocTemplateFiles.put(
+                "api_doc.mustache", // the template to use
+                ".md"); // the extension for each file to write
+        
         /*
          * Template Location.  This is the location which templates will be read from.  The generator
          * will use the resource stream to attempt to read the templates.
@@ -239,6 +273,13 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             }
 
             importMapping.put("HttpFileInput", "#include \"" + modelNamePrefix + "Helpers.h\"");
+
+            if (additionalProperties.containsKey("generateReadme")) { // check if generateReadme parameter was used to enable/disable generation of index.md file
+                generateReadme = Boolean.parseBoolean(additionalProperties.get("generateReadme").toString());
+            }
+            if (generateReadme) { //if files were generated using generateReadme=true, then generate index.md
+                supportingFiles.add(new SupportingFile("README.mustache", "index.md"));
+            }
         }
     }
 
