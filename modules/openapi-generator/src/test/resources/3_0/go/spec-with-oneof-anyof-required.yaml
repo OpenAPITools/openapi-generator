@@ -1,0 +1,29 @@
+openapi: 3.0.0
+info:
+  title: Test
+  version: 1.0.0
+paths: {}
+components:
+  schemas:
+    NestedObject1:
+      required:
+        - field1
+      properties:
+        field1:
+          description: Specifies an action name to be used with the Android Intent class.
+          type: string
+    NestedObject2:
+      required:
+        - field2
+      properties:
+        field2:
+          description: Specifies an action name to be used with the Android Intent class.
+          type: string
+    Object:
+      oneOf:
+        - $ref: '#/components/schemas/NestedObject1'
+        - $ref: '#/components/schemas/NestedObject2'
+    Object2:
+      anyOf:
+        - $ref: '#/components/schemas/NestedObject1'
+        - $ref: '#/components/schemas/NestedObject2'
