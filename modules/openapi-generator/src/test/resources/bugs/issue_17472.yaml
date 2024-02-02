@@ -4,11 +4,11 @@ info:
   description: TEST 17472
   version: 1.0.0
 tags:
-  - listOfStrings
-  - listOfObjects
-  - listOfPatterns
-  - listOfQualifiedItem
-  - listOfUniqueItem
+  - name: listOfStrings
+  - name: listOfObjects
+  - name: listOfPatterns
+  - name: listOfQualifiedItem
+  - name: listOfUniqueItem
 paths:
   /testListOfStrings:
     post:
@@ -95,12 +95,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListOfMyItem'
-    myResponses:
-      uniqueItems: true
-      type: array
-      default: [ ]
-      items:
-        $ref: '#/components/schemas/MyResponseItem'
+
 components:
   schemas:
     ListOfStrings:
