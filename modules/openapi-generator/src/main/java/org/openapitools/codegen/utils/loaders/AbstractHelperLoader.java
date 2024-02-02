@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An abstract class used to load helpers included in JARs into the template engine
+ *
  * @param <THelperType> The type of helper class this loader should output
  */
 public abstract class AbstractHelperLoader<THelperType> {
@@ -34,9 +35,9 @@ public abstract class AbstractHelperLoader<THelperType> {
      * An abstract class used to load helpers included in JARs into the template engine
      *
      * @param helperTypeClass The type of helper class to look for in the JAR. This could be Mustache.Lambda for example
-     * @param jar The JAR to look for helpers in
+     * @param jar             The JAR to look for helpers in
      * @throws IllegalArgumentException A helper class type or JAR path were not specified
-     * @throws FileNotFoundException The given JAR does not exist
+     * @throws FileNotFoundException    The given JAR does not exist
      */
     protected AbstractHelperLoader(Class<THelperType> helperTypeClass, File jar) throws IllegalArgumentException, FileNotFoundException {
         if (helperTypeClass == null) {
@@ -111,8 +112,9 @@ public abstract class AbstractHelperLoader<THelperType> {
 
     /**
      * Tests whether the given class JarEntry is a helper and returns an instance of it if it is
+     *
      * @param loader The class loader to use for instantiating the helper
-     * @param entry The class entry to test and construct
+     * @param entry  The class entry to test and construct
      * @return A new instance of THelperType if the entry is suitable, null otherwise
      */
     @SuppressWarnings("unchecked")

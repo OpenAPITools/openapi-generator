@@ -126,7 +126,8 @@ public class DefaultGenerator implements Generator {
         } else {
             TemplatingEngineAdapter templatingEngine = this.config.getTemplatingEngine();
 
-			this.loadCustomHelpers(templatingEngine);
+            // Load custom helpers if an external JAR was given via props
+            this.loadCustomHelpers(templatingEngine);
 
             if (templatingEngine instanceof MustacheEngineAdapter) {
                 MustacheEngineAdapter mustacheEngineAdapter = (MustacheEngineAdapter) templatingEngine;

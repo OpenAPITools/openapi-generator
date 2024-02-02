@@ -118,5 +118,5 @@ public interface TemplatingEngineAdapter {
      * @param helpersJar The JAR to load helpers from
      * @throws IOException Helpers could not be loaded from the given JAR
      */
-	void useCustomHelpersFile(File helpersJar) throws IOException;
+    void useCustomHelpersFile(File helpersJar) throws IOException;
 }

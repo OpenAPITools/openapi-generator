@@ -36,7 +36,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
 
     private final Logger LOGGER = LoggerFactory.getLogger(TemplatingEngineAdapter.class);
 
-	private Map<String, Mustache.Lambda> _helpers = new HashMap<>();
+    private Map<String, Mustache.Lambda> _helpers = new HashMap<>();
 
     /**
      * Provides an identifier used to load the adapter. This could be a name, uuid, or any other string.
