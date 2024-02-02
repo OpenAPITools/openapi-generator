@@ -142,6 +142,13 @@ export class {{classname}} {
         }
 
 {{/isBasicBasic}}
+{{#isBasicBearer}}
+        if (typeof this.configuration.accessToken === 'function') {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken()}`;
+        } else if (this.configuration.accessToken) {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken}`;
+        }
+{{/isBasicBearer}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'
