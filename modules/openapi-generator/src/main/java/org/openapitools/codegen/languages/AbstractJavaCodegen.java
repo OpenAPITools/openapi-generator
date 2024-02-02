@@ -962,7 +962,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.getTypeDeclaration(target);
     }
 
-    private  String getTypeDeclarationForArray(Schema<?> items) {
+    private String getTypeDeclarationForArray(Schema<?> items) {
         String typeDeclaration = getTypeDeclaration(items);
         if (internalSkipValidation) {
             return typeDeclaration;

@@ -7,6 +7,8 @@ tags:
   - listOfStrings
   - listOfObjects
   - listOfPatterns
+  - listOfQualifiedItem
+  - listOfUniqueItem
 paths:
   /testListOfStrings:
     post:
@@ -59,6 +61,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListOfPatterns'
+  /testListOfUniqueItems:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfUniqueItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfUniqueItem'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfUniqueItem'
   /testListQualifiedItem:
     post:
       description: test list of string in argument and response
@@ -76,6 +95,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListOfMyItem'
+    myResponses:
+      uniqueItems: true
+      type: array
+      default: [ ]
+      items:
+        $ref: '#/components/schemas/MyResponseItem'
 components:
   schemas:
     ListOfStrings:
@@ -110,3 +135,9 @@ components:
       properties:
         data:
           type: string
+    ListOfUniqueItem:
+      uniqueItems: true
+      type: array
+      default: []
+      items:
+        $ref: '#/components/schemas/MyItem'

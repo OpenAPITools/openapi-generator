@@ -419,6 +419,7 @@ public class JavaValidationArrayPrimitivesTest {
             {Collections.emptyMap(), "@Valid MyItem" },
             { Map.of("array", "List"), "@Valid MyItem" },
             { Map.of("array", "Set"), "@Valid MyItem" },
+            { Collections.emptyMap(), "@Valid MyItem" },
             { Map.of( "MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
             { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
         };
@@ -471,5 +472,13 @@ public class JavaValidationArrayPrimitivesTest {
             .fileContains(
                 "ResponseEntity<" + arrayMapping + "<" + myItem + ">>",
                 arrayMapping + "<"+ expectedMyItemArgument + ">");
+
+        if (!typeMappings.containsKey("array")) {
+            // the mapping to Set is done automatically with uniqueItems: true
+            JavaFileAssert.assertThat(files.get("ListOfUniqueItemApi.java"))
+                .fileContains(
+                    "ResponseEntity<Set<" + myItem + ">>",
+                    "Set<" + expectedMyItemArgument + "> ");
+        }
     }
 }
