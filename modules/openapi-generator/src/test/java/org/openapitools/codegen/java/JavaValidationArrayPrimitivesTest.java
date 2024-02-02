@@ -19,6 +19,9 @@ package org.openapitools.codegen.java;
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.util.Collections;
+import java.util.List;
+import javax.validation.Valid;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultGenerator;
@@ -412,25 +415,29 @@ public class JavaValidationArrayPrimitivesTest {
 
     @DataProvider(name = "typeMappings")
     public Object[] typeMappings(){
-        return new String[]{
-            "List",
-            "Set"
+        return new Object[][]{
+            {Collections.emptyMap(), "@Valid MyItem" },
+            { Map.of("array", "List"), "@Valid MyItem" },
+            { Map.of("array", "Set"), "@Valid MyItem" },
+            { Map.of( "MyItem", "com.mycompany.MyItem"), "com.mycompany.@Valid MyItem"},
+            { Map.of( "MyItem", "com.mycompany.MyContainer<java.lang.String>"), "com.mycompany.@Valid MyContainer<java.lang.String>"}
         };
     };
 
     @Test(dataProvider = "typeMappings")
-    public void shouldNotAddAnnotationForReturnType(String typeMapping) throws IOException {
+    public void shouldNotAddAnnotationForReturnType(Map<String,String> typeMappings, String expectedMyItemArgument) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final OpenAPI openAPI = new OpenAPIParser()
             .readLocation("src/test/resources/bugs/issue_17472.yaml", null, new ParseOptions()).getOpenAPI();
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.setUseTags(true);codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setUseTags(true);
+        codegen.setOutputDir(output.getAbsolutePath());
         codegen.setOpenAPI(openAPI);
         final GeneratorSettings generatorSettings = GeneratorSettings.newBuilder()
-            .withTypeMappings(Map.of("array", typeMapping))
-                .build();
+            .withTypeMappings(typeMappings)
+            .build();
         ClientOptInput input = new ClientOptInput();
         input.generatorSettings(generatorSettings);
         input.openAPI(openAPI);
@@ -439,23 +446,30 @@ public class JavaValidationArrayPrimitivesTest {
         Map<String, File> files = generator.opts(input).generate().stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
 
+        String arrayMapping= typeMappings.getOrDefault("array", "List");
         // @Valid@Size(min = 5) is not nice, but not related to this fix
         // adding a space would probably break many other tests
         JavaFileAssert.assertThat(files.get("ListOfPatternsApi.java"))
-            .fileContains("ResponseEntity<" + typeMapping + "<String>>",
-                typeMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
+            .fileContains("ResponseEntity<" + arrayMapping + "<String>>",
+                arrayMapping + "<@Pattern(regexp = \"([a-z]+)\")String> requestBody")
             .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfStringsApi.java"))
             .fileContains(
-                "ResponseEntity<" + typeMapping + "<String>>",
-                typeMapping + "<@Size(min = 2, max = 2)String> requestBody")
+                "ResponseEntity<" + arrayMapping + "<String>>",
+                arrayMapping + "<@Size(min = 2, max = 2)String> requestBody")
             .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
 
         JavaFileAssert.assertThat(files.get("ListOfObjectsApi.java"))
             .fileContains(
-                "ResponseEntity<" + typeMapping + "<ListOfObjectsInner>>",
-                typeMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
+                "ResponseEntity<" + arrayMapping + "<ListOfObjectsInner>>",
+                arrayMapping + "<@Valid ListOfObjectsInner> listOfObjectsInner")
             .fileContainsPattern("@Valid\\s*@Size\\(min = 5\\)\\s*@RequestBody");
+
+        String myItem = typeMappings.getOrDefault("MyItem", "MyItem");
+        JavaFileAssert.assertThat(files.get("ListOfQualifiedItemApi.java"))
+            .fileContains(
+                "ResponseEntity<" + arrayMapping + "<" + myItem + ">>",
+                arrayMapping + "<"+ expectedMyItemArgument + ">");
     }
 }

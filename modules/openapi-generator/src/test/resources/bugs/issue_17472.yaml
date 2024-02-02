@@ -59,6 +59,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListOfPatterns'
+  /testListQualifiedItem:
+    post:
+      description: test list of string in argument and response
+      tags:
+        - listOfQualifiedItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOfMyItem'
+      responses:
+        200:
+          description: 'response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfMyItem'
 components:
   schemas:
     ListOfStrings:
@@ -84,3 +101,12 @@ components:
       items:
         pattern: '([a-z]+)'
         type: string
+    ListOfMyItem:
+      type: array
+      items:
+        $ref: '#/components/schemas/MyItem'
+    MyItem:
+      type: object
+      properties:
+        data:
+          type: string
