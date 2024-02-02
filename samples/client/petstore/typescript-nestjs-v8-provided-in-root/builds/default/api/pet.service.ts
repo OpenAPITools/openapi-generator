@@ -256,7 +256,7 @@ export class PetService {
         let headers = {...this.defaultHeaders};
 
         // authentication (api_key) required
-        if (this.configuration.apiKeys["api_key"]) {
+        if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
         }
 
