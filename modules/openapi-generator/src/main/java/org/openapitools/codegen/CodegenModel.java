@@ -387,7 +387,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * The allowed discriminator mapping value for the Dog schema is 'Dog'.
      * The allowed discriminator mapping value for the Cat schema is 'Dog'.
      *
-     * Openapi 3.0.x syntax:
      * Pet:
      *   type: object
      *   discriminator:
@@ -396,7 +395,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *     - objectType
      *   properties:
      *     objectType:
-     *       type: string
+     *     type: string
      * Dog:
      *   allOf:
      *   - $ref: '#/components/schemas/Pet'
@@ -420,8 +419,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && (!discriminator.getMappedModels().isEmpty()) || this.vendorExtensions.containsKey("x-discriminator-value")) {
-            // avoid generating @JSonTypeName in child classes
+        if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }
     }
