@@ -111,7 +111,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.user.map(UserToJSON),
+            body: Array.from(requestParameters.user).map(UserToJSON),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -145,7 +145,7 @@ export class UserApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.user.map(UserToJSON),
+            body: Array.from(requestParameters.user).map(UserToJSON),
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);

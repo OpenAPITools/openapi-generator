@@ -467,7 +467,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.newRegions,
+            body: Array.from(requestParameters.newRegions),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => PetRegionsResponseFromJSON(jsonValue));
