@@ -72,6 +72,7 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.java.assertions.TypeAnnotationAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
@@ -4396,6 +4397,91 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    /**
+     *
+     * test the generation of @JsonSubTypes and @JsonTypeNames for different combinations of
+     * <ul>
+     *   <li>swagger 2</li>
+     *   <ul>
+     *    <li>with x-discriminator-value</li>
+     *    <li>without x-discriminator-value</li>
+     *   </ul>
+     *  <li>openapi 3</li>
+     *   <ul>
+     *    <li>with discriminator mapping</li>
+     *    <li>without mapping</li>
+     *   </ul>
+     *  <li>model name</li>
+     *   <ul>
+     *    <li>matching the class name (Cat - Cat.class)</li>
+     *    <li>not matching (cat vs CatDto.class or dog vs Dog.class)</li>
+     *   </ul>
+     * </ul>
+     *
+     */
+    @DataProvider(name = "discriminator17343")
+    static Object[] discriminator17343() {
+        return new Object[][]{
+            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog" },
+            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG" },
+            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG" },
+            { "Dto", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog" },
+            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog" },
+            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG" },
+            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG" },
+            { "", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog" },
+        };
+    }
+    @Test(dataProvider = "discriminator17343")
+    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile, String expectedCatAnnotation, String expectedDogAnnotation) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/" + testFile);
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setLegacyDiscriminatorBehavior(false);
+        codegen.setModelNameSuffix(modelNameSuffix);
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String petClass = "Pet" + modelNameSuffix;
+        String expectedJsonSubTypesTypeAnnotation = String.format("{ @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
+            modelNameSuffix, expectedCatAnnotation,modelNameSuffix, expectedDogAnnotation);
+        JavaFileAssert.assertThat(files.get(petClass + ".java"))
+            .assertTypeAnnotations()
+            .containsWithNameAndAttributes(
+                "JsonSubTypes", Map.of("value", expectedJsonSubTypesTypeAnnotation));
+
+        expectJsonTypeNameAnnotation(files.get( "Dog" + modelNameSuffix + ".java"), petClass, expectedDogAnnotation);
+        expectJsonTypeNameAnnotation(files.get("Cat" + modelNameSuffix + ".java"), petClass, expectedCatAnnotation);
+    }
+
+    private void expectJsonTypeNameAnnotation(File file, String expectedExtends, String expectedJsonAnnotation) {
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(file)
+            .fileContains(" extends " + expectedExtends);
+        TypeAnnotationAssert dogAnnotation = javaFileAssert.assertTypeAnnotations();
+        if (expectedJsonAnnotation == null) {
+            dogAnnotation.doesNotContainsWithName("JsonTypeName");
+        } else {
+            try {
+                // either the annotation is not present. It works with the @JsonSubTypes.Type in the parent class
+                dogAnnotation.doesNotContainsWithName("JsonTypeName");
+            } catch (AssertionError e) {
+                // if the annotation is present, it should be correct
+                dogAnnotation.containsWithNameAndAttributes("JsonTypeName",
+                    Map.of("value", "\"" + expectedJsonAnnotation + "\""));
+            }
+        }
     }
 
     @Test
