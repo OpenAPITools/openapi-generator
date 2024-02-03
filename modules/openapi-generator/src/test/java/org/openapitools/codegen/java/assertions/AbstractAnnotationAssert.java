@@ -35,6 +35,13 @@ public abstract class AbstractAnnotationAssert<ACTUAL extends AbstractAnnotation
         return myself();
     }
 
+//    public ACTUAL containsWithNameAndValue(final String name, final String value) {
+//        super
+//            .withFailMessage("Should have annotation with name: " + name + " and value: " + value)
+//            .anyMatch(annotation -> annotation.getNameAsString().equals(name) && annotation.getN);
+//        return myself();
+//    }
+
     public ACTUAL doesNotContainsWithName(final String name) {
         super
             .withFailMessage("Shouldn't have annotation with name: " + name)
