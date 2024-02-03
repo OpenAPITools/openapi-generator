@@ -129,8 +129,9 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
      */
     private void insertCustomHelpersToContext(Map<String, Object> context) {
         for (var entry : this._helpers.entrySet()) {
-            if (context.putIfAbsent(entry.getKey(), entry.getValue()) != null) {
-                throw new IllegalStateException("The Mustache context already has a definition for '" + entry.getKey() + "'");
+            Object existingValue = context.putIfAbsent(entry.getKey(), entry.getValue());
+            if (existingValue != null && !(existingValue instanceof Mustache.Lambda)) {
+                throw new IllegalStateException("The Mustache context already has a definition for '" + entry.getKey() + "' that is not a Mustache.Lambda");
             }
             LOGGER.debug("Registered helper '{}' ({})", entry.getKey(), entry.getValue().getClass().getCanonicalName());
         }

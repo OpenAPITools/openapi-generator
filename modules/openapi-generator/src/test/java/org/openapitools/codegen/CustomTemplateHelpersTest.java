@@ -58,6 +58,75 @@ public class CustomTemplateHelpersTest {
     }
 
     @Test
+    public void testShouldNotThrowOnMustacheContextReuse() throws IOException {
+        final Path baseTestDir = Files.createTempDirectory("test");
+
+        String jarPath = assertCompileFileToJar(
+                baseTestDir,
+                Array.of(
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintSuccessHelper.java"),
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintOkHelper.java")
+                )
+        );
+
+        final String outputDir = Path.of(baseTestDir.toAbsolutePath().toString(), "generated").toAbsolutePath().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setTemplatingEngineName("mustache")
+                .addAdditionalProperty(CodegenConstants.TEMPLATE_ENGINE_HELPERS, jarPath)
+                .setTemplateDir("src/test/resources/templating/templates/defaultgenerator/customhelpers/mustache/multihelpers")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(outputDir);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/PetApi.java");
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/StoreApi.java");
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/UserApi.java");
+
+        File petApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/PetApi.java");
+        File storeApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/StoreApi.java");
+        File userApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/UserApi.java");
+
+        Assert.assertTrue(petApiFile.exists());
+        Assert.assertTrue(storeApiFile.exists());
+        Assert.assertTrue(userApiFile.exists());
+
+        Assert.assertEquals(Files.readString(petApiFile.toPath()), "SUCCESS-OK");
+        Assert.assertEquals(Files.readString(storeApiFile.toPath()), "SUCCESS-OK");
+        Assert.assertEquals(Files.readString(userApiFile.toPath()), "SUCCESS-OK");
+    }
+
+    @Test
+    public void testShouldThrowOnMustacheContextReuseWhenNotAHelper() throws IOException {
+        final Path baseTestDir = Files.createTempDirectory("test");
+
+        String jarPath = assertCompileFileToJar(
+                baseTestDir,
+                Array.of(
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintSuccessHelper.java"),
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintOkHelper.java")
+                )
+        );
+
+        final String outputDir = Path.of(baseTestDir.toAbsolutePath().toString(), "generated").toAbsolutePath().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setTemplatingEngineName("mustache")
+                .addAdditionalProperty(CodegenConstants.TEMPLATE_ENGINE_HELPERS, jarPath)
+                .addAdditionalProperty("PrintOkHelper", "This should throw because it causes a conflict when adding helpers to the context")
+                .setTemplateDir("src/test/resources/templating/templates/defaultgenerator/customhelpers/mustache/multihelpers")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(outputDir);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        Assert.assertThrows(() -> {
+            generator.opts(configurator.toClientOptInput()).generate();
+        });
+    }
+
+    @Test
     public void testHandlebarsSingleCustomHelper() throws IOException {
         final Path baseTestDir = Files.createTempDirectory("test");
 
@@ -96,6 +165,47 @@ public class CustomTemplateHelpersTest {
         );
 
         assertCompilePetApiAndTestContent(baseTestDir, configurator, "SUCCESS-OK");
+    }
+
+    @Test
+    public void testShouldNotThrowOnHandlebarsContextReuse() throws IOException {
+        final Path baseTestDir = Files.createTempDirectory("test");
+
+        String jarPath = assertCompileFileToJar(
+                baseTestDir,
+                Array.of(
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintSuccessHelper.java"),
+                        new File("src/test/java/org/openapitools/codegen/customhelpers/mustache/PrintOkHelper.java")
+                )
+        );
+
+        final String outputDir = Path.of(baseTestDir.toAbsolutePath().toString(), "generated").toAbsolutePath().toString();
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setTemplatingEngineName("mustache")
+                .addAdditionalProperty(CodegenConstants.TEMPLATE_ENGINE_HELPERS, jarPath)
+                .setTemplateDir("src/test/resources/templating/templates/defaultgenerator/customhelpers/mustache/multihelpers")
+                .setInputSpec("src/test/resources/3_0/petstore.yaml")
+                .setOutputDir(outputDir);
+
+        final DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/PetApi.java");
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/StoreApi.java");
+        TestUtils.ensureContainsFile(files, new File(outputDir), "src/main/java/org/openapitools/client/api/UserApi.java");
+
+        File petApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/PetApi.java");
+        File storeApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/StoreApi.java");
+        File userApiFile = new File(outputDir, "src/main/java/org/openapitools/client/api/UserApi.java");
+
+        Assert.assertTrue(petApiFile.exists());
+        Assert.assertTrue(storeApiFile.exists());
+        Assert.assertTrue(userApiFile.exists());
+
+        Assert.assertEquals(Files.readString(petApiFile.toPath()), "SUCCESS-OK");
+        Assert.assertEquals(Files.readString(storeApiFile.toPath()), "SUCCESS-OK");
+        Assert.assertEquals(Files.readString(userApiFile.toPath()), "SUCCESS-OK");
     }
 
     private static String assertCompileFileToJar(Path baseTestDir, Iterable<File> inputJavaFiles) {
