@@ -29,26 +29,30 @@ type Route struct {
 
 // NewRouter returns a new router.
 func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
-	router := gin.Default()
-	for _, route := range getRoutes(handleFunctions) {
-		if route.HandlerFunc == nil {
-			route.HandlerFunc = DefaultHandleFunc
-		}
-		switch route.Method {
-		case http.MethodGet:
-			router.GET(route.Pattern, route.HandlerFunc)
-		case http.MethodPost:
-			router.POST(route.Pattern, route.HandlerFunc)
-		case http.MethodPut:
-			router.PUT(route.Pattern, route.HandlerFunc)
-		case http.MethodPatch:
-			router.PATCH(route.Pattern, route.HandlerFunc)
-		case http.MethodDelete:
-			router.DELETE(route.Pattern, route.HandlerFunc)
-		}
-	}
+	return NewRouterWithGinEngine(gin.Default(), handleFunctions)
+}
 
-	return router
+// NewRouter add routes to existing gin engine.
+func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandleFunctions) *gin.Engine {
+        for _, route := range getRoutes(handleFunctions) {
+            if route.HandlerFunc == nil {
+                route.HandlerFunc = DefaultHandleFunc
+            }
+            switch route.Method {
+            case http.MethodGet:
+                router.GET(route.Pattern, route.HandlerFunc)
+            case http.MethodPost:
+                router.POST(route.Pattern, route.HandlerFunc)
+            case http.MethodPut:
+                router.PUT(route.Pattern, route.HandlerFunc)
+            case http.MethodPatch:
+                router.PATCH(route.Pattern, route.HandlerFunc)
+            case http.MethodDelete:
+                router.DELETE(route.Pattern, route.HandlerFunc)
+            }
+        }
+
+        return router
 }
 
 // Default handler for not yet implemented routes
