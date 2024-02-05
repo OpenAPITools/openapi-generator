@@ -140,6 +140,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("set", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
+        typeMapping.put("AnyType", "object");
         typeMapping.put("binary", "string");
         typeMapping.put("file", "string");
         typeMapping.put("ByteArray", "string");
@@ -158,8 +159,8 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
-                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                        CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 
     }
@@ -201,6 +202,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("cpanfile.mustache", "", "cpanfile"));
     }
 
     @Override
@@ -699,9 +701,9 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
      * A custom version is made for this method to ensure that
      * property.format remains empty string
      *
-     * @param name name of the property
-     * @param p OAS property schema
-     * @param required true if the property is required in the next higher object schema, false otherwise
+     * @param name                             name of the property
+     * @param p                                OAS property schema
+     * @param required                         true if the property is required in the next higher object schema, false otherwise
      * @param schemaIsFromAdditionalProperties true if the property is defined by additional properties schema
      * @return Codegen Property object
      */
@@ -713,5 +715,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.PERL; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.PERL;
+    }
 }

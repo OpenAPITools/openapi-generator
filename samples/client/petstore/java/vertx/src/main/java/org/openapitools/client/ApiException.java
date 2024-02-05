@@ -19,6 +19,8 @@ import io.vertx.core.MultiMap;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     private int code = 0;
     private MultiMap responseHeaders = null;
     private String responseBody = null;

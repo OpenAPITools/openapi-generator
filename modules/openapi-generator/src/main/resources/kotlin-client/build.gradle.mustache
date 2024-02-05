@@ -210,6 +210,9 @@ dependencies {
     {{#kotlinx_serialization}}
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     {{/kotlinx_serialization}}
+    {{#jackson}}
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    {{/jackson}}
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     {{/jvm-retrofit2}}
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"

@@ -2,6 +2,7 @@
 
 # flake8: noqa
 
+from datetime import date
 import json
 import os
 import time
@@ -134,28 +135,36 @@ class ModelTests(unittest.TestCase):
         p = petstore_api.Color.from_json(None)
         self.assertEqual(p.actual_instance, None)
 
-    def test_oneof_enum_string(self):
-        enum_string1 = petstore_api.EnumString1('a')
+    def test_oneof_enum_string_from_json(self):
         # test from_json
         oneof_enum = petstore_api.OneOfEnumString.from_json('"a"')
+
+    def test_oneof_nested_from_enum_string(self):
         # test from_dict
         oneof_enum = petstore_api.OneOfEnumString.from_dict("a")
+        assert oneof_enum is not None
         nested = petstore_api.WithNestedOneOf(size = 1, nested_oneof_enum_string = oneof_enum)
         # test to_json
         self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "a"}')
-        # test from_json
+
+    def test_oneof_nested_from_json(self):
         nested = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "c"}')
+        assert nested is not None
         self.assertEqual(nested.to_json(), '{"size": 1, "nested_oneof_enum_string": "c"}')
-        # test from_dict
+
+    def test_oneof_nested_from_dict(self):
         nested = petstore_api.WithNestedOneOf.from_dict({"size": 1, "nested_oneof_enum_string": "c"})
+        assert nested is not None
         # test to_dict
         self.assertEqual(nested.to_dict(), {"size": 1, "nested_oneof_enum_string": "c"})
-        # invalid enum value
+
+    def test_oneof_nested_from_json_invalid(self):
         try:
             nested2 = petstore_api.WithNestedOneOf.from_json('{"size": 1, "nested_oneof_enum_string": "e"}')
         except ValueError as e:
             self.assertTrue("'e' is not a valid EnumString1, 'e' is not a valid EnumString" in str(e))
 
+    def test_oneof_enum_string(self):
         # test the constructor
         enum_string1 = petstore_api.EnumString1('a')
         constructor1 = petstore_api.OneOfEnumString(actual_instance=enum_string1)
@@ -276,6 +285,7 @@ class ModelTests(unittest.TestCase):
 
         nested_json = nested.to_json()
         nested2 = petstore_api.WithNestedOneOf.from_json(nested_json)
+        assert nested2 is not None
         self.assertEqual(nested2.to_json(), nested_json)
 
     def test_anyOf(self):
@@ -328,30 +338,30 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog.to_dict(), {'breed': 'bulldog', 'className':
             'dog', 'color': 'white'})
         dog2 = petstore_api.Dog.from_json(dog.to_json())
+        assert dog2 is not None
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
 
     def test_list(self):
         # should throw exception as var_123_list should be string
-        kw = {"123-list": 123}
         try:
-            l3 = petstore_api.ListClass(**kw)
+            # Don't check the typing, because we are actually testing a typing error.
+            l3 = petstore_api.ListClass(**{"123-list": 123})  # type: ignore
             self.assertTrue(False)  # this line shouldn't execute
-            breakpoint()
         except ValueError as e:
             #   var_123_list
             #     Input should be a valid string [type=string_type, input_value=123, input_type=int]
             #       For further information visit https://errors.pydantic.dev/2.3/v/string_type
             self.assertTrue("Input should be a valid string" in str(e))
 
-        kw = {"123-list": "bulldog"}
-        l = petstore_api.ListClass(**kw)
+        l = petstore_api.ListClass(**{"123-list": "bulldog"})  # type: ignore
         self.assertEqual(l.to_json(), '{"123-list": "bulldog"}')
         self.assertEqual(l.to_dict(), {'123-list': 'bulldog'})
-        l2 = petstore_api.ListClass.from_json(l.to_json())
-        self.assertEqual(l2.var_123_list, 'bulldog')
 
+        l2 = petstore_api.ListClass.from_json(l.to_json())
+        assert l2 is not None
+        self.assertEqual(l2.var_123_list, 'bulldog')
         self.assertTrue(isinstance(l2, petstore_api.ListClass))
 
     def test_enum_ref_property(self):
@@ -363,6 +373,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(d2.to_json(), '{"str_value": "delivered", "value": 1}')
         # test from_json (round trip)
         d3 = petstore_api.OuterObjectWithEnumProperty.from_json(d2.to_json())
+        assert d3 is not None
         self.assertEqual(d3.str_value, petstore_api.OuterEnum.DELIVERED)
         self.assertEqual(d3.value, petstore_api.OuterEnumInteger.NUMBER_1)
         self.assertEqual(d3.to_json(), '{"str_value": "delivered", "value": 1}')
@@ -376,7 +387,7 @@ class ModelTests(unittest.TestCase):
 
     def test_valdiator(self):
         # test regular expression
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
         try:
             a.pattern_with_digits_and_delimiter = "123"
             self.assertTrue(False) # this line shouldn't execute
@@ -384,7 +395,7 @@ class ModelTests(unittest.TestCase):
             self.assertTrue(r"must validate the regular expression /^image_\d{1,3}$/i" in str(e))
 
         # test None with optional string (with regualr expression)
-        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date="2013-09-17", password="testing09876")
+        a = petstore_api.FormatTest(number=123.45, byte=bytes("string", 'utf-8'), date=date(2013, 9, 17), password="testing09876")
         a.string = None # shouldn't throw an exception
 
         a.pattern_with_digits_and_delimiter = "IMAGE_123"
@@ -459,7 +470,7 @@ class ModelTests(unittest.TestCase):
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
 
         pet_ap.additional_properties["something-new"] = "haha"
-        self.assertEqual(pet_ap.to_json(), '{"id":1,"name":"test name","photoUrls":["string"],"status":"available","something-new":"haha"}')
+        self.assertEqual(pet_ap.to_json(), '{"id": 1, "name": "test name", "photoUrls": ["string"], "status": "available", "something-new": "haha"}')
         self.assertEqual(type(pet_ap2.additional_properties), dict)
         self.assertNotEqual(id(pet_ap.additional_properties), id(pet_ap2.additional_properties))
         self.assertEqual(pet_ap.additional_properties["something-new"], "haha")
@@ -475,11 +486,12 @@ class ModelTests(unittest.TestCase):
         pet_ap_dict["array"] = ["a", "b"]
         pet_ap_dict["dict"] = {"key999": "value999"}
 
-        pet_ap2 = petstore_api.Pet.from_dict(pet_ap_dict)
+        pet_ap3 = petstore_api.Pet.from_dict(pet_ap_dict)
+        assert pet_ap3 is not None
 
-        self.assertEqual(pet_ap2.additional_properties["array"], ["a", "b"])
-        self.assertEqual(pet_ap2.additional_properties["something-new"], 123)
-        self.assertEqual(pet_ap2.additional_properties["dict"], {"key999": "value999"})
+        self.assertEqual(pet_ap3.additional_properties["array"], ["a", "b"])
+        self.assertEqual(pet_ap3.additional_properties["something-new"], 123)
+        self.assertEqual(pet_ap3.additional_properties["dict"], {"key999": "value999"})
 
     def test_nullable(self):
         h = petstore_api.HealthCheckResult(NullableMessage="Not none")
@@ -507,10 +519,11 @@ class ModelTests(unittest.TestCase):
         # for https://github.com/OpenAPITools/openapi-generator/issues/14913
         # shouldn't throw exception by the optional dict property
         a = petstore_api.ParentWithOptionalDict.from_dict({})
-        self.assertFalse(a is None)
 
         b = petstore_api.ParentWithOptionalDict.from_dict({"optionalDict": {"key": {"aProperty": {"a": "b"}}}})
-        self.assertFalse(b is None)
+        assert b is not None
+        assert b.optional_dict is not None
+        assert b.optional_dict["key"].a_property is not None
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
 
     def test_freeform_object(self):
@@ -530,6 +543,7 @@ class ModelTests(unittest.TestCase):
         # for https://github.com/OpenAPITools/openapi-generator/issues/15135
         d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
         a = petstore_api.Parent.from_dict(d)
+        assert a is not None
         self.assertEqual(a.to_dict(), d)
 
     def test_eum_class(self):
@@ -561,6 +575,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.to_dict(), {'shopIdToOrgOnlineLipMap': {'somekey': [{'id': 123, 'name': 'tag name'}]}})
         self.assertEqual(a.to_json(), '{"shopIdToOrgOnlineLipMap": {"somekey": [{"id": 123, "name": "tag name"}]}}')
         a2 = petstore_api.MapOfArrayOfModel.from_dict(a.to_dict())
+        assert a2 is not None
         self.assertEqual(a.to_dict(), a2.to_dict())
 
     def test_array_of_array_of_model(self):
@@ -570,6 +585,7 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(a.to_dict(), {'another_property': [[ {'id': 123, 'name': 'tag name'} ]]})
         self.assertEqual(a.to_json(), '{"another_property": [[{"id": 123, "name": "tag name"}]]}')
         a2 = petstore_api.ArrayOfArrayOfModel.from_dict(a.to_dict())
+        assert a2 is not None
         self.assertEqual(a.to_dict(), a2.to_dict())
 
     def test_object_with_additional_properties(self):
@@ -581,14 +597,18 @@ class ModelTests(unittest.TestCase):
     def test_first_ref(self):
         # shouldn't throw "still a ForwardRef" error
         a = petstore_api.FirstRef.from_dict({})
+        assert a is not None
         self.assertEqual(a.to_json(), "{}")
 
     def test_allof(self):
         # for issue 16104
         model = petstore_api.Tiger.from_json('{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
         # shouldn't throw NameError
+        assert model is not None
         self.assertEqual(model.to_json(), '{"skill": "none", "type": "tiger", "info": {"name": "creature info"}}')
 
+
+class TestdditionalPropertiesAnyType(unittest.TestCase):
     def test_additional_properties(self):
         a1 = petstore_api.AdditionalPropertiesAnyType()
         a1.additional_properties = { "abc": 123 }
@@ -607,27 +627,29 @@ class ModelTests(unittest.TestCase):
 
 class TestUnnamedDictWithAdditionalStringListProperties:
     def test_empty_dict(self):
-        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={})
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dictProperty={})
+        assert a is not None
         assert a.to_dict() == {"dictProperty": {}}
 
     def test_empty_list(self):
-        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": []})
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dictProperty={"b": []})
+        assert a is not None
         assert a.to_dict() == {"dictProperty": {"b": []}}
 
     def test_single_string_item(self):
-        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": ["c"]})
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dictProperty={"b": ["c"]})
         assert a.to_dict() == {"dictProperty": {"b": ["c"]}}
 
 class TestUnnamedDictWithAdditionalModelListProperties:
     def test_empty_dict(self):
-        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={})
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dictProperty={})
         assert a.to_dict() == {"dictProperty": {}}
 
     def test_empty_list(self):
-        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={"b": []})
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dictProperty={"b": []})
         assert a.to_dict() == {"dictProperty": {"b": []}}
 
     def test_single_string_item(self):
         value = {"b": [petstore_api.CreatureInfo(name="creature_name")]}
-        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property=value)
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dictProperty=value)
         assert a.to_dict() == {"dictProperty": {"b": [{"name": "creature_name"}]}}

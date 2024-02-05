@@ -169,6 +169,29 @@ namespace Org.OpenAPITools.Api
         Task<IGetArrayOfEnumsApiResponse> GetArrayOfEnumsOrDefaultAsync(System.Threading.CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
+        Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// test referenced additionalProperties
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
+        Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceOrDefaultAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -467,6 +490,29 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="ITestQueryParameterCollectionFormatApiResponse"/>&gt;</returns>
         Task<ITestQueryParameterCollectionFormatApiResponse> TestQueryParameterCollectionFormatOrDefaultAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, string requiredNotNullable, string requiredNullable = default, Option<string> notRequiredNotNullable = default, Option<string> notRequiredNullable = default, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// test referenced string map
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestStringMapReferenceApiResponse"/>&gt;</returns>
+        Task<ITestStringMapReferenceApiResponse> TestStringMapReferenceAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// test referenced string map
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestStringMapReferenceApiResponse"/>&gt;</returns>
+        Task<ITestStringMapReferenceApiResponse> TestStringMapReferenceOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default);
     }
 
     /// <summary>
@@ -533,6 +579,18 @@ namespace Org.OpenAPITools.Api
     /// The <see cref="IGetArrayOfEnumsApiResponse"/>
     /// </summary>
     public interface IGetArrayOfEnumsApiResponse : Org.OpenAPITools.Client.IApiResponse, IOk<List<OuterEnum>>
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
+    /// The <see cref="ITestAdditionalPropertiesReferenceApiResponse"/>
+    /// </summary>
+    public interface ITestAdditionalPropertiesReferenceApiResponse : Org.OpenAPITools.Client.IApiResponse
     {
         /// <summary>
         /// Returns true if the response is 200 Ok
@@ -674,6 +732,18 @@ namespace Org.OpenAPITools.Api
     }
 
     /// <summary>
+    /// The <see cref="ITestStringMapReferenceApiResponse"/>
+    /// </summary>
+    public interface ITestStringMapReferenceApiResponse : Org.OpenAPITools.Client.IApiResponse
+    {
+        /// <summary>
+        /// Returns true if the response is 200 Ok
+        /// </summary>
+        /// <returns></returns>
+        bool IsOk { get; }
+    }
+
+    /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
     public class FakeApiEvents
@@ -796,6 +866,26 @@ namespace Org.OpenAPITools.Api
         internal void ExecuteOnErrorGetArrayOfEnums(Exception exception)
         {
             OnErrorGetArrayOfEnums?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs> OnTestAdditionalPropertiesReference;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorTestAdditionalPropertiesReference;
+
+        internal void ExecuteOnTestAdditionalPropertiesReference(FakeApi.TestAdditionalPropertiesReferenceApiResponse apiResponse)
+        {
+            OnTestAdditionalPropertiesReference?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestAdditionalPropertiesReference(Exception exception)
+        {
+            OnErrorTestAdditionalPropertiesReference?.Invoke(this, new ExceptionEventArgs(exception));
         }
 
         /// <summary>
@@ -996,6 +1086,26 @@ namespace Org.OpenAPITools.Api
         internal void ExecuteOnErrorTestQueryParameterCollectionFormat(Exception exception)
         {
             OnErrorTestQueryParameterCollectionFormat?.Invoke(this, new ExceptionEventArgs(exception));
+        }
+
+        /// <summary>
+        /// The event raised after the server response
+        /// </summary>
+        public event EventHandler<ApiResponseEventArgs> OnTestStringMapReference;
+
+        /// <summary>
+        /// The event raised after an error querying the server
+        /// </summary>
+        public event EventHandler<ExceptionEventArgs> OnErrorTestStringMapReference;
+
+        internal void ExecuteOnTestStringMapReference(FakeApi.TestStringMapReferenceApiResponse apiResponse)
+        {
+            OnTestStringMapReference?.Invoke(this, new ApiResponseEventArgs(apiResponse));
+        }
+
+        internal void ExecuteOnErrorTestStringMapReference(Exception exception)
+        {
+            OnErrorTestStringMapReference?.Invoke(this, new ExceptionEventArgs(exception));
         }
     }
 
@@ -2354,6 +2464,195 @@ namespace Org.OpenAPITools.Api
 
                 return result != null;
             }
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="requestBody"></param>
+        /// <returns></returns>
+        private void ValidateTestAdditionalPropertiesReference(Dictionary<string, Object> requestBody)
+        {
+            if (requestBody == null)
+                throw new ArgumentNullException(nameof(requestBody));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        private void AfterTestAdditionalPropertiesReferenceDefaultImplementation(ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody)
+        {
+            bool suppressDefaultLog = false;
+            AfterTestAdditionalPropertiesReference(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        partial void AfterTestAdditionalPropertiesReference(ref bool suppressDefaultLog, ITestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar, Dictionary<string, Object> requestBody);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        private void OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody)
+        {
+            bool suppressDefaultLog = false;
+            OnErrorTestAdditionalPropertiesReference(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        partial void OnErrorTestAdditionalPropertiesReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, Object> requestBody);
+
+        /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
+        public async Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceOrDefaultAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestAdditionalPropertiesReferenceAsync(requestBody, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// test referenced additionalProperties 
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestAdditionalPropertiesReferenceApiResponse"/>&gt;</returns>
+        public async Task<ITestAdditionalPropertiesReferenceApiResponse> TestAdditionalPropertiesReferenceAsync(Dictionary<string, Object> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateTestAdditionalPropertiesReference(requestBody);
+
+                FormatTestAdditionalPropertiesReference(requestBody);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/additionalProperties-reference";
+
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        ILogger<TestAdditionalPropertiesReferenceApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<TestAdditionalPropertiesReferenceApiResponse>();
+
+                        TestAdditionalPropertiesReferenceApiResponse apiResponseLocalVar = new TestAdditionalPropertiesReferenceApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/additionalProperties-reference", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterTestAdditionalPropertiesReferenceDefaultImplementation(apiResponseLocalVar, requestBody);
+
+                        Events.ExecuteOnTestAdditionalPropertiesReference(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorTestAdditionalPropertiesReferenceDefaultImplementation(e, "/fake/additionalProperties-reference", uriBuilderLocalVar.Path, requestBody);
+                Events.ExecuteOnErrorTestAdditionalPropertiesReference(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TestAdditionalPropertiesReferenceApiResponse"/>
+        /// </summary>
+        public partial class TestAdditionalPropertiesReferenceApiResponse : Org.OpenAPITools.Client.ApiResponse, ITestAdditionalPropertiesReferenceApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TestAdditionalPropertiesReferenceApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="TestAdditionalPropertiesReferenceApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public TestAdditionalPropertiesReferenceApiResponse(ILogger<TestAdditionalPropertiesReferenceApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
 
             private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
             {
@@ -4669,6 +4968,195 @@ namespace Org.OpenAPITools.Api
             /// <param name="requestedAt"></param>
             /// <param name="jsonSerializerOptions"></param>
             public TestQueryParameterCollectionFormatApiResponse(ILogger<TestQueryParameterCollectionFormatApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
+            {
+                Logger = logger;
+                OnCreated(httpRequestMessage, httpResponseMessage);
+            }
+
+            partial void OnCreated(System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage);
+
+            /// <summary>
+            /// Returns true if the response is 200 Ok
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOk => 200 == (int)StatusCode;
+
+            private void OnDeserializationErrorDefaultImplementation(Exception exception, HttpStatusCode httpStatusCode)
+            {
+                bool suppressDefaultLog = false;
+                OnDeserializationError(ref suppressDefaultLog, exception, httpStatusCode);
+                if (!suppressDefaultLog)
+                    Logger.LogError(exception, "An error occurred while deserializing the {code} response.", httpStatusCode);
+            }
+
+            partial void OnDeserializationError(ref bool suppressDefaultLog, Exception exception, HttpStatusCode httpStatusCode);
+        }
+
+        partial void FormatTestStringMapReference(Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// Validates the request parameters
+        /// </summary>
+        /// <param name="requestBody"></param>
+        /// <returns></returns>
+        private void ValidateTestStringMapReference(Dictionary<string, string> requestBody)
+        {
+            if (requestBody == null)
+                throw new ArgumentNullException(nameof(requestBody));
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        private void AfterTestStringMapReferenceDefaultImplementation(ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody)
+        {
+            bool suppressDefaultLog = false;
+            AfterTestStringMapReference(ref suppressDefaultLog, apiResponseLocalVar, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogInformation("{0,-9} | {1} | {3}", (apiResponseLocalVar.DownloadedAt - apiResponseLocalVar.RequestedAt).TotalSeconds, apiResponseLocalVar.StatusCode, apiResponseLocalVar.Path);
+        }
+
+        /// <summary>
+        /// Processes the server response
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="apiResponseLocalVar"></param>
+        /// <param name="requestBody"></param>
+        partial void AfterTestStringMapReference(ref bool suppressDefaultLog, ITestStringMapReferenceApiResponse apiResponseLocalVar, Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// Logs exceptions that occur while retrieving the server response
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        private void OnErrorTestStringMapReferenceDefaultImplementation(Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody)
+        {
+            bool suppressDefaultLog = false;
+            OnErrorTestStringMapReference(ref suppressDefaultLog, exception, pathFormat, path, requestBody);
+            if (!suppressDefaultLog)
+                Logger.LogError(exception, "An error occurred while sending the request to the server.");
+        }
+
+        /// <summary>
+        /// A partial method that gives developers a way to provide customized exception handling
+        /// </summary>
+        /// <param name="suppressDefaultLog"></param>
+        /// <param name="exception"></param>
+        /// <param name="pathFormat"></param>
+        /// <param name="path"></param>
+        /// <param name="requestBody"></param>
+        partial void OnErrorTestStringMapReference(ref bool suppressDefaultLog, Exception exception, string pathFormat, string path, Dictionary<string, string> requestBody);
+
+        /// <summary>
+        /// test referenced string map 
+        /// </summary>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestStringMapReferenceApiResponse"/>&gt;</returns>
+        public async Task<ITestStringMapReferenceApiResponse> TestStringMapReferenceOrDefaultAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return await TestStringMapReferenceAsync(requestBody, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// test referenced string map 
+        /// </summary>
+        /// <exception cref="ApiException">Thrown when fails to make API call</exception>
+        /// <param name="requestBody">request body</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns><see cref="Task"/>&lt;<see cref="ITestStringMapReferenceApiResponse"/>&gt;</returns>
+        public async Task<ITestStringMapReferenceApiResponse> TestStringMapReferenceAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default)
+        {
+            UriBuilder uriBuilderLocalVar = new UriBuilder();
+
+            try
+            {
+                ValidateTestStringMapReference(requestBody);
+
+                FormatTestStringMapReference(requestBody);
+
+                using (HttpRequestMessage httpRequestMessageLocalVar = new HttpRequestMessage())
+                {
+                    uriBuilderLocalVar.Host = HttpClient.BaseAddress.Host;
+                    uriBuilderLocalVar.Port = HttpClient.BaseAddress.Port;
+                    uriBuilderLocalVar.Scheme = HttpClient.BaseAddress.Scheme;
+                    uriBuilderLocalVar.Path = ClientUtils.CONTEXT_PATH + "/fake/stringMap-reference";
+
+                    httpRequestMessageLocalVar.Content = (requestBody as object) is System.IO.Stream stream
+                        ? httpRequestMessageLocalVar.Content = new StreamContent(stream)
+                        : httpRequestMessageLocalVar.Content = new StringContent(JsonSerializer.Serialize(requestBody, _jsonSerializerOptions));
+
+                    httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
+
+                    string[] contentTypes = new string[] {
+                        "application/json"
+                    };
+
+                    string contentTypeLocalVar = ClientUtils.SelectHeaderContentType(contentTypes);
+
+                    if (contentTypeLocalVar != null && httpRequestMessageLocalVar.Content != null)
+                        httpRequestMessageLocalVar.Content.Headers.ContentType = new MediaTypeHeaderValue(contentTypeLocalVar);
+
+                    httpRequestMessageLocalVar.Method = new HttpMethod("POST");
+
+                    DateTime requestedAtLocalVar = DateTime.UtcNow;
+
+                    using (HttpResponseMessage httpResponseMessageLocalVar = await HttpClient.SendAsync(httpRequestMessageLocalVar, cancellationToken).ConfigureAwait(false))
+                    {
+                        string responseContentLocalVar = await httpResponseMessageLocalVar.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                        ILogger<TestStringMapReferenceApiResponse> apiResponseLoggerLocalVar = LoggerFactory.CreateLogger<TestStringMapReferenceApiResponse>();
+
+                        TestStringMapReferenceApiResponse apiResponseLocalVar = new TestStringMapReferenceApiResponse(apiResponseLoggerLocalVar, httpRequestMessageLocalVar, httpResponseMessageLocalVar, responseContentLocalVar, "/fake/stringMap-reference", requestedAtLocalVar, _jsonSerializerOptions);
+
+                        AfterTestStringMapReferenceDefaultImplementation(apiResponseLocalVar, requestBody);
+
+                        Events.ExecuteOnTestStringMapReference(apiResponseLocalVar);
+
+                        return apiResponseLocalVar;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                OnErrorTestStringMapReferenceDefaultImplementation(e, "/fake/stringMap-reference", uriBuilderLocalVar.Path, requestBody);
+                Events.ExecuteOnErrorTestStringMapReference(e);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="TestStringMapReferenceApiResponse"/>
+        /// </summary>
+        public partial class TestStringMapReferenceApiResponse : Org.OpenAPITools.Client.ApiResponse, ITestStringMapReferenceApiResponse
+        {
+            /// <summary>
+            /// The logger
+            /// </summary>
+            public ILogger<TestStringMapReferenceApiResponse> Logger { get; }
+
+            /// <summary>
+            /// The <see cref="TestStringMapReferenceApiResponse"/>
+            /// </summary>
+            /// <param name="logger"></param>
+            /// <param name="httpRequestMessage"></param>
+            /// <param name="httpResponseMessage"></param>
+            /// <param name="rawContent"></param>
+            /// <param name="path"></param>
+            /// <param name="requestedAt"></param>
+            /// <param name="jsonSerializerOptions"></param>
+            public TestStringMapReferenceApiResponse(ILogger<TestStringMapReferenceApiResponse> logger, System.Net.Http.HttpRequestMessage httpRequestMessage, System.Net.Http.HttpResponseMessage httpResponseMessage, string rawContent, string path, DateTime requestedAt, System.Text.Json.JsonSerializerOptions jsonSerializerOptions) : base(httpRequestMessage, httpResponseMessage, rawContent, path, requestedAt, jsonSerializerOptions)
             {
                 Logger = logger;
                 OnCreated(httpRequestMessage, httpResponseMessage);

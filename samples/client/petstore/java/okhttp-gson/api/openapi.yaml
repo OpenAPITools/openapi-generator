@@ -137,7 +137,7 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/findByTags:
     get:
       deprecated: true
@@ -178,7 +178,7 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/{petId}:
     delete:
       description: ""
@@ -243,7 +243,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     post:
       description: ""
       operationId: updatePetWithForm
@@ -356,7 +356,7 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -413,7 +413,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -512,7 +512,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user/logout:
     get:
       description: ""
@@ -575,7 +575,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -932,6 +932,44 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
+      x-accepts: application/json
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
+      x-content-type: application/json
       x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
@@ -1296,6 +1334,23 @@ paths:
       summary: Get some primitive variable values
       tags:
       - values
+      x-accepts: application/json
+  /internal/only:
+    get:
+      description: ""
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+          description: successful operation
+        "400":
+          description: Invalid Value
+      summary: internal only
+      tags:
+      - values
+      x-internal: true
       x-accepts: application/json
 components:
   requestBodies:
@@ -1906,6 +1961,15 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -2388,7 +2452,7 @@ components:
       description: Value object
       example:
         name: variable_1
-        value: null
+        value: Scalar
       properties:
         name:
           example: variable_1
@@ -2471,6 +2535,13 @@ components:
         type_:
           type: string
       type: object
+      x-internal: false
+    InteralOnly:
+      properties:
+        type:
+          type: string
+      type: object
+      x-internal: true
     AllOfModelArrayAnyOf:
       allOf:
       - $ref: '#/components/schemas/Category'
@@ -2480,6 +2551,44 @@ components:
           attributes:
             $ref: '#/components/schemas/AllOfModelArrayAnyOf_allOf_attributes'
         type: object
+    PetUsingAllOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+          x-is-unique: true
+        category:
+          allOf:
+          - $ref: '#/components/schemas/Category'
+        name:
+          example: doggie
+          type: string
+        photoUrls:
+          items:
+            type: string
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+        tags:
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+        status:
+          description: pet status in the store
+          enum:
+          - available
+          - pending
+          - sold
+          type: string
+      required:
+      - name
+      - photoUrls
+      type: object
     _foo_get_default_response:
       example:
         string:

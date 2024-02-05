@@ -21,8 +21,6 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -90,8 +88,6 @@ Returns a map of status codes to quantities
 * Api Key Authentication (api_key):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
@@ -165,8 +161,6 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.order import Order
 from petstore_api.rest import ApiException
@@ -237,8 +231,6 @@ Place an order for a pet
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.order import Order
 from petstore_api.rest import ApiException

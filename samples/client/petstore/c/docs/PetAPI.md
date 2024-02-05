@@ -18,7 +18,7 @@ Method | HTTP request | Description
 ```c
 // Add a new pet to the store
 //
-void PetAPI_addPet(apiClient_t *apiClient, pet_t * body);
+void PetAPI_addPet(apiClient_t *apiClient, pet_t *body);
 ```
 
 ### Parameters
@@ -46,7 +46,7 @@ void
 ```c
 // Deletes a pet
 //
-void PetAPI_deletePet(apiClient_t *apiClient, long petId, char * api_key);
+void PetAPI_deletePet(apiClient_t *apiClient, long petId, char *api_key);
 ```
 
 ### Parameters
@@ -77,7 +77,7 @@ void
 //
 // Multiple status values can be provided with comma separated strings
 //
-list_t* PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status);
+list_t* PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status);
 ```
 
 ### Parameters
@@ -108,7 +108,7 @@ Name | Type | Description  | Notes
 //
 // Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 //
-list_t* PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags);
+list_t* PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags);
 ```
 
 ### Parameters
@@ -168,7 +168,7 @@ Name | Type | Description  | Notes
 ```c
 // Update an existing pet
 //
-void PetAPI_updatePet(apiClient_t *apiClient, pet_t * body);
+void PetAPI_updatePet(apiClient_t *apiClient, pet_t *body);
 ```
 
 ### Parameters
@@ -196,7 +196,7 @@ void
 ```c
 // Updates a pet in the store with form data
 //
-void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char * name, char * status);
+void PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId, char *name, char *status);
 ```
 
 ### Parameters
@@ -226,7 +226,7 @@ void
 ```c
 // uploads an image
 //
-api_response_t* PetAPI_uploadFile(apiClient_t *apiClient, long petId, char * additionalMetadata, binary_t* file);
+api_response_t* PetAPI_uploadFile(apiClient_t *apiClient, long petId, char *additionalMetadata, binary_t* file);
 ```
 
 ### Parameters

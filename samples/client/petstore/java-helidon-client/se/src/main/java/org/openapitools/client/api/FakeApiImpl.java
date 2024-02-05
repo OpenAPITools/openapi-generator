@@ -68,6 +68,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<BigDecimal> RESPONSE_TYPE_fakeOuterNumberSerialize = ResponseType.create(BigDecimal.class);
   protected static final GenericType<String> RESPONSE_TYPE_fakeOuterStringSerialize = ResponseType.create(String.class);
   protected static final GenericType<OuterObjectWithEnumProperty> RESPONSE_TYPE_fakePropertyEnumIntegerSerialize = ResponseType.create(OuterObjectWithEnumProperty.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testAdditionalPropertiesReference = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithBinary = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithFileSchema = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testBodyWithQueryParams = ResponseType.create(Void.class);
@@ -80,6 +81,7 @@ public class FakeApiImpl implements FakeApi {
   protected static final GenericType<Void> RESPONSE_TYPE_testJsonFormData = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testNullable = ResponseType.create(Void.class);
   protected static final GenericType<Void> RESPONSE_TYPE_testQueryParameterCollectionFormat = ResponseType.create(Void.class);
+  protected static final GenericType<Void> RESPONSE_TYPE_testStringMapReference = ResponseType.create(Void.class);
 
   /**
    * Creates a new instance of FakeApiImpl initialized with the specified {@link ApiClient}.
@@ -396,6 +398,44 @@ public class FakeApiImpl implements FakeApi {
   protected ApiResponse<OuterObjectWithEnumProperty> fakePropertyEnumIntegerSerializeSubmit(WebClientRequestBuilder webClientRequestBuilder, OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(outerObjectWithEnumProperty);
     return ApiResponse.create(RESPONSE_TYPE_fakePropertyEnumIntegerSerialize, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testAdditionalPropertiesReference(Map<String, Object> requestBody) {
+    Objects.requireNonNull(requestBody, "Required parameter 'requestBody' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testAdditionalPropertiesReferenceRequestBuilder(requestBody);
+    return testAdditionalPropertiesReferenceSubmit(webClientRequestBuilder, requestBody);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testAdditionalPropertiesReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param requestBody request body (required)
+   * @return WebClientRequestBuilder for testAdditionalPropertiesReference
+   */
+  protected WebClientRequestBuilder testAdditionalPropertiesReferenceRequestBuilder(Map<String, Object> requestBody) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/additionalProperties-reference");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testAdditionalPropertiesReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param requestBody request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testAdditionalPropertiesReferenceSubmit(WebClientRequestBuilder webClientRequestBuilder, Map<String, Object> requestBody) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(requestBody);
+    return ApiResponse.create(RESPONSE_TYPE_testAdditionalPropertiesReference, webClientResponse);
   }
 
   @Override
@@ -998,6 +1038,44 @@ public class FakeApiImpl implements FakeApi {
   protected ApiResponse<Void> testQueryParameterCollectionFormatSubmit(WebClientRequestBuilder webClientRequestBuilder, List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
     Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit();
     return ApiResponse.create(RESPONSE_TYPE_testQueryParameterCollectionFormat, webClientResponse);
+  }
+
+  @Override
+  public ApiResponse<Void> testStringMapReference(Map<String, String> requestBody) {
+    Objects.requireNonNull(requestBody, "Required parameter 'requestBody' not specified");
+    WebClientRequestBuilder webClientRequestBuilder = testStringMapReferenceRequestBuilder(requestBody);
+    return testStringMapReferenceSubmit(webClientRequestBuilder, requestBody);
+  }
+
+  /**
+   * Creates a {@code WebClientRequestBuilder} for the testStringMapReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param requestBody request body (required)
+   * @return WebClientRequestBuilder for testStringMapReference
+   */
+  protected WebClientRequestBuilder testStringMapReferenceRequestBuilder(Map<String, String> requestBody) {
+    WebClientRequestBuilder webClientRequestBuilder = apiClient.webClient()
+            .method("POST");
+
+    webClientRequestBuilder.path("/fake/stringMap-reference");
+    webClientRequestBuilder.contentType(MediaType.APPLICATION_JSON);
+    webClientRequestBuilder.accept(MediaType.APPLICATION_JSON);
+
+    return webClientRequestBuilder;
+  }
+
+  /**
+   * Initiates the request for the testStringMapReference operation.
+   * Optional customization point for subclasses.
+   *
+   * @param webClientRequestBuilder the request builder to use for submitting the request
+   * @param requestBody request body (required)
+   * @return {@code ApiResponse<Void>} for the submitted request
+   */
+  protected ApiResponse<Void> testStringMapReferenceSubmit(WebClientRequestBuilder webClientRequestBuilder, Map<String, String> requestBody) {
+    Single<WebClientResponse> webClientResponse = webClientRequestBuilder.submit(requestBody);
+    return ApiResponse.create(RESPONSE_TYPE_testStringMapReference, webClientResponse);
   }
 
 }

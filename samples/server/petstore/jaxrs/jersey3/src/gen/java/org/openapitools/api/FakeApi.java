@@ -175,6 +175,18 @@ public class FakeApi  {
         return delegate.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty, securityContext);
     }
 
+    @jakarta.ws.rs.POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    @Operation(summary = "test referenced additionalProperties", description = "", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = 
+                @Content(schema = @Schema(implementation = Void.class))),
+            }, tags={ "fake", }) 
+    public Response testAdditionalPropertiesReference(@Schema(description = "request body", required = true) @NotNull @Valid  Map<String, Object> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testAdditionalPropertiesReference(requestBody, securityContext);
+    }
+
     @jakarta.ws.rs.PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
@@ -316,6 +328,18 @@ public class FakeApi  {
     public Response testQueryParameterCollectionFormat(@Schema(description = "") @QueryParam("pipe") @NotNull @Valid  List<String> pipe,@Schema(description = "") @QueryParam("ioutil") @NotNull @Valid  List<String> ioutil,@Schema(description = "") @QueryParam("http") @NotNull @Valid  List<String> http,@Schema(description = "") @QueryParam("url") @NotNull @Valid  List<String> url,@Schema(description = "") @QueryParam("context") @NotNull @Valid  List<String> context,@Schema(description = "") @QueryParam("allowEmpty") @NotNull  String allowEmpty,@Schema(description = "") @Parameter(description="language") @Valid  Map<String, String> language,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, securityContext);
+    }
+
+    @jakarta.ws.rs.POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    @Operation(summary = "test referenced string map", description = "", responses = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = 
+                @Content(schema = @Schema(implementation = Void.class))),
+            }, tags={ "fake", }) 
+    public Response testStringMapReference(@Schema(description = "request body", required = true) @NotNull @Valid  Map<String, String> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testStringMapReference(requestBody, securityContext);
     }
 
     @jakarta.ws.rs.POST

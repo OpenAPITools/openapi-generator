@@ -67,7 +67,7 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
       return false;
     }
     TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = (TestInlineFreeformAdditionalPropertiesRequest) o;
-    return super.equals(o) && Objects.equals(someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty);
+    return super.equals(o) && Objects.equals(this.someProperty, testInlineFreeformAdditionalPropertiesRequest.someProperty);
   }
 
   @Override

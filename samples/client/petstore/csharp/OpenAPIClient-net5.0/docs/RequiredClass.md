@@ -16,10 +16,10 @@ Name | Type | Description | Notes
 **RequiredNotnullableBooleanProp** | **bool** |  | 
 **NotrequiredNullableBooleanProp** | **bool?** |  | [optional] 
 **NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 
-**RequiredNullableDateProp** | **DateTime?** |  | 
-**RequiredNotNullableDateProp** | **DateTime** |  | 
-**NotRequiredNullableDateProp** | **DateTime?** |  | [optional] 
-**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
+**RequiredNullableDateProp** | **DateOnly** |  | 
+**RequiredNotNullableDateProp** | **DateOnly** |  | 
+**NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
+**NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
 **RequiredNotnullableDatetimeProp** | **DateTime** |  | 
 **RequiredNullableDatetimeProp** | **DateTime?** |  | 
 **NotrequiredNullableDatetimeProp** | **DateTime?** |  | [optional] 

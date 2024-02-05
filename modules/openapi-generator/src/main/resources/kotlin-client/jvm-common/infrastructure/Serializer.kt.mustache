@@ -28,6 +28,9 @@ import kotlinx.datetime.Instant
 import java.util.UUID
 {{/gson}}
 {{#jackson}}
+{{#enumUnknownDefaultCase}}
+import com.fasterxml.jackson.databind.DeserializationFeature
+{{/enumUnknownDefaultCase}}
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.annotation.JsonInclude
@@ -104,6 +107,9 @@ import java.util.concurrent.atomic.AtomicLong
     val jacksonObjectMapper: ObjectMapper = jacksonObjectMapper()
         .findAndRegisterModules()
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
+        {{#enumUnknownDefaultCase}}
+        .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+        {{/enumUnknownDefaultCase}}
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
 {{#kotlinx_serialization}}

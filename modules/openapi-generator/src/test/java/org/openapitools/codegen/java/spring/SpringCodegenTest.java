@@ -2724,6 +2724,7 @@ public class SpringCodegenTest {
             .readLocation("src/test/resources/3_0/spring/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         SpringCodegen codegen = new SpringCodegen();
         codegen.setLibrary(SPRING_BOOT);
+        codegen.setWithXml(true);
         codegen.setOutputDir(output.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput()
@@ -2738,34 +2739,42 @@ public class SpringCodegenTest {
             .hasProperty("normalPropertyName")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("UPPER_CASE_PROPERTY_SNAKE")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("lowerCasePropertyDashes")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .hasProperty("propertyNameWithSpaces")
                 .assertPropertyAnnotations()
                 .doesNotContainsWithName("JsonProperty")
+                .doesNotContainsWithName("JacksonXmlProperty")
                 .toProperty().toType()
             .assertMethod("getNormalPropertyName")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"normalPropertyName\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"normalPropertyName\""))
                 .toMethod().toFileAssert()
             .assertMethod("getUPPERCASEPROPERTYSNAKE")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"UPPER_CASE_PROPERTY_SNAKE\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"UPPER_CASE_PROPERTY_SNAKE\""))
                 .toMethod().toFileAssert()
             .assertMethod("getLowerCasePropertyDashes")
                 .assertMethodAnnotations()
                 .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"lower-case-property-dashes\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"lower-case-property-dashes\""))
                 .toMethod().toFileAssert()
             .assertMethod("getPropertyNameWithSpaces")
                 .assertMethodAnnotations()
-                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""));
+                .containsWithNameAndAttributes("JsonProperty", ImmutableMap.of("value", "\"property name with spaces\""))
+                .containsWithNameAndAttributes("JacksonXmlProperty", ImmutableMap.of("localName", "\"property name with spaces\""));
     }
 
     @Test
@@ -4387,5 +4396,79 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue16797() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
+        // constructor should as
+        //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
+        //            super(responseType, requestId, success, pageInfo);
+        //        }
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+    }
+
+    @Test
+    public void testMultiInheritanceParentRequiredParams_issue15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT);
+        // constructor should as this
+        //public Poodle(String race, String type) {
+        //    super(race, type);
+        //}
+        JavaFileAssert.assertThat(output.get("Poodle.java"))
+                .assertConstructor("String", "String")
+                .hasParameter("type").toConstructor()
+                .hasParameter("race").toConstructor()
+        ;
+    }
+
+    @Test
+    public void testLombokAnnotations() throws IOException {
+        final Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Data;@lombok.NoArgsConstructor;@lombok.AllArgsConstructor");
+        Map<String, File> output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertNoConstructor()
+                .assertNoMethod("toString")
+                .assertNoMethod("hashCode")
+                .assertNoMethod("equals")
+                .assertNoMethod("getId")
+                .assertNoMethod("setId")
+                .assertNoMethod("getName")
+                .assertNoMethod("setName")
+        ;
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.ToString");
+        output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .assertNoMethod("toString")
+                .assertMethod("hashCode")
+                .toFileAssert()
+                .assertMethod("equals")
+                .toFileAssert()
+                .assertMethod("getId")
+                .toFileAssert()
+                .assertMethod("setId")
+                .toFileAssert()
+                .assertMethod("getName")
+                .toFileAssert()
+                .assertMethod("setName")
+        ;
+        additionalProperties.put(AbstractJavaCodegen.ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "@lombok.Getter;@lombok.Setter");
+        output = generateFromContract("src/test/resources/3_0/petstore.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(output.get("Pet.java"))
+                .assertConstructor().toFileAssert()
+                .assertMethod("toString")
+                .toFileAssert()
+                .assertMethod("hashCode")
+                .toFileAssert()
+                .assertMethod("equals")
+        ;
     }
 }

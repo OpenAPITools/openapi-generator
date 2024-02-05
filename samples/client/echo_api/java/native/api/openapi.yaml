@@ -289,6 +289,56 @@ paths:
       tags:
       - query
       x-accepts: text/plain
+  /query/style_form/explode_false/array_integer:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: integer
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_form/explode_false/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -513,6 +563,27 @@ paths:
       tags:
       - body
       x-accepts: image/gif
+  /body/application/octetstream/single_binary:
+    post:
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test single binary in multipart mime
+      tags:
+      - body
+      x-content-type: multipart/form-data
+      x-accepts: text/plain
   /body/application/octetstream/array_of_binary:
     post:
       description: Test array of binary in multipart mime
@@ -825,6 +896,12 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
+    test_body_multipart_formdata_single_binary_request:
+      properties:
+        my-file:
+          format: binary
+          type: string
+      type: object
     test_body_multipart_formdata_array_of_binary_request:
       properties:
         files:

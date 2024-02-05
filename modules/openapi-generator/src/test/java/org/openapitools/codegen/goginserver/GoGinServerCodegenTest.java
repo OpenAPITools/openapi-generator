@@ -74,10 +74,12 @@ public class GoGinServerCodegenTest {
 
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-        files.forEach(File::deleteOnExit);
+        //files.forEach(File::deleteOnExit);
 
         TestUtils.assertFileContains(Paths.get(output + "/go/routers.go"),
                 "NewPetPost");
+        TestUtils.assertFileContains(Paths.get(output + "/go/api_default.go"),
+                " c.JSON(200, gin.H{\"status\": \"OK\"})");
     }
 
 }

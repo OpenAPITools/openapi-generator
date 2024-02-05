@@ -357,6 +357,12 @@ public class CodeGenMojo extends AbstractMojo {
     private List<String> enumNameMappings;
 
     /**
+     * A map of operation id names and the new names
+     */
+    @Parameter(name = "operationIdNameMappings", property = "openapi.generator.maven.plugin.operationIdNameMappings")
+    private List<String> operationIdNameMappings;
+
+    /**
      * A set of rules for OpenAPI normalizer
      */
     @Parameter(name = "openapiNormalizer", property = "openapi.generator.maven.plugin.openapiNormalizer")
@@ -855,6 +861,11 @@ public class CodeGenMojo extends AbstractMojo {
             // Apply Enum Name Mappings
             if (enumNameMappings != null && (configOptions == null || !configOptions.containsKey("enum-name-mappings"))) {
                 applyEnumNameMappingsKvpList(enumNameMappings, configurator);
+            }
+
+            // Apply Operation ID Name Mappings
+            if (operationIdNameMappings != null && (configOptions == null || !configOptions.containsKey("operation-id-name-mappings"))) {
+                applyOperationIdNameMappingsKvpList(operationIdNameMappings, configurator);
             }
 
             // Apply OpenAPI normalizer rules
