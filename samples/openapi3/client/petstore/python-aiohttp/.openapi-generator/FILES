@@ -49,6 +49,7 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InnerDictWithProperty.md
+docs/InputAllOf.md
 docs/IntOrString.md
 docs/ListClass.md
 docs/MapOfArrayOfModel.md
@@ -77,6 +78,7 @@ docs/Pet.md
 docs/PetApi.md
 docs/Pig.md
 docs/PoopCleaning.md
+docs/PropertyMap.md
 docs/PropertyNameCollision.md
 docs/ReadOnlyFirst.md
 docs/SecondRef.md
@@ -155,6 +157,7 @@ petstore_api/models/format_test.py
 petstore_api/models/has_only_read_only.py
 petstore_api/models/health_check_result.py
 petstore_api/models/inner_dict_with_property.py
+petstore_api/models/input_all_of.py
 petstore_api/models/int_or_string.py
 petstore_api/models/list_class.py
 petstore_api/models/map_of_array_of_model.py
@@ -182,6 +185,7 @@ petstore_api/models/parent_with_optional_dict.py
 petstore_api/models/pet.py
 petstore_api/models/pig.py
 petstore_api/models/poop_cleaning.py
+petstore_api/models/property_map.py
 petstore_api/models/property_name_collision.py
 petstore_api/models/read_only_first.py
 petstore_api/models/second_ref.py
