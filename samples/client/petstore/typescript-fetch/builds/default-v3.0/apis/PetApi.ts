@@ -250,7 +250,7 @@ export class PetApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (this.configuration && this.configuration.apiKey) {
-            headerParameters["api_key"] = this.configuration.apiKey("api_key"); // api_key authentication
+            headerParameters["api_key"] = await this.configuration.apiKey("api_key"); // api_key authentication
         }
 
         const response = await this.request({
