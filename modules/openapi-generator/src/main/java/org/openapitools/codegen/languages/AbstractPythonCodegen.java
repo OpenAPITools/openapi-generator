@@ -937,7 +937,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray || cp.isMap){ // if array
+                        if (cp.isArray || cp.isMap){ // if array or map
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
                             modelImports.add(cp.getDataType());
@@ -1244,11 +1244,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (!StringUtils.isEmpty(operation.returnType)) {
                 // Not interested in the result, only in the update of the imports
                 getPydanticType(
-                    operation.returnProperty, 
+                    operation.returnProperty,
                     modelImports,
-                    exampleImports, 
+                    exampleImports,
                     postponedModelImports,
-                    postponedExampleImports, 
+                    postponedExampleImports,
                     null
                 );
             }
@@ -1271,7 +1271,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
                 operation.vendorExtensions.put("x-py-example-import", imports);
             }
-            
+
             // Remove constant params from allParams list and add to constantParams
             handleConstantParams(operation);
         }

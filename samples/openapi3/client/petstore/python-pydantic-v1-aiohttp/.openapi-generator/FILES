@@ -214,6 +214,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_input_all_of.py
-test/test_property_map.py
 tox.ini

@@ -20,7 +20,6 @@ import json
 
 from typing import Any, Dict, Optional
 from pydantic import BaseModel
-from petstore_api.models.dict[str,_tag] import Dict[str, Tag]
 from petstore_api.models.tag import Tag
 
 class InputAllOf(BaseModel):
