@@ -24,14 +24,12 @@ import {
  * Check if a given object implements the {{classname}} interface.
  */
 export function instanceOf{{classname}}(value: object): boolean {
-    let isInstance = true;
     {{#vars}}
     {{#required}}
-    isInstance = isInstance && "{{name}}" in value;
+    if (!('{{name}}' in value)) return false;
     {{/required}}
     {{/vars}}
-
-    return isInstance;
+    return true;
 }
 
 export function {{classname}}FromJSON(json: any): {{classname}} {
