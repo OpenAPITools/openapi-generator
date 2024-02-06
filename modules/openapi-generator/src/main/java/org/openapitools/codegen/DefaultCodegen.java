@@ -925,10 +925,14 @@ public class DefaultCodegen implements CodegenConfig {
 
         String var = value.replaceAll("\\W+", "_").toUpperCase(Locale.ROOT);
         if (var.matches("\\d.*")) {
-            return "_" + var;
-        } else {
-            return var;
+            var = "_" + var;
         }
+
+        if (reservedWords.contains(var)) {
+            return escapeReservedWord(var);
+        }
+
+        return var;
     }
 
     public boolean specVersionGreaterThanOrEqualTo310(OpenAPI openAPI) {
