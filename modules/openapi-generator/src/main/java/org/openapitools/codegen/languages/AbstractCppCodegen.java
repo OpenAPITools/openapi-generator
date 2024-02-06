@@ -113,6 +113,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "noexcept",
                         "not",
                         "not_eq",
+                        "NULL",
                         "nullptr",
                         "operator",
                         "or",
