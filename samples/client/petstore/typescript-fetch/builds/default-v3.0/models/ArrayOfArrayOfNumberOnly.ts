@@ -41,7 +41,7 @@ export function ArrayOfArrayOfNumberOnlyFromJSON(json: any): ArrayOfArrayOfNumbe
 }
 
 export function ArrayOfArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayOfArrayOfNumberOnly {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

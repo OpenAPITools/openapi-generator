@@ -61,7 +61,7 @@ export function FindPetsByUserResponseFromJSON(json: any): FindPetsByUserRespons
 }
 
 export function FindPetsByUserResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FindPetsByUserResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -81,7 +81,7 @@ export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | nu
     return {
         
         'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data === undefined ? undefined : ((value.data as Array<any>).map(UserToJSON)),
+        'data': !exists(value, 'data') ? undefined : ((value.data as Array<any>).map(UserToJSON)),
     };
 }
 

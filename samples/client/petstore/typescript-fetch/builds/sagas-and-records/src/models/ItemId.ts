@@ -49,7 +49,7 @@ export function ItemIdFromJSON(json: any): ItemId {
 }
 
 export function ItemIdFromJSONTyped(json: any, ignoreDiscriminator: boolean): ItemId {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

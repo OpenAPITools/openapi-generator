@@ -229,7 +229,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test http signature authentication
      */
     async fakeHttpSignatureTestRaw(requestParameters: FakeHttpSignatureTestRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.pet === null || requestParameters.pet === undefined) {
+        if (!runtime.exists(requestParameters, 'pet')) {
             throw new runtime.RequiredError('pet','Required parameter requestParameters.pet was null or undefined when calling fakeHttpSignatureTest.');
         }
 
@@ -397,7 +397,7 @@ export class FakeApi extends runtime.BaseAPI {
      * Test serialization of enum (int) properties with examples
      */
     async fakePropertyEnumIntegerSerializeRaw(requestParameters: FakePropertyEnumIntegerSerializeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<OuterObjectWithEnumProperty>> {
-        if (requestParameters.outerObjectWithEnumProperty === null || requestParameters.outerObjectWithEnumProperty === undefined) {
+        if (!runtime.exists(requestParameters, 'outerObjectWithEnumProperty')) {
             throw new runtime.RequiredError('outerObjectWithEnumProperty','Required parameter requestParameters.outerObjectWithEnumProperty was null or undefined when calling fakePropertyEnumIntegerSerialize.');
         }
 
@@ -431,7 +431,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test referenced additionalProperties
      */
     async testAdditionalPropertiesReferenceRaw(requestParameters: TestAdditionalPropertiesReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+        if (!runtime.exists(requestParameters, 'requestBody')) {
             throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testAdditionalPropertiesReference.');
         }
 
@@ -464,7 +464,7 @@ export class FakeApi extends runtime.BaseAPI {
      * For this test, the body has to be a binary file.
      */
     async testBodyWithBinaryRaw(requestParameters: TestBodyWithBinaryRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
+        if (!runtime.exists(requestParameters, 'body')) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling testBodyWithBinary.');
         }
 
@@ -496,7 +496,7 @@ export class FakeApi extends runtime.BaseAPI {
      * For this test, the body for this request must reference a schema named `File`.
      */
     async testBodyWithFileSchemaRaw(requestParameters: TestBodyWithFileSchemaRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.fileSchemaTestClass === null || requestParameters.fileSchemaTestClass === undefined) {
+        if (!runtime.exists(requestParameters, 'fileSchemaTestClass')) {
             throw new runtime.RequiredError('fileSchemaTestClass','Required parameter requestParameters.fileSchemaTestClass was null or undefined when calling testBodyWithFileSchema.');
         }
 
@@ -527,11 +527,11 @@ export class FakeApi extends runtime.BaseAPI {
     /**
      */
     async testBodyWithQueryParamsRaw(requestParameters: TestBodyWithQueryParamsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.query === null || requestParameters.query === undefined) {
+        if (!runtime.exists(requestParameters, 'query')) {
             throw new runtime.RequiredError('query','Required parameter requestParameters.query was null or undefined when calling testBodyWithQueryParams.');
         }
 
-        if (requestParameters.user === null || requestParameters.user === undefined) {
+        if (!runtime.exists(requestParameters, 'user')) {
             throw new runtime.RequiredError('user','Required parameter requestParameters.user was null or undefined when calling testBodyWithQueryParams.');
         }
 
@@ -567,7 +567,7 @@ export class FakeApi extends runtime.BaseAPI {
      * To test \"client\" model
      */
     async testClientModelRaw(requestParameters: TestClientModelRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (requestParameters.client === null || requestParameters.client === undefined) {
+        if (!runtime.exists(requestParameters, 'client')) {
             throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClientModel.');
         }
 
@@ -602,19 +602,19 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      */
     async testEndpointParametersRaw(requestParameters: TestEndpointParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.number === null || requestParameters.number === undefined) {
+        if (!runtime.exists(requestParameters, 'number')) {
             throw new runtime.RequiredError('number','Required parameter requestParameters.number was null or undefined when calling testEndpointParameters.');
         }
 
-        if (requestParameters._double === null || requestParameters._double === undefined) {
+        if (!runtime.exists(requestParameters, '_double')) {
             throw new runtime.RequiredError('_double','Required parameter requestParameters._double was null or undefined when calling testEndpointParameters.');
         }
 
-        if (requestParameters.patternWithoutDelimiter === null || requestParameters.patternWithoutDelimiter === undefined) {
+        if (!runtime.exists(requestParameters, 'patternWithoutDelimiter')) {
             throw new runtime.RequiredError('patternWithoutDelimiter','Required parameter requestParameters.patternWithoutDelimiter was null or undefined when calling testEndpointParameters.');
         }
 
-        if (requestParameters._byte === null || requestParameters._byte === undefined) {
+        if (!runtime.exists(requestParameters, '_byte')) {
             throw new runtime.RequiredError('_byte','Required parameter requestParameters._byte was null or undefined when calling testEndpointParameters.');
         }
 
@@ -799,15 +799,15 @@ export class FakeApi extends runtime.BaseAPI {
      * Fake endpoint to test group parameters (optional)
      */
     async testGroupParametersRaw(requestParameters: TestGroupParametersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.requiredStringGroup === null || requestParameters.requiredStringGroup === undefined) {
+        if (!runtime.exists(requestParameters, 'requiredStringGroup')) {
             throw new runtime.RequiredError('requiredStringGroup','Required parameter requestParameters.requiredStringGroup was null or undefined when calling testGroupParameters.');
         }
 
-        if (requestParameters.requiredBooleanGroup === null || requestParameters.requiredBooleanGroup === undefined) {
+        if (!runtime.exists(requestParameters, 'requiredBooleanGroup')) {
             throw new runtime.RequiredError('requiredBooleanGroup','Required parameter requestParameters.requiredBooleanGroup was null or undefined when calling testGroupParameters.');
         }
 
-        if (requestParameters.requiredInt64Group === null || requestParameters.requiredInt64Group === undefined) {
+        if (!runtime.exists(requestParameters, 'requiredInt64Group')) {
             throw new runtime.RequiredError('requiredInt64Group','Required parameter requestParameters.requiredInt64Group was null or undefined when calling testGroupParameters.');
         }
 
@@ -870,7 +870,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test inline additionalProperties
      */
     async testInlineAdditionalPropertiesRaw(requestParameters: TestInlineAdditionalPropertiesRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+        if (!runtime.exists(requestParameters, 'requestBody')) {
             throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testInlineAdditionalProperties.');
         }
 
@@ -904,7 +904,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test inline free-form additionalProperties
      */
     async testInlineFreeformAdditionalPropertiesRaw(requestParameters: TestInlineFreeformAdditionalPropertiesOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.testInlineFreeformAdditionalPropertiesRequest === null || requestParameters.testInlineFreeformAdditionalPropertiesRequest === undefined) {
+        if (!runtime.exists(requestParameters, 'testInlineFreeformAdditionalPropertiesRequest')) {
             throw new runtime.RequiredError('testInlineFreeformAdditionalPropertiesRequest','Required parameter requestParameters.testInlineFreeformAdditionalPropertiesRequest was null or undefined when calling testInlineFreeformAdditionalProperties.');
         }
 
@@ -938,11 +938,11 @@ export class FakeApi extends runtime.BaseAPI {
      * test json serialization of form data
      */
     async testJsonFormDataRaw(requestParameters: TestJsonFormDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.param === null || requestParameters.param === undefined) {
+        if (!runtime.exists(requestParameters, 'param')) {
             throw new runtime.RequiredError('param','Required parameter requestParameters.param was null or undefined when calling testJsonFormData.');
         }
 
-        if (requestParameters.param2 === null || requestParameters.param2 === undefined) {
+        if (!runtime.exists(requestParameters, 'param2')) {
             throw new runtime.RequiredError('param2','Required parameter requestParameters.param2 was null or undefined when calling testJsonFormData.');
         }
 
@@ -996,7 +996,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test nullable parent property
      */
     async testNullableRaw(requestParameters: TestNullableRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.childWithNullable === null || requestParameters.childWithNullable === undefined) {
+        if (!runtime.exists(requestParameters, 'childWithNullable')) {
             throw new runtime.RequiredError('childWithNullable','Required parameter requestParameters.childWithNullable was null or undefined when calling testNullable.');
         }
 
@@ -1029,27 +1029,27 @@ export class FakeApi extends runtime.BaseAPI {
      * To test the collection format in query parameters
      */
     async testQueryParameterCollectionFormatRaw(requestParameters: TestQueryParameterCollectionFormatRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.pipe === null || requestParameters.pipe === undefined) {
+        if (!runtime.exists(requestParameters, 'pipe')) {
             throw new runtime.RequiredError('pipe','Required parameter requestParameters.pipe was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
-        if (requestParameters.ioutil === null || requestParameters.ioutil === undefined) {
+        if (!runtime.exists(requestParameters, 'ioutil')) {
             throw new runtime.RequiredError('ioutil','Required parameter requestParameters.ioutil was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
-        if (requestParameters.http === null || requestParameters.http === undefined) {
+        if (!runtime.exists(requestParameters, 'http')) {
             throw new runtime.RequiredError('http','Required parameter requestParameters.http was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
-        if (requestParameters.url === null || requestParameters.url === undefined) {
+        if (!runtime.exists(requestParameters, 'url')) {
             throw new runtime.RequiredError('url','Required parameter requestParameters.url was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
-        if (requestParameters.context === null || requestParameters.context === undefined) {
+        if (!runtime.exists(requestParameters, 'context')) {
             throw new runtime.RequiredError('context','Required parameter requestParameters.context was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
-        if (requestParameters.allowEmpty === null || requestParameters.allowEmpty === undefined) {
+        if (!runtime.exists(requestParameters, 'allowEmpty')) {
             throw new runtime.RequiredError('allowEmpty','Required parameter requestParameters.allowEmpty was null or undefined when calling testQueryParameterCollectionFormat.');
         }
 
@@ -1107,7 +1107,7 @@ export class FakeApi extends runtime.BaseAPI {
      * test referenced string map
      */
     async testStringMapReferenceRaw(requestParameters: TestStringMapReferenceRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.requestBody === null || requestParameters.requestBody === undefined) {
+        if (!runtime.exists(requestParameters, 'requestBody')) {
             throw new runtime.RequiredError('requestBody','Required parameter requestParameters.requestBody was null or undefined when calling testStringMapReference.');
         }
 

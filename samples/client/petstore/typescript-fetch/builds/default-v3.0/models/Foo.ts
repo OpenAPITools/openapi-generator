@@ -41,7 +41,7 @@ export function FooFromJSON(json: any): Foo {
 }
 
 export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -47,7 +47,7 @@ export function FakeBigDecimalMap200ResponseFromJSON(json: any): FakeBigDecimalM
 }
 
 export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeBigDecimalMap200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -69,7 +69,7 @@ export function ObjectWithDeprecatedFieldsFromJSON(json: any): ObjectWithDepreca
 }
 
 export function ObjectWithDeprecatedFieldsFromJSONTyped(json: any, ignoreDiscriminator: boolean): ObjectWithDeprecatedFields {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

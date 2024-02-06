@@ -212,7 +212,7 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -260,7 +260,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value.category),
         'optionalCategory': CategoryToJSON(value.optionalCategory),
         'name': value.name,
-        'entries': value._entries === undefined ? undefined : ((value._entries as Array<any>).map(CategoryToJSON)),
+        'entries': !exists(value, '_entries') ? undefined : ((value._entries as Array<any>).map(CategoryToJSON)),
         'surname': value.surname,
         'photoUrls': value.photoUrls,
         'warningStatus': WarningCodeToJSON(value.warningStatus),
@@ -268,7 +268,7 @@ export function PetToJSON(value?: Pet | null): any {
         'alternateStatus': DeploymentRequestStatusToJSON(value.alternateStatus),
         'otherDepStatuses': ((value.otherDepStatuses as Array<any>).map(DeploymentRequestStatusToJSON)),
         'tags': ((value.tags as Array<any>).map(TagToJSON)),
-        'optionalTags': value.optionalTags === undefined ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),
+        'optionalTags': !exists(value, 'optionalTags') ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),
         'status': value.status,
         'regions': value.regions,
     };

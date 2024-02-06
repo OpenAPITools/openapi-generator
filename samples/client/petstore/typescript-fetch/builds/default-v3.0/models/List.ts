@@ -41,7 +41,7 @@ export function ListFromJSON(json: any): List {
 }
 
 export function ListFromJSONTyped(json: any, ignoreDiscriminator: boolean): List {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

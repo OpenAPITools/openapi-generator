@@ -50,7 +50,7 @@ export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
 }
 
 export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildWithNullable {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

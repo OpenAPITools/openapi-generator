@@ -61,7 +61,7 @@ export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeRespo
 }
 
 export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

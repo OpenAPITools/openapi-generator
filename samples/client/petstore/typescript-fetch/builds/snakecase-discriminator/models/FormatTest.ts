@@ -142,7 +142,7 @@ export function FormatTestFromJSON(json: any): FormatTest {
 }
 
 export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FormatTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -185,8 +185,8 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
         'string': value.string,
         'byte': value._byte,
         'binary': value.binary,
-        'date': (value.date.toISOString().substring(0,10)),
-        'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
+        'date': ((value.date).toISOString().substring(0,10)),
+        'dateTime': !exists(value, 'dateTime') ? undefined : ((value.dateTime).toISOString()),
         'uuid': value.uuid,
         'password': value.password,
         'pattern_with_digits': value.patternWithDigits,

@@ -61,7 +61,7 @@ export function GetMatchingPartsResponseFromJSON(json: any): GetMatchingPartsRes
 }
 
 export function GetMatchingPartsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetMatchingPartsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

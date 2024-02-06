@@ -41,7 +41,7 @@ export function ClassModelFromJSON(json: any): ClassModel {
 }
 
 export function ClassModelFromJSONTyped(json: any, ignoreDiscriminator: boolean): ClassModel {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

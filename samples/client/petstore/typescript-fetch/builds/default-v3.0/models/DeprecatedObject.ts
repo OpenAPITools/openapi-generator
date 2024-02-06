@@ -41,7 +41,7 @@ export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
 }
 
 export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeprecatedObject {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

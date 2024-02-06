@@ -41,7 +41,7 @@ export function HealthCheckResultFromJSON(json: any): HealthCheckResult {
 }
 
 export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthCheckResult {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

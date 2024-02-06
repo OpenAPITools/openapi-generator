@@ -60,7 +60,7 @@ export function ArrayTestFromJSON(json: any): ArrayTest {
 }
 
 export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -47,7 +47,7 @@ export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {
 }
 
 export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReadOnlyFirst {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

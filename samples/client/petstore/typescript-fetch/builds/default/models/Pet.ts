@@ -98,7 +98,7 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -125,7 +125,7 @@ export function PetToJSON(value?: Pet | null): any {
         'category': CategoryToJSON(value.category),
         'name': value.name,
         'photoUrls': value.photoUrls,
-        'tags': value.tags === undefined ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
+        'tags': !exists(value, 'tags') ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
         'status': value.status,
     };
 }

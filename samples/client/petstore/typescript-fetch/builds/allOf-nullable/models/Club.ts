@@ -48,7 +48,7 @@ export function ClubFromJSON(json: any): Club {
 }
 
 export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -60,7 +60,7 @@ export function NameFromJSON(json: any): Name {
 }
 
 export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

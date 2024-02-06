@@ -49,7 +49,7 @@ export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyRespo
 }
 
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

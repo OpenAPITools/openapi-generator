@@ -41,7 +41,7 @@ export function SpecialModelNameFromJSON(json: any): SpecialModelName {
 }
 
 export function SpecialModelNameFromJSONTyped(json: any, ignoreDiscriminator: boolean): SpecialModelName {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

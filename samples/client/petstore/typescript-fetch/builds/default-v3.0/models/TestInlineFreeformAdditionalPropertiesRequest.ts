@@ -42,7 +42,7 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSON(json: any)
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): TestInlineFreeformAdditionalPropertiesRequest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

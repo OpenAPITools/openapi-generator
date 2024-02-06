@@ -101,7 +101,7 @@ export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnum
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestGetInline200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

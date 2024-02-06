@@ -48,7 +48,7 @@ export function CatFromJSON(json: any): Cat {
 }
 
 export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

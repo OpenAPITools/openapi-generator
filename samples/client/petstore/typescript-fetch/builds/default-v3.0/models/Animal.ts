@@ -53,7 +53,7 @@ export function AnimalFromJSON(json: any): Animal {
 }
 
 export function AnimalFromJSONTyped(json: any, ignoreDiscriminator: boolean): Animal {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     if (!ignoreDiscriminator) {

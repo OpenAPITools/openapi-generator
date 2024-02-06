@@ -41,7 +41,7 @@ export function ClientFromJSON(json: any): Client {
 }
 
 export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

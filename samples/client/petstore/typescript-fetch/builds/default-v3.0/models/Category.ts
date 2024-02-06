@@ -48,7 +48,7 @@ export function CategoryFromJSON(json: any): Category {
 }
 
 export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): Category {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

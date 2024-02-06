@@ -48,7 +48,7 @@ export function FooGetDefaultResponseFromJSON(json: any): FooGetDefaultResponse 
 }
 
 export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FooGetDefaultResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -56,7 +56,7 @@ export function MatchingPartsFromJSON(json: any): MatchingParts {
 }
 
 export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boolean): MatchingParts {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

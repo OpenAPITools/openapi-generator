@@ -47,7 +47,7 @@ export function AdditionalPropertiesClassFromJSON(json: any): AdditionalProperti
 }
 
 export function AdditionalPropertiesClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): AdditionalPropertiesClass {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

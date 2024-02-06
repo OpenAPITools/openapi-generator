@@ -149,7 +149,7 @@ export function EnumTestFromJSON(json: any): EnumTest {
 }
 
 export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

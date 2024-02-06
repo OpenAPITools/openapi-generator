@@ -41,7 +41,7 @@ export function ModelFileFromJSON(json: any): ModelFile {
 }
 
 export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelFile {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -55,7 +55,7 @@ export function PetRegionsResponseFromJSON(json: any): PetRegionsResponse {
 }
 
 export function PetRegionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): PetRegionsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

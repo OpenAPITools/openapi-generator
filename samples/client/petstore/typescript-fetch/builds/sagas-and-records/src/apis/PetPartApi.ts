@@ -47,7 +47,7 @@ export class PetPartApi extends runtime.BaseAPI {
      * Returns single pet part type for the petPart id.
      */
     async getFakePetPartTypeRaw(requestParameters: GetFakePetPartTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetPetPartTypeResponse>> {
-        if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
+        if (!runtime.exists(requestParameters, 'fakePetPartId')) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getFakePetPartType.');
         }
 
@@ -77,19 +77,19 @@ export class PetPartApi extends runtime.BaseAPI {
      * Get the matching parts for the given pet part.
      */
     async getMatchingPartsRaw(requestParameters: GetMatchingPartsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetMatchingPartsResponse>> {
-        if (requestParameters.fakePetPartId === null || requestParameters.fakePetPartId === undefined) {
+        if (!runtime.exists(requestParameters, 'fakePetPartId')) {
             throw new runtime.RequiredError('fakePetPartId','Required parameter requestParameters.fakePetPartId was null or undefined when calling getMatchingParts.');
         }
 
-        if (requestParameters._long === null || requestParameters._long === undefined) {
+        if (!runtime.exists(requestParameters, '_long')) {
             throw new runtime.RequiredError('_long','Required parameter requestParameters._long was null or undefined when calling getMatchingParts.');
         }
 
-        if (requestParameters.smooth === null || requestParameters.smooth === undefined) {
+        if (!runtime.exists(requestParameters, 'smooth')) {
             throw new runtime.RequiredError('smooth','Required parameter requestParameters.smooth was null or undefined when calling getMatchingParts.');
         }
 
-        if (requestParameters._short === null || requestParameters._short === undefined) {
+        if (!runtime.exists(requestParameters, '_short')) {
             throw new runtime.RequiredError('_short','Required parameter requestParameters._short was null or undefined when calling getMatchingParts.');
         }
 

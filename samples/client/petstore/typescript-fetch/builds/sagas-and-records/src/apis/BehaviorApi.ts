@@ -42,7 +42,7 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get permissions for the behavior
      */
     async getBehaviorPermissionsRaw(requestParameters: GetBehaviorPermissionsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorPermissionsResponse>> {
-        if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
+        if (!runtime.exists(requestParameters, 'behaviorId')) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorPermissions.');
         }
 
@@ -72,7 +72,7 @@ export class BehaviorApi extends runtime.BaseAPI {
      * Get the type of behavior
      */
     async getBehaviorTypeRaw(requestParameters: GetBehaviorTypeRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<GetBehaviorTypeResponse>> {
-        if (requestParameters.behaviorId === null || requestParameters.behaviorId === undefined) {
+        if (!runtime.exists(requestParameters, 'behaviorId')) {
             throw new runtime.RequiredError('behaviorId','Required parameter requestParameters.behaviorId was null or undefined when calling getBehaviorType.');
         }
 

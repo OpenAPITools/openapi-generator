@@ -55,7 +55,7 @@ export function GetBehaviorPermissionsResponseFromJSON(json: any): GetBehaviorPe
 }
 
 export function GetBehaviorPermissionsResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorPermissionsResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

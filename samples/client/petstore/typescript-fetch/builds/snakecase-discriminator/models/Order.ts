@@ -83,7 +83,7 @@ export function OrderFromJSON(json: any): Order {
 }
 
 export function OrderFromJSONTyped(json: any, ignoreDiscriminator: boolean): Order {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -109,7 +109,7 @@ export function OrderToJSON(value?: Order | null): any {
         'id': value.id,
         'petId': value.petId,
         'quantity': value.quantity,
-        'shipDate': value.shipDate === undefined ? undefined : (value.shipDate.toISOString()),
+        'shipDate': !exists(value, 'shipDate') ? undefined : ((value.shipDate).toISOString()),
         'status': value.status,
         'complete': value.complete,
     };

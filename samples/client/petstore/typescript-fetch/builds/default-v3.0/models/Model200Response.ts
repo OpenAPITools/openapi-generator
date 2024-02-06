@@ -47,7 +47,7 @@ export function Model200ResponseFromJSON(json: any): Model200Response {
 }
 
 export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

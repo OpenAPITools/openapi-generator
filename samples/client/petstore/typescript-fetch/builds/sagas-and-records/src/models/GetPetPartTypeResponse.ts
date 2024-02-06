@@ -61,7 +61,7 @@ export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeRespons
 }
 
 export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

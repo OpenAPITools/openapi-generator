@@ -67,7 +67,7 @@ export function EnumArraysFromJSON(json: any): EnumArrays {
 }
 
 export function EnumArraysFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumArrays {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

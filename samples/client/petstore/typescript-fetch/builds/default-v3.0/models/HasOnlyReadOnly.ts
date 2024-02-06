@@ -47,7 +47,7 @@ export function HasOnlyReadOnlyFromJSON(json: any): HasOnlyReadOnly {
 }
 
 export function HasOnlyReadOnlyFromJSONTyped(json: any, ignoreDiscriminator: boolean): HasOnlyReadOnly {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

@@ -54,7 +54,7 @@ export function AllOfWithSingleRefFromJSON(json: any): AllOfWithSingleRef {
 }
 
 export function AllOfWithSingleRefFromJSONTyped(json: any, ignoreDiscriminator: boolean): AllOfWithSingleRef {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

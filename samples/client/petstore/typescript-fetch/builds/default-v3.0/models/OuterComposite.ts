@@ -53,7 +53,7 @@ export function OuterCompositeFromJSON(json: any): OuterComposite {
 }
 
 export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterComposite {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

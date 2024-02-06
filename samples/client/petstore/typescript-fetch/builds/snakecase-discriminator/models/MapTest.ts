@@ -70,7 +70,7 @@ export function MapTestFromJSON(json: any): MapTest {
 }
 
 export function MapTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): MapTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

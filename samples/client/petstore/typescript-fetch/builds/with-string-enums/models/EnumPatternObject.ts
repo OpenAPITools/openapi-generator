@@ -72,7 +72,7 @@ export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {
 }
 
 export function EnumPatternObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumPatternObject {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

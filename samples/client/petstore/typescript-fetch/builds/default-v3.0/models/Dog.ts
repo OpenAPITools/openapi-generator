@@ -48,7 +48,7 @@ export function DogFromJSON(json: any): Dog {
 }
 
 export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

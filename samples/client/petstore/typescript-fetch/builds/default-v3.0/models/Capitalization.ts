@@ -72,7 +72,7 @@ export function CapitalizationFromJSON(json: any): Capitalization {
 }
 
 export function CapitalizationFromJSONTyped(json: any, ignoreDiscriminator: boolean): Capitalization {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

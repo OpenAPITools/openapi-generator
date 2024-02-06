@@ -49,7 +49,7 @@ export function PartFromJSON(json: any): Part {
 }
 
 export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

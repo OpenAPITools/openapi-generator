@@ -41,7 +41,7 @@ export function ReturnFromJSON(json: any): Return {
 }
 
 export function ReturnFromJSONTyped(json: any, ignoreDiscriminator: boolean): Return {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

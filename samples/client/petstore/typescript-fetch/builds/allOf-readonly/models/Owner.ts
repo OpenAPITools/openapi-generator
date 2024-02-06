@@ -41,7 +41,7 @@ export function OwnerFromJSON(json: any): Owner {
 }
 
 export function OwnerFromJSONTyped(json: any, ignoreDiscriminator: boolean): Owner {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

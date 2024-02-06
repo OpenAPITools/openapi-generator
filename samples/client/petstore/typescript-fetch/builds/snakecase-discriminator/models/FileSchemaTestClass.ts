@@ -47,7 +47,7 @@ export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
 }
 
 export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileSchemaTestClass {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

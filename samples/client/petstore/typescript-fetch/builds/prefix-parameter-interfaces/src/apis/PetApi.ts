@@ -71,7 +71,7 @@ export class PetApi extends runtime.BaseAPI {
      * Add a new pet to the store
      */
     async addPetRaw(requestParameters: PetApiAddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
+        if (!runtime.exists(requestParameters, 'body')) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
 
@@ -108,7 +108,7 @@ export class PetApi extends runtime.BaseAPI {
      * Deletes a pet
      */
     async deletePetRaw(requestParameters: PetApiDeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+        if (!runtime.exists(requestParameters, 'petId')) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
 
@@ -147,7 +147,7 @@ export class PetApi extends runtime.BaseAPI {
      * Finds Pets by status
      */
     async findPetsByStatusRaw(requestParameters: PetApiFindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
-        if (requestParameters.status === null || requestParameters.status === undefined) {
+        if (!runtime.exists(requestParameters, 'status')) {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
 
@@ -189,7 +189,7 @@ export class PetApi extends runtime.BaseAPI {
      * @deprecated
      */
     async findPetsByTagsRaw(requestParameters: PetApiFindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
-        if (requestParameters.tags === null || requestParameters.tags === undefined) {
+        if (!runtime.exists(requestParameters, 'tags')) {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
 
@@ -231,7 +231,7 @@ export class PetApi extends runtime.BaseAPI {
      * Find pet by ID
      */
     async getPetByIdRaw(requestParameters: PetApiGetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+        if (!runtime.exists(requestParameters, 'petId')) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
 
@@ -266,7 +266,7 @@ export class PetApi extends runtime.BaseAPI {
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: PetApiUpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.body === null || requestParameters.body === undefined) {
+        if (!runtime.exists(requestParameters, 'body')) {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
 
@@ -303,7 +303,7 @@ export class PetApi extends runtime.BaseAPI {
      * Updates a pet in the store with form data
      */
     async updatePetWithFormRaw(requestParameters: PetApiUpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+        if (!runtime.exists(requestParameters, 'petId')) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
 
@@ -360,7 +360,7 @@ export class PetApi extends runtime.BaseAPI {
      * uploads an image
      */
     async uploadFileRaw(requestParameters: PetApiUploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
-        if (requestParameters.petId === null || requestParameters.petId === undefined) {
+        if (!runtime.exists(requestParameters, 'petId')) {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
 

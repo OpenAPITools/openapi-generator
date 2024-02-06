@@ -49,7 +49,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
 }
 
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {

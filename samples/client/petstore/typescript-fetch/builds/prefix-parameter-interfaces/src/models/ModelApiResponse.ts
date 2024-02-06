@@ -53,7 +53,7 @@ export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
 }
 
 export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelApiResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
