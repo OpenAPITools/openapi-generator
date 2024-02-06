@@ -107,7 +107,7 @@ export class {{classname}} extends runtime.BaseAPI {
     async {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request, {{/allParams.0}}initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{{{returnType}}}{{^returnType}}void{{/returnType}}>> {
         {{#allParams}}
         {{#required}}
-        if (requestParameters.{{paramName}} === null || requestParameters.{{paramName}} === undefined) {
+        if (!runtime.exists(requestParameters, '{{paramName}}')) {
             throw new runtime.RequiredError('{{paramName}}','Required parameter requestParameters.{{paramName}} was null or undefined when calling {{nickname}}.');
         }
 
