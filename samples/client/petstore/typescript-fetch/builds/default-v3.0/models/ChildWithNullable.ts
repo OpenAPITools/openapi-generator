@@ -40,9 +40,7 @@ export interface ChildWithNullable extends ParentWithNullable {
  * Check if a given object implements the ChildWithNullable interface.
  */
 export function instanceOfChildWithNullable(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ChildWithNullableFromJSON(json: any): ChildWithNullable {

@@ -49,10 +49,8 @@ export interface Name {
  * Check if a given object implements the Name interface.
  */
 export function instanceOfName(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "name" in value;
-
-    return isInstance;
+    if (!('name' in value)) return false;
+    return true;
 }
 
 export function NameFromJSON(json: any): Name {

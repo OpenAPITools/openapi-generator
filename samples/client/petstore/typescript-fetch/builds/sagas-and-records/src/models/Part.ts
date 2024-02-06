@@ -37,11 +37,9 @@ export interface Part {
  * Check if a given object implements the Part interface.
  */
 export function instanceOfPart(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "name" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('name' in value)) return false;
+    return true;
 }
 
 export function PartFromJSON(json: any): Part {

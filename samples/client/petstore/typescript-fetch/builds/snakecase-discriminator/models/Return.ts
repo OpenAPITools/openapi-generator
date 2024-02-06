@@ -31,9 +31,7 @@ export interface Return {
  * Check if a given object implements the Return interface.
  */
 export function instanceOfReturn(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ReturnFromJSON(json: any): Return {

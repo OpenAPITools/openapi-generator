@@ -31,9 +31,7 @@ export interface Foo {
  * Check if a given object implements the Foo interface.
  */
 export function instanceOfFoo(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FooFromJSON(json: any): Foo {

@@ -31,9 +31,7 @@ export interface ArrayOfNumberOnly {
  * Check if a given object implements the ArrayOfNumberOnly interface.
  */
 export function instanceOfArrayOfNumberOnly(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ArrayOfNumberOnlyFromJSON(json: any): ArrayOfNumberOnly {

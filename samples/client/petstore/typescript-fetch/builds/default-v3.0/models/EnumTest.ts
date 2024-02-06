@@ -73,7 +73,7 @@ export interface EnumTest {
      * @type {OuterEnum}
      * @memberof EnumTest
      */
-    outerEnum?: OuterEnum | null;
+    outerEnum?: OuterEnum;
     /**
      * 
      * @type {OuterEnumInteger}
@@ -138,10 +138,8 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
  * Check if a given object implements the EnumTest interface.
  */
 export function instanceOfEnumTest(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "enumStringRequired" in value;
-
-    return isInstance;
+    if (!('enumStringRequired' in value)) return false;
+    return true;
 }
 
 export function EnumTestFromJSON(json: any): EnumTest {

@@ -50,10 +50,8 @@ export interface FindPetsByStatusResponse {
  * Check if a given object implements the FindPetsByStatusResponse interface.
  */
 export function instanceOfFindPetsByStatusResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function FindPetsByStatusResponseFromJSON(json: any): FindPetsByStatusResponse {

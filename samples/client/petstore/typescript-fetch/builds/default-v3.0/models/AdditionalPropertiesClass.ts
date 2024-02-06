@@ -37,9 +37,7 @@ export interface AdditionalPropertiesClass {
  * Check if a given object implements the AdditionalPropertiesClass interface.
  */
 export function instanceOfAdditionalPropertiesClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function AdditionalPropertiesClassFromJSON(json: any): AdditionalPropertiesClass {

@@ -50,10 +50,8 @@ export interface GetPetPartTypeResponse {
  * Check if a given object implements the GetPetPartTypeResponse interface.
  */
 export function instanceOfGetPetPartTypeResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeResponse {

@@ -37,9 +37,7 @@ export interface Model200Response {
  * Check if a given object implements the Model200Response interface.
  */
 export function instanceOfModel200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function Model200ResponseFromJSON(json: any): Model200Response {

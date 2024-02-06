@@ -42,10 +42,8 @@ export interface Animal {
  * Check if a given object implements the Animal interface.
  */
 export function instanceOfAnimal(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "className" in value;
-
-    return isInstance;
+    if (!('className' in value)) return false;
+    return true;
 }
 
 export function AnimalFromJSON(json: any): Animal {

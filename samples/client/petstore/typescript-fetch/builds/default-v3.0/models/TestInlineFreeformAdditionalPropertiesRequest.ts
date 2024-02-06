@@ -32,9 +32,7 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
  * Check if a given object implements the TestInlineFreeformAdditionalPropertiesRequest interface.
  */
 export function instanceOfTestInlineFreeformAdditionalPropertiesRequest(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestFromJSON(json: any): TestInlineFreeformAdditionalPropertiesRequest {

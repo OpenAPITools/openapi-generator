@@ -44,10 +44,8 @@ export interface PetRegionsResponse {
  * Check if a given object implements the PetRegionsResponse interface.
  */
 export function instanceOfPetRegionsResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function PetRegionsResponseFromJSON(json: any): PetRegionsResponse {

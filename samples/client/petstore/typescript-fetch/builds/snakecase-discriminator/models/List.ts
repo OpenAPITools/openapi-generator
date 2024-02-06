@@ -31,9 +31,7 @@ export interface List {
  * Check if a given object implements the List interface.
  */
 export function instanceOfList(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ListFromJSON(json: any): List {

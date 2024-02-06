@@ -31,9 +31,7 @@ export interface Owner {
  * Check if a given object implements the Owner interface.
  */
 export function instanceOfOwner(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function OwnerFromJSON(json: any): Owner {

@@ -34,7 +34,7 @@ export interface ParentWithNullable {
      * @type {string}
      * @memberof ParentWithNullable
      */
-    nullableProperty?: string | null;
+    nullableProperty?: string;
 }
 
 
@@ -51,9 +51,7 @@ export type ParentWithNullableTypeEnum = typeof ParentWithNullableTypeEnum[keyof
  * Check if a given object implements the ParentWithNullable interface.
  */
 export function instanceOfParentWithNullable(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ParentWithNullableFromJSON(json: any): ParentWithNullable {

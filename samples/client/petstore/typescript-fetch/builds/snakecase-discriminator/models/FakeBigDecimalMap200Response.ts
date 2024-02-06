@@ -37,9 +37,7 @@ export interface FakeBigDecimalMap200Response {
  * Check if a given object implements the FakeBigDecimalMap200Response interface.
  */
 export function instanceOfFakeBigDecimalMap200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FakeBigDecimalMap200ResponseFromJSON(json: any): FakeBigDecimalMap200Response {

@@ -50,10 +50,8 @@ export interface GetBehaviorTypeResponse {
  * Check if a given object implements the GetBehaviorTypeResponse interface.
  */
 export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {

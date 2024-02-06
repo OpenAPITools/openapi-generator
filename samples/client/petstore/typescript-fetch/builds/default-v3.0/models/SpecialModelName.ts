@@ -31,9 +31,7 @@ export interface SpecialModelName {
  * Check if a given object implements the SpecialModelName interface.
  */
 export function instanceOfSpecialModelName(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function SpecialModelNameFromJSON(json: any): SpecialModelName {

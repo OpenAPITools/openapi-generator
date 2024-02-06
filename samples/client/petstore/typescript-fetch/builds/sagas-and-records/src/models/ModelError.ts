@@ -56,10 +56,8 @@ export interface ModelError {
  * Check if a given object implements the ModelError interface.
  */
 export function instanceOfModelError(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "type" in value;
-
-    return isInstance;
+    if (!('type' in value)) return false;
+    return true;
 }
 
 export function ModelErrorFromJSON(json: any): ModelError {

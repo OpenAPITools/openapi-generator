@@ -100,10 +100,8 @@ export type ResponseMetaCodeEnum = typeof ResponseMetaCodeEnum[keyof typeof Resp
  * Check if a given object implements the ResponseMeta interface.
  */
 export function instanceOfResponseMeta(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "code" in value;
-
-    return isInstance;
+    if (!('code' in value)) return false;
+    return true;
 }
 
 export function ResponseMetaFromJSON(json: any): ResponseMeta {

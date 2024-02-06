@@ -25,49 +25,49 @@ export interface NullableClass {
      * @type {number}
      * @memberof NullableClass
      */
-    integerProp?: number | null;
+    integerProp?: number;
     /**
      * 
      * @type {number}
      * @memberof NullableClass
      */
-    numberProp?: number | null;
+    numberProp?: number;
     /**
      * 
      * @type {boolean}
      * @memberof NullableClass
      */
-    booleanProp?: boolean | null;
+    booleanProp?: boolean;
     /**
      * 
      * @type {string}
      * @memberof NullableClass
      */
-    stringProp?: string | null;
+    stringProp?: string;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    dateProp?: Date | null;
+    dateProp?: Date;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    datetimeProp?: Date | null;
+    datetimeProp?: Date;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayNullableProp?: Array<object> | null;
+    arrayNullableProp?: Array<object>;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object> | null;
+    arrayAndItemsNullableProp?: Array<object>;
     /**
      * 
      * @type {Array<object>}
@@ -79,13 +79,13 @@ export interface NullableClass {
      * @type {{ [key: string]: object; }}
      * @memberof NullableClass
      */
-    objectNullableProp?: { [key: string]: object; } | null;
+    objectNullableProp?: { [key: string]: object; };
     /**
      * 
      * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
+    objectAndItemsNullableProp?: { [key: string]: object | null; };
     /**
      * 
      * @type {{ [key: string]: object | null; }}
@@ -98,9 +98,7 @@ export interface NullableClass {
  * Check if a given object implements the NullableClass interface.
  */
 export function instanceOfNullableClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function NullableClassFromJSON(json: any): NullableClass {

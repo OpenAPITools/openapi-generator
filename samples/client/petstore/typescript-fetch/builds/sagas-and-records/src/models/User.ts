@@ -85,11 +85,9 @@ export interface User {
  * Check if a given object implements the User interface.
  */
 export function instanceOfUser(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "subUser2" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('subUser2' in value)) return false;
+    return true;
 }
 
 export function UserFromJSON(json: any): User {

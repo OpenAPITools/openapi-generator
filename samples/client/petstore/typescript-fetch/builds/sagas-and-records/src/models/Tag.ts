@@ -37,9 +37,7 @@ export interface Tag {
  * Check if a given object implements the Tag interface.
  */
 export function instanceOfTag(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function TagFromJSON(json: any): Tag {

@@ -43,7 +43,7 @@ export interface EnumPatternObject {
      * @type {StringEnum}
      * @memberof EnumPatternObject
      */
-    nullableStringEnum?: StringEnum | null;
+    nullableStringEnum?: StringEnum;
     /**
      * 
      * @type {NumberEnum}
@@ -55,16 +55,14 @@ export interface EnumPatternObject {
      * @type {NumberEnum}
      * @memberof EnumPatternObject
      */
-    nullableNumberEnum?: NumberEnum | null;
+    nullableNumberEnum?: NumberEnum;
 }
 
 /**
  * Check if a given object implements the EnumPatternObject interface.
  */
 export function instanceOfEnumPatternObject(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function EnumPatternObjectFromJSON(json: any): EnumPatternObject {

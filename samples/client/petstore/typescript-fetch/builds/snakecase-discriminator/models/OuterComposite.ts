@@ -43,9 +43,7 @@ export interface OuterComposite {
  * Check if a given object implements the OuterComposite interface.
  */
 export function instanceOfOuterComposite(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function OuterCompositeFromJSON(json: any): OuterComposite {

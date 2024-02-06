@@ -44,11 +44,9 @@ export interface MatchingParts {
  * Check if a given object implements the MatchingParts interface.
  */
 export function instanceOfMatchingParts(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "connected" in value;
-    isInstance = isInstance && "related" in value;
-
-    return isInstance;
+    if (!('connected' in value)) return false;
+    if (!('related' in value)) return false;
+    return true;
 }
 
 export function MatchingPartsFromJSON(json: any): MatchingParts {

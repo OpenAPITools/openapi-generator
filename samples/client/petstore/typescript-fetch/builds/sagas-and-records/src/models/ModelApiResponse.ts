@@ -43,9 +43,7 @@ export interface ModelApiResponse {
  * Check if a given object implements the ModelApiResponse interface.
  */
 export function instanceOfModelApiResponse(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ModelApiResponseFromJSON(json: any): ModelApiResponse {

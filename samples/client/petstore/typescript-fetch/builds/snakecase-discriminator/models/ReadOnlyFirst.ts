@@ -37,9 +37,7 @@ export interface ReadOnlyFirst {
  * Check if a given object implements the ReadOnlyFirst interface.
  */
 export function instanceOfReadOnlyFirst(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {

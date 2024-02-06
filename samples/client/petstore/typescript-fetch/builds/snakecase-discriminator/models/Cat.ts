@@ -38,9 +38,7 @@ export interface Cat extends Animal {
  * Check if a given object implements the Cat interface.
  */
 export function instanceOfCat(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function CatFromJSON(json: any): Cat {

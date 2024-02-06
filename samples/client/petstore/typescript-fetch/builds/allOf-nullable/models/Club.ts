@@ -31,16 +31,14 @@ export interface Club {
      * @type {Owner}
      * @memberof Club
      */
-    owner?: Owner | null;
+    owner?: Owner;
 }
 
 /**
  * Check if a given object implements the Club interface.
  */
 export function instanceOfClub(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ClubFromJSON(json: any): Club {

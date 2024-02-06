@@ -62,9 +62,7 @@ export interface Capitalization {
  * Check if a given object implements the Capitalization interface.
  */
 export function instanceOfCapitalization(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function CapitalizationFromJSON(json: any): Capitalization {

@@ -37,9 +37,7 @@ export interface Category {
  * Check if a given object implements the Category interface.
  */
 export function instanceOfCategory(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function CategoryFromJSON(json: any): Category {

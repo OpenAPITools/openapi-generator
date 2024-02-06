@@ -50,9 +50,7 @@ export interface MixedPropertiesAndAdditionalPropertiesClass {
  * Check if a given object implements the MixedPropertiesAndAdditionalPropertiesClass interface.
  */
 export function instanceOfMixedPropertiesAndAdditionalPropertiesClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function MixedPropertiesAndAdditionalPropertiesClassFromJSON(json: any): MixedPropertiesAndAdditionalPropertiesClass {

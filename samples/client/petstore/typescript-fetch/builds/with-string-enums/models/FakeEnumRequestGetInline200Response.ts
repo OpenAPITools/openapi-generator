@@ -87,9 +87,7 @@ export enum FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum {
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
 export function instanceOfFakeEnumRequestGetInline200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnumRequestGetInline200Response {

@@ -37,11 +37,9 @@ export interface ItemId {
  * Check if a given object implements the ItemId interface.
  */
 export function instanceOfItemId(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "type" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('type' in value)) return false;
+    return true;
 }
 
 export function ItemIdFromJSON(json: any): ItemId {
