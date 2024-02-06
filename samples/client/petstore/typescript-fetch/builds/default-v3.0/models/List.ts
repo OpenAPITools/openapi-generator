@@ -57,7 +57,7 @@ export function ListToJSON(value?: List | null): any {
     }
     return {
         
-        '123-list': value._123list,
+        '123-list': value['_123list'],
     };
 }
 

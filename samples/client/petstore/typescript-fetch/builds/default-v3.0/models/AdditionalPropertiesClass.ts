@@ -64,8 +64,8 @@ export function AdditionalPropertiesClassToJSON(value?: AdditionalPropertiesClas
     }
     return {
         
-        'map_property': value.mapProperty,
-        'map_of_map_property': value.mapOfMapProperty,
+        'map_property': value['mapProperty'],
+        'map_of_map_property': value['mapOfMapProperty'],
     };
 }
 

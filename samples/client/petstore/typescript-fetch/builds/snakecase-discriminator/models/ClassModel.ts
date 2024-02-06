@@ -57,7 +57,7 @@ export function ClassModelToJSON(value?: ClassModel | null): any {
     }
     return {
         
-        '_class': value._class,
+        '_class': value['_class'],
     };
 }
 

@@ -137,18 +137,18 @@ export function NullableClassToJSON(value?: NullableClass | null): any {
     return {
         
             ...value,
-        'integer_prop': value.integerProp,
-        'number_prop': value.numberProp,
-        'boolean_prop': value.booleanProp,
-        'string_prop': value.stringProp,
-        'date_prop': !exists(value, 'dateProp') ? undefined : ((value.dateProp as any).toISOString().substring(0,10)),
-        'datetime_prop': !exists(value, 'datetimeProp') ? undefined : ((value.datetimeProp as any).toISOString()),
-        'array_nullable_prop': value.arrayNullableProp,
-        'array_and_items_nullable_prop': value.arrayAndItemsNullableProp,
-        'array_items_nullable': value.arrayItemsNullable,
-        'object_nullable_prop': value.objectNullableProp,
-        'object_and_items_nullable_prop': value.objectAndItemsNullableProp,
-        'object_items_nullable': value.objectItemsNullable,
+        'integer_prop': value['integerProp'],
+        'number_prop': value['numberProp'],
+        'boolean_prop': value['booleanProp'],
+        'string_prop': value['stringProp'],
+        'date_prop': !exists(value, 'dateProp') ? undefined : ((value['dateProp'] as any).toISOString().substring(0,10)),
+        'datetime_prop': !exists(value, 'datetimeProp') ? undefined : ((value['datetimeProp'] as any).toISOString()),
+        'array_nullable_prop': value['arrayNullableProp'],
+        'array_and_items_nullable_prop': value['arrayAndItemsNullableProp'],
+        'array_items_nullable': value['arrayItemsNullable'],
+        'object_nullable_prop': value['objectNullableProp'],
+        'object_and_items_nullable_prop': value['objectAndItemsNullableProp'],
+        'object_items_nullable': value['objectItemsNullable'],
     };
 }
 

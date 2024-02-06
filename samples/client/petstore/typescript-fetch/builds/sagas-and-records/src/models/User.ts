@@ -122,16 +122,16 @@ export function UserToJSON(value?: User | null): any {
     }
     return {
         
-        'id': value.id,
-        'username': value.username,
-        'firstName': value.firstName,
-        'lastName': value.lastName,
-        'email': value.email,
-        'password': value.password,
-        'phone': value.phone,
-        'userStatus': value.userStatus,
-        'subUser': UserToJSON(value.subUser),
-        'subUser2': UserToJSON(value.subUser2),
+        'id': value['id'],
+        'username': value['username'],
+        'firstName': value['firstName'],
+        'lastName': value['lastName'],
+        'email': value['email'],
+        'password': value['password'],
+        'phone': value['phone'],
+        'userStatus': value['userStatus'],
+        'subUser': UserToJSON(value['subUser']),
+        'subUser2': UserToJSON(value['subUser2']),
     };
 }
 

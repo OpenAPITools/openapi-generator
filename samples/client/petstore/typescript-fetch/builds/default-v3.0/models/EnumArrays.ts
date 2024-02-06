@@ -84,8 +84,8 @@ export function EnumArraysToJSON(value?: EnumArrays | null): any {
     }
     return {
         
-        'just_symbol': value.justSymbol,
-        'array_enum': value.arrayEnum,
+        'just_symbol': value['justSymbol'],
+        'array_enum': value['arrayEnum'],
     };
 }
 

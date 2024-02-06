@@ -78,8 +78,8 @@ export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | nu
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': PetPartTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': PetPartTypeToJSON(value['data']),
     };
 }
 

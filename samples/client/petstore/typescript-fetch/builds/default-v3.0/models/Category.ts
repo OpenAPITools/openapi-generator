@@ -65,8 +65,8 @@ export function CategoryToJSON(value?: Category | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

@@ -64,8 +64,8 @@ export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): a
     }
     return {
         
-        'file': value.file,
-        'files': value.files,
+        'file': value['file'],
+        'files': value['files'],
     };
 }
 

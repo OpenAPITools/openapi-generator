@@ -91,10 +91,10 @@ export function EnumPatternObjectToJSON(value?: EnumPatternObject | null): any {
     }
     return {
         
-        'string-enum': StringEnumToJSON(value.stringEnum),
-        'nullable-string-enum': StringEnumToJSON(value.nullableStringEnum),
-        'number-enum': NumberEnumToJSON(value.numberEnum),
-        'nullable-number-enum': NumberEnumToJSON(value.nullableNumberEnum),
+        'string-enum': StringEnumToJSON(value['stringEnum']),
+        'nullable-string-enum': StringEnumToJSON(value['nullableStringEnum']),
+        'number-enum': NumberEnumToJSON(value['numberEnum']),
+        'nullable-number-enum': NumberEnumToJSON(value['nullableNumberEnum']),
     };
 }
 

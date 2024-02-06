@@ -64,7 +64,7 @@ export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
     }
     return {
         
-        'baz': value.baz,
+        'baz': value['baz'],
     };
 }
 

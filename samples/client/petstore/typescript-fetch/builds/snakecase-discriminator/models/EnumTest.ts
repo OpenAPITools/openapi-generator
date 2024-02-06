@@ -172,14 +172,14 @@ export function EnumTestToJSON(value?: EnumTest | null): any {
     }
     return {
         
-        'enum_string': value.enumString,
-        'enum_string_required': value.enumStringRequired,
-        'enum_integer': value.enumInteger,
-        'enum_number': value.enumNumber,
-        'outerEnum': OuterEnumToJSON(value.outerEnum),
-        'outerEnumInteger': OuterEnumIntegerToJSON(value.outerEnumInteger),
-        'outerEnumDefaultValue': OuterEnumDefaultValueToJSON(value.outerEnumDefaultValue),
-        'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value.outerEnumIntegerDefaultValue),
+        'enum_string': value['enumString'],
+        'enum_string_required': value['enumStringRequired'],
+        'enum_integer': value['enumInteger'],
+        'enum_number': value['enumNumber'],
+        'outerEnum': OuterEnumToJSON(value['outerEnum']),
+        'outerEnumInteger': OuterEnumIntegerToJSON(value['outerEnumInteger']),
+        'outerEnumDefaultValue': OuterEnumDefaultValueToJSON(value['outerEnumDefaultValue']),
+        'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value['outerEnumIntegerDefaultValue']),
     };
 }
 

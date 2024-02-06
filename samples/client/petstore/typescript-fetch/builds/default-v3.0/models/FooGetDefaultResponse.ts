@@ -64,7 +64,7 @@ export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null
     }
     return {
         
-        'string': FooToJSON(value.string),
+        'string': FooToJSON(value['string']),
     };
 }
 

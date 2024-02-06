@@ -57,7 +57,7 @@ export function SpecialModelNameToJSON(value?: SpecialModelName | null): any {
     }
     return {
         
-        '$special[property.name]': value.$specialPropertyName,
+        '$special[property.name]': value['$specialPropertyName'],
     };
 }
 

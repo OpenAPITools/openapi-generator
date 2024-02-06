@@ -65,7 +65,7 @@ export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
+        'meta': ResponseMetaToJSON(value['meta']),
     };
 }
 

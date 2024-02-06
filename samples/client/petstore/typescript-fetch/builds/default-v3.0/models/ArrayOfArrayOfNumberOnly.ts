@@ -57,7 +57,7 @@ export function ArrayOfArrayOfNumberOnlyToJSON(value?: ArrayOfArrayOfNumberOnly 
     }
     return {
         
-        'ArrayArrayNumber': value.arrayArrayNumber,
+        'ArrayArrayNumber': value['arrayArrayNumber'],
     };
 }
 

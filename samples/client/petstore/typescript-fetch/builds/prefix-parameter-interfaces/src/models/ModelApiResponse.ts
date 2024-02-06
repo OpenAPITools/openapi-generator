@@ -71,9 +71,9 @@ export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
     }
     return {
         
-        'code': value.code,
-        'type': value.type,
-        'message': value.message,
+        'code': value['code'],
+        'type': value['type'],
+        'message': value['message'],
     };
 }
 

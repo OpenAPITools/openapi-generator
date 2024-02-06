@@ -72,8 +72,8 @@ export function PetRegionsResponseToJSON(value?: PetRegionsResponse | null): any
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data,
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': value['data'],
     };
 }
 

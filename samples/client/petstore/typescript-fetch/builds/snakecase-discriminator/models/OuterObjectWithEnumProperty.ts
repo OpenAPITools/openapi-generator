@@ -65,7 +65,7 @@ export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumPro
     }
     return {
         
-        'value': OuterEnumIntegerToJSON(value.value),
+        'value': OuterEnumIntegerToJSON(value['value']),
     };
 }
 

@@ -57,7 +57,7 @@ export function ModelFileToJSON(value?: ModelFile | null): any {
     }
     return {
         
-        'sourceURI': value.sourceURI,
+        'sourceURI': value['sourceURI'],
     };
 }
 

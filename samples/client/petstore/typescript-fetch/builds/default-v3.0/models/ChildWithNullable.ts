@@ -66,7 +66,7 @@ export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
     }
     return {
         ...ParentWithNullableToJSON(value),
-        'otherProperty': value.otherProperty,
+        'otherProperty': value['otherProperty'],
     };
 }
 

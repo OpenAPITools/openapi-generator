@@ -132,12 +132,12 @@ export function ResponseMetaToJSON(value?: ResponseMeta | null): any {
     }
     return {
         
-        'code': value.code,
-        'detail': value.detail,
-        'exception': value.exception,
-        'type': value.type,
-        'errorCode': ErrorCodeToJSON(value.errorCode),
-        'errors': value.errors,
+        'code': value['code'],
+        'detail': value['detail'],
+        'exception': value['exception'],
+        'type': value['type'],
+        'errorCode': ErrorCodeToJSON(value['errorCode']),
+        'errors': value['errors'],
     };
 }
 

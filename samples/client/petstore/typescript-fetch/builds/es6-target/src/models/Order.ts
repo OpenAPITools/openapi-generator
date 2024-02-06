@@ -104,12 +104,12 @@ export function OrderToJSON(value?: Order | null): any {
     }
     return {
         
-        'id': value.id,
-        'petId': value.petId,
-        'quantity': value.quantity,
-        'shipDate': !exists(value, 'shipDate') ? undefined : ((value.shipDate).toISOString()),
-        'status': value.status,
-        'complete': value.complete,
+        'id': value['id'],
+        'petId': value['petId'],
+        'quantity': value['quantity'],
+        'shipDate': !exists(value, 'shipDate') ? undefined : ((value['shipDate']).toISOString()),
+        'status': value['status'],
+        'complete': value['complete'],
     };
 }
 

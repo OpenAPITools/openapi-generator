@@ -71,9 +71,9 @@ export function OuterCompositeToJSON(value?: OuterComposite | null): any {
     }
     return {
         
-        'my_number': value.myNumber,
-        'my_string': value.myString,
-        'my_boolean': value.myBoolean,
+        'my_number': value['myNumber'],
+        'my_string': value['myString'],
+        'my_boolean': value['myBoolean'],
     };
 }
 

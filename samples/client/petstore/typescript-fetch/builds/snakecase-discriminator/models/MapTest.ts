@@ -89,10 +89,10 @@ export function MapTestToJSON(value?: MapTest | null): any {
     }
     return {
         
-        'map_map_of_string': value.mapMapOfString,
-        'map_of_enum_string': value.mapOfEnumString,
-        'direct_map': value.directMap,
-        'indirect_map': value.indirectMap,
+        'map_map_of_string': value['mapMapOfString'],
+        'map_of_enum_string': value['mapOfEnumString'],
+        'direct_map': value['directMap'],
+        'indirect_map': value['indirectMap'],
     };
 }
 

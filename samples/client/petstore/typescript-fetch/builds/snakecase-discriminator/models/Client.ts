@@ -57,7 +57,7 @@ export function ClientToJSON(value?: Client | null): any {
     }
     return {
         
-        'client': value.client,
+        'client': value['client'],
     };
 }
 

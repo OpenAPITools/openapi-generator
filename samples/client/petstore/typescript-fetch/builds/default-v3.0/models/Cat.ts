@@ -64,7 +64,7 @@ export function CatToJSON(value?: Cat | null): any {
     }
     return {
         ...AnimalToJSON(value),
-        'declawed': value.declawed,
+        'declawed': value['declawed'],
     };
 }
 

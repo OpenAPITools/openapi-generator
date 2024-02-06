@@ -78,9 +78,9 @@ export function MixedPropertiesAndAdditionalPropertiesClassToJSON(value?: MixedP
     }
     return {
         
-        'uuid': value.uuid,
-        'dateTime': !exists(value, 'dateTime') ? undefined : ((value.dateTime).toISOString()),
-        'map': !exists(value, 'map') ? undefined : (mapValues(value.map, AnimalToJSON)),
+        'uuid': value['uuid'],
+        'dateTime': !exists(value, 'dateTime') ? undefined : ((value['dateTime']).toISOString()),
+        'map': !exists(value, 'map') ? undefined : (mapValues(value['map'], AnimalToJSON)),
     };
 }
 

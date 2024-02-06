@@ -57,7 +57,7 @@ export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
     }
     return {
         
-        'NullableMessage': value.nullableMessage,
+        'NullableMessage': value['nullableMessage'],
     };
 }
 

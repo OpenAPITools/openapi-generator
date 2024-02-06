@@ -86,10 +86,10 @@ export function ModelErrorToJSON(value?: ModelError | null): any {
     }
     return {
         
-        'type': value.type,
-        'itemInfo': ItemIdToJSON(value.itemInfo),
-        'details': value.details,
-        'exception': value.exception,
+        'type': value['type'],
+        'itemInfo': ItemIdToJSON(value['itemInfo']),
+        'details': value['details'],
+        'exception': value['exception'],
     };
 }
 

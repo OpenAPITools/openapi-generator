@@ -57,7 +57,7 @@ export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
     }
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

@@ -72,8 +72,8 @@ export function GetBehaviorPermissionsResponseToJSON(value?: GetBehaviorPermissi
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': value.data,
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': value['data'],
     };
 }
 

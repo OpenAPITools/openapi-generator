@@ -64,7 +64,7 @@ export function DogToJSON(value?: Dog | null): any {
     }
     return {
         ...AnimalToJSON(value),
-        'breed': value.breed,
+        'breed': value['breed'],
     };
 }
 

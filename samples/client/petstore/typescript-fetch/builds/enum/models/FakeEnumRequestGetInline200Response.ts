@@ -120,10 +120,10 @@ export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumReques
     }
     return {
         
-        'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
-        'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'string-enum': value['stringEnum'],
+        'nullable-string-enum': value['nullableStringEnum'],
+        'number-enum': value['numberEnum'],
+        'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
 

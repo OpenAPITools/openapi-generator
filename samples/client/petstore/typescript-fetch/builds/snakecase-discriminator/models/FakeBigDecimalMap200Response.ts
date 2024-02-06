@@ -64,8 +64,8 @@ export function FakeBigDecimalMap200ResponseToJSON(value?: FakeBigDecimalMap200R
     }
     return {
         
-        'someId': value.someId,
-        'someMap': value.someMap,
+        'someId': value['someId'],
+        'someMap': value['someMap'],
     };
 }
 

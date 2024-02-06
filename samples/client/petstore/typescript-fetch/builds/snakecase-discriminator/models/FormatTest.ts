@@ -173,22 +173,22 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
     }
     return {
         
-        'integer': value.integer,
-        'int32': value.int32,
-        'int64': value.int64,
-        'number': value.number,
-        'float': value._float,
-        'double': value._double,
-        'decimal': DecimalToJSON(value.decimal),
-        'string': value.string,
-        'byte': value._byte,
-        'binary': value.binary,
-        'date': ((value.date).toISOString().substring(0,10)),
-        'dateTime': !exists(value, 'dateTime') ? undefined : ((value.dateTime).toISOString()),
-        'uuid': value.uuid,
-        'password': value.password,
-        'pattern_with_digits': value.patternWithDigits,
-        'pattern_with_digits_and_delimiter': value.patternWithDigitsAndDelimiter,
+        'integer': value['integer'],
+        'int32': value['int32'],
+        'int64': value['int64'],
+        'number': value['number'],
+        'float': value['_float'],
+        'double': value['_double'],
+        'decimal': DecimalToJSON(value['decimal']),
+        'string': value['string'],
+        'byte': value['_byte'],
+        'binary': value['binary'],
+        'date': ((value['date']).toISOString().substring(0,10)),
+        'dateTime': !exists(value, 'dateTime') ? undefined : ((value['dateTime']).toISOString()),
+        'uuid': value['uuid'],
+        'password': value['password'],
+        'pattern_with_digits': value['patternWithDigits'],
+        'pattern_with_digits_and_delimiter': value['patternWithDigitsAndDelimiter'],
     };
 }
 

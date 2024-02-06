@@ -64,7 +64,7 @@ export function ClubToJSON(value?: Club | null): any {
     }
     return {
         
-        'owner': OwnerToJSON(value.owner),
+        'owner': OwnerToJSON(value['owner']),
     };
 }
 

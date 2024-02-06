@@ -57,7 +57,7 @@ export function OwnerToJSON(value?: Owner | null): any {
     }
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

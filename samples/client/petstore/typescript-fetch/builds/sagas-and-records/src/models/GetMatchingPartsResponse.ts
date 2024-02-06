@@ -78,8 +78,8 @@ export function GetMatchingPartsResponseToJSON(value?: GetMatchingPartsResponse 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': MatchingPartsToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': MatchingPartsToJSON(value['data']),
     };
 }
 

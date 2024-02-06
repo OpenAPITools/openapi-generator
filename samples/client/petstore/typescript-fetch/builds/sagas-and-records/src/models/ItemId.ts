@@ -66,8 +66,8 @@ export function ItemIdToJSON(value?: ItemId | null): any {
     }
     return {
         
-        'id': value.id,
-        'type': value.type,
+        'id': value['id'],
+        'type': value['type'],
     };
 }
 

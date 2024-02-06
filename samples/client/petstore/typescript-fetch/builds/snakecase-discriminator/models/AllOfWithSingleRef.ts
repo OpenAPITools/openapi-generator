@@ -71,8 +71,8 @@ export function AllOfWithSingleRefToJSON(value?: AllOfWithSingleRef | null): any
     }
     return {
         
-        'username': value.username,
-        'SingleRefType': SingleRefTypeToJSON(value.singleRefType),
+        'username': value['username'],
+        'SingleRefType': SingleRefTypeToJSON(value['singleRefType']),
     };
 }
 

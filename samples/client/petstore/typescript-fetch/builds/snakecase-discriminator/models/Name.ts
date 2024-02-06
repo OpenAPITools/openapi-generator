@@ -79,8 +79,8 @@ export function NameToJSON(value?: Name | null): any {
     }
     return {
         
-        'name': value.name,
-        'property': value.property,
+        'name': value['name'],
+        'property': value['property'],
     };
 }
 

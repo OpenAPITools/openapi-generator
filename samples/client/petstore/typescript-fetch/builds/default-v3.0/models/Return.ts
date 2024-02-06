@@ -57,7 +57,7 @@ export function ReturnToJSON(value?: Return | null): any {
     }
     return {
         
-        'return': value._return,
+        'return': value['_return'],
     };
 }
 

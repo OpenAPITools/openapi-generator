@@ -78,8 +78,8 @@ export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': BehaviorTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': BehaviorTypeToJSON(value['data']),
     };
 }
 

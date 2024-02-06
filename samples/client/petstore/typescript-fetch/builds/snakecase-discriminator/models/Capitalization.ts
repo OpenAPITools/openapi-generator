@@ -93,12 +93,12 @@ export function CapitalizationToJSON(value?: Capitalization | null): any {
     }
     return {
         
-        'smallCamel': value.smallCamel,
-        'CapitalCamel': value.capitalCamel,
-        'small_Snake': value.smallSnake,
-        'Capital_Snake': value.capitalSnake,
-        'SCA_ETH_Flow_Points': value.sCAETHFlowPoints,
-        'ATT_NAME': value.aTTNAME,
+        'smallCamel': value['smallCamel'],
+        'CapitalCamel': value['capitalCamel'],
+        'small_Snake': value['smallSnake'],
+        'Capital_Snake': value['capitalSnake'],
+        'SCA_ETH_Flow_Points': value['sCAETHFlowPoints'],
+        'ATT_NAME': value['aTTNAME'],
     };
 }
 

@@ -78,8 +78,8 @@ export function FindPetsByUserResponseToJSON(value?: FindPetsByUserResponse | nu
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': !exists(value, 'data') ? undefined : ((value.data as Array<any>).map(UserToJSON)),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': !exists(value, 'data') ? undefined : ((value['data'] as Array<any>).map(UserToJSON)),
     };
 }
 

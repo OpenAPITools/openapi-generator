@@ -73,8 +73,8 @@ export function MatchingPartsToJSON(value?: MatchingParts | null): any {
     }
     return {
         
-        'connected': ((value.connected as Array<any>).map(PartToJSON)),
-        'related': ((value.related as Array<any>).map(PartToJSON)),
+        'connected': ((value['connected'] as Array<any>).map(PartToJSON)),
+        'related': ((value['related'] as Array<any>).map(PartToJSON)),
     };
 }
 

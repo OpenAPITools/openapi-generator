@@ -78,8 +78,8 @@ export function AnimalToJSON(value?: Animal | null): any {
     }
     return {
         
-        'className': value.className,
-        'color': value.color,
+        'className': value['className'],
+        'color': value['color'],
     };
 }
 

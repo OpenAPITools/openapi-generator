@@ -119,12 +119,12 @@ export function PetToJSON(value?: Pet | null): any {
     }
     return {
         
-        'id': value.id,
-        'category': CategoryToJSON(value.category),
-        'name': value.name,
-        'photoUrls': value.photoUrls,
-        'tags': !exists(value, 'tags') ? undefined : ((value.tags as Array<any>).map(TagToJSON)),
-        'status': value.status,
+        'id': value['id'],
+        'category': CategoryToJSON(value['category']),
+        'name': value['name'],
+        'photoUrls': value['photoUrls'],
+        'tags': !exists(value, 'tags') ? undefined : ((value['tags'] as Array<any>).map(TagToJSON)),
+        'status': value['status'],
     };
 }
 

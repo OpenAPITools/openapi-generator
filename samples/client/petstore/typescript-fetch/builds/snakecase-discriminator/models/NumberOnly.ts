@@ -57,7 +57,7 @@ export function NumberOnlyToJSON(value?: NumberOnly | null): any {
     }
     return {
         
-        'JustNumber': value.justNumber,
+        'JustNumber': value['justNumber'],
     };
 }
 

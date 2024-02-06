@@ -78,8 +78,8 @@ export function FindPetsByStatusResponseToJSON(value?: FindPetsByStatusResponse 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': !exists(value, 'data') ? undefined : ((value.data as Array<any>).map(PetToJSON)),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': !exists(value, 'data') ? undefined : ((value['data'] as Array<any>).map(PetToJSON)),
     };
 }
 

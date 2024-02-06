@@ -57,7 +57,7 @@ export function FooToJSON(value?: Foo | null): any {
     }
     return {
         
-        'bar': value.bar,
+        'bar': value['bar'],
     };
 }
 

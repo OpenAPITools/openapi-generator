@@ -64,8 +64,8 @@ export function Model200ResponseToJSON(value?: Model200Response | null): any {
     }
     return {
         
-        'name': value.name,
-        'class': value._class,
+        'name': value['name'],
+        'class': value['_class'],
     };
 }
 

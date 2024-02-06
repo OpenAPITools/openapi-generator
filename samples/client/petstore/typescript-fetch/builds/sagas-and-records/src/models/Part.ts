@@ -66,8 +66,8 @@ export function PartToJSON(value?: Part | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

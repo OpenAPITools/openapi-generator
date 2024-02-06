@@ -88,10 +88,10 @@ export function ObjectWithDeprecatedFieldsToJSON(value?: ObjectWithDeprecatedFie
     }
     return {
         
-        'uuid': value.uuid,
-        'id': value.id,
-        'deprecatedRef': DeprecatedObjectToJSON(value.deprecatedRef),
-        'bars': value.bars,
+        'uuid': value['uuid'],
+        'id': value['id'],
+        'deprecatedRef': DeprecatedObjectToJSON(value['deprecatedRef']),
+        'bars': value['bars'],
     };
 }
 

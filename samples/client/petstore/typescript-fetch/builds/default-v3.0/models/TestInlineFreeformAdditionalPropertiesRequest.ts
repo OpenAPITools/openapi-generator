@@ -60,7 +60,7 @@ export function TestInlineFreeformAdditionalPropertiesRequestToJSON(value?: Test
     return {
         
             ...value,
-        'someProperty': value.someProperty,
+        'someProperty': value['someProperty'],
     };
 }
 

@@ -83,8 +83,8 @@ export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any
     }
     return {
         
-        'type': value.type,
-        'nullableProperty': value.nullableProperty,
+        'type': value['type'],
+        'nullableProperty': value['nullableProperty'],
     };
 }
 
