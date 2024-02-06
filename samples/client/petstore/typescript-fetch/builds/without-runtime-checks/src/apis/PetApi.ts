@@ -66,7 +66,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (!runtime.exists(requestParameters, 'body')) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling addPet().'
+            );
         }
 
         const queryParameters: any = {};
@@ -85,7 +88,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.body,
+            body: requestParameters['body'],
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -103,7 +106,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (!runtime.exists(requestParameters, 'petId')) {
-            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
+            throw new runtime.RequiredError(
+                'petId',
+                'Required parameter "petId" was null or undefined when calling deletePet().'
+            );
         }
 
         const queryParameters: any = {};
@@ -111,7 +117,7 @@ export class PetApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         if (runtime.exists(requestParameters, 'apiKey')) {
-            headerParameters['api_key'] = String(requestParameters.apiKey);
+            headerParameters['api_key'] = String(requestParameters['apiKey']);
         }
 
         if (this.configuration && this.configuration.accessToken) {
@@ -120,7 +126,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -142,13 +148,16 @@ export class PetApi extends runtime.BaseAPI {
      */
     async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (!runtime.exists(requestParameters, 'status')) {
-            throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
+            throw new runtime.RequiredError(
+                'status',
+                'Required parameter "status" was null or undefined when calling findPetsByStatus().'
+            );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.status) {
-            queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
+        if (runtime.exists(requestParameters, 'status')) {
+            queryParameters['status'] = requestParameters['status']!.join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -184,13 +193,16 @@ export class PetApi extends runtime.BaseAPI {
      */
     async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
         if (!runtime.exists(requestParameters, 'tags')) {
-            throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
+            throw new runtime.RequiredError(
+                'tags',
+                'Required parameter "tags" was null or undefined when calling findPetsByTags().'
+            );
         }
 
         const queryParameters: any = {};
 
-        if (requestParameters.tags) {
-            queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+        if (runtime.exists(requestParameters, 'tags')) {
+            queryParameters['tags'] = requestParameters['tags']!.join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -226,7 +238,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async getPetByIdRaw(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
         if (!runtime.exists(requestParameters, 'petId')) {
-            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
+            throw new runtime.RequiredError(
+                'petId',
+                'Required parameter "petId" was null or undefined when calling getPetById().'
+            );
         }
 
         const queryParameters: any = {};
@@ -238,7 +253,7 @@ export class PetApi extends runtime.BaseAPI {
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -261,7 +276,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (!runtime.exists(requestParameters, 'body')) {
-            throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
+            throw new runtime.RequiredError(
+                'body',
+                'Required parameter "body" was null or undefined when calling updatePet().'
+            );
         }
 
         const queryParameters: any = {};
@@ -280,7 +298,7 @@ export class PetApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: requestParameters.body,
+            body: requestParameters['body'],
         }, initOverrides);
 
         return new runtime.VoidApiResponse(response);
@@ -298,7 +316,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (!runtime.exists(requestParameters, 'petId')) {
-            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
+            throw new runtime.RequiredError(
+                'petId',
+                'Required parameter "petId" was null or undefined when calling updatePetWithForm().'
+            );
         }
 
         const queryParameters: any = {};
@@ -324,16 +345,16 @@ export class PetApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (requestParameters.name !== undefined) {
-            formParams.append('name', requestParameters.name as any);
+        if (runtime.exists(requestParameters, 'name')) {
+            formParams.append('name', requestParameters['name'] as any);
         }
 
-        if (requestParameters.status !== undefined) {
-            formParams.append('status', requestParameters.status as any);
+        if (runtime.exists(requestParameters, 'status')) {
+            formParams.append('status', requestParameters['status'] as any);
         }
 
         const response = await this.request({
-            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -355,7 +376,10 @@ export class PetApi extends runtime.BaseAPI {
      */
     async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
         if (!runtime.exists(requestParameters, 'petId')) {
-            throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
+            throw new runtime.RequiredError(
+                'petId',
+                'Required parameter "petId" was null or undefined when calling uploadFile().'
+            );
         }
 
         const queryParameters: any = {};
@@ -383,16 +407,16 @@ export class PetApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (requestParameters.additionalMetadata !== undefined) {
-            formParams.append('additionalMetadata', requestParameters.additionalMetadata as any);
+        if (runtime.exists(requestParameters, 'additionalMetadata')) {
+            formParams.append('additionalMetadata', requestParameters['additionalMetadata'] as any);
         }
 
-        if (requestParameters.file !== undefined) {
-            formParams.append('file', requestParameters.file as any);
+        if (runtime.exists(requestParameters, 'file')) {
+            formParams.append('file', requestParameters['file'] as any);
         }
 
         const response = await this.request({
-            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+            path: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters['petId']))),
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,

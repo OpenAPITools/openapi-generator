@@ -45,7 +45,10 @@ export class StoreApi extends runtime.BaseAPI {
      */
     async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
         if (!runtime.exists(requestParameters, 'orderId')) {
-            throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
+            throw new runtime.RequiredError(
+                'orderId',
+                'Required parameter "orderId" was null or undefined when calling deleteOrder().'
+            );
         }
 
         const queryParameters: any = {};
@@ -53,7 +56,7 @@ export class StoreApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
@@ -108,7 +111,10 @@ export class StoreApi extends runtime.BaseAPI {
      */
     async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (!runtime.exists(requestParameters, 'orderId')) {
-            throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
+            throw new runtime.RequiredError(
+                'orderId',
+                'Required parameter "orderId" was null or undefined when calling getOrderById().'
+            );
         }
 
         const queryParameters: any = {};
@@ -116,7 +122,7 @@ export class StoreApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         const response = await this.request({
-            path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters.orderId))),
+            path: `/store/order/{order_id}`.replace(`{${"order_id"}}`, encodeURIComponent(String(requestParameters['orderId']))),
             method: 'GET',
             headers: headerParameters,
             query: queryParameters,
@@ -140,7 +146,10 @@ export class StoreApi extends runtime.BaseAPI {
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
         if (!runtime.exists(requestParameters, 'order')) {
-            throw new runtime.RequiredError('order','Required parameter requestParameters.order was null or undefined when calling placeOrder.');
+            throw new runtime.RequiredError(
+                'order',
+                'Required parameter "order" was null or undefined when calling placeOrder().'
+            );
         }
 
         const queryParameters: any = {};
@@ -154,7 +163,7 @@ export class StoreApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: OrderToJSON(requestParameters.order),
+            body: OrderToJSON(requestParameters['order']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
