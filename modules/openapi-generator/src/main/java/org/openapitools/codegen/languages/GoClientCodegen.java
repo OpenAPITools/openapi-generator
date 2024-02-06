@@ -500,7 +500,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
             }
 
             if (model.hasRequired) {
-                if (!model.isAdditionalPropertiesTrue) {
+                if (!model.isAdditionalPropertiesTrue &&
+                    (model.oneOf == null || model.oneOf.isEmpty()) &&
+                    (model.anyOf == null || model.anyOf.isEmpty())) {
                     imports.add(createMapping("import", "bytes"));
                 }
 
