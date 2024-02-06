@@ -243,7 +243,7 @@ export class FakeApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
-        if (requestParameters.header1 !== undefined && requestParameters.header1 !== null) {
+        if (runtime.exists(requestParameters, 'header1')) {
             headerParameters['header_1'] = String(requestParameters.header1);
         }
 
@@ -745,11 +745,11 @@ export class FakeApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (requestParameters.enumHeaderStringArray) {
+        if (runtime.exists(requestParameters, 'enumHeaderStringArray')) {
             headerParameters['enum_header_string_array'] = requestParameters.enumHeaderStringArray.join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
-        if (requestParameters.enumHeaderString !== undefined && requestParameters.enumHeaderString !== null) {
+        if (runtime.exists(requestParameters, 'enumHeaderString')) {
             headerParameters['enum_header_string'] = String(requestParameters.enumHeaderString);
         }
 
@@ -831,11 +831,11 @@ export class FakeApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (requestParameters.requiredBooleanGroup !== undefined && requestParameters.requiredBooleanGroup !== null) {
+        if (runtime.exists(requestParameters, 'requiredBooleanGroup')) {
             headerParameters['required_boolean_group'] = String(requestParameters.requiredBooleanGroup);
         }
 
-        if (requestParameters.booleanGroup !== undefined && requestParameters.booleanGroup !== null) {
+        if (runtime.exists(requestParameters, 'booleanGroup')) {
             headerParameters['boolean_group'] = String(requestParameters.booleanGroup);
         }
 

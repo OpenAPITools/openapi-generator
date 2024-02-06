@@ -158,13 +158,13 @@ export class {{classname}} extends runtime.BaseAPI {
         {{/bodyParam}}
         {{#headerParams}}
         {{#isArray}}
-        if (requestParameters.{{paramName}}) {
+        if (runtime.exists(requestParameters, '{{paramName}}')) {
             headerParameters['{{baseName}}'] = {{#uniqueItems}}Array.from({{/uniqueItems}}requestParameters.{{paramName}}{{#uniqueItems}}){{/uniqueItems}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         }
 
         {{/isArray}}
         {{^isArray}}
-        if (requestParameters.{{paramName}} !== undefined && requestParameters.{{paramName}} !== null) {
+        if (runtime.exists(requestParameters, '{{paramName}}')) {
             headerParameters['{{baseName}}'] = String(requestParameters.{{paramName}});
         }
 

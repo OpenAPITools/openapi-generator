@@ -145,7 +145,7 @@ export class PetApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
+        if (runtime.exists(requestParameters, 'apiKey')) {
             headerParameters['api_key'] = String(requestParameters.apiKey);
         }
 
