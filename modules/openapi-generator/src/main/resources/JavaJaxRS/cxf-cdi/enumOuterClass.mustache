@@ -3,5 +3,10 @@ import {{javaxPackage}}.xml.bind.annotation.XmlType;
 import {{javaxPackage}}.xml.bind.annotation.XmlEnum;
 import {{javaxPackage}}.xml.bind.annotation.XmlEnumValue;
 {{/withXml}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
+{{/jackson}}
 
 {{>enumClass}}

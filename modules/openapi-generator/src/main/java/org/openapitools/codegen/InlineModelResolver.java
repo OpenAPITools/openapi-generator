@@ -120,7 +120,7 @@ public class InlineModelResolver {
 
         for (Map.Entry<String, PathItem> pathsEntry : paths.entrySet()) {
             PathItem path = pathsEntry.getValue();
-            Map<HttpMethod, Operation> operationsMap = new LinkedHashMap<>(path.readOperationsMap());
+            List<Map.Entry<HttpMethod, Operation>> toFlatten = new ArrayList<>(path.readOperationsMap().entrySet());
 
             // use path name (e.g. /foo/bar) and HTTP verb to come up with a name
             // in case operationId is not defined later in other methods
@@ -135,13 +135,13 @@ public class InlineModelResolver {
                         Callback callback = callbackEntry.getValue();
                         for (Map.Entry<String, PathItem> pathItemEntry : callback.entrySet()) {
                             PathItem pathItem = pathItemEntry.getValue();
-                            operationsMap.putAll(pathItem.readOperationsMap());
+                            toFlatten.addAll(pathItem.readOperationsMap().entrySet());
                         }
                     }
                 }
             }
 
-            for (Map.Entry<HttpMethod, Operation> operationEntry : operationsMap.entrySet()) {
+            for (Map.Entry<HttpMethod, Operation> operationEntry : toFlatten) {
                 Operation operation = operationEntry.getValue();
                 String inlineSchemaName = this.getInlineSchemaName(operationEntry.getKey(), pathname);
                 flattenRequestBody(inlineSchemaName, operation);
@@ -612,8 +612,8 @@ public class InlineModelResolver {
                 Schema innerModel = modelFromProperty(openAPI, component, innerModelName);
                 // Recurse to create $refs for inner models
                 gatherInlineModels(innerModel, innerModelName);
-                String existing = matchGenerated(innerModel);
                 if (!skipAllOfInlineSchemas) {
+                    String existing = matchGenerated(innerModel);
                     if (existing == null) {
                         innerModelName = addSchemas(innerModelName, innerModel);
                         Schema schema = new Schema().$ref(innerModelName);
@@ -851,13 +851,21 @@ public class InlineModelResolver {
                 } else {
                     LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
-            } else if (ModelUtils.isComposedSchema(property)) { // oneOf, anyOf, etc
-                String propertyModelName = resolveModelName(property.getTitle(), path + "_" + key);
-                gatherInlineModels(property, propertyModelName);
-                propertyModelName = addSchemas(propertyModelName, property);
-                Schema schema = new Schema().$ref(propertyModelName);
-                schema.setRequired(property.getRequired());
-                propsToUpdate.put(key, schema);
+            } else if (ModelUtils.isComposedSchema(property)) { // oneOf, anyOf, allOf etc
+                if (property.getAllOf() != null && property.getAllOf().size() == 1 // allOf with a single item
+                        && (property.getOneOf() == null || property.getOneOf().isEmpty()) // not oneOf
+                        && (property.getAnyOf() == null || property.getAnyOf().isEmpty()) // not anyOf
+                        && (property.getProperties() == null || property.getProperties().isEmpty())) { // no property
+                    // don't do anything if it's allOf with a single item
+                    LOGGER.debug("allOf with a single item (which can be handled by default codegen) skipped by inline model resolver: {}", property);
+                } else {
+                    String propertyModelName = resolveModelName(property.getTitle(), path + "_" + key);
+                    gatherInlineModels(property, propertyModelName);
+                    propertyModelName = addSchemas(propertyModelName, property);
+                    Schema schema = new Schema().$ref(propertyModelName);
+                    schema.setRequired(property.getRequired());
+                    propsToUpdate.put(key, schema);
+                }
             } else {
                 LOGGER.debug("Schema not yet handled in model resolver: {}", property);
             }

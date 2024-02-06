@@ -96,6 +96,11 @@ public class OpenAPINormalizer {
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
     final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
+    // when set to true, remove x-internal: true from models, operations
+    final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
+    final String X_INTERNAL = "x-internal";
+    boolean removeXInternal;
+
     // ============= end of rules =============
 
     /**
@@ -125,6 +130,7 @@ public class OpenAPINormalizer {
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
+        ruleNames.add(REMOVE_X_INTERNAL);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -224,7 +230,6 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
-
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation.getParameters());
@@ -239,6 +244,8 @@ public class OpenAPINormalizer {
      * @param operation Operation
      */
     private void normalizeOperation(Operation operation) {
+        processRemoveXInternalFromOperation(operation);
+
         processKeepOnlyFirstTagInOperation(operation);
 
         processSetTagsForAllOperations(operation);
@@ -372,8 +379,15 @@ public class OpenAPINormalizer {
             if (schema == null) {
                 LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
             } else {
-                Schema result = normalizeSchema(schema, new HashSet<>());
-                schemas.put(schemaName, result);
+                // remove x-internal if needed
+                if (schema.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
+                    if (Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(X_INTERNAL)))) {
+                        schema.getExtensions().remove(X_INTERNAL);
+                    }
+                }
+
+                // normalize the schemas
+                schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
         }
     }
@@ -611,6 +625,26 @@ public class OpenAPINormalizer {
      *
      * @param operation Operation
      */
+    private void processRemoveXInternalFromOperation(Operation operation) {
+        if (!getRule(REMOVE_X_INTERNAL)) {
+            return;
+        }
+
+        if (operation.getExtensions() == null) {
+            return;
+        }
+
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+            operation.getExtensions().remove(X_INTERNAL);
+        }
+    }
+
+    /**
+     * Keep only first tag in the operation if the operation has more than
+     * one tag.
+     *
+     * @param operation Operation
+     */
     private void processKeepOnlyFirstTagInOperation(Operation operation) {
         if (!getRule(KEEP_ONLY_FIRST_TAG_IN_OPERATION)) {
             return;
@@ -738,12 +772,26 @@ public class OpenAPINormalizer {
      *
      * @param schema Schema
      */
-    private boolean isNullTypeSchema(Schema schema) {
+    public boolean isNullTypeSchema(Schema schema) {
         if (schema == null) {
             return true;
         }
 
-        if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+            return false;
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // 3.1 spec
+            if (schema.getTypes().size() ==1) { // 1 type only
+                String type = (String) schema.getTypes().iterator().next();
+                return type == null || "null".equals(type);
+            } else { // more than 1 type so must not be just null
+                return false;
+            }
+        }
+
+        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
             return true;
         }
 
@@ -931,6 +979,11 @@ public class OpenAPINormalizer {
             //  schemas:
             //    any_type: {}
             return new Schema();
+        }
+
+        // return schema if nothing in 3.1 spec types to normalize
+        if (schema.getTypes() == null) {
+            return schema;
         }
 
         // process null

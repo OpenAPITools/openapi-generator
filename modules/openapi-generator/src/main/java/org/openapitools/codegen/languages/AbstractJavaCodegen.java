@@ -53,6 +53,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -89,7 +90,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
-
+    public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -128,6 +129,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected Map<String, Boolean> lombokAnnotations = null;
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
@@ -1677,6 +1679,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+        // parse lombok additional model type annotations
+        Map<String, Boolean> lombokOptions = new HashMap<>();
+        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        Pattern pattern = Pattern.compile(regexp);
+        for (String annotation : additionalModelTypeAnnotations) {
+            Matcher matcher = pattern.matcher(annotation);
+            if  (matcher.find()) {
+                String className = matcher.group("ClassName");
+                lombokOptions.put(className, true);
+            }
+        }
+        if (!lombokOptions.isEmpty()) {
+            lombokAnnotations = lombokOptions;
+            writePropertyBack(LOMBOK, lombokOptions);
+        }
+
         return postProcessModelsEnum(objs);
     }
 
@@ -1736,7 +1754,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-content-type", contentType);
                     }
-                    String accepts = getAccept(openAPI, operation);
+                    String accepts = getAccepts(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
                 }
             }
@@ -1787,32 +1805,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
-        String accepts = null;
-        String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+    private static String getAccepts(OpenAPI openAPIArg, Operation operation) {
+        final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
-            for (String produce : produces) {
-                if (defaultContentType.equalsIgnoreCase(produce)) {
-                    accepts = defaultContentType;
-                    break;
-                } else {
-                    if (sb.length() > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(produce);
+            for (String produce : producesInfo) {
+                if (sb.length() > 0) {
+                    sb.append(",");
                 }
+                sb.append(produce);
             }
-            if (accepts == null) {
-                accepts = sb.toString();
-            }
-        } else {
-            accepts = defaultContentType;
+            return sb.toString();
         }
-
-        return accepts;
+        return "application/json"; // default media type
     }
 
     @Override

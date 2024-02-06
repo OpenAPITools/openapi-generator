@@ -983,6 +983,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1545,6 +1579,67 @@ components:
           type: string
       xml:
         name: Tag
+    PoopCleaning:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Feeding:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Bathing:
+      type: object
+      properties:
+        task_name:
+          type: string
+          enum: [cleaning_deep]
+        function_name:
+          type: string
+          enum: [care_nourish]
+        content:
+          type: string
+      required:
+        - task_name
+        - function_name
+        - content
+    Task:
+      title: Task
+      type: object
+      description: Used to test oneOf enums with only one string value.
+      properties:
+        id:
+          type: string
+          format: uuid
+        activity:
+          oneOf:
+            - $ref: '#/components/schemas/PoopCleaning'
+            - $ref: '#/components/schemas/Feeding'
+            - $ref: '#/components/schemas/Bathing'
+      required:
+        - id
+        - activity
     Pet:
       type: object
       required:
@@ -1906,6 +2001,12 @@ components:
             type: string
           minItems: 0
           maxItems: 3
+        array_of_nullable_float:
+          type: array
+          items:
+            type: number
+            format: float
+            nullable: true
         array_array_of_integer:
           type: array
           items:
@@ -1955,6 +2056,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2375,6 +2485,16 @@ components:
       properties:
         name:
           type: string
+    InputAllOf:
+      allOf:
+        - $ref: '#/components/schemas/PropertyMap'
+    PropertyMap:
+      type: object
+      properties:
+        some_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tag'
     Tiger:
       allOf:
         - $ref: "#/components/schemas/Tiger"

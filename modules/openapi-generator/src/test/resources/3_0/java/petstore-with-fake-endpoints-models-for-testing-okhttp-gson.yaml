@@ -920,6 +920,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -1249,6 +1283,22 @@ paths:
       summary: Get some primitive variable values
       description: ''
       operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
+  /internal/only:
+    get:
+      x-internal: true
+      tags:
+        - values
+      summary: internal only
+      description: ''
       responses:
         '200':
           description: successful operation
@@ -1875,6 +1925,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2469,6 +2528,7 @@ components:
             - pending
             - sold
     PropertyNameCollision:
+      x-internal: false
       type: object
       properties:
         _type:
@@ -2476,6 +2536,12 @@ components:
         type:
           type: string
         type_:
+          type: string
+    InteralOnly:
+      type: object
+      x-internal: true
+      properties:
+        type:
           type: string
     AllOfModelArrayAnyOf:
       allOf:
@@ -2500,3 +2566,41 @@ components:
                   oneOf:
                   - $ref: '#/components/schemas/Pet'
                   - $ref: '#/components/schemas/Order'
+    PetUsingAllOf:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category:
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold

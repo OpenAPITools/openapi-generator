@@ -24,6 +24,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.ResponseEntity
 import org.springframework.http.MediaType
 
+
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
@@ -39,8 +40,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun addPet(pet: Pet): Pet {
-        return addPetWithHttpInfo(pet = pet)
-            .body!!
+        val result = addPetWithHttpInfo(pet = pet)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -59,9 +60,13 @@ class PetApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
             path = "/pet",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -71,28 +76,32 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?): Unit {
-        return deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
-            .body!!
+    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null): Unit {
+        val result = deletePetWithHttpInfo(petId = petId, apiKey = apiKey)
     }
 
     @Throws(RestClientResponseException::class)
-    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String?): ResponseEntity<Unit> {
+    fun deletePetWithHttpInfo(petId: kotlin.Long, apiKey: kotlin.String? = null): ResponseEntity<Unit> {
         val localVariableConfig = deletePetRequestConfig(petId = petId, apiKey = apiKey)
         return request<Unit, Unit>(
             localVariableConfig
         )
     }
 
-    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String?) : RequestConfig<Unit> {
+    fun deletePetRequestConfig(petId: kotlin.Long, apiKey: kotlin.String? = null) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.DELETE,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -112,8 +121,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun findPetsByStatus(status: kotlin.collections.List<StatusFindPetsByStatus>): kotlin.collections.List<Pet> {
-        return findPetsByStatusWithHttpInfo(status = status)
-            .body!!
+        val result = findPetsByStatusWithHttpInfo(status = status)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -133,9 +142,13 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/pet/findByStatus",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -147,8 +160,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
     @Throws(RestClientResponseException::class)
     @Deprecated(message = "This operation is deprecated.")
     fun findPetsByTags(tags: kotlin.collections.List<kotlin.String>): kotlin.collections.List<Pet> {
-        return findPetsByTagsWithHttpInfo(tags = tags)
-            .body!!
+        val result = findPetsByTagsWithHttpInfo(tags = tags)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -170,9 +183,13 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
             path = "/pet/findByTags",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -183,8 +200,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun getPetById(petId: kotlin.Long): Pet {
-        return getPetByIdWithHttpInfo(petId = petId)
-            .body!!
+        val result = getPetByIdWithHttpInfo(petId = petId)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -201,9 +218,14 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.GET,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -214,8 +236,8 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
     @Throws(RestClientResponseException::class)
     fun updatePet(pet: Pet): Pet {
-        return updatePetWithHttpInfo(pet = pet)
-            .body!!
+        val result = updatePetWithHttpInfo(pet = pet)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
@@ -234,9 +256,13 @@ class PetApi(client: RestClient) : ApiClient(client) {
         localVariableHeaders["Content-Type"] = "application/xml"
         localVariableHeaders["Accept"] = "application/xml, application/json"
 
+        val params = mutableMapOf<String, Any>(
+        )
+
         return RequestConfig(
             method = RequestMethod.PUT,
             path = "/pet",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -246,29 +272,33 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): Unit {
-        return updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
-            .body!!
+    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): Unit {
+        val result = updatePetWithFormWithHttpInfo(petId = petId, name = name, status = status)
     }
 
     @Throws(RestClientResponseException::class)
-    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?): ResponseEntity<Unit> {
+    fun updatePetWithFormWithHttpInfo(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null): ResponseEntity<Unit> {
         val localVariableConfig = updatePetWithFormRequestConfig(petId = petId, name = name, status = status)
         return request<Map<String, PartConfig<*>>, Unit>(
             localVariableConfig
         )
     }
 
-    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun updatePetWithFormRequestConfig(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "name" to PartConfig(body = name, headers = mutableMapOf()),
             "status" to PartConfig(body = status, headers = mutableMapOf()),)
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
         
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,
@@ -278,20 +308,20 @@ class PetApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ModelApiResponse {
-        return uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
-            .body!!
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ModelApiResponse {
+        val result = uploadFileWithHttpInfo(petId = petId, additionalMetadata = additionalMetadata, file = file)
+        return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?): ResponseEntity<ModelApiResponse> {
+    fun uploadFileWithHttpInfo(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null): ResponseEntity<ModelApiResponse> {
         val localVariableConfig = uploadFileRequestConfig(petId = petId, additionalMetadata = additionalMetadata, file = file)
         return request<Map<String, PartConfig<*>>, ModelApiResponse>(
             localVariableConfig
         )
     }
 
-    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : RequestConfig<Map<String, PartConfig<*>>> {
+    fun uploadFileRequestConfig(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : RequestConfig<Map<String, PartConfig<*>>> {
         val localVariableBody = mapOf(
             "additionalMetadata" to PartConfig(body = additionalMetadata, headers = mutableMapOf()),
             "file" to PartConfig(body = file, headers = mutableMapOf()),)
@@ -299,9 +329,14 @@ class PetApi(client: RestClient) : ApiClient(client) {
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
         localVariableHeaders["Accept"] = "application/json"
 
+        val params = mutableMapOf<String, Any>(
+            "petId" to petId,
+        )
+
         return RequestConfig(
             method = RequestMethod.POST,
-            path = "/pet/{petId}/uploadImage".replace("{"+"petId"+"}", encodeURIComponent(petId.toString())),
+            path = "/pet/{petId}/uploadImage",
+            params = params,
             query = localVariableQuery,
             headers = localVariableHeaders,
             requiresAuthentication = true,

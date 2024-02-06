@@ -63,6 +63,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Invoke-PSFakeOuterNumberSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *PSFakeApi* | [**Invoke-PSFakeOuterStringSerialize**](docs/PSFakeApi.md#Invoke-PSFakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *PSFakeApi* | [**Get-PSArrayOfEnums**](docs/PSFakeApi.md#Get-PSArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
+*PSFakeApi* | [**Test-PSAdditionalPropertiesReference**](docs/PSFakeApi.md#Test-PSAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *PSFakeApi* | [**Test-PSBodyWithFileSchema**](docs/PSFakeApi.md#Test-PSBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *PSFakeApi* | [**Test-PSBodyWithQueryParams**](docs/PSFakeApi.md#Test-PSBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *PSFakeApi* | [**Test-PSClientModel**](docs/PSFakeApi.md#Test-PSClientModel) | **PATCH** /fake | To test ""client"" model
@@ -73,6 +74,7 @@ Class | Method | HTTP request | Description
 *PSFakeApi* | [**Test-PSInlineFreeformAdditionalProperties**](docs/PSFakeApi.md#Test-PSInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *PSFakeApi* | [**Test-PSJsonFormData**](docs/PSFakeApi.md#Test-PSJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *PSFakeApi* | [**Test-PSQueryParameterCollectionFormat**](docs/PSFakeApi.md#Test-PSQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*PSFakeApi* | [**Test-PSStringMapReference**](docs/PSFakeApi.md#Test-PSStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *PSFakeClassnameTags123Api* | [**Test-PSClassname**](docs/PSFakeClassnameTags123Api.md#Test-PSClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PSPetApi* | [**Add-PSPet**](docs/PSPetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
 *PSPetApi* | [**Remove-Pet**](docs/PSPetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet

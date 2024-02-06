@@ -55,11 +55,19 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                {{#classifier}}
                 <configuration>
+                {{#classifier}}
                   <classifier>{{{classifier}}}</classifier>
-                </configuration>
                 {{/classifier}}
+                {{#lombok}}
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                {{/lombok}}
+                </configuration>
             </plugin>
             {{#apiFirst}}
             <plugin>
@@ -227,6 +235,13 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 {{/hateoas}}
+{{#lombok}}
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+{{/lombok}}
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>

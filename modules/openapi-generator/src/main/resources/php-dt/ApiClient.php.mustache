@@ -44,7 +44,17 @@ class ApiClient extends OAGAC\AbstractApiClient
         $request = $this->addCookies($request, $parameters);
 {{/cookieParams.0}}
 {{#bodyParam}}
+{{#isDate}}
+        $request = $this->addBody($request, $requestMediaType, $requestContent, ($this->contentStrategies)('Date', []));
+{{/isDate}}
+{{#isDateTime}}
+        $request = $this->addBody($request, $requestMediaType, $requestContent, ($this->contentStrategies)('DateTime', []));
+{{/isDateTime}}
+{{^isDate}}
+{{^isDateTime}}
         $request = $this->addBody($request, $requestMediaType, $requestContent);
+{{/isDateTime}}
+{{/isDate}}
 {{/bodyParam}}
 {{#hasProduces}}
         $request = $this->addAcceptHeader($request, $responseMediaType);
@@ -68,6 +78,8 @@ class ApiClient extends OAGAC\AbstractApiClient
     {
         $response = $this->{{operationId}}Raw({{>api_arg_call}});
         $responseContent = null;
+        $contentStrategy = null;
+        $contentValidator = null;
         switch ($response->getStatusCode())
         {
 {{#responses}}
@@ -75,25 +87,35 @@ class ApiClient extends OAGAC\AbstractApiClient
 {{#message}}
                 /* {{&message}} */
 {{/message}}
-{{#isModel}}
-                $responseContent = new {{dataType}}();
-{{/isModel}}
-{{^isModel}}
 {{#isArray}}
                 $responseContent = new {{dataType}}();
 {{/isArray}}
-{{/isModel}}
-{{^isModel}}
-{{^isArray}}
 {{#isMap}}
                 $responseContent = new {{dataType}}();
 {{/isMap}}
-{{/isArray}}
+{{#isDate}}
+                $contentStrategy = ($this->contentStrategies)('Date', []);
+                $contentValidator = ($this->contentValidators)('Date', []);
+{{/isDate}}
+{{#isDateTime}}
+                $contentStrategy = ($this->contentStrategies)('DateTime', []);
+                $contentValidator = ($this->contentValidators)('DateTime', []);
+{{/isDateTime}}
+{{^isDate}}
+{{^isDateTime}}
+{{^isArray}}
+{{^isMap}}
+{{#isModel}}
+                $responseContent = new {{dataType}}();
 {{/isModel}}
+{{/isMap}}
+{{/isArray}}
+{{/isDateTime}}
+{{/isDate}}
                 break;
 {{/responses}}
         }
-        $this->parseBody($response, $responseContent);
+        $this->parseBody($response, $responseContent, $contentStrategy, $contentValidator);
         return [$responseContent, $response->getHeaders(), $response->getStatusCode(), $response->getReasonPhrase()];
     }
 

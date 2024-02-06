@@ -365,7 +365,7 @@ FakeApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -485,7 +485,7 @@ FakeApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "User", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "User", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",

@@ -23,6 +23,9 @@ import java.util.List;
 import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
+/**
+* Represents a collection of functions to interact with the API endpoints.
+*/
 @Path("/fake")
 @Api(description = "the fake API")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
