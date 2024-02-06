@@ -24,8 +24,8 @@ class Order
 
     #[DTA\Data(field: "shipDate", nullable: true)]
     #[DTA\Strategy("DateTime")]
-    #[DTA\Validator("Date", ["format" => \DateTime::RFC3339])]
-    public \DateTime|null $ship_date = null;
+    #[DTA\Validator("DateTime")]
+    public \DateTimeInterface|null $ship_date = null;
 
     /**
      * Order Status
