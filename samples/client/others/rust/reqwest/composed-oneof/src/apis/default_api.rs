@@ -44,7 +44,7 @@ pub fn create_state(configuration: &configuration::Configuration, create_state_r
     local_var_req_builder = local_var_req_builder.json(&create_state_request);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -71,7 +71,7 @@ pub fn get_state(configuration: &configuration::Configuration, ) -> Result<crate
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;

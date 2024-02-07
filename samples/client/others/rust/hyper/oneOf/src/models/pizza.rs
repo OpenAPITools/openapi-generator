@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pizza {
     #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
     pub pizza_size: Option<f32>,

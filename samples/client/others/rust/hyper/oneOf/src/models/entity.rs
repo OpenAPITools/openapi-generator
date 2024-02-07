@@ -11,13 +11,108 @@
 
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "")]
+#[serde(tag = "@type")]
 pub enum Entity {
+    #[serde(rename="Bar")]
+    Bar {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
+    #[serde(rename="Bar_Create")]
+    BarCreate {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
+    #[serde(rename="Foo")]
+    Foo {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
+    #[serde(rename="Pasta")]
+    Pasta {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
+    #[serde(rename="Pizza")]
+    Pizza {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
+    #[serde(rename="PizzaSpeziale")]
+    PizzaSpeziale {
+        /// Hyperlink reference
+        #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
+        href: Option<String>,
+        /// unique identifier
+        #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+        id: Option<String>,
+        /// A URI to a JSON-Schema file that defines additional attributes and relationships
+        #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]
+        at_schema_location: Option<String>,
+        /// When sub-classing, this defines the super-class
+        #[serde(rename = "@baseType", skip_serializing_if = "Option::is_none")]
+        at_base_type: Option<String>,
+    },
 }
 
 impl Default for Entity {
     fn default() -> Self {
-        
+        Self::Bar {
+            href: Default::default(),
+            id: Default::default(),
+            at_schema_location: Default::default(),
+            at_base_type: Default::default(),
+        }
     }
 }
 

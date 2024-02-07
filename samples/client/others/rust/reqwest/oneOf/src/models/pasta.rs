@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pasta {
     #[serde(rename = "vendor", skip_serializing_if = "Option::is_none")]
     pub vendor: Option<String>,

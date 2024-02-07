@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Extensible {
     /// A URI to a JSON-Schema file that defines additional attributes and relationships
     #[serde(rename = "@schemaLocation", skip_serializing_if = "Option::is_none")]

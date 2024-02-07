@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PizzaSpeziale {
     #[serde(rename = "toppings", skip_serializing_if = "Option::is_none")]
     pub toppings: Option<String>,

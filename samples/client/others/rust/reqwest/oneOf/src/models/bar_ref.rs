@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct BarRef {
     /// Name of the related entity.
     #[serde(rename = "name", skip_serializing_if = "Option::is_none")]

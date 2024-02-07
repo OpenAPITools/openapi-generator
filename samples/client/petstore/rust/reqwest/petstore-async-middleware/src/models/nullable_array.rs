@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct NullableArray {
     #[serde(rename = "array_nullable", default, with = "::serde_with::rust::double_option", skip_serializing_if = "Option::is_none")]
     pub array_nullable: Option<Option<Vec<String>>>,

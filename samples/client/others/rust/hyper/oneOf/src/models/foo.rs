@@ -11,7 +11,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Foo {
     #[serde(rename = "fooPropA", skip_serializing_if = "Option::is_none")]
     pub foo_prop_a: Option<String>,
