@@ -46,7 +46,7 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
     }
     return {
         
-        'nullableMessage': !exists(json, 'NullableMessage') ? undefined : json['NullableMessage'],
+        'nullableMessage': !exists(json, 'NullableMessage', true) ? undefined : json['NullableMessage'],
     };
 }
 

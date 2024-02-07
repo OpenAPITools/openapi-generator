@@ -1,0 +1,30 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Optional Nullable Property Test",
+        "version": "1.0.0"
+    },
+    "paths": {},
+    "components": {
+        "schemas": {
+            "TestSchema": {
+                "title": "TestSchema",
+                "required": [
+                    "required_property"
+                ],
+                "type": "object",
+                "properties": {
+                    "required_property": {
+                        "title": "Required property",
+                        "type": "string"
+                    },
+                    "nullable_property": {
+                        "title": "Optional Nullable property",
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            }
+        }
+    }
+}
