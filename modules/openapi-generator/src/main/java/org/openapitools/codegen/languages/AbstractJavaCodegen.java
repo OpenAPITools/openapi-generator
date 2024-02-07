@@ -1003,21 +1003,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (items.getMinimum() != null && items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
                     items.getMinimum(),
-                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
                     items.getMaximum(),
-                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
         }
 
         if (items.getMinimum() != null) {
             return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = %s)",
                     items.getMinimum(),
-                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
         }
 
         if (items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = %s)",
                     items.getMaximum(),
-                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
         }
 
         return "";
