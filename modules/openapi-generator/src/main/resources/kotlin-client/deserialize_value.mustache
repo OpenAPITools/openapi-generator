@@ -1,0 +1,122 @@
+{{#isArray}}
+{{#items.isEnum}}
+                    "{{name}}" -> {
+                        val list : ArrayList<{{classname}}.{{items.nameInCamelCase}}> = ArrayList()
+                        while(p.nextToken() != JsonToken.END_ARRAY) {
+                            list.add({{classname}}.{{items.nameInCamelCase}}.valueOf(p.text))
+                        }
+                        parsedValues.{{name}} = list
+                      }
+{{/items.isEnum}}
+{{^items.isEnum}}
+{{#items.isString}}
+                    "{{name}}" -> {
+                        val list : ArrayList<String> = ArrayList()
+                        while(p.nextToken() != JsonToken.END_ARRAY) {
+                            list.add(p.text)
+                        }
+                        parsedValues.{{name}} = list
+                      }
+{{/items.isString}}
+{{^items.isString}}
+{{#items.isModel}}
+                    "{{name}}" -> {
+                        val list : ArrayList<{{&items.dataType}}> = ArrayList()
+                        while(p.nextToken() != JsonToken.END_ARRAY) {
+                            list.add({{&items.dataType}}.deserializer.deserialize(p, ctx))
+                        }
+                        parsedValues.{{name}} = list
+                      }
+{{/items.isModel}}
+{{^items.isModel}}
+                    "{{name}}" -> parsedValues.{{name}} = ctx.readValue(
+                            p,
+                            {{#items.isEnum}}
+                            ArrayType<{{classname}}.{{items.nameInCamelCase}}>::class.java
+                            {{/items.isEnum}}
+                            {{^items.isEnum}}
+                            Array<{{&items.dataType}}>::class.java
+                            {{/items.isEnum}}
+                        ).toList()
+{{/items.isModel}}
+{{/items.isString}}
+{{/items.isEnum}}
+{{/isArray}}
+{{^isArray}}
+{{#isString}}{{#isEnum}}
+                    "{{name}}" -> parsedValues.{{name}} = {{classname}}.{{nameInCamelCase}}.valueOf(p.text)
+{{/isEnum}}
+{{^isEnum}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text
+{{/isEnum}}
+{{/isString}}
+{{^isString}}
+{{#isInteger}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text.toInt()
+{{/isInteger}}
+{{^isInteger}}
+{{#isLong}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text.toLong()
+{{/isLong}}
+{{^isLong}}
+{{#isBoolean}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text.toBoolean()
+{{/isBoolean}}
+{{^isBoolean}}
+{{#isDouble}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text.toDouble()
+{{/isDouble}}
+{{^isDouble}}
+{{#isFloat}}
+                    "{{name}}" -> parsedValues.{{name}} = p.text.toFloat()
+{{/isFloat}}
+{{^isFloat}}
+{{#isDateTime}}
+                    "{{name}}" -> parsedValues.{{name}} = java.time.OffsetDateTime.parse(p.text)
+{{/isDateTime}}
+{{^isDateTime}}
+{{#isDate}}
+                    "{{name}}" -> parsedValues.{{name}} = java.time.LocalDate.parse(p.text)
+{{/isDate}}
+{{^isDate}}
+{{#isModel}}
+                    "{{name}}" -> parsedValues.{{name}} = {{&dataType}}.deserializer.deserialize(p, ctx)
+{{/isModel}}
+{{^isModel}}
+{{#isMap}}
+{{#items.isString}}
+                "{{name}}" -> {
+                        val map : HashMap<String, String> = HashMap()
+                        while(p.nextToken() != JsonToken.END_OBJECT) {
+                            val key = p.text
+                            p.nextToken()
+                            map.put(key, p.text)
+                        }
+                        parsedValues.{{name}} = map
+                      }
+{{/items.isString}}
+{{^items.isString}}
+/** {{.}} */
+                "{{name}}" -> parsedValues.{{name}} = ctx.readValue(
+                            p,
+                            ctx.typeFactory.constructMapLikeType(HashMap::class.java, SimpleType.constructUnsafe(String::class.java), SimpleType.constructUnsafe({{items.dataType}}::class.java))
+                        )
+{{/items.isString}}
+{{/isMap}}
+{{^isMap}}
+/** {{.}} */
+                "{{name}}" -> parsedValues.{{name}} = ctx.readValue(
+                            p,
+                            {{#isEnum}}{{classname}}.{{nameInCamelCase}}::class.java{{/isEnum}}{{^isEnum}}com.fasterxml.jackson.databind.type.SimpleType.constructUnsafe({{&dataType}}::class.java){{/isEnum}}
+                        )
+{{/isMap}}
+{{/isModel}}
+{{/isDate}}
+{{/isDateTime}}
+{{/isFloat}}
+{{/isDouble}}
+{{/isBoolean}}
+{{/isLong}}
+{{/isInteger}}
+{{/isString}}
+{{/isArray}}

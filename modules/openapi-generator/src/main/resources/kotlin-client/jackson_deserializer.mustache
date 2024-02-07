@@ -1,0 +1,66 @@
+    class ParsedValues{
+        {{#requiredVars}}
+        {{#isArray}}
+        {{#items.isEnum}}
+        var {{name}}: List<{{classname}}.{{items.nameInCamelCase}}>? = null
+        {{/items.isEnum}}
+        {{^items.isEnum}}
+        var {{name}}: List<{{items.dataType}}>? = null
+        {{/items.isEnum}}
+        {{/isArray}}
+        {{^isArray}}
+        {{#isEnum}}
+        var {{name}}: {{classname}}.{{nameInCamelCase}}? = null
+        {{/isEnum}}
+        {{^isEnum}}
+        var {{name}}: {{&dataType}}? = null
+        {{/isEnum}}
+        {{/isArray}}
+        {{/requiredVars}}
+        {{#optionalVars}}
+        {{#isArray}}
+        {{#items.isEnum}}
+        var {{name}}: List<{{classname}}.{{items.nameInCamelCase}}>? = null
+        {{/items.isEnum}}
+        {{^items.isEnum}}
+        var {{name}}: List<{{items.dataType}}>? = null
+        {{/items.isEnum}}
+        {{/isArray}}
+        {{^isArray}}
+        {{#isEnum}}
+        var {{name}}: {{classname}}.{{nameInCamelCase}}? = null
+        {{/isEnum}}
+        {{^isEnum}}
+        var {{name}}: {{&dataType}}? = null
+        {{/isEnum}}
+        {{/isArray}}
+        {{/optionalVars}}
+    }
+
+    @Suppress("UNUSED_VALUE")
+    class Deserializer : JsonDeserializer<{{classname}}>() {
+        override fun deserialize(p: JsonParser, ctx: DeserializationContext): {{classname}} {
+            val parsedValues = ParsedValues()
+            var curr = p.currentToken
+            if (curr != JsonToken.START_OBJECT) {
+                throw IllegalStateException("Should be start object")
+            }
+            curr = p.nextToken()
+            while (curr == JsonToken.FIELD_NAME) {
+                val field = p.text
+                curr = p.nextToken()
+                when (field) {
+{{#requiredVars}}{{>deserialize_value}}{{/requiredVars}}
+{{#optionalVars}}{{>deserialize_value}}{{/optionalVars}}
+                    else -> p.skipChildren()
+                }
+                curr = p.nextToken()
+            }
+            return {{classname}}({{#requiredVars}}
+                {{name}} = parsedValues.{{name}}!!,{{/requiredVars}}{{#optionalVars}}
+                {{name}} = parsedValues.{{name}},{{/optionalVars}})
+        }
+    }
+    companion object {
+        val deserializer by lazy(LazyThreadSafetyMode.NONE) { Deserializer() }
+    }
