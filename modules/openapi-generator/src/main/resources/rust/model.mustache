@@ -4,11 +4,9 @@
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
-{{^discriminator}}
 {{#oneOf}}
 use super::{{{.}}};
 {{/oneOf}}
-{{/discriminator}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
@@ -46,10 +44,10 @@ impl Default for {{{classname}}} {
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
+#[serde(tag = "{{{propertyBaseName}}}")]
 pub enum {{{classname}}} {
-{{#vendorExtensions}}
-    {{#x-mapped-models}}
+    {{^oneOf}}
+    {{#mappedModels}}
     #[serde(rename="{{mappingName}}")]
     {{{modelName}}} {
     {{#vars}}
@@ -60,17 +58,23 @@ pub enum {{{classname}}} {
         {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
-    {{/x-mapped-models}}
-{{/vendorExtensions}}
+    {{/mappedModels}}
+    {{/oneOf}}
+    {{#oneOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{.}}}(Box<{{{.}}}>),
+    {{/oneOf}}
 }
 
 impl Default for {{classname}} {
     fn default() -> Self {
-        {{#vendorExtensions}}{{#x-mapped-models}}{{#-first}}Self::{{modelName}} {
+        {{^oneOf}}{{#mappedModels}}{{#-first}}Self::{{modelName}} {
         {{#vars}}
             {{{name}}}: Default::default(),
         {{/vars}}
-        }{{/-first}}{{/x-mapped-models}}{{/vendorExtensions}}
+        }{{/-first}}{{/mappedModels}}{{/oneOf}}{{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
     }
 }
 
@@ -80,7 +84,7 @@ impl Default for {{classname}} {
 {{^isEnum}}
 {{^discriminator}}
 {{#oneOf.isEmpty}}
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -119,7 +123,7 @@ pub enum {{classname}} {
 
 impl Default for {{classname}} {
     fn default() -> Self {
-        {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::new({{{.}}}::default())){{/-first}}{{/oneOf}}
+        {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
     }
 }
 {{/oneOf.isEmpty}}
