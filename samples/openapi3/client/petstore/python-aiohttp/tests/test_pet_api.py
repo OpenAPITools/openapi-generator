@@ -10,9 +10,11 @@ $ pytest -vv
 """
 
 import os
+import sys
 import unittest
 import asyncio
 import pytest
+import aiohttp
 
 import petstore_api
 from petstore_api import Configuration
@@ -114,6 +116,21 @@ class TestPetApiTests(unittest.TestCase):
         self.assertEqual(self.pet.id, fetched.data.id)
         self.assertIsNotNone(fetched.data.category)
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
+
+    @async_test
+    async def test_add_pet_and_get_pet_by_id_without_preload_content(self):
+        await self.pet_api.add_pet(self.pet)
+
+        fetched = await self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
+        self.assertIsInstance(fetched, aiohttp.ClientResponse)
+        # self.assertFalse(fetched.closed)
+        # self.assertFalse(fetched.content._eof)
+        read = await fetched.content.read()
+        self.assertTrue(fetched.closed)
+        self.assertTrue(fetched.content._eof)
+        self.assertIsInstance(read, bytes)
+        self.assertEqual(await fetched.content.read(), b'')
+        self.assertTrue(read.decode("utf-8").startswith('{"id":'))
 
     @async_test
     async def test_update_pet(self):

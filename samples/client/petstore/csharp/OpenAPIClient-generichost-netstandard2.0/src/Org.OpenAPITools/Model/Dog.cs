@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -31,23 +32,30 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Dog" /> class.
         /// </summary>
-        /// <param name="breed">breed</param>
         /// <param name="className">className</param>
+        /// <param name="breed">breed</param>
         /// <param name="color">color (default to &quot;red&quot;)</param>
         [JsonConstructor]
-        public Dog(string breed, string className, string color = @"red") : base(className, color)
+        public Dog(string className, Option<string> breed = default, Option<string> color = default) : base(className, color)
         {
-            Breed = breed;
+            BreedOption = breed;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Breed
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string> BreedOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Breed
         /// </summary>
         [JsonPropertyName("breed")]
-        public string Breed { get; set; }
+        public string Breed { get { return this. BreedOption; } set { this.BreedOption = new Option<string>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -86,9 +94,9 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string breed = default;
-            string className = default;
-            string color = default;
+            Option<string> className = default;
+            Option<string> breed = default;
+            Option<string> color = default;
 
             while (utf8JsonReader.Read())
             {
@@ -105,14 +113,14 @@ namespace Org.OpenAPITools.Model
 
                     switch (localVarJsonPropertyName)
                     {
-                        case "breed":
-                            breed = utf8JsonReader.GetString();
-                            break;
                         case "className":
-                            className = utf8JsonReader.GetString();
+                            className = new Option<string>(utf8JsonReader.GetString());
+                            break;
+                        case "breed":
+                            breed = new Option<string>(utf8JsonReader.GetString());
                             break;
                         case "color":
-                            color = utf8JsonReader.GetString();
+                            color = new Option<string>(utf8JsonReader.GetString());
                             break;
                         default:
                             break;
@@ -120,16 +128,19 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (breed == null)
-                throw new ArgumentNullException(nameof(breed), "Property is required for class Dog.");
+            if (!className.IsSet)
+                throw new ArgumentException("Property is required for class Dog.", nameof(className));
 
-            if (className == null)
-                throw new ArgumentNullException(nameof(className), "Property is required for class Dog.");
+            if (className.IsSet && className.Value == null)
+                throw new ArgumentNullException(nameof(className), "Property is not nullable for class Dog.");
 
-            if (color == null)
-                throw new ArgumentNullException(nameof(color), "Property is required for class Dog.");
+            if (breed.IsSet && breed.Value == null)
+                throw new ArgumentNullException(nameof(breed), "Property is not nullable for class Dog.");
 
-            return new Dog(breed, className, color);
+            if (color.IsSet && color.Value == null)
+                throw new ArgumentNullException(nameof(color), "Property is not nullable for class Dog.");
+
+            return new Dog(className.Value, breed, color);
         }
 
         /// <summary>
@@ -156,9 +167,22 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Dog dog, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("breed", dog.Breed);
+            if (dog.ClassName == null)
+                throw new ArgumentNullException(nameof(dog.ClassName), "Property is required for class Dog.");
+
+            if (dog.BreedOption.IsSet && dog.Breed == null)
+                throw new ArgumentNullException(nameof(dog.Breed), "Property is required for class Dog.");
+
+            if (dog.ColorOption.IsSet && dog.Color == null)
+                throw new ArgumentNullException(nameof(dog.Color), "Property is required for class Dog.");
+
             writer.WriteString("className", dog.ClassName);
-            writer.WriteString("color", dog.Color);
+
+            if (dog.BreedOption.IsSet)
+                writer.WriteString("breed", dog.Breed);
+
+            if (dog.ColorOption.IsSet)
+                writer.WriteString("color", dog.Color);
         }
     }
 }

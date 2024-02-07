@@ -3,7 +3,6 @@
  * Configuration
  * PHP version 8.1
  *
- * @category Class
  * @package  {{invokerPackage}}
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -23,7 +22,6 @@ use InvalidArgumentException;
 /**
  * Configuration Class Doc Comment
  *
- * @category Class
  * @package  {{invokerPackage}}
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -421,9 +419,9 @@ class Configuration
         $report .= '    OS: ' . php_uname() . PHP_EOL;
         $report .= '    PHP Version: ' . PHP_VERSION . PHP_EOL;
         $report .= '    The version of the OpenAPI document: {{version}}' . PHP_EOL;
-	    {{#artifactVersion}}
+        {{#artifactVersion}}
         $report .= '    SDK Package Version: {{.}}' . PHP_EOL;
-    	{{/artifactVersion}}
+        {{/artifactVersion}}
         $report .= '    Temp Folder Path: ' . self::getDefaultConfiguration()->getTempFolderPath() . PHP_EOL;
 
         return $report;

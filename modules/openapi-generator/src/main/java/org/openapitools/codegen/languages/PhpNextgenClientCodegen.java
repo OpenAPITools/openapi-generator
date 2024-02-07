@@ -142,11 +142,18 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             CodegenModel model = m.getModel();
 
             for (CodegenProperty prop : model.vars) {
+                String propType;
                 if (prop.isArray || prop.isMap) {
-                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", "array");
+                    propType = "array";
                 } else {
-                    prop.vendorExtensions.putIfAbsent("x-php-prop-type", prop.dataType);
+                    propType = prop.dataType;
                 }
+
+                if ((!prop.required || prop.isNullable) && !propType.equals("mixed")) { // optional or nullable but not mixed
+                    propType = "?" + propType;
+                }
+
+                prop.vendorExtensions.putIfAbsent("x-php-prop-type", propType);
             }
 
             if (model.isEnum) {
@@ -170,7 +177,11 @@ public class PhpNextgenClientCodegen extends AbstractPhpCodegen {
             if (operation.returnType == null) {
                 operation.vendorExtensions.putIfAbsent("x-php-return-type", "void");
             } else {
-                operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+                if (operation.returnProperty.isContainer) { // array or map
+                    operation.vendorExtensions.putIfAbsent("x-php-return-type", "array");
+                } else {
+                    operation.vendorExtensions.putIfAbsent("x-php-return-type", operation.returnType);
+                }
             }
 
             for (CodegenParameter param : operation.allParams) {

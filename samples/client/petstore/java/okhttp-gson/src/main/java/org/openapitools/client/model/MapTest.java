@@ -102,6 +102,11 @@ public class MapTest {
         return InnerEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      InnerEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_MAP_OF_ENUM_STRING = "map_of_enum_string";
@@ -120,7 +125,6 @@ public class MapTest {
   }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -142,14 +146,12 @@ public class MapTest {
     return mapMapOfString;
   }
 
-
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
   }
 
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -171,14 +173,12 @@ public class MapTest {
     return mapOfEnumString;
   }
 
-
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
   }
 
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    
     this.directMap = directMap;
     return this;
   }
@@ -200,14 +200,12 @@ public class MapTest {
     return directMap;
   }
 
-
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
 
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -228,7 +226,6 @@ public class MapTest {
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-
 
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;

@@ -48,7 +48,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     public static final String GEM_DESCRIPTION = "gemDescription";
     public static final String GEM_AUTHOR = "gemAuthor";
     public static final String GEM_AUTHOR_EMAIL = "gemAuthorEmail";
+    public static final String GEM_METADATA = "gemMetadata";
     public static final String FARADAY = "faraday";
+    public static final String HTTPX = "httpx";
     public static final String TYPHOEUS = "typhoeus";
     public static final String USE_AUTOLOAD = "useAutoload";
     private final Logger LOGGER = LoggerFactory.getLogger(RubyClientCodegen.class);
@@ -65,6 +67,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
     protected String gemSummary = "A Ruby SDK for the REST API";
     protected String gemDescription = "This gem maps to a REST API";
     protected String gemAuthor = "";
+    protected String gemMetadata = "{}";
     protected String gemAuthorEmail = "";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
@@ -169,6 +172,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         cliOptions.add(new CliOption(GEM_AUTHOR_EMAIL, "gem author email (only one is supported)."));
 
+        cliOptions.add(new CliOption(GEM_METADATA, "gem metadata.").
+                defaultValue("{}"));
+
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
 
@@ -176,6 +182,7 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                 defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(FARADAY, "Faraday >= 1.0.1 (https://github.com/lostisland/faraday)");
+        supportedLibraries.put(HTTPX, "HTTPX >= 1.0.0 (https://gitlab.com/os85/httpx)");
         supportedLibraries.put(TYPHOEUS, "Typhoeus >= 1.0.1 (https://github.com/typhoeus/typhoeus)");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "HTTP library template (sub-template) to use");
@@ -244,6 +251,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
             setGemAuthorEmail((String) additionalProperties.get(GEM_AUTHOR_EMAIL));
         }
 
+        if (additionalProperties.containsKey(GEM_METADATA)) {
+            setGemMetadata((String) additionalProperties.get(GEM_METADATA));
+        }
+
         if (additionalProperties.containsKey(USE_AUTOLOAD)) {
             setUseAutoload(convertPropertyToBooleanAndWriteBack(USE_AUTOLOAD));
         }
@@ -274,21 +285,21 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         if (TYPHOEUS.equals(getLibrary())) {
             // for Typhoeus
+            additionalProperties.put("isTyphoeus", Boolean.TRUE);
         } else if (FARADAY.equals(getLibrary())) {
             // for Faraday
             additionalProperties.put("isFaraday", Boolean.TRUE);
+        } else if (HTTPX.equals(getLibrary())) {
+            // for Faraday
+            additionalProperties.put("isHttpx", Boolean.TRUE);
         } else {
-            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus are supported.");
+            throw new RuntimeException("Invalid HTTP library " + getLibrary() + ". Only faraday, typhoeus and httpx are supported.");
         }
 
         // test files should not be overwritten
         supportingFiles.add(new SupportingFile("rspec.mustache", "", ".rspec")
                 .doNotOverwrite());
         supportingFiles.add(new SupportingFile("spec_helper.mustache", specFolder, "spec_helper.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("configuration_spec.mustache", specFolder, "configuration_spec.rb")
-                .doNotOverwrite());
-        supportingFiles.add(new SupportingFile("api_client_spec.mustache", specFolder, "api_client_spec.rb")
                 .doNotOverwrite());
 
         // add lambda to convert a symbol to a string if an underscore is included (e.g. :'user_uuid' => 'user_uuid')
@@ -397,6 +408,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
             return schemaMapping.get(name);
+        }
+
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
         }
 
         // memoization
@@ -605,6 +620,10 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
     public void setGemAuthorEmail(String gemAuthorEmail) {
         this.gemAuthorEmail = gemAuthorEmail;
+    }
+
+    public void setGemMetadata(String gemMetadata) {
+        this.gemMetadata = gemMetadata;
     }
 
     public void setUseAutoload(boolean useAutoload) {

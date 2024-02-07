@@ -15,13 +15,14 @@ Method | HTTP request | Description
 
 
 # **test_enum_ref_string**
-> str test_enum_ref_string(enum_ref_string_query=enum_ref_string_query)
+> str test_enum_ref_string(enum_nonref_string_query=enum_nonref_string_query, enum_ref_string_query=enum_ref_string_query)
 
 Test query parameter(s)
 
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -42,11 +43,12 @@ configuration = openapi_client.Configuration(
 with openapi_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = openapi_client.QueryApi(api_client)
+    enum_nonref_string_query = 'enum_nonref_string_query_example' # str |  (optional)
     enum_ref_string_query = openapi_client.StringEnumRef() # StringEnumRef |  (optional)
 
     try:
         # Test query parameter(s)
-        api_response = api_instance.test_enum_ref_string(enum_ref_string_query=enum_ref_string_query)
+        api_response = api_instance.test_enum_ref_string(enum_nonref_string_query=enum_nonref_string_query, enum_ref_string_query=enum_ref_string_query)
         print("The response of QueryApi->test_enum_ref_string:\n")
         pprint(api_response)
     except Exception as e:
@@ -57,8 +59,10 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **enum_nonref_string_query** | **str**|  | [optional] 
  **enum_ref_string_query** | [**StringEnumRef**](.md)|  | [optional] 
 
 ### Return type
@@ -75,6 +79,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -89,6 +94,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -125,6 +131,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **datetime_query** | **datetime**|  | [optional] 
@@ -145,6 +152,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -159,6 +167,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -195,6 +204,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **integer_query** | **int**|  | [optional] 
@@ -215,6 +225,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -229,6 +240,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -264,6 +276,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**Pet**](.md)|  | [optional] 
@@ -282,6 +295,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -296,6 +310,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -330,6 +345,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional] 
@@ -348,6 +364,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -362,6 +379,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -397,6 +415,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter**](.md)|  | [optional] 
@@ -415,6 +434,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -429,6 +449,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -464,6 +485,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**Pet**](.md)|  | [optional] 
@@ -482,6 +504,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |
@@ -496,6 +519,7 @@ Test query parameter(s)
 Test query parameter(s)
 
 ### Example
+
 
 ```python
 import time
@@ -530,6 +554,7 @@ with openapi_client.ApiClient(configuration) as api_client:
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query_object** | [**DataQuery**](.md)|  | [optional] 
@@ -548,6 +573,7 @@ No authorization required
  - **Accept**: text/plain
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **200** | Successful operation |  -  |

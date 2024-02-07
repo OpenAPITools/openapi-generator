@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import Optional, Union
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from pydantic import BaseModel, StrictStr
 from pydantic import Field
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,14 +29,15 @@ except ImportError:
 class Animal(BaseModel):
     """
     Animal
-    """
+    """ # noqa: E501
     class_name: StrictStr = Field(alias="className")
     color: Optional[StrictStr] = 'red'
     __properties: ClassVar[List[str]] = ["className", "color"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -50,7 +50,7 @@ class Animal(BaseModel):
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -72,16 +72,26 @@ class Animal(BaseModel):
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Union[Self, Self]:
+    def from_dict(cls, obj: Dict) -> Union[Self, Self]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
@@ -95,9 +105,6 @@ class Animal(BaseModel):
 
 from petstore_api.models.cat import Cat
 from petstore_api.models.dog import Dog
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # Animal.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+Animal.model_rebuild(raise_errors=False)
 

@@ -1,6 +1,5 @@
-    @Serializable
+    @Serializable({{operationIdCamelCase}}Request.Companion::class)
     private class {{operationIdCamelCase}}Request(val value: Map<kotlin.String, {{#bodyParam}}{{baseType}}{{/bodyParam}}>) {
-        @Serializer({{operationIdCamelCase}}Request::class)
         {{#nonPublicApi}}internal {{/nonPublicApi}}companion object : KSerializer<{{operationIdCamelCase}}Request> {
             private val serializer: KSerializer<Map<kotlin.String, {{#bodyParam}}{{baseType}}{{/bodyParam}}>> = serializer<Map<String, {{#bodyParam}}{{baseType}}{{/bodyParam}}>>()
             override val descriptor = serializer.descriptor

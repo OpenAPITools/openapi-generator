@@ -37,14 +37,47 @@ class TestManual(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEnumRefString(self):
-        api_instance = openapi_client.QueryApi()
-        q = openapi_client.StringEnumRef("unclassified")
-
-        # Test query parameter(s)
-        api_response = api_instance.test_enum_ref_string(enum_ref_string_query=q)
+    def testPathParameters(self):
+        api_instance = openapi_client.PathApi()
+        api_response = api_instance.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(
+            path_string="string_value",
+            path_integer=123,
+            enum_nonref_string_path="success",
+            enum_ref_string_path=openapi_client.StringEnumRef.FAILURE,
+        )
         e = EchoServerResponseParser(api_response)
-        self.assertEqual(e.path, "/query/enum_ref_string?enum_ref_string_query=unclassified")
+        self.assertEqual(e.path, "/path/string/string_value/integer/123/success/failure")
+
+    def testHeaderParameters(self):
+        api_instance = openapi_client.HeaderApi()
+        api_response = api_instance.test_header_integer_boolean_string_enums(
+            integer_header=123,
+            boolean_header=True,
+            string_header="string_value",
+            enum_nonref_string_header="success",
+            enum_ref_string_header=openapi_client.StringEnumRef.FAILURE,
+        )
+        e = EchoServerResponseParser(api_response)
+        expected_header = dict(
+            integer_header="123",
+            boolean_header="True",
+            string_header="string_value",
+            enum_nonref_string_header="success",
+            enum_ref_string_header="failure",
+        )
+        self.assertDictContainsSubset(expected_header, e.headers)
+
+    def testEnumQueryParameters(self):
+        api_instance = openapi_client.QueryApi()
+        api_response = api_instance.test_enum_ref_string(
+            enum_nonref_string_query="success",
+            enum_ref_string_query=openapi_client.StringEnumRef("unclassified"),
+        )
+        e = EchoServerResponseParser(api_response)
+        self.assertEqual(
+            e.path, 
+            "/query/enum_ref_string?enum_nonref_string_query=success&enum_ref_string_query=unclassified",
+        )
 
 
     def testDateTimeQueryWithDateTimeFormat(self):
@@ -178,6 +211,11 @@ class TestManual(unittest.TestCase):
         self.assertEqual(pet2.tags[0].id, 1)
         self.assertEqual(pet2.tags[0].name, "None")
         self.assertEqual(pet2.category.id, 1)
+
+    def test_parameters_to_url_query_boolean_value(self):
+        client = openapi_client.ApiClient()
+        params = client.parameters_to_url_query([("boolean", True),], {})
+        self.assertEqual(params, "boolean=true")
 
     def echoServerResponseParaserTest(self):
         s = """POST /echo/body/Pet/response_string HTTP/1.1

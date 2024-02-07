@@ -22,6 +22,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -35,19 +36,26 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public DeprecatedObject(string name)
+        public DeprecatedObject(Option<string?> name = default)
         {
-            Name = name;
+            NameOption = name;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Name
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<string?> NameOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -102,7 +110,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            string? name = default;
+            Option<string?> name = default;
 
             while (utf8JsonReader.Read())
             {
@@ -120,7 +128,7 @@ namespace Org.OpenAPITools.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "name":
-                            name = utf8JsonReader.GetString();
+                            name = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         default:
                             break;
@@ -128,8 +136,8 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (name == null)
-                throw new ArgumentNullException(nameof(name), "Property is required for class DeprecatedObject.");
+            if (name.IsSet && name.Value == null)
+                throw new ArgumentNullException(nameof(name), "Property is not nullable for class DeprecatedObject.");
 
             return new DeprecatedObject(name);
         }
@@ -158,7 +166,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, DeprecatedObject deprecatedObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WriteString("name", deprecatedObject.Name);
+            if (deprecatedObject.NameOption.IsSet && deprecatedObject.Name == null)
+                throw new ArgumentNullException(nameof(deprecatedObject.Name), "Property is required for class DeprecatedObject.");
+
+            if (deprecatedObject.NameOption.IsSet)
+                writer.WriteString("name", deprecatedObject.Name);
         }
     }
 }

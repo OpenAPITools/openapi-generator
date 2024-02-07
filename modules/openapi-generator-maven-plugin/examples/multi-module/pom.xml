@@ -15,7 +15,7 @@
     <properties>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.35</jersey-version>
-        <jackson-version>2.13.0</jackson-version>
+        <jackson-version>2.15.2</jackson-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

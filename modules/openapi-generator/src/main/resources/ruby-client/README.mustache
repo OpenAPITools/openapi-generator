@@ -85,6 +85,10 @@ require '{{{gemName}}}'
   # Configure faraday connection
   config.configure_faraday_connection { |connection| 'YOUR CONNECTION CONFIG PROC' }
   {{/isFaraday}}
+  {{#isHttpx}}
+  # Configure httpx session
+  config.configure_session { |session| 'YOUR CONNECTION CONFIG PROC' }
+  {{/isHttpx}}
 {{/authMethods}}end
 {{/hasAuthMethods}}
 

@@ -3245,14 +3245,13 @@ namespace Org.OpenAPITools.Api
                         formParameterLocalVars.Add(new KeyValuePair<string?, string?>("dateTime", ClientUtils.ParameterToString(dateTime.Value)));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    BasicToken basicTokenLocalVar = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BasicToken basicTokenLocalVar1 = (BasicToken) await BasicTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(basicTokenLocalVar);
+                    tokenBaseLocalVars.Add(basicTokenLocalVar1);
 
-                    basicTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
+                    basicTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
 
                     string[] contentTypes = new string[] {
                         "application/x-www-form-urlencoded"
@@ -3770,14 +3769,13 @@ namespace Org.OpenAPITools.Api
                         httpRequestMessageLocalVar.Headers.Add("boolean_group", ClientUtils.ParameterToString(booleanGroup.Value));
 
                     List<TokenBase> tokenBaseLocalVars = new List<TokenBase>();
-
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
 
-                    BearerToken bearerTokenLocalVar = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BearerToken bearerTokenLocalVar1 = (BearerToken) await BearerTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
-                    tokenBaseLocalVars.Add(bearerTokenLocalVar);
+                    tokenBaseLocalVars.Add(bearerTokenLocalVar1);
 
-                    bearerTokenLocalVar.UseInHeader(httpRequestMessageLocalVar, "");
+                    bearerTokenLocalVar1.UseInHeader(httpRequestMessageLocalVar, "");
 
                     httpRequestMessageLocalVar.Method = HttpMethod.Delete;
 

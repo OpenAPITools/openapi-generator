@@ -29,7 +29,7 @@ public class FileSchemaTestClass  {
   
   private ModelFile _file;
 
-  private List<ModelFile> files = null;
+  private List<@Valid ModelFile> files = null;
 
  /**
    * Get _file
@@ -55,18 +55,18 @@ public class FileSchemaTestClass  {
    * Get files
    * @return files
   **/
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
   /**
     * Set files
   **/
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }

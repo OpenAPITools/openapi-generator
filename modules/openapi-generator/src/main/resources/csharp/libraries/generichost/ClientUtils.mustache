@@ -33,7 +33,11 @@ using System.Runtime.CompilerServices;
         /// </summary>
         static ClientUtils()
         {
-            compareLogic = new CompareLogic();
+            {{#equatable}}
+            ComparisonConfig comparisonConfig = new{{^net70OrLater}} ComparisonConfig{{/net70OrLater}}();
+            comparisonConfig.UseHashCodeIdentifier = true;
+            {{/equatable}}
+            compareLogic = new{{^net70OrLater}} CompareLogic{{/net70OrLater}}({{#equatable}}comparisonConfig{{/equatable}});
         }
         {{/useCompareNetObjects}}
 
@@ -46,6 +50,51 @@ using System.Runtime.CompilerServices;
         /// <returns></returns>
         public delegate void EventHandler<T>(object sender, T e) where T : EventArgs;
 
+        {{#hasApiKeyMethods}}
+        /// <summary>
+        /// An enum of headers
+        /// </summary>
+        public enum ApiKeyHeader
+        {
+            {{#apiKeyMethods}}
+            /// <summary>
+            /// The {{keyParamName}} header
+            /// </summary>
+            {{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}{{^-last}},{{/-last}}
+            {{/apiKeyMethods}}
+        }
+
+        /// <summary>
+        /// Converte an ApiKeyHeader to a string
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        /// <exception cref="System.ComponentModel.InvalidEnumArgumentException"></exception>
+        {{>visibility}} static string ApiKeyHeaderToString(ApiKeyHeader value)
+        {
+            {{#net80OrLater}}
+            return value switch
+            {
+                {{#apiKeyMethods}}
+                ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}} => "{{keyParamName}}",
+                {{/apiKeyMethods}}
+                _ => throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader)),
+            };
+            {{/net80OrLater}}
+            {{^net80OrLater}}
+            switch(value)
+            {
+                {{#apiKeyMethods}}
+                case ApiKeyHeader.{{#lambda.titlecase}}{{keyParamName}}{{/lambda.titlecase}}:
+                    return "{{keyParamName}}";
+                {{/apiKeyMethods}}
+                default:
+                    throw new System.ComponentModel.InvalidEnumArgumentException(nameof(value), (int)value, typeof(ApiKeyHeader));
+            }
+            {{/net80OrLater}}
+        }
+
+        {{/hasApiKeyMethods}}
         /// <summary>
         /// Returns true when deserialization succeeds.
         /// </summary>

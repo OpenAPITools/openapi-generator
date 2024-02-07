@@ -244,7 +244,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/hasAuthMethods}}
     {{#isMultipart}}
     {{#hasFormParams}}
-    let mut local_var_form = reqwest::multipart::Form::new();
+    let mut local_var_form = reqwest{{^supportAsync}}::blocking{{/supportAsync}}::multipart::Form::new();
     {{#formParams}}
     {{#isFile}}
     {{^supportAsync}}

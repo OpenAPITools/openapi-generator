@@ -18,10 +18,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
 from petstore_api.models.file import File
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,14 +29,15 @@ except ImportError:
 class FileSchemaTestClass(BaseModel):
     """
     FileSchemaTestClass
-    """
+    """ # noqa: E501
     file: Optional[File] = None
     files: Optional[List[File]] = None
     __properties: ClassVar[List[str]] = ["file", "files"]
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -55,12 +55,22 @@ class FileSchemaTestClass(BaseModel):
         """Create an instance of FileSchemaTestClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # override the default output from pydantic by calling `to_dict()` of file
         if self.file:
             _dict['file'] = self.file.to_dict()
@@ -74,7 +84,7 @@ class FileSchemaTestClass(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of FileSchemaTestClass from a dict"""
         if obj is None:
             return None

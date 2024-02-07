@@ -104,6 +104,11 @@ public class Query {
         return OutcomesEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      OutcomesEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_OUTCOMES = "outcomes";
@@ -114,7 +119,6 @@ public class Query {
   }
 
   public Query id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -128,14 +132,12 @@ public class Query {
     return id;
   }
 
-
   public void setId(Long id) {
     this.id = id;
   }
 
 
   public Query outcomes(List<OutcomesEnum> outcomes) {
-    
     this.outcomes = outcomes;
     return this;
   }
@@ -156,7 +158,6 @@ public class Query {
   public List<OutcomesEnum> getOutcomes() {
     return outcomes;
   }
-
 
   public void setOutcomes(List<OutcomesEnum> outcomes) {
     this.outcomes = outcomes;

@@ -12,8 +12,9 @@ package petstoreserver
 import (
 	"encoding/json"
 	"errors"
+	"time"
 	"github.com/gorilla/mux"
-	"io/ioutil"
+	"io"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -68,7 +69,25 @@ func EncodeJSONResponse(i interface{}, status *int, headers map[string][]string,
 			wHeader.Add(key, value)
 		}
 	}
+
+	f, ok := i.(*os.File)
+	if ok {
+		data, err := io.ReadAll(f)
+		if err != nil {
+			return err
+		}
+		wHeader.Set("Content-Type", http.DetectContentType(data))
+		wHeader.Set("Content-Disposition", "attachment; filename="+f.Name())
+		if status != nil {
+			w.WriteHeader(*status)
+		} else {
+			w.WriteHeader(http.StatusOK)
+		}
+		_, err = w.Write(data)
+		return err
+	}
 	wHeader.Set("Content-Type", "application/json; charset=UTF-8")
+
 	if status != nil {
 		w.WriteHeader(*status)
 	} else {
@@ -121,21 +140,40 @@ func readFileHeaderToTempFile(fileHeader *multipart.FileHeader) (*os.File, error
 
 	defer formFile.Close()
 
-	fileBytes, err := ioutil.ReadAll(formFile)
-	if err != nil {
-		return nil, err
-	}
-
-	file, err := ioutil.TempFile("", fileHeader.Filename)
+	file, err := os.CreateTemp("", fileHeader.Filename)
 	if err != nil {
 		return nil, err
 	}
 
 	defer file.Close()
 
-	file.Write(fileBytes)
-
+	_, err = io.Copy(file, formFile)
+	if err != nil {
+		return nil, err
+	}
+	
 	return file, nil
+}
+
+func parseTimes(param string) ([]time.Time, error) {
+	splits := strings.Split(param, ",")
+	times := make([]time.Time, 0, len(splits))
+	for _, v := range splits {
+		t, err := parseTime(v)
+		if err != nil {
+			return nil, err
+		}
+		times = append(times, t)
+	}
+	return times, nil
+}
+
+// parseTime will parses a string parameter into a time.Time using the RFC3339 format
+func parseTime(param string) (time.Time, error) {
+	if param == "" {
+		return time.Time{}, nil
+	}
+	return time.Parse(time.RFC3339, param)
 }
 
 type Number interface {

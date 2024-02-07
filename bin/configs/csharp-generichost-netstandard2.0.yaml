@@ -9,3 +9,4 @@ additionalProperties:
   useCompareNetObjects: true 
   disallowAdditionalPropertiesIfNotPresent: false
   targetFramework: netstandard2.0
+  equatable: true

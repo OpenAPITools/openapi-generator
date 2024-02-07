@@ -131,10 +131,10 @@ func (o AdditionalPropertiesClass) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
+func (o *AdditionalPropertiesClass) UnmarshalJSON(data []byte) (err error) {
 	varAdditionalPropertiesClass := _AdditionalPropertiesClass{}
 
-	err = json.Unmarshal(bytes, &varAdditionalPropertiesClass)
+	err = json.Unmarshal(data, &varAdditionalPropertiesClass)
 
 	if err != nil {
 		return err
@@ -144,7 +144,7 @@ func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "map_property")
 		delete(additionalProperties, "map_of_map_property")
 		o.AdditionalProperties = additionalProperties

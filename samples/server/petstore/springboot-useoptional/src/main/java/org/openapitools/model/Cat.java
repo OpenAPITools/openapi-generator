@@ -35,7 +35,7 @@ import javax.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal {
 
-  private Boolean declawed;
+  private Optional<Boolean> declawed = Optional.empty();
 
   public Cat() {
     super();
@@ -49,7 +49,7 @@ public class Cat extends Animal {
   }
 
   public Cat declawed(Boolean declawed) {
-    this.declawed = declawed;
+    this.declawed = Optional.of(declawed);
     return this;
   }
 
@@ -60,11 +60,11 @@ public class Cat extends Animal {
   
   @ApiModelProperty(value = "")
   @JsonProperty("declawed")
-  public Boolean getDeclawed() {
+  public Optional<Boolean> getDeclawed() {
     return declawed;
   }
 
-  public void setDeclawed(Boolean declawed) {
+  public void setDeclawed(Optional<Boolean> declawed) {
     this.declawed = declawed;
   }
 

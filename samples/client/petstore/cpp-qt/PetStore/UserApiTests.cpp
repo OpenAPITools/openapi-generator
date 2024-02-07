@@ -26,7 +26,7 @@ void UserApiTests::createUserTest() {
         userCreated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::createUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::createUserSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -46,7 +46,7 @@ void UserApiTests::createUsersWithArrayInputTest() {
         usersCreated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::createUsersWithArrayInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::createUsersWithArrayInputSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -70,7 +70,7 @@ void UserApiTests::createUsersWithListInputTest() {
         usersCreated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::createUsersWithListInputSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::createUsersWithListInputSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -98,7 +98,7 @@ void UserApiTests::deleteUserTest() {
         userDeleted = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::deleteUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::deleteUserSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         userDeleted = true;
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
@@ -121,7 +121,7 @@ void UserApiTests::getUserByNameTest() {
 //      QVERIFY(summary.getUsername() == "johndoe");
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::getUserByNameSignalE, [&](PFXUser, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::getUserByNameSignalError, [&](PFXUser, QNetworkReply::NetworkError, const QString &error_str) {
         userFetched = true;
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
@@ -143,7 +143,7 @@ void UserApiTests::loginUserTest() {
         qDebug() << summary;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::loginUserSignalE, [&](QString, QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::loginUserSignalError, [&](QString, QNetworkReply::NetworkError, const QString &error_str) {
         userLogged = true;
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
@@ -164,7 +164,7 @@ void UserApiTests::logoutUserTest() {
         userLoggedOut = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::logoutUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::logoutUserSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
@@ -184,7 +184,7 @@ void UserApiTests::updateUserTest() {
         userUpdated = true;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });
-    connect(&api, &PFXUserApi::updateUserSignalE, [&](QNetworkReply::NetworkError, QString error_str) {
+    connect(&api, &PFXUserApi::updateUserSignalError, [&](QNetworkReply::NetworkError, const QString &error_str) {
         qDebug() << "Error happened while issuing request : " << error_str;
         QTimer::singleShot(0, &loop, &QEventLoop::quit);
     });

@@ -8,8 +8,10 @@ import time
 import unittest
 
 from pydantic import ValidationError
+import pytest
 
 import petstore_api
+from petstore_api import InnerDictWithProperty
 
 
 class ModelTests(unittest.TestCase):
@@ -390,6 +392,9 @@ class ModelTests(unittest.TestCase):
         a.pattern_with_digits_and_delimiter = "image_123"
         self.assertEqual(a.pattern_with_digits_and_delimiter, "image_123")
 
+        # test sanitize for serializaation with SecretStr (format: password)
+        self.assertEquals(petstore_api.ApiClient().sanitize_for_serialization(a), {'byte': b'string', 'date': '2013-09-17', 'number': 123.45, 'password': 'testing09876', 'pattern_with_digits_and_delimiter': 'image_123'})
+
     def test_inline_enum_validator(self):
         self.pet = petstore_api.Pet(name="test name", photoUrls=["string"])
         self.pet.id = 1
@@ -508,6 +513,19 @@ class ModelTests(unittest.TestCase):
         self.assertFalse(b is None)
         self.assertEqual(b.optional_dict["key"].a_property["a"], "b")
 
+    def test_freeform_object(self):
+        # Allows dict[str, Any] and is nullable
+        a = InnerDictWithProperty.from_dict({"aProperty": {"a": 12}})
+        a = InnerDictWithProperty.from_dict({"aProperty": None})
+
+        # Allows no other values
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": {123: 45}})
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": "abc"})
+        with pytest.raises(ValidationError):
+            a = InnerDictWithProperty.from_dict({"aProperty": 12})
+
     def test_object_with_dict_of_dict_of_object(self):
         # for https://github.com/OpenAPITools/openapi-generator/issues/15135
         d = {"optionalDict": {"a": {"b": {"aProperty": "value"}}}}
@@ -560,7 +578,6 @@ class ModelTests(unittest.TestCase):
         # should not throw the following errors:
         #   pydantic.errors.ConfigError: field "additional_properties" not yet prepared so type is still a ForwardRef, you might need to call ObjectToTestAdditionalProperties.update_forward_refs().
 
-    @unittest.skip("TODO: pydantic v2: fix circular dependencies between CircularReferenceModel, FirstRef, SecondRef")
     def test_first_ref(self):
         # shouldn't throw "still a ForwardRef" error
         a = petstore_api.FirstRef.from_dict({})
@@ -587,3 +604,30 @@ class ModelTests(unittest.TestCase):
         a3.additional_properties = { "xyz": 45.6 }
         self.assertEqual(a3.to_dict(), {"xyz": 45.6})
         self.assertEqual(a3.to_json(), '{"xyz": 45.6}')
+
+class TestUnnamedDictWithAdditionalStringListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": ["c"]})
+        assert a.to_dict() == {"dictProperty": {"b": ["c"]}}
+
+class TestUnnamedDictWithAdditionalModelListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        value = {"b": [petstore_api.CreatureInfo(name="creature_name")]}
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property=value)
+        assert a.to_dict() == {"dictProperty": {"b": [{"name": "creature_name"}]}}

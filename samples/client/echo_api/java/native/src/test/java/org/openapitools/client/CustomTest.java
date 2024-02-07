@@ -61,6 +61,28 @@ public class CustomTest {
     }
 
     /**
+     * Test allOf body parameter(s)
+     * <p>
+     * Test allOf body parameter(s)
+     *
+     * @throws ApiException if the Api call fails
+     */
+    @Test
+    public void testEchoBodyAllOfPet() throws ApiException {
+        Pet queryObject = new Pet().id(12345L).name("Hello World").
+                photoUrls(Arrays.asList(new String[]{"http://a.com", "http://b.com"})).category(new Category().id(987L).name("new category"));
+
+        Pet p = bodyApi.testEchoBodyAllOfPet(queryObject);
+        Assert.assertNotNull(p);
+        Assert.assertEquals("Hello World", p.getName());
+        Assert.assertEquals(Long.valueOf(12345L), p.getId());
+
+        // response is empty body
+        Pet p2 = bodyApi.testEchoBodyPet(null);
+        Assert.assertNull(p2);
+    }
+
+    /**
      * Test query parameter(s)
      * <p>
      * Test query parameter(s)

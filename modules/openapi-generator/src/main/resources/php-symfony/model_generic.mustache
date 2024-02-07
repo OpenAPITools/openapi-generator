@@ -30,6 +30,37 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}} {{/parentSchema}}
         return $this->{{name}};
     }
 
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return string|null
+    */
+    public function getSerialized{{nameInCamelCase}}(): string|null
+    {
+        return $this->{{name}}?->value ? (string) $this->{{name}}->value : null;
+    }
+    {{/isEnumRef}}
+
+    {{#isContainer}}
+    {{#items}}
+    {{#isEnumRef}}
+    /**
+    * Gets {{name}} for serialization.
+    *
+    * @return array
+    */
+    public function getSerialized{{nameInCamelCase}}(): array
+    {
+        return array_map(
+            static fn ($value) => (string) $value->value,
+            $this->test ?? []
+        );
+    }
+    {{/isEnumRef}}
+    {{/items}}
+    {{/isContainer}}
+
     /**
      * Sets {{name}}.
      *

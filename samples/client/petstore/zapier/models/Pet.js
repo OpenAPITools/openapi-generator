@@ -15,11 +15,13 @@ module.exports = {
             {
                 key: `${keyPrefix}name`,
                 label: `[${labelPrefix}name]`,
+                required: true,
                 type: 'string',
             },
             {
                 key: `${keyPrefix}photoUrls`,
                 label: `[${labelPrefix}photoUrls]`,
+                required: true,
                 list: true,
                 type: 'string',
             },
@@ -47,7 +49,7 @@ module.exports = {
             'category': utils.removeIfEmpty(Category.mapping(bundle, `${keyPrefix}category`)),
             'name': bundle.inputData?.[`${keyPrefix}name`],
             'photoUrls': bundle.inputData?.[`${keyPrefix}photoUrls`],
-            'tags': utils.removeKeyPrefixes(bundle.inputData?.[`${keyPrefix}tags`], `${keyPrefix}tags`),
+            'tags': utils.childMapping(bundle.inputData?.[`${keyPrefix}tags`], `${keyPrefix}tags`, Tag),
             'status': bundle.inputData?.[`${keyPrefix}status`],
         }
     },

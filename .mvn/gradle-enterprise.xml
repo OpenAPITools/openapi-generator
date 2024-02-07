@@ -46,7 +46,8 @@
         </credentials>
       </server>
       <enabled>true</enabled>                                   <!-- must be true for this experiment -->
-      <storeEnabled>#{env['CI'] != null}</storeEnabled>  <!-- adjust to an env var that is always present only in your CI environment -->
+      <!-- Check credentials presence to avoid build cache errors on PR builds when credentials are not present -->
+      <storeEnabled>#{isTrue(env['CI']) and isTrue(env['GRADLE_ENTERPRISE_CACHE_USERNAME']) and isTrue(env['GRADLE_ENTERPRISE_CACHE_PASSWORD'])}</storeEnabled>
     </remote>
   </buildCache>
 </gradleEnterprise>

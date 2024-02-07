@@ -50,7 +50,8 @@ class AnyOfColor(BaseModel):
     any_of_schemas: List[str] = Literal[ANYOFCOLOR_ANY_OF_SCHEMAS]
 
     model_config = {
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
     def __init__(self, *args, **kwargs) -> None:
@@ -145,7 +146,7 @@ class AnyOfColor(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict:
+    def to_dict(self) -> Dict:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return "null"

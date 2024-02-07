@@ -107,7 +107,6 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         information: Option<String>,
         context: &C) -> Result<CallbackCallbackWithHeaderPostResponse, ApiError>
     {
-        let context = context.clone();
         info!("callback_callback_with_header_post({:?}) - X-Span-ID: {:?}", information, context.get().0.clone());
         Err(ApiError("Generic failure".into()))
     }
@@ -117,7 +116,6 @@ impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         callback_request_query_url: String,
         context: &C) -> Result<CallbackCallbackPostResponse, ApiError>
     {
-        let context = context.clone();
         info!("callback_callback_post() - X-Span-ID: {:?}", context.get().0.clone());
         Err(ApiError("Generic failure".into()))
     }

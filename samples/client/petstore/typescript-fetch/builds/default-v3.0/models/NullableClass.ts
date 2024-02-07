@@ -82,16 +82,16 @@ export interface NullableClass {
     objectNullableProp?: { [key: string]: object; } | null;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object; } | null;
+    objectAndItemsNullableProp?: { [key: string]: object | null; } | null;
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectItemsNullable?: { [key: string]: object; };
+    objectItemsNullable?: { [key: string]: object | null; };
 }
 
 /**

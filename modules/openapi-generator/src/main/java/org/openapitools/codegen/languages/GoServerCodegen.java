@@ -31,6 +31,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
 public class GoServerCodegen extends AbstractGoCodegen {
 
     /**
@@ -301,6 +303,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
             CodegenModel model = m.getModel();
             if (model.isEnum) {
+                imports.add(createMapping("import", "fmt"));
                 continue;
             }
 
@@ -321,34 +324,77 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
+        // TODO: refactor abstractGoCodegen, decouple go client only code and remove this
         OperationMap objectMap = objs.getOperations();
         List<CodegenOperation> operations = objectMap.getOperation();
 
+        for (CodegenOperation operation : operations) {
+            // http method verb conversion (e.g. PUT => Put)
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.ROOT));
+        }
+
+        // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         if (imports == null)
             return objs;
 
-        // override imports to only include packages for interface parameters
-        imports.clear();
+        Iterator<Map<String, String>> iterator = imports.iterator();
+        while (iterator.hasNext()) {
+            String _import = iterator.next().get("import");
+            if (_import.startsWith(apiPackage))
+                iterator.remove();
+        }
 
         boolean addedTimeImport = false;
         boolean addedOSImport = false;
+        boolean addedReflectImport = false;
         for (CodegenOperation operation : operations) {
             for (CodegenParameter param : operation.allParams) {
                 // import "os" if the operation uses files
-                if (!addedOSImport && ("*os.File".equals(param.dataType) || ("[]*os.File".equals(param.dataType)))) {
+                if (!addedOSImport && ("*os.File".equals(param.dataType) || "[]*os.File".equals(param.dataType))) {
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
 
-                // import "time" if the operation has a required time parameter
-                if (param.required) {
-                    if (!addedTimeImport && "time.Time".equals(param.dataType)) {
-                        imports.add(createMapping("import", "time"));
-                        addedTimeImport = true;
-                    }
+                // import "time" if the operation has a time parameter.
+                if (!addedTimeImport && "time.Time".equals(param.dataType)) {
+                    imports.add(createMapping("import", "time"));
+                    addedTimeImport = true;
                 }
+
+                // import "reflect" package if the parameter is collectionFormat=multi
+                if (!addedReflectImport && param.isCollectionFormatMulti) {
+                    imports.add(createMapping("import", "reflect"));
+                    addedReflectImport = true;
+                }
+
+                // set x-exportParamName
+                char nameFirstChar = param.paramName.charAt(0);
+                if (Character.isUpperCase(nameFirstChar)) {
+                    // First char is already uppercase, just use paramName.
+                    param.vendorExtensions.put("x-export-param-name", param.paramName);
+                } else {
+                    // It's a lowercase first char, let's convert it to uppercase
+                    StringBuilder sb = new StringBuilder(param.paramName);
+                    sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+                    param.vendorExtensions.put("x-export-param-name", sb.toString());
+                }
+            }
+
+        }
+
+        // recursively add import for mapping one type to multiple imports
+        List<Map<String, String>> recursiveImports = objs.getImports();
+        if (recursiveImports == null)
+            return objs;
+
+        ListIterator<Map<String, String>> listIterator = imports.listIterator();
+        while (listIterator.hasNext()) {
+            String _import = listIterator.next().get("import");
+            // if the import package happens to be found in the importMapping (key)
+            // add the corresponding import package to the list
+            if (importMapping.containsKey(_import)) {
+                listIterator.add(createMapping("import", importMapping.get(_import)));
             }
         }
 

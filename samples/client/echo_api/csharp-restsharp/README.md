@@ -117,17 +117,19 @@ All URIs are relative to *http://localhost:3000*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AuthApi* | [**TestAuthHttpBasic**](docs/AuthApi.md#testauthhttpbasic) | **POST** /auth/http/basic | To test HTTP basic authentication
+*AuthApi* | [**TestAuthHttpBearer**](docs/AuthApi.md#testauthhttpbearer) | **POST** /auth/http/bearer | To test HTTP bearer authentication
 *BodyApi* | [**TestBinaryGif**](docs/BodyApi.md#testbinarygif) | **POST** /binary/gif | Test binary (gif) response body
 *BodyApi* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyApi* | [**TestEchoBodyAllOfPet**](docs/BodyApi.md#testechobodyallofpet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**TestEchoBodyPet**](docs/BodyApi.md#testechobodypet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**TestEchoBodyPetResponseString**](docs/BodyApi.md#testechobodypetresponsestring) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**TestEchoBodyTagResponseString**](docs/BodyApi.md#testechobodytagresponsestring) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**TestFormIntegerBooleanString**](docs/FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**TestFormOneof**](docs/FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
-*HeaderApi* | [**TestHeaderIntegerBooleanString**](docs/HeaderApi.md#testheaderintegerbooleanstring) | **GET** /header/integer/boolean/string | Test header parameter(s)
-*PathApi* | [**TestsPathStringPathStringIntegerPathInteger**](docs/PathApi.md#testspathstringpathstringintegerpathinteger) | **GET** /path/string/{path_string}/integer/{path_integer} | Test path parameter(s)
+*HeaderApi* | [**TestHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testheaderintegerbooleanstringenums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
+*PathApi* | [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryApi* | [**TestEnumRefString**](docs/QueryApi.md#testenumrefstring) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**TestQueryDatetimeDateString**](docs/QueryApi.md#testquerydatetimedatestring) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**TestQueryIntegerBooleanString**](docs/QueryApi.md#testqueryintegerbooleanstring) | **GET** /query/integer/boolean/string | Test query parameter(s)
@@ -163,4 +165,9 @@ Authentication schemes defined for the API:
 ### http_auth
 
 - **Type**: HTTP basic authentication
+
+<a id="http_bearer_auth"></a>
+### http_bearer_auth
+
+- **Type**: Bearer Authentication
 

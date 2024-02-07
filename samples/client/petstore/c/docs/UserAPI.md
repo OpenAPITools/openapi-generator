@@ -231,8 +231,8 @@ void UserAPI_testIntAndBool(apiClient_t *apiClient, int keep, int keepDay);
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**keep** | **int** | Whether to keep user data after deletion | [optional] 
-**keepDay** | **int** | how many days user data is kept after deletion | [optional] 
+**keep** | **int \*** | Whether to keep user data after deletion | [optional] 
+**keepDay** | **int \*** | how many days user data is kept after deletion | [optional] 
 
 ### Return type
 

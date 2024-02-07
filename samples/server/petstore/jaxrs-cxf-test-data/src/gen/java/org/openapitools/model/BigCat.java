@@ -2,7 +2,6 @@ package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -72,6 +71,23 @@ public enum KindEnum {
     return this;
   }
 
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    BigCat bigCat = (BigCat) o;
+    return super.equals(o) && Objects.equals(kind, bigCat.kind);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), kind);
+  }
 
   @Override
   public String toString() {

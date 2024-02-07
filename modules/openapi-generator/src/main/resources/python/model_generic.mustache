@@ -12,7 +12,6 @@ import json
 {{#vendorExtensions.x-py-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -20,8 +19,8 @@ except ImportError:
 
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
-    {{#description}}{{{description}}}  # noqa: E501{{/description}}{{^description}}{{{classname}}}{{/description}}
-    """
+    {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}
+    """ # noqa: E501
 {{#vars}}
     {{name}}: {{{vendorExtensions.x-py-typing}}}
 {{/vars}}
@@ -83,7 +82,8 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -98,7 +98,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: dict) -> str:
+    def get_discriminator_value(cls, obj: Dict) -> str:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -122,18 +122,34 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         """Create an instance of {{{classname}}} from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                            {{#vendorExtensions.x-py-readonly}}
-                            "{{{.}}}",
-                            {{/vendorExtensions.x-py-readonly}}
-                            {{#isAdditionalPropertiesTrue}}
-                            "additional_properties"
-                            {{/isAdditionalPropertiesTrue}}
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        {{#vendorExtensions.x-py-readonly}}
+        * OpenAPI `readOnly` fields are excluded.
+        {{/vendorExtensions.x-py-readonly}}
+        {{#isAdditionalPropertiesTrue}}
+        * Fields in `self.additional_properties` are added to the output dict.
+        {{/isAdditionalPropertiesTrue}}
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+                {{#vendorExtensions.x-py-readonly}}
+                "{{{.}}}",
+                {{/vendorExtensions.x-py-readonly}}
+                {{#isAdditionalPropertiesTrue}}
+                "additional_properties",
+                {{/isAdditionalPropertiesTrue}}
+            },
+            exclude_none=True,
+        )
         {{#allVars}}
         {{#isContainer}}
         {{#isArray}}
@@ -166,15 +182,17 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         {{/isArray}}
         {{#isMap}}
         {{#items.isArray}}
+        {{^items.items.isPrimitiveType}}
         # override the default output from pydantic by calling `to_dict()` of each value in {{{name}}} (dict of array)
         _field_dict_of_array = {}
         if self.{{{name}}}:
             for _key in self.{{{name}}}:
-                if self.{{{name}}}[_key]:
+                if self.{{{name}}}[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.{{{name}}}[_key]
                     ]
             _dict['{{{baseName}}}'] = _field_dict_of_array
+        {{/items.items.isPrimitiveType}}
         {{/items.isArray}}
         {{^items.isArray}}
         {{^items.isPrimitiveType}}
@@ -220,7 +238,7 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
+    def from_dict(cls, obj: Dict) -> {{^hasChildren}}Self{{/hasChildren}}{{#hasChildren}}{{#discriminator}}Union[{{#children}}Self{{^-last}}, {{/-last}}{{/children}}]{{/discriminator}}{{^discriminator}}Self{{/discriminator}}{{/hasChildren}}:
         """Create an instance of {{{classname}}} from a dict"""
         {{#hasChildren}}
         {{#discriminator}}
@@ -361,9 +379,6 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
 {{#vendorExtensions.x-py-postponed-model-imports}}
 {{{.}}}
 {{/vendorExtensions.x-py-postponed-model-imports}}
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    # TODO: pydantic v2
-    # {{classname}}.model_rebuild()
-    pass
+# TODO: Rewrite to not use raise_errors
+{{classname}}.model_rebuild(raise_errors=False)
 {{/vendorExtensions.x-py-postponed-model-imports.size}}

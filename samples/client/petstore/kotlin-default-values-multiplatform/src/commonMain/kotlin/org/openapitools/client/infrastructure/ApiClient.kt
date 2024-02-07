@@ -10,9 +10,11 @@ import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.header
 import io.ktor.client.request.parameter
 import io.ktor.client.statement.HttpResponse
+import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.http.*
 import io.ktor.http.content.PartData
+import io.ktor.http.contentType
 import kotlin.Unit
 import kotlinx.serialization.json.Json
 
@@ -154,6 +156,9 @@ open class ApiClient(
             this.method = requestConfig.method.httpMethod
             headers.filter { header -> !UNSAFE_HEADERS.contains(header.key) }.forEach { header -> this.header(header.key, header.value) }
             if (requestConfig.method in listOf(RequestMethod.PUT, RequestMethod.POST, RequestMethod.PATCH)) {
+                val contentType = (requestConfig.headers[HttpHeaders.ContentType]?.let { ContentType.parse(it) }
+                    ?: ContentType.Application.Json)
+                this.contentType(contentType)
                 this.setBody(body)
             }
         }

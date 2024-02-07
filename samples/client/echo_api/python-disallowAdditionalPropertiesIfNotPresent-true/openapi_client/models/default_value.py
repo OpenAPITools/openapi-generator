@@ -19,10 +19,9 @@ import re  # noqa: F401
 import json
 
 
-from typing import List, Optional
+from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, field_validator
 from openapi_client.models.string_enum_ref import StringEnumRef
-from typing import Dict, Any
 try:
     from typing import Self
 except ImportError:
@@ -30,8 +29,8 @@ except ImportError:
 
 class DefaultValue(BaseModel):
     """
-    to test the default value of properties  # noqa: E501
-    """
+    to test the default value of properties
+    """ # noqa: E501
     array_string_enum_ref_default: Optional[List[StringEnumRef]] = None
     array_string_enum_default: Optional[List[StrictStr]] = None
     array_string_default: Optional[List[StrictStr]] = None
@@ -55,7 +54,8 @@ class DefaultValue(BaseModel):
 
     model_config = {
         "populate_by_name": True,
-        "validate_assignment": True
+        "validate_assignment": True,
+        "protected_namespaces": (),
     }
 
 
@@ -73,12 +73,22 @@ class DefaultValue(BaseModel):
         """Create an instance of DefaultValue from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
-    def to_dict(self):
-        """Returns the dictionary representation of the model using alias"""
-        _dict = self.model_dump(by_alias=True,
-                          exclude={
-                          },
-                          exclude_none=True)
+    def to_dict(self) -> Dict[str, Any]:
+        """Return the dictionary representation of the model using alias.
+
+        This has the following differences from calling pydantic's
+        `self.model_dump(by_alias=True)`:
+
+        * `None` is only added to the output dict for nullable fields that
+          were set at model initialization. Other fields with value `None`
+          are ignored.
+        """
+        _dict = self.model_dump(
+            by_alias=True,
+            exclude={
+            },
+            exclude_none=True,
+        )
         # set to None if array_string_nullable (nullable) is None
         # and model_fields_set contains the field
         if self.array_string_nullable is None and "array_string_nullable" in self.model_fields_set:
@@ -97,7 +107,7 @@ class DefaultValue(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: dict) -> Self:
+    def from_dict(cls, obj: Dict) -> Self:
         """Create an instance of DefaultValue from a dict"""
         if obj is None:
             return None
