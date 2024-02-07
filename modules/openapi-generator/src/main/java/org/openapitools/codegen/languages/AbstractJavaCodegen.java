@@ -1289,6 +1289,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return localDate.toString();
         }
         if (ModelUtils.isArraySchema(schema)) {
+            // swagger-parser parses the default value differently depending on whether it's in a referenced file or not.
+            // cf. https://github.com/swagger-api/swagger-parser/issues/1958
+            // ArrayList if in the referenced file, ArrayNode if not.
             if (defaultValue instanceof ArrayNode) {
                 ArrayNode array = (ArrayNode) defaultValue;
                 return StreamSupport.stream(array.spliterator(), false)
@@ -1296,6 +1299,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         // remove wrapper quotes
                         .map(item -> StringUtils.removeStart(item, "\""))
                         .map(item -> StringUtils.removeEnd(item, "\""))
+                        .collect(Collectors.joining(","));
+            } else if (defaultValue instanceof ArrayList) {
+                ArrayList<?> array = (ArrayList<?>) defaultValue;
+                return array.stream()
+                        .map(Object::toString)
                         .collect(Collectors.joining(","));
             }
         }
