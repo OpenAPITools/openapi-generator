@@ -13,8 +13,8 @@ part of openapi.api;
 class FakeBigDecimalMap200Response {
   /// Returns a new [FakeBigDecimalMap200Response] instance.
   FakeBigDecimalMap200Response({
-    this.someId,
-    this.someMap = const {},
+     this.someId,
+     this.someMap = const {},
   });
 
   ///

@@ -13,8 +13,8 @@ part of openapi.api;
 class FileSchemaTestClass {
   /// Returns a new [FileSchemaTestClass] instance.
   FileSchemaTestClass({
-    this.file,
-    this.files = const [],
+     this.file,
+     this.files = const [],
   });
 
   ///

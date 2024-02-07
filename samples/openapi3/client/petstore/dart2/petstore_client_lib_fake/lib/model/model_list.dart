@@ -13,7 +13,7 @@ part of openapi.api;
 class ModelList {
   /// Returns a new [ModelList] instance.
   ModelList({
-    this.n123list,
+     this.n123list,
   });
 
   ///

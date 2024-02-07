@@ -40,6 +40,13 @@ class {{{classname}}} {
     }
     return result.toList(growable: growable);
   }
+
+  
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [{{{classname}}}] to {{{dataType}}},

@@ -13,8 +13,8 @@ part of openapi.api;
 class AdditionalPropertiesClass {
   /// Returns a new [AdditionalPropertiesClass] instance.
   AdditionalPropertiesClass({
-    this.mapProperty = const {},
-    this.mapOfMapProperty = const {},
+     this.mapProperty = const {},
+     this.mapOfMapProperty = const {},
   });
 
   Map<String, String> mapProperty;

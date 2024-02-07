@@ -48,6 +48,13 @@ class OuterEnumIntegerDefaultValue {
     }
     return result.toList(growable: growable);
   }
+
+  
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is OuterEnumIntegerDefaultValue && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [OuterEnumIntegerDefaultValue] to int,

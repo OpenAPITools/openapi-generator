@@ -13,7 +13,7 @@ part of openapi.api;
 class DeprecatedObject {
   /// Returns a new [DeprecatedObject] instance.
   DeprecatedObject({
-    this.name,
+     this.name,
   });
 
   ///

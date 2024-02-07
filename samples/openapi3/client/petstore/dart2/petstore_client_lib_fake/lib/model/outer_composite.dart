@@ -13,9 +13,9 @@ part of openapi.api;
 class OuterComposite {
   /// Returns a new [OuterComposite] instance.
   OuterComposite({
-    this.myNumber,
-    this.myString,
-    this.myBoolean,
+     this.myNumber,
+     this.myString,
+     this.myBoolean,
   });
 
   ///
