@@ -5,9 +5,7 @@ import {{ configurationPackage }}.*
 import {{ apiPackage }}.*
 import {{ feederPackage }}.*
 import {{ helperPackage }}.*
-import io.gatling.javaapi.core.Choice
-import io.gatling.javaapi.core.CoreDsl.exec
-import io.gatling.javaapi.core.CoreDsl.scenario
+import io.gatling.javaapi.core.CoreDsl.*
 
 /**
 * This object collects the Scenarios in the project for use in the Simulation.
@@ -32,14 +30,12 @@ object Scenarios {
             .exec { session ->
                 session.set("jwt", JWTGenerator.getToken(session.getString("memberId")))
             }
-
         .randomSwitch().on(
-
             {{#apiInfo}}
                 {{#apis}}
                     {{#operations}}
                         {{#operation}}
-            Choice.withWeight(2.0, exec({{classname}}.{{operationId}}Scn)),
+            percent(2.0).then(exec({{classname}}.{{operationId}}Scn)),
                         {{/operation}}
                     {{/operations}}
                 {{/apis}}
@@ -63,7 +59,7 @@ object Scenarios {
             {{#apis}}
                 {{#operations}}
                     {{#operation}}
-            .exec({{ classname }}.{{operationId}}Scn)
+        .exec({{ classname }}.{{operationId}}Scn)
                     {{/operation}}
                 {{/operations}}
             {{/apis}}
