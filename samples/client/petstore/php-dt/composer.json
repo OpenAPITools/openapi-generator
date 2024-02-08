@@ -18,7 +18,7 @@
     "version": "1.0.0",
     "type": "library",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.1",
         "articus/data-transfer": "^0.6",
         "articus/openapi-generator-common": "^0.3",
         "articus/openapi-generator-apiclient": "^0.2",
