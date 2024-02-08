@@ -547,6 +547,28 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+  /echo/body/string_enum:
+    post:
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
+          description: Successful operation
+      summary: Test string enum response body
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: application/json
   /binary/gif:
     post:
       description: Test binary (gif) response body

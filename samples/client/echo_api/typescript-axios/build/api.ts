@@ -796,6 +796,40 @@ export const BodyApiAxiosParamCreator = function (configuration?: Configuration)
             };
         },
         /**
+         * Test string enum response body
+         * @summary Test string enum response body
+         * @param {string} [body] String enum
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testEchoBodyStringEnum: async (body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/echo/body/string_enum`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Test empty json (request body)
          * @summary Test empty json (request body)
          * @param {Tag} [tag] Tag object
@@ -943,6 +977,19 @@ export const BodyApiFp = function(configuration?: Configuration) {
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
+         * Test string enum response body
+         * @summary Test string enum response body
+         * @param {string} [body] String enum
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StringEnumRef>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testEchoBodyStringEnum(body, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['BodyApi.testEchoBodyStringEnum']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
          * Test empty json (request body)
          * @summary Test empty json (request body)
          * @param {Tag} [tag] Tag object
@@ -1043,6 +1090,16 @@ export const BodyApiFactory = function (configuration?: Configuration, basePath?
          */
         testEchoBodyPetResponseString(pet?: Pet, options?: any): AxiosPromise<string> {
             return localVarFp.testEchoBodyPetResponseString(pet, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Test string enum response body
+         * @summary Test string enum response body
+         * @param {string} [body] String enum
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testEchoBodyStringEnum(body?: string, options?: any): AxiosPromise<StringEnumRef> {
+            return localVarFp.testEchoBodyStringEnum(body, options).then((request) => request(axios, basePath));
         },
         /**
          * Test empty json (request body)
@@ -1157,6 +1214,18 @@ export class BodyApi extends BaseAPI {
      */
     public testEchoBodyPetResponseString(pet?: Pet, options?: RawAxiosRequestConfig) {
         return BodyApiFp(this.configuration).testEchoBodyPetResponseString(pet, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Test string enum response body
+     * @summary Test string enum response body
+     * @param {string} [body] String enum
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof BodyApi
+     */
+    public testEchoBodyStringEnum(body?: string, options?: RawAxiosRequestConfig) {
+        return BodyApiFp(this.configuration).testEchoBodyStringEnum(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
