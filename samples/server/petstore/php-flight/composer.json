@@ -12,7 +12,7 @@
   ],
   "type": "library",
   "require": {
-    "php": "^8.1.0",
+    "php": "^8.1",
     "flightphp/core": "^3.5.1",
     "ext-json": "*"
   },
