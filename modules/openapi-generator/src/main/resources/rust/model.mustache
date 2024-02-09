@@ -42,8 +42,8 @@ impl Default for {{{classname}}} {
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
-pub enum {{{classname}}} {
 {{#vendorExtensions}}
+pub enum {{{classname}}} {
     {{#x-mapped-models}}
     #[serde(rename="{{mappingName}}")]
     {{{modelName}}} {
@@ -52,12 +52,31 @@ pub enum {{{classname}}} {
         /// {{{.}}}
         {{/description}}
         #[serde(rename = "{{{baseName}}}"{{^required}}, skip_serializing_if = "Option::is_none"{{/required}})]
-        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
+        // {{required}}, {{isNullable}}, {{enumName}}, {{dataType}}, {{isModel}}
+        {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{classname}}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
     {{/x-mapped-models}}
-{{/vendorExtensions}}
 }
+
+{{!-- for properties within the enums above that are of enum type --}}
+{{#x-mapped-models}}
+{{#vars}}
+{{#isEnum}}
+/// {{{description}}}
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
+pub enum {{{classname}}}{{{enumName}}} {
+{{#allowableValues}}
+    {{#enumVars}}
+        #[serde(rename = "{{{value}}}")]
+        {{{name}}},
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+{{/x-mapped-models}}
+{{/vendorExtensions}}
 
 {{/discriminator}}
 
@@ -91,6 +110,7 @@ impl {{{classname}}} {
 {{/isEnum}}
 
 {{!-- for properties that are of enum type --}}
+{{^discriminator}}
 {{#vars}}
 {{#isEnum}}
 /// {{{description}}}
@@ -113,6 +133,7 @@ impl Default for {{{enumName}}} {
 }
 {{/isEnum}}
 {{/vars}}
+{{/discriminator}}
 
 {{/model}}
 {{/models}}
