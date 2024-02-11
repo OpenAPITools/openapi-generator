@@ -82,16 +82,46 @@ paths:
 components:
   schemas:
     Pet:
+      type: object
+      discriminator:
+        propertyName: petType
       required:
         - id
         - name
+        - petType
       properties:
+        petType:
+          type: string
         id:
           type: integer
           format: int64
         name:
           type: string
         tag:
+          type: string
+    Cat:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      required:
+        - consumeMilk
+        - isPrincess
+      properties:
+        consumeMilk:
+          type: boolean
+        isPrincess:
+          type: boolean
+    Dog:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Pet'
+      required:
+        - loveHuman
+        - breed
+      properties:
+        loveHuman:
+          type: boolean
+        breed:
           type: string
     Pets:
       type: array
