@@ -122,7 +122,7 @@ public class FakeClassnameTags123Api {
         return new ApiResponse<Client>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<Client>()) // closes the InputStream
         );
       } finally {
       }

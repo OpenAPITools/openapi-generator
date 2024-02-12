@@ -438,7 +438,7 @@ public class UserApi {
         return new ApiResponse<User>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<User>()) // closes the InputStream
         );
       } finally {
       }
@@ -512,7 +512,7 @@ public class UserApi {
         return new ApiResponse<String>(
           localVarResponse.statusCode(),
           localVarResponse.headers().map(),
-          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {}) // closes the InputStream
+          localVarResponse.body() == null ? null : memberVarObjectMapper.readValue(localVarResponse.body(), new GenericTypeRef<String>()) // closes the InputStream
         );
       } finally {
       }
