@@ -974,8 +974,6 @@ public class SpringCodegenTest {
               .withType( "Set<Integer>" );
     }
 
-
-
     @Test
     public void shouldAddValidAnnotationIntoCollectionWhenBeanValidationIsEnabled_issue17150() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
@@ -1026,13 +1024,13 @@ public class SpringCodegenTest {
                 .withType( "List<@Max(10) Integer>" )
                 .toType()
                 .hasProperty("numberMinMax")
-                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true) BigDecimal>" )
                 .toType()
                 .hasProperty("numberMin")
-                .withType( "List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>" )
+                .withType( "List<@DecimalMin(value = \"1\", inclusive = true) BigDecimal>" )
                 .toType()
                 .hasProperty("numberMax")
-                .withType( "List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>" )
+                .withType( "List<@DecimalMax(value = \"10\", inclusive = true) BigDecimal>" )
                 .toType()
 
                 .hasProperty("stringPatternNullable")
@@ -1057,13 +1055,13 @@ public class SpringCodegenTest {
                 .withType( "JsonNullable<List<@Max(10) Integer>>" )
                 .toType()
                 .hasProperty("numberMinMaxNullable")
-                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) @DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = true) @DecimalMax(value = \"10\", inclusive = true) BigDecimal>>" )
                 .toType()
                 .hasProperty("numberMinNullable")
-                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = false) BigDecimal>>" )
+                .withType( "JsonNullable<List<@DecimalMin(value = \"1\", inclusive = true) BigDecimal>>" )
                 .toType()
                 .hasProperty("numberMaxNullable")
-                .withType( "JsonNullable<List<@DecimalMax(value = \"10\", inclusive = false) BigDecimal>>" )
+                .withType( "JsonNullable<List<@DecimalMax(value = \"10\", inclusive = true) BigDecimal>>" )
                 .toType()
         ;
     }

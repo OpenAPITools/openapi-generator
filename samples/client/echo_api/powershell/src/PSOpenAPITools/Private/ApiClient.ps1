@@ -58,7 +58,7 @@ function Invoke-ApiClient {
     }
 
     # accept, content-type headers
-    $Accept = SelectHeaders -Headers $Accepts
+    $Accept = SelectHeaders -Headers $Accepts -Multiple -JsonFirst
     if ($Accept) {
         $HeaderParameters['Accept'] = $Accept
     }
@@ -122,8 +122,6 @@ function Invoke-ApiClient {
         }
     }
 
-
-
     if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
         if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
@@ -182,24 +180,46 @@ function Invoke-ApiClient {
     }
 }
 
-# Select JSON MIME if present, otherwise choose the first one if available
+# Filter MIME types for Accept:/Content-Type: headers
 function SelectHeaders {
     Param(
         [Parameter(Mandatory)]
         [AllowEmptyCollection()]
-        [String[]]$Headers
+        [String[]]$Headers,
+        [Parameter(Mandatory=$false)]
+        [switch]$Multiple,
+        [Parameter(Mandatory=$false)]
+        [switch]$JsonFirst
     )
 
-    foreach ($Header in $Headers) {
-        if (IsJsonMIME -MIME $Header) {
-            return $Header
-        }
-    }
-
+    # if no MIME type is provided return null
     if (!($Headers) -or $Headers.Count -eq 0) {
         return $null
+    }
+
+    if ($Multiple) {
+        # return multiple MIME types (for Accept: header)
+        if ($JsonFirst) {
+            # sort input to return JSON MIME types first
+            $mimeHeaders = @()
+            $otherHeaders = @()
+            foreach ($Header in $Headers) {
+                if (IsJsonMIME -MIME $Header) {
+                    $mimeHeaders += $Header
+                } else {
+                    $otherHeaders += $Header
+                }
+            }
+            $Headers = $($mimeHeaders; $otherHeaders)
+        }
+        return [string]::Join(', ', $Headers) # join multiple types if they are provided
     } else {
-        return $Headers[0] # return the first one
+        foreach ($Header in $Headers) {
+            if (IsJsonMIME -MIME $Header) {
+                return $Header # return the first type matching a JSON MIME
+            }
+        }
+        return $Headers[0] # else return the first one
     }
 }
 

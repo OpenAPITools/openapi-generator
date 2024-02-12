@@ -667,14 +667,16 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 parent.getChildren().add(cm);
                 parent.hasChildren = true;
-                Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.name);
+                Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.schemaName);
                 if (parentSchema == null) {
-                    throw new NullPointerException(parent.name + " in " + this.openAPI.getComponents().getSchemas());
-                }
-                if (parentSchema.getDiscriminator() == null) {
-                    parent = allModels.get(parent.getParent());
-                } else {
+                    LOGGER.warn("Failed to look up parent schema: {}", parent.schemaName);
                     parent = null;
+                } else {
+                    if (parentSchema.getDiscriminator() == null) {
+                        parent = allModels.get(parent.getParent());
+                    } else {
+                        parent = null;
+                    }
                 }
             }
         }
@@ -3122,6 +3124,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             m.name = name;
         }
+        m.schemaName = name; // original schema name
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
         m.unescapedDescription = schema.getDescription();

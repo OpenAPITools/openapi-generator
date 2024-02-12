@@ -2485,6 +2485,16 @@ components:
       properties:
         name:
           type: string
+    InputAllOf:
+      allOf:
+        - $ref: '#/components/schemas/PropertyMap'
+    PropertyMap:
+      type: object
+      properties:
+        some_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Tag'
     Tiger:
       allOf:
         - $ref: "#/components/schemas/Tiger"
