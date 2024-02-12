@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -423,7 +424,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && (!discriminator.getMappedModels().isEmpty()) || this.vendorExtensions.containsKey("x-discriminator-value")) {
+        if (discriminator != null && ObjectUtils.isNotEmpty(this.interfaces) &&
+            (!discriminator.getMappedModels().isEmpty()) || this.vendorExtensions.containsKey("x-discriminator-value")) {
             // avoid generating @JSonTypeName in child classes
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }

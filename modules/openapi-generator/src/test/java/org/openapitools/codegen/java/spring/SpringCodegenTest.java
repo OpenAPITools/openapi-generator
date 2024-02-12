@@ -52,6 +52,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -4422,18 +4423,18 @@ public class SpringCodegenTest {
     @DataProvider(name = "discriminator17343")
     static Object[] discriminator17343() {
         return new Object[][]{
-            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog" },
-            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG" },
-            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG" },
-            { "Dto", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog" },
-            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog" },
-            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG" },
-            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG" },
-            { "", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog" },
+            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Pet", "Cat", "dog" },
+            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "Pet", "CAT", "DOG" },
+            { "Dto", "issue_17343_openapi_and_mapping.yaml", "Pet", "CAT", "DOG" },
+            { "Dto", "issue_17343_openapi_no_mapping.yaml", "pet", "Cat", "dog" },
+            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Pet", "Cat", "dog" },
+            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "Pet", "CAT", "DOG" },
+            { "", "issue_17343_openapi_and_mapping.yaml", "Pet", "CAT", "DOG" },
+            { "", "issue_17343_openapi_no_mapping.yaml", "pet", "Cat", "dog" },
         };
     }
     @Test(dataProvider = "discriminator17343")
-    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile, String expectedCatAnnotation, String expectedDogAnnotation) throws IOException {
+    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile, String expectedPetAnnotation, String expectedCatAnnotation, String expectedDogAnnotation) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
@@ -4453,20 +4454,27 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         String petClass = "Pet" + modelNameSuffix;
-        String expectedJsonSubTypesTypeAnnotation = String.format("{ @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
+        String expectedJsonSubTypesTypeAnnotation = String.format(Locale.ROOT,
+            "{ @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
             modelNameSuffix, expectedCatAnnotation,modelNameSuffix, expectedDogAnnotation);
-        JavaFileAssert.assertThat(files.get(petClass + ".java"))
+        File petFile = files.get(petClass + ".java");
+        JavaFileAssert.assertThat(petFile)
             .assertTypeAnnotations()
             .containsWithNameAndAttributes(
                 "JsonSubTypes", Map.of("value", expectedJsonSubTypesTypeAnnotation));
 
+        expectJsonTypeNameAnnotation(petFile, null, expectedPetAnnotation);
         expectJsonTypeNameAnnotation(files.get( "Dog" + modelNameSuffix + ".java"), petClass, expectedDogAnnotation);
         expectJsonTypeNameAnnotation(files.get("Cat" + modelNameSuffix + ".java"), petClass, expectedCatAnnotation);
     }
 
     private void expectJsonTypeNameAnnotation(File file, String expectedExtends, String expectedJsonAnnotation) {
-        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(file)
-            .fileContains(" extends " + expectedExtends);
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(file);
+        if (expectedExtends != null) {
+            javaFileAssert.fileContains(" extends " + expectedExtends);
+        } else {
+            javaFileAssert.doesNotHaveToString(" extends ");
+        }
         TypeAnnotationAssert dogAnnotation = javaFileAssert.assertTypeAnnotations();
         if (expectedJsonAnnotation == null) {
             dogAnnotation.doesNotContainsWithName("JsonTypeName");

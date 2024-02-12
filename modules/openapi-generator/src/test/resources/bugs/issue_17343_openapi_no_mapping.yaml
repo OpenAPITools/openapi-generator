@@ -17,7 +17,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'
+                  $ref: '#/components/schemas/pet'
 components:
   schemas:
     PetType:
@@ -25,7 +25,7 @@ components:
       enum:
         - DOG
         - CAT
-    Pet:
+    pet:
       required:
         - objectType
       type: object
@@ -36,14 +36,14 @@ components:
         propertyName: objectType
     dog:
       allOf:
-        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/pet'
         - type: object
           properties:
             p1:
               type: string
     Cat:
       allOf:
-        - $ref: '#/components/schemas/Pet'
+        - $ref: '#/components/schemas/pet'
         - type: object
           properties:
             p2:

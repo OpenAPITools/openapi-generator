@@ -15,6 +15,11 @@ paths:
             items:
               $ref: '#/definitions/Pet'
 definitions:
+  Other:
+    type: object
+    properties:
+      pet:
+        $ref: '#/definitions/Pet'
   PetType:
     type: string
     enum:

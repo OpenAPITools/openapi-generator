@@ -3138,7 +3138,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
         m.isAlias = (typeAliases.containsKey(name)
                 || isAliasOfSimpleTypes(schema)); // check if the unaliased schema is an alias of simple OAS types
-        m.setDiscriminator(createDiscriminator(name, schema));
 
         if (schema.getDeprecated() != null) {
             m.isDeprecated = schema.getDeprecated();
@@ -3196,6 +3195,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
+        m.setDiscriminator(createDiscriminator(name, schema));
 
         // set isDiscriminator on the discriminator property
         if (m.discriminator != null) {
