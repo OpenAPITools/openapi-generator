@@ -28,7 +28,6 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
@@ -65,6 +64,9 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.templating.mustache.SpringDataTypeWithValidationLambda;
+import org.openapitools.codegen.templating.mustache.SpringExpressionWithValidationLambda;
+import org.openapitools.codegen.templating.mustache.SpringRightAssignLambda;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
@@ -731,6 +733,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
+
+        additionalProperties.put("rightAssign", new SpringRightAssignLambda(isOpenApiNullable(), useOptional));
+        additionalProperties.put("springDataType", new SpringDataTypeWithValidationLambda(isOpenApiNullable(), useOptional));
+        additionalProperties.put("springDataTypeWithValidation", new SpringDataTypeWithValidationLambda(isOpenApiNullable(), useOptional));
+        additionalProperties.put("springExpression", new SpringExpressionWithValidationLambda(isOpenApiNullable(), useOptional));
+
     }
 
     private boolean containsEnums() {

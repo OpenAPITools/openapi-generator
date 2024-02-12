@@ -42,6 +42,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.openapitools.codegen.languages.features.OptionalFeatures.USE_OPTIONAL;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
@@ -4468,5 +4469,34 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @Test
+    void testBuilder() throws IOException {
+        File output = new File("C:\\temp\\builder");//Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI =
+//            TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
+                        TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary("resttemplate");
+//        codegen.setOpenApiNullable(true);
+//        codegen.setUseBeanValidation(true);
+//        codegen.setUseOptional(true);
+//        codegen.additionalProperties().put(USE_OPTIONAL, true);
+        codegen.setOutputDir(outputPath);
+        ClientOptInput input = new ClientOptInput();
+
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> generatedFiles = generator.opts(input).generate();
+        final Map<String, File> files = generatedFiles.stream()
+            .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        System.out.println(files);
     }
 }

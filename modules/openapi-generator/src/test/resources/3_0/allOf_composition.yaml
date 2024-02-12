@@ -7,16 +7,20 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
-  /person/display/{personId}:
+  /person/display/:
     get:
       parameters:
-        - name: personId
-          in: path
+
+        - name: BigObject3
+          explode: true
+          style: form
+          in: query
+          description: filter to search on
           required: true
-          description: The id of the person to retrieve
           schema:
-            type: string
+            $ref: "#/components/schemas/BiggerObject3"
       operationId: list
+
       responses:
         '200':
           description: OK
@@ -28,37 +32,37 @@ components:
   schemas:
     SuperBaby: # to test single ref (Human) only
       allOf:
-      - $ref: '#/components/schemas/Human'
-      - required: # without type: object
-          - level
-        properties:
-          gender:
-            type: string
-          age:
-            type: integer 
+        - $ref: '#/components/schemas/Human'
+        - required: # without type: object
+            - level
+          properties:
+            gender:
+              type: string
+            age:
+              type: integer
     SuperBoy: # to test single ref (Human) only
       allOf:
-      - $ref: '#/components/schemas/Human'
-      - type: object
-        required:
-          - level
-        properties:
-          category:
-            type: string
-          level:
-            type: integer 
+        - $ref: '#/components/schemas/Human'
+        - type: object
+          required:
+            - level
+          properties:
+            category:
+              type: string
+            level:
+              type: integer
     SuperMan:
       allOf:
-      - $ref: '#/components/schemas/Human'
-      - $ref: '#/components/schemas/Hero'
-      - type: object
-        required:
-          - level
-        properties:
-          category:
-            type: string
-          level:
-            type: integer 
+        - $ref: '#/components/schemas/Human'
+        - $ref: '#/components/schemas/Hero'
+        - type: object
+          required:
+            - level
+          properties:
+            category:
+              type: string
+            level:
+              type: integer
     Hero:
       description: Hero
       type: object
@@ -81,4 +85,59 @@ components:
           format: int64
         name:
           type: string
-          example: Tom 
+          example: Tom
+
+    BaseObject:
+      type: object
+      required:
+        -  id
+      properties:
+        id:
+          type: string
+          description: Object ID
+        name:
+          type: string
+          description: Optional name
+    BigObject:
+      allOf:
+        - $ref: "#/components/schemas/BaseObject"
+        - type: object
+          required:
+            - value
+          properties:
+            value:
+              type: string
+    BiggerObject:
+      allOf:
+        - $ref: "#/components/schemas/BigObject"
+        - type: object
+          properties:
+            weight:
+              type: integer
+            children:
+              type: array
+              items:
+                type: string
+
+
+    BigObject3:
+      allOf:
+        -  $ref: "#/components/schemas/BaseObject"
+      type: object
+      required:
+        - value
+      properties:
+        value:
+          type: string
+
+    BiggerObject3:
+      allOf:
+        - $ref: "#/components/schemas/BigObject3"
+      type: object
+      properties:
+        weight:
+          type: integer
+        children:
+          type: array
+          items:
+            type: string

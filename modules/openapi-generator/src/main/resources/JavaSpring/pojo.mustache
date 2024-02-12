@@ -328,5 +328,49 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
-  {{/lombok.Data}}
+  {{/lombok.Data}}  public static class Builder {
+
+  private {{classname}} instance;
+  protected Builder() [
+  this.instance = new  {{classname}}();
+  }
+{{#vars}}
+    public {{classname}}.Builder {{name}}({{#springDataTypeWithValidation}}{{{.}}}{{/springDataTypeWithValidation}} {{name}}) {
+    this.instance.{{name}} = {{#rightAssign}}{{.}}{{/rightAssign}};
+    return this;
+    }
+
+  {{#parentVars}}
+      public {{classname}}.Builder {{name}}({{#springDataTypeWithValidation}}{{{.}}}{{/springDataTypeWithValidation}} {{name}}) {
+      this.instance.{{name}}({{name}});
+      return this;
+      }
+  {{/parentVars}}
+
+    public {{classname}} build() {
+    return instance;
+    }
+    @Override
+    public String toString() {
+    return getClass() + "=(" + instance + ")";
+    }
+    }
+
+{{/vars}}
+
+  public static {{classname}}.Builder builder() {
+  return new Builder();
+  }
+  public {{classname}}.Builder toBuilder() {
+  return new Builder()
+{{#vars}}
+    .{{name}}({{name}})
+{{/vars}}
+{{#parentVars}}
+    .{{name}}({{name}})
+{{/parentVars}};
+
+  }
+
+
 }

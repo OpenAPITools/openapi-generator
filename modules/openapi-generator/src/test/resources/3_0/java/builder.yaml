@@ -12,7 +12,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
-
   /reptile:
     get:
       responses:
@@ -36,8 +35,22 @@ components:
     SimpleObject:
       type: object
       properties:
+        nb:
+          type: number
+          minimum: 1
         simple:
           type: string
+        list:
+          type: array
+          items:
+            minLength: 1
+            type: string
+        nullableList:
+          type: array
+          nullable: true
+          items:
+            maxLength: 100
+            type: string
     Pet:
       type: object
       required:
