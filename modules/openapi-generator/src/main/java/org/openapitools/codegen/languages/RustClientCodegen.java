@@ -140,8 +140,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         );
 
         instantiationTypes.clear();
-        /*instantiationTypes.put("array", "GoArray");
-        instantiationTypes.put("map", "GoMap");*/
 
         typeMapping.clear();
         typeMapping.put("integer", "i32");
@@ -532,56 +530,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             if (!operation.vendorExtensions.containsKey("x-group-parameters") && useSingleRequestParameter) {
                 operation.vendorExtensions.put("x-group-parameters", Boolean.TRUE);
             }
-
-            // update return type to conform to rust standard
-            /*
-            if (operation.returnType != null) {
-                if ( operation.returnType.startsWith("Vec") && !languageSpecificPrimitives.contains(operation.returnBaseType)) {
-                    // array of model
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        operation.vendorExtensions.put("x-returnTypeInMethod", "Vec<super::" + rt.substring("Vec<".length(), end).trim() + ">");
-                        operation.returnContainer = "List";
-                    }
-                } else if (operation.returnType.startsWith("::std::collections::HashMap<String, ") && !languageSpecificPrimitives.contains(operation.returnBaseType)) {
-                    LOGGER.info("return base type:" + operation.returnBaseType);
-                    // map of model
-                    String rt = operation.returnType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        operation.vendorExtensions.put("x-returnTypeInMethod", "::std::collections::HashMap<String, super::" + rt.substring("::std::collections::HashMap<String, ".length(), end).trim() + ">");
-                        operation.returnContainer = "Map";
-                    }
-                } else if (!languageSpecificPrimitives.contains(operation.returnType)) {
-                    // add super:: to model, e.g. super::pet
-                    operation.vendorExtensions.put("x-returnTypeInMethod", "super::" + operation.returnType);
-                } else {
-                    // primitive type or array/map of primitive type
-                    operation.vendorExtensions.put("x-returnTypeInMethod", operation.returnType);
-                }
-            }
-
-            for (CodegenParameter p : operation.allParams) {
-                if (p.isArray && !languageSpecificPrimitives.contains(p.dataType)) {
-                    // array of model
-                    String rt = p.dataType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        p.dataType = "Vec<" + rt.substring("Vec<".length(), end).trim() + ">";
-                    }
-                } else if (p.isMap && !languageSpecificPrimitives.contains(p.dataType)) {
-                    // map of model
-                    String rt = p.dataType;
-                    int end = rt.lastIndexOf(">");
-                    if ( end > 0 ) {
-                        p.dataType = "::std::collections::HashMap<String, super::" + rt.substring("::std::collections::HashMap<String, ".length(), end).trim() + ">";
-                    }
-                } else if (!languageSpecificPrimitives.contains(p.dataType)) {
-                    // add super:: to model, e.g. super::pet
-                    p.dataType = "super::" + p.dataType;
-                }
-            }*/
         }
 
         return objs;
@@ -604,4 +552,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
     }
 
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "_" + name;
+    }
 }
