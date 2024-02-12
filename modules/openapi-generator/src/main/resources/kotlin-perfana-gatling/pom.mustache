@@ -80,11 +80,14 @@
                 <artifactId>events-gatling-maven-plugin</artifactId>
                 <configuration>
                     <jvmArgs combine.children="append">
+                        <!-- If you scroll down this pom you will find the profiles. These profiles can contain properties that you need to pass to Gatling. Add them here.
+                        Note, that other properties are already defined in lib-gatling parent library -->
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
                         <jvmArg>-DidpUrl=${ahIdpUrl}</jvmArg>
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
+                        <!-- this is the initial and maximum jvm heap size. 2 GB usually is enough and allows to run on most runners. If you believe you need more, make sure your runner has sufficient memory allocated. -->
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx2560m</jvmArg>
                     </jvmArgs>
@@ -102,11 +105,12 @@
                             <buildResultsUrl>${buildResultsUrl}</buildResultsUrl>
                             <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
                             <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
-                            <annotations>${annotations}</annotations>
+                            <annotations>${annotations}</annotations>  <!-- this is used in the default workflow to contain the commit message. This is also shown in Perfana UI. -->
                             <tags>${tags}</tags>
                         </testConfig>
                         <eventConfigs>
                             <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
+                                <!-- the PerfanaEventConfig will automatically create testrun ID, but also do start/stop test events. etc. -->
                                 <name>PerfanaEvent</name>
                                 <perfanaUrl>${perfanaUrl}</perfanaUrl>
                                 <enabled>${eventsEnabled}</enabled>
@@ -232,6 +236,8 @@
                 <constantLoadTimeInSeconds>86400</constantLoadTimeInSeconds>
             </properties>
         </profile>
+
+        <!-- Debug profile -->
 
         <profile>
             <id>debug</id>
