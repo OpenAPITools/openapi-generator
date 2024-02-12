@@ -371,7 +371,8 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
 
             while (true) {
                 Operation operation;
-                Schema<?> schema;
+                Schema<?> schemaBody;
+                String schemaBodyRef;
                 do {
                     do {
                         RequestBody requestBody;
@@ -419,11 +420,18 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
                             ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
                         } while (requestBody == null);
 
-                        schema = ModelUtils.getSchemaFromRequestBody(requestBody);
-                    } while (schema == null);
-                } while (schema.get$ref() == null);
+                        schemaBody = ModelUtils.getSchemaFromRequestBody(requestBody);
+                    } while (schemaBody == null);
 
-                String[] refArray = schema.get$ref().split("/");
+                    if (schemaBody instanceof ArraySchema && schemaBody.getType().equals(ARRAY_TYPE)) {
+                        schemaBodyRef = schemaBody.getItems().get$ref();
+                    } else {
+                        schemaBodyRef = schemaBody.get$ref();
+                    }
+
+                } while (schemaBodyRef == null);
+
+                String[] refArray = schemaBodyRef.split("/");
                 String bodySchemaName = refArray[refArray.length - 1];
                 operation.addExtension("x-gatling-body-object", bodySchemaName + ".toStringBody");
                 Set<String> sessionBodyVars = new HashSet<>();
