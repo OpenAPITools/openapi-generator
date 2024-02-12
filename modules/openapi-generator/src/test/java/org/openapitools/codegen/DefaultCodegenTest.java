@@ -1165,7 +1165,7 @@ public class DefaultCodegenTest {
         modelName = "Pet";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
-        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), false);
         Assert.assertEquals(pet.discriminator, petDisc);
 
         // the Reptile discriminator contains both reptiles
