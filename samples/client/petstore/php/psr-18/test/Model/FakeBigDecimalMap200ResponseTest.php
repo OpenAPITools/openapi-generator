@@ -76,7 +76,7 @@ class FakeBigDecimalMap200ResponseTest extends TestCase
     public function testFakeBigDecimalMap200Response()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class FakeBigDecimalMap200ResponseTest extends TestCase
     public function testPropertySomeId()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class FakeBigDecimalMap200ResponseTest extends TestCase
     public function testPropertySomeMap()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

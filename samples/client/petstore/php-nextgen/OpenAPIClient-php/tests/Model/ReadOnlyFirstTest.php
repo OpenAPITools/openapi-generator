@@ -76,7 +76,7 @@ class ReadOnlyFirstTest extends TestCase
     public function testReadOnlyFirst()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class ReadOnlyFirstTest extends TestCase
     public function testPropertyBar()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class ReadOnlyFirstTest extends TestCase
     public function testPropertyBaz()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

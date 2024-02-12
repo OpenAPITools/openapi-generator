@@ -76,7 +76,7 @@ class NameTest extends TestCase
     public function testName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class NameTest extends TestCase
     public function testPropertyName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class NameTest extends TestCase
     public function testPropertySnakeCase()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class NameTest extends TestCase
     public function testPropertyProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,6 +112,6 @@ class NameTest extends TestCase
     public function testProperty123Number()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

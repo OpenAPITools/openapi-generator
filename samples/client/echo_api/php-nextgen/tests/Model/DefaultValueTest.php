@@ -77,7 +77,7 @@ class DefaultValueTest extends TestCase
     public function testDefaultValue()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,7 +86,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayStringEnumRefDefault()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -95,7 +95,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayStringEnumDefault()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayStringDefault()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -113,7 +113,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayIntegerDefault()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -122,7 +122,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -131,7 +131,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayStringNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -140,7 +140,7 @@ class DefaultValueTest extends TestCase
     public function testPropertyArrayStringExtensionNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -149,6 +149,6 @@ class DefaultValueTest extends TestCase
     public function testPropertyStringNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }
