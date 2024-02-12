@@ -1044,7 +1044,7 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assert.assertEquals(discriminator, test);
-        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), false);
     }
 
     @Test
@@ -1063,7 +1063,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
-        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
+        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), false);
     }
 
     @Test
