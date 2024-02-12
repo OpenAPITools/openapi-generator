@@ -23,41 +23,42 @@
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <guava.version>31.1-jre</guava.version>
-        <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
 
-        <!-- Default scenario -->
-        <scenario>acceptance</scenario>
+        <!-- build properties -->
+        <maven.compiler.source>{{ javaVersion }}</maven.compiler.source>
+        <maven.compiler.target>{{ javaVersion }}</maven.compiler.target>
+        <jvm.target>21</jvm.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Perfana settings -->
-        <debug>false</debug>
-        <testRunId>test-run</testRunId>
-        <eventsEnabled>true</eventsEnabled>
-        <eventScheduleScript></eventScheduleScript>
-        <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled>
+        <!-- dependency versioning -->
+        <guava.version>{{ guavaVersion }}</guava.version>
+
+
+        <!-- Perfana settings - usually no need to touch -->
         <perfanaUrl>{{ perfanaUrl }}</perfanaUrl>
-        <assertResultsEnabled>true</assertResultsEnabled>
-
-        <!-- Perfana Dashboard settings -->
-        <systemUnderTest>{{ systemUnderTest }}</systemUnderTest>
-        <!-- Update perfanaApplications with other services that are in scope of the test for example:
-        <perfanaApplications>^order-service$|^member-service$</perfanaApplications> -->
-        <perfanaApplications>^{{ systemUnderTest }}$</perfanaApplications>
-        <version>1.0</version>
-        <tags></tags>
-        <influx.host>{{ influxHost }}</influx.host>
+        <influx.host>{{ influxHost }}</influx.host> <!-- Gatling sends its data to influxdb through its graphite output plugin -->
         <influx.port>{{ influxPort }}</influx.port>
         <influx.protocol>{{ influxProtocol }}</influx.protocol>
-        <graphitePrefix>{{ graphitePrefix }}</graphitePrefix>
+        <graphite.rootPathPrefix>{{ graphitePrefix }}</graphite.rootPathPrefix> <!-- name of the database in influxdb that stores the gatling data - this matches the grafana Gatling dashboard in Perfana -->
+        <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled> <!-- if perfanaEnabled is true, the perfana client is enabled, incl. its scheduler -->
+        <assertResultsEnabled>{{ perfanaEnabled }}</assertResultsEnabled> <!-- if perfanaEnabled is true, this will pass/fail a run by requesting Perfana for outcome of configured checks -->
+        <tags>gatling,springboot,kubernetes</tags> <!-- these tags correspond to profiles in Perfana. These profiles contain dashboards and checks. If your SUT is not on kubernetes/springboot, keeping these here doesn't harm -->
+        <debug>false</debug> <!-- by default we don't run in debug mode -->
+        <scenario>acceptance</scenario> <!-- In Gatling multiple scenario's can be defined, see file src/test/kotlin/com.ahold/setup/Scenarios.kt. By default we run the Acceptance scenario. -->
 
-        <!-- Database configuration to take Test Data-->
+        <!-- Project specific settings / make sure they are correct -->
+        <systemUnderTest>{{ systemUnderTest }}</systemUnderTest> <!-- this is the name under which the test runs are registered in Perfana. SUT = System Under Test -->
+        <!-- If needed, update perfanaApplications with other services that are in scope of the test for example:
+        <perfanaApplications>^order-service$|^member-service$</perfanaApplications> -->
+        <perfanaApplications>^{{ systemUnderTest }}$</perfanaApplications> <!-- perfanaApplications is used to automatically generate grafana dashboards in Perfana. -->
+        <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
+        <ahIdpUrl>{{ ahIdpUrl }}</ahIdpUrl> <!-- this is the url of the identity/token provider for the test environment -->
+
+        <!-- Optional: database configuration to take Test Data-->
         <db.url>{{ dbUrl }}</db.url>
         <db.username>{{ dbUsername }}</db.username>
         <db.password>{{ dbPassword }}</db.password>
 
-        <ahIdpUrl>{{ ahIdpUrl }}</ahIdpUrl>
     </properties>
 
     <dependencies>
@@ -79,11 +80,14 @@
                 <artifactId>events-gatling-maven-plugin</artifactId>
                 <configuration>
                     <jvmArgs combine.children="append">
+                        <!-- If you scroll down this pom you will find the profiles. These profiles can contain properties that you need to pass to Gatling. Add them here.
+                        Note, that other properties are already defined in lib-gatling parent library -->
                         <jvmArg>-DtestEnvironment=${testEnvironment}</jvmArg>
                         <jvmArg>-DidpUrl=${ahIdpUrl}</jvmArg>
                         <jvmArg>-Ddb.url=${db.url}</jvmArg>
                         <jvmArg>-Ddb.username=${db.username}</jvmArg>
                         <jvmArg>-Ddb.password=${db.password}</jvmArg>
+                        <!-- this is the initial and maximum jvm heap size. 2 GB usually is enough and allows to run on most runners. If you believe you need more, make sure your runner has sufficient memory allocated. -->
                         <jvmArg>-Xms1g</jvmArg>
                         <jvmArg>-Xmx2560m</jvmArg>
                     </jvmArgs>
@@ -92,29 +96,29 @@
                         <schedulerEnabled>${eventsEnabled}</schedulerEnabled>
                         <failOnError>true</failOnError>
                         <continueOnEventCheckFailure>true</continueOnEventCheckFailure>
-                        <scheduleScript>${eventScheduleScript}</scheduleScript>
+                        <testConfig>
+                            <systemUnderTest>${systemUnderTest}</systemUnderTest>
+                            <version>${project.version}</version>
+                            <workload>${workload}</workload>
+                            <testEnvironment>${testEnvironment}</testEnvironment>
+                            <testRunId>${testRunId}</testRunId>
+                            <buildResultsUrl>${buildResultsUrl}</buildResultsUrl>
+                            <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
+                            <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
+                            <annotations>${annotations}</annotations>  <!-- this is used in the default workflow to contain the commit message. This is also shown in Perfana UI. -->
+                            <tags>${tags}</tags>
+                        </testConfig>
                         <eventConfigs>
                             <eventConfig implementation="io.perfana.event.PerfanaEventConfig">
+                                <!-- the PerfanaEventConfig will automatically create testrun ID, but also do start/stop test events. etc. -->
                                 <name>PerfanaEvent</name>
                                 <perfanaUrl>${perfanaUrl}</perfanaUrl>
-                                <enabled>${perfanaEnabled}</enabled>
+                                <enabled>${eventsEnabled}</enabled>
                                 <apiKey>${apiKey}</apiKey>
                                 <assertResultsEnabled>${assertResultsEnabled}</assertResultsEnabled>
                                 <variables>
                                     <perfana-applications>${perfanaApplications}</perfana-applications>
                                 </variables>
-                                <testConfig>
-                                    <systemUnderTest>${systemUnderTest}</systemUnderTest>
-                                    <version>${version}</version>
-                                    <workload>${workload}</workload>
-                                    <testEnvironment>${testEnvironment}</testEnvironment>
-                                    <testRunId>${testRunId}</testRunId>
-                                    <buildResultsUrl>${buildResultsUrl}</buildResultsUrl>
-                                    <rampupTimeInSeconds>${rampupTimeInSeconds}</rampupTimeInSeconds>
-                                    <constantLoadTimeInSeconds>${constantLoadTimeInSeconds}</constantLoadTimeInSeconds>
-                                    <annotations>${annotations}</annotations>
-                                    <tags>${tags}</tags>
-                                </testConfig>
                             </eventConfig>
                             <eventConfig implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
                                 <name>KubernetesGetDeployment</name>
@@ -122,7 +126,7 @@
                                 <includes>resources,image,replicas,strategy,kubernetes</includes>
                                 <excludes>status,password,TOKEN,env</excludes>
                                 <output>keys</output>
-                                <tags>kubernetes,${systemUnderTest}</tags>
+                                <tags>${tags}</tags>
                             </eventConfig>
                         </eventConfigs>
                     </eventSchedulerConfig>
@@ -131,18 +135,65 @@
         </plugins>
     </build>
 
-        <!-- ************************************************************************ ==
-    == Below we have defined three sets of profiles, which control the type of    ==
-    == test that will be run and the targeted testEnvironment.                    ==
-    == If you wish to run a stress test with scenario "default" on environment    ==
-    == "ah", use: mvn clean events-gatling:test -Pstress,ah             ==
-    == ************************************************************************ -->
+    <!-- ************************************************************************
+     Below we have defined profiles.
+
+     First the test environment profiles, which define the target environment.
+     Usually there is a local and acceptance environment defined, but some teams
+     also execute tests on their test environment and have a test profile.
+
+     Second, the workload profiles. The workloads define how many users are
+     simulated in a ramp-up phase (increase at start of the test) and a constant
+     load time.
+
+     At the bottom you'll find the debug profile. The debug profile is a workload,
+     but does three special things:
+     1. it runs the gatling project in debug mode
+     2. it disables perfana integration
+     3. it runs the debug scenario (remember: at the top in the 'scenario' property
+        we defined the acceptance scenario as the default)
+     If you run the debug scenario, you might want to change the resources\logback.xml
+     file, so you get more debug information.
+
+     Usually during development of the Performance test you would run the following
+     on your workstation:
+
+     $mvn clean events-gatling:test -Pdebug -Pacc
+     or:
+     $mvn clean events-gatling:test -Pdebug -Plocal
+
+     If you want to test the application/SUT that is running on your local:
+
+     $mvn clean events-gatling:test -Pstress -Plocal
+
+     And from the GitHub action we would run:
+
+     $mvn clean events-gatling:test -Pload -Pacc
+
+     ************************************************************************* -->
 
     <profiles>
-        <!-- Test testEnvironment profiles:
-        make sure the testEnvironment value is identical to the namespace where the application is deployed.
-        This value is used for automatic dashboard (Kubernetes, JVM, ELK errors etc.) generation in Perfana.
-        -->
+
+        <!-- Test testEnvironment profiles -->
+
+        <profile>
+            <id>local</id>
+            <properties>
+                <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
+                <idpUrl>${ahIdpUrl}</idpUrl>
+                <testEnvironment>local</testEnvironment>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>acc</id>
+            <properties>
+                <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
+                <idpUrl>${ahIdpUrl}</idpUrl>
+                <testEnvironment>ah</testEnvironment>
+            </properties>
+        </profile>
+
         <profile>
             <id>tst</id>
             <properties>
@@ -152,97 +203,54 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>ah</id>
-            <properties>
-                <targetBaseUrl>{{ targetBaseUrl }}</targetBaseUrl>
-                <idpUrl>${ahIdpUrl}</idpUrl>
-                <testEnvironment>ah</testEnvironment>
-            </properties>
-        </profile>
-
         <!-- Workload profiles for stress, load and endurance tests -->
         <profile>
             <id>stress</id>
             <properties>
-                <workload>stress</workload>
+                <workload>stressTest</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
-                <targetUsersPerSecond>30</targetUsersPerSecond>
+                <targetUsersPerSecond>100</targetUsersPerSecond>
                 <rampupTimeInSeconds>900</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>1</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
-                <tags>gatling,stress-test</tags>
             </properties>
         </profile>
 
         <profile>
             <id>load</id>
             <properties>
-                <workload>load</workload>
+                <workload>loadTest</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>30</targetUsersPerSecond>
                 <rampupTimeInSeconds>60</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>900</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
-                <tags>gatling,load-test</tags>
             </properties>
         </profile>
 
         <profile>
             <id>endurance</id>
             <properties>
-                <workload>endurance</workload>
+                <workload>enduranceTest</workload>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
-                <targetUsersPerSecond>60</targetUsersPerSecond>
-                <rampupTimeInSeconds>900</rampupTimeInSeconds>
+                <targetUsersPerSecond>10</targetUsersPerSecond>
+                <rampupTimeInSeconds>60</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>86400</constantLoadTimeInSeconds>
-                <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId>
-                <tags>gatling,endurance-test</tags>
             </properties>
         </profile>
+
+        <!-- Debug profile -->
 
         <profile>
             <id>debug</id>
             <properties>
                 <debug>true</debug>
                 <scenario>debug</scenario>
-                <!-- <testRunId>${systemUnderTest}-${workload}-${testEnvironment}-${maven.build.timestamp}</testRunId> -->
-                <graphitePrefix>gatling2.debug</graphitePrefix>
+                <perfanaEnabled>false</perfanaEnabled>
+                <eventsEnabled>false</eventsEnabled>
                 <assertResultsEnabled>false</assertResultsEnabled>
                 <initialUsersPerSecond>1</initialUsersPerSecond>
                 <targetUsersPerSecond>1</targetUsersPerSecond>
                 <rampupTimeInSeconds>1</rampupTimeInSeconds>
                 <constantLoadTimeInSeconds>60</constantLoadTimeInSeconds>
-                <eventsEnabled>false</eventsEnabled>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>acceptance</id>
-            <properties>
-                <scenario>acceptance</scenario>
-            </properties>
-        </profile>
-
-        <!-- This profile can be used to route the traffic through a proxy for debugging  -->
-        <profile>
-            <id>proxy</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <useProxy>true</useProxy>
-            </properties>
-        </profile>
-
-        <!-- This profile can be used to trigger the assertions  to assert test run results from the pipeline   -->
-        <profile>
-            <id>assert-results</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <properties>
-                <assertResultsEnabled>true</assertResultsEnabled>
             </properties>
         </profile>
 
