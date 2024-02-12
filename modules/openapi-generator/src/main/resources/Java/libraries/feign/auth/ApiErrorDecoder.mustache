@@ -1,5 +1,7 @@
 package {{invokerPackage}}.auth;
 
+import java.util.Date;
+
 import feign.Response;
 import feign.RetryableException;
 import feign.codec.ErrorDecoder;
@@ -18,7 +20,7 @@ public class ApiErrorDecoder implements ErrorDecoder {
         Exception httpException = defaultErrorDecoder.decode(methodKey, response);
         if (response.status() == 401 || response.status() == 403) {
             return new RetryableException(response.status(), "Received status " + response.status() + " trying to renew access token",
-                    response.request().httpMethod(), httpException, null, response.request());
+                    response.request().httpMethod(), httpException, (Date) null, response.request());
         }
         return httpException;
     }
