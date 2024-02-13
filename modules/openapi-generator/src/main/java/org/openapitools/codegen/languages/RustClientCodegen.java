@@ -555,6 +555,28 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                     p.dataType = "super::" + p.dataType;
                 }
             }*/
+
+            // {{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}
+            for (CodegenParameter p : operation.allParams) {
+                String paramDataType = p.dataType;
+                if (p.isString || p.isUuid) {
+                    paramDataType = "&str";
+                }
+
+                if (p.isEnumRef || p.isModel) {
+                    paramDataType = "crate::models::" + p.dataType;
+                }
+
+                //if (p.isArray) {
+                //    paramDataType = "Vec<" + paramDataType + ">";
+                //}
+
+                if (!p.required || p.isNullable) {
+                    paramDataType = "Option<" + paramDataType + ">";
+                }
+
+                p.vendorExtensions.put("x-rust-data-type", paramDataType);
+            }
         }
 
         return objs;
