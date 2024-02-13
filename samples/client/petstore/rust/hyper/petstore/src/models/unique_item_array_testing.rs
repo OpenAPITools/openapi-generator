@@ -12,7 +12,7 @@
 
 
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct UniqueItemArrayTesting {
     /// Helper object for the unique item array test
     #[serde(rename = "unique_item_array")]

@@ -63,7 +63,7 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -112,7 +112,7 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
     };
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -140,7 +140,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -169,7 +169,7 @@ pub fn place_order(configuration: &configuration::Configuration, order: crate::m
     local_var_req_builder = local_var_req_builder.json(&order);
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
