@@ -7,6 +7,7 @@ openapi.yaml
 pyproject.toml
 requirements.txt
 setup.cfg
+src/impl/__init__.py
 src/openapi_server/apis/__init__.py
 src/openapi_server/apis/fake_api.py
 src/openapi_server/apis/fake_api_base.py

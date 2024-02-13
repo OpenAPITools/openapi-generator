@@ -178,6 +178,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         }
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(modelFileFolder(), outputFolder), "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiFileFolder(), outputFolder), "__init__.py"));
+        supportingFiles.add(new SupportingFile("__init__.mustache", StringUtils.substringAfter(apiImplFileFolder(), outputFolder), "__init__.py"));
 
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage.replace('.', File.separatorChar), "conftest.py"));
 
@@ -302,6 +303,10 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
     @Override
     public String apiFileFolder() {
         return String.join(File.separator, new String[]{outputFolder, sourceFolder, apiPackage().replace('.', File.separatorChar)});
+    }
+
+    protected String apiImplFileFolder() {
+        return String.join(File.separator, new String[]{outputFolder, sourceFolder, apiImplPackage.replace('.', File.separatorChar)});
     }
 
     @Override
