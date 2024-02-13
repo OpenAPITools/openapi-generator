@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  title: dummy
+  version: "1.0"
+paths:
+  /users/{id}:
+    summary: Represents a user
+components:
+  schemas:
+    Order:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+          maxLength: 50
+    Address:
+      type: object
+      properties:
+        firstName:
+          type: string
