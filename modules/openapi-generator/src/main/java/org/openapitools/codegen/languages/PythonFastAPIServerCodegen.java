@@ -126,7 +126,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         apiPackage = "apis";
         modelPackage = "models";
         testPackage = "tests";
-        implPackage = DEFAULT_PACKAGE_NAME.concat(".impl");
+        implPackage = "impl";
         apiTestTemplateFiles().put("api_test.mustache", ".py");
 
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "python package name (convention: snake_case).")
@@ -138,7 +138,7 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "directory for generated python source code")
                 .defaultValue(DEFAULT_SOURCE_FOLDER));
         cliOptions.add(new CliOption(CodegenConstants.FASTAPI_IMPLEMENTATION_PACKAGE, "python package name for the implementation code (convention: snake_case).")
-                .defaultValue(DEFAULT_PACKAGE_NAME.concat(".impl")));
+                .defaultValue(implPackage));
 
     }
 
@@ -305,8 +305,8 @@ public class PythonFastAPIServerCodegen extends AbstractPythonCodegen {
         return String.join(File.separator, new String[]{outputFolder, sourceFolder, apiPackage().replace('.', File.separatorChar)});
     }
 
-    protected String apiImplFileFolder() {
-        return String.join(File.separator, new String[]{outputFolder, sourceFolder, apiImplPackage.replace('.', File.separatorChar)});
+    public String apiImplFileFolder() {
+        return String.join(File.separator, new String[]{outputFolder, sourceFolder, implPackage.replace('.', File.separatorChar)});
     }
 
     @Override
