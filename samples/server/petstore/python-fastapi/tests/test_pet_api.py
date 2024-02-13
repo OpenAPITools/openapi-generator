@@ -17,12 +17,12 @@ def test_add_pet(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
-    response = client.request(
-        "POST",
-        "/pet",
-        headers=headers,
-        json=pet,
-    )
+    #response = client.request(
+    #    "POST",
+    #    "/pet",
+    #    headers=headers,
+    #    json=pet,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -38,11 +38,11 @@ def test_delete_pet(client: TestClient):
         "api_key": 'api_key_example',
         "Authorization": "Bearer special-key",
     }
-    response = client.request(
-        "DELETE",
-        "/pet/{petId}".format(petId=56),
-        headers=headers,
-    )
+    #response = client.request(
+    #    "DELETE",
+    #    "/pet/{petId}".format(petId=56),
+    #    headers=headers,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -57,12 +57,12 @@ def test_find_pets_by_status(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
-    response = client.request(
-        "GET",
-        "/pet/findByStatus",
-        headers=headers,
-        params=params,
-    )
+    #response = client.request(
+    #    "GET",
+    #    "/pet/findByStatus",
+    #    headers=headers,
+    #    params=params,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -77,12 +77,12 @@ def test_find_pets_by_tags(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
-    response = client.request(
-        "GET",
-        "/pet/findByTags",
-        headers=headers,
-        params=params,
-    )
+    #response = client.request(
+    #    "GET",
+    #    "/pet/findByTags",
+    #    headers=headers,
+    #    params=params,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -97,11 +97,11 @@ def test_get_pet_by_id(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
-    response = client.request(
-        "GET",
-        "/pet/{petId}".format(petId=56),
-        headers=headers,
-    )
+    #response = client.request(
+    #    "GET",
+    #    "/pet/{petId}".format(petId=56),
+    #    headers=headers,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -117,12 +117,12 @@ def test_update_pet(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
-    response = client.request(
-        "PUT",
-        "/pet",
-        headers=headers,
-        json=pet,
-    )
+    #response = client.request(
+    #    "PUT",
+    #    "/pet",
+    #    headers=headers,
+    #    json=pet,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -141,12 +141,12 @@ def test_update_pet_with_form(client: TestClient):
         "name": 'name_example',
         "status": 'status_example'
     }
-    response = client.request(
-        "POST",
-        "/pet/{petId}".format(petId=56),
-        headers=headers,
-        data=data,
-    )
+    #response = client.request(
+    #    "POST",
+    #    "/pet/{petId}".format(petId=56),
+    #    headers=headers,
+    #    data=data,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -165,12 +165,12 @@ def test_upload_file(client: TestClient):
         "additional_metadata": 'additional_metadata_example',
         "file": '/path/to/file'
     }
-    response = client.request(
-        "POST",
-        "/pet/{petId}/uploadImage".format(petId=56),
-        headers=headers,
-        data=data,
-    )
+    #response = client.request(
+    #    "POST",
+    #    "/pet/{petId}/uploadImage".format(petId=56),
+    #    headers=headers,
+    #    data=data,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200

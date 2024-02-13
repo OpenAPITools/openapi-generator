@@ -14,11 +14,11 @@ def test_delete_order(client: TestClient):
 
     headers = {
     }
-    response = client.request(
-        "DELETE",
-        "/store/order/{orderId}".format(orderId='order_id_example'),
-        headers=headers,
-    )
+    #response = client.request(
+    #    "DELETE",
+    #    "/store/order/{orderId}".format(orderId='order_id_example'),
+    #    headers=headers,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -33,11 +33,11 @@ def test_get_inventory(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
-    response = client.request(
-        "GET",
-        "/store/inventory",
-        headers=headers,
-    )
+    #response = client.request(
+    #    "GET",
+    #    "/store/inventory",
+    #    headers=headers,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -51,11 +51,11 @@ def test_get_order_by_id(client: TestClient):
 
     headers = {
     }
-    response = client.request(
-        "GET",
-        "/store/order/{orderId}".format(orderId=56),
-        headers=headers,
-    )
+    #response = client.request(
+    #    "GET",
+    #    "/store/order/{orderId}".format(orderId=56),
+    #    headers=headers,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200
@@ -70,12 +70,12 @@ def test_place_order(client: TestClient):
 
     headers = {
     }
-    response = client.request(
-        "POST",
-        "/store/order",
-        headers=headers,
-        json=order,
-    )
+    #response = client.request(
+    #    "POST",
+    #    "/store/order",
+    #    headers=headers,
+    #    json=order,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200

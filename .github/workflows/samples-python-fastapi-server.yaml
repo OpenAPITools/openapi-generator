@@ -30,4 +30,4 @@ jobs:
           pip install pytest
       - name: Test
         working-directory: ${{ matrix.sample }}
-        run: pytest
+        run: PYTHONPATH=src pytest
