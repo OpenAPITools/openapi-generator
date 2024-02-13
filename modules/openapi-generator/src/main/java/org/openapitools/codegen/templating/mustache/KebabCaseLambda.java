@@ -41,11 +41,22 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class KebabCaseLambda implements Mustache.Lambda {
     @Override
     public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-        String SPECIAL = "[^A-Za-z0-9]";
-        String WHITESPACE = "(?U)\\s";
-
         String text = fragment.execute();
 
-        writer.write(text.replaceAll(SPECIAL, " ").trim().replaceAll(WHITESPACE, "-").toLowerCase(Locale.ROOT));
+        String SPECIAL = "[^A-Za-z0-9_]";
+        String firstPattern = "([A-Z]+)([A-Z][a-z])";
+        String secondPattern = "([a-z\\d])([A-Z])";
+        String replacementPattern = "$1 $2";
+        // Replace package separator with slash.
+        text = text.replaceAll("\\.", "/");
+        text = text.replaceAll(SPECIAL, "");
+        // Replace capital letter with _ plus lowercase letter.
+        text = text.replaceAll(firstPattern, replacementPattern);
+        text = text.replaceAll(secondPattern, replacementPattern);
+        text = text.replace('_', '-');
+        text = text.replace(' ', '-');
+        text = text.toLowerCase();
+
+        writer.write(text);
     }
 }
