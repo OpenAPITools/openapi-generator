@@ -38,6 +38,7 @@ def test_{{operationId}}(client: TestClient):
     }
     {{/-last}}
     {{/formParams}}
+    # uncomment below to make a request
     #response = client.request(
     #    "{{httpMethod}}",
     #    "{{{path}}}"{{#pathParams}}{{#-first}}.format({{/-first}}{{baseName}}={{{example}}}{{^-last}}, {{/-last}}{{#-last}}){{/-last}}{{/pathParams}},

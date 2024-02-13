@@ -17,6 +17,7 @@ def test_add_pet(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/pet",
@@ -38,6 +39,7 @@ def test_delete_pet(client: TestClient):
         "api_key": 'api_key_example',
         "Authorization": "Bearer special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "DELETE",
     #    "/pet/{petId}".format(petId=56),
@@ -57,6 +59,7 @@ def test_find_pets_by_status(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/pet/findByStatus",
@@ -77,6 +80,7 @@ def test_find_pets_by_tags(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/pet/findByTags",
@@ -97,6 +101,7 @@ def test_get_pet_by_id(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/pet/{petId}".format(petId=56),
@@ -117,6 +122,7 @@ def test_update_pet(client: TestClient):
     headers = {
         "Authorization": "Bearer special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "PUT",
     #    "/pet",
@@ -141,6 +147,7 @@ def test_update_pet_with_form(client: TestClient):
         "name": 'name_example',
         "status": 'status_example'
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/pet/{petId}".format(petId=56),
@@ -165,6 +172,7 @@ def test_upload_file(client: TestClient):
         "additional_metadata": 'additional_metadata_example',
         "file": '/path/to/file'
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/pet/{petId}/uploadImage".format(petId=56),

@@ -16,6 +16,7 @@ def test_create_user(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/user",
@@ -37,6 +38,7 @@ def test_create_users_with_array_input(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/user/createWithArray",
@@ -58,6 +60,7 @@ def test_create_users_with_list_input(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/user/createWithList",
@@ -78,6 +81,7 @@ def test_delete_user(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "DELETE",
     #    "/user/{username}".format(username='username_example'),
@@ -96,6 +100,7 @@ def test_get_user_by_name(client: TestClient):
 
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/user/{username}".format(username='username_example'),
@@ -114,6 +119,7 @@ def test_login_user(client: TestClient):
     params = [("username", 'username_example'),     ("password", 'password_example')]
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/user/login",
@@ -134,6 +140,7 @@ def test_logout_user(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/user/logout",
@@ -154,6 +161,7 @@ def test_update_user(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "PUT",
     #    "/user/{username}".format(username='username_example'),

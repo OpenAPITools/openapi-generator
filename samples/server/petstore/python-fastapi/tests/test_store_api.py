@@ -14,6 +14,7 @@ def test_delete_order(client: TestClient):
 
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "DELETE",
     #    "/store/order/{orderId}".format(orderId='order_id_example'),
@@ -33,6 +34,7 @@ def test_get_inventory(client: TestClient):
     headers = {
         "api_key": "special-key",
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/store/inventory",
@@ -51,6 +53,7 @@ def test_get_order_by_id(client: TestClient):
 
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/store/order/{orderId}".format(orderId=56),
@@ -70,6 +73,7 @@ def test_place_order(client: TestClient):
 
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "POST",
     #    "/store/order",

@@ -13,6 +13,7 @@ def test_fake_query_param_default(client: TestClient):
     params = [("has_default", 'Hello World'),     ("no_default", 'no_default_example')]
     headers = {
     }
+    # uncomment below to make a request
     #response = client.request(
     #    "GET",
     #    "/fake/query_param_default",
