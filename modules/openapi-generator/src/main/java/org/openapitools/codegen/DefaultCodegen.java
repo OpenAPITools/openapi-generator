@@ -461,6 +461,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("uppercase", new UppercaseLambda())
                 .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
+                .put("kebabcase", new KebabCaseLambda())
                 .put("camelcase", new CamelCaseLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("forwardslash", new ForwardSlashLambda())
