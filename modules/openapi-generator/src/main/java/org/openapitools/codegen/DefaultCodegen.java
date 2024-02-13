@@ -4744,6 +4744,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
+                if (requestBody.getExtensions() != null && requestBody.getExtensions().containsKey("x-codegen-request-body-name")) {
+                    bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
+                }
+
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
 
                 if (bodyParam != null) {
