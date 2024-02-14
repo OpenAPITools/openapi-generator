@@ -15,7 +15,7 @@ public class ClientPropertiesConfiguration {
         properties.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.authorization-grant-type", "implicit" );
         properties.put("spring.security.oauth2.client.provider.petstoreAuthImplicit.authorization-uri", "http://petstore.swagger.io/api/oauth/dialog" );
         final PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("petstoreAuthImplicit", properties );
-        configurableEnvironment.getPropertySources().addLast( propertiesPropertySource )
+        configurableEnvironment.getPropertySources().addLast( propertiesPropertySource );
     }
 
 }
