@@ -101,6 +101,10 @@ public class OpenAPINormalizer {
     final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
+    // when set (e.g. operationId:getPetById, addPet), filter out (or remove) everything else
+    final String FILTER = "FILTER";
+    HashSet<String> operationIdFilters = new HashSet<>();
+
     // ============= end of rules =============
 
     /**
@@ -131,6 +135,7 @@ public class OpenAPINormalizer {
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
         ruleNames.add(REMOVE_X_INTERNAL);
+        ruleNames.add(FILTER);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -166,7 +171,7 @@ public class OpenAPINormalizer {
         for (Map.Entry<String, String> rule : inputRules.entrySet()) {
             LOGGER.debug("processing rule {} => {}", rule.getKey(), rule.getValue());
             if (!ruleNames.contains(rule.getKey())) { // invalid rule name
-                LOGGER.warn("Invalid openapi-normalizer rule name: ", rule.getKey());
+                LOGGER.warn("Invalid openapi-normalizer rule name: {}", rule.getKey());
             } else if (enableAll) {
                 rules.put(rule.getKey(), true); // set rule
             } else {
@@ -178,6 +183,21 @@ public class OpenAPINormalizer {
         setTagsForAllOperations = inputRules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         if (setTagsForAllOperations != null) {
             rules.put(SET_TAGS_FOR_ALL_OPERATIONS, true);
+        }
+
+        if (inputRules.get(FILTER) != null) {
+            rules.put(FILTER, true);
+
+            String[] filterStrs = inputRules.get(FILTER).split(":");
+            if (filterStrs.length != 2) { // only support operationId with : at the moment
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+            } else {
+                if ("operationId".equals(filterStrs[0])) {
+                    operationIdFilters = new HashSet<>(Arrays.asList(filterStrs[1].split("[|]")));
+                } else {
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                }
+            }
         }
     }
 
@@ -230,6 +250,15 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
+                if (operationIdFilters.size() > 0) {
+                    if (operationIdFilters.contains(operation.getOperationId())) {
+                        operation.addExtension("x-internal", false);
+                    } else {
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the FILTER", operation.getOperationId());
+                        operation.addExtension("x-internal", true);
+                    }
+                }
+
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
                 normalizeParameters(operation.getParameters());
