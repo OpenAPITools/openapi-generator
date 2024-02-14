@@ -33,7 +33,7 @@ public class ClientPropertiesConfiguration {
         properties.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri", "{{{authorizationUrl}}}" );
         {{/isImplicit}}
         final PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}", properties );
-        configurableEnvironment.getPropertySources().addLast( propertiesPropertySource )
+        configurableEnvironment.getPropertySources().addLast( propertiesPropertySource );
     }
 
 }
