@@ -51,12 +51,18 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{#gson}}
   @SerializedName("{{baseName}}")
   {{/gson}}
-  {{#lombok.RequiredArgsConstructor}}{{^useBeanValidation}}{{#required}}
+  {{#lombok.RequiredArgsConstructor}}
+  {{^useBeanValidation}}
+  {{#required}}
   @lombok.NonNull
-  {{/required}}{{/useBeanValidation}}{{/lombok.RequiredArgsConstructor}}
-  {{#lombok.ToString}}{{#isPassword}}
+  {{/required}}
+  {{/useBeanValidation}}
+  {{/lombok.RequiredArgsConstructor}}
+  {{#lombok.ToString}}
+  {{#isPassword}}
   @lombok.ToString.Exclude
-  {{/isPassword}}{{/lombok.ToString}}
+  {{/isPassword}}
+  {{/lombok.ToString}}
   {{#vendorExtensions.x-field-extra-annotation}}
   {{{vendorExtensions.x-field-extra-annotation}}}
   {{/vendorExtensions.x-field-extra-annotation}}
