@@ -27,6 +27,24 @@ impl Default for CustomOneOfArraySchemaInner {
     }
 }
 
+impl From<ObjA> for CustomOneOfArraySchemaInner {
+    fn from(model: ObjA) -> Self {
+        Self::ObjA(Box::new(model))
+    }
+}
+
+impl From<ObjB> for CustomOneOfArraySchemaInner {
+    fn from(model: ObjB) -> Self {
+        Self::ObjB(Box::new(model))
+    }
+}
+
+impl From<ObjC> for CustomOneOfArraySchemaInner {
+    fn from(model: ObjC) -> Self {
+        Self::ObjC(Box::new(model))
+    }
+}
+
 
 
 

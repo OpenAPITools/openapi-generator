@@ -77,6 +77,14 @@ impl Default for {{classname}} {
         }{{/-first}}{{/mappedModels}}{{/oneOf}}{{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
     }
 }
+{{#oneOf}}
+
+impl From<{{{.}}}> for {{classname}} {
+    fn from(model: {{{.}}}) -> Self {
+        Self::{{{.}}}(Box::new(model))
+    }
+}
+{{/oneOf}}
 
 {{/discriminator}}
 
@@ -109,7 +117,6 @@ impl {{{classname}}} {
 }
 {{/oneOf.isEmpty}}
 {{^oneOf.isEmpty}}
-{{! TODO: add other vars that are not part of the oneOf}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{classname}} {
@@ -126,6 +133,14 @@ impl Default for {{classname}} {
         {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
     }
 }
+{{#oneOf}}
+
+impl From<{{{.}}}> for {{classname}} {
+    fn from(model: {{{.}}}) -> Self {
+        Self::{{{.}}}(Box::new(model))
+    }
+}
+{{/oneOf}}
 {{/oneOf.isEmpty}}
 {{/discriminator}}
 {{/isEnum}}

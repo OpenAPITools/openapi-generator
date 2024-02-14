@@ -27,6 +27,24 @@ impl Default for GetState200Response {
     }
 }
 
+impl From<ObjA> for GetState200Response {
+    fn from(model: ObjA) -> Self {
+        Self::ObjA(Box::new(model))
+    }
+}
+
+impl From<ObjB> for GetState200Response {
+    fn from(model: ObjB) -> Self {
+        Self::ObjB(Box::new(model))
+    }
+}
+
+impl From<ObjD> for GetState200Response {
+    fn from(model: ObjD) -> Self {
+        Self::ObjD(Box::new(model))
+    }
+}
+
 
 
 

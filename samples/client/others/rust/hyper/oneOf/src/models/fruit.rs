@@ -25,6 +25,18 @@ impl Default for Fruit {
     }
 }
 
+impl From<Apple> for Fruit {
+    fn from(model: Apple) -> Self {
+        Self::Apple(Box::new(model))
+    }
+}
+
+impl From<Banana> for Fruit {
+    fn from(model: Banana) -> Self {
+        Self::Banana(Box::new(model))
+    }
+}
+
 
 
 

@@ -26,4 +26,16 @@ impl Default for BarRefOrValue {
     }
 }
 
+impl From<Bar> for BarRefOrValue {
+    fn from(model: Bar) -> Self {
+        Self::Bar(Box::new(model))
+    }
+}
+
+impl From<BarRef> for BarRefOrValue {
+    fn from(model: BarRef) -> Self {
+        Self::BarRef(Box::new(model))
+    }
+}
+
 

@@ -25,6 +25,18 @@ impl Default for CustomOneOfSchema {
     }
 }
 
+impl From<ObjA> for CustomOneOfSchema {
+    fn from(model: ObjA) -> Self {
+        Self::ObjA(Box::new(model))
+    }
+}
+
+impl From<ObjB> for CustomOneOfSchema {
+    fn from(model: ObjB) -> Self {
+        Self::ObjB(Box::new(model))
+    }
+}
+
 
 
 

@@ -25,6 +25,18 @@ impl Default for FooRefOrValue {
     }
 }
 
+impl From<Foo> for FooRefOrValue {
+    fn from(model: Foo) -> Self {
+        Self::Foo(Box::new(model))
+    }
+}
+
+impl From<FooRef> for FooRefOrValue {
+    fn from(model: FooRef) -> Self {
+        Self::FooRef(Box::new(model))
+    }
+}
+
 
 
 

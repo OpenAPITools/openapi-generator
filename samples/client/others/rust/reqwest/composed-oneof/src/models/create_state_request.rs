@@ -25,6 +25,18 @@ impl Default for CreateStateRequest {
     }
 }
 
+impl From<ObjA> for CreateStateRequest {
+    fn from(model: ObjA) -> Self {
+        Self::ObjA(Box::new(model))
+    }
+}
+
+impl From<ObjB> for CreateStateRequest {
+    fn from(model: ObjB) -> Self {
+        Self::ObjB(Box::new(model))
+    }
+}
+
 
 
 
