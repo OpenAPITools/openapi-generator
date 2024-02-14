@@ -889,7 +889,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray){ // if array
+                        if (cp.isArray || cp.isMap){ // if array or map
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
                             modelImports.add(cp.dataType);

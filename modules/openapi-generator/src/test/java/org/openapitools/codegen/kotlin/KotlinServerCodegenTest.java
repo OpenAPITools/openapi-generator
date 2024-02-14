@@ -5,6 +5,7 @@ import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
+import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
 
 import java.io.File;
 import java.io.IOException;
@@ -162,6 +163,28 @@ public class KotlinServerCodegenTest {
                 petModel,
                 "import javax.validation.constraints.*",
                 "import javax.validation.Valid"
+        );
+    }
+
+    // to test attributes in the $ref (OpenAPI 3.1 spec)
+    @Test
+    public void attributesInRef() throws IOException {
+        File output = Files.createTempDirectory("test_attributes").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_1/issue_17726.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "src/main/kotlin/org/openapitools";
+        Path order = Paths.get(outputPath + "/model/Order.kt");
+        assertFileContains(
+                order,
+                "@get:Size(max=50)"
         );
     }
 }

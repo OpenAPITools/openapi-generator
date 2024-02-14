@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 [*FakeApi*](doc/FakeApi.md) | [**testNullable**](doc/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+[*FakeApi*](doc/FakeApi.md) | [**testStringMapReference**](doc/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [*PetApi*](doc/PetApi.md) | [**deletePet**](doc/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

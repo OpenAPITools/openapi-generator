@@ -30,6 +30,7 @@ paths:
     delete:
       tags:
         - person
+      x-internal: true
       parameters:
         - name: personId
           in: path
@@ -56,4 +57,11 @@ components:
         lastName:
           type: string
         firstName:
+          type: string
+    Dummy:
+      x-internal: true
+      description: to test x-internal
+      type: object
+      properties:
+        test:
           type: string

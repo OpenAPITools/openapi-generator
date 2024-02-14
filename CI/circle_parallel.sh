@@ -13,6 +13,9 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX ..."
   java -version
 
+  sudo apt-get -y install cpanminus libmagic-dev
+
+  (cd samples/client/petstore/perl && /bin/bash ./test.bash)
   (cd samples/client/petstore/ruby && mvn integration-test)
   (cd samples/client/petstore/ruby-faraday && mvn integration-test)
   (cd samples/client/petstore/ruby-httpx && mvn integration-test)
@@ -66,6 +69,7 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/typescript-angular-v14-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v15-provided-in-root && mvn integration-test)
   (cd samples/client/petstore/typescript-angular-v16-provided-in-root && mvn integration-test)
+  (cd samples/client/petstore/typescript-angular-v17-provided-in-root && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/tests/default && mvn integration-test)
   (cd samples/openapi3/client/petstore/typescript/builds/jquery && mvn integration-test)

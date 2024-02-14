@@ -331,6 +331,18 @@ public class FakeApi  {
         return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language, securityContext);
     }
     @javax.ws.rs.POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test referenced string map", notes = "", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class)
+    })
+    public Response testStringMapReference(@ApiParam(value = "request body", required = true) @NotNull @Valid  Map<String, String> requestBody,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testStringMapReference(requestBody, securityContext);
+    }
+    @javax.ws.rs.POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })

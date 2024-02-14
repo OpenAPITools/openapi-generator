@@ -301,6 +301,94 @@ public class QueryApi {
      * @return String
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
+    public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws RestClientException {
+        return testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject).getBody();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param queryObject  (optional)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<Integer> queryObject) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_integer", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param queryObject  (optional)
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws RestClientException {
+        return testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject).getBody();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param queryObject  (optional)
+     * @return ResponseEntity&lt;String&gt;
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
+    public ResponseEntity<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<String> queryObject) throws RestClientException {
+        Object localVarPostBody = null;
+        
+
+        final MultiValueMap<String, String> localVarQueryParams = new LinkedMultiValueMap<String, String>();
+        final HttpHeaders localVarHeaderParams = new HttpHeaders();
+        final MultiValueMap<String, String> localVarCookieParams = new LinkedMultiValueMap<String, String>();
+        final MultiValueMap<String, Object> localVarFormParams = new LinkedMultiValueMap<String, Object>();
+
+        localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(ApiClient.CollectionFormat.valueOf("csv".toUpperCase(Locale.ROOT)), "query_object", queryObject));
+        
+
+        final String[] localVarAccepts = { 
+            "text/plain"
+         };
+        final List<MediaType> localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+        final String[] localVarContentTypes = {  };
+        final MediaType localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+        String[] localVarAuthNames = new String[] {  };
+
+        ParameterizedTypeReference<String> localReturnType = new ParameterizedTypeReference<String>() {};
+        return apiClient.invokeAPI("/query/style_form/explode_false/array_string", HttpMethod.GET, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
+    }
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * <p><b>200</b> - Successful operation
+     * @param queryObject  (optional)
+     * @return String
+     * @throws RestClientException if an error occurs while attempting to invoke the API
+     */
     public String testQueryStyleFormExplodeTrueArrayString(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter queryObject) throws RestClientException {
         return testQueryStyleFormExplodeTrueArrayStringWithHttpInfo(queryObject).getBody();
     }

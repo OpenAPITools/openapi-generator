@@ -14,6 +14,7 @@
 
 import datetime
 from dateutil.parser import parse
+from enum import Enum
 import json
 import mimetypes
 import os
@@ -432,6 +433,8 @@ class ApiClient:
             return self.__deserialize_date(data)
         elif klass == datetime.datetime:
             return self.__deserialize_datetime(data)
+        elif issubclass(klass, Enum):
+            return self.__deserialize_enum(data, klass)
         else:
             return self.__deserialize_model(data, klass)
 
@@ -502,7 +505,7 @@ class ApiClient:
             else:
                 new_params.append((k, quote(str(v))))
 
-        return "&".join(["=".join(item) for item in new_params])
+        return "&".join(["=".join(map(str, item)) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.
@@ -733,6 +736,24 @@ class ApiClient:
                 reason=(
                     "Failed to parse `{0}` as datetime object"
                     .format(string)
+                )
+            )
+
+    def __deserialize_enum(self, data, klass):
+        """Deserializes primitive type to enum.
+
+        :param data: primitive type.
+        :param klass: class literal.
+        :return: enum value.
+        """
+        try:
+            return klass(data)
+        except ValueError:
+            raise rest.ApiException(
+                status=0,
+                reason=(
+                    "Failed to parse `{0}` as `{1}`"
+                    .format(data, klass)
                 )
             )
 

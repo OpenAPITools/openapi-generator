@@ -75,6 +75,7 @@ public class CodegenConfigurator {
     private Map<String, String> parameterNameMappings = new HashMap<>();
     private Map<String, String> modelNameMappings = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
+    private Map<String, String> operationIdNameMappings = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
     private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
@@ -140,6 +141,9 @@ public class CodegenConfigurator {
             }
             if(generatorSettings.getEnumNameMappings() != null) {
                 configurator.enumNameMappings.putAll(generatorSettings.getEnumNameMappings());
+            }
+            if(generatorSettings.getOperationIdNameMappings() != null) {
+                configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
             }
             if(generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
@@ -255,6 +259,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator addEnumNameMapping(String key, String value) {
         this.enumNameMappings.put(key, value);
         generatorSettingsBuilder.withEnumNameMapping(key, value);
+        return this;
+    }
+
+    public CodegenConfigurator addOperationIdNameMapping(String key, String value) {
+        this.operationIdNameMappings.put(key, value);
+        generatorSettingsBuilder.withOperationIdNameMapping(key, value);
         return this;
     }
 
@@ -463,6 +473,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator setEnumNameMappings(Map<String, String> enumNameMappings) {
         this.enumNameMappings = enumNameMappings;
         generatorSettingsBuilder.withEnumNameMappings(enumNameMappings);
+        return this;
+    }
+
+    public CodegenConfigurator setOperationIdNameMappings(Map<String, String> operationIdNameMappings) {
+        this.operationIdNameMappings = operationIdNameMappings;
+        generatorSettingsBuilder.withOperationIdNameMappings(operationIdNameMappings);
         return this;
     }
 
@@ -762,6 +778,7 @@ public class CodegenConfigurator {
         config.parameterNameMapping().putAll(generatorSettings.getParameterNameMappings());
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
+        config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
         config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());

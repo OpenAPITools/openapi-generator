@@ -82,6 +82,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#TestEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**TestEchoBodyPet**](docs/BodyApi.md#TestEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**TestEchoBodyPetResponseString**](docs/BodyApi.md#TestEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**TestEchoBodyStringEnum**](docs/BodyApi.md#TestEchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *BodyApi* | [**TestEchoBodyTagResponseString**](docs/BodyApi.md#TestEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**TestFormIntegerBooleanString**](docs/FormApi.md#TestFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**TestFormOneof**](docs/FormApi.md#TestFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
@@ -92,6 +93,8 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**TestQueryIntegerBooleanString**](docs/QueryApi.md#TestQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#TestQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#TestQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryApi* | [**TestQueryStyleFormExplodeFalseArrayInteger**](docs/QueryApi.md#TestQueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s)
+*QueryApi* | [**TestQueryStyleFormExplodeFalseArrayString**](docs/QueryApi.md#TestQueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#TestQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#TestQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryApi* | [**TestQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#TestQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s)

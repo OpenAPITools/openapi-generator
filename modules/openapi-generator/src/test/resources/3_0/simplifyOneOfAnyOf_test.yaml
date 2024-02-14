@@ -83,3 +83,9 @@ components:
         - one
         - two
       type: string
+    AnyOfStringArrayOfString:
+      anyOf:
+        - type: string
+        - type: array
+          items:
+            type: string

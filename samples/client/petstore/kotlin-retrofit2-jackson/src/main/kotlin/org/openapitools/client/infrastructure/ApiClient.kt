@@ -28,7 +28,7 @@ class ApiClient(
     ),
     private val converterFactories: List<Converter.Factory> = listOf(
         ScalarsConverterFactory.create(),
-        JacksonConverterFactory.create(),
+        JacksonConverterFactory.create(serializerBuilder),
     )
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()

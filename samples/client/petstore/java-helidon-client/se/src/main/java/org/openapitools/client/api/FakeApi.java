@@ -172,4 +172,12 @@ public interface FakeApi {
 
   ApiResponse<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language);
 
+ /**
+  * test referenced string map
+  * 
+  * @param requestBody request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testStringMapReference(Map<String, String> requestBody);
+
 }

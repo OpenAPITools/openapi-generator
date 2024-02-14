@@ -637,7 +637,7 @@
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "{{returnType}}", loadNamespace("{{packageName}}")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e) {
             {{#useDefaultExceptionHandling}}
             stop("Failed to deserialize response")

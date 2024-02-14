@@ -53,6 +53,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -89,7 +90,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
-
+    public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -128,6 +129,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected Map<String, Boolean> lombokAnnotations = null;
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
@@ -1001,21 +1003,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (items.getMinimum() != null && items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
                     items.getMinimum(),
-                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
                     items.getMaximum(),
-                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
         }
 
         if (items.getMinimum() != null) {
             return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = %s)",
                     items.getMinimum(),
-                    Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
         }
 
         if (items.getMaximum() != null) {
             return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = %s)",
                     items.getMaximum(),
-                    Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
         }
 
         return "";
@@ -1287,6 +1289,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return localDate.toString();
         }
         if (ModelUtils.isArraySchema(schema)) {
+            // swagger-parser parses the default value differently depending on whether it's in a referenced file or not.
+            // cf. https://github.com/swagger-api/swagger-parser/issues/1958
+            // ArrayList if in the referenced file, ArrayNode if not.
             if (defaultValue instanceof ArrayNode) {
                 ArrayNode array = (ArrayNode) defaultValue;
                 return StreamSupport.stream(array.spliterator(), false)
@@ -1294,6 +1299,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         // remove wrapper quotes
                         .map(item -> StringUtils.removeStart(item, "\""))
                         .map(item -> StringUtils.removeEnd(item, "\""))
+                        .collect(Collectors.joining(","));
+            } else if (defaultValue instanceof ArrayList) {
+                ArrayList<?> array = (ArrayList<?>) defaultValue;
+                return array.stream()
+                        .map(Object::toString)
                         .collect(Collectors.joining(","));
             }
         }
@@ -1675,6 +1685,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
+        }
+
+        // parse lombok additional model type annotations
+        Map<String, Boolean> lombokOptions = new HashMap<>();
+        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        Pattern pattern = Pattern.compile(regexp);
+        for (String annotation : additionalModelTypeAnnotations) {
+            Matcher matcher = pattern.matcher(annotation);
+            if  (matcher.find()) {
+                String className = matcher.group("ClassName");
+                lombokOptions.put(className, true);
+            }
+        }
+        if (!lombokOptions.isEmpty()) {
+            lombokAnnotations = lombokOptions;
+            writePropertyBack(LOMBOK, lombokOptions);
         }
 
         return postProcessModelsEnum(objs);
