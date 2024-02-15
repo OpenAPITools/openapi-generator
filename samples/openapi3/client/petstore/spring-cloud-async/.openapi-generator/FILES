@@ -15,4 +15,3 @@ src/main/java/org/openapitools/model/Order.java
 src/main/java/org/openapitools/model/Pet.java
 src/main/java/org/openapitools/model/Tag.java
 src/main/java/org/openapitools/model/User.java
-src/main/resources/oauth2-client.properties

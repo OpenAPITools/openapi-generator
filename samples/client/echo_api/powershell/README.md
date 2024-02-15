@@ -62,6 +62,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**Test-EchoBodyPetResponseString**](docs/BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**Test-EchoBodyTagResponseString**](docs/BodyApi.md#Test-EchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *BodyApi* | [**Test-EchoBodyAllOfPet**](docs/BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
+*BodyApi* | [**Test-EchoBodyStringEnum**](docs/BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *FormApi* | [**Test-FormIntegerBooleanString**](docs/FormApi.md#Test-FormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**Test-FormOneof**](docs/FormApi.md#Test-FormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**Test-HeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#Test-HeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)

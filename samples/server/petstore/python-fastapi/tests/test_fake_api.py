@@ -13,12 +13,13 @@ def test_fake_query_param_default(client: TestClient):
     params = [("has_default", 'Hello World'),     ("no_default", 'no_default_example')]
     headers = {
     }
-    response = client.request(
-        "GET",
-        "/fake/query_param_default",
-        headers=headers,
-        params=params,
-    )
+    # uncomment below to make a request
+    #response = client.request(
+    #    "GET",
+    #    "/fake/query_param_default",
+    #    headers=headers,
+    #    params=params,
+    #)
 
     # uncomment below to assert the status code of the HTTP response
     #assert response.status_code == 200

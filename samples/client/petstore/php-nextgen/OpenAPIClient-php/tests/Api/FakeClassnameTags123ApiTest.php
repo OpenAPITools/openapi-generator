@@ -80,6 +80,6 @@ class FakeClassnameTags123ApiTest extends TestCase
     public function testTestClassname()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

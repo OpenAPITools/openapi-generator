@@ -81,6 +81,6 @@ class PathApiTest extends TestCase
     public function testTestsPathStringPathStringIntegerPathInteger()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }
