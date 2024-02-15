@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/server/petstore/go-gin-server/
+          - samples/server/petstore/go-gin-api-server/
           - samples/server/petstore/go-gin-api-server-interface-only/
     steps:
       - uses: actions/checkout@v4
