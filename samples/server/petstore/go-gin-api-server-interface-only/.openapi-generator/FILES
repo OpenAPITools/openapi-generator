@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 Dockerfile
 api/openapi.yaml
 go.mod
