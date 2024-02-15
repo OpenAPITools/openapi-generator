@@ -80,7 +80,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    return true;
+    return super.equals(o);
   }
 
   @Override

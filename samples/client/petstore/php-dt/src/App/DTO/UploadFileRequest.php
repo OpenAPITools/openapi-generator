@@ -5,25 +5,20 @@ namespace App\DTO;
 
 use Articus\DataTransfer\Annotation as DTA;
 
-/**
- */
 class UploadFileRequest
 {
     /**
      * Additional data to pass to server
      * @DTA\Data(field="additionalMetadata", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $additional_metadata;
+    public ?string $additional_metadata = null;
 
     /**
      * file to upload
      * @DTA\Data(field="file", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\SplFileObject::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\SplFileObject::class})
-     * @var \SplFileObject|null
+     * @DTA\Validator(name="Scalar", options={"type":"string"})
      */
-    public $file;
+    public ?string $file = null;
 
 }

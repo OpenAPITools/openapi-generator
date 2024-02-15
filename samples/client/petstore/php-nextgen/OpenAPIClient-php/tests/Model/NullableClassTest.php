@@ -76,7 +76,7 @@ class NullableClassTest extends TestCase
     public function testNullableClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class NullableClassTest extends TestCase
     public function testPropertyIntegerProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class NullableClassTest extends TestCase
     public function testPropertyNumberProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class NullableClassTest extends TestCase
     public function testPropertyBooleanProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,7 +112,7 @@ class NullableClassTest extends TestCase
     public function testPropertyStringProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -121,7 +121,7 @@ class NullableClassTest extends TestCase
     public function testPropertyDateProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -130,7 +130,7 @@ class NullableClassTest extends TestCase
     public function testPropertyDatetimeProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -139,7 +139,7 @@ class NullableClassTest extends TestCase
     public function testPropertyArrayNullableProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -148,7 +148,7 @@ class NullableClassTest extends TestCase
     public function testPropertyArrayAndItemsNullableProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -157,7 +157,7 @@ class NullableClassTest extends TestCase
     public function testPropertyArrayItemsNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -166,7 +166,7 @@ class NullableClassTest extends TestCase
     public function testPropertyObjectNullableProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -175,7 +175,7 @@ class NullableClassTest extends TestCase
     public function testPropertyObjectAndItemsNullableProp()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -184,6 +184,6 @@ class NullableClassTest extends TestCase
     public function testPropertyObjectItemsNullable()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

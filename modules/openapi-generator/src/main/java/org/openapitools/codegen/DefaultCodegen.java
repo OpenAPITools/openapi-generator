@@ -667,14 +667,16 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 parent.getChildren().add(cm);
                 parent.hasChildren = true;
-                Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.name);
+                Schema parentSchema = this.openAPI.getComponents().getSchemas().get(parent.schemaName);
                 if (parentSchema == null) {
-                    throw new NullPointerException(parent.name + " in " + this.openAPI.getComponents().getSchemas());
-                }
-                if (parentSchema.getDiscriminator() == null) {
-                    parent = allModels.get(parent.getParent());
-                } else {
+                    LOGGER.warn("Failed to look up parent schema: {}", parent.schemaName);
                     parent = null;
+                } else {
+                    if (parentSchema.getDiscriminator() == null) {
+                        parent = allModels.get(parent.getParent());
+                    } else {
+                        parent = null;
+                    }
                 }
             }
         }
@@ -3122,6 +3124,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             m.name = name;
         }
+        m.schemaName = name; // original schema name
         m.title = escapeText(schema.getTitle());
         m.description = escapeText(schema.getDescription());
         m.unescapedDescription = schema.getDescription();
@@ -3976,6 +3979,8 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
             }
+        } else if (p.get$ref() != null) { // it's a ref
+            original = p;
         }
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
@@ -4210,6 +4215,24 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (original.getDescription() != null) {
                 property.description = p.getDescription();
+            }
+            if (original.getMaxLength() != null) {
+                property.setMaxLength(original.getMaxLength());
+            }
+            if (original.getMinLength() != null) {
+                property.setMinLength(original.getMinLength());
+            }
+            if (original.getMaxItems() != null) {
+                property.setMaxItems(original.getMaxItems());
+            }
+            if (original.getMinItems() != null) {
+                property.setMinItems(original.getMinItems());
+            }
+            if (original.getMaximum() != null) {
+                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+            }
+            if (original.getMinimum() != null) {
+                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
             }
         }
 
@@ -4721,6 +4744,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
+                if (requestBody.getExtensions() != null && requestBody.getExtensions().containsKey("x-codegen-request-body-name")) {
+                    bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
+                }
+
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
 
                 if (bodyParam != null) {

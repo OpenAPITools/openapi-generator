@@ -76,7 +76,7 @@ class SpecialModelNameTest extends TestCase
     public function testSpecialModelName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class SpecialModelNameTest extends TestCase
     public function testPropertySpecialPropertyName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

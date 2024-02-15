@@ -76,7 +76,7 @@ class CapitalizationTest extends TestCase
     public function testCapitalization()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class CapitalizationTest extends TestCase
     public function testPropertySmallCamel()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class CapitalizationTest extends TestCase
     public function testPropertyCapitalCamel()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class CapitalizationTest extends TestCase
     public function testPropertySmallSnake()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,7 +112,7 @@ class CapitalizationTest extends TestCase
     public function testPropertyCapitalSnake()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -121,7 +121,7 @@ class CapitalizationTest extends TestCase
     public function testPropertyScaEthFlowPoints()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -130,6 +130,6 @@ class CapitalizationTest extends TestCase
     public function testPropertyAttName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

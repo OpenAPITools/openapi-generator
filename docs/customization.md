@@ -584,3 +584,10 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
 ```
+
+- `FILTER`: When set to `operationId:addPet|getPetById` for example, it will add `x-internal:true` to operations with operationId not equal to addPet/getPetById (which will have x-internal set to false) so that these operations marked as internal won't be generated.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FILTER="operationId:addPet|getPetById"
+```

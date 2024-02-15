@@ -1,0 +1,18 @@
+[package]
+name = "oneof-reqwest"
+version = "0.0.1"
+authors = ["OpenAPI Generator team and contributors"]
+description = "This tests for a oneOf interface representation "
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2018"
+
+[dependencies]
+serde = "^1.0"
+serde_derive = "^1.0"
+serde_json = "^1.0"
+url = "^2.2"
+uuid = { version = "^1.0", features = ["serde", "v4"] }
+[dependencies.reqwest]
+version = "^0.11"
+features = ["json", "blocking", "multipart"]

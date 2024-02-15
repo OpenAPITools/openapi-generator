@@ -127,6 +127,7 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testEchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyStringEnum**](docs/BodyApi.md#testEchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormOneof**](docs/FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema

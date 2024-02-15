@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 *BodyAPI* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyAPI.md#testechobodyfreeformobjectresponsestring) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyAPI* | [**TestEchoBodyPet**](docs/BodyAPI.md#testechobodypet) | **Post** /echo/body/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyPetResponseString**](docs/BodyAPI.md#testechobodypetresponsestring) | **Post** /echo/body/Pet/response_string | Test empty response body
+*BodyAPI* | [**TestEchoBodyStringEnum**](docs/BodyAPI.md#testechobodystringenum) | **Post** /echo/body/string_enum | Test string enum response body
 *BodyAPI* | [**TestEchoBodyTagResponseString**](docs/BodyAPI.md#testechobodytagresponsestring) | **Post** /echo/body/Tag/response_string | Test empty json (request body)
 *FormAPI* | [**TestFormIntegerBooleanString**](docs/FormAPI.md#testformintegerbooleanstring) | **Post** /form/integer/boolean/string | Test form parameter(s)
 *FormAPI* | [**TestFormOneof**](docs/FormAPI.md#testformoneof) | **Post** /form/oneof | Test form parameter(s) for oneOf schema
