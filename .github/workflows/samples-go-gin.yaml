@@ -3,11 +3,11 @@ name: Samples Go
 on:
   push:
     paths:
-      - 'samples/server/petstore/go-gin-server/**'
+      - 'samples/server/petstore/go-gin-api-server/**'
       - 'samples/server/petstore/go-gin-api-server-interface-only/**'
   pull_request:
     paths:
-      - 'samples/server/petstore/go-gin-server/**'
+      - 'samples/server/petstore/go-gin-api-server/**'
       - 'samples/server/petstore/go-gin-api-server-interface-only/**'
 
 jobs:
