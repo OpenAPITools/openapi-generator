@@ -16,9 +16,9 @@ public class TidyLambdaTest extends LambdaTest {
         test("'", "{{#tidy}}``{{/tidy}}", ctx);
         test("'", "{{#tidy}}``````{{/tidy}}", ctx);
         test("' '", "{{#tidy}}` `{{/tidy}}", ctx);
-        test("``` '", "{{#tidy}}``` `{{/tidy}}", ctx);
+        test("' '", "{{#tidy}}``` `{{/tidy}}", ctx);
         test("' '", "{{#tidy}}`` ``{{/tidy}}", ctx);
-        test("``` ```", "{{#tidy}}``` ```{{/tidy}}", ctx);
+        test("' '", "{{#tidy}}``` ```{{/tidy}}", ctx);
         test("' '", "{{#tidy}}`````` ``````````{{/tidy}}", ctx);
         test("He says: 'This is a test'", "{{#tidy}}He says: `This is a test`{{/tidy}}", ctx);
 
@@ -30,9 +30,9 @@ public class TidyLambdaTest extends LambdaTest {
         test("'", "{{#tidyForDocs}}``{{/tidyForDocs}}", ctxForDocs);
         test("'", "{{#tidyForDocs}}``````{{/tidyForDocs}}", ctxForDocs);
         test("' '", "{{#tidyForDocs}}` `{{/tidyForDocs}}", ctxForDocs);
-        test("' '", "{{#tidyForDocs}}``` `{{/tidyForDocs}}", ctxForDocs);
+        test("``` '", "{{#tidyForDocs}}``` `{{/tidyForDocs}}", ctxForDocs);
         test("' '", "{{#tidyForDocs}}`` ``{{/tidyForDocs}}", ctxForDocs);
-        test("' '", "{{#tidyForDocs}}``` ```{{/tidyForDocs}}", ctxForDocs);
+        test("``` ```", "{{#tidyForDocs}}``` ```{{/tidyForDocs}}", ctxForDocs);
         test("' '", "{{#tidyForDocs}}`````` ``````````{{/tidyForDocs}}", ctxForDocs);
         test("He says: 'This is a test'", "{{#tidyForDocs}}He says: `This is a test`{{/tidyForDocs}}", ctxForDocs);
     }
