@@ -6,7 +6,7 @@ certifi==2023.7.22
 chardet==4.0.0
 click==7.1.2
 dnspython==2.1.0
-email-validator==1.1.2
+email-validator==2.0.0
 fastapi==0.109.2
 graphene==2.1.8
 graphql-core==2.3.2
