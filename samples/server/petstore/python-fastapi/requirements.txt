@@ -27,7 +27,7 @@ PyYAML==5.4.1
 requests==2.25.1
 Rx==1.6.1
 starlette==0.36.3
-typing-extensions==3.10.0.0
+typing-extensions==4.8.0
 ujson==4.0.2
 urllib3==1.26.5
 uvicorn==0.13.4
