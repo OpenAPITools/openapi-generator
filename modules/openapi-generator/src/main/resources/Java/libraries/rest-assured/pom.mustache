@@ -271,6 +271,11 @@
             <version>${gson-fire-version}</version>
         </dependency>
         {{/gson}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
         {{#jackson}}
         <!-- JSON processing: jackson -->
         <dependency>
@@ -280,10 +285,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -351,9 +352,9 @@
         {{#joda}}
         <jodatime-version>2.10.5</jodatime-version>
         {{/joda}}
+        <jackson-databind-version>2.15.2</jackson-databind-version>
         {{#jackson}}
         <jackson-version>2.15.2</jackson-version>
-        <jackson-databind-version>2.15.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>
         {{/jackson}}
         {{#useJakartaEe}}

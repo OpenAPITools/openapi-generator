@@ -82,10 +82,12 @@ Class | Method | HTTP request | Description
 *BodyAPI* | [**TestBinaryGif**](docs/BodyAPI.md#testbinarygif) | **Post** /binary/gif | Test binary (gif) response body
 *BodyAPI* | [**TestBodyApplicationOctetstreamBinary**](docs/BodyAPI.md#testbodyapplicationoctetstreambinary) | **Post** /body/application/octetstream/binary | Test body parameter(s)
 *BodyAPI* | [**TestBodyMultipartFormdataArrayOfBinary**](docs/BodyAPI.md#testbodymultipartformdataarrayofbinary) | **Post** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
+*BodyAPI* | [**TestBodyMultipartFormdataSingleBinary**](docs/BodyAPI.md#testbodymultipartformdatasinglebinary) | **Post** /body/application/octetstream/single_binary | Test single binary in multipart mime
 *BodyAPI* | [**TestEchoBodyAllOfPet**](docs/BodyAPI.md#testechobodyallofpet) | **Post** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyFreeFormObjectResponseString**](docs/BodyAPI.md#testechobodyfreeformobjectresponsestring) | **Post** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyAPI* | [**TestEchoBodyPet**](docs/BodyAPI.md#testechobodypet) | **Post** /echo/body/Pet | Test body parameter(s)
 *BodyAPI* | [**TestEchoBodyPetResponseString**](docs/BodyAPI.md#testechobodypetresponsestring) | **Post** /echo/body/Pet/response_string | Test empty response body
+*BodyAPI* | [**TestEchoBodyStringEnum**](docs/BodyAPI.md#testechobodystringenum) | **Post** /echo/body/string_enum | Test string enum response body
 *BodyAPI* | [**TestEchoBodyTagResponseString**](docs/BodyAPI.md#testechobodytagresponsestring) | **Post** /echo/body/Tag/response_string | Test empty json (request body)
 *FormAPI* | [**TestFormIntegerBooleanString**](docs/FormAPI.md#testformintegerbooleanstring) | **Post** /form/integer/boolean/string | Test form parameter(s)
 *FormAPI* | [**TestFormOneof**](docs/FormAPI.md#testformoneof) | **Post** /form/oneof | Test form parameter(s) for oneOf schema
@@ -96,6 +98,8 @@ Class | Method | HTTP request | Description
 *QueryAPI* | [**TestQueryIntegerBooleanString**](docs/QueryAPI.md#testqueryintegerbooleanstring) | **Get** /query/integer/boolean/string | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleDeepObjectExplodeTrueObject**](docs/QueryAPI.md#testquerystyledeepobjectexplodetrueobject) | **Get** /query/style_deepObject/explode_true/object | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryAPI.md#testquerystyledeepobjectexplodetrueobjectallof) | **Get** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
+*QueryAPI* | [**TestQueryStyleFormExplodeFalseArrayInteger**](docs/QueryAPI.md#testquerystyleformexplodefalsearrayinteger) | **Get** /query/style_form/explode_false/array_integer | Test query parameter(s)
+*QueryAPI* | [**TestQueryStyleFormExplodeFalseArrayString**](docs/QueryAPI.md#testquerystyleformexplodefalsearraystring) | **Get** /query/style_form/explode_false/array_string | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueArrayString**](docs/QueryAPI.md#testquerystyleformexplodetruearraystring) | **Get** /query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueObject**](docs/QueryAPI.md#testquerystyleformexplodetrueobject) | **Get** /query/style_form/explode_true/object | Test query parameter(s)
 *QueryAPI* | [**TestQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryAPI.md#testquerystyleformexplodetrueobjectallof) | **Get** /query/style_form/explode_true/object/allOf | Test query parameter(s)

@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="notrequiredNullableStringProp">notrequiredNullableStringProp</param>
         /// <param name="notrequiredNullableUuid">notrequiredNullableUuid</param>
         [JsonConstructor]
-        public RequiredClass(DateTime requiredNotNullableDateProp, List<string> requiredNotnullableArrayOfString, bool requiredNotnullableBooleanProp, DateTime requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, string requiredNotnullableStringProp, Guid requiredNotnullableUuid, int requiredNotnullableintegerProp, List<string>? requiredNullableArrayOfString = default, bool? requiredNullableBooleanProp = default, DateTime? requiredNullableDateProp = default, DateTime? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, int? requiredNullableIntegerProp = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, string? requiredNullableStringProp = default, Guid? requiredNullableUuid = default, Option<DateTime?> notRequiredNotnullableDateProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<DateTime?> notRequiredNullableDateProp = default, Option<int?> notRequiredNullableIntegerProp = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateTime?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<string?> notrequiredNotnullableStringProp = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<DateTime?> notrequiredNullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<string?> notrequiredNullableStringProp = default, Option<Guid?> notrequiredNullableUuid = default)
+        public RequiredClass(DateOnly requiredNotNullableDateProp, List<string> requiredNotnullableArrayOfString, bool requiredNotnullableBooleanProp, DateTime requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, string requiredNotnullableStringProp, Guid requiredNotnullableUuid, int requiredNotnullableintegerProp, List<string>? requiredNullableArrayOfString = default, bool? requiredNullableBooleanProp = default, DateOnly? requiredNullableDateProp = default, DateTime? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, int? requiredNullableIntegerProp = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, string? requiredNullableStringProp = default, Guid? requiredNullableUuid = default, Option<DateOnly?> notRequiredNotnullableDateProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<DateOnly?> notRequiredNullableDateProp = default, Option<int?> notRequiredNullableIntegerProp = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateTime?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<string?> notrequiredNotnullableStringProp = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<DateTime?> notrequiredNullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<string?> notrequiredNullableStringProp = default, Option<Guid?> notrequiredNullableUuid = default)
         {
             RequiredNotNullableDateProp = requiredNotNullableDateProp;
             RequiredNotnullableArrayOfString = requiredNotnullableArrayOfString;
@@ -1364,7 +1364,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RequiredNotNullableDateProp
         /// </summary>
         [JsonPropertyName("required_not_nullable_date_prop")]
-        public DateTime RequiredNotNullableDateProp { get; set; }
+        public DateOnly RequiredNotNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableArrayOfString
@@ -1419,7 +1419,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets RequiredNullableDateProp
         /// </summary>
         [JsonPropertyName("required_nullable_date_prop")]
-        public DateTime? RequiredNullableDateProp { get; set; }
+        public DateOnly? RequiredNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableDatetimeProp
@@ -1451,13 +1451,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> NotRequiredNotnullableDatePropOption { get; private set; }
+        public Option<DateOnly?> NotRequiredNotnullableDatePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NotRequiredNotnullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_notnullable_date_prop")]
-        public DateTime? NotRequiredNotnullableDateProp { get { return this. NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new(value); } }
+        public DateOnly? NotRequiredNotnullableDateProp { get { return this. NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNotnullableintegerProp
@@ -1477,13 +1477,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> NotRequiredNullableDatePropOption { get; private set; }
+        public Option<DateOnly?> NotRequiredNullableDatePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets NotRequiredNullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_nullable_date_prop")]
-        public DateTime? NotRequiredNullableDateProp { get { return this. NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
+        public DateOnly? NotRequiredNullableDateProp { get { return this. NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNullableIntegerProp
@@ -1766,7 +1766,7 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<DateTime?> requiredNotNullableDateProp = default;
+            Option<DateOnly?> requiredNotNullableDateProp = default;
             Option<List<string>?> requiredNotnullableArrayOfString = default;
             Option<bool?> requiredNotnullableBooleanProp = default;
             Option<DateTime?> requiredNotnullableDatetimeProp = default;
@@ -1779,7 +1779,7 @@ namespace Org.OpenAPITools.Model
             Option<int?> requiredNotnullableintegerProp = default;
             Option<List<string>?> requiredNullableArrayOfString = default;
             Option<bool?> requiredNullableBooleanProp = default;
-            Option<DateTime?> requiredNullableDateProp = default;
+            Option<DateOnly?> requiredNullableDateProp = default;
             Option<DateTime?> requiredNullableDatetimeProp = default;
             Option<RequiredClass.RequiredNullableEnumIntegerEnum?> requiredNullableEnumInteger = default;
             Option<RequiredClass.RequiredNullableEnumIntegerOnlyEnum?> requiredNullableEnumIntegerOnly = default;
@@ -1788,9 +1788,9 @@ namespace Org.OpenAPITools.Model
             Option<OuterEnumDefaultValue?> requiredNullableOuterEnumDefaultValue = default;
             Option<string?> requiredNullableStringProp = default;
             Option<Guid?> requiredNullableUuid = default;
-            Option<DateTime?> notRequiredNotnullableDateProp = default;
+            Option<DateOnly?> notRequiredNotnullableDateProp = default;
             Option<int?> notRequiredNotnullableintegerProp = default;
-            Option<DateTime?> notRequiredNullableDateProp = default;
+            Option<DateOnly?> notRequiredNullableDateProp = default;
             Option<int?> notRequiredNullableIntegerProp = default;
             Option<List<string>?> notrequiredNotnullableArrayOfString = default;
             Option<bool?> notrequiredNotnullableBooleanProp = default;
@@ -1828,7 +1828,7 @@ namespace Org.OpenAPITools.Model
                     {
                         case "required_not_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNotNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                requiredNotNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_notnullable_array_of_string":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1881,7 +1881,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "required_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                requiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                requiredNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "required_nullable_datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1918,7 +1918,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "not_required_notnullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNotnullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                notRequiredNotnullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_notnullableinteger_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
@@ -1926,7 +1926,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "not_required_nullable_date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                notRequiredNullableDateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                notRequiredNullableDateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "not_required_nullable_integer_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

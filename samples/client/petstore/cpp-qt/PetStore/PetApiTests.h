@@ -9,7 +9,7 @@ class PetApiTests : public QObject {
 
     PFXPet createRandomPet();
 
-private slots:
+private Q_SLOTS:
     void findPetsByStatusTest();
     void createAndGetPetTest();
     void updatePetTest();

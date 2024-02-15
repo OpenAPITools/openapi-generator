@@ -436,6 +436,13 @@ Not all generators support thess features yet. Please give it a try to confirm t
 
 NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 
+To map `operationId` (used in method naming) to something else, use `operationIdNameMappings` option, e.g.
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -o /tmp/java/ --operation-id-name-mappings getPetById=returnPetById
+```
+will name the API method as `returnPetById` instead of `getPetById` obtained from OpenAPI doc/spec.
+
 ## Schema Mapping
 
 One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
@@ -571,3 +578,16 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true
 ```
 
+- `REMOVE_X_INTERNAL`: When set to true, remove `x-internal` extension from operations and models.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
+```
+
+- `FILTER`: When set to `operationId:addPet|getPetById` for example, it will add `x-internal:true` to operations with operationId not equal to addPet/getPetById (which will have x-internal set to false) so that these operations marked as internal won't be generated.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FILTER="operationId:addPet|getPetById"
+```

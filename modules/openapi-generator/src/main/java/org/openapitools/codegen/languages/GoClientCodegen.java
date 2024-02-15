@@ -75,7 +75,8 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         SecurityFeature.BearerToken,
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit,
-                        SecurityFeature.SignatureAuth
+                        SecurityFeature.SignatureAuth,
+                        SecurityFeature.AWSV4Signature
                 ))
                 .includeGlobalFeatures(
                         GlobalFeature.ParameterizedServer
@@ -498,8 +499,16 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 addedFmtImport = true;
             }
 
-            if (!addedFmtImport && model.hasRequired) {
-                imports.add(createMapping("import", "fmt"));
+            if (model.hasRequired) {
+                if (!model.isAdditionalPropertiesTrue &&
+                    (model.oneOf == null || model.oneOf.isEmpty()) &&
+                    (model.anyOf == null || model.anyOf.isEmpty())) {
+                    imports.add(createMapping("import", "bytes"));
+                }
+
+                if (!addedFmtImport) {
+                    imports.add(createMapping("import", "fmt"));
+                }
             }
 
             // additionalProperties: true and parent
@@ -736,6 +745,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         content = content.trim().replace("[]", "array_of_");
         content = content.trim().replace("[", "map_of_");
         content = content.trim().replace("]", "");
+        content = content.trim().replace("interface{}", "Any");
         return camelize(content);
     }
 }

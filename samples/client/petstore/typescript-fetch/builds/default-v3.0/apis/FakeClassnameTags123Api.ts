@@ -47,7 +47,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
         headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.apiKey) {
-            queryParameters["api_key_query"] = this.configuration.apiKey("api_key_query"); // api_key_query authentication
+            queryParameters["api_key_query"] = await this.configuration.apiKey("api_key_query"); // api_key_query authentication
         }
 
         const response = await this.request({

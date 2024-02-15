@@ -19,8 +19,6 @@ To test class name in snake case
 * Api Key Authentication (api_key_query):
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.client import Client
 from petstore_api.rest import ApiException

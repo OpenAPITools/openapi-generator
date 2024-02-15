@@ -76,6 +76,6 @@ class OuterEnumTest extends TestCase
     public function testOuterEnum()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

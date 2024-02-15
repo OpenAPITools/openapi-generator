@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**RequiredNotNullableDateProp** | **DateTime** |  | 
+**RequiredNotNullableDateProp** | **DateOnly** |  | 
 **RequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNotnullableBooleanProp** | **bool** |  | 
 **RequiredNotnullableDatetimeProp** | **DateTime** |  | 
@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **RequiredNotnullableintegerProp** | **int** |  | 
 **RequiredNullableArrayOfString** | **List&lt;string&gt;** |  | 
 **RequiredNullableBooleanProp** | **bool** |  | 
-**RequiredNullableDateProp** | **DateTime** |  | 
+**RequiredNullableDateProp** | **DateOnly** |  | 
 **RequiredNullableDatetimeProp** | **DateTime** |  | 
 **RequiredNullableEnumInteger** | **int** |  | 
 **RequiredNullableEnumIntegerOnly** | **int** |  | 
@@ -26,9 +26,9 @@ Name | Type | Description | Notes
 **RequiredNullableOuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | 
 **RequiredNullableStringProp** | **string** |  | 
 **RequiredNullableUuid** | **Guid** |  | 
-**NotRequiredNotnullableDateProp** | **DateTime** |  | [optional] 
+**NotRequiredNotnullableDateProp** | **DateOnly** |  | [optional] 
 **NotRequiredNotnullableintegerProp** | **int** |  | [optional] 
-**NotRequiredNullableDateProp** | **DateTime** |  | [optional] 
+**NotRequiredNullableDateProp** | **DateOnly** |  | [optional] 
 **NotRequiredNullableIntegerProp** | **int** |  | [optional] 
 **NotrequiredNotnullableArrayOfString** | **List&lt;string&gt;** |  | [optional] 
 **NotrequiredNotnullableBooleanProp** | **bool** |  | [optional] 

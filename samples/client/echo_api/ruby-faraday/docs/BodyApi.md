@@ -7,10 +7,12 @@ All URIs are relative to *http://localhost:3000*
 | [**test_binary_gif**](BodyApi.md#test_binary_gif) | **POST** /binary/gif | Test binary (gif) response body |
 | [**test_body_application_octetstream_binary**](BodyApi.md#test_body_application_octetstream_binary) | **POST** /body/application/octetstream/binary | Test body parameter(s) |
 | [**test_body_multipart_formdata_array_of_binary**](BodyApi.md#test_body_multipart_formdata_array_of_binary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime |
+| [**test_body_multipart_formdata_single_binary**](BodyApi.md#test_body_multipart_formdata_single_binary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime |
 | [**test_echo_body_all_of_pet**](BodyApi.md#test_echo_body_all_of_pet) | **POST** /echo/body/allOf/Pet | Test body parameter(s) |
 | [**test_echo_body_free_form_object_response_string**](BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object |
 | [**test_echo_body_pet**](BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s) |
 | [**test_echo_body_pet_response_string**](BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body |
+| [**test_echo_body_string_enum**](BodyApi.md#test_echo_body_string_enum) | **POST** /echo/body/string_enum | Test string enum response body |
 | [**test_echo_body_tag_response_string**](BodyApi.md#test_echo_body_tag_response_string) | **POST** /echo/body/Tag/response_string | Test empty json (request body) |
 
 
@@ -190,6 +192,72 @@ end
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **files** | **Array&lt;File&gt;** |  |  |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
+- **Accept**: text/plain
+
+
+## test_body_multipart_formdata_single_binary
+
+> String test_body_multipart_formdata_single_binary(opts)
+
+Test single binary in multipart mime
+
+Test single binary in multipart mime
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::BodyApi.new
+opts = {
+  my_file: File.new('/path/to/some/file') # File | 
+}
+
+begin
+  # Test single binary in multipart mime
+  result = api_instance.test_body_multipart_formdata_single_binary(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_body_multipart_formdata_single_binary: #{e}"
+end
+```
+
+#### Using the test_body_multipart_formdata_single_binary_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> test_body_multipart_formdata_single_binary_with_http_info(opts)
+
+```ruby
+begin
+  # Test single binary in multipart mime
+  data, status_code, headers = api_instance.test_body_multipart_formdata_single_binary_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_body_multipart_formdata_single_binary_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **my_file** | **File** |  | [optional] |
 
 ### Return type
 
@@ -467,6 +535,72 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: text/plain
+
+
+## test_echo_body_string_enum
+
+> <StringEnumRef> test_echo_body_string_enum(opts)
+
+Test string enum response body
+
+Test string enum response body
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::BodyApi.new
+opts = {
+  body: 'body_example' # String | String enum
+}
+
+begin
+  # Test string enum response body
+  result = api_instance.test_echo_body_string_enum(opts)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_string_enum: #{e}"
+end
+```
+
+#### Using the test_echo_body_string_enum_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<StringEnumRef>, Integer, Hash)> test_echo_body_string_enum_with_http_info(opts)
+
+```ruby
+begin
+  # Test string enum response body
+  data, status_code, headers = api_instance.test_echo_body_string_enum_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <StringEnumRef>
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling BodyApi->test_echo_body_string_enum_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **body** | **String** | String enum | [optional] |
+
+### Return type
+
+[**StringEnumRef**](StringEnumRef.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
 
 
 ## test_echo_body_tag_response_string

@@ -114,6 +114,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsAsync = Boolean.TRUE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean supportsFileParameters = Boolean.TRUE;
+    protected boolean supportsDateOnly = Boolean.FALSE;
 
     protected boolean validatable = Boolean.TRUE;
     protected boolean equatable = Boolean.FALSE;
@@ -264,6 +265,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);
 
+        addSwitch(CodegenConstants.USE_DATETIME_FOR_DATE,
+                CodegenConstants.USE_DATETIME_FOR_DATE_DESC,
+                useDateTimeForDateFlag);
+
         addSwitch(CodegenConstants.USE_COLLECTION,
                 CodegenConstants.USE_COLLECTION_DESC,
                 this.useCollection);
@@ -357,6 +362,11 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return GENERICHOST.equals(getLibrary())
                 ? super.getValueTypes()
                 : new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double"));
+    }
+
+    @Override
+    protected boolean useNet60OrLater() {
+        return additionalProperties.containsKey(NET_60_OR_LATER);
     }
 
     @Override
@@ -782,6 +792,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         syncBooleanProperty(additionalProperties, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, this::setUseOneOfDiscriminatorLookup, this.useOneOfDiscriminatorLookup);
         syncBooleanProperty(additionalProperties, "supportsFileParameters", this::setSupportsFileParameters, this.supportsFileParameters);
         syncBooleanProperty(additionalProperties, "useSourceGeneration", this::setUseSourceGeneration, this.useSourceGeneration);
+        syncBooleanProperty(additionalProperties, "supportsDateOnly", this::setSupportsDateOnly, this.supportsDateOnly);
 
         final String testPackageName = testPackageName();
         String packageFolder = sourceFolder + File.separator + packageName;
@@ -843,6 +854,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             }
         }
 
+        if (useDateOnly()) {
+            setSupportsDateOnly(true);
+            additionalProperties.put("supportsDateOnly", true);
+        }
         // include the spec in the output
         supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
 
@@ -988,6 +1003,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("ApiFactory.mustache", clientPackageDir, "ApiFactory.cs"));
         supportingFiles.add(new SupportingFile("DateTimeJsonConverter.mustache", clientPackageDir, "DateTimeJsonConverter.cs"));
         supportingFiles.add(new SupportingFile("DateTimeNullableJsonConverter.mustache", clientPackageDir, "DateTimeNullableJsonConverter.cs"));
+        if (useDateOnly()) {
+            supportingFiles.add(new SupportingFile("DateOnlyJsonConverter.mustache", clientPackageDir, "DateOnlyJsonConverter.cs"));
+            supportingFiles.add(new SupportingFile("DateOnlyNullableJsonConverter.mustache", clientPackageDir, "DateOnlyNullableJsonConverter.cs"));
+        }
         supportingFiles.add(new SupportingFile("ApiResponseEventArgs`1.mustache", clientPackageDir, "ApiResponseEventArgs.cs"));
         supportingFiles.add(new SupportingFile("ExceptionEventArgs.mustache", clientPackageDir, "ExceptionEventArgs.cs"));
         supportingFiles.add(new SupportingFile("JsonSerializerOptionsProvider.mustache", clientPackageDir, "JsonSerializerOptionsProvider.cs"));
@@ -1090,6 +1109,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setSupportsFileParameters(Boolean supportsFileParameters) {
         this.supportsFileParameters = supportsFileParameters;
+    }
+
+    public void setSupportsDateOnly(Boolean supportsDateOnly) {
+        this.supportsDateOnly = supportsDateOnly;
     }
 
     public void setSupportsRetry(Boolean supportsRetry) {

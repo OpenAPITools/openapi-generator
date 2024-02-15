@@ -17,14 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from pydantic import BaseModel, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class Animal(BaseModel):
     """
@@ -43,7 +39,7 @@ class Animal(BaseModel):
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[List[str]] = 'className'
+    __discriminator_property_name: ClassVar[str] = 'className'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
@@ -51,7 +47,7 @@ class Animal(BaseModel):
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict) -> str:
+    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -69,7 +65,7 @@ class Animal(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union[Self, Self]:
+    def from_json(cls, json_str: str) -> Optional[Union[Self, Self]]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -84,11 +80,13 @@ class Animal(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # puts key-value pairs in additional_properties in the top level
@@ -99,7 +97,7 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Union[Self, Self]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Self, Self]]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)

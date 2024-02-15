@@ -96,6 +96,15 @@ public class OpenAPINormalizer {
     // when set to true, normalize OpenAPI 3.1 spec to make it work with the generator
     final String NORMALIZE_31SPEC = "NORMALIZE_31SPEC";
 
+    // when set to true, remove x-internal: true from models, operations
+    final String REMOVE_X_INTERNAL = "REMOVE_X_INTERNAL";
+    final String X_INTERNAL = "x-internal";
+    boolean removeXInternal;
+
+    // when set (e.g. operationId:getPetById, addPet), filter out (or remove) everything else
+    final String FILTER = "FILTER";
+    HashSet<String> operationIdFilters = new HashSet<>();
+
     // ============= end of rules =============
 
     /**
@@ -109,7 +118,6 @@ public class OpenAPINormalizer {
         this.inputRules = inputRules;
 
         if (Boolean.parseBoolean(inputRules.get(DISABLE_ALL))) {
-            LOGGER.info("Disabled all rules in OpenAPI Normalizer (DISABLE_ALL=true)");
             this.disableAll = true;
             return; // skip the rest
         }
@@ -126,6 +134,8 @@ public class OpenAPINormalizer {
         ruleNames.add(ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE);
         ruleNames.add(REFACTOR_ALLOF_WITH_PROPERTIES_ONLY);
         ruleNames.add(NORMALIZE_31SPEC);
+        ruleNames.add(REMOVE_X_INTERNAL);
+        ruleNames.add(FILTER);
 
         // rules that are default to true
         rules.put(SIMPLIFY_ONEOF_ANYOF, true);
@@ -161,7 +171,7 @@ public class OpenAPINormalizer {
         for (Map.Entry<String, String> rule : inputRules.entrySet()) {
             LOGGER.debug("processing rule {} => {}", rule.getKey(), rule.getValue());
             if (!ruleNames.contains(rule.getKey())) { // invalid rule name
-                LOGGER.warn("Invalid openapi-normalizer rule name: ", rule.getKey());
+                LOGGER.warn("Invalid openapi-normalizer rule name: {}", rule.getKey());
             } else if (enableAll) {
                 rules.put(rule.getKey(), true); // set rule
             } else {
@@ -173,6 +183,21 @@ public class OpenAPINormalizer {
         setTagsForAllOperations = inputRules.get(SET_TAGS_FOR_ALL_OPERATIONS);
         if (setTagsForAllOperations != null) {
             rules.put(SET_TAGS_FOR_ALL_OPERATIONS, true);
+        }
+
+        if (inputRules.get(FILTER) != null) {
+            rules.put(FILTER, true);
+
+            String[] filterStrs = inputRules.get(FILTER).split(":");
+            if (filterStrs.length != 2) { // only support operationId with : at the moment
+                LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+            } else {
+                if ("operationId".equals(filterStrs[0])) {
+                    operationIdFilters = new HashSet<>(Arrays.asList(filterStrs[1].split("[|]")));
+                } else {
+                    LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
+                }
+            }
         }
     }
 
@@ -225,6 +250,14 @@ public class OpenAPINormalizer {
             normalizeParameters(path.getParameters());
 
             for (Operation operation : operations) {
+                if (operationIdFilters.size() > 0) {
+                    if (operationIdFilters.contains(operation.getOperationId())) {
+                        operation.addExtension("x-internal", false);
+                    } else {
+                        LOGGER.info("operation `{}` marked as internal only (x-internal: true) by the FILTER", operation.getOperationId());
+                        operation.addExtension("x-internal", true);
+                    }
+                }
 
                 normalizeOperation(operation);
                 normalizeRequestBody(operation);
@@ -240,6 +273,8 @@ public class OpenAPINormalizer {
      * @param operation Operation
      */
     private void normalizeOperation(Operation operation) {
+        processRemoveXInternalFromOperation(operation);
+
         processKeepOnlyFirstTagInOperation(operation);
 
         processSetTagsForAllOperations(operation);
@@ -306,6 +341,11 @@ public class OpenAPINormalizer {
         }
 
         for (Parameter parameter : parameters) {
+            // dereference parameter
+            if (StringUtils.isNotEmpty(parameter.get$ref())) {
+                parameter = ModelUtils.getReferencedParameter(openAPI, parameter);
+            }
+
             if (parameter.getSchema() == null) {
                 continue;
             } else {
@@ -368,8 +408,15 @@ public class OpenAPINormalizer {
             if (schema == null) {
                 LOGGER.warn("{} not fount found in openapi/components/schemas.", schemaName);
             } else {
-                Schema result = normalizeSchema(schema, new HashSet<>());
-                schemas.put(schemaName, result);
+                // remove x-internal if needed
+                if (schema.getExtensions() != null && getRule(REMOVE_X_INTERNAL)) {
+                    if (Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(X_INTERNAL)))) {
+                        schema.getExtensions().remove(X_INTERNAL);
+                    }
+                }
+
+                // normalize the schemas
+                schemas.put(schemaName, normalizeSchema(schema, new HashSet<>()));
             }
         }
     }
@@ -569,6 +616,10 @@ public class OpenAPINormalizer {
             return;
         }
 
+        if (schema.getAllOf().size() == 1) {
+            return;
+        }
+
         for (Object item : schema.getAllOf()) {
             if (!(item instanceof Schema)) {
                 throw new RuntimeException("Error! allOf schema is not of the type Schema: " + item);
@@ -594,6 +645,26 @@ public class OpenAPINormalizer {
 
                 LOGGER.debug("processUseAllOfRefAsParent added `x-parent: true` to {}", refSchema);
             }
+        }
+    }
+
+    /**
+     * Keep only first tag in the operation if the operation has more than
+     * one tag.
+     *
+     * @param operation Operation
+     */
+    private void processRemoveXInternalFromOperation(Operation operation) {
+        if (!getRule(REMOVE_X_INTERNAL)) {
+            return;
+        }
+
+        if (operation.getExtensions() == null) {
+            return;
+        }
+
+        if (Boolean.parseBoolean(String.valueOf(operation.getExtensions().get("x-internal")))) {
+            operation.getExtensions().remove(X_INTERNAL);
         }
     }
 
@@ -730,12 +801,26 @@ public class OpenAPINormalizer {
      *
      * @param schema Schema
      */
-    private boolean isNullTypeSchema(Schema schema) {
+    public boolean isNullTypeSchema(Schema schema) {
         if (schema == null) {
             return true;
         }
 
-        if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+        if (ModelUtils.hasAllOf(schema) || ModelUtils.hasOneOf(schema) || ModelUtils.hasAnyOf(schema)) {
+            return false;
+        }
+
+        if (schema.getTypes() != null && !schema.getTypes().isEmpty()) {
+            // 3.1 spec
+            if (schema.getTypes().size() ==1) { // 1 type only
+                String type = (String) schema.getTypes().iterator().next();
+                return type == null || "null".equals(type);
+            } else { // more than 1 type so must not be just null
+                return false;
+            }
+        }
+
+        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
             return true;
         }
 
@@ -911,8 +996,23 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        if (schema == null || schema.getTypes() == null) {
+        if (schema == null) {
             return null;
+        }
+
+        if (schema instanceof JsonSchema &&
+                schema.get$schema() == null &&
+                schema.getTypes() == null && schema.getType() == null) {
+            // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
+            // components:
+            //  schemas:
+            //    any_type: {}
+            return new Schema();
+        }
+
+        // return schema if nothing in 3.1 spec types to normalize
+        if (schema.getTypes() == null) {
+            return schema;
         }
 
         // process null
@@ -926,6 +1026,17 @@ public class OpenAPINormalizer {
             String type = String.valueOf(schema.getTypes().iterator().next());
             if ("array".equals(type)) {
                 ArraySchema as = new ArraySchema();
+                as.setDescription(schema.getDescription());
+                as.setDefault(schema.getDefault());
+                if (schema.getExample() != null) {
+                    as.setExample(schema.getExample());
+                }
+                if (schema.getExamples() != null) {
+                    as.setExamples(schema.getExamples());
+                }
+                as.setMinItems(schema.getMinItems());
+                as.setMaxItems(schema.getMaxItems());
+                as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
                 // `items` is also a json schema
                 if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {

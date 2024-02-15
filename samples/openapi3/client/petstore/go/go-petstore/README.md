@@ -86,6 +86,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**FakeOuterNumberSerialize**](docs/FakeAPI.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
 *FakeAPI* | [**FakeOuterStringSerialize**](docs/FakeAPI.md#fakeouterstringserialize) | **Post** /fake/outer/string | 
 *FakeAPI* | [**GetParameterNameMapping**](docs/FakeAPI.md#getparameternamemapping) | **Get** /fake/parameter-name-mapping | parameter name mapping test
+*FakeAPI* | [**TestAdditionalPropertiesReference**](docs/FakeAPI.md#testadditionalpropertiesreference) | **Post** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeAPI* | [**TestBodyWithFileSchema**](docs/FakeAPI.md#testbodywithfileschema) | **Put** /fake/body-with-file-schema | 
 *FakeAPI* | [**TestBodyWithQueryParams**](docs/FakeAPI.md#testbodywithqueryparams) | **Put** /fake/body-with-query-params | 
 *FakeAPI* | [**TestClientModel**](docs/FakeAPI.md#testclientmodel) | **Patch** /fake | To test \&quot;client\&quot; model
@@ -97,6 +98,7 @@ Class | Method | HTTP request | Description
 *FakeAPI* | [**TestJsonFormData**](docs/FakeAPI.md#testjsonformdata) | **Get** /fake/jsonFormData | test json serialization of form data
 *FakeAPI* | [**TestQueryDeepObject**](docs/FakeAPI.md#testquerydeepobject) | **Get** /fake/deep_object_test | 
 *FakeAPI* | [**TestQueryParameterCollectionFormat**](docs/FakeAPI.md#testqueryparametercollectionformat) | **Put** /fake/test-query-parameters | 
+*FakeAPI* | [**TestStringMapReference**](docs/FakeAPI.md#teststringmapreference) | **Post** /fake/stringMap-reference | test referenced string map
 *FakeAPI* | [**TestUniqueItemsHeaderAndQueryParameterCollectionFormat**](docs/FakeAPI.md#testuniqueitemsheaderandqueryparametercollectionformat) | **Put** /fake/test-unique-parameters | 
 *FakeClassnameTags123API* | [**TestClassname**](docs/FakeClassnameTags123API.md#testclassname) | **Patch** /fake_classname_test | To test class name in snake case
 *PetAPI* | [**AddPet**](docs/PetAPI.md#addpet) | **Post** /pet | Add a new pet to the store
@@ -156,6 +158,7 @@ Class | Method | HTTP request | Description
  - [GmFruit](docs/GmFruit.md)
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
+ - [IncidentData](docs/IncidentData.md)
  - [List](docs/List.md)
  - [Mammal](docs/Mammal.md)
  - [MapOfFileTest](docs/MapOfFileTest.md)

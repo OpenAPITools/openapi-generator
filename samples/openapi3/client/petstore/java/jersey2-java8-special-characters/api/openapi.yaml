@@ -49,4 +49,7 @@ components:
         \ characters. The sanitization rules should make it possible to generate a\
         \ language-specific classname with allowed characters in that programming\
         \ language."
+      example:
+        prop2: prop2
+        objectType: objectType
 

@@ -158,6 +158,8 @@ public interface CodegenConfig {
 
     Map<String, String> enumNameMapping();
 
+    Map<String, String> operationIdNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
@@ -223,6 +225,8 @@ public interface CodegenConfig {
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
+
+    void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
 

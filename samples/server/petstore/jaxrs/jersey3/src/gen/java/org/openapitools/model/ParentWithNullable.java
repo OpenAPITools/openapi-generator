@@ -125,8 +125,8 @@ public class ParentWithNullable   {
       return false;
     }
     ParentWithNullable parentWithNullable = (ParentWithNullable) o;
-    return Objects.equals(type, parentWithNullable.type) &&
-        Objects.equals(nullableProperty, parentWithNullable.nullableProperty);
+    return Objects.equals(this.type, parentWithNullable.type) &&
+        Objects.equals(this.nullableProperty, parentWithNullable.nullableProperty);
   }
 
   @Override

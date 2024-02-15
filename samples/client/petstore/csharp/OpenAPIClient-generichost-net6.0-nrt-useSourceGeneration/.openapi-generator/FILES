@@ -122,6 +122,8 @@ src/UseSourceGeneration/Client/BasicToken.cs
 src/UseSourceGeneration/Client/BearerToken.cs
 src/UseSourceGeneration/Client/ClientUtils.cs
 src/UseSourceGeneration/Client/CookieContainer.cs
+src/UseSourceGeneration/Client/DateOnlyJsonConverter.cs
+src/UseSourceGeneration/Client/DateOnlyNullableJsonConverter.cs
 src/UseSourceGeneration/Client/DateTimeJsonConverter.cs
 src/UseSourceGeneration/Client/DateTimeNullableJsonConverter.cs
 src/UseSourceGeneration/Client/ExceptionEventArgs.cs

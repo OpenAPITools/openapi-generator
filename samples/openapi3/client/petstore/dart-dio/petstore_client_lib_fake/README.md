@@ -74,6 +74,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterNumberSerialize**](doc/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [*FakeApi*](doc/FakeApi.md) | [**fakeOuterStringSerialize**](doc/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 [*FakeApi*](doc/FakeApi.md) | [**fakePropertyEnumIntegerSerialize**](doc/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
+[*FakeApi*](doc/FakeApi.md) | [**testAdditionalPropertiesReference**](doc/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithBinary**](doc/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithFileSchema**](doc/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [*FakeApi*](doc/FakeApi.md) | [**testBodyWithQueryParams**](doc/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -86,6 +87,7 @@ Class | Method | HTTP request | Description
 [*FakeApi*](doc/FakeApi.md) | [**testJsonFormData**](doc/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 [*FakeApi*](doc/FakeApi.md) | [**testNullable**](doc/FakeApi.md#testnullable) | **POST** /fake/nullable | test nullable parent property
 [*FakeApi*](doc/FakeApi.md) | [**testQueryParameterCollectionFormat**](doc/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+[*FakeApi*](doc/FakeApi.md) | [**testStringMapReference**](doc/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 [*FakeClassnameTags123Api*](doc/FakeClassnameTags123Api.md) | [**testClassname**](doc/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 [*PetApi*](doc/PetApi.md) | [**addPet**](doc/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 [*PetApi*](doc/PetApi.md) | [**deletePet**](doc/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

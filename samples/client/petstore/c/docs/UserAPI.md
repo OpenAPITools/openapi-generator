@@ -21,7 +21,7 @@ Method | HTTP request | Description
 //
 // This can only be done by the logged in user.
 //
-void UserAPI_createUser(apiClient_t *apiClient, user_t * body);
+void UserAPI_createUser(apiClient_t *apiClient, user_t *body);
 ```
 
 ### Parameters
@@ -49,7 +49,7 @@ No authorization required
 ```c
 // Creates list of users with given input array
 //
-void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body);
+void UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body);
 ```
 
 ### Parameters
@@ -77,7 +77,7 @@ No authorization required
 ```c
 // Creates list of users with given input array
 //
-void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body);
+void UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body);
 ```
 
 ### Parameters
@@ -107,7 +107,7 @@ No authorization required
 //
 // This can only be done by the logged in user.
 //
-void UserAPI_deleteUser(apiClient_t *apiClient, char * username);
+void UserAPI_deleteUser(apiClient_t *apiClient, char *username);
 ```
 
 ### Parameters
@@ -135,7 +135,7 @@ No authorization required
 ```c
 // Get user by user name
 //
-user_t* UserAPI_getUserByName(apiClient_t *apiClient, char * username);
+user_t* UserAPI_getUserByName(apiClient_t *apiClient, char *username);
 ```
 
 ### Parameters
@@ -164,7 +164,7 @@ No authorization required
 ```c
 // Logs user into the system
 //
-char* UserAPI_loginUser(apiClient_t *apiClient, char * username, char * password);
+char* UserAPI_loginUser(apiClient_t *apiClient, char *username, char *password);
 ```
 
 ### Parameters
@@ -224,15 +224,15 @@ No authorization required
 //
 // This can test integer and boolean query parameters in API.
 //
-void UserAPI_testIntAndBool(apiClient_t *apiClient, int keep, int keepDay);
+void UserAPI_testIntAndBool(apiClient_t *apiClient, int *keep, int *keepDay);
 ```
 
 ### Parameters
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **apiClient** | **apiClient_t \*** | context containing the client configuration |
-**keep** | **int** | Whether to keep user data after deletion | [optional] 
-**keepDay** | **int** | how many days user data is kept after deletion | [optional] 
+**keep** | **int \*** | Whether to keep user data after deletion | [optional] 
+**keepDay** | **int \*** | how many days user data is kept after deletion | [optional] 
 
 ### Return type
 
@@ -255,7 +255,7 @@ No authorization required
 //
 // This can only be done by the logged in user.
 //
-void UserAPI_updateUser(apiClient_t *apiClient, char * username, user_t * body);
+void UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body);
 ```
 
 ### Parameters

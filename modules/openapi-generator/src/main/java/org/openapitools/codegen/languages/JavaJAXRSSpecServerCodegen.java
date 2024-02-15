@@ -203,11 +203,10 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
                 .doNotOverwrite());
         }
-        if (!interfaceOnly) {
-            supportingFiles.add(new SupportingFile("RestApplication.mustache",
-                    (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+
+        supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
                 .doNotOverwrite());
-        }
 
         if(StringUtils.isNotEmpty(openApiSpecFileLocation)) {
             int index = openApiSpecFileLocation.lastIndexOf('/');

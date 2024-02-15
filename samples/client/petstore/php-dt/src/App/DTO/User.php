@@ -13,58 +13,50 @@ class User
     /**
      * @DTA\Data(field="id", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $id;
+    public ?int $id = null;
 
     /**
      * @DTA\Data(field="username", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $username;
+    public ?string $username = null;
 
     /**
      * @DTA\Data(field="firstName", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $first_name;
+    public ?string $first_name = null;
 
     /**
      * @DTA\Data(field="lastName", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $last_name;
+    public ?string $last_name = null;
 
     /**
      * @DTA\Data(field="email", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $email;
+    public ?string $email = null;
 
     /**
      * @DTA\Data(field="password", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $password;
+    public ?string $password = null;
 
     /**
      * @DTA\Data(field="phone", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $phone;
+    public ?string $phone = null;
 
     /**
      * User Status
      * @DTA\Data(field="userStatus", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $user_status;
+    public ?int $user_status = null;
 
 }

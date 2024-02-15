@@ -75,6 +75,16 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOptionalResponseImports() {
+        final DefaultCodegen codegen = new DefaultCodegen();
+        final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/optionalResponse.yaml");
+        codegen.setOpenAPI(openApi);
+        PathItem path = openApi.getPaths().get("/api/Users/{userId}");
+        CodegenOperation operation = codegen.fromOperation("/api/Users/{userId}", "get", path.getGet(), path.getServers());
+        Assert.assertEquals(operation.isResponseOptional, true);
+    }
+
+    @Test
     public void testEnumImports() {
         final DefaultCodegen codegen = new DefaultCodegen();
         final OpenAPI openApi = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_12445.yaml");
@@ -986,6 +996,36 @@ public class DefaultCodegenTest {
         codegen.setParameterExampleValue(codegenParameter2, operation2.getRequestBody());
 
         Assert.assertEquals(codegenParameter2.example, "An example4 value");
+    }
+
+    @Test
+    public void testExample5MultipleResponses() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/examples.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        String path = "/example5/multiple_responses";
+
+        Operation operation = openAPI.getPaths().get(path).getGet();
+        CodegenOperation codegenOperation = codegen.fromOperation(path, "GET", operation, null);
+        List<Map<String, String>> examples = codegenOperation.examples;
+
+        Assert.assertEquals(examples.size(), 4);
+        // 200 response example
+        Assert.assertEquals(examples.get(0).get("contentType"), "application/json");
+        Assert.assertEquals(examples.get(0).get("example"), "\"a successful response example\"");
+        Assert.assertEquals(examples.get(0).get("statusCode"), "200");
+        // 301 response example
+        Assert.assertEquals(examples.get(1).get("contentType"), "application/json");
+        Assert.assertEquals(examples.get(1).get("example"), "\"a redirect response example\"");
+        Assert.assertEquals(examples.get(1).get("statusCode"), "301");
+        // 404 response example
+        Assert.assertEquals(examples.get(2).get("contentType"), "application/json");
+        Assert.assertEquals(examples.get(2).get("example"), "\"a not found response example\"");
+        Assert.assertEquals(examples.get(2).get("statusCode"), "404");
+        // 500 response example
+        Assert.assertEquals(examples.get(3).get("contentType"), "application/json");
+        Assert.assertEquals(examples.get(3).get("example"), "\"an internal server error response example\"");
+        Assert.assertEquals(examples.get(3).get("statusCode"), "500");
     }
 
     @Test
@@ -2569,6 +2609,19 @@ public class DefaultCodegenTest {
         assertEquals(securities.size(), 2);
         assertEquals(securities.get(0).name, "petstore_auth");
         assertEquals(securities.get(1).name, "api_key");
+    }
+
+    @Test
+    public void testOpenIdConnectSecuritySchemes() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_17376.json");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map<String, SecurityScheme> securitySchemes = openAPI.getComponents().getSecuritySchemes();
+        final List<CodegenSecurity> securities = codegen.fromSecurity(securitySchemes);
+
+        assertEquals(securities.size(), 1);
+        assertEquals(securities.get(0).name, "Our Identity service");
     }
 
     @Test

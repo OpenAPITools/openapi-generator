@@ -76,7 +76,7 @@ class FormatTestTest extends TestCase
     public function testFormatTest()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class FormatTestTest extends TestCase
     public function testPropertyInteger()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class FormatTestTest extends TestCase
     public function testPropertyInt32()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class FormatTestTest extends TestCase
     public function testPropertyInt64()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,7 +112,7 @@ class FormatTestTest extends TestCase
     public function testPropertyNumber()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -121,7 +121,7 @@ class FormatTestTest extends TestCase
     public function testPropertyFloat()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -130,7 +130,7 @@ class FormatTestTest extends TestCase
     public function testPropertyDouble()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -139,7 +139,7 @@ class FormatTestTest extends TestCase
     public function testPropertyDecimal()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -148,7 +148,7 @@ class FormatTestTest extends TestCase
     public function testPropertyString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -157,7 +157,7 @@ class FormatTestTest extends TestCase
     public function testPropertyByte()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -166,7 +166,7 @@ class FormatTestTest extends TestCase
     public function testPropertyBinary()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -175,7 +175,7 @@ class FormatTestTest extends TestCase
     public function testPropertyDate()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -184,7 +184,7 @@ class FormatTestTest extends TestCase
     public function testPropertyDateTime()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -193,7 +193,7 @@ class FormatTestTest extends TestCase
     public function testPropertyUuid()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -202,7 +202,7 @@ class FormatTestTest extends TestCase
     public function testPropertyPassword()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -211,7 +211,7 @@ class FormatTestTest extends TestCase
     public function testPropertyPatternWithDigits()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -220,6 +220,6 @@ class FormatTestTest extends TestCase
     public function testPropertyPatternWithDigitsAndDelimiter()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

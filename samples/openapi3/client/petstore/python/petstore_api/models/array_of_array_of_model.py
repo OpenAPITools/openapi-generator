@@ -17,14 +17,11 @@ import pprint
 import re  # noqa: F401
 import json
 
-
-from typing import Any, ClassVar, Dict, List, Optional
 from pydantic import BaseModel
+from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.tag import Tag
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
 
 class ArrayOfArrayOfModel(BaseModel):
     """
@@ -51,7 +48,7 @@ class ArrayOfArrayOfModel(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self:
+    def from_json(cls, json_str: str) -> Optional[Self]:
         """Create an instance of ArrayOfArrayOfModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -66,11 +63,13 @@ class ArrayOfArrayOfModel(BaseModel):
           are ignored.
         * Fields in `self.additional_properties` are added to the output dict.
         """
+        excluded_fields: Set[str] = set([
+            "additional_properties",
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-                "additional_properties",
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         # override the default output from pydantic by calling `to_dict()` of each item in another_property (list of list)
@@ -90,7 +89,7 @@ class ArrayOfArrayOfModel(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Self:
+    def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
         """Create an instance of ArrayOfArrayOfModel from a dict"""
         if obj is None:
             return None
@@ -101,7 +100,7 @@ class ArrayOfArrayOfModel(BaseModel):
         _obj = cls.model_validate({
             "another_property": [
                     [Tag.from_dict(_inner_item) for _inner_item in _item]
-                    for _item in obj.get("another_property")
+                    for _item in obj["another_property"]
                 ] if obj.get("another_property") is not None else None
         })
         # store additional fields in additional_properties

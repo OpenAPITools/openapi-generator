@@ -18,8 +18,6 @@ To test special tags and operation ID starting with number
 
 
 ```python
-import time
-import os
 import petstore_api
 from petstore_api.models.client import Client
 from petstore_api.rest import ApiException

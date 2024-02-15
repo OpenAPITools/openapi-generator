@@ -4,6 +4,9 @@
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
+{{#oneOf}}
+use super::{{{.}}};
+{{/oneOf}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
@@ -41,10 +44,10 @@ impl Default for {{{classname}}} {
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "{{{vendorExtensions.x-tag-name}}}")]
+#[serde(tag = "{{{propertyBaseName}}}")]
 pub enum {{{classname}}} {
-{{#vendorExtensions}}
-    {{#x-mapped-models}}
+    {{^oneOf}}
+    {{#mappedModels}}
     #[serde(rename="{{mappingName}}")]
     {{{modelName}}} {
     {{#vars}}
@@ -55,8 +58,24 @@ pub enum {{{classname}}} {
         {{{name}}}: {{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{^required}}Option<{{/required}}{{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{#isModel}}Box<{{{dataType}}}>{{/isModel}}{{^isModel}}{{{dataType}}}{{/isModel}}{{/isEnum}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{^required}}>{{/required}},
     {{/vars}}
     },
-    {{/x-mapped-models}}
-{{/vendorExtensions}}
+    {{/mappedModels}}
+    {{/oneOf}}
+    {{#oneOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{.}}}(Box<{{{.}}}>),
+    {{/oneOf}}
+}
+
+impl Default for {{classname}} {
+    fn default() -> Self {
+        {{^oneOf}}{{#mappedModels}}{{#-first}}Self::{{modelName}} {
+        {{#vars}}
+            {{{name}}}: Default::default(),
+        {{/vars}}
+        }{{/-first}}{{/mappedModels}}{{/oneOf}}{{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
+    }
 }
 
 {{/discriminator}}
@@ -64,7 +83,8 @@ pub enum {{{classname}}} {
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+{{#oneOf.isEmpty}}
+#[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct {{{classname}}} {
 {{#vars}}
     {{#description}}
@@ -82,11 +102,31 @@ impl {{{classname}}} {
     pub fn new({{#requiredVars}}{{{name}}}: {{#isNullable}}Option<{{/isNullable}}{{#isEnum}}{{#isArray}}{{#uniqueItems}}std::collections::HashSet<{{/uniqueItems}}{{^uniqueItems}}Vec<{{/uniqueItems}}{{/isArray}}{{{enumName}}}{{#isArray}}>{{/isArray}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}>{{/isNullable}}{{^-last}}, {{/-last}}{{/requiredVars}}) -> {{{classname}}} {
         {{{classname}}} {
             {{#vars}}
-            {{{name}}}{{^required}}{{#isContainer}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isArray}}{{^isMap}}{{#isNullable}}: None{{/isNullable}}{{/isMap}}{{/isArray}}{{/isContainer}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/isModel}}{{/required}},
+            {{{name}}}{{^required}}{{#isFreeFormObject}}: None{{/isFreeFormObject}}{{#isContainer}}{{#isArray}}: None{{/isArray}}{{#isMap}}: None{{/isMap}}{{^isArray}}{{^isMap}}{{#isNullable}}: None{{/isNullable}}{{/isMap}}{{/isArray}}{{/isContainer}}{{^isContainer}}: None{{/isContainer}}{{/required}}{{#required}}{{#isModel}}: {{^isNullable}}Box::new({{{name}}}){{/isNullable}}{{#isNullable}}if let Some(x) = {{{name}}} {Some(Box::new(x))} else {None}{{/isNullable}}{{/isModel}}{{/required}},
             {{/vars}}
         }
     }
 }
+{{/oneOf.isEmpty}}
+{{^oneOf.isEmpty}}
+{{! TODO: add other vars that are not part of the oneOf}}
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{classname}} {
+    {{#oneOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{.}}}(Box<{{{.}}}>),
+    {{/oneOf}}
+}
+
+impl Default for {{classname}} {
+    fn default() -> Self {
+        {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
+    }
+}
+{{/oneOf.isEmpty}}
 {{/discriminator}}
 {{/isEnum}}
 

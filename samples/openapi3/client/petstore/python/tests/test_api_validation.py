@@ -48,14 +48,14 @@ class ApiExceptionTests(unittest.TestCase):
 
     def test_required_param_validation(self):
         try:
-            self.pet_api.get_pet_by_id()
+            self.pet_api.get_pet_by_id()  # type: ignore
         except ValidationError as e:
             self.assertIn("1 validation error for get_pet_by_id", str(e))
             self.assertIn("Missing required argument", str(e))
 
     def test_integer_validation(self):
         try:
-            self.pet_api.get_pet_by_id("123")
+            self.pet_api.get_pet_by_id("123")  # type: ignore
         except ValidationError as e:
             # 1 validation error for get_pet_by_id
             # pet_id
@@ -75,25 +75,32 @@ class ApiExceptionTests(unittest.TestCase):
             self.assertIn("unexpected value; permitted: 'available', 'pending', 'sold'", str(e))
 
     def test_request_timeout_validation(self):
+        assert self.pet.id is not None
         try:
-            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout="1.0")
+            # should be a number
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout="1.0")  # type: ignore
             self.assertTrue(False)
         except ValidationError as e:
             pass
         try:
-            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=())
+            # should be a number or a pair
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=())  # type: ignore
             self.assertTrue(False)
         except ValidationError as e:
             pass
         try:
-            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=(1.0, 1.0, 1.0))
+            # should be a a pair
+            self.pet_api.get_pet_by_id(self.pet.id, _request_timeout=(1.0, 1.0, 1.0))  # type: ignore
             self.assertTrue(False)
         except ValidationError as e:
             pass
 
+
     def test_host_index_validation(self):
+        assert self.pet.id is not None
         try:
-            self.pet_api.get_pet_by_id(self.pet.id, _host_index="1")
+            # should be a number
+            self.pet_api.get_pet_by_id(self.pet.id, _host_index="1") # type: ignore
             self.assertTrue(False)
         except ValidationError as e:
             pass

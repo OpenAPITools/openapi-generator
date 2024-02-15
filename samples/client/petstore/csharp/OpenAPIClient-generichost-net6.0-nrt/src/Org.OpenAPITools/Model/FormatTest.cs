@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="unsignedLong">unsignedLong</param>
         /// <param name="uuid">uuid</param>
         [JsonConstructor]
-        public FormatTest(byte[] varByte, DateTime date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> varDecimal = default, Option<double?> varDouble = default, Option<float?> varFloat = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> varString = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
+        public FormatTest(byte[] varByte, DateOnly date, decimal number, string password, Option<System.IO.Stream?> binary = default, Option<DateTime?> dateTime = default, Option<decimal?> varDecimal = default, Option<double?> varDouble = default, Option<float?> varFloat = default, Option<int?> int32 = default, Option<long?> int64 = default, Option<int?> integer = default, Option<string?> patternWithBackslash = default, Option<string?> patternWithDigits = default, Option<string?> patternWithDigitsAndDelimiter = default, Option<string?> varString = default, Option<uint?> unsignedInteger = default, Option<ulong?> unsignedLong = default, Option<Guid?> uuid = default)
         {
             VarByte = varByte;
             Date = date;
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>Sun Feb 02 00:00:00 UTC 2020</example>
         [JsonPropertyName("date")]
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
 
         /// <summary>
         /// Gets or Sets Number
@@ -511,7 +511,7 @@ namespace Org.OpenAPITools.Model
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
             Option<byte[]?> varByte = default;
-            Option<DateTime?> date = default;
+            Option<DateOnly?> date = default;
             Option<decimal?> number = default;
             Option<string?> password = default;
             Option<System.IO.Stream?> binary = default;
@@ -551,7 +551,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "date":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                date = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime>(ref utf8JsonReader, jsonSerializerOptions));
+                                date = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "number":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
