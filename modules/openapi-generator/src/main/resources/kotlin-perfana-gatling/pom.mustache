@@ -41,6 +41,7 @@
         <influx.protocol>{{ influxProtocol }}</influx.protocol>
         <graphite.rootPathPrefix>{{ graphitePrefix }}</graphite.rootPathPrefix> <!-- name of the database in influxdb that stores the gatling data - this matches the grafana Gatling dashboard in Perfana -->
         <perfanaEnabled>{{ perfanaEnabled }}</perfanaEnabled> <!-- if perfanaEnabled is true, the perfana client is enabled, incl. its scheduler -->
+        <eventsEnabled>{{ perfanaEnabled }}</eventsEnabled> <!-- if eventsEnabled is true, the events scheduled in the perfana scheduler will be executed -->
         <assertResultsEnabled>{{ perfanaEnabled }}</assertResultsEnabled> <!-- if perfanaEnabled is true, this will pass/fail a run by requesting Perfana for outcome of configured checks -->
         <tags>gatling,springboot,kubernetes</tags> <!-- these tags correspond to profiles in Perfana. These profiles contain dashboards and checks. If your SUT is not on kubernetes/springboot, keeping these here doesn't harm -->
         <debug>false</debug> <!-- by default we don't run in debug mode -->
