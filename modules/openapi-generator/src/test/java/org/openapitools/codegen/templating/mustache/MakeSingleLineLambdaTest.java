@@ -15,7 +15,7 @@ public class MakeSingleLineLambdaTest extends LambdaTest {
         test("First line then  Second line", "{{#makeSingleLine}}First line then\n Second line{{/makeSingleLine}}", ctx);
         test("First line then  Second line  Third line", "{{#makeSingleLine}}First line then\n Second line\n Third line{{/makeSingleLine}}", ctx);
         test("First line then  Second line", "{{#makeSingleLine}}First line then\r\n\n Second line{{/makeSingleLine}}", ctx);
-        test("First line then  Second line  Third line", "{{#makeSingleLine}}First line then\n\r\n\n Second line\r\r\r\n Third line{{/makeSingleLine}}", ctx);
+        test("First line then  Second line  Third line", "{{#makeSingleLine}}First line then\n\r\n\n Second line\r\n\r\n Third line{{/makeSingleLine}}", ctx);
     }
 
     @Test
@@ -25,6 +25,15 @@ public class MakeSingleLineLambdaTest extends LambdaTest {
 
         // When & Then
         test("Single line", "{{#makeSingleLine}}Single line{{/makeSingleLine}}", ctx);
+    }
+	
+    @Test
+    public void questionMarkTest() {
+        // Given
+        Map<String, Object> ctx = context("makeSingleLine", new MakeSingleLineLambda());
+
+        // When & Then
+        test("Question is not converted into space?", "{{#makeSingleLine}}Question is not converted into space?{{/makeSingleLine}}", ctx);
     }
 
     @Test
