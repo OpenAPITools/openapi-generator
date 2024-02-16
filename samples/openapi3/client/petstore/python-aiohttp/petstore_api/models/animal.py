@@ -16,6 +16,7 @@ from __future__ import annotations
 import pprint
 import re  # noqa: F401
 import json
+import importlib
 
 from pydantic import BaseModel, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
@@ -41,16 +42,26 @@ class Animal(BaseModel):
     __discriminator_property_name: ClassVar[str] = 'className'
 
     # discriminator mappings
-    __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
-        'Cat': 'Cat','Dog': 'Dog'
-    }
+    __discriminator_value_class_map: ClassVar[Union[Dict[str, str], None]] = None
+
+    @classmethod
+    def _get_discriminator_value_class_map(cls) -> ClassVar[Dict[str, str]]:
+        if cls.__discriminator_value_class_map == None:
+            # Prevent circular imports caused by mutually referencing classes
+            globals()["Cat"] = importlib.import_module("petstore_api.models.cat").Cat
+            globals()["Dog"] = importlib.import_module("petstore_api.models.dog").Dog
+
+            cls.__discriminator_value_class_map = {
+                'Cat': 'Cat','Dog': 'Dog'
+            }
+        return cls.__discriminator_value_class_map
 
     @classmethod
     def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
-            return cls.__discriminator_value_class_map.get(discriminator_value)
+            return cls._get_discriminator_value_class_map().get(discriminator_value)
         else:
             return None
 
@@ -99,10 +110,6 @@ class Animal(BaseModel):
         else:
             raise ValueError("Animal failed to lookup discriminator value from " +
                              json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+                             ", mapping: " + json.dumps(cls._get_discriminator_value_class_map()))
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-# TODO: Rewrite to not use raise_errors
-Animal.model_rebuild(raise_errors=False)
 
