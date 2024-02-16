@@ -4235,6 +4235,9 @@ public class DefaultCodegen implements CodegenConfig {
             if (original.getMinimum() != null) {
                 property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
             }
+            if (original.getTitle() != null) {
+                property.setTitle(original.getTitle());
+            }
         }
 
         // set the default value
