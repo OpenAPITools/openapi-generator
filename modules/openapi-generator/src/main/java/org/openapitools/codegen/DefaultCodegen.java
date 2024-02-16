@@ -4214,7 +4214,8 @@ public class DefaultCodegen implements CodegenConfig {
                 property.deprecated = p.getDeprecated();
             }
             if (original.getDescription() != null) {
-                property.description = p.getDescription();
+                property.description = escapeText(p.getDescription());
+                property.unescapedDescription = p.getDescription();
             }
             if (original.getMaxLength() != null) {
                 property.setMaxLength(original.getMaxLength());
