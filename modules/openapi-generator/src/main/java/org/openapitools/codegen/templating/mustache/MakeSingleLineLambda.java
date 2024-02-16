@@ -22,7 +22,7 @@ import java.io.Writer;
  */
 public class MakeSingleLineLambda implements Mustache.Lambda 
 {
-    private static final String MULTIPLE_NEWLINE_REGEX = "[\\r?\\n]+";
+    private static final String MULTIPLE_NEWLINE_REGEX = "((\\r)?\\n)+";
 
     public MakeSingleLineLambda() 
     {
