@@ -13,18 +13,18 @@ part of openapi.api;
 class NullableClass {
   /// Returns a new [NullableClass] instance.
   NullableClass({
-     this.integerProp,
-     this.numberProp,
-     this.booleanProp,
-     this.stringProp,
-     this.dateProp,
-     this.datetimeProp,
-     this.arrayNullableProp = const [],
-     this.arrayAndItemsNullableProp = const [],
-     this.arrayItemsNullable = const [],
-     this.objectNullableProp = const {},
-     this.objectAndItemsNullableProp = const {},
-     this.objectItemsNullable = const {},
+    this.integerProp,
+    this.numberProp,
+    this.booleanProp,
+    this.stringProp,
+    this.dateProp,
+    this.datetimeProp,
+    this.arrayNullableProp = const [],
+    this.arrayAndItemsNullableProp = const [],
+    this.arrayItemsNullable = const [],
+    this.objectNullableProp = const {},
+    this.objectAndItemsNullableProp = const {},
+    this.objectItemsNullable = const {},
   });
 
   int? integerProp;

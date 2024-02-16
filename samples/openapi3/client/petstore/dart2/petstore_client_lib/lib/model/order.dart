@@ -13,12 +13,12 @@ part of openapi.api;
 class Order {
   /// Returns a new [Order] instance.
   Order({
-     this.id,
-     this.petId,
-     this.quantity,
-     this.shipDate,
-     this.status,
-     this.complete = false,
+    this.id,
+    this.petId,
+    this.quantity,
+    this.shipDate,
+    this.status,
+    this.complete = false,
   });
 
   ///

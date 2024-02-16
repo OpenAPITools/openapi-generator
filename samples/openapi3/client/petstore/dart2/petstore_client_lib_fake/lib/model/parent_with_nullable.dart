@@ -13,8 +13,8 @@ part of openapi.api;
 class ParentWithNullable {
   /// Returns a new [ParentWithNullable] instance.
   ParentWithNullable({
-     this.type,
-     this.nullableProperty,
+    this.type,
+    this.nullableProperty,
   });
 
   ParentWithNullableTypeEnum? type;

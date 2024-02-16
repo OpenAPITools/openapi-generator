@@ -13,10 +13,10 @@ part of openapi.api;
 class MapTest {
   /// Returns a new [MapTest] instance.
   MapTest({
-     this.mapMapOfString = const {},
-     this.mapOfEnumString = const {},
-     this.directMap = const {},
-     this.indirectMap = const {},
+    this.mapMapOfString = const {},
+    this.mapOfEnumString = const {},
+    this.directMap = const {},
+    this.indirectMap = const {},
   });
 
   Map<String, Map<String, String>> mapMapOfString;

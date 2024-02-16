@@ -13,9 +13,9 @@ part of openapi.api;
 class ChildWithNullable {
   /// Returns a new [ChildWithNullable] instance.
   ChildWithNullable({
-     this.type,
-     this.nullableProperty,
-     this.otherProperty,
+    this.type,
+    this.nullableProperty,
+    this.otherProperty,
   });
 
   ChildWithNullableTypeEnum? type;

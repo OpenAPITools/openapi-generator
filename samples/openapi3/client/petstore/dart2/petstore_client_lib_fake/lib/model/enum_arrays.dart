@@ -13,8 +13,8 @@ part of openapi.api;
 class EnumArrays {
   /// Returns a new [EnumArrays] instance.
   EnumArrays({
-     this.justSymbol,
-     this.arrayEnum = const [],
+    this.justSymbol,
+    this.arrayEnum = const [],
   });
 
   EnumArraysJustSymbolEnum? justSymbol;

@@ -13,12 +13,12 @@ part of openapi.api;
 class Pet {
   /// Returns a new [Pet] instance.
   Pet({
-     this.id,
-     this.category,
-     required this.name,
-     this.photoUrls = const [],
-     this.tags = const [],
-     this.status,
+    this.id,
+    this.category,
+    required this.name,
+    this.photoUrls = const [],
+    this.tags = const [],
+    this.status,
   });
 
   ///

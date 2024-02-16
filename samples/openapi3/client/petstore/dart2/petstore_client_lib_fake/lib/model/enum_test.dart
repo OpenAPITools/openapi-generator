@@ -13,14 +13,14 @@ part of openapi.api;
 class EnumTest {
   /// Returns a new [EnumTest] instance.
   EnumTest({
-     this.enumString,
-     required this.enumStringRequired,
-     this.enumInteger,
-     this.enumNumber,
-     this.outerEnum,
-     this.outerEnumInteger,
-     this.outerEnumDefaultValue,
-     this.outerEnumIntegerDefaultValue,
+    this.enumString,
+    required this.enumStringRequired,
+    this.enumInteger,
+    this.enumNumber,
+    this.outerEnum,
+    this.outerEnumInteger,
+    this.outerEnumDefaultValue,
+    this.outerEnumIntegerDefaultValue,
   });
 
   EnumTestEnumStringEnum? enumString;
