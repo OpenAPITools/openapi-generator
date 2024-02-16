@@ -134,6 +134,7 @@ class Order {
         petId: mapValueOfType<int>(json, r'petId'),
         quantity: mapValueOfType<int>(json, r'quantity'),
         shipDate: mapDateTime(json, r'shipDate', r''),
+                
         status: OrderStatusEnum.fromJson(json[r'status']),
         complete: mapValueOfType<bool>(json, r'complete') ?? false,
       );

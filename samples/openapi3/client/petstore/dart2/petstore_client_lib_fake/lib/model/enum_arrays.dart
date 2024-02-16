@@ -65,6 +65,7 @@ class EnumArrays {
       }());
 
       return EnumArrays(
+                
         justSymbol: EnumArraysJustSymbolEnum.fromJson(json[r'just_symbol']),
         arrayEnum: EnumArraysArrayEnumEnum.listFromJson(json[r'array_enum']),
       );

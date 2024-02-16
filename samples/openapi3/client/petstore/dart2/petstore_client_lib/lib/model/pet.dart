@@ -117,6 +117,7 @@ class Pet {
             ? (json[r'photoUrls'] as Iterable).cast<String>().toList(growable: false)
             : const [],
         tags: Tag.listFromJson(json[r'tags']),
+                
         status: PetStatusEnum.fromJson(json[r'status']),
       );
     }

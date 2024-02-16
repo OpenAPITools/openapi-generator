@@ -69,6 +69,7 @@ class ParentWithNullable {
       }());
 
       return ParentWithNullable(
+                
         type: ParentWithNullableTypeEnum.fromJson(json[r'type']),
         nullableProperty: mapValueOfType<String>(json, r'nullableProperty'),
       );

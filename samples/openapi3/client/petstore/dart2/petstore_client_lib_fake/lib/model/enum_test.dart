@@ -143,9 +143,13 @@ class EnumTest {
       }());
 
       return EnumTest(
+                
         enumString: EnumTestEnumStringEnum.fromJson(json[r'enum_string']),
+                
         enumStringRequired: EnumTestEnumStringRequiredEnum.fromJson(json[r'enum_string_required'])!,
+                
         enumInteger: EnumTestEnumIntegerEnum.fromJson(json[r'enum_integer']),
+                
         enumNumber: EnumTestEnumNumberEnum.fromJson(json[r'enum_number']),
         outerEnum: OuterEnum.fromJson(json[r'outerEnum']),
         outerEnumInteger: OuterEnumInteger.fromJson(json[r'outerEnumInteger']),

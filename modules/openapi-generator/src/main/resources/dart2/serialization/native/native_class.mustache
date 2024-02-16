@@ -220,7 +220,8 @@ class {{{classname}}} {
         {{{name}}}: mapValueOfType<{{{datatypeWithEnum}}}>(json, r'{{{baseName}}}'){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{{.}}}{{/defaultValue}}{{/required}},
                 {{/isEnum}}
                 {{#isEnum}}
-        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{#isEnum}}{{^isContainer}}const {{{enumName}}}._({{/isContainer}}{{/isEnum}}{{{.}}}{{#isEnum}}{{^isContainer}}){{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/required}},
+                
+        {{{name}}}: {{{enumName}}}.fromJson(json[r'{{{baseName}}}']){{#required}}{{^isNullable}}!{{/isNullable}}{{/required}}{{^required}}{{#defaultValue}} ?? {{#isEnum}}{{^isContainer}}{{#defaultValue}}{{#isString}}const {{enumName}}._({{{.}}}){{/isString}}{{^isString}}{{{.}}}{{/isString}}{{/defaultValue}}{{/isContainer}}{{/isEnum}}{{/defaultValue}}{{/required}},
                 {{/isEnum}}
               {{/isNumber}}
             {{/isMap}}
