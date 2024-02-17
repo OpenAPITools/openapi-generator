@@ -342,6 +342,11 @@ class ModelTests(unittest.TestCase):
         self.assertEqual(dog2.breed, 'bulldog')
         self.assertEqual(dog2.class_name, "dog")
         self.assertEqual(dog2.color, 'white')
+    
+    def test_inheritance_discriminators(self):
+        petstore_api.DiscriminatorAllOfSuper.from_dict({"className": "dog", "color": "white", "breed": "bulldog"})
+
+
 
     def test_list(self):
         # should throw exception as var_123_list should be string
