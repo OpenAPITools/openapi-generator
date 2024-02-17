@@ -17,10 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
+from importlib import import_module
 from pydantic import BaseModel, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
+
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from petstore_api.models.cat import Cat
+    from petstore_api.models.dog import Dog
+
 
 class Animal(BaseModel):
     """
@@ -65,7 +73,7 @@ class Animal(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Optional[Union[Self, Self]]:
+    def from_json(cls, json_str: str) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -97,20 +105,17 @@ class Animal(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Self, Self]]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if object_type ==  'Cat':
+            return import_module("petstore_api.models.cat").Cat.from_dict(obj) # type: ignore
+        if object_type ==  'Dog':
+            return import_module("petstore_api.models.dog").Dog.from_dict(obj) # type: ignore
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-# TODO: Rewrite to not use raise_errors
-Animal.model_rebuild(raise_errors=False)
+        raise ValueError("Animal failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+
 

@@ -23,6 +23,8 @@ from petstore_api.models.single_ref_type import SingleRefType
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class AllOfWithSingleRef(BaseModel):
     """
     AllOfWithSingleRef

@@ -22,6 +22,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class ClassModel(BaseModel):
     """
     Model for testing model with \"_class\" property

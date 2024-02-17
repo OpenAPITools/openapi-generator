@@ -24,6 +24,8 @@ from typing_extensions import Annotated
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class NumberPropertiesOnly(BaseModel):
     """
     NumberPropertiesOnly

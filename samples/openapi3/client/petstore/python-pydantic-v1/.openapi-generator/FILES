@@ -218,6 +218,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_discriminator_all_of_sub.py
-test/test_discriminator_all_of_super.py
 tox.ini

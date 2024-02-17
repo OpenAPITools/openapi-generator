@@ -23,6 +23,8 @@ from petstore_api.models.file import File
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class FileSchemaTestClass(BaseModel):
     """
     FileSchemaTestClass

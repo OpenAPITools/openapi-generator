@@ -23,6 +23,8 @@ from petstore_api.models.creature_info import CreatureInfo
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class Creature(BaseModel):
     """
     Creature

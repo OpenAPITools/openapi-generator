@@ -23,6 +23,8 @@ from petstore_api.models.foo import Foo
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class FooGetDefaultResponse(BaseModel):
     """
     FooGetDefaultResponse

@@ -23,6 +23,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class Query(BaseModel):
     """
     Query
@@ -84,7 +86,8 @@ class Query(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Self]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[]:
         """Create an instance of Query from a dict"""
+            return cls.model_validate(obj)
 
 

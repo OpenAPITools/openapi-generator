@@ -22,6 +22,8 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class HealthCheckResult(BaseModel):
     """
     Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.

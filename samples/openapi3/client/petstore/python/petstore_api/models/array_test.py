@@ -24,6 +24,8 @@ from petstore_api.models.read_only_first import ReadOnlyFirst
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class ArrayTest(BaseModel):
     """
     ArrayTest

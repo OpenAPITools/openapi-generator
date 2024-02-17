@@ -24,6 +24,8 @@ from openapi_client.models.string_enum_ref import StringEnumRef
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class DefaultValue(BaseModel):
     """
     to test the default value of properties

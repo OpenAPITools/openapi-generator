@@ -24,6 +24,8 @@ from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty

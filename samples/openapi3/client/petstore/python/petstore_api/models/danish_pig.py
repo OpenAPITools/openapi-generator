@@ -22,6 +22,8 @@ from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 
+
+
 class DanishPig(BaseModel):
     """
     DanishPig
