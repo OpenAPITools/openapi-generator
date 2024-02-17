@@ -86,8 +86,7 @@ class Query(BaseModel):
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict[str, Any]) -> Optional[]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Self]:
         """Create an instance of Query from a dict"""
-            return cls.model_validate(obj)
 
 
