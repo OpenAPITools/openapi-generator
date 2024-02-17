@@ -3979,6 +3979,8 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
             }
+        } else if (p.get$ref() != null) { // it's a ref
+            original = p;
         }
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
@@ -4212,7 +4214,26 @@ public class DefaultCodegen implements CodegenConfig {
                 property.deprecated = p.getDeprecated();
             }
             if (original.getDescription() != null) {
-                property.description = p.getDescription();
+                property.description = escapeText(p.getDescription());
+                property.unescapedDescription = p.getDescription();
+            }
+            if (original.getMaxLength() != null) {
+                property.setMaxLength(original.getMaxLength());
+            }
+            if (original.getMinLength() != null) {
+                property.setMinLength(original.getMinLength());
+            }
+            if (original.getMaxItems() != null) {
+                property.setMaxItems(original.getMaxItems());
+            }
+            if (original.getMinItems() != null) {
+                property.setMinItems(original.getMinItems());
+            }
+            if (original.getMaximum() != null) {
+                property.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+            }
+            if (original.getMinimum() != null) {
+                property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
             }
         }
 
@@ -4724,6 +4745,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
                 }
+                if (requestBody.getExtensions() != null && requestBody.getExtensions().containsKey("x-codegen-request-body-name")) {
+                    bodyParameterName = (String) requestBody.getExtensions().get("x-codegen-request-body-name");
+                }
+
                 bodyParam = fromRequestBody(requestBody, imports, bodyParameterName);
 
                 if (bodyParam != null) {

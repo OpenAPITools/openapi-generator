@@ -161,7 +161,7 @@ public class PetUsingAllOf {
   }
 
    /**
-   * Get category
+   * multi line description 2nd line last line 
    * @return category
   **/
   @javax.annotation.Nullable
