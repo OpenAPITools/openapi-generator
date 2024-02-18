@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/echo_api/kotlin-jvm-retroift2-coroutines
+library: jvm-retrofit2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  useCoroutines: true
+  enumPropertyNameing: UPPERCASE
+  serializationLibrary: gson
