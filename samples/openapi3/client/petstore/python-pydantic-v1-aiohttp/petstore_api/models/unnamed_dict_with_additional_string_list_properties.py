@@ -21,6 +21,8 @@ import json
 from typing import Dict, List, Optional
 from pydantic import BaseModel, Field, StrictStr, conlist
 
+
+
 class UnnamedDictWithAdditionalStringListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalStringListProperties

@@ -21,6 +21,8 @@ import json
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, constr, validator
 
+
+
 class NullableProperty(BaseModel):
     """
     NullableProperty

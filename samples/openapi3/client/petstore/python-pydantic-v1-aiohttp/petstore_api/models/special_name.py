@@ -22,6 +22,8 @@ from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, validator
 from petstore_api.models.category import Category
 
+
+
 class SpecialName(BaseModel):
     """
     SpecialName

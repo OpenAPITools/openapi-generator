@@ -22,6 +22,8 @@ from typing import Any, Dict
 
 from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSuper
 
+
+
 class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub

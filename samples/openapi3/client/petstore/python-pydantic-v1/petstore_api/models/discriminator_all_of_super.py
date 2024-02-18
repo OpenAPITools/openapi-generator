@@ -21,6 +21,13 @@ import json
 from typing import Any, Dict, Union
 from pydantic import BaseModel, Field, StrictStr
 
+
+from typing import TYPE_CHECKING
+from importlib import import_module
+if TYPE_CHECKING:
+    from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
+
+
 class DiscriminatorAllOfSuper(BaseModel):
     """
     DiscriminatorAllOfSuper
@@ -83,14 +90,10 @@ class DiscriminatorAllOfSuper(BaseModel):
         """Create an instance of DiscriminatorAllOfSuper from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("DiscriminatorAllOfSuper failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if object_type ==  'DiscriminatorAllOfSub':
+            return import_module("petstore_api.models.discriminator_all_of_sub").DiscriminatorAllOfSub.from_dict(obj)
+        raise ValueError("DiscriminatorAllOfSuper failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
-from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
-DiscriminatorAllOfSuper.update_forward_refs()
 

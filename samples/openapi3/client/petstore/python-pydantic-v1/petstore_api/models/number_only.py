@@ -21,6 +21,8 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictFloat
 
+
+
 class NumberOnly(BaseModel):
     """
     NumberOnly

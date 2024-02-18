@@ -21,6 +21,8 @@ import json
 
 from pydantic import BaseModel, Field, StrictStr, validator
 
+
+
 class Bathing(BaseModel):
     """
     Bathing

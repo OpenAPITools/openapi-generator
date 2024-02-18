@@ -22,6 +22,8 @@ import json
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.creature_info import CreatureInfo
 
+
+
 class Creature(BaseModel):
     """
     Creature

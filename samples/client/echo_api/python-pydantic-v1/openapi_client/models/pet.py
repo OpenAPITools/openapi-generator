@@ -24,6 +24,8 @@ from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
 from openapi_client.models.category import Category
 from openapi_client.models.tag import Tag
 
+
+
 class Pet(BaseModel):
     """
     Pet

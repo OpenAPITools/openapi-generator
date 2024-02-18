@@ -22,6 +22,8 @@ from typing import Optional
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.single_ref_type import SingleRefType
 
+
+
 class AllOfWithSingleRef(BaseModel):
     """
     AllOfWithSingleRef

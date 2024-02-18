@@ -21,6 +21,8 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictStr
 
+
+
 class AdditionalPropertiesWithDescriptionOnly(BaseModel):
     """
     AdditionalPropertiesWithDescriptionOnly

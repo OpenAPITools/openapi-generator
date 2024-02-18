@@ -21,6 +21,8 @@ import json
 from typing import Any, Dict
 from pydantic import BaseModel, Field, StrictStr
 
+
+
 class BasquePig(BaseModel):
     """
     BasquePig

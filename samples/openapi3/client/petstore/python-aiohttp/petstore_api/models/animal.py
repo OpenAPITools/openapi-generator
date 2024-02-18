@@ -102,9 +102,9 @@ class Animal(BaseModel):
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
         if object_type ==  'Cat':
-            return import_module("petstore_api.models.cat").Cat.from_dict(obj) # type: ignore
+            return import_module("petstore_api.models.cat").Cat.from_dict(obj)
         if object_type ==  'Dog':
-            return import_module("petstore_api.models.dog").Dog.from_dict(obj) # type: ignore
+            return import_module("petstore_api.models.dog").Dog.from_dict(obj)
 
         raise ValueError("Animal failed to lookup discriminator value from " +
                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +

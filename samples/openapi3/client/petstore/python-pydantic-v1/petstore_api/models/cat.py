@@ -22,6 +22,8 @@ from typing import Any, Dict, Optional
 from pydantic import StrictBool
 from petstore_api.models.animal import Animal
 
+
+
 class Cat(Animal):
     """
     Cat

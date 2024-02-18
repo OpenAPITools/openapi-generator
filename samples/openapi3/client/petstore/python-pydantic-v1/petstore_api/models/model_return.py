@@ -21,6 +21,8 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictInt
 
+
+
 class ModelReturn(BaseModel):
     """
     Model for testing reserved words  # noqa: E501

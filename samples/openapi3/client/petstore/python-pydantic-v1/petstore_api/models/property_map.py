@@ -22,6 +22,8 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel
 from petstore_api.models.tag import Tag
 
+
+
 class PropertyMap(BaseModel):
     """
     PropertyMap

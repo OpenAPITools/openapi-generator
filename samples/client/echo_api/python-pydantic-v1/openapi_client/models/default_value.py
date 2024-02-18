@@ -23,6 +23,8 @@ from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, conlist, validator
 from openapi_client.models.string_enum_ref import StringEnumRef
 
+
+
 class DefaultValue(BaseModel):
     """
     to test the default value of properties  # noqa: E501
