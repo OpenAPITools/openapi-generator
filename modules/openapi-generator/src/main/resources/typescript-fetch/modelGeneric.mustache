@@ -101,7 +101,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
-git    return {{classname}}ToJSONTyped(value);
+    return {{classname}}ToJSONTyped(value);
 }
 export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator=false): any {
     {{#hasVars}}
