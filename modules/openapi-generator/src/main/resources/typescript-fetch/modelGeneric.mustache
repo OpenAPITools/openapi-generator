@@ -103,7 +103,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     return {{classname}}ToJSONTyped(value);
 }
-export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator=false): any {
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator = false): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
