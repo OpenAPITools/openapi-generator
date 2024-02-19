@@ -79,6 +79,7 @@ docs/models/PolymorphicProperty.md
 docs/models/Quadrilateral.md
 docs/models/QuadrilateralInterface.md
 docs/models/ReadOnlyFirst.md
+docs/models/RequiredClass.md
 docs/models/Return.md
 docs/models/RolesReportsHash.md
 docs/models/RolesReportsHashRole.md
@@ -121,6 +122,8 @@ src/UseSourceGeneration/Client/BasicToken.cs
 src/UseSourceGeneration/Client/BearerToken.cs
 src/UseSourceGeneration/Client/ClientUtils.cs
 src/UseSourceGeneration/Client/CookieContainer.cs
+src/UseSourceGeneration/Client/DateOnlyJsonConverter.cs
+src/UseSourceGeneration/Client/DateOnlyNullableJsonConverter.cs
 src/UseSourceGeneration/Client/DateTimeJsonConverter.cs
 src/UseSourceGeneration/Client/DateTimeNullableJsonConverter.cs
 src/UseSourceGeneration/Client/ExceptionEventArgs.cs
@@ -206,6 +209,7 @@ src/UseSourceGeneration/Model/PolymorphicProperty.cs
 src/UseSourceGeneration/Model/Quadrilateral.cs
 src/UseSourceGeneration/Model/QuadrilateralInterface.cs
 src/UseSourceGeneration/Model/ReadOnlyFirst.cs
+src/UseSourceGeneration/Model/RequiredClass.cs
 src/UseSourceGeneration/Model/Return.cs
 src/UseSourceGeneration/Model/RolesReportsHash.cs
 src/UseSourceGeneration/Model/RolesReportsHashRole.cs

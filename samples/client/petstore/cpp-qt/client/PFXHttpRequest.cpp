@@ -416,7 +416,7 @@ void PFXHttpRequestWorker::on_reply_finished(QNetworkReply *reply) {
     }
     process_response(reply);
     reply->deleteLater();
-    emit on_execution_finished(this);
+    Q_EMIT on_execution_finished(this);
 }
 
 void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
@@ -426,7 +426,7 @@ void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
     disconnect(reply, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
-    emit on_execution_finished(this);
+    Q_EMIT on_execution_finished(this);
 }
 
 void PFXHttpRequestWorker::process_response(QNetworkReply *reply) {

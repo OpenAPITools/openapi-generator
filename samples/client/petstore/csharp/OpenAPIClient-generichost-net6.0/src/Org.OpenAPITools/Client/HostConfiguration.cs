@@ -39,6 +39,8 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new JsonStringEnumConverter());
             _jsonOptions.Converters.Add(new DateTimeJsonConverter());
             _jsonOptions.Converters.Add(new DateTimeNullableJsonConverter());
+            _jsonOptions.Converters.Add(new DateOnlyJsonConverter());
+            _jsonOptions.Converters.Add(new DateOnlyNullableJsonConverter());
             _jsonOptions.Converters.Add(new ActivityJsonConverter());
             _jsonOptions.Converters.Add(new ActivityOutputElementRepresentationJsonConverter());
             _jsonOptions.Converters.Add(new AdditionalPropertiesClassJsonConverter());
@@ -114,6 +116,7 @@ namespace Org.OpenAPITools.Client
             _jsonOptions.Converters.Add(new QuadrilateralJsonConverter());
             _jsonOptions.Converters.Add(new QuadrilateralInterfaceJsonConverter());
             _jsonOptions.Converters.Add(new ReadOnlyFirstJsonConverter());
+            _jsonOptions.Converters.Add(new RequiredClassJsonConverter());
             _jsonOptions.Converters.Add(new ReturnJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashJsonConverter());
             _jsonOptions.Converters.Add(new RolesReportsHashRoleJsonConverter());

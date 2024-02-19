@@ -63,7 +63,6 @@ public class SpecialModelName {
   }
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -77,14 +76,12 @@ public class SpecialModelName {
     return $specialPropertyName;
   }
 
-
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
 
 
   public SpecialModelName specialModelName(String specialModelName) {
-    
     this.specialModelName = specialModelName;
     return this;
   }
@@ -97,7 +94,6 @@ public class SpecialModelName {
   public String getSpecialModelName() {
     return specialModelName;
   }
-
 
   public void setSpecialModelName(String specialModelName) {
     this.specialModelName = specialModelName;
@@ -250,7 +246,12 @@ public class SpecialModelName {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

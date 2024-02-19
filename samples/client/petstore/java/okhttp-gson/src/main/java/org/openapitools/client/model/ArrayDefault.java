@@ -65,7 +65,6 @@ public class ArrayDefault {
   }
 
   public ArrayDefault withDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
-    
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
     return this;
   }
@@ -87,14 +86,12 @@ public class ArrayDefault {
     return withDefaultEmptyBracket;
   }
 
-
   public void setWithDefaultEmptyBracket(List<String> withDefaultEmptyBracket) {
     this.withDefaultEmptyBracket = withDefaultEmptyBracket;
   }
 
 
   public ArrayDefault withoutDefault(List<String> withoutDefault) {
-    
     this.withoutDefault = withoutDefault;
     return this;
   }
@@ -115,7 +112,6 @@ public class ArrayDefault {
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }
-
 
   public void setWithoutDefault(List<String> withoutDefault) {
     this.withoutDefault = withoutDefault;
@@ -273,7 +269,12 @@ public class ArrayDefault {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

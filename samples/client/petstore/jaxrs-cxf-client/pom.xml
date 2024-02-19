@@ -87,6 +87,14 @@
       <artifactId>swagger-jaxrs</artifactId>
       <scope>compile</scope>
       <version>${swagger-core-version}</version>
+        <!-- excluded validation-api:1.1.0.Final due to fact that it doesn't support TYPE_USE,
+for this project used jakarta.validation-api -->
+        <exclusions>
+            <exclusion>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -147,7 +155,7 @@
     </dependency>
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
-        <artifactId>jackson-datatype-joda</artifactId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
         <version>${jackson-jaxrs-version}</version>
     </dependency>
     <dependency>
@@ -155,6 +163,11 @@
         <artifactId>jakarta.annotation-api</artifactId>
         <version>${jakarta-annotation-version}</version>
         <scope>provided</scope>
+    </dependency>
+    <dependency>
+        <groupId>joda-time</groupId>
+        <artifactId>joda-time</artifactId>
+        <version>2.10.13</version>
     </dependency>
   </dependencies>
   <repositories>
@@ -167,16 +180,16 @@
     </repository>
   </repositories>
   <properties>
-    <java.version>1.7</java.version>
+    <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.18</swagger-core-version>
     <jetty-version>9.2.9.v20150224</jetty-version>
     <junit-version>4.13.2</junit-version>
-    <logback-version>1.2.10</logback-version>
+    <logback-version>1.4.14</logback-version>
     <cxf-version>3.3.0</cxf-version>
-    <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
-    <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
+    <jackson-jaxrs-version>2.15.2</jackson-jaxrs-version>
+        <jakarta-annotation-version>1.3.5</jakarta-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

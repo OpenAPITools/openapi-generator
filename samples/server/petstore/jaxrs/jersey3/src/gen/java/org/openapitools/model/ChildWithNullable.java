@@ -65,7 +65,7 @@ public class ChildWithNullable extends ParentWithNullable  {
       return false;
     }
     ChildWithNullable childWithNullable = (ChildWithNullable) o;
-    return super.equals(o) && Objects.equals(otherProperty, childWithNullable.otherProperty);
+    return super.equals(o) && Objects.equals(this.otherProperty, childWithNullable.otherProperty);
   }
 
   @Override

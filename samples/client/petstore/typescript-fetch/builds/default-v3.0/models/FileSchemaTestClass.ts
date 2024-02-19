@@ -37,9 +37,7 @@ export interface FileSchemaTestClass {
  * Check if a given object implements the FileSchemaTestClass interface.
  */
 export function instanceOfFileSchemaTestClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
@@ -47,7 +45,7 @@ export function FileSchemaTestClassFromJSON(json: any): FileSchemaTestClass {
 }
 
 export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): FileSchemaTestClass {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -66,8 +64,8 @@ export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): a
     }
     return {
         
-        'file': value.file,
-        'files': value.files,
+        'file': value['file'],
+        'files': value['files'],
     };
 }
 

@@ -37,19 +37,26 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <param name="testCollectionEndingWithWordList">testCollectionEndingWithWordList</param>
         [JsonConstructor]
-        public TestCollectionEndingWithWordListObject(List<TestCollectionEndingWithWordList> testCollectionEndingWithWordList)
+        public TestCollectionEndingWithWordListObject(Option<List<TestCollectionEndingWithWordList>?> testCollectionEndingWithWordList = default)
         {
-            TestCollectionEndingWithWordList = testCollectionEndingWithWordList;
+            TestCollectionEndingWithWordListOption = testCollectionEndingWithWordList;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of TestCollectionEndingWithWordList
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<List<TestCollectionEndingWithWordList>?> TestCollectionEndingWithWordListOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList> TestCollectionEndingWithWordList { get; set; }
+        public List<TestCollectionEndingWithWordList>? TestCollectionEndingWithWordList { get { return this. TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -104,7 +111,7 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            List<TestCollectionEndingWithWordList>? testCollectionEndingWithWordList = default;
+            Option<List<TestCollectionEndingWithWordList>?> testCollectionEndingWithWordList = default;
 
             while (utf8JsonReader.Read())
             {
@@ -123,7 +130,7 @@ namespace UseSourceGeneration.Model
                     {
                         case "TestCollectionEndingWithWordList":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                testCollectionEndingWithWordList = JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions);
+                                testCollectionEndingWithWordList = new Option<List<TestCollectionEndingWithWordList>?>(JsonSerializer.Deserialize<List<TestCollectionEndingWithWordList>>(ref utf8JsonReader, jsonSerializerOptions)!);
                             break;
                         default:
                             break;
@@ -131,8 +138,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (testCollectionEndingWithWordList == null)
-                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
+            if (testCollectionEndingWithWordList.IsSet && testCollectionEndingWithWordList.Value == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordList), "Property is not nullable for class TestCollectionEndingWithWordListObject.");
 
             return new TestCollectionEndingWithWordListObject(testCollectionEndingWithWordList);
         }
@@ -161,8 +168,14 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, TestCollectionEndingWithWordListObject testCollectionEndingWithWordListObject, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("TestCollectionEndingWithWordList");
-            JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
+            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet && testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList == null)
+                throw new ArgumentNullException(nameof(testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList), "Property is required for class TestCollectionEndingWithWordListObject.");
+
+            if (testCollectionEndingWithWordListObject.TestCollectionEndingWithWordListOption.IsSet)
+            {
+                writer.WritePropertyName("TestCollectionEndingWithWordList");
+                JsonSerializer.Serialize(writer, testCollectionEndingWithWordListObject.TestCollectionEndingWithWordList, jsonSerializerOptions);
+            }
         }
     }
 

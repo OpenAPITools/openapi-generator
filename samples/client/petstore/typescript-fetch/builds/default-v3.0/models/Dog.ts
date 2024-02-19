@@ -38,9 +38,7 @@ export interface Dog extends Animal {
  * Check if a given object implements the Dog interface.
  */
 export function instanceOfDog(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function DogFromJSON(json: any): Dog {
@@ -48,7 +46,7 @@ export function DogFromJSON(json: any): Dog {
 }
 
 export function DogFromJSONTyped(json: any, ignoreDiscriminator: boolean): Dog {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -66,7 +64,7 @@ export function DogToJSON(value?: Dog | null): any {
     }
     return {
         ...AnimalToJSON(value),
-        'breed': value.breed,
+        'breed': value['breed'],
     };
 }
 

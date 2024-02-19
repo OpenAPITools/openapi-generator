@@ -42,7 +42,7 @@ public class FileSchemaTestClass  implements Serializable {
 
   public static final String JSON_PROPERTY_FILES = "files";
   @JsonProperty(JSON_PROPERTY_FILES)
-  private List<ModelFile> files;
+  private List<@Valid ModelFile> files;
 
   public FileSchemaTestClass _file(ModelFile _file) {
     this._file = _file;
@@ -64,7 +64,7 @@ public class FileSchemaTestClass  implements Serializable {
     this._file = _file;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -84,11 +84,11 @@ public class FileSchemaTestClass  implements Serializable {
   @JsonProperty(value = "files")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 
@@ -102,8 +102,8 @@ public class FileSchemaTestClass  implements Serializable {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(_file, fileSchemaTestClass._file) &&
-        Objects.equals(files, fileSchemaTestClass.files);
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override

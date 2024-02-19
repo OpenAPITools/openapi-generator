@@ -67,7 +67,6 @@ public class Whale {
   }
 
   public Whale hasBaleen(Boolean hasBaleen) {
-    
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -81,14 +80,12 @@ public class Whale {
     return hasBaleen;
   }
 
-
   public void setHasBaleen(Boolean hasBaleen) {
     this.hasBaleen = hasBaleen;
   }
 
 
   public Whale hasTeeth(Boolean hasTeeth) {
-    
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -102,14 +99,12 @@ public class Whale {
     return hasTeeth;
   }
 
-
   public void setHasTeeth(Boolean hasTeeth) {
     this.hasTeeth = hasTeeth;
   }
 
 
   public Whale className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -122,7 +117,6 @@ public class Whale {
   public String getClassName() {
     return className;
   }
-
 
   public void setClassName(String className) {
     this.className = className;
@@ -286,7 +280,12 @@ public class Whale {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

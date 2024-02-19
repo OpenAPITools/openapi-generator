@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,10 +35,10 @@ namespace Org.OpenAPITools.Model
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
         [JsonConstructor]
-        public BananaReq(decimal lengthCm, bool sweet)
+        public BananaReq(decimal lengthCm, Option<bool?> sweet = default)
         {
             LengthCm = lengthCm;
-            Sweet = sweet;
+            SweetOption = sweet;
             OnCreated();
         }
 
@@ -50,10 +51,17 @@ namespace Org.OpenAPITools.Model
         public decimal LengthCm { get; set; }
 
         /// <summary>
+        /// Used to track the state of Sweet
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<bool?> SweetOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool Sweet { get; set; }
+        public bool? Sweet { get { return this. SweetOption; } set { this.SweetOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -102,8 +110,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            decimal? lengthCm = default;
-            bool? sweet = default;
+            Option<decimal?> lengthCm = default;
+            Option<bool?> sweet = default;
 
             while (utf8JsonReader.Read())
             {
@@ -122,11 +130,11 @@ namespace Org.OpenAPITools.Model
                     {
                         case "lengthCm":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                lengthCm = utf8JsonReader.GetDecimal();
+                                lengthCm = new Option<decimal?>(utf8JsonReader.GetDecimal());
                             break;
                         case "sweet":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                sweet = utf8JsonReader.GetBoolean();
+                                sweet = new Option<bool?>(utf8JsonReader.GetBoolean());
                             break;
                         default:
                             break;
@@ -134,13 +142,16 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (lengthCm == null)
-                throw new ArgumentNullException(nameof(lengthCm), "Property is required for class BananaReq.");
+            if (!lengthCm.IsSet)
+                throw new ArgumentException("Property is required for class BananaReq.", nameof(lengthCm));
 
-            if (sweet == null)
-                throw new ArgumentNullException(nameof(sweet), "Property is required for class BananaReq.");
+            if (lengthCm.IsSet && lengthCm.Value == null)
+                throw new ArgumentNullException(nameof(lengthCm), "Property is not nullable for class BananaReq.");
 
-            return new BananaReq(lengthCm.Value, sweet.Value);
+            if (sweet.IsSet && sweet.Value == null)
+                throw new ArgumentNullException(nameof(sweet), "Property is not nullable for class BananaReq.");
+
+            return new BananaReq(lengthCm.Value.Value, sweet);
         }
 
         /// <summary>
@@ -168,7 +179,9 @@ namespace Org.OpenAPITools.Model
         public void WriteProperties(ref Utf8JsonWriter writer, BananaReq bananaReq, JsonSerializerOptions jsonSerializerOptions)
         {
             writer.WriteNumber("lengthCm", bananaReq.LengthCm);
-            writer.WriteBoolean("sweet", bananaReq.Sweet);
+
+            if (bananaReq.SweetOption.IsSet)
+                writer.WriteBoolean("sweet", bananaReq.SweetOption.Value.Value);
         }
     }
 }

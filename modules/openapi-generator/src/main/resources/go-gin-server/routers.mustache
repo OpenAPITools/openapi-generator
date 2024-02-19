@@ -21,7 +21,11 @@ type Route struct {
 
 // NewRouter returns a new router.
 func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
-	router := gin.Default()
+	return NewRouterWithGinEngine(gin.Default(), handleFunctions)
+}
+
+// NewRouter add routes to existing gin engine.
+func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandleFunctions) *gin.Engine {
 	for _, route := range getRoutes(handleFunctions) {
 		if route.HandlerFunc == nil {
 			route.HandlerFunc = DefaultHandleFunc
@@ -51,17 +55,24 @@ func DefaultHandleFunc(c *gin.Context) {
 type ApiHandleFunctions struct {
 {{#apiInfo}}{{#apis}}{{#operations}}
 	// Routes for the {{classname}} part of the API
-	{{classname}} {{classname}}{{/operations}}{{/apis}}{{/apiInfo}}
+	{{classname}} {{classname}}{{/operations}}{{/apis}}{{/apiInfo}}{{#webhooks}}{{#operations}}
+	{{classname}} {{classname}}{{/operations}}{{/webhooks}}
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{
-	{{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
+	return []Route{ {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}
 		{
 			"{{operationId}}",
 			http.Method{{httpMethod}},
 			"{{{basePathWithoutHost}}}{{{path}}}",
 			handleFunctions.{{classname}}.{{operationId}},
-		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+		},{{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}{{#webhooks}}{{#operations}}{{#operation}}
+		// webhook handler (adjust path accordingly)
+		{
+			"{{operationId}}",
+			http.Method{{httpMethod}},
+			"{{{basePathWithoutHost}}}{{{path}}}",
+			handleFunctions.{{classname}}.{{operationId}},
+		},{{/operation}}{{/operations}}{{/webhooks}}
 	}
 }

@@ -14,14 +14,29 @@ public class HttpBearerAuth implements Authentication {
         this.scheme = scheme;
     }
 
+    /**
+     * Gets the token, which together with the scheme, will be sent as the value of the Authorization header.
+     *
+     * @return The bearer token
+     */
     public String getBearerToken() {
         return tokenSupplier.get();
     }
 
+    /**
+     * Sets the token, which together with the scheme, will be sent as the value of the Authorization header.
+     *
+     * @param bearerToken The bearer token to send in the Authorization header
+     */
     public void setBearerToken(String bearerToken) {
         this.tokenSupplier = () -> bearerToken;
     }
-    
+
+    /**
+     * Sets the supplier of tokens, which together with the scheme, will be sent as the value of the Authorization header.
+     *
+     * @param tokenSupplier The supplier of bearer tokens to send in the Authorization header
+     */
     public void setBearerToken(Supplier<String> tokenSupplier) {
         this.tokenSupplier = tokenSupplier;
     }

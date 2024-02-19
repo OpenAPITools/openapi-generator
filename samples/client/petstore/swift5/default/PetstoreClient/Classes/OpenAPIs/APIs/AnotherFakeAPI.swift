@@ -48,6 +48,7 @@ open class AnotherFakeAPI {
         let localVariableUrlComponents = URLComponents(string: localVariableURLString)
 
         let localVariableNillableHeaders: [String: Any?] = [
+            "Content-Type": "application/json",
             "uuid_test": uuidTest.encodeToJSON(),
         ]
 

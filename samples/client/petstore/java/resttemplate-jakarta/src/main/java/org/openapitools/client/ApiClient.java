@@ -22,6 +22,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -79,6 +81,10 @@ public class ApiClient extends JavaTimeFormatter {
     private HttpHeaders defaultHeaders = new HttpHeaders();
     private MultiValueMap<String, String> defaultCookies = new LinkedMultiValueMap<String, String>();
 
+    private int maxAttemptsForRetry = 1;
+
+    private long waitTimeMillis = 10;
+
     private String basePath = "http://petstore.swagger.io/v2";
 
     private RestTemplate restTemplate;
@@ -133,6 +139,46 @@ public class ApiClient extends JavaTimeFormatter {
      */
     public ApiClient setBasePath(String basePath) {
         this.basePath = basePath;
+        return this;
+    }
+
+    /**
+     * Get the max attempts for retry
+     *
+     * @return int the max attempts
+     */
+    public int getMaxAttemptsForRetry() {
+        return maxAttemptsForRetry;
+    }
+
+    /**
+     * Set the max attempts for retry
+     *
+     * @param maxAttemptsForRetry the max attempts for retry
+     * @return ApiClient this client
+     */
+    public ApiClient setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry = maxAttemptsForRetry;
+        return this;
+    }
+
+    /**
+     * Get the wait time in milliseconds
+     *
+     * @return long wait time in milliseconds
+     */
+    public long getWaitTimeMillis() {
+        return waitTimeMillis;
+    }
+
+    /**
+     * Set the wait time in milliseconds
+     *
+     * @param waitTimeMillis the wait time in milliseconds
+     * @return ApiClient this client
+     */
+    public ApiClient setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis = waitTimeMillis;
         return this;
     }
 
@@ -629,7 +675,36 @@ public class ApiClient extends JavaTimeFormatter {
 
         RequestEntity<Object> requestEntity = requestBuilder.body(selectBody(body, formParams, contentType));
 
-        ResponseEntity<T> responseEntity = restTemplate.exchange(requestEntity, returnType);
+        ResponseEntity<T> responseEntity = null;
+        int attempts = 0;
+        while (attempts < maxAttemptsForRetry) {
+            try {
+                responseEntity = restTemplate.exchange(requestEntity, returnType);
+                break;
+            } catch (HttpServerErrorException | HttpClientErrorException ex) {
+                if (ex instanceof HttpServerErrorException
+                        || ((HttpClientErrorException) ex)
+                        .getStatusCode()
+                        .equals(HttpStatus.TOO_MANY_REQUESTS)) {
+                    attempts++;
+                    if (attempts < maxAttemptsForRetry) {
+                        try {
+                            Thread.sleep(waitTimeMillis);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    } else {
+                        throw ex;
+                    }
+                } else {
+                    throw ex;
+                }
+            }
+        }
+
+        if (responseEntity == null) {
+            throw new RestClientException("ResponseEntity is null");
+        }
 
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             return responseEntity;
@@ -737,7 +812,7 @@ public class ApiClient extends JavaTimeFormatter {
         }
 
         private void logResponse(ClientHttpResponse response) throws IOException {
-            log.info("HTTP Status Code: " + response.getRawStatusCode());
+            log.info("HTTP Status Code: " + response.getStatusCode().value());
             log.info("Status Text: " + response.getStatusText());
             log.info("HTTP Headers: " + headersToString(response.getHeaders()));
             log.info("Response Body: " + bodyToString(response.getBody()));

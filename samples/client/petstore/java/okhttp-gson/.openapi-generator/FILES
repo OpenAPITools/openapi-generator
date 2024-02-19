@@ -6,6 +6,11 @@ api/openapi.yaml
 build.gradle
 build.sbt
 docs/AdditionalPropertiesClass.md
+docs/AllOfModelArrayAnyOf.md
+docs/AllOfModelArrayAnyOfAllOfAttributes.md
+docs/AllOfModelArrayAnyOfAllOfAttributesC.md
+docs/AllOfModelArrayAnyOfAllOfLinkListColumn1.md
+docs/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/Apple.md
@@ -73,6 +78,7 @@ docs/OuterEnumIntegerDefaultValue.md
 docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
+docs/PetUsingAllOf.md
 docs/PetWithRequiredTags.md
 docs/Pig.md
 docs/PropertyNameCollision.md
@@ -138,6 +144,11 @@ src/main/java/org/openapitools/client/auth/OAuthOkHttpClient.java
 src/main/java/org/openapitools/client/auth/RetryingOAuth.java
 src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/AdditionalPropertiesClass.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOf.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributes.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfAttributesC.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1.java
+src/main/java/org/openapitools/client/model/AllOfModelArrayAnyOfAllOfLinkListColumn1Value.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/Apple.java
 src/main/java/org/openapitools/client/model/AppleReq.java
@@ -200,6 +211,7 @@ src/main/java/org/openapitools/client/model/OuterEnumInteger.java
 src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
+src/main/java/org/openapitools/client/model/PetUsingAllOf.java
 src/main/java/org/openapitools/client/model/PetWithRequiredTags.java
 src/main/java/org/openapitools/client/model/Pig.java
 src/main/java/org/openapitools/client/model/PropertyNameCollision.java

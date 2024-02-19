@@ -128,7 +128,7 @@ impl Request {
         let mut uri_str = format!("{}{}", conf.base_path, path);
 
         let query_string_str = query_string.finish();
-        if query_string_str != "" {
+        if !query_string_str.is_empty() {
             uri_str += "?";
             uri_str += &query_string_str;
         }

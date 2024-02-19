@@ -28,6 +28,7 @@ jobs:
           - samples/openapi3/client/petstore/spring-cloud
           - samples/client/petstore/spring-cloud-date-time
           - samples/openapi3/client/petstore/spring-cloud-date-time
+          - samples/openapi3/client/petstore/spring-cloud-http-basic
           - samples/openapi3/client/petstore/spring-stubs
           - samples/openapi3/client/petstore/spring-stubs-skip-default-interface
           - samples/openapi3/client/petstore/spring-cloud-async
@@ -56,14 +57,15 @@ jobs:
           - samples/server/petstore/springboot-spring-pageable-without-j8
           - samples/server/petstore/springboot-spring-pageable
           - samples/server/petstore/springboot-spring-provide-args
+          - samples/server/petstore/springboot-lombok-data
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 8
       - name: Cache maven dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: maven-repository
         with:

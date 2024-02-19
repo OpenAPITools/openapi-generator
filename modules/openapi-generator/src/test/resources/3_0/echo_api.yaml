@@ -307,6 +307,52 @@ paths:
             text/plain:
               schema:
                 type: string
+  /query/style_form/explode_false/array_integer:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_false/array_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   /query/style_form/explode_true/object:
     get:
       tags:
@@ -498,6 +544,26 @@ paths:
             text/plain:
               schema:
                 type: string
+  /echo/body/string_enum:
+    post:
+      tags:
+        - body
+      summary: Test string enum response body
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
   /binary/gif:
     post:
       tags:
@@ -513,6 +579,30 @@ paths:
               schema:
                 type: string
                 format: binary
+  # Single binary in multipart mime test
+  /body/application/octetstream/single_binary:
+    post:
+      tags:
+        - body
+      summary: Test single binary in multipart mime
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                my-file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # Array of binary in multipart mime tests
   /body/application/octetstream/array_of_binary:
     post:
@@ -558,11 +648,31 @@ paths:
             text/plain:
               schema:
                 type: string
+  # To test http bearer auth
+  /auth/http/bearer:
+    post:
+      tags:
+        - auth
+      security:
+        - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
   securitySchemes:
     http_auth:
       type: http
       scheme: basic
+    http_bearer_auth:
+      type: http
+      scheme: bearer
   requestBodies:
     Pet:
       content:

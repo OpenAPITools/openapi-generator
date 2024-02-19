@@ -63,7 +63,6 @@ public class ComplexQuadrilateral {
   }
 
   public ComplexQuadrilateral shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -77,14 +76,12 @@ public class ComplexQuadrilateral {
     return shapeType;
   }
 
-
   public void setShapeType(String shapeType) {
     this.shapeType = shapeType;
   }
 
 
   public ComplexQuadrilateral quadrilateralType(String quadrilateralType) {
-    
     this.quadrilateralType = quadrilateralType;
     return this;
   }
@@ -97,7 +94,6 @@ public class ComplexQuadrilateral {
   public String getQuadrilateralType() {
     return quadrilateralType;
   }
-
 
   public void setQuadrilateralType(String quadrilateralType) {
     this.quadrilateralType = quadrilateralType;
@@ -262,7 +258,12 @@ public class ComplexQuadrilateral {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

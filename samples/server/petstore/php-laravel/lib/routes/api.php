@@ -71,6 +71,13 @@ Route::delete('/v2/fake', 'FakeController@testGroupParameters');
  */
 Route::get('/v2/fake/BigDecimalMap', 'FakeController@fakeBigDecimalMap');
 /**
+ * post testAdditionalPropertiesReference
+ * Summary: test referenced additionalProperties
+ * Notes: 
+
+ */
+Route::post('/v2/fake/additionalProperties-reference', 'FakeController@testAdditionalPropertiesReference');
+/**
  * put testBodyWithBinary
  * Summary: 
  * Notes: For this test, the body has to be a binary file.
@@ -168,6 +175,13 @@ Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
  * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/property/enum-int', 'FakeController@fakePropertyEnumIntegerSerialize');
+/**
+ * post testStringMapReference
+ * Summary: test referenced string map
+ * Notes: 
+
+ */
+Route::post('/v2/fake/stringMap-reference', 'FakeController@testStringMapReference');
 /**
  * put testQueryParameterCollectionFormat
  * Summary: 

@@ -55,6 +55,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -786,7 +787,7 @@ public class ApiClient {
         List<Pair> params = new ArrayList<Pair>();
 
         // preconditions
-        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null) {
+        if (param == null || param.getName() == null || param.getName().isEmpty() || value == null || value.isEmpty()) {
             return params;
         }
 

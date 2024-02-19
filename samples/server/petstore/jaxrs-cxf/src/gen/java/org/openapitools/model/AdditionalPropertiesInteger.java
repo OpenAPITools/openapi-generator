@@ -41,7 +41,7 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
       return false;
     }
     AdditionalPropertiesInteger additionalPropertiesInteger = (AdditionalPropertiesInteger) o;
-    return Objects.equals(name, additionalPropertiesInteger.name) &&
+    return Objects.equals(this.name, additionalPropertiesInteger.name) &&
         super.equals(o);
   }
 

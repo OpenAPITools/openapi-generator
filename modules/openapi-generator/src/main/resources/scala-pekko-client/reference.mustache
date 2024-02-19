@@ -1,0 +1,24 @@
+{{configKeyPath}} {
+
+    {{configKey}} {
+
+        compression {
+            enabled: false
+            size-threshold: 0
+        }
+
+        trust-certificates: true
+
+        connection-timeout: {{defaultTimeout}}ms
+
+        default-headers {
+            "userAgent": "{{artifactId}}_{{artifactVersion}}"
+        }
+
+        // let you define custom http status code, as in :
+        // { code: 601, reason: "some custom http status code", success: false }
+        custom-codes : []
+    }
+}
+
+spray.can.host-connector.max-redirects = 10

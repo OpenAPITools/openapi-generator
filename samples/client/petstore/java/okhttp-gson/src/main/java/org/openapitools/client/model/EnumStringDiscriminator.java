@@ -96,6 +96,11 @@ public class EnumStringDiscriminator {
         return EnumStrTypeEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      EnumStrTypeEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ENUM_STR_TYPE = "enum_str_type";
@@ -106,7 +111,6 @@ public class EnumStringDiscriminator {
   }
 
   public EnumStringDiscriminator enumStrType(EnumStrTypeEnum enumStrType) {
-    
     this.enumStrType = enumStrType;
     return this;
   }
@@ -119,7 +123,6 @@ public class EnumStringDiscriminator {
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }
-
 
   public void setEnumStrType(EnumStrTypeEnum enumStrType) {
     this.enumStrType = enumStrType;
@@ -273,7 +276,12 @@ public class EnumStringDiscriminator {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

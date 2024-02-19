@@ -161,7 +161,9 @@ public class PostmanCollectionCodegenTest {
                 "key\": \"groupId\", \"value\": \"1\", \"type\": \"number\"");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -196,7 +198,9 @@ public class PostmanCollectionCodegenTest {
         assertFileContains(path, "{{MY_VAR_NAME}}");
 
         // verify request endpoint
-        TestUtils.assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        TestUtils.assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
 
     }
 
@@ -303,7 +307,10 @@ public class PostmanCollectionCodegenTest {
         Path path = Paths.get(output + "/postman.json");
         assertFileExists(path);
         // verify request name (from path)
-        assertFileContains(path, "\"name\": \"/users/{{userId}}\"");
+        assertFileContains(path, "\"name\": \"/users/:userId\"");
+        // verify path parameter value
+        TestUtils.assertFileContains(path, "key\": \"userId\", \"value\": \"{{userId}}\",");
+
     }
 
     @Test
@@ -358,20 +365,6 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
-    public void doubleCurlyBraces() {
-        String str = "/api/{var}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
-    }
-
-    @Test
-    public void doubleCurlyBracesNoChanges() {
-        String str = "/api/{{var}}/archive";
-
-        assertEquals("/api/{{var}}/archive", new PostmanCollectionCodegen().doubleCurlyBraces(str));
-    }
-
-    @Test
     public void extractExampleByName() {
         String str = "#/components/examples/get-user-basic";
 
@@ -407,29 +400,6 @@ public class PostmanCollectionCodegenTest {
         assertFileExists(path);
         // check value with commas within quotes
         assertFileContains(path, "\\\"acceptHeader\\\" : \\\"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\\\"");
-    }
-
-    @Test
-    public void testDeprecatedEndpoint() throws Exception {
-
-        File output = Files.createTempDirectory("postmantest_").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
-
-        System.out.println(files);
-        files.forEach(File::deleteOnExit);
-
-        Path path = Paths.get(output + "/postman.json");
-        assertFileExists(path);
-        // verify request name (from path)
-        assertFileContains(path, "(DEPRECATED)");
     }
 
     @Test
@@ -485,36 +455,6 @@ public class PostmanCollectionCodegenTest {
         assertFileNotContains(path, "\\\"dateOfBirth\\\" : \\\"{{$isoTimestamp}}\\\"");
 
     }
-
-    @Test
-    public void testHeaderParameters() throws IOException {
-
-        File output = Files.createTempDirectory("postmantest_").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("./src/test/resources/SampleProject.yaml")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(clientOptInput).generate();
-
-        files.forEach(File::deleteOnExit);
-
-        Path path = Paths.get(output + "/postman.json");
-        TestUtils.assertFileExists(path);
-        TestUtils.assertFileContains(path, "{ \"key\": \"Content-Type\", \"value\": \"application/json\"");
-        TestUtils.assertFileContains(path, "{ \"key\": \"Accept\", \"value\": \"application/json\"");
-        // header without default value (disabled: true)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Custom-Header\", \"value\": \"\", \"disabled\": true");
-        // header with default value (disabled: false)
-        TestUtils.assertFileContains(path, "{ \"key\": \"Another-Custom-Header\", \"value\": \"abc\", \"disabled\": false");
-
-    }
-
 
     @Test
     public void testFormatDescription() {

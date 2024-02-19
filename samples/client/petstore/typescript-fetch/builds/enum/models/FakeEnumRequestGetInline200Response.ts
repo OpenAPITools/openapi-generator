@@ -91,9 +91,7 @@ export type FakeEnumRequestGetInline200ResponseNullableNumberEnumEnum = typeof F
  * Check if a given object implements the FakeEnumRequestGetInline200Response interface.
  */
 export function instanceOfFakeEnumRequestGetInline200Response(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnumRequestGetInline200Response {
@@ -101,7 +99,7 @@ export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnum
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestGetInline200Response {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -122,10 +120,10 @@ export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumReques
     }
     return {
         
-        'string-enum': value.stringEnum,
-        'nullable-string-enum': value.nullableStringEnum,
-        'number-enum': value.numberEnum,
-        'nullable-number-enum': value.nullableNumberEnum,
+        'string-enum': value['stringEnum'],
+        'nullable-string-enum': value['nullableStringEnum'],
+        'number-enum': value['numberEnum'],
+        'nullable-number-enum': value['nullableNumberEnum'],
     };
 }
 

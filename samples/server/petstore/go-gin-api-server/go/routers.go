@@ -29,7 +29,11 @@ type Route struct {
 
 // NewRouter returns a new router.
 func NewRouter(handleFunctions ApiHandleFunctions) *gin.Engine {
-	router := gin.Default()
+	return NewRouterWithGinEngine(gin.Default(), handleFunctions)
+}
+
+// NewRouter add routes to existing gin engine.
+func NewRouterWithGinEngine(router *gin.Engine, handleFunctions ApiHandleFunctions) *gin.Engine {
 	for _, route := range getRoutes(handleFunctions) {
 		if route.HandlerFunc == nil {
 			route.HandlerFunc = DefaultHandleFunc
@@ -67,8 +71,7 @@ type ApiHandleFunctions struct {
 }
 
 func getRoutes(handleFunctions ApiHandleFunctions) []Route {
-	return []Route{
-	
+	return []Route{ 
 		{
 			"AddPet",
 			http.MethodPost,

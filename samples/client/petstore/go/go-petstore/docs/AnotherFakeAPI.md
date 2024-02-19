@@ -22,25 +22,25 @@ To test special tags
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
-    uuidTest := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | to test uuid example value
-    body := *openapiclient.NewClient() // Client | client model
+	uuidTest := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | to test uuid example value
+	body := *openapiclient.NewClient() // Client | client model
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AnotherFakeAPI.Call123TestSpecialTags(context.Background()).UuidTest(uuidTest).Body(body).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeAPI.Call123TestSpecialTags``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `Call123TestSpecialTags`: Client
-    fmt.Fprintf(os.Stdout, "Response from `AnotherFakeAPI.Call123TestSpecialTags`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.AnotherFakeAPI.Call123TestSpecialTags(context.Background()).UuidTest(uuidTest).Body(body).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `AnotherFakeAPI.Call123TestSpecialTags``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `Call123TestSpecialTags`: Client
+	fmt.Fprintf(os.Stdout, "Response from `AnotherFakeAPI.Call123TestSpecialTags`: %v\n", resp)
 }
 ```
 

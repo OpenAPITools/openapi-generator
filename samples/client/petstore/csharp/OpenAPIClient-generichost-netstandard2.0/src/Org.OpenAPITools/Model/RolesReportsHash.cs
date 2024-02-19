@@ -20,6 +20,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using Org.OpenAPITools.Client;
 
 namespace Org.OpenAPITools.Model
 {
@@ -34,26 +35,40 @@ namespace Org.OpenAPITools.Model
         /// <param name="role">role</param>
         /// <param name="roleUuid">roleUuid</param>
         [JsonConstructor]
-        public RolesReportsHash(RolesReportsHashRole role, Guid roleUuid)
+        public RolesReportsHash(Option<RolesReportsHashRole> role = default, Option<Guid?> roleUuid = default)
         {
-            Role = role;
-            RoleUuid = roleUuid;
+            RoleOption = role;
+            RoleUuidOption = roleUuid;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
+        /// Used to track the state of Role
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<RolesReportsHashRole> RoleOption { get; private set; }
+
+        /// <summary>
         /// Gets or Sets Role
         /// </summary>
         [JsonPropertyName("role")]
-        public RolesReportsHashRole Role { get; set; }
+        public RolesReportsHashRole Role { get { return this. RoleOption; } set { this.RoleOption = new Option<RolesReportsHashRole>(value); } }
+
+        /// <summary>
+        /// Used to track the state of RoleUuid
+        /// </summary>
+        [JsonIgnore]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public Option<Guid?> RoleUuidOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets RoleUuid
         /// </summary>
         [JsonPropertyName("role_uuid")]
-        public Guid RoleUuid { get; set; }
+        public Guid? RoleUuid { get { return this. RoleUuidOption; } set { this.RoleUuidOption = new Option<Guid?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -109,8 +124,8 @@ namespace Org.OpenAPITools.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            RolesReportsHashRole role = default;
-            Guid? roleUuid = default;
+            Option<RolesReportsHashRole> role = default;
+            Option<Guid?> roleUuid = default;
 
             while (utf8JsonReader.Read())
             {
@@ -129,11 +144,11 @@ namespace Org.OpenAPITools.Model
                     {
                         case "role":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                role = JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions);
+                                role = new Option<RolesReportsHashRole>(JsonSerializer.Deserialize<RolesReportsHashRole>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "role_uuid":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                roleUuid = utf8JsonReader.GetGuid();
+                                roleUuid = new Option<Guid?>(utf8JsonReader.GetGuid());
                             break;
                         default:
                             break;
@@ -141,13 +156,13 @@ namespace Org.OpenAPITools.Model
                 }
             }
 
-            if (role == null)
-                throw new ArgumentNullException(nameof(role), "Property is required for class RolesReportsHash.");
+            if (role.IsSet && role.Value == null)
+                throw new ArgumentNullException(nameof(role), "Property is not nullable for class RolesReportsHash.");
 
-            if (roleUuid == null)
-                throw new ArgumentNullException(nameof(roleUuid), "Property is required for class RolesReportsHash.");
+            if (roleUuid.IsSet && roleUuid.Value == null)
+                throw new ArgumentNullException(nameof(roleUuid), "Property is not nullable for class RolesReportsHash.");
 
-            return new RolesReportsHash(role, roleUuid.Value);
+            return new RolesReportsHash(role, roleUuid);
         }
 
         /// <summary>
@@ -174,9 +189,16 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, RolesReportsHash rolesReportsHash, JsonSerializerOptions jsonSerializerOptions)
         {
-            writer.WritePropertyName("role");
-            JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
-            writer.WriteString("role_uuid", rolesReportsHash.RoleUuid);
+            if (rolesReportsHash.RoleOption.IsSet && rolesReportsHash.Role == null)
+                throw new ArgumentNullException(nameof(rolesReportsHash.Role), "Property is required for class RolesReportsHash.");
+
+            if (rolesReportsHash.RoleOption.IsSet)
+            {
+                writer.WritePropertyName("role");
+                JsonSerializer.Serialize(writer, rolesReportsHash.Role, jsonSerializerOptions);
+            }
+            if (rolesReportsHash.RoleUuidOption.IsSet)
+                writer.WriteString("role_uuid", rolesReportsHash.RoleUuidOption.Value.Value);
         }
     }
 }

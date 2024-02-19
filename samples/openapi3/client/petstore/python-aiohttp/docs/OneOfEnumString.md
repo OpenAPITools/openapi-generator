@@ -3,6 +3,7 @@
 oneOf enum strings
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 

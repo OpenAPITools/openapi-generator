@@ -60,7 +60,6 @@ public class HealthCheckResult {
   }
 
   public HealthCheckResult nullableMessage(String nullableMessage) {
-    
     this.nullableMessage = nullableMessage;
     return this;
   }
@@ -73,7 +72,6 @@ public class HealthCheckResult {
   public String getNullableMessage() {
     return nullableMessage;
   }
-
 
   public void setNullableMessage(String nullableMessage) {
     this.nullableMessage = nullableMessage;
@@ -234,7 +232,12 @@ public class HealthCheckResult {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

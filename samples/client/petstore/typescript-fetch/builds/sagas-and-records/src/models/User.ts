@@ -85,11 +85,9 @@ export interface User {
  * Check if a given object implements the User interface.
  */
 export function instanceOfUser(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "subUser2" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('subUser2' in value)) return false;
+    return true;
 }
 
 export function UserFromJSON(json: any): User {
@@ -97,7 +95,7 @@ export function UserFromJSON(json: any): User {
 }
 
 export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -124,16 +122,16 @@ export function UserToJSON(value?: User | null): any {
     }
     return {
         
-        'id': value.id,
-        'username': value.username,
-        'firstName': value.firstName,
-        'lastName': value.lastName,
-        'email': value.email,
-        'password': value.password,
-        'phone': value.phone,
-        'userStatus': value.userStatus,
-        'subUser': UserToJSON(value.subUser),
-        'subUser2': UserToJSON(value.subUser2),
+        'id': value['id'],
+        'username': value['username'],
+        'firstName': value['firstName'],
+        'lastName': value['lastName'],
+        'email': value['email'],
+        'password': value['password'],
+        'phone': value['phone'],
+        'userStatus': value['userStatus'],
+        'subUser': UserToJSON(value['subUser']),
+        'subUser2': UserToJSON(value['subUser2']),
     };
 }
 

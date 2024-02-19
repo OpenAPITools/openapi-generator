@@ -59,7 +59,6 @@ public class Foo {
   }
 
   public Foo bar(String bar) {
-    
     this.bar = bar;
     return this;
   }
@@ -72,7 +71,6 @@ public class Foo {
   public String getBar() {
     return bar;
   }
-
 
   public void setBar(String bar) {
     this.bar = bar;
@@ -222,7 +220,12 @@ public class Foo {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

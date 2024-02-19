@@ -110,6 +110,6 @@ No, please use `swift3` or `swift4` generator instead as we want to focus on Swi
 Yes, please use the following option when generating TypeScript clients:
 
 ```
-	modelPropertyNaming
-	    Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
+    modelPropertyNaming
+        Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name (Default: camelCase)
 ```

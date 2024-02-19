@@ -56,6 +56,10 @@ public interface FakeApi {
 
     void fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterObjectWithEnumProperty>> handler);
 
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody, Handler<AsyncResult<Void>> handler);
+
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+
     void testBodyWithBinary(AsyncFile body, Handler<AsyncResult<Void>> handler);
 
     void testBodyWithBinary(AsyncFile body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
@@ -103,5 +107,9 @@ public interface FakeApi {
     void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, Handler<AsyncResult<Void>> handler);
 
     void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
+
+    void testStringMapReference(Map<String, String> requestBody, Handler<AsyncResult<Void>> handler);
+
+    void testStringMapReference(Map<String, String> requestBody, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> handler);
 
 }

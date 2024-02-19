@@ -96,19 +96,24 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fake_property_enum_integer_serialize**](docs/FakeApi.md#fake_property_enum_integer_serialize) | **POST** /fake/property/enum-int | 
+*FakeApi* | [**fake_ref_enum_string**](docs/FakeApi.md#fake_ref_enum_string) | **GET** /fake/ref_enum_string | test ref to enum string
 *FakeApi* | [**fake_return_list_of_objects**](docs/FakeApi.md#fake_return_list_of_objects) | **GET** /fake/return_list_of_object | test returning list of objects
 *FakeApi* | [**fake_uuid_example**](docs/FakeApi.md#fake_uuid_example) | **GET** /fake/uuid_example | test uuid example
+*FakeApi* | [**test_additional_properties_reference**](docs/FakeApi.md#test_additional_properties_reference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**test_body_with_binary**](docs/FakeApi.md#test_body_with_binary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**test_date_time_query_parameter**](docs/FakeApi.md#test_date_time_query_parameter) | **PUT** /fake/date-time-query-params | 
+*FakeApi* | [**test_empty_and_non_empty_responses**](docs/FakeApi.md#test_empty_and_non_empty_responses) | **POST** /fake/empty_and_non_empty_responses | test empty and non-empty responses
 *FakeApi* | [**test_endpoint_parameters**](docs/FakeApi.md#test_endpoint_parameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+*FakeApi* | [**test_error_responses_with_model**](docs/FakeApi.md#test_error_responses_with_model) | **POST** /fake/error_responses_with_model | test error responses with model
 *FakeApi* | [**test_group_parameters**](docs/FakeApi.md#test_group_parameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -149,6 +154,7 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [BasquePig](docs/BasquePig.md)
+ - [Bathing](docs/Bathing.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
@@ -167,6 +173,7 @@ Class | Method | HTTP request | Description
  - [EnumString1](docs/EnumString1.md)
  - [EnumString2](docs/EnumString2.md)
  - [EnumTest](docs/EnumTest.md)
+ - [Feeding](docs/Feeding.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [FirstRef](docs/FirstRef.md)
@@ -176,6 +183,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
+ - [InputAllOf](docs/InputAllOf.md)
  - [IntOrString](docs/IntOrString.md)
  - [ListClass](docs/ListClass.md)
  - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
@@ -201,6 +209,8 @@ Class | Method | HTTP request | Description
  - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [PoopCleaning](docs/PoopCleaning.md)
+ - [PropertyMap](docs/PropertyMap.md)
  - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SecondRef](docs/SecondRef.md)
@@ -210,6 +220,10 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [Task](docs/Task.md)
+ - [TaskActivity](docs/TaskActivity.md)
+ - [TestErrorResponsesWithModel400Response](docs/TestErrorResponsesWithModel400Response.md)
+ - [TestErrorResponsesWithModel404Response](docs/TestErrorResponsesWithModel404Response.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [Tiger](docs/Tiger.md)
  - [UnnamedDictWithAdditionalModelListProperties](docs/UnnamedDictWithAdditionalModelListProperties.md)

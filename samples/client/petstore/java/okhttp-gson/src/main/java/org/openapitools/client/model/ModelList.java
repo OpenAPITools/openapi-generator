@@ -59,7 +59,6 @@ public class ModelList {
   }
 
   public ModelList _123list(String _123list) {
-    
     this._123list = _123list;
     return this;
   }
@@ -72,7 +71,6 @@ public class ModelList {
   public String get123list() {
     return _123list;
   }
-
 
   public void set123list(String _123list) {
     this._123list = _123list;
@@ -222,7 +220,12 @@ public class ModelList {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

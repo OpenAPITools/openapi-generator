@@ -47,7 +47,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default ResponseEntity<Void> createUsersWithArrayInput(List<User> user) {
+    default ResponseEntity<Void> createUsersWithArrayInput(List<@Valid User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -60,7 +60,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default ResponseEntity<Void> createUsersWithListInput(List<User> user) {
+    default ResponseEntity<Void> createUsersWithListInput(List<@Valid User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

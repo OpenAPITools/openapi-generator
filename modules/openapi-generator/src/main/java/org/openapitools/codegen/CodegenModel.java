@@ -51,8 +51,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
 
-    // The schema name as written in the OpenAPI document.
+    // The schema name as written in the OpenAPI document
+    // If it's a reserved word, it will be escaped.
     public String name;
+    // The original schema name as written in the OpenAPI document.
+    public String schemaName;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
     // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
@@ -177,6 +180,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private boolean hasDiscriminatorWithNonEmptyMapping;
     private boolean isAnyType;
     private boolean isUuid;
+    private boolean isUri;
     private Map<String, CodegenProperty> requiredVarsMap;
     private String ref;
 
@@ -490,6 +494,15 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
 
     public List<CodegenProperty> getOptionalVars() {
         return optionalVars;
@@ -979,6 +992,10 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setIsUuid(boolean isUuid) { this.isUuid = isUuid; }
 
+    public boolean getIsUri() { return isUri; }
+
+    public void setIsUri(boolean isUri) { this.isUri = isUri; }
+
     @Override
     public void setComposedSchemas(CodegenComposedSchemas composedSchemas) {
         this.composedSchemas = composedSchemas;
@@ -1112,6 +1129,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasMultipleTypes == that.getHasMultipleTypes() &&
                 hasDiscriminatorWithNonEmptyMapping == that.getHasDiscriminatorWithNonEmptyMapping() &&
                 isUuid == that.getIsUuid() &&
+                isUri == that.getIsUri() &&
                 isBooleanSchemaTrue == that.getIsBooleanSchemaTrue() &&
                 isBooleanSchemaFalse == that.getIsBooleanSchemaFalse() &&
                 getSchemaIsFromAdditionalProperties() == that.getSchemaIsFromAdditionalProperties() &&
@@ -1138,6 +1156,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(oneOf, that.oneOf) &&
                 Objects.equals(allOf, that.allOf) &&
                 Objects.equals(name, that.name) &&
+                Objects.equals(schemaName, that.schemaName) &&
                 Objects.equals(classname, that.classname) &&
                 Objects.equals(title, that.title) &&
                 Objects.equals(description, that.description) &&
@@ -1186,7 +1205,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     @Override
     public int hashCode() {
         return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
-                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
+                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getSchemaName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
                 getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
@@ -1199,7 +1218,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf(), getItems(), getAdditionalProperties(), getIsModel(),
                 getAdditionalPropertiesIsAnyType(), hasDiscriminatorWithNonEmptyMapping,
-                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, requiredVarsMap, ref,
+                isAnyType, getComposedSchemas(), hasMultipleTypes, isDecimal, isUuid, isUri, requiredVarsMap, ref,
                 uniqueItemsBoolean, schemaIsFromAdditionalProperties, isBooleanSchemaTrue, isBooleanSchemaFalse,
                 format, dependentRequired, contains);
     }
@@ -1208,6 +1227,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
         sb.append("name='").append(name).append('\'');
+        sb.append(", schemaName='").append(schemaName).append('\'');
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
@@ -1300,6 +1320,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", hasMultipleTypes=").append(hasMultipleTypes);
         sb.append(", isDecimal=").append(isDecimal);
         sb.append(", isUUID=").append(isUuid);
+        sb.append(", isURI=").append(isUri);
         sb.append(", requiredVarsMap=").append(requiredVarsMap);
         sb.append(", ref=").append(ref);
         sb.append(", schemaIsFromAdditionalProperties=").append(schemaIsFromAdditionalProperties);

@@ -62,7 +62,6 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
 
-  
   public HasOnlyReadOnly(
      String bar, 
      String foo
@@ -83,7 +82,6 @@ public class HasOnlyReadOnly {
 
 
 
-
    /**
    * Get foo
    * @return foo
@@ -92,7 +90,6 @@ public class HasOnlyReadOnly {
   public String getFoo() {
     return foo;
   }
-
 
 
   /**
@@ -245,7 +242,12 @@ public class HasOnlyReadOnly {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

@@ -78,7 +78,6 @@ public class Drawing {
   }
 
   public Drawing mainShape(Shape mainShape) {
-    
     this.mainShape = mainShape;
     return this;
   }
@@ -92,14 +91,12 @@ public class Drawing {
     return mainShape;
   }
 
-
   public void setMainShape(Shape mainShape) {
     this.mainShape = mainShape;
   }
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -113,14 +110,12 @@ public class Drawing {
     return shapeOrNull;
   }
 
-
   public void setShapeOrNull(ShapeOrNull shapeOrNull) {
     this.shapeOrNull = shapeOrNull;
   }
 
 
   public Drawing nullableShape(NullableShape nullableShape) {
-    
     this.nullableShape = nullableShape;
     return this;
   }
@@ -134,14 +129,12 @@ public class Drawing {
     return nullableShape;
   }
 
-
   public void setNullableShape(NullableShape nullableShape) {
     this.nullableShape = nullableShape;
   }
 
 
   public Drawing shapes(List<Shape> shapes) {
-    
     this.shapes = shapes;
     return this;
   }
@@ -162,7 +155,6 @@ public class Drawing {
   public List<Shape> getShapes() {
     return shapes;
   }
-
 
   public void setShapes(List<Shape> shapes) {
     this.shapes = shapes;
@@ -355,7 +347,12 @@ public class Drawing {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

@@ -5,3 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/swift-combine
 additionalProperties:
   hideGenerationTimestamp: "true"
   projectName: "PetstoreOpenAPI"
+enumNameMappings:
+  delivered: shipped
