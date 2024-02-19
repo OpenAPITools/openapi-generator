@@ -50,10 +50,8 @@ export interface GetPetPartTypeResponse {
  * Check if a given object implements the GetPetPartTypeResponse interface.
  */
 export function instanceOfGetPetPartTypeResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeResponse {
@@ -61,7 +59,7 @@ export function GetPetPartTypeResponseFromJSON(json: any): GetPetPartTypeRespons
 }
 
 export function GetPetPartTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetPetPartTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -80,8 +78,8 @@ export function GetPetPartTypeResponseToJSON(value?: GetPetPartTypeResponse | nu
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': PetPartTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': PetPartTypeToJSON(value['data']),
     };
 }
 
