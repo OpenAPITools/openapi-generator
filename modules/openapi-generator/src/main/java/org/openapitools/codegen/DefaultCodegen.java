@@ -8437,7 +8437,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.
      * The definition of constant is single valued required enum params.
-     * The constantParams in the the generated code should be hardcoded to the constantValue if autosetConstants feature is enabled.
+     * The constantParams in the generated code should be hardcoded to the constantValue if autosetConstants feature is enabled.
      *
      * @param operation - operation to be processed
      */

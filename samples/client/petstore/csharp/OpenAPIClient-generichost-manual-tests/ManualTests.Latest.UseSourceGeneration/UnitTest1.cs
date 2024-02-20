@@ -112,7 +112,7 @@ public class UnitTest1
                 gmFruit2.Apple.Origin.Equals(gmFruit.Apple.Origin) &&
                 gmFruit2.Banana.LengthCm.Equals(gmFruit.Banana.LengthCm));
 
-            // TODO: assert the the properties from Banana and GmFruit are in additionalProperties
+            // TODO: assert the properties from Banana and GmFruit are in additionalProperties
         }
 
         [TestMethod]
