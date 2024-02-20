@@ -22,7 +22,6 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -52,8 +51,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
 
-    // The schema name as written in the OpenAPI document.
+    // The schema name as written in the OpenAPI document
+    // If it's a reserved word, it will be escaped.
     public String name;
+    // The original schema name as written in the OpenAPI document.
+    public String schemaName;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
     // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
@@ -420,7 +422,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && ObjectUtils.isNotEmpty(this.interfaces) &&
+        if (discriminator != null && this.interfaces != null &&
             (!discriminator.getMappedModels().isEmpty()) || this.vendorExtensions.containsKey("x-discriminator-value")) {
             // avoid generating @JSonTypeName in child classes
             this.hasDiscriminatorWithNonEmptyMapping = true;
@@ -494,6 +496,15 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getSchemaName() {
+        return schemaName;
+    }
+
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
 
     public List<CodegenProperty> getOptionalVars() {
         return optionalVars;
@@ -1218,6 +1229,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
         sb.append("name='").append(name).append('\'');
+        sb.append(", schemaName='").append(schemaName).append('\'');
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
