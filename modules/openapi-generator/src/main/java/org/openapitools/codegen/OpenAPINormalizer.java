@@ -458,33 +458,31 @@ public class OpenAPINormalizer {
         } else if (ModelUtils.isAllOf(schema)) { // allOf
             return normalizeAllOf(schema, visitedSchemas);
         } else if (ModelUtils.isComposedSchema(schema)) { // composed schema
-            ComposedSchema cs = (ComposedSchema) schema;
-
-            if (ModelUtils.isComplexComposedSchema(cs)) {
-                cs = (ComposedSchema) normalizeComplexComposedSchema(cs, visitedSchemas);
+            if (ModelUtils.isComplexComposedSchema(schema)) {
+                schema = normalizeComplexComposedSchema(schema, visitedSchemas);
             }
 
-            if (cs.getAllOf() != null && !cs.getAllOf().isEmpty()) {
-                return normalizeAllOf(cs, visitedSchemas);
+            if (schema.getAllOf() != null && !schema.getAllOf().isEmpty()) {
+                return normalizeAllOf(schema, visitedSchemas);
             }
 
-            if (cs.getOneOf() != null && !cs.getOneOf().isEmpty()) {
-                return normalizeOneOf(cs, visitedSchemas);
+            if (schema.getOneOf() != null && !schema.getOneOf().isEmpty()) {
+                return normalizeOneOf(schema, visitedSchemas);
             }
 
-            if (cs.getAnyOf() != null && !cs.getAnyOf().isEmpty()) {
-                return normalizeAnyOf(cs, visitedSchemas);
+            if (schema.getAnyOf() != null && !schema.getAnyOf().isEmpty()) {
+                return normalizeAnyOf(schema, visitedSchemas);
             }
 
-            if (cs.getProperties() != null && !cs.getProperties().isEmpty()) {
-                normalizeProperties(cs.getProperties(), visitedSchemas);
+            if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+                normalizeProperties(schema.getProperties(), visitedSchemas);
             }
 
-            if (cs.getAdditionalProperties() != null) {
+            if (schema.getAdditionalProperties() != null) {
                 // normalizeAdditionalProperties(m);
             }
 
-            return cs;
+            return schema;
         } else if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
             normalizeProperties(schema.getProperties(), visitedSchemas);
         } else if (schema instanceof BooleanSchema) {
