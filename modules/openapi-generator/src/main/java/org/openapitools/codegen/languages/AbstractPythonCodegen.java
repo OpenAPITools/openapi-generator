@@ -953,6 +953,10 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 }
             }
 
+            // if pydantic model
+            if (!model.isEnum) {
+                moduleImports.add("pydantic", "ConfigDict");
+            }
 
             //loop through properties/schemas to set up typing, pydantic
             for (CodegenProperty cp : codegenProperties) {
