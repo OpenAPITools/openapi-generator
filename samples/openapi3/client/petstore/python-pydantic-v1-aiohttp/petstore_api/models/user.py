@@ -21,8 +21,6 @@ import json
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-
-
 class User(BaseModel):
     """
     User

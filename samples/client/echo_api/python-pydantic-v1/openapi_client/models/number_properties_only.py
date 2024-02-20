@@ -22,8 +22,6 @@ import json
 from typing import Optional, Union
 from pydantic import BaseModel, StrictFloat, StrictInt, confloat, conint
 
-
-
 class NumberPropertiesOnly(BaseModel):
     """
     NumberPropertiesOnly

@@ -22,8 +22,6 @@ from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field
 from petstore_api.models.inner_dict_with_property import InnerDictWithProperty
 
-
-
 class ParentWithOptionalDict(BaseModel):
     """
     ParentWithOptionalDict

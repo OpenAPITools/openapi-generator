@@ -22,8 +22,6 @@ import json
 from typing import Optional
 from pydantic import BaseModel, StrictInt, StrictStr
 
-
-
 class Category(BaseModel):
     """
     Category

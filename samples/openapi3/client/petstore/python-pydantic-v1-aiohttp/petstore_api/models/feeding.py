@@ -21,8 +21,6 @@ import json
 
 from pydantic import BaseModel, Field, StrictStr, validator
 
-
-
 class Feeding(BaseModel):
     """
     Feeding

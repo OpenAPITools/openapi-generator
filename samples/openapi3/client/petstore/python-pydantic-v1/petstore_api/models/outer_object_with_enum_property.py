@@ -23,8 +23,6 @@ from pydantic import BaseModel, Field
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 
-
-
 class OuterObjectWithEnumProperty(BaseModel):
     """
     OuterObjectWithEnumProperty

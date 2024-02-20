@@ -21,8 +21,6 @@ import json
 from typing import Optional
 from pydantic import BaseModel, StrictInt
 
-
-
 class CircularReferenceModel(BaseModel):
     """
     CircularReferenceModel

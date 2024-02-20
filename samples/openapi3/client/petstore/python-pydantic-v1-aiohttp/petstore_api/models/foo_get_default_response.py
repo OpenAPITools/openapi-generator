@@ -22,8 +22,6 @@ from typing import Optional
 from pydantic import BaseModel
 from petstore_api.models.foo import Foo
 
-
-
 class FooGetDefaultResponse(BaseModel):
     """
     FooGetDefaultResponse

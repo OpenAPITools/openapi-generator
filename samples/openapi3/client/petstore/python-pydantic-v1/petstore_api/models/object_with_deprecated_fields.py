@@ -22,8 +22,6 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, StrictFloat, StrictStr, conlist
 from petstore_api.models.deprecated_object import DeprecatedObject
 
-
-
 class ObjectWithDeprecatedFields(BaseModel):
     """
     ObjectWithDeprecatedFields

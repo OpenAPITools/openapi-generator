@@ -22,8 +22,6 @@ from typing import List, Optional
 from pydantic import BaseModel, StrictInt, StrictStr, conlist
 from petstore_api.models.read_only_first import ReadOnlyFirst
 
-
-
 class ArrayTest(BaseModel):
     """
     ArrayTest

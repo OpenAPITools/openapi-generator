@@ -23,8 +23,6 @@ from petstore_api.models.animal import Animal
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class Cat(Animal):
     """
     Cat

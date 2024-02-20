@@ -21,8 +21,6 @@ import json
 from typing import Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-
-
 class Name(BaseModel):
     """
     Model for testing model name same as property name  # noqa: E501

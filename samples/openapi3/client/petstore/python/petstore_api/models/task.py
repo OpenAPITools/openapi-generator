@@ -23,8 +23,6 @@ from petstore_api.models.task_activity import TaskActivity
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class Task(BaseModel):
     """
     Used to test oneOf enums with only one string value.

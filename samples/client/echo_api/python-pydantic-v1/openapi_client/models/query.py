@@ -22,8 +22,6 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, Field, StrictInt, StrictStr, conlist, validator
 
-
-
 class Query(BaseModel):
     """
     Query

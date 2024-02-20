@@ -21,13 +21,11 @@ import json
 from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictStr
 
-
 from typing import TYPE_CHECKING
 from importlib import import_module
 if TYPE_CHECKING:
     from petstore_api.models.cat import Cat
     from petstore_api.models.dog import Dog
-
 
 class Animal(BaseModel):
     """

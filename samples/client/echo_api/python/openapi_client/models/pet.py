@@ -25,8 +25,6 @@ from openapi_client.models.tag import Tag
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class Pet(BaseModel):
     """
     Pet

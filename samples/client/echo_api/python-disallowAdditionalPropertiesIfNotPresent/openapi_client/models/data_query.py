@@ -25,8 +25,6 @@ from openapi_client.models.query import Query
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class DataQuery(Query):
     """
     DataQuery

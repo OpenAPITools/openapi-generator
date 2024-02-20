@@ -23,12 +23,10 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
-
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from petstore_api.models.cat import Cat
     from petstore_api.models.dog import Dog
-
 
 class Animal(BaseModel):
     """

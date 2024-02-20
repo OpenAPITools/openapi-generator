@@ -21,8 +21,6 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, StrictStr
 
-
-
 class TestErrorResponsesWithModel400Response(BaseModel):
     """
     TestErrorResponsesWithModel400Response

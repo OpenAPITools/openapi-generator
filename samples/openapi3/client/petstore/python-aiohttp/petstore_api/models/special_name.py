@@ -23,8 +23,6 @@ from petstore_api.models.category import Category
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class SpecialName(BaseModel):
     """
     SpecialName

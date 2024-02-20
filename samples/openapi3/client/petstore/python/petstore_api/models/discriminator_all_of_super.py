@@ -23,11 +23,9 @@ from typing import Any, ClassVar, Dict, List, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
-
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
-
 
 class DiscriminatorAllOfSuper(BaseModel):
     """

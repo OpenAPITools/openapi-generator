@@ -21,8 +21,6 @@ import json
 from typing import Optional
 from pydantic import BaseModel, Field, StrictBool
 
-
-
 class ObjectToTestAdditionalProperties(BaseModel):
     """
     Minimal object  # noqa: E501

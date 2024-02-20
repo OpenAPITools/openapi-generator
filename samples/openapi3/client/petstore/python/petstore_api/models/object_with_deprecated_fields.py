@@ -23,8 +23,6 @@ from petstore_api.models.deprecated_object import DeprecatedObject
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class ObjectWithDeprecatedFields(BaseModel):
     """
     ObjectWithDeprecatedFields

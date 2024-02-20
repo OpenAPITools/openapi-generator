@@ -21,8 +21,6 @@ import json
 
 from pydantic import BaseModel, Field, StrictInt, StrictStr
 
-
-
 class DanishPig(BaseModel):
     """
     DanishPig

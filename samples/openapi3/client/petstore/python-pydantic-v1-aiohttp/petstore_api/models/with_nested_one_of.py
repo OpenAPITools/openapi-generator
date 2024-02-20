@@ -23,8 +23,6 @@ from pydantic import BaseModel, StrictInt
 from petstore_api.models.one_of_enum_string import OneOfEnumString
 from petstore_api.models.pig import Pig
 
-
-
 class WithNestedOneOf(BaseModel):
     """
     WithNestedOneOf

@@ -22,8 +22,6 @@ from typing import Dict, Optional
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.animal import Animal
 
-
-
 class MixedPropertiesAndAdditionalPropertiesClass(BaseModel):
     """
     MixedPropertiesAndAdditionalPropertiesClass

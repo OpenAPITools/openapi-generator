@@ -21,8 +21,6 @@ import json
 from typing import List, Optional
 from pydantic import BaseModel, Field, conlist
 
-
-
 class ArrayOfNumberOnly(BaseModel):
     """
     ArrayOfNumberOnly

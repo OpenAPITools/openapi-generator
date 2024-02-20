@@ -21,8 +21,6 @@ import json
 from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field, StrictStr
 
-
-
 class ClassModel(BaseModel):
     """
     Model for testing model with \"_class\" property  # noqa: E501

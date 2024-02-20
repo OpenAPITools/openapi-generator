@@ -26,8 +26,6 @@ from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntege
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class EnumTest(BaseModel):
     """
     EnumTest

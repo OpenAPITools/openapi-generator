@@ -25,8 +25,6 @@ from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
 from petstore_api.models.outer_enum_integer import OuterEnumInteger
 from petstore_api.models.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 
-
-
 class EnumTest(BaseModel):
     """
     EnumTest

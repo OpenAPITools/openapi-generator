@@ -22,8 +22,6 @@ import json
 from pydantic import BaseModel, Field, StrictStr
 from petstore_api.models.task_activity import TaskActivity
 
-
-
 class Task(BaseModel):
     """
     Used to test oneOf enums with only one string value.  # noqa: E501

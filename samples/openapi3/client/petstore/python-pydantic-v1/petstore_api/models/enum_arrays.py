@@ -21,8 +21,6 @@ import json
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, StrictStr, conlist, validator
 
-
-
 class EnumArrays(BaseModel):
     """
     EnumArrays

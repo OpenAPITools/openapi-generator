@@ -22,8 +22,6 @@ from petstore_api.models.discriminator_all_of_super import DiscriminatorAllOfSup
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class DiscriminatorAllOfSub(DiscriminatorAllOfSuper):
     """
     DiscriminatorAllOfSub

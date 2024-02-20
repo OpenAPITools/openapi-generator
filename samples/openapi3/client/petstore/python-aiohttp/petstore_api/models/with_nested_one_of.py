@@ -24,8 +24,6 @@ from petstore_api.models.pig import Pig
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class WithNestedOneOf(BaseModel):
     """
     WithNestedOneOf

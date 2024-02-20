@@ -22,8 +22,6 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, conlist
 from petstore_api.models.file import File
 
-
-
 class FileSchemaTestClass(BaseModel):
     """
     FileSchemaTestClass

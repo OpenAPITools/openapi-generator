@@ -22,8 +22,6 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, conlist
 from petstore_api.models.tag import Tag
 
-
-
 class MapOfArrayOfModel(BaseModel):
     """
     MapOfArrayOfModel

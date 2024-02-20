@@ -21,8 +21,6 @@ import json
 from typing import Dict, Optional
 from pydantic import BaseModel, StrictStr
 
-
-
 class AdditionalPropertiesClass(BaseModel):
     """
     AdditionalPropertiesClass

@@ -23,8 +23,6 @@ from typing import Optional
 from pydantic import Field, StrictStr
 from openapi_client.models.query import Query
 
-
-
 class DataQuery(Query):
     """
     DataQuery

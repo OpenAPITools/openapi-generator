@@ -21,12 +21,10 @@ import json
 from typing import Any, Dict, Union
 from pydantic import BaseModel, Field, StrictStr
 
-
 from typing import TYPE_CHECKING
 from importlib import import_module
 if TYPE_CHECKING:
     from petstore_api.models.discriminator_all_of_sub import DiscriminatorAllOfSub
-
 
 class DiscriminatorAllOfSuper(BaseModel):
     """

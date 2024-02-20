@@ -22,8 +22,6 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-
-
 class Model200Response(BaseModel):
     """
     Model for testing model name starting with number
