@@ -927,10 +927,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                 // if super class
                 if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
                     moduleImports.add("typing", "Union");
-                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getModelName());
-                    }
+                    moduleImports.add("importlib", "import_module");
                 }
             }
 
