@@ -435,6 +435,28 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "test cookie parameter generation on interface")
+    public void cookieParameterGeneration() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_1/kotlin-spring/petstore.yaml"))
+                .config(codegen))
+            .generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/UserApi.kt"),
+            "@CookieValue"
+        );
+    }
+
     @Test(description = "use Spring boot 3 & jakarta extension")
     public void useSpringBoot3() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
