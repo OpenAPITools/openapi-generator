@@ -15,7 +15,9 @@ use super::Banana;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "fruitType")]
 pub enum Fruit {
+    #[serde(rename="APPLE")]
     Apple(Box<Apple>),
+    #[serde(rename="BANANA")]
     Banana(Box<Banana>),
 }
 

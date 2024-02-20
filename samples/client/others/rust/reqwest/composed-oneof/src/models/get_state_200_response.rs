@@ -16,8 +16,11 @@ use super::ObjD;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum GetState200Response {
+    #[serde(rename="a-type")]
     ObjA(Box<ObjA>),
+    #[serde(rename="b-type")]
     ObjB(Box<ObjB>),
+    #[serde(rename="d-type")]
     ObjD(Box<ObjD>),
 }
 

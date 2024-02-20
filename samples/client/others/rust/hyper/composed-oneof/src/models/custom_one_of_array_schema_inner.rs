@@ -16,8 +16,11 @@ use super::ObjC;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CustomOneOfArraySchemaInner {
+    #[serde(rename="a-type")]
     ObjA(Box<ObjA>),
+    #[serde(rename="b-type")]
     ObjB(Box<ObjB>),
+    #[serde(rename="c-type")]
     ObjC(Box<ObjC>),
 }
 

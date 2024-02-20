@@ -15,7 +15,9 @@ use super::ObjB;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CreateStateRequest {
+    #[serde(rename="a-type")]
     ObjA(Box<ObjA>),
+    #[serde(rename="b-type")]
     ObjB(Box<ObjB>),
 }
 

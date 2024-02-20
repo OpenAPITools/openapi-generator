@@ -60,12 +60,20 @@ pub enum {{{classname}}} {
     },
     {{/mappedModels}}
     {{/oneOf}}
-    {{#oneOf}}
+    {{^oneOf.isEmpty}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
+    {{#mappedModels}}
+    #[serde(rename="{{mappingName}}")]
+    {{{modelName}}}(Box<{{{modelName}}}>),
+    {{/mappedModels}}
+    {{^mappedModels}}
+    {{#oneOf}}
     {{{.}}}(Box<{{{.}}}>),
     {{/oneOf}}
+    {{/mappedModels}}
+    {{/oneOf.isEmpty}}
 }
 
 impl Default for {{classname}} {
