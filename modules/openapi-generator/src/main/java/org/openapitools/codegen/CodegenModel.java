@@ -52,11 +52,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<>();
     public Set<String> allOf = new TreeSet<>();
 
-    // The schema name as written in the OpenAPI document
-    // If it's a reserved word, it will be escaped.
+    // The schema name as written in the OpenAPI document.
     public String name;
-    // The original schema name as written in the OpenAPI document.
-    public String schemaName;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
     // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied.
@@ -391,7 +388,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      * The allowed discriminator mapping value for the Dog schema is 'Dog'.
      * The allowed discriminator mapping value for the Cat schema is 'Dog'.
      *
-     * Openapi 3.0.x syntax:
      * Pet:
      *   type: object
      *   discriminator:
@@ -400,7 +396,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *     - objectType
      *   properties:
      *     objectType:
-     *       type: string
+     *     type: string
      * Dog:
      *   allOf:
      *   - $ref: '#/components/schemas/Pet'
@@ -498,15 +494,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getSchemaName() {
-        return schemaName;
-    }
-
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
-    }
-
 
     public List<CodegenProperty> getOptionalVars() {
         return optionalVars;
@@ -1231,7 +1218,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenModel{");
         sb.append("name='").append(name).append('\'');
-        sb.append(", schemaName='").append(schemaName).append('\'');
         sb.append(", parent='").append(parent).append('\'');
         sb.append(", parentSchema='").append(parentSchema).append('\'');
         sb.append(", interfaces=").append(interfaces);
