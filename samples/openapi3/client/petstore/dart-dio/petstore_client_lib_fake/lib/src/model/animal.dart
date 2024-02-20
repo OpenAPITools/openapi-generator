@@ -25,36 +25,8 @@ abstract class Animal  {
 
   static const String discriminatorFieldName = r'className';
 
-  static const Map<String, Type> discriminatorMapping = {
-    r'CAT': Cat,
-    r'DOG': Dog,
-  };
-
   @BuiltValueSerializer(custom: true)
   static Serializer<Animal> get serializer => _$AnimalSerializer();
-}
-
-extension AnimalDiscriminatorExt on Animal {
-    String? get discriminatorValue {
-        if (this is Cat) {
-            return r'CAT';
-        }
-        if (this is Dog) {
-            return r'DOG';
-        }
-        return null;
-    }
-}
-extension AnimalBuilderDiscriminatorExt on AnimalBuilder {
-    String? get discriminatorValue {
-        if (this is CatBuilder) {
-            return r'CAT';
-        }
-        if (this is DogBuilder) {
-            return r'DOG';
-        }
-        return null;
-    }
 }
 
 class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
@@ -89,12 +61,6 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     Animal object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    if (object is Cat) {
-      return serializers.serialize(object, specifiedType: FullType(Cat))!;
-    }
-    if (object is Dog) {
-      return serializers.serialize(object, specifiedType: FullType(Dog))!;
-    }
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
 
@@ -104,17 +70,7 @@ class _$AnimalSerializer implements PrimitiveSerializer<Animal> {
     Object serialized, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    final serializedList = (serialized as Iterable<Object?>).toList();
-    final discIndex = serializedList.indexOf(Animal.discriminatorFieldName) + 1;
-    final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
-    switch (discValue) {
-      case r'CAT':
-        return serializers.deserialize(serialized, specifiedType: FullType(Cat)) as Cat;
-      case r'DOG':
-        return serializers.deserialize(serialized, specifiedType: FullType(Dog)) as Dog;
-      default:
-        return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
-    }
+    return serializers.deserialize(serialized, specifiedType: FullType($Animal)) as $Animal;
   }
 }
 
