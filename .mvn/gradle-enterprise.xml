@@ -34,7 +34,7 @@
   </buildScan>
   <buildCache>
     <local>
-      <enabled>false</enabled>
+      <enabled>true</enabled>
     </local>
     <remote>
       <enabled>true</enabled>
