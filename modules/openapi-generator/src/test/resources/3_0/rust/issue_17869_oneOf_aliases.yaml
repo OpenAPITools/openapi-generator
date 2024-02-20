@@ -1,0 +1,42 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Omitted",
+    "description": "Omitted",
+    "license": {
+      "name": ""
+    },
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Omitted"
+    }
+  ],
+  "paths": {},
+  "components": {
+    "schemas": {
+      "AccountName": {
+        "type": "string",
+        "description": "An account name."
+      },
+      "AccountOrEmail": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Email"
+          },
+          {
+            "$ref": "#/components/schemas/AccountName"
+          }
+        ],
+        "description": "Either an account name or an email."
+      },
+      "Email": {
+        "type": "string",
+        "description": "An email address."
+      }
+    },
+    "responses": {}
+  }
+}

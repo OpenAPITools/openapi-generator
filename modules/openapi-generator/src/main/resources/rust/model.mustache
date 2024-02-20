@@ -112,13 +112,16 @@ impl {{{classname}}} {
 {{! TODO: add other vars that are not part of the oneOf}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
+{{#description}}
+/// {{{.}}}
+{{/description}}
 pub enum {{classname}} {
-    {{#oneOf}}
+    {{#composedSchemas.oneOf}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    {{{.}}}(Box<{{{.}}}>),
-    {{/oneOf}}
+    {{{dataType}}}{{-index}}(Box<{{{dataType}}}>),
+    {{/composedSchemas.oneOf}}
 }
 
 impl Default for {{classname}} {

@@ -1,0 +1,11 @@
+.gitignore
+.travis.yml
+Cargo.toml
+README.md
+docs/AccountOrEmail.md
+git_push.sh
+src/apis/configuration.rs
+src/apis/mod.rs
+src/lib.rs
+src/models/account_or_email.rs
+src/models/mod.rs

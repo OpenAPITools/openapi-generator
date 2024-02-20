@@ -16,8 +16,8 @@ use super::BarRef;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BarRefOrValue {
-    Bar(Box<Bar>),
-    BarRef(Box<BarRef>),
+    crate::models::Bar1(Box<crate::models::Bar>),
+    crate::models::BarRef2(Box<crate::models::BarRef>),
 }
 
 impl Default for BarRefOrValue {

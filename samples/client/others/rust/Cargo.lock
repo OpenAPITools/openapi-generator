@@ -644,6 +644,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "oneof-reqwest-oneOf-aliases"
+version = "0.1.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "openssl"
 version = "0.10.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
