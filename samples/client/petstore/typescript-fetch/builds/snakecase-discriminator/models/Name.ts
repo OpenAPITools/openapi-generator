@@ -49,10 +49,8 @@ export interface Name {
  * Check if a given object implements the Name interface.
  */
 export function instanceOfName(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "name" in value;
-
-    return isInstance;
+    if (!('name' in value)) return false;
+    return true;
 }
 
 export function NameFromJSON(json: any): Name {
@@ -60,7 +58,7 @@ export function NameFromJSON(json: any): Name {
 }
 
 export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -81,8 +79,8 @@ export function NameToJSON(value?: Name | null): any {
     }
     return {
         
-        'name': value.name,
-        'property': value.property,
+        'name': value['name'],
+        'property': value['property'],
     };
 }
 

@@ -31,16 +31,14 @@ export interface Club {
      * @type {Owner}
      * @memberof Club
      */
-    owner?: Owner | null;
+    owner?: Owner;
 }
 
 /**
  * Check if a given object implements the Club interface.
  */
 export function instanceOfClub(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ClubFromJSON(json: any): Club {
@@ -48,7 +46,7 @@ export function ClubFromJSON(json: any): Club {
 }
 
 export function ClubFromJSONTyped(json: any, ignoreDiscriminator: boolean): Club {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -66,7 +64,7 @@ export function ClubToJSON(value?: Club | null): any {
     }
     return {
         
-        'owner': OwnerToJSON(value.owner),
+        'owner': OwnerToJSON(value['owner']),
     };
 }
 

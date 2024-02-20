@@ -43,9 +43,7 @@ export interface OuterComposite {
  * Check if a given object implements the OuterComposite interface.
  */
 export function instanceOfOuterComposite(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function OuterCompositeFromJSON(json: any): OuterComposite {
@@ -53,7 +51,7 @@ export function OuterCompositeFromJSON(json: any): OuterComposite {
 }
 
 export function OuterCompositeFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterComposite {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -73,9 +71,9 @@ export function OuterCompositeToJSON(value?: OuterComposite | null): any {
     }
     return {
         
-        'my_number': value.myNumber,
-        'my_string': value.myString,
-        'my_boolean': value.myBoolean,
+        'my_number': value['myNumber'],
+        'my_string': value['myString'],
+        'my_boolean': value['myBoolean'],
     };
 }
 
