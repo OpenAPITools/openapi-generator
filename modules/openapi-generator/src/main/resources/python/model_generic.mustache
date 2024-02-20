@@ -12,15 +12,17 @@ import json
 from typing import Optional, Set
 from typing_extensions import Self
 
-{{#hasChildren}}{{#discriminator}}
+{{#hasChildren}}
+{{#discriminator}}
 {{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
 {{#mappedModels}}
     from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
 {{/mappedModels}}
-{{/discriminator}}{{/hasChildren}}
 
+{{/discriminator}}
+{{/hasChildren}}
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}{{/description}}{{^description}}{{{classname}}}{{/description}}

@@ -10,7 +10,8 @@ import json
 {{{.}}}
 {{/vendorExtensions.x-py-model-imports}}
 
-{{#hasChildren}}{{#discriminator}}
+{{#hasChildren}}
+{{#discriminator}}
 {{! If this model is a super class, importlib is used. So import the necessary modules for the type here. }}
 from typing import TYPE_CHECKING
 from importlib import import_module
@@ -18,8 +19,9 @@ if TYPE_CHECKING:
 {{#mappedModels}}
     from {{packageName}}.models.{{model.classVarName}} import {{modelName}}
 {{/mappedModels}}
-{{/discriminator}}{{/hasChildren}}
 
+{{/discriminator}}
+{{/hasChildren}}
 class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}):
     """
     {{#description}}{{{description}}}  # noqa: E501{{/description}}{{^description}}{{{classname}}}{{/description}}
