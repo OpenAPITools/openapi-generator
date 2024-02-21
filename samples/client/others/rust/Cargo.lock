@@ -672,6 +672,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "oneof-reuse-ref-hyper"
+version = "1.0.0"
+dependencies = [
+ "base64 0.7.0",
+ "futures",
+ "http",
+ "hyper",
+ "hyper-tls",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "oneof-reuse-ref-reqwest"
+version = "1.0.0"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "openssl"
 version = "0.10.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
