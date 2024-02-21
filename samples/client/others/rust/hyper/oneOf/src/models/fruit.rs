@@ -16,9 +16,9 @@ use crate::models;
 #[serde(tag = "fruitType")]
 pub enum Fruit {
     #[serde(rename="APPLE")]
-    Apple(Box<Apple>),
+    Apple(Box<models::Apple>),
     #[serde(rename="BANANA")]
-    Banana(Box<Banana>),
+    Banana(Box<models::Banana>),
 }
 
 impl Default for Fruit {

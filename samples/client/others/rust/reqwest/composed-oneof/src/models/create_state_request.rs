@@ -16,9 +16,9 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum CreateStateRequest {
     #[serde(rename="a-type")]
-    ObjA(Box<ObjA>),
+    ObjA(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<ObjB>),
+    ObjB(Box<models::ObjB>),
 }
 
 impl Default for CreateStateRequest {

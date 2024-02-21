@@ -16,11 +16,11 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum CustomOneOfArraySchemaInner {
     #[serde(rename="a-type")]
-    ObjA(Box<ObjA>),
+    ObjA(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<ObjB>),
+    ObjB(Box<models::ObjB>),
     #[serde(rename="c-type")]
-    ObjC(Box<ObjC>),
+    ObjC(Box<models::ObjC>),
 }
 
 impl Default for CustomOneOfArraySchemaInner {

@@ -16,11 +16,11 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum GetState200Response {
     #[serde(rename="a-type")]
-    ObjA(Box<ObjA>),
+    ObjA(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<ObjB>),
+    ObjB(Box<models::ObjB>),
     #[serde(rename="d-type")]
-    ObjD(Box<ObjD>),
+    ObjD(Box<models::ObjD>),
 }
 
 impl Default for GetState200Response {

@@ -60,21 +60,15 @@ pub enum {{{classname}}} {
     {{/mappedModels}}
     {{/oneOf}}
     {{^oneOf.isEmpty}}
-    {{#mappedModels}}
-    {{#description}}
-    /// {{{.}}}
-    {{/description}}
-    #[serde(rename="{{mappingName}}")]
-    {{{modelName}}}(Box<{{{modelName}}}>),
-    {{/mappedModels}}
-    {{^mappedModels}}
     {{#composedSchemas.oneOf}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
+    {{#baseName}}
+    #[serde(rename="{{{.}}}")]
+    {{/baseName}}
     {{{name}}}(Box<{{{dataType}}}>),
     {{/composedSchemas.oneOf}}
-    {{/mappedModels}}
     {{/oneOf.isEmpty}}
 }
 

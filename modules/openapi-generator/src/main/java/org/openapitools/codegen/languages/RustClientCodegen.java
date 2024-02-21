@@ -19,10 +19,7 @@ package org.openapitools.codegen.languages;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.FileSchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.media.StringSchema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import joptsimple.internal.Strings;
 import org.openapitools.codegen.*;
@@ -42,6 +39,7 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -221,12 +219,23 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 throw new RuntimeException("oneOf size does not match the model");
             }
 
+            Map<String, String> mappedNameByRef = Optional.ofNullable(model.getDiscriminator())
+                    .map(Discriminator::getMapping)
+                    .map(mapping -> mapping.entrySet()
+                            .stream()
+                            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey))
+                    )
+                    .orElse(Collections.emptyMap());
+
             for (int i = 0; i < oneOfs.size(); i++) {
                 CodegenProperty oneOf = oneOfs.get(i);
                 Schema schema = schemas.get(i);
                 String aliasType = getTypeDeclaration(schema);
                 if (aliasType.startsWith("models::")) {
                     aliasType = aliasType.substring("models::".length());
+                }
+                if (oneOf.getRef() != null) {
+                    oneOf.setBaseName(mappedNameByRef.get(oneOf.getRef()));
                 }
                 oneOf.setName(aliasType);
             }
@@ -239,10 +248,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public ModelsMap postProcessModels(ModelsMap objs) {
         // Remove the discriminator field from the model, serde will take care of this
         for (ModelMap model : objs.getModels()) {
-            System.out.println("\nMODEL: \n\n");
-            System.out.println(model);
-            System.out.println("\n\n\n");
-
             CodegenModel cm = model.getModel();
 
             if (cm.discriminator != null) {
