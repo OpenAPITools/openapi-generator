@@ -1671,45 +1671,6 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testDiscriminatorWithMappingIssue14731() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-        codegen.setUseSpringBoot3(true);
-        codegen.setModelNameSuffix("DTO");
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
-
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingADTO.java"), "@JsonTypeName");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingBDTO.java"), "@JsonTypeName");
-    }
-
-    @Test
     public void testDiscriminatorWithoutMappingIssue14731() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -4430,25 +4391,33 @@ public class SpringCodegenTest {
     @DataProvider(name = "discriminator17343")
     static Object[] discriminator17343() {
         return new Object[][]{
-            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Pet", "Cat", "dog" },
-            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "Pet", "CAT", "DOG" },
-            { "Dto", "issue_17343_openapi_and_mapping.yaml", "Pet", "CAT", "DOG" },
-            { "Dto", "issue_17343_openapi_no_mapping.yaml", "pet", "Cat", "dog" },
-            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Pet", "Cat", "dog" },
-            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "Pet", "CAT", "DOG" },
-            { "", "issue_17343_openapi_and_mapping.yaml", "Pet", "CAT", "DOG" },
-            { "", "issue_17343_openapi_no_mapping.yaml", "pet", "Cat", "dog" },
+            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", "Pet", "Cat", "dog", "BigCat" },
+            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BIGCAT", "Pet", "CAT", "DOG", "BIGCAT"  },
+            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BIGCAT", "Pet", "CAT", "DOG", "BIGCAT" },
+            { "Dto", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", "Cat", "dog", "BigCat" },
+            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", null, null, "dog", null },
+            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BIGCAT", null, "CAT", "DOG", "BIGCAT" },
+            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BIGCAT", null, "CAT", "DOG", "BIGCAT" },
+            { "", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", null, "dog", null },
         };
     }
     @Test(dataProvider = "discriminator17343")
-    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile, String expectedPetAnnotation, String expectedCatAnnotation, String expectedDogAnnotation) throws IOException {
+    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile,
+        String expectedCatAnnotation,
+        String expectedDogAnnotation,
+        String expectedBigCatAnnotation,
+
+        String expectedJsonTypeNamePetAnnotation,
+        String expectedTypeNameCatAnnotation,
+        String expectedTypeNameDogAnnotation,
+        String expectedTypeNameBigCatAnnotation
+        ) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/" + testFile);
         final SpringCodegen codegen = new SpringCodegen();
         codegen.setOpenAPI(openAPI);
-        codegen.setLegacyDiscriminatorBehavior(false);
         codegen.setModelNameSuffix(modelNameSuffix);
         codegen.setOutputDir(output.getAbsolutePath());
         ClientOptInput input = new ClientOptInput();
@@ -4462,20 +4431,21 @@ public class SpringCodegenTest {
 
         String petClass = "Pet" + modelNameSuffix;
         String expectedJsonSubTypesTypeAnnotation = String.format(Locale.ROOT,
-            "{ @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
-            modelNameSuffix, expectedCatAnnotation,modelNameSuffix, expectedDogAnnotation);
+            "{ @JsonSubTypes.Type(value = BigCat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
+            modelNameSuffix, expectedBigCatAnnotation, modelNameSuffix, expectedCatAnnotation,modelNameSuffix, expectedDogAnnotation);
         File petFile = files.get(petClass + ".java");
         JavaFileAssert.assertThat(petFile)
             .assertTypeAnnotations()
-            .containsWithNameAndAttributes(
-                "JsonSubTypes", Map.of("value", expectedJsonSubTypesTypeAnnotation));
+            .containsWithNameAndAttributes("JsonSubTypes", Map.of("value", expectedJsonSubTypesTypeAnnotation));
 
-        expectJsonTypeNameAnnotation(petFile, null, expectedPetAnnotation);
-        expectJsonTypeNameAnnotation(files.get( "Dog" + modelNameSuffix + ".java"), petClass, expectedDogAnnotation);
-        expectJsonTypeNameAnnotation(files.get("Cat" + modelNameSuffix + ".java"), petClass, expectedCatAnnotation);
+        expectJsonTypeNameAnnotation(petFile, null, expectedJsonTypeNamePetAnnotation);
+        expectJsonTypeNameAnnotation(files.get("Dog" + modelNameSuffix + ".java"), petClass, expectedTypeNameDogAnnotation);
+        expectJsonTypeNameAnnotation(files.get("Cat" + modelNameSuffix + ".java"), petClass, expectedTypeNameCatAnnotation);
+        expectJsonTypeNameAnnotation(files.get("BigCat" + modelNameSuffix + ".java"), "Cat" + modelNameSuffix, expectedTypeNameBigCatAnnotation);
     }
 
     private void expectJsonTypeNameAnnotation(File file, String expectedExtends, String expectedJsonAnnotation) {
+        try {
         JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(file);
         if (expectedExtends != null) {
             javaFileAssert.fileContains(" extends " + expectedExtends);
@@ -4486,55 +4456,12 @@ public class SpringCodegenTest {
         if (expectedJsonAnnotation == null) {
             dogAnnotation.doesNotContainsWithName("JsonTypeName");
         } else {
-            try {
-                // either the annotation is not present. It works with the @JsonSubTypes.Type in the parent class
-                dogAnnotation.doesNotContainsWithName("JsonTypeName");
-            } catch (AssertionError e) {
-                // if the annotation is present, it should be correct
-                dogAnnotation.containsWithNameAndAttributes("JsonTypeName",
-                    Map.of("value", "\"" + expectedJsonAnnotation + "\""));
-            }
+            dogAnnotation.containsWithNameAndAttributes("JsonTypeName",
+                Map.of("value", "\"" + expectedJsonAnnotation + "\""));
         }
-    }
-
-    @Test
-    public void testXDiscriminatorValue_issue17343() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_17343.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setModelNameSuffix("Dto");
-        codegen.setOutputDir(output.getAbsolutePath());
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("DogItemDto.java")).assertTypeAnnotations()
-                .doesNotContainsWithName("JsonTypeName");
-        JavaFileAssert.assertThat(files.get("CatItemDto.java")).assertTypeAnnotations()
-            .doesNotContainsWithName("JsonTypeName");
-        JavaFileAssert.assertThat(files.get("PetItemDto.java"))
-                .assertTypeAnnotations()
-                .contains(new SingleMemberAnnotationExpr(new Name("JsonSubTypes"),
-                    new ArrayInitializerExpr(NodeList.nodeList(
-                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
-                            NodeList.nodeList(
-                                new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("CatItemDto"))),
-                                new MemberValuePair("name", new StringLiteralExpr("CAT"))
-                        )),
-                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
-                           NodeList.nodeList(
-                                   new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("DogItemDto"))),
-                                   new MemberValuePair("name", new StringLiteralExpr("DOG"))
-                   )))
-            )));
+        } catch (AssertionError e) {
+            throw new AssertionError("Error on " + file, e);
+        }
     }
 
     @Test

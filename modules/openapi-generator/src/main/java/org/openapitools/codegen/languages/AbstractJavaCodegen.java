@@ -668,10 +668,38 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
     }
 
+    private void postProcessMappingDiscriminators(Map<String, ModelsMap> objs) {
+        for (ModelsMap modelMaps: objs.values()) {
+            for (ModelMap modelMap : modelMaps.getModels()) {
+                CodegenModel model = modelMap.getModel();
+                if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
+                    for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
+                        String modelName = mappedModel.getModelName();
+                        CodegenModel childModel = getChildMatchingModel(model, modelName);
+                        if (childModel != null) {
+                            childModel.name = mappedModel.getMappingName();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private CodegenModel getChildMatchingModel(CodegenModel model, String modelName) {
+        if (model.children == null) {
+            return null;
+        }
+        return model.children.stream()
+            .filter(m -> m.classname.equals(modelName))
+            .findFirst()
+            .orElse(null);
+    }
+
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
+        postProcessMappingDiscriminators(objs);
 
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {

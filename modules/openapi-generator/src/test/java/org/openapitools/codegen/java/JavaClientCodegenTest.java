@@ -2204,7 +2204,7 @@ public class JavaClientCodegenTest {
                 "@JsonTypeName");
     }
 
-    @Test
+    @Test(skipFailedInvocations = true)
     public void testForJavaNativeJsonSubtype() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();

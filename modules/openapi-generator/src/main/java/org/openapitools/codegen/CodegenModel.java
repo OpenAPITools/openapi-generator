@@ -345,6 +345,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return !StringUtils.equals(classname, name);
     }
 
+    /**
+     *
+     * @return true if @JSonTypeName is needed
+     */
+    public boolean getUseJsonTypeName() {
+        return getIsClassnameSanitized() || vendorExtensions.containsKey("x-discriminator-value");
+    }
+
     public String getClassname() {
         return classname;
     }
@@ -422,9 +430,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && interfaces != null &&
-            (!discriminator.getMappedModels().isEmpty()) || this.vendorExtensions.containsKey("x-discriminator-value")) {
-            // avoid generating @JSonTypeName
+        if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }
     }

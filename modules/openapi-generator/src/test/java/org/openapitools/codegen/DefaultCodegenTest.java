@@ -1044,7 +1044,7 @@ public class DefaultCodegenTest {
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         test.getMappedModels().add(new CodegenDiscriminator.MappedModel("BigCat", "BigCat"));
         Assert.assertEquals(discriminator, test);
-        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), false);
+        Assert.assertEquals(animalModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -1063,7 +1063,7 @@ public class DefaultCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel personModel = codegen.fromModel("Person", person);
         verifyPersonDiscriminator(personModel.discriminator);
-        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), false);
+        Assert.assertEquals(personModel.getHasDiscriminatorWithNonEmptyMapping(), true);
     }
 
     @Test
@@ -1165,7 +1165,7 @@ public class DefaultCodegenTest {
         modelName = "Pet";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         CodegenModel pet = codegen.fromModel(modelName, sc);
-        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), false);
+        Assert.assertEquals(pet.getHasDiscriminatorWithNonEmptyMapping(), true);
         Assert.assertEquals(pet.discriminator, petDisc);
 
         // the Reptile discriminator contains both reptiles

@@ -37,6 +37,7 @@ components:
         mapping:
           DOG: '#/components/schemas/dog'
           CAT: '#/components/schemas/Cat'
+          BIGCAT: '#/components/schemas/BigCat'
     dog:
       allOf:
         - $ref: '#/components/schemas/Pet'
@@ -50,4 +51,11 @@ components:
         - type: object
           properties:
             p2:
+              type: string
+    BigCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            kind:
               type: string

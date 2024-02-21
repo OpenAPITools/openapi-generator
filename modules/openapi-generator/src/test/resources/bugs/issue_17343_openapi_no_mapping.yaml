@@ -48,3 +48,10 @@ components:
           properties:
             p2:
               type: string
+    BigCat:
+      allOf:
+        - $ref: '#/components/schemas/Cat'
+        - type: object
+          properties:
+            kind:
+              type: string

@@ -44,3 +44,11 @@ definitions:
         properties:
           p2:
             type: string
+  BigCat:
+    x-discriminator-value: BIGCAT
+    allOf:
+      - $ref: '#/definitions/Cat'
+      - type: object
+        properties:
+          kind:
+            type: string
