@@ -18,7 +18,7 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct CreateUserParams {
     /// Created user object
-    pub user: crate::models::User
+    pub user: models::User
 }
 
 /// struct for passing parameters to the method [`create_users_with_array_input`]
@@ -64,7 +64,7 @@ pub struct UpdateUserParams {
     /// name that need to be deleted
     pub username: String,
     /// Updated user object
-    pub user: crate::models::User
+    pub user: models::User
 }
 
 

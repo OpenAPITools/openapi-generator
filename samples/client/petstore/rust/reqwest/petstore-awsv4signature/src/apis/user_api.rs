@@ -84,7 +84,7 @@ pub enum UpdateUserError {
 
 
 /// This can only be done by the logged in user.
-pub fn create_user(configuration: &configuration::Configuration, user: crate::models::User) -> Result<(), Error<CreateUserError>> {
+pub fn create_user(configuration: &configuration::Configuration, user: models::User) -> Result<(), Error<CreateUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -390,7 +390,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
 }
 
 /// This can only be done by the logged in user.
-pub fn update_user(configuration: &configuration::Configuration, username: &str, user: crate::models::User) -> Result<(), Error<UpdateUserError>> {
+pub fn update_user(configuration: &configuration::Configuration, username: &str, user: models::User) -> Result<(), Error<UpdateUserError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

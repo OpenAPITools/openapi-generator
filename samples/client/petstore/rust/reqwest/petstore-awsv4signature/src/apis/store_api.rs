@@ -155,7 +155,7 @@ pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i
 }
 
 /// 
-pub fn place_order(configuration: &configuration::Configuration, order: crate::models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
+pub fn place_order(configuration: &configuration::Configuration, order: models::Order) -> Result<models::Order, Error<PlaceOrderError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

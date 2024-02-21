@@ -32,7 +32,7 @@ pub struct GetOrderByIdParams {
 #[derive(Clone, Debug)]
 pub struct PlaceOrderParams {
     /// order placed for purchasing the pet
-    pub order: crate::models::Order
+    pub order: models::Order
 }
 
 

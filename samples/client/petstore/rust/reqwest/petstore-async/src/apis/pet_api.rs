@@ -18,7 +18,7 @@ use super::{Error, configuration};
 #[derive(Clone, Debug)]
 pub struct AddPetParams {
     /// Pet object that needs to be added to the store
-    pub pet: crate::models::Pet
+    pub pet: models::Pet
 }
 
 /// struct for passing parameters to the method [`delete_pet`]
@@ -54,7 +54,7 @@ pub struct GetPetByIdParams {
 #[derive(Clone, Debug)]
 pub struct UpdatePetParams {
     /// Pet object that needs to be added to the store
-    pub pet: crate::models::Pet
+    pub pet: models::Pet
 }
 
 /// struct for passing parameters to the method [`update_pet_with_form`]

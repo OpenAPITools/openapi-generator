@@ -30,7 +30,7 @@ pub enum GetAllFoosError {
 }
 
 
-pub fn create_foo(configuration: &configuration::Configuration, foo: Option<crate::models::Foo>) -> Result<models::FooRefOrValue, Error<CreateFooError>> {
+pub fn create_foo(configuration: &configuration::Configuration, foo: Option<models::Foo>) -> Result<models::FooRefOrValue, Error<CreateFooError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

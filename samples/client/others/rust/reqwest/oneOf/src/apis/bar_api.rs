@@ -23,7 +23,7 @@ pub enum CreateBarError {
 }
 
 
-pub fn create_bar(configuration: &configuration::Configuration, bar_create: crate::models::BarCreate) -> Result<models::Bar, Error<CreateBarError>> {
+pub fn create_bar(configuration: &configuration::Configuration, bar_create: models::BarCreate) -> Result<models::Bar, Error<CreateBarError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

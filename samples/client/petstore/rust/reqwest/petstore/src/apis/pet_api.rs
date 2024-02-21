@@ -83,7 +83,7 @@ pub enum UploadFileError {
 
 
 /// 
-pub fn add_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<models::Pet, Error<AddPetError>> {
+pub fn add_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<AddPetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
@@ -255,7 +255,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
 }
 
 /// 
-pub fn update_pet(configuration: &configuration::Configuration, pet: crate::models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
+pub fn update_pet(configuration: &configuration::Configuration, pet: models::Pet) -> Result<models::Pet, Error<UpdatePetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

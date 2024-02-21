@@ -30,7 +30,7 @@ pub enum GetStateError {
 }
 
 
-pub fn create_state(configuration: &configuration::Configuration, create_state_request: crate::models::CreateStateRequest) -> Result<(), Error<CreateStateError>> {
+pub fn create_state(configuration: &configuration::Configuration, create_state_request: models::CreateStateRequest) -> Result<(), Error<CreateStateError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;
