@@ -250,7 +250,7 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             String datatype;
             try {
                 datatype = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
-                datatype = "models::" + datatype;
+                datatype = "models::" + toModelName(datatype);
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
@@ -261,7 +261,20 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
             return typeMapping.get("file");
         }
 
-        return super.getTypeDeclaration(p);
+        String oasType = getSchemaType(p);
+        if (typeMapping.containsKey(oasType)) {
+            return typeMapping.get(oasType);
+        }
+
+        if (typeMapping.containsValue(oasType)) {
+            return oasType;
+        }
+
+        if (languageSpecificPrimitives.contains(oasType)) {
+            return oasType;
+        }
+
+        return "models::" + toModelName(oasType);
     }
 
     @Override

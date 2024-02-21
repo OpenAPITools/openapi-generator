@@ -439,24 +439,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public String getTypeDeclaration(Schema p) {
+        // use unaliased schema for client-side
         Schema unaliasSchema = unaliasSchema(p);
-        String typeDeclaration = super.getTypeDeclaration(unaliasSchema);
-
-        // Check if we need to UpperCamelize the type after super invocation
-        String schemaType = getSchemaType(unaliasSchema);
-        if (typeDeclaration.equals(schemaType)) {
-            if (typeMapping.containsValue(schemaType)) {
-                return schemaType;
-            }
-
-            if (languageSpecificPrimitives.contains(schemaType)) {
-                return schemaType;
-            }
-
-            typeDeclaration = "models::" + toModelName(schemaType);
-        }
-
-        return typeDeclaration;
+        return super.getTypeDeclaration(unaliasSchema);
     }
 
     @Override
