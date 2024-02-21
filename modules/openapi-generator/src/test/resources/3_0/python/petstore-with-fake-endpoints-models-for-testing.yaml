@@ -1640,6 +1640,20 @@ components:
       required:
         - id
         - activity
+    DiscriminatorAllOfSuper:
+      type: object
+      required:
+        - elementType
+      discriminator:
+        propertyName: elementType
+      properties:
+        elementType:
+          type: string
+    DiscriminatorAllOfSub:
+      allOf:
+        - $ref: '#/components/schemas/DiscriminatorAllOfSuper'
+        - type: object
+          properties: {}
     Pet:
       type: object
       required:
