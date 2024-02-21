@@ -212,33 +212,44 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getOneOf() != null
                 && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
 
+            List<CodegenProperty> newOneOfs = mdl.getComposedSchemas().getOneOf().stream()
+                    .map(CodegenProperty::clone)
+                    .collect(Collectors.toList());
             List<Schema> schemas = ModelUtils.getInterfaces(model);
-            List<CodegenProperty> oneOfs = mdl.getComposedSchemas().getOneOf();
-            if (oneOfs.size() != schemas.size()) {
+            if (newOneOfs.size() != schemas.size()) {
                 // For safety reasons, this should never happen unless there is an error in the code
                 throw new RuntimeException("oneOf size does not match the model");
             }
 
-            Map<String, String> mappedNameByRef = Optional.ofNullable(model.getDiscriminator())
-                    .map(Discriminator::getMapping)
-                    .map(mapping -> mapping.entrySet()
-                            .stream()
-                            .collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey))
-                    )
-                    .orElse(Collections.emptyMap());
+            Map<String, String> refsMapping = Optional.ofNullable(model.getDiscriminator())
+                    .map(Discriminator::getMapping).orElse(Collections.emptyMap());
 
-            for (int i = 0; i < oneOfs.size(); i++) {
-                CodegenProperty oneOf = oneOfs.get(i);
+            // Reverse mapped references to use as baseName for oneOF, but different keys may point to the same $ref.
+            // Thus, we group them by the value
+            Map<String, List<String>> mappedNamesByRef = refsMapping.entrySet().stream()
+                    .collect(Collectors.groupingBy(Map.Entry::getValue,
+                            Collectors.mapping(Map.Entry::getKey, Collectors.toList())
+                    ));
+
+            for (int i = 0; i < newOneOfs.size(); i++) {
+                CodegenProperty oneOf = newOneOfs.get(i);
                 Schema schema = schemas.get(i);
-                String aliasName = ModelUtils.getSimpleRef(schema.get$ref());
-                if (aliasName != null) {
-                    oneOf.setName(toModelName(aliasName));
-                }
-                if (oneOf.getRef() != null) {
-                    oneOf.setBaseName(mappedNameByRef.get(oneOf.getRef()));
-                }
 
+                if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                    String mappedName = mappedNamesByRef.get(schema.get$ref()).removeFirst();
+                    oneOf.setBaseName(mappedName);
+                    oneOf.setName(toModelName(mappedName));
+                } else {
+                    String refName = ModelUtils.getSimpleRef(schema.get$ref());
+                    if (refName != null) {
+                        String modelName = toModelName(refName);
+                        oneOf.setName(modelName);
+                        oneOf.setBaseName(refName);
+                    }
+                }
             }
+
+            mdl.getComposedSchemas().setOneOf(newOneOfs);
         }
 
         return mdl;

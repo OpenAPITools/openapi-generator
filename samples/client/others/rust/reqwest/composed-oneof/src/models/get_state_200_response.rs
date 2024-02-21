@@ -14,16 +14,16 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum GetState200Response {
     #[serde(rename="a-type")]
-    ObjA(Box<models::ObjA>),
+    AType(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<models::ObjB>),
+    BType(Box<models::ObjB>),
     #[serde(rename="d-type")]
-    ObjD(Box<models::ObjD>),
+    DType(Box<models::ObjD>),
 }
 
 impl Default for GetState200Response {
     fn default() -> Self {
-        Self::ObjA(Box::default())
+        Self::AType(Box::default())
     }
 }
 

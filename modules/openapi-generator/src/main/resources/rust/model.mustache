@@ -77,7 +77,7 @@ impl Default for {{classname}} {
             {{{name}}}: Default::default(),
         {{/vars}}
         }{{/-first}}{{/mappedModels}}
-        {{/oneOf}}{{^oneOf.isEmpty}}{{#mappedModels}}{{#-first}}Self::{{{modelName}}}(Box::default()){{/-first}}{{/mappedModels}}{{^mappedModels}}{{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Box::default()){{/-first}}{{/composedSchemas.oneOf}}{{/mappedModels}}{{/oneOf.isEmpty}}
+        {{/oneOf}}{{^oneOf.isEmpty}}{{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Box::default()){{/-first}}{{/composedSchemas.oneOf}}{{/oneOf.isEmpty}}
     }
 }
 

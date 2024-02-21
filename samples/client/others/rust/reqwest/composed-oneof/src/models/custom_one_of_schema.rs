@@ -14,14 +14,14 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum CustomOneOfSchema {
     #[serde(rename="a-type")]
-    ObjA(Box<models::ObjA>),
+    AType(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<models::ObjB>),
+    BType(Box<models::ObjB>),
 }
 
 impl Default for CustomOneOfSchema {
     fn default() -> Self {
-        Self::ObjA(Box::default())
+        Self::AType(Box::default())
     }
 }
 

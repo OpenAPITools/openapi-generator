@@ -14,14 +14,14 @@ use crate::models;
 #[serde(tag = "realtype")]
 pub enum CreateStateRequest {
     #[serde(rename="a-type")]
-    ObjA(Box<models::ObjA>),
+    AType(Box<models::ObjA>),
     #[serde(rename="b-type")]
-    ObjB(Box<models::ObjB>),
+    BType(Box<models::ObjB>),
 }
 
 impl Default for CreateStateRequest {
     fn default() -> Self {
-        Self::ObjA(Box::default())
+        Self::AType(Box::default())
     }
 }
 
