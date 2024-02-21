@@ -208,7 +208,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public CodegenModel fromModel(String name, Schema model) {
         CodegenModel mdl = super.fromModel(name, model);
 
-        // set alias names to oneOf in composed-schema to use as enum variant names
+        // set correct names and baseNames to oneOf in composed-schema to use as enum variant names & mapping
         if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getOneOf() != null
                 && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
 
@@ -236,16 +236,24 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 Schema schema = schemas.get(i);
 
                 if (mappedNamesByRef.containsKey(schema.get$ref())) {
+                    // prefer mapped names if present
+                    // remove mapping not in order not to reuse for the next occurance of the ref
                     String mappedName = mappedNamesByRef.get(schema.get$ref()).removeFirst();
                     oneOf.setBaseName(mappedName);
                     oneOf.setName(toModelName(mappedName));
-                } else {
+                } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
+                    // use $ref if it's reference
                     String refName = ModelUtils.getSimpleRef(schema.get$ref());
                     if (refName != null) {
                         String modelName = toModelName(refName);
                         oneOf.setName(modelName);
                         oneOf.setBaseName(refName);
                     }
+                } else {
+                    // In-placed type (primitive), because there is no mapping or ref for it.
+                    // use camelized `title` if present, otherwise use `type`
+                    String oneOfName = Optional.ofNullable(schema.getTitle()).orElseGet(schema::getType);
+                    oneOf.setName(toModelName(oneOfName));
                 }
             }
 
