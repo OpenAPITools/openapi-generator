@@ -22,7 +22,7 @@ import org.openapitools.client.apis.BodyApi
 import org.openapitools.client.models.Pet
 import org.openapitools.client.models.Tag
 
-class BodyApi : ShouldSpec() {
+class BodyApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of BodyApi
         //val apiInstance = BodyApi()

@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Animal
 
-class Animal : ShouldSpec() {
+class AnimalTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Animal
         //val modelInstance = Animal()

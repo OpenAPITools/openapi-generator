@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.apis.FormApi
 
-class FormApi : ShouldSpec() {
+class FormApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of FormApi
         //val apiInstance = FormApi()

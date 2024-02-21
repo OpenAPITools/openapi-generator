@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.PropertyOfDay
 
-class PropertyOfDay : ShouldSpec() {
+class PropertyOfDayTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of PropertyOfDay
         //val modelInstance = PropertyOfDay()

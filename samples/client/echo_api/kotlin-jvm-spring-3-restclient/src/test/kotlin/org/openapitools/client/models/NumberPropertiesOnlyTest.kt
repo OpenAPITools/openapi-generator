@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.NumberPropertiesOnly
 
-class NumberPropertiesOnly : ShouldSpec() {
+class NumberPropertiesOnlyTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of NumberPropertiesOnly
         //val modelInstance = NumberPropertiesOnly()

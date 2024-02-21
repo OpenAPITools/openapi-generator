@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.models.DefaultValue
 import org.openapitools.client.models.StringEnumRef
 
-class DefaultValue : ShouldSpec() {
+class DefaultValueTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of DefaultValue
         //val modelInstance = DefaultValue()

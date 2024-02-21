@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Tag
 
-class Tag : ShouldSpec() {
+class TagTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Tag
         //val modelInstance = Tag()

@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.User
 
-class User : ShouldSpec() {
+class UserTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of User
         //val modelInstance = User()

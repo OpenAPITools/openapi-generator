@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.BirdApi
 import org.openapitools.client.models.Bird
 
-class BirdApi : ShouldSpec() {
+class BirdApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of BirdApi
         //val apiInstance = BirdApi()

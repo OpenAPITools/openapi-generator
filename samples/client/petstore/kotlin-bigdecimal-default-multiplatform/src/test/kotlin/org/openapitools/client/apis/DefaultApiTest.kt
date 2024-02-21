@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.DefaultApi
 import org.openapitools.client.models.Apa
 
-class DefaultApi : ShouldSpec() {
+class DefaultApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of DefaultApi
         //val apiInstance = DefaultApi()

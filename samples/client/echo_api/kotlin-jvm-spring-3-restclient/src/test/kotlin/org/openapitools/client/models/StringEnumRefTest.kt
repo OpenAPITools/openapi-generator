@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.StringEnumRef
 
-class StringEnumRef : ShouldSpec() {
+class StringEnumRefTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of StringEnumRef
         //val modelInstance = StringEnumRef()

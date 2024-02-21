@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.ModelApiResponse
 
-class ModelApiResponse : ShouldSpec() {
+class ModelApiResponseTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of ModelApiResponse
         //val modelInstance = ModelApiResponse()

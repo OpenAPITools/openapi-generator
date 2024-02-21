@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.HeaderApi
 import org.openapitools.client.models.StringEnumRef
 
-class HeaderApi : ShouldSpec() {
+class HeaderApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of HeaderApi
         //val apiInstance = HeaderApi()

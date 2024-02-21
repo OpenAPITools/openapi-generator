@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.PetEnum
 
-class PetEnum : ShouldSpec() {
+class PetEnumTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of PetEnum
         //val modelInstance = PetEnum()

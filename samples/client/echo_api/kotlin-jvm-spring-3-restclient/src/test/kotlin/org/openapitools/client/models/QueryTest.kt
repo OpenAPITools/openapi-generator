@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Query
 
-class Query : ShouldSpec() {
+class QueryTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Query
         //val modelInstance = Query()

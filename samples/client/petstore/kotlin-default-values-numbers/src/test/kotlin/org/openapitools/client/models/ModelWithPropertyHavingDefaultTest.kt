@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.ModelWithPropertyHavingDefault
 
-class ModelWithPropertyHavingDefault : ShouldSpec() {
+class ModelWithPropertyHavingDefaultTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of ModelWithPropertyHavingDefault
         //val modelInstance = ModelWithPropertyHavingDefault()

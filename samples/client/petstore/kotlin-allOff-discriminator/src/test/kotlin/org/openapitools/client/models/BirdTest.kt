@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.models.Bird
 import org.openapitools.client.models.Animal
 
-class Bird : ShouldSpec() {
+class BirdTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Bird
         //val modelInstance = Bird()

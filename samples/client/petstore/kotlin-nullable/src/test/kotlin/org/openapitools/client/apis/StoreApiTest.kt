@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.StoreApi
 import org.openapitools.client.models.Order
 
-class StoreApi : ShouldSpec() {
+class StoreApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of StoreApi
         //val apiInstance = StoreApi()

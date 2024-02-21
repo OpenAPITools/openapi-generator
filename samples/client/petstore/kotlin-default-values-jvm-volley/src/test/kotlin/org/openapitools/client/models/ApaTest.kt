@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Apa
 
-class Apa : ShouldSpec() {
+class ApaTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Apa
         //val modelInstance = Apa()

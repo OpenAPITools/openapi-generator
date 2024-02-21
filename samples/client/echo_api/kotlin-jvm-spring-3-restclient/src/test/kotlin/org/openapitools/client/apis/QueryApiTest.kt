@@ -23,7 +23,7 @@ import org.openapitools.client.models.Pet
 import org.openapitools.client.models.StringEnumRef
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-class QueryApi : ShouldSpec() {
+class QueryApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of QueryApi
         //val apiInstance = QueryApi()

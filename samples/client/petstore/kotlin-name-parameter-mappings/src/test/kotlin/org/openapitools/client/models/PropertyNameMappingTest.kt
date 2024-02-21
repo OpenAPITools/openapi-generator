@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.PropertyNameMapping
 
-class PropertyNameMapping : ShouldSpec() {
+class PropertyNameMappingTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of PropertyNameMapping
         //val modelInstance = PropertyNameMapping()

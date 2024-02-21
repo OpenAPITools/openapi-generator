@@ -22,7 +22,7 @@ import org.openapitools.client.apis.PetApi
 import org.openapitools.client.models.ModelApiResponse
 import org.openapitools.client.models.Pet
 
-class PetApi : ShouldSpec() {
+class PetApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of PetApi
         //val apiInstance = PetApi()

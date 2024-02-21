@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.EnumApi
 import org.openapitools.client.models.PetEnum
 
-class EnumApi : ShouldSpec() {
+class EnumApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of EnumApi
         //val apiInstance = EnumApi()

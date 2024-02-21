@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.FakeApi
 import org.openapitools.client.models.Environment
 
-class FakeApi : ShouldSpec() {
+class FakeApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of FakeApi
         //val apiInstance = FakeApi()

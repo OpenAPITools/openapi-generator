@@ -21,7 +21,7 @@ import io.kotlintest.specs.ShouldSpec
 import org.openapitools.client.apis.PathApi
 import org.openapitools.client.models.StringEnumRef
 
-class PathApi : ShouldSpec() {
+class PathApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of PathApi
         //val apiInstance = PathApi()

@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Environment
 
-class Environment : ShouldSpec() {
+class EnvironmentTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Environment
         //val modelInstance = Environment()

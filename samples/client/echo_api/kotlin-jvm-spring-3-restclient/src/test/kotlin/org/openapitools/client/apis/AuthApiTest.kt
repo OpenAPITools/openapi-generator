@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.apis.AuthApi
 
-class AuthApi : ShouldSpec() {
+class AuthApiTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of AuthApi
         //val apiInstance = AuthApi()

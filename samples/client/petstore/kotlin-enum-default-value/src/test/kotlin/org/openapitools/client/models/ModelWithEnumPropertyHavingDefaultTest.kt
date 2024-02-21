@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.ModelWithEnumPropertyHavingDefault
 
-class ModelWithEnumPropertyHavingDefault : ShouldSpec() {
+class ModelWithEnumPropertyHavingDefaultTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of ModelWithEnumPropertyHavingDefault
         //val modelInstance = ModelWithEnumPropertyHavingDefault()

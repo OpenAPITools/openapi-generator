@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Order
 
-class Order : ShouldSpec() {
+class OrderTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Order
         //val modelInstance = Order()

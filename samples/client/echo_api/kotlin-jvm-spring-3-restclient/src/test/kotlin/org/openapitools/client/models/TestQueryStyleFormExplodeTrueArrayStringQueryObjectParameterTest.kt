@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
-class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter : ShouldSpec() {
+class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameterTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
         //val modelInstance = TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter()

@@ -20,7 +20,7 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.models.Category
 
-class Category : ShouldSpec() {
+class CategoryTest : ShouldSpec() {
     init {
         // uncomment below to create an instance of Category
         //val modelInstance = Category()
