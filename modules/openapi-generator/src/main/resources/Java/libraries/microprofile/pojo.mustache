@@ -12,11 +12,9 @@
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
 {{/vars}}
 })
-{{#isClassnameSanitized}}
-{{^hasDiscriminatorWithNonEmptyMapping}}
+{{#useJsonTypeName}}
 @JsonTypeName("{{name}}")
-{{/hasDiscriminatorWithNonEmptyMapping}}
-{{/isClassnameSanitized}}
+{{/useJsonTypeName}}
 {{/jackson}}
 {{#description}}
 /**

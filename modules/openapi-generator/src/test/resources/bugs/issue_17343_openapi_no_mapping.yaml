@@ -22,9 +22,6 @@ components:
   schemas:
     PetType:
       type: string
-      enum:
-        - DOG
-        - CAT
     pet:
       required:
         - objectType

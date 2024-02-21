@@ -22,9 +22,6 @@ definitions:
         $ref: '#/definitions/Pet'
   PetType:
     type: string
-    enum:
-      - DOG
-      - CAT
   Pet:
     discriminator: objectType
     required:

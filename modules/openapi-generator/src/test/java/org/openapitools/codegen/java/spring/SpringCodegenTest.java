@@ -4392,12 +4392,12 @@ public class SpringCodegenTest {
     static Object[] discriminator17343() {
         return new Object[][]{
             { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", "Pet", "Cat", "dog", "BigCat" },
-            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BIGCAT", "Pet", "CAT", "DOG", "BIGCAT"  },
-            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BIGCAT", "Pet", "CAT", "DOG", "BIGCAT" },
+            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BigCat", "Pet", "CAT", "DOG", "BigCat"  },
+            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BigCat", "Pet", "CAT", "DOG", "BigCat" },
             { "Dto", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", "Cat", "dog", "BigCat" },
             { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", null, null, "dog", null },
-            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BIGCAT", null, "CAT", "DOG", "BIGCAT" },
-            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BIGCAT", null, "CAT", "DOG", "BIGCAT" },
+            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BigCat", null, "CAT", "DOG", null },
+            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BigCat", null, "CAT", "DOG", null },
             { "", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", null, "dog", null },
         };
     }
@@ -4430,13 +4430,12 @@ public class SpringCodegenTest {
                 .collect(Collectors.toMap(File::getName, Function.identity()));
 
         String petClass = "Pet" + modelNameSuffix;
-        String expectedJsonSubTypesTypeAnnotation = String.format(Locale.ROOT,
-            "{ @JsonSubTypes.Type(value = BigCat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Cat%s.class, name = \"%s\"), @JsonSubTypes.Type(value = Dog%s.class, name = \"%s\") }",
-            modelNameSuffix, expectedBigCatAnnotation, modelNameSuffix, expectedCatAnnotation,modelNameSuffix, expectedDogAnnotation);
         File petFile = files.get(petClass + ".java");
         JavaFileAssert.assertThat(petFile)
-            .assertTypeAnnotations()
-            .containsWithNameAndAttributes("JsonSubTypes", Map.of("value", expectedJsonSubTypesTypeAnnotation));
+            .fileContains(
+                String.format(Locale.ROOT,"@JsonSubTypes.Type(value = BigCat%s.class, name = \"%s\")", modelNameSuffix, expectedBigCatAnnotation),
+                String.format(Locale.ROOT, "@JsonSubTypes.Type(value = Cat%s.class, name = \"%s\")", modelNameSuffix, expectedCatAnnotation),
+                String.format(Locale.ROOT, "@JsonSubTypes.Type(value = Dog%s.class, name = \"%s\")", modelNameSuffix, expectedDogAnnotation));
 
         expectJsonTypeNameAnnotation(petFile, null, expectedJsonTypeNamePetAnnotation);
         expectJsonTypeNameAnnotation(files.get("Dog" + modelNameSuffix + ".java"), petClass, expectedTypeNameDogAnnotation);

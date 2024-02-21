@@ -22,9 +22,6 @@ components:
   schemas:
     PetType:
       type: string
-      enum:
-        - DOG
-        - CAT
     Pet:
       required:
         - objectType
@@ -37,7 +34,7 @@ components:
         mapping:
           DOG: '#/components/schemas/dog'
           CAT: '#/components/schemas/Cat'
-          BIGCAT: '#/components/schemas/BigCat'
+          BigCat: '#/components/schemas/BigCat'
     dog:
       allOf:
         - $ref: '#/components/schemas/Pet'

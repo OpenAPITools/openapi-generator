@@ -19,9 +19,9 @@
   {{classname}}.JSON_PROPERTY_{{nameInSnakeCase}}{{^-last}},{{/-last}}
 {{/vars}}
 })
-{{#isClassnameSanitized}}
+{{#useJsonTypeName}}
 @JsonTypeName("{{name}}")
-{{/isClassnameSanitized}}
+{{/useJsonTypeName}}
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{>xmlAnnotation}}
 {{#vendorExtensions.x-class-extra-annotation}}

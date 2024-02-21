@@ -17,9 +17,6 @@ paths:
 definitions:
   PetType:
     type: string
-    enum:
-      - DOG
-      - CAT
   Pet:
     discriminator: objectType
     required:
@@ -45,7 +42,7 @@ definitions:
           p2:
             type: string
   BigCat:
-    x-discriminator-value: BIGCAT
+    x-discriminator-value: BigCat
     allOf:
       - $ref: '#/definitions/Cat'
       - type: object
