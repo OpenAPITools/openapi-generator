@@ -1,3 +1,5 @@
+use crate::models;
+
 /*
  * rust test
  *

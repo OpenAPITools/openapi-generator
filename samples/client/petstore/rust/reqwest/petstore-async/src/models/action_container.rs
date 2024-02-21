@@ -1,3 +1,5 @@
+use crate::models;
+
 /*
  * OpenAPI Petstore
  *
@@ -14,11 +16,11 @@
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ActionContainer {
     #[serde(rename = "action")]
-    pub action: Box<crate::models::Baz>,
+    pub action: Box<Baz>,
 }
 
 impl ActionContainer {
-    pub fn new(action: crate::models::Baz) -> ActionContainer {
+    pub fn new(action: Baz) -> ActionContainer {
         ActionContainer {
             action: Box::new(action),
         }

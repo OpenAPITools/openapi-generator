@@ -1,12 +1,11 @@
+use crate::models;
+
 {{>partial_header}}
 {{#models}}
 {{#model}}
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
-{{#oneOf}}
-use super::{{{.}}};
-{{/oneOf}}
 
 {{!-- for enum schemas --}}
 {{#isEnum}}
@@ -61,17 +60,20 @@ pub enum {{{classname}}} {
     {{/mappedModels}}
     {{/oneOf}}
     {{^oneOf.isEmpty}}
+    {{#mappedModels}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    {{#mappedModels}}
     #[serde(rename="{{mappingName}}")]
     {{{modelName}}}(Box<{{{modelName}}}>),
     {{/mappedModels}}
     {{^mappedModels}}
-    {{#oneOf}}
-    {{{.}}}(Box<{{{.}}}>),
-    {{/oneOf}}
+    {{#composedSchemas.oneOf}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    {{{name}}}(Box<{{{dataType}}}>),
+    {{/composedSchemas.oneOf}}
     {{/mappedModels}}
     {{/oneOf.isEmpty}}
 }
@@ -82,7 +84,12 @@ impl Default for {{classname}} {
         {{#vars}}
             {{{name}}}: Default::default(),
         {{/vars}}
-        }{{/-first}}{{/mappedModels}}{{/oneOf}}{{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
+        }{{/-first}}{{/mappedModels}}
+        {{/oneOf}}
+        {{^oneOf.isEmpty}}
+        {{#mappedModels}}{{#-first}}Self::{{{modelName}}}(Box::default()){{/-first}}{{/mappedModels}}
+        {{^mappedModels}}{{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Box::default()){{/-first}}{{/composedSchemas.oneOf}}{{/mappedModels}}
+        {{/oneOf.isEmpty}}
     }
 }
 
@@ -118,20 +125,23 @@ impl {{{classname}}} {
 {{/oneOf.isEmpty}}
 {{^oneOf.isEmpty}}
 {{! TODO: add other vars that are not part of the oneOf}}
+{{#description}}
+/// {{{.}}}
+{{/description}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{classname}} {
-    {{#oneOf}}
+{{#composedSchemas.oneOf}}
     {{#description}}
     /// {{{.}}}
     {{/description}}
-    {{{.}}}(Box<{{{.}}}>),
-    {{/oneOf}}
+    {{{name}}}(Box<{{{dataType}}}>),
+{{/composedSchemas.oneOf}}
 }
 
 impl Default for {{classname}} {
     fn default() -> Self {
-        {{#oneOf}}{{#-first}}Self::{{{.}}}(Box::default()){{/-first}}{{/oneOf}}
+        {{#composedSchemas.oneOf}}{{#-first}}Self::{{{name}}}(Box::default()){{/-first}}{{/composedSchemas.oneOf}}
     }
 }
 {{/oneOf.isEmpty}}

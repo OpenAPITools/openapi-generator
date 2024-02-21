@@ -20,6 +20,7 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -41,8 +42,6 @@ import java.io.Writer;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class RustClientCodegen extends AbstractRustCodegen implements CodegenConfig {
     private final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
@@ -149,11 +148,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.clear();
         typeMapping.put("integer", "i32");
         typeMapping.put("long", "i64");
-        typeMapping.put("number", "f32");
+        typeMapping.put("number", "f64");
         typeMapping.put("float", "f32");
         typeMapping.put("double", "f64");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "String");
+        typeMapping.put("array", "Vec");
+        typeMapping.put("map", "std::collections::HashMap");
         typeMapping.put("UUID", "uuid::Uuid");
         typeMapping.put("URI", "String");
         typeMapping.put("date", "string");
@@ -206,10 +207,44 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        CodegenModel mdl = super.fromModel(name, model);
+
+        // set alias names to oneOf in composed-schema to use as enum variant names
+        if (mdl.getComposedSchemas() != null && mdl.getComposedSchemas().getOneOf() != null
+                && !mdl.getComposedSchemas().getOneOf().isEmpty()) {
+
+            List<Schema> schemas = ModelUtils.getInterfaces(model);
+            List<CodegenProperty> oneOfs = mdl.getComposedSchemas().getOneOf();
+            if (oneOfs.size() != schemas.size()) {
+                // For safety reasons, this should never happen unless there is an error in the code
+                throw new RuntimeException("oneOf size does not match the model");
+            }
+
+            for (int i = 0; i < oneOfs.size(); i++) {
+                CodegenProperty oneOf = oneOfs.get(i);
+                Schema schema = schemas.get(i);
+                String aliasType = getTypeDeclaration(schema);
+                if (aliasType.startsWith("models::")) {
+                    aliasType = aliasType.substring("models::".length());
+                }
+                oneOf.setName(aliasType);
+            }
+        }
+
+        return mdl;
+    }
+
+    @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // Remove the discriminator field from the model, serde will take care of this
         for (ModelMap model : objs.getModels()) {
+            System.out.println("\nMODEL: \n\n");
+            System.out.println(model);
+            System.out.println("\n\n\n");
+
             CodegenModel cm = model.getModel();
+
             if (cm.discriminator != null) {
                 String reserved_var_name = cm.discriminator.getPropertyBaseName();
 
@@ -395,47 +430,6 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String modelDocFileFolder() {
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
-    }
-
-    @Override
-    public String getTypeDeclaration(Schema p) {
-        Schema unaliasSchema = unaliasSchema(p);
-        if (ModelUtils.isArraySchema(unaliasSchema)) {
-            ArraySchema ap = (ArraySchema) unaliasSchema;
-            Schema inner = ap.getItems();
-            if (inner == null) {
-                LOGGER.warn("{}(array property) does not have a proper inner type defined.Default to string",
-                        ap.getName());
-                inner = new StringSchema().description("TODO default missing array inner type to string");
-            }
-            return "Vec<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isMapSchema(unaliasSchema)) {
-            Schema inner = ModelUtils.getAdditionalProperties(unaliasSchema);
-            if (inner == null) {
-                LOGGER.warn("{}(map property) does not have a proper inner type defined. Default to string", unaliasSchema.getName());
-                inner = new StringSchema().description("TODO default missing map inner type to string");
-            }
-            return "::std::collections::HashMap<String, " + getTypeDeclaration(inner) + ">";
-        }
-
-        // Not using the supertype invocation, because we want to UpperCamelize
-        // the type.
-        String schemaType = getSchemaType(unaliasSchema);
-        if (typeMapping.containsKey(schemaType)) {
-            return typeMapping.get(schemaType);
-        }
-
-        if (typeMapping.containsValue(schemaType)) {
-            return schemaType;
-        }
-
-        if (languageSpecificPrimitives.contains(schemaType)) {
-            return schemaType;
-        }
-
-        // return fully-qualified model name
-        // crate::models::{{classnameFile}}::{{classname}}
-        return "crate::models::" + toModelName(schemaType);
     }
 
     @Override

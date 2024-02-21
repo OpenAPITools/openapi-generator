@@ -1,3 +1,5 @@
+use crate::models;
+
 /*
  * ByRefOrValue
  *
@@ -14,7 +16,7 @@
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pizza {
     #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
-    pub pizza_size: Option<f32>,
+    pub pizza_size: Option<f64>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,

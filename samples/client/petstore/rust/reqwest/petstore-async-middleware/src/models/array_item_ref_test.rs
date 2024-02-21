@@ -1,3 +1,5 @@
+use crate::models;
+
 /*
  * OpenAPI Petstore
  *
@@ -15,14 +17,14 @@
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArrayItemRefTest {
     #[serde(rename = "list_with_array_ref")]
-    pub list_with_array_ref: Vec<Vec<String>>,
+    pub list_with_array_ref: Vec<models::ArrayRefItem>,
     #[serde(rename = "list_with_object_ref")]
-    pub list_with_object_ref: Vec<::std::collections::HashMap<String, serde_json::Value>>,
+    pub list_with_object_ref: Vec<models::ObjectRefItem>,
 }
 
 impl ArrayItemRefTest {
     /// Test handling of object reference in arrays
-    pub fn new(list_with_array_ref: Vec<Vec<String>>, list_with_object_ref: Vec<::std::collections::HashMap<String, serde_json::Value>>) -> ArrayItemRefTest {
+    pub fn new(list_with_array_ref: Vec<models::ArrayRefItem>, list_with_object_ref: Vec<models::ObjectRefItem>) -> ArrayItemRefTest {
         ArrayItemRefTest {
             list_with_array_ref,
             list_with_object_ref,

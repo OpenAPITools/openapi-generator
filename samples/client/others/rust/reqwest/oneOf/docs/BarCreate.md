@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **bar_prop_a** | Option<**String**> |  | [optional]
 **foo_prop_b** | Option<**String**> |  | [optional]
-**foo** | Option<[**crate::models::FooRefOrValue**](FooRefOrValue.md)> |  | [optional]
+**foo** | Option<[**models::FooRefOrValue**](FooRefOrValue.md)> |  | [optional]
 **href** | Option<**String**> | Hyperlink reference | [optional]
 **id** | Option<**String**> | unique identifier | [optional]
 **at_schema_location** | Option<**String**> | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional]
