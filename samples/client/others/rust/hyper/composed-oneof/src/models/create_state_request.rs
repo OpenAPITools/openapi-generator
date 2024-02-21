@@ -23,8 +23,7 @@ pub enum CreateStateRequest {
 
 impl Default for CreateStateRequest {
     fn default() -> Self {
-                Self::ObjA(Box::default())
-        
+        Self::ObjA(Box::default())
     }
 }
 

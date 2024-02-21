@@ -25,8 +25,7 @@ pub enum GetState200Response {
 
 impl Default for GetState200Response {
     fn default() -> Self {
-                Self::ObjA(Box::default())
-        
+        Self::ObjA(Box::default())
     }
 }
 

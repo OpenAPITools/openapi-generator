@@ -21,7 +21,6 @@ pub enum FooRefOrValue {
 
 impl Default for FooRefOrValue {
     fn default() -> Self {
-                
         Self::Foo(Box::default())
     }
 }

@@ -23,8 +23,7 @@ pub enum CustomOneOfSchema {
 
 impl Default for CustomOneOfSchema {
     fn default() -> Self {
-                Self::ObjA(Box::default())
-        
+        Self::ObjA(Box::default())
     }
 }
 

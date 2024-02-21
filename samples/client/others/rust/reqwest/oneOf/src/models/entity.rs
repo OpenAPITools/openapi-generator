@@ -115,6 +115,7 @@ impl Default for Entity {
             at_schema_location: Default::default(),
             at_base_type: Default::default(),
         }
+        
     }
 }
 

@@ -70,6 +70,7 @@ impl Default for EntityRef {
             at_schema_location: Default::default(),
             at_base_type: Default::default(),
         }
+        
     }
 }
 
