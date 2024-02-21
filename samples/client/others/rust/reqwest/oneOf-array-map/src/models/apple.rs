@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Apple {
     #[serde(rename = "kind", skip_serializing_if = "Option::is_none")]
@@ -25,5 +23,4 @@ impl Apple {
         }
     }
 }
-
 

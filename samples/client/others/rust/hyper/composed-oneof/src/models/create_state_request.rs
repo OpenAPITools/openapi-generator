@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CreateStateRequest {
@@ -25,7 +24,5 @@ impl Default for CreateStateRequest {
         Self::ObjA(Box::default())
     }
 }
-
-
 
 

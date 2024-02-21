@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pizza {
     #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
@@ -45,5 +43,4 @@ impl Pizza {
         }
     }
 }
-
 

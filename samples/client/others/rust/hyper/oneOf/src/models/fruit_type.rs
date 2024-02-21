@@ -35,6 +35,3 @@ impl Default for FruitType {
     }
 }
 
-
-
-

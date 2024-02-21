@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct BarRef {
     /// Name of the related entity.
@@ -50,5 +48,4 @@ impl BarRef {
         }
     }
 }
-
 

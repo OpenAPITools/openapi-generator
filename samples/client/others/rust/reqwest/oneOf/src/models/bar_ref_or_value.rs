@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BarRefOrValue {
@@ -24,5 +22,4 @@ impl Default for BarRefOrValue {
         Self::Bar(Box::default())
     }
 }
-
 

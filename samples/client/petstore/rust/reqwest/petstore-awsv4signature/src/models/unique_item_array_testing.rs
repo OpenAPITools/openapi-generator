@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// UniqueItemArrayTesting : Test handling of enum array with unique items
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct UniqueItemArrayTesting {
     /// Helper object for the unique item array test
@@ -28,7 +26,6 @@ impl UniqueItemArrayTesting {
         }
     }
 }
-
 /// Helper object for the unique item array test
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum UniqueItemArray {

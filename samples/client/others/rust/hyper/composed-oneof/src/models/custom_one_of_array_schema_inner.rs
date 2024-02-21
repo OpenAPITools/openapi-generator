@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CustomOneOfArraySchemaInner {
@@ -27,7 +26,5 @@ impl Default for CustomOneOfArraySchemaInner {
         Self::ObjA(Box::default())
     }
 }
-
-
 
 

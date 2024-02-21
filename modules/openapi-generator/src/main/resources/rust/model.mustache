@@ -2,10 +2,10 @@
 use crate::models;
 {{#models}}
 {{#model}}
+
 {{#description}}
 /// {{{classname}}} : {{{description}}}
 {{/description}}
-
 {{!-- for enum schemas --}}
 {{#isEnum}}
 /// {{{description}}}
@@ -38,7 +38,6 @@ impl Default for {{{classname}}} {
     }
 }
 {{/isEnum}}
-
 {{!-- for schemas that have a discriminator --}}
 {{#discriminator}}
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -83,7 +82,6 @@ impl Default for {{classname}} {
 }
 
 {{/discriminator}}
-
 {{!-- for non-enum schemas --}}
 {{^isEnum}}
 {{^discriminator}}
@@ -136,7 +134,6 @@ impl Default for {{classname}} {
 {{/oneOf.isEmpty}}
 {{/discriminator}}
 {{/isEnum}}
-
 {{!-- for properties that are of enum type --}}
 {{#vars}}
 {{#isEnum}}

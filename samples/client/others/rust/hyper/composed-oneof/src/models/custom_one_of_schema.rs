@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CustomOneOfSchema {
@@ -25,7 +24,5 @@ impl Default for CustomOneOfSchema {
         Self::ObjA(Box::default())
     }
 }
-
-
 
 

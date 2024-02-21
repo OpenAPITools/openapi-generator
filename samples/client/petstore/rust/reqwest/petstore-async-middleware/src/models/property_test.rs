@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// PropertyTest : A model to test various formats, e.g. UUID
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PropertyTest {
     #[serde(rename = "uuid", skip_serializing_if = "Option::is_none")]
@@ -27,5 +25,4 @@ impl PropertyTest {
         }
     }
 }
-
 

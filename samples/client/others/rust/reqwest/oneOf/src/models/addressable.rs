@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// Addressable : Base schema for addressable entities
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Addressable {
     /// Hyperlink reference
@@ -32,5 +30,4 @@ impl Addressable {
         }
     }
 }
-
 

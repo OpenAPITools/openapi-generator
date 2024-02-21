@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Banana {
     #[serde(rename = "length")]
@@ -25,5 +23,4 @@ impl Banana {
         }
     }
 }
-
 

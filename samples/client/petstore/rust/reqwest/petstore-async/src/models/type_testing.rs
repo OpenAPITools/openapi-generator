@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// TypeTesting : Test handling of different field data types
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TypeTesting {
     #[serde(rename = "int32")]
@@ -45,5 +43,4 @@ impl TypeTesting {
         }
     }
 }
-
 

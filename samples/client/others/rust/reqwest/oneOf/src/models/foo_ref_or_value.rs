@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "@type")]
 pub enum FooRefOrValue {
@@ -23,7 +22,5 @@ impl Default for FooRefOrValue {
         Self::Foo(Box::default())
     }
 }
-
-
 
 

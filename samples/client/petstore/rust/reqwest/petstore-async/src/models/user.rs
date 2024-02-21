@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// User : A User who is purchasing from the pet store
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct User {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
@@ -49,5 +47,4 @@ impl User {
         }
     }
 }
-
 

@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Fruit {
@@ -24,5 +22,4 @@ impl Default for Fruit {
         Self::apples(Box::default())
     }
 }
-
 

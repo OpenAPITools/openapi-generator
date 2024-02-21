@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// Pet : A pet for sale in the pet store
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Pet {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
@@ -43,7 +41,6 @@ impl Pet {
         }
     }
 }
-
 /// pet status in the store
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Status {

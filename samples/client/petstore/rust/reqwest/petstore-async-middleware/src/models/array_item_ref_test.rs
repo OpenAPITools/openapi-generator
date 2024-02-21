@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// ArrayItemRefTest : Test handling of object reference in arrays
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ArrayItemRefTest {
     #[serde(rename = "list_with_array_ref")]
@@ -30,5 +28,4 @@ impl ArrayItemRefTest {
         }
     }
 }
-
 

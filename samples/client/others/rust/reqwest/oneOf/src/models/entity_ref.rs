@@ -9,9 +9,8 @@
  */
 
 use crate::models;
+
 /// EntityRef : Entity reference schema to be use for all entityRef class.
-
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "@type")]
 pub enum EntityRef {
@@ -72,7 +71,5 @@ impl Default for EntityRef {
         
     }
 }
-
-
 
 

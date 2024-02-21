@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PropertyNameMapping {
     #[serde(rename = "http_debug_operation", skip_serializing_if = "Option::is_none")]
@@ -37,5 +35,4 @@ impl PropertyNameMapping {
         }
     }
 }
-
 

@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// ApiResponse : Describes the result of uploading an image resource
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ApiResponse {
     #[serde(rename = "code", skip_serializing_if = "Option::is_none")]
@@ -33,5 +31,4 @@ impl ApiResponse {
         }
     }
 }
-
 

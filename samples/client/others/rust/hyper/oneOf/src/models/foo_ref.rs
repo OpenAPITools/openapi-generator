@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FooRef {
     #[serde(rename = "foorefPropA", skip_serializing_if = "Option::is_none")]
@@ -53,5 +51,4 @@ impl FooRef {
         }
     }
 }
-
 

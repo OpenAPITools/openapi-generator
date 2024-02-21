@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "fruitType")]
 pub enum Fruit {
@@ -25,7 +24,5 @@ impl Default for Fruit {
         Self::Apple(Box::default())
     }
 }
-
-
 
 

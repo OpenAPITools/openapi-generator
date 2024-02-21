@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// OptionalTesting : Test handling of optional and nullable fields
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct OptionalTesting {
     #[serde(rename = "optional_nonnull", skip_serializing_if = "Option::is_none")]
@@ -36,5 +34,4 @@ impl OptionalTesting {
         }
     }
 }
-
 

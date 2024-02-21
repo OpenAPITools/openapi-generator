@@ -10,7 +10,6 @@
 
 use crate::models;
 
-
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum GetState200Response {
@@ -27,7 +26,5 @@ impl Default for GetState200Response {
         Self::ObjA(Box::default())
     }
 }
-
-
 
 

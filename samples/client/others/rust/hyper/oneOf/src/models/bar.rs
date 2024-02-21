@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Bar {
     #[serde(rename = "id")]
@@ -50,5 +48,4 @@ impl Bar {
         }
     }
 }
-
 

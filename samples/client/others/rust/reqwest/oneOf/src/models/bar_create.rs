@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct BarCreate {
     #[serde(rename = "barPropA", skip_serializing_if = "Option::is_none")]
@@ -51,5 +49,4 @@ impl BarCreate {
         }
     }
 }
-
 

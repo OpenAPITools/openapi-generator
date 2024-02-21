@@ -10,8 +10,6 @@
 
 use crate::models;
 
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Extensible {
     /// A URI to a JSON-Schema file that defines additional attributes and relationships
@@ -34,5 +32,4 @@ impl Extensible {
         }
     }
 }
-
 

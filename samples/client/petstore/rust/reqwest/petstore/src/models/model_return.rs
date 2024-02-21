@@ -9,10 +9,8 @@
  */
 
 use crate::models;
+
 /// Return : Test using keywords
-
-
-
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Return {
     #[serde(rename = "match", skip_serializing_if = "Option::is_none")]
@@ -33,5 +31,4 @@ impl Return {
         }
     }
 }
-
 

@@ -9,8 +9,8 @@
  */
 
 use crate::models;
-/// Baz : Test handling of empty variants
 
+/// Baz : Test handling of empty variants
 /// Test handling of empty variants
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize)]
 pub enum Baz {
@@ -38,7 +38,4 @@ impl Default for Baz {
         Self::A
     }
 }
-
-
-
 
