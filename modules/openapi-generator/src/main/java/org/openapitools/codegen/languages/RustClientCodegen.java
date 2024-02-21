@@ -230,14 +230,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             for (int i = 0; i < oneOfs.size(); i++) {
                 CodegenProperty oneOf = oneOfs.get(i);
                 Schema schema = schemas.get(i);
-                String aliasType = getTypeDeclaration(schema);
-                if (aliasType.startsWith("models::")) {
-                    aliasType = aliasType.substring("models::".length());
+                String aliasName = ModelUtils.getSimpleRef(schema.get$ref());
+                if (aliasName != null) {
+                    oneOf.setName(aliasName);
                 }
                 if (oneOf.getRef() != null) {
                     oneOf.setBaseName(mappedNameByRef.get(oneOf.getRef()));
                 }
-                oneOf.setName(aliasType);
+
             }
         }
 
@@ -435,6 +435,28 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     @Override
     public String modelDocFileFolder() {
         return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String getTypeDeclaration(Schema p) {
+        Schema unaliasSchema = unaliasSchema(p);
+        String typeDeclaration = super.getTypeDeclaration(unaliasSchema);
+
+        // Check if we need to UpperCamelize the type after super invocation
+        String schemaType = getSchemaType(unaliasSchema);
+        if (typeDeclaration.equals(schemaType)) {
+            if (typeMapping.containsValue(schemaType)) {
+                return schemaType;
+            }
+
+            if (languageSpecificPrimitives.contains(schemaType)) {
+                return schemaType;
+            }
+
+            typeDeclaration = "models::" + toModelName(schemaType);
+        }
+
+        return typeDeclaration;
     }
 
     @Override

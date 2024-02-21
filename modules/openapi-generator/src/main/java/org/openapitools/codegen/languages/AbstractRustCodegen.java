@@ -249,12 +249,8 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
         } else if (!org.apache.commons.lang3.StringUtils.isEmpty(p.get$ref())) {
             String datatype;
             try {
-                datatype = p.get$ref();
-
-                if (datatype.indexOf("#/components/schemas/") == 0) {
-                    datatype = toModelName(datatype.substring("#/components/schemas/".length()));
-                    datatype = "models::" + datatype;
-                }
+                datatype = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
+                datatype = "models::" + datatype;
             } catch (Exception e) {
                 LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
                 datatype = "Object";
