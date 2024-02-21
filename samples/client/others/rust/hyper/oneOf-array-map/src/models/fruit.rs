@@ -13,13 +13,13 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Fruit {
-    Apples(Box<std::collections::HashMap<String, models::Apple>>),
-    Grapes(Box<Vec<models::Grape>>),
+    Apples(std::collections::HashMap<String, models::Apple>),
+    Grapes(Vec<models::Grape>),
 }
 
 impl Default for Fruit {
     fn default() -> Self {
-        Self::Apples(Box::default())
+        Self::Apples(Default::default())
     }
 }
 

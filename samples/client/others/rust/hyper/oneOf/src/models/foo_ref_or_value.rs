@@ -14,14 +14,14 @@ use crate::models;
 #[serde(tag = "@type")]
 pub enum FooRefOrValue {
     #[serde(rename="Foo")]
-    Foo(Box<models::Foo>),
+    Foo(models::Foo),
     #[serde(rename="FooRef")]
-    FooRef(Box<models::FooRef>),
+    FooRef(models::FooRef),
 }
 
 impl Default for FooRefOrValue {
     fn default() -> Self {
-        Self::Foo(Box::default())
+        Self::Foo(Default::default())
     }
 }
 

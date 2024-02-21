@@ -14,14 +14,14 @@ use crate::models;
 #[serde(tag = "fruitType")]
 pub enum Fruit {
     #[serde(rename="APPLE")]
-    Apple(Box<models::Apple>),
+    Apple(models::Apple),
     #[serde(rename="BANANA")]
-    Banana(Box<models::Banana>),
+    Banana(models::Banana),
 }
 
 impl Default for Fruit {
     fn default() -> Self {
-        Self::Apple(Box::default())
+        Self::Apple(Default::default())
     }
 }
 
