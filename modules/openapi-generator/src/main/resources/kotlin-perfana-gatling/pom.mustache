@@ -55,6 +55,17 @@
         <simulationClass>{{ setUpPackage }}.{{ simulationClassName }}</simulationClass>
         <ahIdpUrl>{{ ahIdpUrl }}</ahIdpUrl> <!-- this is the url of the identity/token provider for the test environment -->
 
+        <!-- Project specific settings. Default value can be overridden here or in GitHub workflow yml step
+        E.g.:
+          - name: Run performance test'
+            run: mvn clean events-gatling:test -PYOUR_TEST_ENVIRONMENT_PROFILE -PYOUR_WORKLOAD_TYPE
+              -DapiKey=${{ secrets.AH_DIGITAL_PERFANA_API_KEY }}
+              -DbuildResultsUrl="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+              -Dsut.version=YOUR_SUT_VERSION
+              -Dk8sGetDeploymentIncludes=resources,readinessProbe,command
+         -->
+        <k8sGetDeploymentIncludes>resources,image,replicas,strategy,kubernetes,readinessProbe,command</k8sGetDeploymentIncludes>
+
         <!-- Optional: database configuration to take Test Data-->
         <db.url>{{ dbUrl }}</db.url>
         <db.username>{{ dbUsername }}</db.username>
@@ -124,10 +135,10 @@
                             <eventConfig implementation="io.perfana.events.testrunconfigcommand.TestRunConfigCommandEventConfig">
                                 <name>KubernetesGetDeployment</name>
                                 <command>cat ${kubectlJsonOutput}</command>
-                                <includes>resources,image,replicas,strategy,kubernetes</includes>
+                                <includes>${k8sGetDeploymentIncludes}</includes>
                                 <excludes>status,password,TOKEN,env</excludes>
                                 <output>keys</output>
-                                <tags>${tags}</tags>
+                                <tags>kubernetes,${systemUnderTest}</tags>
                             </eventConfig>
                         </eventConfigs>
                     </eventSchedulerConfig>
