@@ -232,7 +232,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 Schema schema = schemas.get(i);
                 String aliasName = ModelUtils.getSimpleRef(schema.get$ref());
                 if (aliasName != null) {
-                    oneOf.setName(aliasName);
+                    oneOf.setName(toModelName(aliasName));
                 }
                 if (oneOf.getRef() != null) {
                     oneOf.setBaseName(mappedNameByRef.get(oneOf.getRef()));
