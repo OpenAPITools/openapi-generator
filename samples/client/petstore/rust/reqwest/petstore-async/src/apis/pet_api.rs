@@ -12,6 +12,8 @@
 use reqwest;
 
 use crate::apis::ResponseContent;
+use crate::models::Pet;
+use crate::models::Pet;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`add_pet`]

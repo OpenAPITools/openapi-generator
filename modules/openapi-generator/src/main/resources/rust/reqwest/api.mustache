@@ -2,7 +2,8 @@
 
 use reqwest;
 
-use crate::apis::ResponseContent;
+use crate::apis::ResponseContent;{{#operations}}{{#operation}}{{#allParams}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}
+use crate::models::{{{dataType}}};{{/isContainer}}{{/isPrimitiveType}}{{/isUuid}}{{/isString}}{{/allParams}}{{/operation}}{{/operations}}
 use super::{Error, configuration};
 
 {{#operations}}
