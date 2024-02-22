@@ -55,7 +55,7 @@ public class KebabCaseLambda implements Mustache.Lambda {
         text = text.replaceAll(secondPattern, replacementPattern);
         text = text.replace('_', '-');
         text = text.replace(' ', '-');
-        text = text.toLowerCase();
+        text = text.toLowerCase(Locale.ROOT);
 
         writer.write(text);
     }
