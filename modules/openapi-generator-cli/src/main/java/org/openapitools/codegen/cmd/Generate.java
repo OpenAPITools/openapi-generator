@@ -532,6 +532,7 @@ public class Generate extends OpenApiGeneratorCommand {
             }
 
             generator.opts(clientOptInput);
+            generator.setBuildInfo(getBuildInfo());
             generator.generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
@@ -539,4 +540,8 @@ public class Generate extends OpenApiGeneratorCommand {
             System.exit(1);
         }
     }
+
+	private org.openapitools.codegen.BuildInfo getBuildInfo() {
+		return new org.openapitools.codegen.BuildInfo(buildInfo.getVersion(), buildInfo.getSha(), buildInfo.getBuildTime());
+	}
 }

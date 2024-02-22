@@ -253,6 +253,7 @@ public class DefaultCodegen implements CodegenConfig {
     protected String gitHost, gitUserId, gitRepoId, releaseNote;
     protected String httpUserAgent;
     protected Boolean hideGenerationTimestamp = true;
+    protected Boolean hideGeneratorVersion = true;
     // How to encode special characters like $
     // They are translated to words like "Dollar"
     // Then translated back during JSON encoding and decoding
@@ -342,6 +343,12 @@ public class DefaultCodegen implements CodegenConfig {
             setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
         } else {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATOR_VERSION)) {
+            setHideGeneratorVersion(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATOR_VERSION));
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATOR_VERSION, hideGeneratorVersion);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
@@ -6282,6 +6289,16 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     public void setHideGenerationTimestamp(boolean hideGenerationTimestamp) {
         this.hideGenerationTimestamp = hideGenerationTimestamp;
+    }
+
+    @Override
+    public boolean isHideGeneratorVersion() {
+        return hideGeneratorVersion;
+    }
+
+    @Override
+    public void setHideGeneratorVersion(boolean hideGeneratorVersion) {
+        this.hideGeneratorVersion = hideGeneratorVersion;
     }
 
     /**

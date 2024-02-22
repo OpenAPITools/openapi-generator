@@ -97,6 +97,7 @@ public class DefaultGenerator implements Generator {
     private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
     private String generatorCheck = "spring";
     private String templateCheck = "apiController.mustache";
+    private BuildInfo buildInfo;
 
 
     public DefaultGenerator() {
@@ -188,6 +189,10 @@ public class DefaultGenerator implements Generator {
     @SuppressWarnings("WeakerAccess")
     public void setGeneratorPropertyDefault(final String key, final String value) {
         this.generatorPropertyDefaults.put(key, value);
+    }
+
+    public void setBuildInfo(BuildInfo buildInfo) {
+        this.buildInfo = buildInfo;
     }
 
     private Boolean getGeneratorPropertyDefaultSwitch(final String key, final Boolean defaultValue) {
@@ -297,6 +302,9 @@ public class DefaultGenerator implements Generator {
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
         config.additionalProperties().put("inputSpec", config.getInputSpec());
+        if (null != buildInfo) {
+            config.additionalProperties().put("openapiGeneratorVersion", buildInfo.getVersion());
+        }
 
         if (openAPI.getExtensions() != null) {
             config.vendorExtensions().putAll(openAPI.getExtensions());

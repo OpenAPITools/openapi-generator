@@ -17,13 +17,33 @@
 
 package org.openapitools.codegen;
 
-import java.io.File;
-import java.util.List;
+import java.time.OffsetDateTime;
 
-public interface Generator {
-    Generator opts(ClientOptInput opts);
+/**
+ * Holds details about the OpenAPI build.
+ */
+public class BuildInfo {
 
-    void setBuildInfo(BuildInfo buildInfo);
+    private String version;
+    private String sha;
+    private OffsetDateTime buildTime;
 
-    List<File> generate();
+    public BuildInfo(String version, String sha, OffsetDateTime buildTime) {
+        this.version = version;
+        this.sha = sha;
+        this.buildTime = buildTime;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getSha() {
+        return sha;
+    }
+
+    public OffsetDateTime getBuildTime() {
+        return buildTime;
+    }
+
 }
