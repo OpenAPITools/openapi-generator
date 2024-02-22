@@ -237,8 +237,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
                 if (mappedNamesByRef.containsKey(schema.get$ref())) {
                     // prefer mapped names if present
-                    // remove mapping not in order not to reuse for the next occurance of the ref
-                    String mappedName = mappedNamesByRef.get(schema.get$ref()).removeFirst();
+                    // remove mapping not in order not to reuse for the next occurrence of the ref
+                    List<String> names = mappedNamesByRef.get(schema.get$ref());
+                    String mappedName = names.remove(0);
                     oneOf.setBaseName(mappedName);
                     oneOf.setName(toModelName(mappedName));
                 } else if (!org.apache.commons.lang3.StringUtils.isEmpty(schema.get$ref())) {
