@@ -706,10 +706,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StringEnumRef'
-#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
-#          default:
-#            - success
-#            - failure
+          default:
+            - success
+            - failure
         array_string_enum_default:
           type: array
           items:
@@ -718,10 +717,9 @@ components:
             - success
             - failure
             - unclassified
-#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
-#          default:
-#            - success
-#            - failure
+          default:
+            - success
+            - failure
         array_string_default:
           type: array
           items:
@@ -776,10 +774,9 @@ components:
             - SUCCESS
             - FAILURE
             - SKIPPED
-#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
-#          default:
-#            - SUCCESS
-#            - FAILURE
+          default:
+            - SUCCESS
+            - FAILURE
 #  The following lines are disabled due to missing support for allOf. Enable when support is added.
 #    DataQuery:
 #      allOf:
