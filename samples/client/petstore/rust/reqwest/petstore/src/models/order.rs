@@ -54,9 +54,3 @@ pub enum Status {
     shipped,
 }
 
-impl Default for Status {
-    fn default() -> Status {
-        Self::Placed
-    }
-}
-

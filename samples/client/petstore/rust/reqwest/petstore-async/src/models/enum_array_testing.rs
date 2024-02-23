@@ -38,9 +38,3 @@ pub enum RequiredEnums {
     C,
 }
 
-impl Default for RequiredEnums {
-    fn default() -> RequiredEnums {
-        Self::A
-    }
-}
-
