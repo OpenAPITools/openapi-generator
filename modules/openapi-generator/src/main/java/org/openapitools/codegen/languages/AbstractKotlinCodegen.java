@@ -1132,16 +1132,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return toDefaultValue(cp, schema);
     }
 
-//    @Override
-//    public String toDefaultParameterValue(Schema schema) {
-//        Object defaultValue = schema.get$ref() != null ? ModelUtils.getReferencedSchema(openAPI, schema).getDefault() : schema.getDefault();
-//
-//        if (defaultValue == null) {
-//            return null;
-//        }
-//        return defaultValue.toString().replace("\"", "\\\"");
-//    }
-
     @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.KOTLIN;
