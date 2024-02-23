@@ -38,10 +38,8 @@ export interface OuterObjectWithEnumProperty {
  * Check if a given object implements the OuterObjectWithEnumProperty interface.
  */
 export function instanceOfOuterObjectWithEnumProperty(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "value" in value;
-
-    return isInstance;
+    if (!('value' in value)) return false;
+    return true;
 }
 
 export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithEnumProperty {
@@ -49,7 +47,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
 }
 
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -67,7 +65,7 @@ export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumPro
     }
     return {
         
-        'value': OuterEnumIntegerToJSON(value.value),
+        'value': OuterEnumIntegerToJSON(value['value']),
     };
 }
 

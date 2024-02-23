@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Bar** | Pointer to **string** |  | [optional] [default to "bar"]
+**Bar** | **string** |  | [default to "bar"]
+**Map** | Pointer to [**map[string][]time.Time**](array.md) |  | [optional] 
 
 ## Methods
 
 ### NewFoo
 
-`func NewFoo() *Foo`
+`func NewFoo(bar string, ) *Foo`
 
 NewFoo instantiates a new Foo object
 This constructor will assign default values to properties that have it defined,
@@ -44,11 +45,31 @@ and a boolean to check if the value has been set.
 
 SetBar sets Bar field to given value.
 
-### HasBar
 
-`func (o *Foo) HasBar() bool`
+### GetMap
 
-HasBar returns a boolean if a field has been set.
+`func (o *Foo) GetMap() map[string][]time.Time`
+
+GetMap returns the Map field if non-nil, zero value otherwise.
+
+### GetMapOk
+
+`func (o *Foo) GetMapOk() (*map[string][]time.Time, bool)`
+
+GetMapOk returns a tuple with the Map field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMap
+
+`func (o *Foo) SetMap(v map[string][]time.Time)`
+
+SetMap sets Map field to given value.
+
+### HasMap
+
+`func (o *Foo) HasMap() bool`
+
+HasMap returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

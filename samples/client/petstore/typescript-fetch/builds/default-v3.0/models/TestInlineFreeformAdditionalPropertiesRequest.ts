@@ -32,9 +32,7 @@ export interface TestInlineFreeformAdditionalPropertiesRequest {
  * Check if a given object implements the TestInlineFreeformAdditionalPropertiesRequest interface.
  */
 export function instanceOfTestInlineFreeformAdditionalPropertiesRequest(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestFromJSON(json: any): TestInlineFreeformAdditionalPropertiesRequest {
@@ -42,7 +40,7 @@ export function TestInlineFreeformAdditionalPropertiesRequestFromJSON(json: any)
 }
 
 export function TestInlineFreeformAdditionalPropertiesRequestFromJSONTyped(json: any, ignoreDiscriminator: boolean): TestInlineFreeformAdditionalPropertiesRequest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -62,7 +60,7 @@ export function TestInlineFreeformAdditionalPropertiesRequestToJSON(value?: Test
     return {
         
             ...value,
-        'someProperty': value.someProperty,
+        'someProperty': value['someProperty'],
     };
 }
 

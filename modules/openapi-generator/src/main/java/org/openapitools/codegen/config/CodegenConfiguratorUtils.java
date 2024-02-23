@@ -172,6 +172,19 @@ public final class CodegenConfiguratorUtils {
         }
     }
 
+    public static void applyOperationIdNameMappingsKvpList(List<String> operationIdNameMappings, CodegenConfigurator configurator) {
+        for (String propString : operationIdNameMappings) {
+            applyOperationIdNameMappingsKvp(propString, configurator);
+        }
+    }
+
+    public static void applyOperationIdNameMappingsKvp(String operationIdNameMappings, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(operationIdNameMappings);
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configurator.addOperationIdNameMapping(entry.getKey().trim(), entry.getValue().trim());
+        }
+    }
+
     public static void applyOpenAPINormalizerKvpList(List<String> openapiNormalizer, CodegenConfigurator configurator) {
         for (String propString : openapiNormalizer) {
             applyOpenAPINormalizerKvp(propString, configurator);

@@ -43,7 +43,7 @@ pub fn tests_file_response_get(configuration: &configuration::Configuration, ) -
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;
@@ -70,7 +70,7 @@ pub fn tests_type_testing_get(configuration: &configuration::Configuration, ) ->
     }
 
     let local_var_req = local_var_req_builder.build()?;
-    let mut local_var_resp = local_var_client.execute(local_var_req)?;
+    let local_var_resp = local_var_client.execute(local_var_req)?;
 
     let local_var_status = local_var_resp.status();
     let local_var_content = local_var_resp.text()?;

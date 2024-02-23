@@ -279,6 +279,54 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
+  /query/style_form/explode_false/array_integer:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: integer
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+  /query/style_form/explode_false/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -469,6 +517,26 @@ paths:
                 type: string
           description: Successful operation
       summary: Test free form object
+      tags:
+      - body
+  /echo/body/string_enum:
+    post:
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
+          description: Successful operation
+      summary: Test string enum response body
       tags:
       - body
   /binary/gif:

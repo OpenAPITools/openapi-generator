@@ -31,9 +31,7 @@ export interface DeprecatedObject {
  * Check if a given object implements the DeprecatedObject interface.
  */
 export function instanceOfDeprecatedObject(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
@@ -41,7 +39,7 @@ export function DeprecatedObjectFromJSON(json: any): DeprecatedObject {
 }
 
 export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeprecatedObject {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -59,7 +57,7 @@ export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
     }
     return {
         
-        'name': value.name,
+        'name': value['name'],
     };
 }
 

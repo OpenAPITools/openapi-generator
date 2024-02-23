@@ -40,9 +40,7 @@ export interface ChildWithNullable extends ParentWithNullable {
  * Check if a given object implements the ChildWithNullable interface.
  */
 export function instanceOfChildWithNullable(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
@@ -50,7 +48,7 @@ export function ChildWithNullableFromJSON(json: any): ChildWithNullable {
 }
 
 export function ChildWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ChildWithNullable {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -68,7 +66,7 @@ export function ChildWithNullableToJSON(value?: ChildWithNullable | null): any {
     }
     return {
         ...ParentWithNullableToJSON(value),
-        'otherProperty': value.otherProperty,
+        'otherProperty': value['otherProperty'],
     };
 }
 

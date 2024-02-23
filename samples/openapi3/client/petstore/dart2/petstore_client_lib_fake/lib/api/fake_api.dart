@@ -1358,4 +1358,54 @@ class FakeApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
+
+  /// test referenced string map
+  ///
+  /// 
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, String>] requestBody (required):
+  ///   request body
+  Future<Response> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/fake/stringMap-reference';
+
+    // ignore: prefer_final_locals
+    Object? postBody = requestBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// test referenced string map
+  ///
+  /// 
+  ///
+  /// Parameters:
+  ///
+  /// * [Map<String, String>] requestBody (required):
+  ///   request body
+  Future<void> testStringMapReference(Map<String, String> requestBody,) async {
+    final response = await testStringMapReferenceWithHttpInfo(requestBody,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
 }

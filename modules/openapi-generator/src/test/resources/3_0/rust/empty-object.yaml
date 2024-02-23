@@ -1,0 +1,23 @@
+openapi: 3.0.0
+info:
+  title: EmptyObject
+  description: Ensure rust supports empty objects using serde::Value
+  version: 1.0.0
+paths:
+  /endpoint:
+    get:
+      summary: Get endpoint
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmptyObject"
+components:
+  schemas:
+    EmptyObject:
+      type: object
+      properties:
+        emptyObject:
+          type: object

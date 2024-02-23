@@ -1042,4 +1042,31 @@ public interface FakeApi extends ApiClient.Api {
       return this;
     }
   }
+
+  /**
+   * test referenced string map
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  void testStringMapReference(Map<String, String> requestBody);
+
+  /**
+   * test referenced string map
+   * Similar to <code>testStringMapReference</code> but it also returns the http response headers .
+   * 
+   * @param requestBody request body (required)
+   */
+  @RequestLine("POST /fake/stringMap-reference")
+  @Headers({
+    "Content-Type: application/json",
+    "Accept: application/json",
+  })
+  ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody);
+
+
 }

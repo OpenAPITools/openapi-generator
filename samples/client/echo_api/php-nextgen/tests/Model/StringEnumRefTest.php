@@ -77,6 +77,6 @@ class StringEnumRefTest extends TestCase
     public function testStringEnumRef()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

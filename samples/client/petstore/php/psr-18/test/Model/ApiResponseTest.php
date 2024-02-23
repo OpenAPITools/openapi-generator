@@ -76,7 +76,7 @@ class ApiResponseTest extends TestCase
     public function testApiResponse()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class ApiResponseTest extends TestCase
     public function testPropertyCode()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class ApiResponseTest extends TestCase
     public function testPropertyType()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,6 +103,6 @@ class ApiResponseTest extends TestCase
     public function testPropertyMessage()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

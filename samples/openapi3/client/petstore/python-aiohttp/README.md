@@ -112,6 +112,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -151,6 +152,7 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [BasquePig](docs/BasquePig.md)
+ - [Bathing](docs/Bathing.md)
  - [Capitalization](docs/Capitalization.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
@@ -162,6 +164,8 @@ Class | Method | HTTP request | Description
  - [CreatureInfo](docs/CreatureInfo.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
+ - [DiscriminatorAllOfSub](docs/DiscriminatorAllOfSub.md)
+ - [DiscriminatorAllOfSuper](docs/DiscriminatorAllOfSuper.md)
  - [Dog](docs/Dog.md)
  - [DummyModel](docs/DummyModel.md)
  - [EnumArrays](docs/EnumArrays.md)
@@ -169,6 +173,7 @@ Class | Method | HTTP request | Description
  - [EnumString1](docs/EnumString1.md)
  - [EnumString2](docs/EnumString2.md)
  - [EnumTest](docs/EnumTest.md)
+ - [Feeding](docs/Feeding.md)
  - [File](docs/File.md)
  - [FileSchemaTestClass](docs/FileSchemaTestClass.md)
  - [FirstRef](docs/FirstRef.md)
@@ -178,6 +183,7 @@ Class | Method | HTTP request | Description
  - [HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [HealthCheckResult](docs/HealthCheckResult.md)
  - [InnerDictWithProperty](docs/InnerDictWithProperty.md)
+ - [InputAllOf](docs/InputAllOf.md)
  - [IntOrString](docs/IntOrString.md)
  - [ListClass](docs/ListClass.md)
  - [MapOfArrayOfModel](docs/MapOfArrayOfModel.md)
@@ -204,6 +210,8 @@ Class | Method | HTTP request | Description
  - [ParentWithOptionalDict](docs/ParentWithOptionalDict.md)
  - [Pet](docs/Pet.md)
  - [Pig](docs/Pig.md)
+ - [PoopCleaning](docs/PoopCleaning.md)
+ - [PropertyMap](docs/PropertyMap.md)
  - [PropertyNameCollision](docs/PropertyNameCollision.md)
  - [ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [SecondRef](docs/SecondRef.md)
@@ -213,6 +221,8 @@ Class | Method | HTTP request | Description
  - [SpecialModelName](docs/SpecialModelName.md)
  - [SpecialName](docs/SpecialName.md)
  - [Tag](docs/Tag.md)
+ - [Task](docs/Task.md)
+ - [TaskActivity](docs/TaskActivity.md)
  - [TestErrorResponsesWithModel400Response](docs/TestErrorResponsesWithModel400Response.md)
  - [TestErrorResponsesWithModel404Response](docs/TestErrorResponsesWithModel404Response.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)

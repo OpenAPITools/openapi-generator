@@ -108,6 +108,9 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.oneOf
+                )
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
@@ -204,52 +207,22 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
-    }
+        // Remove the discriminator field from the model, serde will take care of this
+        for (ModelMap model : objs.getModels()) {
+            CodegenModel cm = model.getModel();
+            if (cm.discriminator != null) {
+                String reserved_var_name = cm.discriminator.getPropertyBaseName();
 
-    @SuppressWarnings("static-method")
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        // Index all CodegenModels by model name.
-        Map<String, CodegenModel> allModels = new HashMap<>();
-
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            String modelName = toModelName(entry.getKey());
-            List<ModelMap> models = entry.getValue().getModels();
-            for (ModelMap mo : models) {
-                CodegenModel cm = mo.getModel();
-                allModels.put(modelName, cm);
-            }
-        }
-
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            List<ModelMap> models = entry.getValue().getModels();
-            for (ModelMap mo : models) {
-                CodegenModel cm = mo.getModel();
-                if (cm.discriminator != null) {
-                    List<Object> discriminatorVars = new ArrayList<>();
-                    for (CodegenDiscriminator.MappedModel mappedModel : cm.discriminator.getMappedModels()) {
-                        CodegenModel model = allModels.get(mappedModel.getModelName());
-                        Map<String, Object> mas = new HashMap<>();
-                        mas.put("modelName", camelize(mappedModel.getModelName()));
-                        mas.put("mappingName", mappedModel.getMappingName());
-
-                        // TODO: deleting the variable from the array was
-                        // problematic; I don't know what this is supposed to do
-                        // so I'm just cloning it for the moment
-                        List<CodegenProperty> vars = new ArrayList<>(model.getVars());
-                        vars.removeIf(p -> p.name.equals(cm.discriminator.getPropertyName()));
-                        mas.put("vars", vars);
-                        discriminatorVars.add(mas);
+                for (CodegenProperty cp : cm.vars) {
+                    if (cp.baseName.equals(reserved_var_name)) {
+                        cm.vars.remove(cp);
+                        break;
                     }
-                    // TODO: figure out how to properly have the original property type that didn't go through toVarName
-                    String vendorExtensionTagName = cm.discriminator.getPropertyName();
-                    cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
             }
         }
-        return objs;
+        // process enum in models
+        return postProcessModelsEnum(objs);
     }
 
     @Override

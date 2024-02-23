@@ -285,6 +285,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");

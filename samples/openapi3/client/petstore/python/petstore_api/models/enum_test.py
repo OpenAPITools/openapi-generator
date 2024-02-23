@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, Field, StrictFloat, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.outer_enum import OuterEnum
 from petstore_api.models.outer_enum_default_value import OuterEnumDefaultValue
@@ -48,14 +48,14 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in ('UPPER', 'lower', ''):
+        if value not in set(['UPPER', 'lower', '']):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
     @field_validator('enum_string_required')
     def enum_string_required_validate_enum(cls, value):
         """Validates the enum"""
-        if value not in ('UPPER', 'lower', ''):
+        if value not in set(['UPPER', 'lower', '']):
             raise ValueError("must be one of enum values ('UPPER', 'lower', '')")
         return value
 
@@ -65,7 +65,7 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in (1, 5, 14):
+        if value not in set([1, 5, 14]):
             raise ValueError("must be one of enum values (1, 5, 14)")
         return value
 
@@ -75,7 +75,7 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in (1, -1):
+        if value not in set([1, -1]):
             raise ValueError("must be one of enum values (1, -1)")
         return value
 
@@ -85,15 +85,15 @@ class EnumTest(BaseModel):
         if value is None:
             return value
 
-        if value not in (1.1, -1.2):
+        if value not in set([1.1, -1.2]):
             raise ValueError("must be one of enum values (1.1, -1.2)")
         return value
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     def to_str(self) -> str:

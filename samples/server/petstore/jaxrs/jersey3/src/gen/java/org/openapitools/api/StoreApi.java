@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.Map;
@@ -79,7 +80,9 @@ public class StoreApi  {
     @Operation(summary = "Returns pet inventories by status", description = "", responses = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = 
                 @Content(schema = @Schema(implementation = Map.class))),
-            }, tags={ "store", }) 
+            },security = {
+            @SecurityRequirement(name = "api_key")
+        }, tags={ "store", }) 
     public Response getInventory(@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getInventory(securityContext);

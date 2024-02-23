@@ -17,14 +17,18 @@
 
 package org.openapitools.codegen.java;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
 
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.*;
 
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -871,6 +875,26 @@ public class AbstractJavaCodegenTest {
         Assert.assertTrue(cm.imports.contains("BigDecimal"));
         Assert.assertTrue(cm.imports.contains("Date"));
         Assert.assertTrue(cm.imports.contains("UUID"));
+    }
+
+    @Test
+    public void arrayParameterDefaultValueDoesNotNeedBraces() throws Exception {
+        ParseOptions parseOptions = new ParseOptions();
+        parseOptions.setResolve(true);
+        final OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_0/issue_16223.yaml", null, parseOptions)
+                .getOpenAPI();
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        Map<String, Schema> schemas = openAPI.getPaths().get("/test").getGet().getParameters().stream()
+                .collect(Collectors.toMap(
+                        Parameter::getName,
+                        p -> ModelUtils.getReferencedSchema(openAPI, p.getSchema())));
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("fileEnumWithDefault")), "A,B");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("fileEnumWithDefaultEmpty")), "");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefault")), "A,B");
+        Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefaultEmpty")), "");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

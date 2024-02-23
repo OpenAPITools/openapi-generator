@@ -37,10 +37,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
 data class DefaultValue (
 
     @field:JsonProperty("array_string_enum_ref_default")
-    val arrayStringEnumRefDefault: kotlin.collections.List<StringEnumRef>? = arrayListOf(StringEnumRef.success,StringEnumRef.failure),
+    val arrayStringEnumRefDefault: kotlin.collections.List<StringEnumRef>? = null,
 
     @field:JsonProperty("array_string_enum_default")
-    val arrayStringEnumDefault: kotlin.collections.List<DefaultValue.ArrayStringEnumDefault>? = arrayListOf(ArrayStringEnumDefault.success,ArrayStringEnumDefault.failure),
+    val arrayStringEnumDefault: kotlin.collections.List<DefaultValue.ArrayStringEnumDefault>? = null,
 
     @field:JsonProperty("array_string_default")
     val arrayStringDefault: kotlin.collections.List<kotlin.String>? = arrayListOf("failure","skipped"),

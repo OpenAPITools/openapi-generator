@@ -27,8 +27,8 @@ servers:
   - url: http://localhost:3000/
 paths:
   # Path usually starts with parameter type such as path, query, header, form
-  # For body/form parameters, path starts with "/echo" so the the echo server
-  # will response with the same body in the HTTP request.
+  # For body/form parameters, path starts with "/echo" so the echo server
+  # will respond with the same body in the HTTP request.
   #
   # path parameter tests
   /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
@@ -706,9 +706,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/StringEnumRef'
-          default:
-            - success
-            - failure
+#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
+#          default:
+#            - success
+#            - failure
         array_string_enum_default:
           type: array
           items:
@@ -717,9 +718,10 @@ components:
             - success
             - failure
             - unclassified
-          default:
-            - success
-            - failure
+#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
+#          default:
+#            - success
+#            - failure
         array_string_default:
           type: array
           items:
@@ -774,9 +776,10 @@ components:
             - SUCCESS
             - FAILURE
             - SKIPPED
-          default:
-            - SUCCESS
-            - FAILURE
+#  The following lines are disabled due to bug in default values for enums. Enable when bug is fixed.
+#          default:
+#            - SUCCESS
+#            - FAILURE
 #  The following lines are disabled due to missing support for allOf. Enable when support is added.
 #    DataQuery:
 #      allOf:
