@@ -39,11 +39,11 @@ class PathApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringPath
      */
-     enum class EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: kotlin.String) {
-         @JsonProperty(value = "success") success("success"),
-         @JsonProperty(value = "failure") failure("failure"),
-         @JsonProperty(value = "unclassified") unclassified("unclassified"),
-     }
+    enum class EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: kotlin.String) {
+        @JsonProperty(value = "success") success("success"),
+        @JsonProperty(value = "failure") failure("failure"),
+        @JsonProperty(value = "unclassified") unclassified("unclassified"),
+    }
 
 
     @Throws(RestClientResponseException::class)

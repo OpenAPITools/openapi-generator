@@ -41,11 +41,11 @@ class QueryApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringQuery
      */
-     enum class EnumNonrefStringQueryTestEnumRefString(val value: kotlin.String) {
-         @JsonProperty(value = "success") success("success"),
-         @JsonProperty(value = "failure") failure("failure"),
-         @JsonProperty(value = "unclassified") unclassified("unclassified"),
-     }
+    enum class EnumNonrefStringQueryTestEnumRefString(val value: kotlin.String) {
+        @JsonProperty(value = "success") success("success"),
+        @JsonProperty(value = "failure") failure("failure"),
+        @JsonProperty(value = "unclassified") unclassified("unclassified"),
+    }
 
 
     @Throws(RestClientResponseException::class)
