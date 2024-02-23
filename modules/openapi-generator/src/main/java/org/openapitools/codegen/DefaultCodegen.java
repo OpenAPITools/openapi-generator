@@ -5938,6 +5938,7 @@ public class DefaultCodegen implements CodegenConfig {
                            Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;
+        m.hasReadOnly = false;
         if (properties != null && !properties.isEmpty()) {
             m.hasVars = true;
 
@@ -6063,6 +6064,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // if readonly, add to readOnlyVars (list of properties)
                 if (Boolean.TRUE.equals(cp.isReadOnly)) {
                     cm.readOnlyVars.add(cp);
+                    cm.hasReadOnly = true;
                 } else { // else add to readWriteVars (list of properties)
                     // duplicated properties will be removed by removeAllDuplicatedProperty later
                     cm.readWriteVars.add(cp);
