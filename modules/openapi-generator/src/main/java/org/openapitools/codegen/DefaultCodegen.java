@@ -461,6 +461,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("uppercase", new UppercaseLambda())
                 .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
+                .put("kebabcase", new KebabCaseLambda())
                 .put("camelcase", new CamelCaseLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("forwardslash", new ForwardSlashLambda())
@@ -4214,7 +4215,8 @@ public class DefaultCodegen implements CodegenConfig {
                 property.deprecated = p.getDeprecated();
             }
             if (original.getDescription() != null) {
-                property.description = p.getDescription();
+                property.description = escapeText(p.getDescription());
+                property.unescapedDescription = p.getDescription();
             }
             if (original.getMaxLength() != null) {
                 property.setMaxLength(original.getMaxLength());
@@ -4233,6 +4235,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (original.getMinimum() != null) {
                 property.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+            }
+            if (original.getTitle() != null) {
+                property.setTitle(original.getTitle());
             }
         }
 
@@ -8433,7 +8438,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.
      * The definition of constant is single valued required enum params.
-     * The constantParams in the the generated code should be hardcoded to the constantValue if autosetConstants feature is enabled.
+     * The constantParams in the generated code should be hardcoded to the constantValue if autosetConstants feature is enabled.
      *
      * @param operation - operation to be processed
      */

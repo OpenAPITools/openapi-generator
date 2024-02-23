@@ -50,10 +50,8 @@ export interface GetBehaviorTypeResponse {
  * Check if a given object implements the GetBehaviorTypeResponse interface.
  */
 export function instanceOfGetBehaviorTypeResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeResponse {
@@ -61,7 +59,7 @@ export function GetBehaviorTypeResponseFromJSON(json: any): GetBehaviorTypeRespo
 }
 
 export function GetBehaviorTypeResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): GetBehaviorTypeResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -80,8 +78,8 @@ export function GetBehaviorTypeResponseToJSON(value?: GetBehaviorTypeResponse | 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
-        'data': BehaviorTypeToJSON(value.data),
+        'meta': ResponseMetaToJSON(value['meta']),
+        'data': BehaviorTypeToJSON(value['data']),
     };
 }
 

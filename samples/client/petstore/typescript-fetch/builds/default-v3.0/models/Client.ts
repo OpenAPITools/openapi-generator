@@ -31,9 +31,7 @@ export interface Client {
  * Check if a given object implements the Client interface.
  */
 export function instanceOfClient(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ClientFromJSON(json: any): Client {
@@ -41,7 +39,7 @@ export function ClientFromJSON(json: any): Client {
 }
 
 export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Client {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -59,7 +57,7 @@ export function ClientToJSON(value?: Client | null): any {
     }
     return {
         
-        'client': value.client,
+        'client': value['client'],
     };
 }
 

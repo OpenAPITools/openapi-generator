@@ -2560,6 +2560,10 @@ components:
         category:
           allOf:
           - $ref: '#/components/schemas/Category'
+          description: |
+            multi line description
+            2nd line
+            last line
         name:
           example: doggie
           type: string

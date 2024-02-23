@@ -1208,6 +1208,20 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/application_json_utf8:
+    get:
+      operationId: get_application_json_utf8
+      responses:
+        "200":
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+          description: test
+      summary: application/json UTF8
+      tags:
+      - fake
+      x-accepts: application/json;charset=utf-8
 components:
   requestBodies:
     UserArray:

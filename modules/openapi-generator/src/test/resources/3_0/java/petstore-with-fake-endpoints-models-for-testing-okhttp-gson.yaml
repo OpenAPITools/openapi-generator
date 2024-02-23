@@ -2577,6 +2577,10 @@ components:
           format: int64
           x-is-unique: true
         category:
+          description: |
+            multi line description
+            2nd line
+            last line
           allOf:
             - $ref: '#/components/schemas/Category'
         name:

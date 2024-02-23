@@ -21,9 +21,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.execution.DefaultMavenExecutionRequest;
 import org.apache.maven.execution.MavenExecutionRequest;
 import org.apache.maven.execution.MavenSession;
@@ -148,6 +151,34 @@ public class CodeGenMojoTest extends BaseTestCase {
         assertTrue("src directory should have been regenerated", 
             folder.resolve("target/generated-sources/common-maven/remote-openapi/src").toFile().exists());
 
+    }
+
+    public void testCollapsedSpecProduced() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        File collapseSpecFile = folder.resolve("target/generated-sources/common-maven/remote-openapi/petstore-full-spec.yaml").toFile();
+        assertTrue(collapseSpecFile.exists());
+    }
+
+    public void testCollapsedSpecAddedToArtifacts() throws Exception {
+        // GIVEN
+        Path folder = Files.createTempDirectory("test");
+        CodeGenMojo mojo = loadMojo(folder.toFile(), "src/test/resources/default", "executionId");
+
+        // WHEN
+        mojo.execute();
+
+        // THEN
+        List<Artifact> matchingArtifacts = mojo.mavenProject.getAttachedArtifacts().stream()
+            .filter(artifact -> artifact.getFile().getName().equals("petstore-full-spec.yaml"))
+            .collect(Collectors.toList());
+        assertEquals(1, matchingArtifacts.size());
     }
 
     protected CodeGenMojo loadMojo(File temporaryFolder, String projectRoot) throws Exception {

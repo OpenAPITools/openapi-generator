@@ -310,9 +310,9 @@ export interface RequestOpts {
     body?: HTTPBody;
 }
 
-export function exists(json: any, key: string) {
+export function exists(json: any, key: string): boolean {
     const value = json[key];
-    return value !== null && value !== undefined;
+    return value !== undefined && value !== null;
 }
 
 export function querystring(params: HTTPQuery, prefix: string = ''): string {
