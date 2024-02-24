@@ -541,7 +541,7 @@ public class Generate extends OpenApiGeneratorCommand {
         }
     }
 
-	private org.openapitools.codegen.BuildInfo getBuildInfo() {
-		return new org.openapitools.codegen.BuildInfo(buildInfo.getVersion(), buildInfo.getSha(), buildInfo.getBuildTime());
-	}
+    private org.openapitools.codegen.BuildInfo getBuildInfo() {
+        return new org.openapitools.codegen.BuildInfo(buildInfo.getVersion(), buildInfo.getSha(), buildInfo.getBuildTime());
+    }
 }
