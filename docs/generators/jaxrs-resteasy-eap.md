@@ -44,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateJbossDeploymentDescriptor|Generate Jboss Deployment Descriptor| |true|
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
+|hideGeneratorVersion|Hides the OpenAPI generator version when files are generated.| |true|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implFolder|folder for generated implementation code| |src/main/java|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
