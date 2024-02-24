@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -35,13 +36,13 @@ impl<C: hyper::client::connect::Connect> BarApiClient<C>
 }
 
 pub trait BarApi {
-    fn create_bar(&self, bar_create: crate::models::BarCreate) -> Pin<Box<dyn Future<Output = Result<crate::models::Bar, Error>>>>;
+    fn create_bar(&self, bar_create: models::BarCreate) -> Pin<Box<dyn Future<Output = Result<models::Bar, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>BarApi for BarApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn create_bar(&self, bar_create: crate::models::BarCreate) -> Pin<Box<dyn Future<Output = Result<crate::models::Bar, Error>>>> {
+    fn create_bar(&self, bar_create: models::BarCreate) -> Pin<Box<dyn Future<Output = Result<models::Bar, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/bar".to_string())
         ;
         req = req.with_body_param(bar_create);
