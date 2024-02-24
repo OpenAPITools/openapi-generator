@@ -23,7 +23,5 @@ import java.util.List;
 public interface Generator {
     Generator opts(ClientOptInput opts);
 
-    void setBuildInfo(BuildInfo buildInfo);
-
     List<File> generate();
 }

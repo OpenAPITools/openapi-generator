@@ -155,7 +155,7 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
         // Execute each configurator on a separate pooled thread.
         configurators.forEach(configurator -> {
-            GenerationRunner runner = new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast), Boolean.TRUE.equals(clean), getBuildInfo());
+            GenerationRunner runner = new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast), Boolean.TRUE.equals(clean));
             executor.execute(runner);
         });
 
@@ -182,23 +182,17 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
         }
     }
 
-    private org.openapitools.codegen.BuildInfo getBuildInfo() {
-        return new org.openapitools.codegen.BuildInfo(buildInfo.getVersion(), buildInfo.getSha(), buildInfo.getBuildTime());
-    }
-
     private static class GenerationRunner implements Runnable {
         private final CodegenConfigurator configurator;
         private final Path rootDir;
         private final boolean exitOnError;
         private final boolean clean;
-        private final org.openapitools.codegen.BuildInfo buildInfo;
 
-        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast, boolean clean, org.openapitools.codegen.BuildInfo buildInfo) {
+        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast, boolean clean) {
             this.configurator = configurator;
             this.rootDir = rootDir;
             this.exitOnError = failFast;
             this.clean = clean;
-            this.buildInfo = buildInfo;
         }
 
         /**
@@ -234,7 +228,6 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
                 DefaultGenerator defaultGenerator = new DefaultGenerator();
                 defaultGenerator.opts(opts);
-                defaultGenerator.setBuildInfo(buildInfo);
 
                 defaultGenerator.generate();
 

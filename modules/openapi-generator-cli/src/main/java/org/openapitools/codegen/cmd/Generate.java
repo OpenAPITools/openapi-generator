@@ -532,16 +532,11 @@ public class Generate extends OpenApiGeneratorCommand {
             }
 
             generator.opts(clientOptInput);
-            generator.setBuildInfo(getBuildInfo());
             generator.generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("[error] Check the spelling of the generator's name and try again.");
             System.exit(1);
         }
-    }
-
-    private org.openapitools.codegen.BuildInfo getBuildInfo() {
-        return new org.openapitools.codegen.BuildInfo(buildInfo.getVersion(), buildInfo.getSha(), buildInfo.getBuildTime());
     }
 }
