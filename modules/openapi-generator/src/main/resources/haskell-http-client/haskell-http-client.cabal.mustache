@@ -16,6 +16,9 @@ description:    .
                 .{{^hideGenerationTimestamp}}
                 Generated on: {{generatedDate}}
                 .{{/hideGenerationTimestamp}}
+                .{{^hideGeneratorVersion}}
+                Generated using: OpenAPI Generator {{generatorVersion}}
+                .{{/hideGeneratorVersion}}
 category:       Web
 homepage:       https://openapi-generator.tech
 author:         Author Name Here

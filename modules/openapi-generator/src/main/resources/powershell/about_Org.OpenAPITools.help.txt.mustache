@@ -16,6 +16,9 @@ LONG DESCRIPTION
     {{^hideGenerationTimestamp}}
     - Build date: {{generatedDate}}
     {{/hideGenerationTimestamp}}
+    {{^hideGeneratorVersion}}
+    - Generated using: OpenAPI Generator {{generatorVersion}}
+    {{/hideGeneratorVersion}}
     - Build package: {{{generatorClass}}}
     {{#infoUrl}}
     For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
