@@ -14,9 +14,9 @@ use crate::models;
 #[serde(tag = "@type")]
 pub enum FooRefOrValue {
     #[serde(rename="Foo")]
-    Foo(models::Foo),
+    Foo(Box<models::Foo>),
     #[serde(rename="FooRef")]
-    FooRef(models::FooRef),
+    FooRef(Box<models::FooRef>),
 }
 
 impl Default for FooRefOrValue {

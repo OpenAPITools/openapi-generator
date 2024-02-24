@@ -5,5 +5,4 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/oneof_polymorphism_a
 templateDir: modules/openapi-generator/src/main/resources/rust
 additionalProperties:
   supportAsync: false
-  avoidBoxedModels: true
   packageName: oneof-hyper

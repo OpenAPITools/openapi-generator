@@ -13,8 +13,8 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BarRefOrValue {
-    Bar(models::Bar),
-    BarRef(models::BarRef),
+    Bar(Box<models::Bar>),
+    BarRef(Box<models::BarRef>),
 }
 
 impl Default for BarRefOrValue {
