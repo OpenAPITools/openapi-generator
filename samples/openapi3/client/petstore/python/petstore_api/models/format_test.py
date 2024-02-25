@@ -19,7 +19,7 @@ import json
 
 from datetime import date, datetime
 from decimal import Decimal
-from pydantic import BaseModel, Field, StrictBytes, StrictInt, StrictStr, field_validator
+from pydantic import BaseModel, ConfigDict, Field, StrictBytes, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing_extensions import Annotated
 from typing import Optional, Set

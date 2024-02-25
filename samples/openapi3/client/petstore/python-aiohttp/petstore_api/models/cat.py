@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import StrictBool
+from pydantic import ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from petstore_api.models.animal import Animal
 from typing import Optional, Set

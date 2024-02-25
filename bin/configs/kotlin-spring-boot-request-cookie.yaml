@@ -1,7 +1,7 @@
 generatorName: kotlin-spring
 outputDir: samples/server/petstore/kotlin-springboot-request-cookie
 library: spring-boot
-inputSpec: modules/openapi-generator/src/test/resources/3_1/kotlin-spring/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-cookie.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-spring
 additionalProperties:
   appendRequestToHandler: true

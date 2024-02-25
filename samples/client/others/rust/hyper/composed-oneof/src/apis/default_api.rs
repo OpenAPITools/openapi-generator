@@ -36,7 +36,7 @@ impl<C: hyper::client::connect::Connect> DefaultApiClient<C>
 
 pub trait DefaultApi {
     fn create_state(&self, create_state_request: crate::models::CreateStateRequest) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn get_state(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::GetState200Response, Error>>>>;
+    fn get_state(&self, ) -> Pin<Box<dyn Future<Output = Result<models::GetState200Response, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>DefaultApi for DefaultApiClient<C>
@@ -52,7 +52,7 @@ impl<C: hyper::client::connect::Connect>DefaultApi for DefaultApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_state(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::GetState200Response, Error>>>> {
+    fn get_state(&self, ) -> Pin<Box<dyn Future<Output = Result<models::GetState200Response, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/state".to_string())
         ;
 
