@@ -21,7 +21,6 @@ import io.airlift.airline.Cli;
 import io.airlift.airline.ParseArgumentsUnexpectedException;
 import io.airlift.airline.ParseOptionMissingException;
 import io.airlift.airline.ParseOptionMissingValueException;
-import org.openapitools.codegen.cmd.BuildInfo;
 import org.openapitools.codegen.cmd.*;
 
 import java.util.Locale;
