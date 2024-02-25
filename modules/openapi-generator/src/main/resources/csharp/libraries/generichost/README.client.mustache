@@ -180,9 +180,13 @@ Class | Method | HTTP request | Description
 {{/authMethods}}
 
 ## Build
-- SDK version: {{packageVersion}}{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}{{^hideGeneratorVersion}}
-- OpenAPI Generator version: {{generatorVersion}}{{/hideGeneratorVersion}}
+- SDK version: {{packageVersion}}
+{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+{{^hideGeneratorVersion}}
+- OpenAPI Generator version: {{generatorVersion}}
+{{/hideGeneratorVersion}}
 - Build package: {{generatorClass}}
 
 ## Api Information

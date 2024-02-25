@@ -10,6 +10,7 @@ $properties = @(
     'validatable=true',
     'nullableReferenceTypes=false',
     'hideGenerationTimestamp=true',
+    'hideGeneratorVersion=true',
     'packageVersion=1.0.0',
     'packageAuthors=OpenAPI',
     'packageCompany=OpenAPI',
@@ -190,6 +191,7 @@ Authentication schemes defined for the API:
 - gitRepoId: GIT_REPO_ID
 - gitUserId: GIT_USER_ID
 - hideGenerationTimestamp: true
+- hideGeneratorVersion: true
 - interfacePrefix: I
 - library: generichost
 - licenseId: 
