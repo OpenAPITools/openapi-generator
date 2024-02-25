@@ -150,6 +150,9 @@ public class CodegenConstants {
     public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG = "sortModelPropertiesByRequiredFlag";
     public static final String SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG_DESC = "Sort model properties to place required parameters before optional parameters.";
 
+    public static final String SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST = "sortModelFieldByPropertiesFirst";
+    public static final String SORT_FIELD_DESC = "sort Field by properties first or by inheritance first";
+
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS = "prependFormOrBodyParameters";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_DESC = "Add form or body parameters to the beginning of the parameter list.";
 

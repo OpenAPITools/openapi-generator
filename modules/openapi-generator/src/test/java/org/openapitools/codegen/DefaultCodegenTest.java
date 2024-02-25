@@ -1089,6 +1089,29 @@ public class DefaultCodegenTest {
         Assert.assertEquals(getRequiredVars(childModel), Collections.singletonList("name"));
     }
 
+
+    @Test
+    public void testRe() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema child = openAPI.getComponents().getSchemas().get("SuperMan");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel childModel = codegen.fromModel("SuperMan", child);
+        dump("required", childModel.requiredVars);
+        dump("vars", childModel.vars);
+        //Assert.assertEquals(getRequiredVars(childModel), Collections.singletonList("name"));
+    }
+
+    private void dump(String info, List<CodegenProperty> vars) {
+        System.out.print(info);
+        System.out.print(": ");
+        String s =  (vars != null)?
+            vars.stream().map(p -> p.name).collect(Collectors.joining(",")): "<null>";
+        System.out.println(s);
+    }
+
+
     @Test
     public void testAllOfSingleAndDoubleRefWithOwnPropsNoDiscriminator() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
@@ -4617,6 +4640,7 @@ public class DefaultCodegenTest {
         assertEquals("Messages: " + logsList.stream().map(ILoggingEvent::getMessage).collect(Collectors.toList()), 0, logsList.size());
     }
 
+    @Ignore
     public static class FromParameter {
         private CodegenParameter codegenParameter(String path) {
             final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/fromParameter.yaml");

@@ -47,7 +47,7 @@ components:
             type: string
           level:
             type: integer 
-    SuperMan:
+    SuperMan2:
       allOf:
       - $ref: '#/components/schemas/Human'
       - $ref: '#/components/schemas/Hero'
@@ -58,7 +58,18 @@ components:
           category:
             type: string
           level:
-            type: integer 
+            type: integer
+    SuperMan:
+      allOf:
+        - $ref: '#/components/schemas/Human'
+        - $ref: '#/components/schemas/Hero'
+      required:
+        - level
+      properties:
+            category:
+              type: string
+            level:
+              type: integer
     Hero:
       description: Hero
       type: object
