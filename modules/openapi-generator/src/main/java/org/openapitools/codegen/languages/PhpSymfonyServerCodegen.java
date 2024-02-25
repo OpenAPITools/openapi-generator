@@ -209,6 +209,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
                 " The template uses {{composerVendorName}}/{{composerProjectName}} for the composer package name. e.g. petstore-client"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION, CodegenConstants.HIDE_GENERATOR_VERSION_DESC)
+                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(PHP_LEGACY_SUPPORT, "Should the generated code be compatible with PHP 5.x?").defaultValue(Boolean.TRUE.toString()));
     }
 

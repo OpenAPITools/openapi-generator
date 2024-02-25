@@ -21,6 +21,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |bestFitInt|Use best fitting integer type where minimum or maximum is set| |false|
 |enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |library|library template (sub-template) to use.|<dl><dt>**hyper**</dt><dd>HTTP client: Hyper.</dd><dt>**reqwest**</dt><dd>HTTP client: Reqwest.</dd></dl>|reqwest|
 |packageName|Rust package name (convention: lowercase).| |openapi|
 |packageVersion|Rust package version.| |1.0.0|

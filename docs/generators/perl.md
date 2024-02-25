@@ -20,6 +20,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | ------ | ----------- | ------ | ------- |
 |ensureUniqueParams|Whether to ensure parameter names are unique in an operation (rename parameters that are not).| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |moduleName|Perl module name (convention: CamelCase or Long::Module).| |OpenAPIClient|
 |moduleVersion|Perl module version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|

@@ -261,6 +261,10 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
 
+        addSwitch(CodegenConstants.HIDE_GENERATOR_VERSION,
+                CodegenConstants.HIDE_GENERATOR_VERSION_DESC,
+                this.hideGeneratorVersion);
+
         addSwitch(CodegenConstants.USE_DATETIME_OFFSET,
                 CodegenConstants.USE_DATETIME_OFFSET_DESC,
                 this.useDateTimeOffsetFlag);

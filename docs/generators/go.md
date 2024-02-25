@@ -23,6 +23,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |generateInterfaces|Generate interfaces for api classes| |false|
 |generateMarshalJSON|Generate MarshalJSON method| |true|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|

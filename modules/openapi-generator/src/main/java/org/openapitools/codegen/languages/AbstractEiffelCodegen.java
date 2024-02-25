@@ -109,6 +109,8 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
                 .add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Eiffel package version.").defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION,
+                CodegenConstants.HIDE_GENERATOR_VERSION_DESC).defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override

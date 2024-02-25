@@ -177,6 +177,8 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION, CodegenConstants.HIDE_GENERATOR_VERSION_DESC)
+                .defaultValue(Boolean.TRUE.toString()));
 
         cliOptions.add(CliOption.newBoolean(USE_AUTOLOAD, "Use autoload instead of require to load modules.").
                 defaultValue(Boolean.FALSE.toString()));

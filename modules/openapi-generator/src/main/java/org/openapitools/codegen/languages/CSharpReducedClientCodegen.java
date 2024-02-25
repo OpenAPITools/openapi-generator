@@ -219,6 +219,10 @@ public class CSharpReducedClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC,
                 this.hideGenerationTimestamp);
 
+        addSwitch(CodegenConstants.HIDE_GENERATOR_VERSION,
+                CodegenConstants.HIDE_GENERATOR_VERSION_DESC,
+                this.hideGenerationTimestamp);
+
         addSwitch(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC,
                 this.sortParamsByRequiredFlag);

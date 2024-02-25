@@ -219,6 +219,8 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("https://github.com/openapitools/openapi-generator"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION, CodegenConstants.HIDE_GENERATOR_VERSION_DESC)
+                .defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override

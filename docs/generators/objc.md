@@ -24,6 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |coreData|Should generate core data models| |false|
 |gitRepoURL|URL for the git repo where this podspec should point to.| |https://github.com/openapitools/openapi-generator|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |podName|cocoapods package name (convention: CameCase).| |OpenAPIClient|
 |podVersion|cocoapods package version.| |1.0.0|
 

@@ -19,6 +19,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
+|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |packageName|Eiffel Cluster name (convention: lowercase).| |openapi|
 |packageVersion|Eiffel package version.| |1.0.0|
 
