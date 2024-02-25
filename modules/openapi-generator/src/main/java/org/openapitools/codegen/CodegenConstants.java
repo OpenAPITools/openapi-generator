@@ -319,7 +319,7 @@ public class CodegenConstants {
     public static final String HIDE_GENERATION_TIMESTAMP_DESC = "Hides the generation timestamp when files are generated.";
 
     public static final String HIDE_GENERATOR_VERSION = "hideGeneratorVersion";
-    public static final String HIDE_GENERATOR_VERSION_DESC = "Hides the OpenAPI generator version when files are generated.";
+    public static final String HIDE_GENERATOR_VERSION_DESC = "Hides the OpenAPI Generator version when files are generated.";
 
     public static final String GENERATE_PROPERTY_CHANGED = "generatePropertyChanged";
     public static final String GENERATE_PROPERTY_CHANGED_DESC = "Specifies that models support raising property changed events.";
