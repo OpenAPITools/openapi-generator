@@ -84,7 +84,7 @@ if(hasProperty('target') && target == 'android') {
     publishing {
         publications {
             maven(MavenPublication) {
-               artifactId = 'apache-httpclient-openapi-version'
+               artifactId = 'apache-httpclient-generator-version'
 
                from components.java
             }
