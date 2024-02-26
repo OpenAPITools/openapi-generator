@@ -341,9 +341,13 @@ public class InlineModelResolver {
         if (schema instanceof ArraySchema) {
             ArraySchema array = (ArraySchema) schema;
             Schema items = array.getItems();
+            if (items == null && array.getPrefixItems() == null) {
+                LOGGER.debug("Incorrect array schema with no items, prefixItems: {}", schema.toString());
+                return;
+            }
+
             if (items == null) {
-                LOGGER.error("Illegal schema found with array type but no items," +
-                        " items must be defined for array schemas:\n " + schema.toString());
+                LOGGER.debug("prefixItems in array schema is not supported at the moment: {}",  schema.toString());
                 return;
             }
             String schemaName = resolveModelName(items.getTitle(), modelPrefix + this.inlineSchemaOptions.get("ARRAY_ITEM_SUFFIX"));
@@ -353,8 +357,7 @@ public class InlineModelResolver {
 
             if (isModelNeeded(items)) {
                 // If this schema should be split into its own model, do so
-                Schema refSchema = this.makeSchemaInComponents(schemaName, items);
-                array.setItems(refSchema);
+                array.setItems(this.makeSchemaInComponents(schemaName, items));
             }
         }
         // Check allOf, anyOf, oneOf for inline models
@@ -371,8 +374,7 @@ public class InlineModelResolver {
                     gatherInlineModels((Schema) inner, schemaName);
                     if (isModelNeeded((Schema) inner)) {
                         if (Boolean.TRUE.equals(this.refactorAllOfInlineSchemas)) {
-                            Schema refSchema = this.makeSchemaInComponents(schemaName, (Schema) inner);
-                            newAllOf.add(refSchema); // replace with ref
+                            newAllOf.add(this.makeSchemaInComponents(schemaName, (Schema) inner)); // replace with ref
                             atLeastOneModel = true;
                         } else { // do not refactor allOf inline schemas
                             newAllOf.add((Schema) inner);
@@ -405,8 +407,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels((Schema) inner, schemaName);
                     if (isModelNeeded((Schema) inner)) {
-                        Schema refSchema = this.makeSchemaInComponents(schemaName, (Schema) inner);
-                        newAnyOf.add(refSchema); // replace with ref
+                        newAnyOf.add(this.makeSchemaInComponents(schemaName, (Schema) inner)); // replace with ref
                     } else {
                         newAnyOf.add((Schema) inner);
                     }
@@ -423,8 +424,7 @@ public class InlineModelResolver {
                     // Recurse to create $refs for inner models
                     gatherInlineModels((Schema) inner, schemaName);
                     if (isModelNeeded((Schema) inner)) {
-                        Schema refSchema = this.makeSchemaInComponents(schemaName, (Schema) inner);
-                        newOneOf.add(refSchema); // replace with ref
+                        newOneOf.add(this.makeSchemaInComponents(schemaName, (Schema) inner)); // replace with ref
                     } else {
                         newOneOf.add((Schema) inner);
                     }
@@ -473,8 +473,7 @@ public class InlineModelResolver {
             if (isModelNeeded(schema)) {
                 // If this schema should be split into its own model, do so
                 //Schema refSchema = this.makeSchema(schemaName, schema);
-                Schema refSchema = this.makeSchemaInComponents(schemaName, schema);
-                mediaType.setSchema(refSchema);
+                mediaType.setSchema(this.makeSchemaInComponents(schemaName, schema));
             }
         }
     }
@@ -533,8 +532,7 @@ public class InlineModelResolver {
             gatherInlineModels(parameterSchema, schemaName);
             if (isModelNeeded(parameterSchema)) {
                 // If this schema should be split into its own model, do so
-                Schema refSchema = this.makeSchemaInComponents(schemaName, parameterSchema);
-                parameter.setSchema(refSchema);
+                parameter.setSchema(this.makeSchemaInComponents(schemaName, parameterSchema));
             }
         }
     }
@@ -1018,6 +1016,4 @@ public class InlineModelResolver {
 
         return name;
     }
-
-
 }

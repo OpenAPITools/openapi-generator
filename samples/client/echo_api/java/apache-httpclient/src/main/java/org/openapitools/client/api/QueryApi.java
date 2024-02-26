@@ -427,7 +427,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -439,7 +439,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call
@@ -497,7 +497,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -509,7 +509,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call
