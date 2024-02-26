@@ -690,14 +690,14 @@ public class FakeApiImpl implements FakeApi {
    * Creates a {@code WebClientRequestBuilder} for the testEnumParameters operation.
    * Optional customization point for subclasses.
    *
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumQueryModelArray  (optional
-   * @param enumFormStringArray Form parameter enum test (string array) (optional
+   * @param enumQueryModelArray  (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return WebClientRequestBuilder for testEnumParameters
    */
@@ -733,14 +733,14 @@ public class FakeApiImpl implements FakeApi {
    * Optional customization point for subclasses.
    *
    * @param webClientRequestBuilder the request builder to use for submitting the request
-   * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+   * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-   * @param enumQueryStringArray Query parameter enum test (string array) (optional
+   * @param enumQueryStringArray Query parameter enum test (string array) (optional)
    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
    * @param enumQueryInteger Query parameter enum test (double) (optional)
    * @param enumQueryDouble Query parameter enum test (double) (optional)
-   * @param enumQueryModelArray  (optional
-   * @param enumFormStringArray Form parameter enum test (string array) (optional
+   * @param enumQueryModelArray  (optional)
+   * @param enumFormStringArray Form parameter enum test (string array) (optional)
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
@@ -998,7 +998,7 @@ public class FakeApiImpl implements FakeApi {
    * @param url  (required)
    * @param context  (required)
    * @param allowEmpty  (required)
-   * @param language  (optional
+   * @param language  (optional)
    * @return WebClientRequestBuilder for testQueryParameterCollectionFormat
    */
   protected WebClientRequestBuilder testQueryParameterCollectionFormatRequestBuilder(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
@@ -1032,7 +1032,7 @@ public class FakeApiImpl implements FakeApi {
    * @param url  (required)
    * @param context  (required)
    * @param allowEmpty  (required)
-   * @param language  (optional
+   * @param language  (optional)
    * @return {@code ApiResponse<Void>} for the submitted request
    */
   protected ApiResponse<Void> testQueryParameterCollectionFormatSubmit(WebClientRequestBuilder webClientRequestBuilder, List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language) {
