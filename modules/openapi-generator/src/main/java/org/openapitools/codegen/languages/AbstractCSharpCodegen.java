@@ -654,7 +654,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (!isMutatable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
             processed.add(model.classname);
             for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
-                isMutatable = modelIsMutatable(model, processed);
+                isMutatable = modelIsMutatable(mappedModel.getModel(), processed);
+                if (isMutatable) {
+                    break;
+                }
             }
         }
 
