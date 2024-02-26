@@ -616,6 +616,34 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
 
 [[package]]
+name = "oneof-array-map-hyper"
+version = "0.0.1"
+dependencies = [
+ "base64 0.7.0",
+ "futures",
+ "http",
+ "hyper",
+ "hyper-tls",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "oneof-array-map-reqwest"
+version = "0.0.1"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
 name = "oneof-hyper"
 version = "0.0.1"
 dependencies = [
@@ -634,6 +662,34 @@ dependencies = [
 [[package]]
 name = "oneof-reqwest"
 version = "0.0.1"
+dependencies = [
+ "reqwest",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "oneof-reuse-ref-hyper"
+version = "1.0.0"
+dependencies = [
+ "base64 0.7.0",
+ "futures",
+ "http",
+ "hyper",
+ "hyper-tls",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "oneof-reuse-ref-reqwest"
+version = "1.0.0"
 dependencies = [
  "reqwest",
  "serde",

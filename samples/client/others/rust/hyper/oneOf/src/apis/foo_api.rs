@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -35,14 +36,14 @@ impl<C: hyper::client::connect::Connect> FooApiClient<C>
 }
 
 pub trait FooApi {
-    fn create_foo(&self, foo: Option<crate::models::Foo>) -> Pin<Box<dyn Future<Output = Result<crate::models::FooRefOrValue, Error>>>>;
-    fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::FooRefOrValue>, Error>>>>;
+    fn create_foo(&self, foo: Option<models::Foo>) -> Pin<Box<dyn Future<Output = Result<models::FooRefOrValue, Error>>>>;
+    fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<models::FooRefOrValue>, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>FooApi for FooApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn create_foo(&self, foo: Option<crate::models::Foo>) -> Pin<Box<dyn Future<Output = Result<crate::models::FooRefOrValue, Error>>>> {
+    fn create_foo(&self, foo: Option<models::Foo>) -> Pin<Box<dyn Future<Output = Result<models::FooRefOrValue, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/foo".to_string())
         ;
         req = req.with_body_param(foo);
@@ -51,7 +52,7 @@ impl<C: hyper::client::connect::Connect>FooApi for FooApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<crate::models::FooRefOrValue>, Error>>>> {
+    fn get_all_foos(&self, ) -> Pin<Box<dyn Future<Output = Result<Vec<models::FooRefOrValue>, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/foo".to_string())
         ;
 

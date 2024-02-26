@@ -39,7 +39,7 @@ No authorization required
 
 ## get_state
 
-> crate::models::GetState200Response get_state()
+> models::GetState200Response get_state()
 
 
 ### Parameters
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::GetState200Response**](getState_200_response.md)
+[**models::GetState200Response**](getState_200_response.md)
 
 ### Authorization
 

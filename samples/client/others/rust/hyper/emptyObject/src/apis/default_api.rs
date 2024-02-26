@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -35,13 +36,13 @@ impl<C: hyper::client::connect::Connect> DefaultApiClient<C>
 }
 
 pub trait DefaultApi {
-    fn endpoint_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::EmptyObject, Error>>>>;
+    fn endpoint_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::EmptyObject, Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>DefaultApi for DefaultApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn endpoint_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::EmptyObject, Error>>>> {
+    fn endpoint_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::EmptyObject, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/endpoint".to_string())
         ;
 
