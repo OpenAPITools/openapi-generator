@@ -1036,14 +1036,16 @@ public class OpenAPINormalizer {
                 as.setMaxItems(schema.getMaxItems());
                 as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
-                // `items` is also a json schema
-                if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
-                    Schema ref = new Schema();
-                    ref.set$ref(schema.getItems().get$ref());
-                    as.setItems(ref);
-                } else { // inline schema (e.g. model, string, etc)
-                    Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
-                    as.setItems(updatedItems);
+                if (schema.getItems() != null) {
+                    // `items` is also a json schema
+                    if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {
+                        Schema ref = new Schema();
+                        ref.set$ref(schema.getItems().get$ref());
+                        as.setItems(ref);
+                    } else { // inline schema (e.g. model, string, etc)
+                        Schema updatedItems = normalizeSchema(schema.getItems(), visitedSchemas);
+                        as.setItems(updatedItems);
+                    }
                 }
 
                 return as;
