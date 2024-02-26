@@ -7105,6 +7105,19 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= {}", body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+
+        Schema original = null;
+        // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
+        if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
+                schema.getType() == null && schema.getTypes() == null) {
+            if (schema.getAllOf().get(0) instanceof Schema) {
+                original = schema;
+                schema = (Schema) schema.getAllOf().get(0);
+            } else {
+                LOGGER.error("Unknown type in allOf schema. Please report the issue via openapi-generator's Github issue tracker.");
+            }
+        }
+
         if (ModelUtils.isMapSchema(schema)) {
             LOGGER.error("Form parameters with additionalProperties are not supported by OpenAPI Generator. Please report the issue to https://github.com/openapitools/openapi-generator if you need help.");
         }
@@ -7810,20 +7823,46 @@ public class DefaultCodegen implements CodegenConfig {
 
         // restore original schema with description, extensions etc
         if (original != null) {
-            schema = original;
             // evaluate common attributes such as description if defined in the top level
-            if (schema.getDescription() != null) {
-                codegenParameter.description = escapeText(schema.getDescription());
-                codegenParameter.unescapedDescription = schema.getDescription();
+            if (original.getNullable() != null) {
+                codegenParameter.isNullable = original.getNullable();
+            } else if (original.getExtensions() != null && original.getExtensions().containsKey("x-nullable")) {
+                codegenParameter.isNullable = (Boolean) original.getExtensions().get("x-nullable");
             }
 
             if (original.getExtensions() != null) {
                 codegenParameter.vendorExtensions.putAll(original.getExtensions());
             }
-
             if (original.getDeprecated() != null) {
                 codegenParameter.isDeprecated = original.getDeprecated();
             }
+            if (original.getDescription() != null) {
+                codegenParameter.description = escapeText(original.getDescription());
+                codegenParameter.unescapedDescription = original.getDescription();
+            }
+            if (original.getMaxLength() != null) {
+                codegenParameter.setMaxLength(original.getMaxLength());
+            }
+            if (original.getMinLength() != null) {
+                codegenParameter.setMinLength(original.getMinLength());
+            }
+            if (original.getMaxItems() != null) {
+                codegenParameter.setMaxItems(original.getMaxItems());
+            }
+            if (original.getMinItems() != null) {
+                codegenParameter.setMinItems(original.getMinItems());
+            }
+            if (original.getMaximum() != null) {
+                codegenParameter.setMaximum(String.valueOf(original.getMaximum().doubleValue()));
+            }
+            if (original.getMinimum() != null) {
+                codegenParameter.setMinimum(String.valueOf(original.getMinimum().doubleValue()));
+            }
+            /* comment out below as we don't store `title` in the codegen parametera the moment
+            if (original.getTitle() != null) {
+                codegenParameter.setTitle(original.getTitle());
+            }
+             */
         }
 
         return codegenParameter;
