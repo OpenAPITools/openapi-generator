@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { OuterEnumInteger } from './OuterEnumInteger';
 import {
     OuterEnumIntegerFromJSON,
@@ -47,7 +47,7 @@ export function OuterObjectWithEnumPropertyFromJSON(json: any): OuterObjectWithE
 }
 
 export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscriminator: boolean): OuterObjectWithEnumProperty {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -57,11 +57,8 @@ export function OuterObjectWithEnumPropertyFromJSONTyped(json: any, ignoreDiscri
 }
 
 export function OuterObjectWithEnumPropertyToJSON(value?: OuterObjectWithEnumProperty | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
