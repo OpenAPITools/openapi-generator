@@ -20,7 +20,10 @@ package org.openapitools.codegen.languages;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -30,6 +33,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.io.Writer;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -666,6 +670,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
         }
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
+        additionalProperties.put("useJsonTypeName", new UseJsonTypeName());
     }
 
     private void postProcessMappingDiscriminators(Map<String, ModelsMap> objs) {
@@ -2518,6 +2523,20 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             Map<String, String> importsItem = new HashMap<>();
             importsItem.put("import", entry.getValue());
             imports.add(importsItem);
+        }
+    }
+
+    private static class UseJsonTypeName implements Mustache.Lambda {
+
+        @Override
+        public void execute(Template.Fragment fragment, Writer writer) throws IOException {
+            // context index 1 is only valid when used in pojo.mustache
+            CodegenModel codegenModel = (CodegenModel)fragment.context(1);
+            Object xDiscriminatorValue = codegenModel.vendorExtensions.get("x-discriminator-value");
+            if (codegenModel.getIsClassnameSanitized() || (xDiscriminatorValue!=null && !codegenModel.classname.equals(xDiscriminatorValue))) {
+                String text = fragment.execute();
+                writer.write(text);
+            }
         }
     }
 }

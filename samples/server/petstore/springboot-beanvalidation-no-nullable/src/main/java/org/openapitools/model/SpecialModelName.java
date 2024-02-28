@@ -19,7 +19,6 @@ import javax.annotation.Generated;
  * SpecialModelName
  */
 
-@JsonTypeName("_special_model.name_")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelName {
 

@@ -36,14 +36,14 @@ impl<C: hyper::client::connect::Connect> DefaultApiClient<C>
 }
 
 pub trait DefaultApi {
-    fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::Fruit, Error>>>>;
+    fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::Fruit, Error>>>>;
     fn test(&self, body: Option<serde_json::Value>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>DefaultApi for DefaultApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<models::Fruit, Error>>>> {
+    fn root_get(&self, ) -> Pin<Box<dyn Future<Output = Result<crate::models::Fruit, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/".to_string())
         ;
 

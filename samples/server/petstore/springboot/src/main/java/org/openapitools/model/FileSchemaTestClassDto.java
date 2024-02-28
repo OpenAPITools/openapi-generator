@@ -24,7 +24,6 @@ import javax.annotation.Generated;
  * FileSchemaTestClassDto
  */
 
-@JsonTypeName("FileSchemaTestClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileSchemaTestClassDto {
 

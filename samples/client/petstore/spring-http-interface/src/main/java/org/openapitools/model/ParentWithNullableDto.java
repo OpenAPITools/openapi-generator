@@ -33,7 +33,6 @@ import jakarta.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullableDto.class, name = "ChildWithNullable")
 })
 
-@JsonTypeName("ParentWithNullable")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ParentWithNullableDto {
 

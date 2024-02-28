@@ -18,7 +18,6 @@ import javax.annotation.Generated;
  * Describes the result of uploading an image resource
  */
 
-@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 

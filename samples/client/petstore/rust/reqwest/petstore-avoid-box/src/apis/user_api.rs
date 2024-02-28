@@ -25,14 +25,14 @@ pub struct CreateUserParams {
 #[derive(Clone, Debug)]
 pub struct CreateUsersWithArrayInputParams {
     /// List of user object
-    pub user: Vec<models::User>
+    pub user: Vec<crate::models::User>
 }
 
 /// struct for passing parameters to the method [`create_users_with_list_input`]
 #[derive(Clone, Debug)]
 pub struct CreateUsersWithListInputParams {
     /// List of user object
-    pub user: Vec<models::User>
+    pub user: Vec<crate::models::User>
 }
 
 /// struct for passing parameters to the method [`delete_user`]
@@ -100,7 +100,7 @@ pub enum DeleteUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameSuccess {
-    Status200(models::User),
+    Status200(crate::models::User),
     UnknownValue(serde_json::Value),
 }
 

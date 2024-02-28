@@ -34,7 +34,6 @@ import jakarta.xml.bind.annotation.adapters.*;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
-@JsonTypeName("ApiResponse")
 /**
   * Describes the result of uploading an image resource
  **/
@@ -158,3 +157,4 @@ public class ModelApiResponse  {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

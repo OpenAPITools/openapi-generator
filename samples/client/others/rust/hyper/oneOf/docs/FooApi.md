@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## create_foo
 
-> models::FooRefOrValue create_foo(foo)
+> crate::models::FooRefOrValue create_foo(foo)
 Create a Foo
 
 ### Parameters
@@ -23,7 +23,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**models::FooRefOrValue**](FooRefOrValue.md)
+[**crate::models::FooRefOrValue**](FooRefOrValue.md)
 
 ### Authorization
 
@@ -39,7 +39,7 @@ No authorization required
 
 ## get_all_foos
 
-> Vec<models::FooRefOrValue> get_all_foos()
+> Vec<crate::models::FooRefOrValue> get_all_foos()
 GET all Foos
 
 ### Parameters
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**Vec<models::FooRefOrValue>**](FooRefOrValue.md)
+[**Vec<crate::models::FooRefOrValue>**](FooRefOrValue.md)
 
 ### Authorization
 

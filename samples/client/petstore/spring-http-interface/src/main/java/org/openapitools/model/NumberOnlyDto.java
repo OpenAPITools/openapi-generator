@@ -18,7 +18,6 @@ import jakarta.annotation.Generated;
  * NumberOnlyDto
  */
 
-@JsonTypeName("NumberOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NumberOnlyDto {
 

@@ -19,7 +19,7 @@ pub struct Bar {
     #[serde(rename = "fooPropB", skip_serializing_if = "Option::is_none")]
     pub foo_prop_b: Option<String>,
     #[serde(rename = "foo", skip_serializing_if = "Option::is_none")]
-    pub foo: Option<Box<models::FooRefOrValue>>,
+    pub foo: Option<Box<crate::models::FooRefOrValue>>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,

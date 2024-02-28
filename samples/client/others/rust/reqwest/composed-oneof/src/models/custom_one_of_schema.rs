@@ -13,15 +13,15 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CustomOneOfSchema {
-    #[serde(rename="a-type")]
-    AType(Box<models::ObjA>),
-    #[serde(rename="b-type")]
-    BType(Box<models::ObjB>),
+    #[serde(rename="one_of_0")]
+    one_of_0(Box<crate::models::ObjA>),
+    #[serde(rename="one_of_1")]
+    one_of_1(Box<crate::models::ObjB>),
 }
 
 impl Default for CustomOneOfSchema {
     fn default() -> Self {
-        Self::AType(Default::default())
+        Self::one_of_0(Default::default())
     }
 }
 

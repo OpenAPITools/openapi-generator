@@ -13,17 +13,17 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum GetState200Response {
-    #[serde(rename="a-type")]
-    AType(Box<models::ObjA>),
-    #[serde(rename="b-type")]
-    BType(Box<models::ObjB>),
-    #[serde(rename="d-type")]
-    DType(Box<models::ObjD>),
+    #[serde(rename="one_of_0")]
+    one_of_0(Box<crate::models::ObjA>),
+    #[serde(rename="one_of_1")]
+    one_of_1(Box<crate::models::ObjB>),
+    #[serde(rename="one_of_2")]
+    one_of_2(Box<crate::models::ObjD>),
 }
 
 impl Default for GetState200Response {
     fn default() -> Self {
-        Self::AType(Default::default())
+        Self::one_of_0(Default::default())
     }
 }
 

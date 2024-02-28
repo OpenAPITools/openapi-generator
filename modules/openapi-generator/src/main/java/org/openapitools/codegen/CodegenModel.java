@@ -352,15 +352,6 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         return !StringUtils.equals(classname, name);
     }
 
-    /**
-     *
-     * @return true if @JSonTypeName is needed
-     */
-    public boolean getUseJsonTypeName() {
-        Object xDiscriminatorValue = vendorExtensions.get("x-discriminator-value");
-        return getIsClassnameSanitized() || (xDiscriminatorValue!=null && !classname.equals(xDiscriminatorValue));
-    }
-
     public String getClassname() {
         return classname;
     }

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## create_bar
 
-> models::Bar create_bar(bar_create)
+> crate::models::Bar create_bar(bar_create)
 Create a Bar
 
 ### Parameters
@@ -22,7 +22,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**models::Bar**](Bar.md)
+[**crate::models::Bar**](Bar.md)
 
 ### Authorization
 

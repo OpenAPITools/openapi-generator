@@ -13,15 +13,15 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "@type")]
 pub enum FooRefOrValue {
-    #[serde(rename="Foo")]
-    Foo(Box<models::Foo>),
-    #[serde(rename="FooRef")]
-    FooRef(Box<models::FooRef>),
+    #[serde(rename="one_of_0")]
+    one_of_0(Box<crate::models::Foo>),
+    #[serde(rename="one_of_1")]
+    one_of_1(Box<crate::models::FooRef>),
 }
 
 impl Default for FooRefOrValue {
     fn default() -> Self {
-        Self::Foo(Default::default())
+        Self::one_of_0(Default::default())
     }
 }
 

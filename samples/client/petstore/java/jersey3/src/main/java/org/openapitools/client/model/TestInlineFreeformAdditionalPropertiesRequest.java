@@ -36,7 +36,6 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
-@JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestInlineFreeformAdditionalPropertiesRequest {
   public static final String JSON_PROPERTY_SOME_PROPERTY = "someProperty";

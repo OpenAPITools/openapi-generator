@@ -58,7 +58,7 @@ pub fn create_state(configuration: &configuration::Configuration, create_state_r
     }
 }
 
-pub fn get_state(configuration: &configuration::Configuration, ) -> Result<models::GetState200Response, Error<GetStateError>> {
+pub fn get_state(configuration: &configuration::Configuration, ) -> Result<crate::models::GetState200Response, Error<GetStateError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

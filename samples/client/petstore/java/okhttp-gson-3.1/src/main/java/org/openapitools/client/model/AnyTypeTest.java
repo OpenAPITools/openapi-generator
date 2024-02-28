@@ -64,7 +64,7 @@ public class AnyTypeTest {
 
   public static final String SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS = "ref_array_prefix_items";
   @SerializedName(SERIALIZED_NAME_REF_ARRAY_PREFIX_ITEMS)
-  private List<String> refArrayPrefixItems;
+  private Object refArrayPrefixItems = null;
 
   public AnyTypeTest() {
   }
@@ -115,16 +115,8 @@ public class AnyTypeTest {
   }
 
 
-  public AnyTypeTest refArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public AnyTypeTest refArrayPrefixItems(Object refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
-    return this;
-  }
-
-  public AnyTypeTest addRefArrayPrefixItemsItem(String refArrayPrefixItemsItem) {
-    if (this.refArrayPrefixItems == null) {
-      this.refArrayPrefixItems = new ArrayList<>();
-    }
-    this.refArrayPrefixItems.add(refArrayPrefixItemsItem);
     return this;
   }
 
@@ -133,11 +125,11 @@ public class AnyTypeTest {
    * @return refArrayPrefixItems
   **/
   @javax.annotation.Nullable
-  public List<String> getRefArrayPrefixItems() {
+  public Object getRefArrayPrefixItems() {
     return refArrayPrefixItems;
   }
 
-  public void setRefArrayPrefixItems(List<String> refArrayPrefixItems) {
+  public void setRefArrayPrefixItems(Object refArrayPrefixItems) {
     this.refArrayPrefixItems = refArrayPrefixItems;
   }
 
@@ -272,10 +264,6 @@ public class AnyTypeTest {
       // ensure the optional json data is an array if present
       if (jsonObj.get("array_prop") != null && !jsonObj.get("array_prop").isJsonNull() && !jsonObj.get("array_prop").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_prop` to be an array in the JSON string but got `%s`", jsonObj.get("array_prop").toString()));
-      }
-      // ensure the optional json data is an array if present
-      if (jsonObj.get("ref_array_prefix_items") != null && !jsonObj.get("ref_array_prefix_items").isJsonNull() && !jsonObj.get("ref_array_prefix_items").isJsonArray()) {
-        throw new IllegalArgumentException(String.format("Expected the field `ref_array_prefix_items` to be an array in the JSON string but got `%s`", jsonObj.get("ref_array_prefix_items").toString()));
       }
   }
 

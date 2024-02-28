@@ -15,7 +15,7 @@ pub struct PizzaSpeziale {
     #[serde(rename = "toppings", skip_serializing_if = "Option::is_none")]
     pub toppings: Option<String>,
     #[serde(rename = "pizzaSize", skip_serializing_if = "Option::is_none")]
-    pub pizza_size: Option<f64>,
+    pub pizza_size: Option<f32>,
     /// Hyperlink reference
     #[serde(rename = "href", skip_serializing_if = "Option::is_none")]
     pub href: Option<String>,

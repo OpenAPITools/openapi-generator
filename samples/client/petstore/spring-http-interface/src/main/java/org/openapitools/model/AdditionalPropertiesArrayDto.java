@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesArrayDto
  */
 
-@JsonTypeName("AdditionalPropertiesArray")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesArrayDto {
 

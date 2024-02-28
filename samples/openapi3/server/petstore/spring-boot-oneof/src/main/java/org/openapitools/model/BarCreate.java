@@ -25,7 +25,6 @@ import javax.annotation.Generated;
  */
 
 
-@JsonTypeName("Bar_Create")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class BarCreate extends Entity {
 

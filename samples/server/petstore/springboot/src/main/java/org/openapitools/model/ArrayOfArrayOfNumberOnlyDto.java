@@ -24,7 +24,6 @@ import javax.annotation.Generated;
  * ArrayOfArrayOfNumberOnlyDto
  */
 
-@JsonTypeName("ArrayOfArrayOfNumberOnly")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayOfArrayOfNumberOnlyDto {
 

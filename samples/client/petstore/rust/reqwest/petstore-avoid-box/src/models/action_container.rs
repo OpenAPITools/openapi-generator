@@ -13,11 +13,11 @@ use crate::models;
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ActionContainer {
     #[serde(rename = "action")]
-    pub action: models::Baz,
+    pub action: crate::models::Baz,
 }
 
 impl ActionContainer {
-    pub fn new(action: models::Baz) -> ActionContainer {
+    pub fn new(action: crate::models::Baz) -> ActionContainer {
         ActionContainer {
             action,
         }

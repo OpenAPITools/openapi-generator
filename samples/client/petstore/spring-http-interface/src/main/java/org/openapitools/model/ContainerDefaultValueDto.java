@@ -22,7 +22,6 @@ import jakarta.annotation.Generated;
  * ContainerDefaultValueDto
  */
 
-@JsonTypeName("ContainerDefaultValue")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ContainerDefaultValueDto {
 

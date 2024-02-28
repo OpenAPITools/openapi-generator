@@ -17,7 +17,6 @@ import jakarta.annotation.Generated;
  * Model for testing model with \&quot;_class\&quot; property
  */
 
-@JsonTypeName("ClassModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClassModelDto {
 

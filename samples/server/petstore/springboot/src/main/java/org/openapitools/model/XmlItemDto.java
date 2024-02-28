@@ -24,7 +24,6 @@ import javax.annotation.Generated;
  * XmlItemDto
  */
 
-@JsonTypeName("XmlItem")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class XmlItemDto {
 

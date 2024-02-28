@@ -57,7 +57,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | [**Vec<models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -87,7 +87,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**user** | [**Vec<models::User>**](User.md) | List of user object | [required] |
+**user** | [**Vec<crate::models::User>**](User.md) | List of user object | [required] |
 
 ### Return type
 
@@ -137,7 +137,7 @@ Name | Type | Description  | Required | Notes
 
 ## get_user_by_name
 
-> models::User get_user_by_name(username)
+> crate::models::User get_user_by_name(username)
 Get user by user name
 
 
@@ -151,7 +151,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**models::User**](User.md)
+[**crate::models::User**](User.md)
 
 ### Authorization
 

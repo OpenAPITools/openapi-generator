@@ -19,7 +19,6 @@ import jakarta.annotation.Generated;
  * EnumTestDto
  */
 
-@JsonTypeName("Enum_Test")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class EnumTestDto {
 

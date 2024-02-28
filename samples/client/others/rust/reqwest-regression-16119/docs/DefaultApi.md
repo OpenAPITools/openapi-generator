@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## repro
 
-> models::Parent repro()
+> crate::models::Parent repro()
 
 
 ### Parameters
@@ -19,7 +19,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**models::Parent**](Parent.md)
+[**crate::models::Parent**](Parent.md)
 
 ### Authorization
 

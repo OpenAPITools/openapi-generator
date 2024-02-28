@@ -33,7 +33,6 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ModelList.JSON_PROPERTY_123LIST
 })
-@JsonTypeName("List")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ModelList")
 @XmlAccessorType(XmlAccessType.FIELD)

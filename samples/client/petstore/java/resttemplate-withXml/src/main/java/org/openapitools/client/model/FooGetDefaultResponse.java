@@ -34,7 +34,6 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   FooGetDefaultResponse.JSON_PROPERTY_STRING
 })
-@JsonTypeName("_foo_get_default_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FooGetDefaultResponse")
 @XmlAccessorType(XmlAccessType.FIELD)

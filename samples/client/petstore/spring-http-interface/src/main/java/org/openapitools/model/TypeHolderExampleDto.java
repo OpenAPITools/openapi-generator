@@ -21,7 +21,6 @@ import jakarta.annotation.Generated;
  * TypeHolderExampleDto
  */
 
-@JsonTypeName("TypeHolderExample")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExampleDto {
 

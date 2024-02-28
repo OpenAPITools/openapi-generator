@@ -13,7 +13,7 @@ use crate::models;
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Parent {
     #[serde(rename = "child", skip_serializing_if = "Option::is_none")]
-    pub child: Option<std::collections::HashMap<String, serde_json::Value>>,
+    pub child: Option<::std::collections::HashMap<String, serde_json::Value>>,
 }
 
 impl Parent {
