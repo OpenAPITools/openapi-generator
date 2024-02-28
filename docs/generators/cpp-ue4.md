@@ -31,6 +31,8 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |unrealModuleName|Name of the generated unreal module (optional)| |OpenAPI|
 |variableNameFirstCharacterUppercase|Make first character of variable name uppercase (eg. value -&gt; Value)| |true|
+|modelNameCamelize|Do not camelize model name|<dl><dt>**true**</dt><dd>Schema name `FT1Model_HelloWorldRequest` uses the class name `FT1ModelHelloWorldRequest`.</dd><dt>**false**</dt><dd>Schema name `FT1Model_HelloWorldRequest` uses the class name `FT1Model_HelloWorldRequest`.</dd></dl>|true|
+|modelFilenameCamelize|Do not camelize model filename|<dl><dt>**true**</dt><dd>Schema name `FT1Model_HelloWorldRequest` uses the filename `FT1ModelHelloWorldRequest`.</dd><dt>**false**</dt><dd>Schema name `FT1Model_HelloWorldRequest` uses the filename `FT1Model_HelloWorldRequest`.</dd></dl>|true|
 
 ## IMPORT MAPPING
 
