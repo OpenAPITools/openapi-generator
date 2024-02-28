@@ -1,0 +1,17 @@
+## PaymentsApi
+
+### Get payment method by id
+## 
+# @name getPaymentMethodById
+GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}
+
+### Get payment methods
+## 
+# @name getPaymentMethods
+GET https://checkout-test.adyen.com/v71/paymentMethods
+
+### Make a payment
+## 
+# @name postMakePayment
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
