@@ -49,8 +49,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
     protected boolean optionalProjectFileFlag = true;
-    private boolean modelNameCamelize = true;
-    private boolean modelFilenameCamelize = true;
+    protected boolean modelNameCamelize = true;
+    protected boolean modelFilenameCamelize = true;
 
     public CppUE4ClientCodegen() {
         super();
@@ -221,13 +221,11 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             updateSupportingFiles = true;
         }
 
-        if (additionalProperties.containsKey("modelNameCamelize"))
-        {
+        if (additionalProperties.containsKey("modelNameCamelize")) {
             modelNameCamelize = (boolean) additionalProperties.get("modelNameCamelize");
         }
 
-        if (additionalProperties.containsKey("modelFilenameCamelize"))
-        {
+        if (additionalProperties.containsKey("modelFilenameCamelize")) {
             modelFilenameCamelize = (boolean) additionalProperties.get("modelFilenameCamelize");
         }
 
@@ -515,7 +513,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
         String camelCaseName = camelize(name);
 
         //Avoid empty variable name at all costs
-        if(!camelCaseName.isEmpty()) {
+        if (!camelCaseName.isEmpty()) {
             name = camelCaseName;
         }
 
