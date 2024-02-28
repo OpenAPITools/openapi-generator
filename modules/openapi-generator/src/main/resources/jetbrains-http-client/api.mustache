@@ -2,11 +2,15 @@
 {{#operations}}
 {{#operation}}
 
+{{#vendorExtensions.requests}}
 ### {{#summary}}{{summary}}{{/summary}}
-## {{#notes}}{{notes}}{{/notes}}
-# @name {{operationId}}
+## {{name}}
 {{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
 {{#consumes}}Content-Type: {{{mediaType}}}
 {{/consumes}}
+
+{{{body}}}
+
+{{/vendorExtensions.requests}}
 {{/operation}}
 {{/operations}}

@@ -16,18 +16,21 @@
 
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.examples.Example;
 import org.openapitools.codegen.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -42,7 +45,22 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/*
+Note : This code has been MASSIVELY inspired by PostmanCollectionCodegen.
+
+Hopefully one day we can merge the similar code, as both generators stabilize
+ */
 public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements CodegenConfig {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(JetbrainsHttpClientClientCodegen.class);
+
+    public static final String JSON_ESCAPE_NEW_LINE = "\\n";
+    public static final String JSON_ESCAPE_DOUBLE_QUOTE = "\\\"";
+
+    public static final String REQUEST_PARAMETER_GENERATION_DEFAULT_VALUE = "Example";
+    protected String requestParameterGeneration = REQUEST_PARAMETER_GENERATION_DEFAULT_VALUE; // values: Example, Schema
+
+
     public static final String PROJECT_NAME = "Jetbrains HTTP Client";
 
     public CodegenType getTag() {
@@ -96,14 +114,69 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> bundle) {
-
         return bundle;
     }
 
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
-        return super.postProcessOperationsWithModels(objs, allModels);
+        OperationsMap results =  super.postProcessOperationsWithModels(objs, allModels);
+
+        OperationMap ops = results.getOperations();
+        List<CodegenOperation> opList = ops.getOperation();
+
+        for(CodegenOperation codegenOperation : opList) {
+            List<RequestItem> requests = getRequests(codegenOperation);
+
+
+            if(requests != null) {
+                codegenOperation.vendorExtensions.put("requests", requests);
+            }
+        }
+        return results;
     }
+
+    List<RequestItem> getRequests(CodegenOperation codegenOperation) {
+        List<RequestItem> items = new ArrayList<>();
+
+        if(codegenOperation.getHasBodyParam()) {
+            // operation with bodyParam
+            if (requestParameterGeneration.equalsIgnoreCase("Schema")) {
+                // get from schema
+                items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
+            } else {
+                // get from examples
+                if (codegenOperation.bodyParam.example != null) {
+                    // find in bodyParam example
+                    items.add(new RequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example)));
+                } else if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
+                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
+                    // find in components/examples
+                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
+                        String exampleRef = entry.getValue().get$ref();
+                        Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
+                        String exampleAsString = getJsonFromExample(example);
+
+                        items.add(new RequestItem(example.getSummary(), exampleAsString));
+                    }
+                } else if (codegenOperation.bodyParam.getSchema() != null) {
+                    // find in schema example
+                    String exampleAsString = (codegenOperation.bodyParam.getSchema().getExample());
+                    items.add(new RequestItem(codegenOperation.summary, exampleAsString));
+                } else {
+                    // example not found
+                    // get from schema
+                    items.add(new RequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
+
+                }
+            }
+        } else {
+            // operation without bodyParam
+            items.add(new RequestItem(codegenOperation.summary, ""));
+        }
+
+        return items;
+    }
+
 
     @Override
     public void postProcess() {
@@ -114,5 +187,159 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         System.out.println("#                                                                              #");
         System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)    #");
         System.out.println("################################################################################");
+    }
+
+
+    public class RequestItem {
+
+        private String name;
+        private String body;
+
+        public RequestItem(String name, String body) {
+            this.name = name;
+            this.body = body;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getBody() {
+            return body;
+        }
+
+        public void setBody(String body) {
+            this.body = body;
+        }
+    }
+
+    /*
+    Helpers
+     */
+
+    public String getJsonFromSchema(CodegenParameter codegenParameter) {
+
+        String ret = "{" + JSON_ESCAPE_NEW_LINE + " ";
+
+        int numVars = codegenParameter.vars.size();
+        int counter = 1;
+
+        for (CodegenProperty codegenProperty : codegenParameter.vars) {
+            ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + codegenProperty.baseName + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                    JSON_ESCAPE_DOUBLE_QUOTE + "<" + getType(codegenProperty) + ">" + JSON_ESCAPE_DOUBLE_QUOTE;
+
+            if(counter < numVars) {
+                // add comma unless last attribute
+                ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
+            }
+            counter++;
+
+        }
+
+        ret = ret + JSON_ESCAPE_NEW_LINE + "}";
+
+        return ret;
+    }
+
+    public String getType(CodegenProperty codegenProperty) {
+        if(codegenProperty.isNumeric) {
+            return "number";
+        } else if(codegenProperty.isDate) {
+            return "date";
+        } else {
+            return "string";
+        }
+    }
+
+    public String formatJson(String json) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            // convert to JSON object and prettify
+            JsonNode actualObj = objectMapper.readTree(json);
+            json = Json.pretty(actualObj);
+//            json = json.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+//            json = json.replace("\n", JSON_ESCAPE_NEW_LINE);
+
+        } catch (JsonProcessingException e) {
+            LOGGER.warn("Error formatting JSON", e);
+            json = "";
+        }
+
+        return json;
+    }
+
+    public String extractExampleByName(String ref) {
+        return ref.substring(ref.lastIndexOf("/") + 1);
+    }
+
+    public String getJsonFromExample(Example example) {
+        String ret = "";
+
+        if(example == null) {
+            return ret;
+        }
+
+        if(example.getValue() instanceof ObjectNode) {
+            ret = convertToJson((ObjectNode)example.getValue());
+        } else if(example.getValue() instanceof LinkedHashMap) {
+            ret = convertToJson((LinkedHashMap)example.getValue());
+        }
+
+        return ret;
+    }
+
+    public String convertToJson(ObjectNode objectNode) {
+        return formatJson(objectNode.toString());
+    }
+
+    public String convertToJson(LinkedHashMap<String, Object> linkedHashMap) {
+        String ret = "";
+
+        return traverseMap(linkedHashMap, ret);
+    }
+
+    private String traverseMap(LinkedHashMap<String, Object> linkedHashMap, String ret) {
+
+        ret = ret + "{" + JSON_ESCAPE_NEW_LINE + " ";
+
+        int numVars = linkedHashMap.entrySet().size();
+        int counter = 1;
+
+        for (Map.Entry<String, Object> mapElement : linkedHashMap.entrySet()) {
+            String key = mapElement.getKey();
+            Object value = mapElement.getValue();
+
+            if(value instanceof String) {
+                // unescape double quotes already escaped
+                value = ((String)value).replace("\\\"", "\"");
+
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                        JSON_ESCAPE_DOUBLE_QUOTE + value + JSON_ESCAPE_DOUBLE_QUOTE;
+            } else if (value instanceof Integer) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
+                        value;
+            } else if (value instanceof LinkedHashMap) {
+                String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
+                ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
+            } else {
+                LOGGER.warn("Value type unrecognised: " + value.getClass());
+            }
+
+            if(counter < numVars) {
+                // add comma unless last attribute
+                ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
+            }
+            counter++;
+        }
+
+        ret = ret + JSON_ESCAPE_NEW_LINE + "}";
+
+        return ret;
     }
 }
