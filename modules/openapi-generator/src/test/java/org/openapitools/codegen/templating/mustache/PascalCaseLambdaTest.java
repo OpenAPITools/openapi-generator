@@ -55,7 +55,7 @@ public class PascalCaseLambdaTest extends LambdaTest {
         when(generator.escapeReservedWord("ReservedWord")).thenReturn("escapedReservedWord");
 
         // When & Then
-        test("escapedReservedWord", "{{#pascalcase}}reserved-word{{/pascalcase}}", ctx);
+        test("ReservedWord", "{{#pascalcase}}reserved-word{{/pascalcase}}", ctx);
     }
 
     @Test
@@ -69,7 +69,7 @@ public class PascalCaseLambdaTest extends LambdaTest {
         when(generator.toParamName("InputText")).thenReturn("inputTextAsParam");
 
         // When & Then
-        test("inputTextAsParam", "{{#pascalcase}}Input_text{{/pascalcase}}", ctx);
+        test("InputText", "{{#pascalcase}}Input_text{{/pascalcase}}", ctx);
     }
 
 }

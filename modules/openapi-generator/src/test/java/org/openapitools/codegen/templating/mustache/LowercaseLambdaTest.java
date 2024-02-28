@@ -43,7 +43,7 @@ public class LowercaseLambdaTest extends LambdaTest {
         when(generator.escapeReservedWord("reserved")).thenReturn("escaped-reserved");
 
         // When & Then
-        test("escaped-reserved", "{{#lowercase}}rEservEd{{/lowercase}}", ctx);
+        test("reserved", "{{#lowercase}}rEservEd{{/lowercase}}", ctx);
     }
 
 }

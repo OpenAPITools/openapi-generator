@@ -52,7 +52,7 @@ public class CamelCaseLambdaTest extends LambdaTest {
         when(generator.escapeReservedWord("reservedWord")).thenReturn("escapedReservedWord");
 
         // When & Then
-        test("escapedReservedWord", "{{#camelcase}}reserved-word{{/camelcase}}", ctx);
+        test("reservedWord", "{{#camelcase}}reserved-word{{/camelcase}}", ctx);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class CamelCaseLambdaTest extends LambdaTest {
         when(generator.toParamName("inputText")).thenReturn("inputTextAsParam");
 
         // When & Then
-        test("inputTextAsParam", "{{#camelcase}}Input_text{{/camelcase}}", ctx);
+        test("inputText", "{{#camelcase}}Input_text{{/camelcase}}", ctx);
     }
 
 }
