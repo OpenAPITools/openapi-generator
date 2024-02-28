@@ -1,0 +1,9 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/api-with-ref-param
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/api-with-ref-param.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: true
+  packageName: api-ref-param-hyper
+

@@ -11,7 +11,7 @@
 
 use reqwest;
 
-use crate::apis::ResponseContent;
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 
@@ -23,7 +23,7 @@ pub enum EndpointGetError {
 }
 
 
-pub fn endpoint_get(configuration: &configuration::Configuration, ) -> Result<crate::models::EmptyObject, Error<EndpointGetError>> {
+pub fn endpoint_get(configuration: &configuration::Configuration, ) -> Result<models::EmptyObject, Error<EndpointGetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

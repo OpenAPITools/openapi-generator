@@ -21,7 +21,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
@@ -704,41 +703,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            String innerType = getTypeDeclaration(inner);
-            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
-            typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String datatype;
-            try {
-                datatype = p.get$ref();
-
-                if (datatype.indexOf("#/components/schemas/") == 0) {
-                    datatype = toModelName(datatype.substring("#/components/schemas/".length()));
-                    datatype = "models::" + datatype;
-                }
-            } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
-                datatype = "Object";
-                LOGGER.error(e.getMessage(), e);
-            }
-            return datatype;
-        } else if (p instanceof FileSchema) {
-            return typeMapping.get("File");
-        }
-
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -750,39 +714,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else {
             return null;
         }
-    }
-
-    @Override
-    public CodegenModel fromModel(String name, Schema model) {
-        LOGGER.trace("Creating model from schema: {}", model);
-
-        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
-        CodegenModel mdl = super.fromModel(name, model);
-
-        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
-        if (!StringUtils.isEmpty(model.get$ref())) {
-            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
-            mdl.dataType = typeMapping.get(schema.getType());
-        }
-        if (ModelUtils.isArraySchema(model)) {
-            if (typeMapping.containsKey(mdl.arrayModelType)) {
-                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
-            } else {
-                mdl.arrayModelType = toModelName(mdl.arrayModelType);
-            }
-        } else if ((!mdl.anyOf.isEmpty()) || (!mdl.oneOf.isEmpty())) {
-            mdl.dataType = getSchemaType(model);
-        }
-
-        Schema additionalProperties = ModelUtils.getAdditionalProperties(model);
-
-        if (additionalProperties != null) {
-            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
-        }
-
-        LOGGER.trace("Created model: {}", mdl);
-
-        return mdl;
     }
 
     @Override
