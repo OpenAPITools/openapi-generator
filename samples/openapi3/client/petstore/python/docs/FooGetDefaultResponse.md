@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of FooGetDefaultResponse from a JSON string
 foo_get_default_response_instance = FooGetDefaultResponse.from_json(json)
 # print the JSON string representation of the object
-print FooGetDefaultResponse.to_json()
+print(FooGetDefaultResponse.to_json())
 
 # convert the object into a dict
 foo_get_default_response_dict = foo_get_default_response_instance.to_dict()

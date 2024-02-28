@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of Animal from a JSON string
 animal_instance = Animal.from_json(json)
 # print the JSON string representation of the object
-print Animal.to_json()
+print(Animal.to_json())
 
 # convert the object into a dict
 animal_dict = animal_instance.to_dict()

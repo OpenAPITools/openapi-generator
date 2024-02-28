@@ -29,7 +29,7 @@ json = "{}"
 # create an instance of NullableClass from a JSON string
 nullable_class_instance = NullableClass.from_json(json)
 # print the JSON string representation of the object
-print NullableClass.to_json()
+print(NullableClass.to_json())
 
 # convert the object into a dict
 nullable_class_dict = nullable_class_instance.to_dict()
