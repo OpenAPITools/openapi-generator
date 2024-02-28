@@ -49,6 +49,8 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     protected Set<String> systemIncludes = new HashSet<>();
     protected String cppNamespace = unrealModuleName;
     protected boolean optionalProjectFileFlag = true;
+    private boolean modelNameCamelize = true;
+    private boolean modelFilenameCamelize = true;
 
     public CppUE4ClientCodegen() {
         super();
@@ -219,6 +221,16 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             updateSupportingFiles = true;
         }
 
+        if (additionalProperties.containsKey("modelNameCamelize"))
+        {
+            modelNameCamelize = (boolean) additionalProperties.get("modelNameCamelize");
+        }
+
+        if (additionalProperties.containsKey("modelFilenameCamelize"))
+        {
+            modelFilenameCamelize = (boolean) additionalProperties.get("modelFilenameCamelize");
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_PROJECT_FILE)) {
             setOptionalProjectFileFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_PROJECT_FILE));
         } else {
@@ -349,7 +361,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String toModelFilename(String name) {
         name = sanitizeName(name);
-        return modelNamePrefix + camelize(name);
+        return modelNamePrefix + (modelFilenameCamelize ? camelize(name) : name);
     }
 
     @Override
@@ -485,7 +497,7 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
                 languageSpecificPrimitives.contains(type)) {
             return type;
         } else {
-            return modelNamePrefix + camelize(sanitizeName(type));
+            return modelNamePrefix + (modelNameCamelize ? camelize(sanitizeName(type)) : sanitizeName(type));
         }
     }
 
@@ -554,5 +566,21 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
     @Override
     public String toSetter(String name) {
         return "Set" + getterAndSetterCapitalize(name);
+    }
+
+    public boolean getModelNameCamelize() {
+        return modelNameCamelize;
+    }
+
+    public void setModelNameCamelize(boolean isCamelize) {
+        modelNameCamelize = isCamelize;
+    }
+
+    public boolean getModelFilenameCamelize() {
+        return modelFilenameCamelize;
+    }
+
+    public void setModelFilenameCamelize(boolean isCamelize) {
+        modelFilenameCamelize = isCamelize;
     }
 }
