@@ -673,11 +673,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put("useJsonTypeName", new UseJsonTypeName());
     }
 
+    /**
+     * Loop through all the codegenModels to set the correct name when inheritance and discriminators are used.
+     *
+     * The name is used to set @jsonTypeName on classes whose names are different that the one specified in the contract.
+     * This is needed:
+     *   when a prefix and/or suffix configuration is set
+     *   when a discriminator mapping is specified in the contract.
+     *
+     * @param objs map of all CodeGenModels
+     */
     private void postProcessMappingDiscriminators(Map<String, ModelsMap> objs) {
         for (ModelsMap modelMaps: objs.values()) {
             for (ModelMap modelMap : modelMaps.getModels()) {
                 CodegenModel model = modelMap.getModel();
                 if (model.discriminator != null && model.discriminator.getMappedModels() != null) {
+                    // loop through the discriminator mapping to set the correct name
                     for (CodegenDiscriminator.MappedModel mappedModel : model.discriminator.getMappedModels()) {
                         String modelName = mappedModel.getModelName();
                         CodegenModel childModel = getChildMatchingModel(model, modelName);
