@@ -23,7 +23,7 @@ pub enum CustomOneOfArraySchemaInner {
 
 impl Default for CustomOneOfArraySchemaInner {
     fn default() -> Self {
-        Self::AType(Box::default())
+        Self::AType(Default::default())
     }
 }
 

@@ -23,7 +23,7 @@ pub enum Fruit {
 
 impl Default for Fruit {
     fn default() -> Self {
-        Self::GreenApple(Box::default())
+        Self::GreenApple(Default::default())
     }
 }
 

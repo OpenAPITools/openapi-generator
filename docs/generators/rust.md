@@ -18,6 +18,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|avoidBoxedModels|If set, `Box&lt;T&gt;` will not be used for models| |false|
 |bestFitInt|Use best fitting integer type where minimum or maximum is set| |false|
 |enumNameSuffix|Suffix that will be appended to all enum names.| ||
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|

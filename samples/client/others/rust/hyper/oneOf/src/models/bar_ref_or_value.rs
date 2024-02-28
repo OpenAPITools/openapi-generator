@@ -19,7 +19,7 @@ pub enum BarRefOrValue {
 
 impl Default for BarRefOrValue {
     fn default() -> Self {
-        Self::Bar(Box::default())
+        Self::Bar(Default::default())
     }
 }
 

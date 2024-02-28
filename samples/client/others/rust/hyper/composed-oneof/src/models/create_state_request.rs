@@ -21,7 +21,7 @@ pub enum CreateStateRequest {
 
 impl Default for CreateStateRequest {
     fn default() -> Self {
-        Self::AType(Box::default())
+        Self::AType(Default::default())
     }
 }
 
