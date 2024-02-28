@@ -2204,7 +2204,7 @@ public class JavaClientCodegenTest {
                 "@JsonTypeName");
     }
 
-    @Test(skipFailedInvocations = true)
+    @Test
     public void testForJavaNativeJsonSubtype() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -2228,13 +2228,13 @@ public class JavaClientCodegenTest {
 
         assertFileContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"),
-                "mappings.put(\"Cat\", Cat.class)");
+                "mappings.put(\"cat\", Cat.class)");
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"),
                 "@JsonSubTypes");
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"),
-                "mappings.put(\"cat\", Cat.class);");
+                "mappings.put(\"Cat\", Cat.class);");
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Cat.java"),
                 "mappings.put(\"dog\", Dog.class);");
@@ -2244,25 +2244,14 @@ public class JavaClientCodegenTest {
 
         assertFileContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "mappings.put(\"cat\", Cat.class)");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "mappings.put(\"dog\", Dog.class)");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
-                "mappings.put(\"lizard\", Lizard.class)");
-        assertFileContains(
-                Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
+                "@JsonSubTypes.Type(value = Cat.class, name = \"cat\")",
+                "@JsonSubTypes.Type(value = Dog.class, name = \"dog\")",
+                "@JsonSubTypes.Type(value = Lizard.class, name = \"lizard\")",
+                "mappings.put(\"cat\", Cat.class)",
+                "mappings.put(\"dog\", Dog.class)",
+                "mappings.put(\"lizard\", Lizard.class)",
                 "mappings.put(\"Pet\", Pet.class)");
+
 
         assertFileNotContains(
                 Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"),
