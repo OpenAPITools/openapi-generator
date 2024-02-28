@@ -1,12 +1,9 @@
 package org.openapitools.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -16,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * Model for testing model name same as property name
  **/
-@ApiModel(description = "Model for testing model name same as property name")
+
 @org.eclipse.microprofile.openapi.annotations.media.Schema(description="Model for testing model name same as property name")
 @JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
@@ -44,7 +41,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("name")
   @NotNull
@@ -65,7 +61,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
@@ -85,7 +80,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("property")
   public String getProperty() {
@@ -105,7 +99,6 @@ public class Name  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("123Number")
   public Integer get123number() {

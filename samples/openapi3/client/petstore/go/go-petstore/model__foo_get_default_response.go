@@ -95,16 +95,20 @@ func (o FooGetDefaultResponse) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *FooGetDefaultResponse) UnmarshalJSON(bytes []byte) (err error) {
+func (o *FooGetDefaultResponse) UnmarshalJSON(data []byte) (err error) {
 	varFooGetDefaultResponse := _FooGetDefaultResponse{}
 
-	if err = json.Unmarshal(bytes, &varFooGetDefaultResponse); err == nil {
-		*o = FooGetDefaultResponse(varFooGetDefaultResponse)
+	err = json.Unmarshal(data, &varFooGetDefaultResponse)
+
+	if err != nil {
+		return err
 	}
+
+	*o = FooGetDefaultResponse(varFooGetDefaultResponse)
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "string")
 		o.AdditionalProperties = additionalProperties
 	}

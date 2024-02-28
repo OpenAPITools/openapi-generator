@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +21,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.StringEnumRef;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -46,7 +46,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.openapitools.client.JSON;
@@ -107,6 +106,11 @@ public class DefaultValue {
         return ArrayStringEnumDefaultEnum.fromValue(value);
       }
     }
+
+    public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      String value = jsonElement.getAsString();
+      ArrayStringEnumDefaultEnum.fromValue(value);
+    }
   }
 
   public static final String SERIALIZED_NAME_ARRAY_STRING_ENUM_DEFAULT = "array_string_enum_default";
@@ -141,7 +145,6 @@ public class DefaultValue {
   }
 
   public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
-    
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
     return this;
   }
@@ -163,14 +166,12 @@ public class DefaultValue {
     return arrayStringEnumRefDefault;
   }
 
-
   public void setArrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
   }
 
 
   public DefaultValue arrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
-    
     this.arrayStringEnumDefault = arrayStringEnumDefault;
     return this;
   }
@@ -192,14 +193,12 @@ public class DefaultValue {
     return arrayStringEnumDefault;
   }
 
-
   public void setArrayStringEnumDefault(List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault) {
     this.arrayStringEnumDefault = arrayStringEnumDefault;
   }
 
 
   public DefaultValue arrayStringDefault(List<String> arrayStringDefault) {
-    
     this.arrayStringDefault = arrayStringDefault;
     return this;
   }
@@ -221,14 +220,12 @@ public class DefaultValue {
     return arrayStringDefault;
   }
 
-
   public void setArrayStringDefault(List<String> arrayStringDefault) {
     this.arrayStringDefault = arrayStringDefault;
   }
 
 
   public DefaultValue arrayIntegerDefault(List<Integer> arrayIntegerDefault) {
-    
     this.arrayIntegerDefault = arrayIntegerDefault;
     return this;
   }
@@ -250,14 +247,12 @@ public class DefaultValue {
     return arrayIntegerDefault;
   }
 
-
   public void setArrayIntegerDefault(List<Integer> arrayIntegerDefault) {
     this.arrayIntegerDefault = arrayIntegerDefault;
   }
 
 
   public DefaultValue arrayString(List<String> arrayString) {
-    
     this.arrayString = arrayString;
     return this;
   }
@@ -279,14 +274,12 @@ public class DefaultValue {
     return arrayString;
   }
 
-
   public void setArrayString(List<String> arrayString) {
     this.arrayString = arrayString;
   }
 
 
   public DefaultValue arrayStringNullable(List<String> arrayStringNullable) {
-    
     this.arrayStringNullable = arrayStringNullable;
     return this;
   }
@@ -308,14 +301,12 @@ public class DefaultValue {
     return arrayStringNullable;
   }
 
-
   public void setArrayStringNullable(List<String> arrayStringNullable) {
     this.arrayStringNullable = arrayStringNullable;
   }
 
 
   public DefaultValue arrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
-    
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
     return this;
   }
@@ -337,14 +328,12 @@ public class DefaultValue {
     return arrayStringExtensionNullable;
   }
 
-
   public void setArrayStringExtensionNullable(List<String> arrayStringExtensionNullable) {
     this.arrayStringExtensionNullable = arrayStringExtensionNullable;
   }
 
 
   public DefaultValue stringNullable(String stringNullable) {
-    
     this.stringNullable = stringNullable;
     return this;
   }
@@ -357,7 +346,6 @@ public class DefaultValue {
   public String getStringNullable() {
     return stringNullable;
   }
-
 
   public void setStringNullable(String stringNullable) {
     this.stringNullable = stringNullable;
@@ -448,51 +436,52 @@ public class DefaultValue {
   }
 
  /**
-  * Validates the JSON Object and throws an exception if issues found
+  * Validates the JSON Element and throws an exception if issues found
   *
-  * @param jsonObj JSON Object
-  * @throws IOException if the JSON Object is invalid with respect to DefaultValue
+  * @param jsonElement JSON Element
+  * @throws IOException if the JSON Element is invalid with respect to DefaultValue
   */
-  public static void validateJsonObject(JsonObject jsonObj) throws IOException {
-      if (jsonObj == null) {
-        if (!DefaultValue.openapiRequiredFields.isEmpty()) { // has required fields but JSON object is null
+  public static void validateJsonElement(JsonElement jsonElement) throws IOException {
+      if (jsonElement == null) {
+        if (!DefaultValue.openapiRequiredFields.isEmpty()) { // has required fields but JSON element is null
           throw new IllegalArgumentException(String.format("The required field(s) %s in DefaultValue is not found in the empty JSON string", DefaultValue.openapiRequiredFields.toString()));
         }
       }
 
-      Set<Entry<String, JsonElement>> entries = jsonObj.entrySet();
+      Set<Map.Entry<String, JsonElement>> entries = jsonElement.getAsJsonObject().entrySet();
       // check to see if the JSON string contains additional fields
-      for (Entry<String, JsonElement> entry : entries) {
+      for (Map.Entry<String, JsonElement> entry : entries) {
         if (!DefaultValue.openapiFields.contains(entry.getKey())) {
-          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DefaultValue` properties. JSON: %s", entry.getKey(), jsonObj.toString()));
+          throw new IllegalArgumentException(String.format("The field `%s` in the JSON string is not defined in the `DefaultValue` properties. JSON: %s", entry.getKey(), jsonElement.toString()));
         }
       }
+        JsonObject jsonObj = jsonElement.getAsJsonObject();
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_enum_ref_default") != null && !jsonObj.get("array_string_enum_ref_default").isJsonArray()) {
+      if (jsonObj.get("array_string_enum_ref_default") != null && !jsonObj.get("array_string_enum_ref_default").isJsonNull() && !jsonObj.get("array_string_enum_ref_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_ref_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_ref_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_enum_default") != null && !jsonObj.get("array_string_enum_default").isJsonArray()) {
+      if (jsonObj.get("array_string_enum_default") != null && !jsonObj.get("array_string_enum_default").isJsonNull() && !jsonObj.get("array_string_enum_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_enum_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_enum_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_default") != null && !jsonObj.get("array_string_default").isJsonArray()) {
+      if (jsonObj.get("array_string_default") != null && !jsonObj.get("array_string_default").isJsonNull() && !jsonObj.get("array_string_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_integer_default") != null && !jsonObj.get("array_integer_default").isJsonArray()) {
+      if (jsonObj.get("array_integer_default") != null && !jsonObj.get("array_integer_default").isJsonNull() && !jsonObj.get("array_integer_default").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_integer_default` to be an array in the JSON string but got `%s`", jsonObj.get("array_integer_default").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string") != null && !jsonObj.get("array_string").isJsonArray()) {
+      if (jsonObj.get("array_string") != null && !jsonObj.get("array_string").isJsonNull() && !jsonObj.get("array_string").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string` to be an array in the JSON string but got `%s`", jsonObj.get("array_string").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_nullable") != null && !jsonObj.get("array_string_nullable").isJsonArray()) {
+      if (jsonObj.get("array_string_nullable") != null && !jsonObj.get("array_string_nullable").isJsonNull() && !jsonObj.get("array_string_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_nullable").toString()));
       }
       // ensure the optional json data is an array if present
-      if (jsonObj.get("array_string_extension_nullable") != null && !jsonObj.get("array_string_extension_nullable").isJsonArray()) {
+      if (jsonObj.get("array_string_extension_nullable") != null && !jsonObj.get("array_string_extension_nullable").isJsonNull() && !jsonObj.get("array_string_extension_nullable").isJsonArray()) {
         throw new IllegalArgumentException(String.format("Expected the field `array_string_extension_nullable` to be an array in the JSON string but got `%s`", jsonObj.get("array_string_extension_nullable").toString()));
       }
       if ((jsonObj.get("string_nullable") != null && !jsonObj.get("string_nullable").isJsonNull()) && !jsonObj.get("string_nullable").isJsonPrimitive()) {
@@ -520,9 +509,9 @@ public class DefaultValue {
 
            @Override
            public DefaultValue read(JsonReader in) throws IOException {
-             JsonObject jsonObj = elementAdapter.read(in).getAsJsonObject();
-             validateJsonObject(jsonObj);
-             return thisAdapter.fromJsonTree(jsonObj);
+             JsonElement jsonElement = elementAdapter.read(in);
+             validateJsonElement(jsonElement);
+             return thisAdapter.fromJsonTree(jsonElement);
            }
 
        }.nullSafe();

@@ -93,6 +93,30 @@ type FakeAPI interface {
 	FakeOuterStringSerializeExecute(r ApiFakeOuterStringSerializeRequest) (string, *http.Response, error)
 
 	/*
+	GetParameterNameMapping parameter name mapping test
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetParameterNameMappingRequest
+	*/
+	GetParameterNameMapping(ctx context.Context) ApiGetParameterNameMappingRequest
+
+	// GetParameterNameMappingExecute executes the request
+	GetParameterNameMappingExecute(r ApiGetParameterNameMappingRequest) (*http.Response, error)
+
+	/*
+	TestAdditionalPropertiesReference test referenced additionalProperties
+
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestAdditionalPropertiesReferenceRequest
+	*/
+	TestAdditionalPropertiesReference(ctx context.Context) ApiTestAdditionalPropertiesReferenceRequest
+
+	// TestAdditionalPropertiesReferenceExecute executes the request
+	TestAdditionalPropertiesReferenceExecute(r ApiTestAdditionalPropertiesReferenceRequest) (*http.Response, error)
+
+	/*
 	TestBodyWithFileSchema Method for TestBodyWithFileSchema
 
 	For this test, the body for this request much reference a schema named `File`.
@@ -187,6 +211,19 @@ type FakeAPI interface {
 	TestInlineAdditionalPropertiesExecute(r ApiTestInlineAdditionalPropertiesRequest) (*http.Response, error)
 
 	/*
+	TestInlineFreeformAdditionalProperties test inline free-form additionalProperties
+
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestInlineFreeformAdditionalPropertiesRequest
+	*/
+	TestInlineFreeformAdditionalProperties(ctx context.Context) ApiTestInlineFreeformAdditionalPropertiesRequest
+
+	// TestInlineFreeformAdditionalPropertiesExecute executes the request
+	TestInlineFreeformAdditionalPropertiesExecute(r ApiTestInlineFreeformAdditionalPropertiesRequest) (*http.Response, error)
+
+	/*
 	TestJsonFormData test json serialization of form data
 
 	
@@ -222,6 +259,19 @@ type FakeAPI interface {
 
 	// TestQueryParameterCollectionFormatExecute executes the request
 	TestQueryParameterCollectionFormatExecute(r ApiTestQueryParameterCollectionFormatRequest) (*http.Response, error)
+
+	/*
+	TestStringMapReference test referenced string map
+
+	
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiTestStringMapReferenceRequest
+	*/
+	TestStringMapReference(ctx context.Context) ApiTestStringMapReferenceRequest
+
+	// TestStringMapReferenceExecute executes the request
+	TestStringMapReferenceExecute(r ApiTestStringMapReferenceRequest) (*http.Response, error)
 
 	/*
 	TestUniqueItemsHeaderAndQueryParameterCollectionFormat Method for TestUniqueItemsHeaderAndQueryParameterCollectionFormat
@@ -770,6 +820,236 @@ func (a *FakeAPIService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetParameterNameMappingRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	underscoreType *int64
+	type_ *string
+	typeWithUnderscore *string
+	httpDebugOption *string
+}
+
+// _type
+func (r ApiGetParameterNameMappingRequest) UnderscoreType(underscoreType int64) ApiGetParameterNameMappingRequest {
+	r.underscoreType = &underscoreType
+	return r
+}
+
+// type
+func (r ApiGetParameterNameMappingRequest) Type_(type_ string) ApiGetParameterNameMappingRequest {
+	r.type_ = &type_
+	return r
+}
+
+// type_
+func (r ApiGetParameterNameMappingRequest) TypeWithUnderscore(typeWithUnderscore string) ApiGetParameterNameMappingRequest {
+	r.typeWithUnderscore = &typeWithUnderscore
+	return r
+}
+
+// http debug option (to test parameter naming option)
+func (r ApiGetParameterNameMappingRequest) HttpDebugOption(httpDebugOption string) ApiGetParameterNameMappingRequest {
+	r.httpDebugOption = &httpDebugOption
+	return r
+}
+
+func (r ApiGetParameterNameMappingRequest) Execute() (*http.Response, error) {
+	return r.ApiService.GetParameterNameMappingExecute(r)
+}
+
+/*
+GetParameterNameMapping parameter name mapping test
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetParameterNameMappingRequest
+*/
+func (a *FakeAPIService) GetParameterNameMapping(ctx context.Context) ApiGetParameterNameMappingRequest {
+	return ApiGetParameterNameMappingRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) GetParameterNameMappingExecute(r ApiGetParameterNameMappingRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.GetParameterNameMapping")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/parameter-name-mapping"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.underscoreType == nil {
+		return nil, reportError("underscoreType is required and must be specified")
+	}
+	if r.type_ == nil {
+		return nil, reportError("type_ is required and must be specified")
+	}
+	if r.typeWithUnderscore == nil {
+		return nil, reportError("typeWithUnderscore is required and must be specified")
+	}
+	if r.httpDebugOption == nil {
+		return nil, reportError("httpDebugOption is required and must be specified")
+	}
+
+	parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "")
+	parameterAddToHeaderOrQuery(localVarQueryParams, "http_debug_option", r.httpDebugOption, "")
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "_type", r.underscoreType, "")
+	parameterAddToHeaderOrQuery(localVarHeaderParams, "type_", r.typeWithUnderscore, "")
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiTestAdditionalPropertiesReferenceRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	requestBody *map[string]interface{}
+}
+
+// request body
+func (r ApiTestAdditionalPropertiesReferenceRequest) RequestBody(requestBody map[string]interface{}) ApiTestAdditionalPropertiesReferenceRequest {
+	r.requestBody = &requestBody
+	return r
+}
+
+func (r ApiTestAdditionalPropertiesReferenceRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestAdditionalPropertiesReferenceExecute(r)
+}
+
+/*
+TestAdditionalPropertiesReference test referenced additionalProperties
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestAdditionalPropertiesReferenceRequest
+*/
+func (a *FakeAPIService) TestAdditionalPropertiesReference(ctx context.Context) ApiTestAdditionalPropertiesReferenceRequest {
+	return ApiTestAdditionalPropertiesReferenceRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) TestAdditionalPropertiesReferenceExecute(r ApiTestAdditionalPropertiesReferenceRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.TestAdditionalPropertiesReference")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/additionalProperties-reference"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.requestBody == nil {
+		return nil, reportError("requestBody is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.requestBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiTestBodyWithFileSchemaRequest struct {
 	ctx context.Context
 	ApiService FakeAPI
@@ -1297,8 +1577,6 @@ func (a *FakeAPIService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	var binaryLocalVarFileBytes    []byte
 
 	binaryLocalVarFormFileName = "binary"
-
-
 	binaryLocalVarFile := r.binary
 
 	if binaryLocalVarFile != nil {
@@ -1453,7 +1731,7 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string_array", s.Index(i), "multi")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string_array", s.Index(i).Interface(), "multi")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string_array", t, "multi")
@@ -1461,6 +1739,9 @@ func (a *FakeAPIService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	}
 	if r.enumQueryString != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_string", r.enumQueryString, "")
+	} else {
+		var defaultValue string = "-efg"
+		r.enumQueryString = &defaultValue
 	}
 	if r.enumQueryInteger != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "enum_query_integer", r.enumQueryInteger, "")
@@ -1758,6 +2039,106 @@ func (a *FakeAPIService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 	}
 	// body params
 	localVarPostBody = r.requestBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiTestInlineFreeformAdditionalPropertiesRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	testInlineFreeformAdditionalPropertiesRequest *TestInlineFreeformAdditionalPropertiesRequest
+}
+
+// request body
+func (r ApiTestInlineFreeformAdditionalPropertiesRequest) TestInlineFreeformAdditionalPropertiesRequest(testInlineFreeformAdditionalPropertiesRequest TestInlineFreeformAdditionalPropertiesRequest) ApiTestInlineFreeformAdditionalPropertiesRequest {
+	r.testInlineFreeformAdditionalPropertiesRequest = &testInlineFreeformAdditionalPropertiesRequest
+	return r
+}
+
+func (r ApiTestInlineFreeformAdditionalPropertiesRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestInlineFreeformAdditionalPropertiesExecute(r)
+}
+
+/*
+TestInlineFreeformAdditionalProperties test inline free-form additionalProperties
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestInlineFreeformAdditionalPropertiesRequest
+*/
+func (a *FakeAPIService) TestInlineFreeformAdditionalProperties(ctx context.Context) ApiTestInlineFreeformAdditionalPropertiesRequest {
+	return ApiTestInlineFreeformAdditionalPropertiesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) TestInlineFreeformAdditionalPropertiesExecute(r ApiTestInlineFreeformAdditionalPropertiesRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.TestInlineFreeformAdditionalProperties")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/inline-freeform-additionalProperties"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.testInlineFreeformAdditionalPropertiesRequest == nil {
+		return nil, reportError("testInlineFreeformAdditionalPropertiesRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.testInlineFreeformAdditionalPropertiesRequest
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -2093,7 +2474,7 @@ func (a *FakeAPIService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "pipe", s.Index(i), "multi")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "pipe", s.Index(i).Interface(), "multi")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "pipe", t, "multi")
@@ -2107,7 +2488,7 @@ func (a *FakeAPIService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "context", s.Index(i), "multi")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "context", s.Index(i).Interface(), "multi")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "context", t, "multi")
@@ -2130,6 +2511,106 @@ func (a *FakeAPIService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiTestStringMapReferenceRequest struct {
+	ctx context.Context
+	ApiService FakeAPI
+	requestBody *map[string]string
+}
+
+// request body
+func (r ApiTestStringMapReferenceRequest) RequestBody(requestBody map[string]string) ApiTestStringMapReferenceRequest {
+	r.requestBody = &requestBody
+	return r
+}
+
+func (r ApiTestStringMapReferenceRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestStringMapReferenceExecute(r)
+}
+
+/*
+TestStringMapReference test referenced string map
+
+
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiTestStringMapReferenceRequest
+*/
+func (a *FakeAPIService) TestStringMapReference(ctx context.Context) ApiTestStringMapReferenceRequest {
+	return ApiTestStringMapReferenceRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *FakeAPIService) TestStringMapReferenceExecute(r ApiTestStringMapReferenceRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeAPIService.TestStringMapReference")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/fake/stringMap-reference"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.requestBody == nil {
+		return nil, reportError("requestBody is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.requestBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
@@ -2226,7 +2707,7 @@ func (a *FakeAPIService) TestUniqueItemsHeaderAndQueryParameterCollectionFormatE
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
-				parameterAddToHeaderOrQuery(localVarQueryParams, "queryUnique", s.Index(i), "multi")
+				parameterAddToHeaderOrQuery(localVarQueryParams, "queryUnique", s.Index(i).Interface(), "multi")
 			}
 		} else {
 			parameterAddToHeaderOrQuery(localVarQueryParams, "queryUnique", t, "multi")

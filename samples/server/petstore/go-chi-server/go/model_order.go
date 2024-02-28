@@ -12,13 +12,13 @@ package petstoreserver
 
 import (
 	"time"
-	"encoding/json"
 )
 
 
 
 // Order - An order for a pets from the pet store
 type Order struct {
+	SpecialInfo
 
 	Id int64 `json:"id,omitempty"`
 
@@ -32,18 +32,25 @@ type Order struct {
 	Status string `json:"status,omitempty"`
 
 	Complete bool `json:"complete,omitempty"`
-}
 
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *Order) UnmarshalJSON(data []byte) error {
-	m.Complete = false
-
-	type Alias Order // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
+	Comment *string `json:"comment"`
 }
 
 // AssertOrderRequired checks if the required fields are not zero-ed
 func AssertOrderRequired(obj Order) error {
+	elements := map[string]interface{}{
+		"comment": obj.Comment,
+	}
+	for name, el := range elements {
+		if isZero := IsZeroValue(el); isZero {
+			return &RequiredError{Field: name}
+		}
+	}
+
+	if err := AssertSpecialInfoRequired(obj.SpecialInfo); err != nil {
+		return err
+	}
+
 	return nil
 }
 

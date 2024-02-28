@@ -17,6 +17,8 @@ from aiohttp import FormData
 {{#operations}}
 {{#operation}}
 
+pytestmark = pytest.mark.asyncio
+
 {{#vendorExtensions.x-skip-test}}
 @pytest.mark.skip("{{reason}}")
 {{/vendorExtensions.x-skip-test}}
@@ -32,8 +34,8 @@ async def test_{{operationId}}(client):
     {{#-first}}params = [{{/-first}}{{^-first}}                {{/-first}}('{{^vendorExtensions.x-python-connexion-openapi-name}}{{paramName}}{{/vendorExtensions.x-python-connexion-openapi-name}}{{#vendorExtensions.x-python-connexion-openapi-name}}{{vendorExtensions.x-python-connexion-openapi-name}}{{/vendorExtensions.x-python-connexion-openapi-name}}', {{{example}}}){{^-last}},{{/-last}}{{#-last}}]{{/-last}}
     {{/queryParams}}
     headers = { {{#vendorExtensions.x-preferred-produce}}
-        'Accept': '{{mediaType}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
-        'Content-Type': '{{mediaType}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
+        'Accept': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-produce}}{{#vendorExtensions.x-preferred-consume}}
+        'Content-Type': '{{{mediaType}}}',{{/vendorExtensions.x-preferred-consume}}{{#headerParams}}
         '{{paramName}}': {{{example}}},{{/headerParams}}{{#authMethods}}
         {{#isOAuth}}'Authorization': 'Bearer special-key',{{/isOAuth}}{{#isApiKey}}'{{name}}': 'special-key',{{/isApiKey}}{{#isBasicBasic}}'Authorization': 'BasicZm9vOmJhcg==',{{/isBasicBasic}}{{#isBasicBearer}}'Authorization': 'Bearer special-key',{{/isBasicBearer}}{{/authMethods}}
     }

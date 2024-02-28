@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -90,14 +90,14 @@ class User {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
-     other.id == id &&
-     other.username == username &&
-     other.firstName == firstName &&
-     other.lastName == lastName &&
-     other.email == email &&
-     other.password == password &&
-     other.phone == phone &&
-     other.userStatus == userStatus;
+    other.id == id &&
+    other.username == username &&
+    other.firstName == firstName &&
+    other.lastName == lastName &&
+    other.email == email &&
+    other.password == password &&
+    other.phone == phone &&
+    other.userStatus == userStatus;
 
   @override
   int get hashCode =>

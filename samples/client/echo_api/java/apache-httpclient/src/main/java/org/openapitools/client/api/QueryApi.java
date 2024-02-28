@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.model.*;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.DataQuery;
@@ -61,24 +60,26 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
-    return this.testEnumRefString(enumRefStringQuery, Collections.emptyMap());
+  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+    return this.testEnumRefString(enumNonrefStringQuery, enumRefStringQuery, Collections.emptyMap());
   }
 
 
   /**
    * Test query parameter(s)
    * Test query parameter(s)
+   * @param enumNonrefStringQuery  (optional)
    * @param enumRefStringQuery  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testEnumRefString(StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
+  public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -92,6 +93,7 @@ public class QueryApi {
     Map<String, String> localVarCookieParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
+    localVarQueryParams.addAll(apiClient.parameterToPair("enum_nonref_string_query", enumNonrefStringQuery));
     localVarQueryParams.addAll(apiClient.parameterToPair("enum_ref_string_query", enumRefStringQuery));
     
     localVarHeaderParams.putAll(additionalHeaders);
@@ -387,6 +389,146 @@ public class QueryApi {
 
     localVarQueryParameterBaseName = "query_object";
     localVarQueryStringJoiner.add(queryObject.toUrlQueryString("query_object"));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws ApiException {
+    return this.testQueryStyleFormExplodeFalseArrayInteger(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/style_form/explode_false/array_integer";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "query_object", queryObject));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<String> localVarReturnType = new TypeReference<String>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws ApiException {
+    return this.testQueryStyleFormExplodeFalseArrayString(queryObject, Collections.emptyMap());
+  }
+
+
+  /**
+   * Test query parameter(s)
+   * Test query parameter(s)
+   * @param queryObject  (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return String
+   * @throws ApiException if fails to make API call
+   */
+  public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/query/style_form/explode_false/array_string";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "query_object", queryObject));
     
     localVarHeaderParams.putAll(additionalHeaders);
 

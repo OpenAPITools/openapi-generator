@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -59,14 +59,14 @@ class EnumTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is EnumTest &&
-     other.enumString == enumString &&
-     other.enumStringRequired == enumStringRequired &&
-     other.enumInteger == enumInteger &&
-     other.enumNumber == enumNumber &&
-     other.outerEnum == outerEnum &&
-     other.outerEnumInteger == outerEnumInteger &&
-     other.outerEnumDefaultValue == outerEnumDefaultValue &&
-     other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
+    other.enumString == enumString &&
+    other.enumStringRequired == enumStringRequired &&
+    other.enumInteger == enumInteger &&
+    other.enumNumber == enumNumber &&
+    other.outerEnum == outerEnum &&
+    other.outerEnumInteger == outerEnumInteger &&
+    other.outerEnumDefaultValue == outerEnumDefaultValue &&
+    other.outerEnumIntegerDefaultValue == outerEnumIntegerDefaultValue;
 
   @override
   int get hashCode =>

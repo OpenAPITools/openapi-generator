@@ -16,27 +16,20 @@
 
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.CodegenParameter;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
@@ -47,11 +40,28 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Multimap;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.PathItem.HttpMethod;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+
+import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractPythonConnexionServerCodegen extends AbstractPythonCodegen implements CodegenConfig {
     private static class PythonBooleanSerializer extends JsonSerializer<Boolean> {
@@ -162,7 +172,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         cliOptions.add(new CliOption(USE_PYTHON_SRC_ROOT_IN_IMPORTS, "include pythonSrcRoot in import namespaces.").
                 defaultValue("false"));
         cliOptions.add(new CliOption(MOVE_TESTS_UNDER_PYTHON_SRC_ROOT, "generates test under the pythonSrcRoot folder.")
-            .defaultValue("false"));
+                .defaultValue("false"));
     }
 
     protected void addSupportingFiles() {
@@ -230,9 +240,9 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
         supportingFiles.add(new SupportingFile("util.mustache", packagePath(), "util.py"));
         supportingFiles.add(new SupportingFile("typing_utils.mustache", packagePath(), "typing_utils.py"));
         supportingFiles.add(new SupportingFile("__init__.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("security_controller_.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller_.py"));
+        supportingFiles.add(new SupportingFile("security_controller.mustache", packagePath() + File.separatorChar + packageToPath(controllerPackage), "security_controller.py"));
         supportingFiles.add(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "__init__.py"));
-        supportingFiles.add(new SupportingFile("base_model_.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model_.py"));
+        supportingFiles.add(new SupportingFile("base_model.mustache", packagePath() + File.separatorChar + packageToPath(modelPackage), "base_model.py"));
         supportingFiles.add(new SupportingFile("openapi.mustache", packagePath() + File.separatorChar + "openapi", "openapi.yaml"));
         addSupportingFiles();
 
@@ -317,7 +327,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
     }
 
 
-
     @Override
     public String toApiTestFilename(String name) {
         return "test_" + toApiFilename(name);
@@ -346,7 +355,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -390,10 +399,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
                         if (operation.getTags() != null && operation.getTags().size() > 0) {
                             tag = operation.getTags().get(0);
                         }
-                        String operationId = operation.getOperationId();
-                        if (operationId == null) {
-                            operationId = getOrGenerateOperationId(operation, pathname, method.toString());
-                        }
+                        String operationId = getOrGenerateOperationId(operation, pathname, method.toString());
                         operation.setOperationId(toOperationId(operationId));
                         if (operation.getExtensions() == null || operation.getExtensions().get("x-openapi-router-controller") == null) {
                             operation.addExtension(
@@ -458,7 +464,7 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             for (Map.Entry<String, SecurityScheme> securitySchemesEntry : securitySchemes.entrySet()) {
                 String securityName = securitySchemesEntry.getKey();
                 SecurityScheme securityScheme = securitySchemesEntry.getValue();
-                String baseFunctionName = controllerPackage + ".security_controller_.";
+                String baseFunctionName = controllerPackage + ".security_controller.";
                 switch (securityScheme.getType()) {
                     case APIKEY:
                         addSecurityExtension(securityScheme, "x-apikeyInfoFunc", baseFunctionName + "info_from_" + securityName);
@@ -621,12 +627,6 @@ public abstract class AbstractPythonConnexionServerCodegen extends AbstractPytho
             addImport(model, "import re");
         }
         postProcessPattern(property.pattern, property.vendorExtensions);
-    }
-
-    @Override
-    public ModelsMap postProcessModels(ModelsMap objs) {
-        // process enum in models
-        return postProcessModelsEnum(objs);
     }
 
     @Override

@@ -28,7 +28,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |artifactDescription|artifact description in generated pom.xml| |OpenAPI Java|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-spring|
 |artifactUrl|artifact URL in generated pom.xml| |https://github.com/openapitools/openapi-generator|
-|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |async|use async Callable controllers| |false|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
@@ -77,6 +77,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |reactive|wrap responses in Mono/Flux Reactor types (spring-boot only)| |false|
 |requestMappingMode|Where to generate the class level @RequestMapping annotation.|<dl><dt>**api_interface**</dt><dd>Generate the @RequestMapping annotation on the generated Api Interface.</dd><dt>**controller**</dt><dd>Generate the @RequestMapping annotation on the generated Api Controller Implementation.</dd><dt>**none**</dt><dd>Do not add a class level @RequestMapping annotation.</dd></dl>|controller|
+|resourceFolder|resource folder for generated resources| |src/main/resources|
 |responseWrapper|wrap the responses in given type (Future, Callable, CompletableFuture,ListenableFuture, DeferredResult, RxObservable, RxSingle or fully qualified type)| |null|
 |returnSuccessCode|Generated server returns 2xx code| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
@@ -118,6 +119,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |x-content-type|Specify custom value for 'Content-Type' header for operation|OPERATION|null
 |x-class-extra-annotation|List of custom annotations to be added to model|MODEL|null
 |x-field-extra-annotation|List of custom annotations to be added to property|FIELD|null
+|x-operation-extra-annotation|List of custom annotations to be added to operation|OPERATION|null
 |x-spring-paginated|Add org.springframework.data.domain.Pageable to controller method. Can be used to handle page & size query parameters|OPERATION|false
 |x-version-param|Marker property that tells that this parameter would be used for endpoint versioning. Applicable for headers & query params. true/false|OPERATION_PARAMETER|null
 |x-pattern-message|Add this property whenever you need to customize the invalidation error message for the regex pattern of a variable|FIELD|null
@@ -206,7 +208,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>int</li>
 <li>interface</li>
 <li>list</li>
+<li>localdate</li>
 <li>localreturntype</li>
+<li>localtime</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
 <li>localvarauthnames</li>
@@ -224,6 +228,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>new</li>
 <li>null</li>
 <li>object</li>
+<li>offsetdatetime</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -355,6 +360,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

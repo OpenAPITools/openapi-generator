@@ -1,4 +1,0 @@
-            // This logic may be modified with the AsModel.mustache template
-            return IsSuccessStatusCode
-                ? System.Text.Json.JsonSerializer.Deserialize<T>(RawContent, options ?? _jsonSerializerOptions)
-                : default(T);

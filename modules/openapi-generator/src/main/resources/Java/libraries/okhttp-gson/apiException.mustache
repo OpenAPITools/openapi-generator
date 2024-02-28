@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 {{/caseInsensitiveResponseHeaders}}
 
-import {{javaxPackage}}.ws.rs.core.GenericType;
 
 /**
  * <p>ApiException class.</p>
@@ -17,13 +16,15 @@ import {{javaxPackage}}.ws.rs.core.GenericType;
 @SuppressWarnings("serial")
 {{>generatedAnnotation}}
 public class ApiException extends{{#useRuntimeException}} RuntimeException {{/useRuntimeException}}{{^useRuntimeException}} Exception {{/useRuntimeException}}{
+    private static final long serialVersionUID = 1L;
+
     private int code = 0;
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
     {{#errorObjectType}}
     private {{{errorObjectType}}} errorObject = null;
     {{/errorObjectType}}
- 
+
     /**
      * <p>Constructor for ApiException.</p>
      */

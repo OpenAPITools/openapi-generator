@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.client.JSON;
-import org.openapitools.client.model.MySchemaNameCharactersAllOf;
 import org.openapitools.client.model.Parent;
 
 import org.junit.jupiter.api.Assertions;

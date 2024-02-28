@@ -93,7 +93,7 @@ export class {{classname}} {
         {{^isArray}}
         if ({{paramName}} !== undefined && {{paramName}} !== null) {
         {{#isDateTime}}
-            queryParameters.append('{{baseName}}', <any>{{paramName}}.toISOString());
+            queryParameters.append('{{baseName}}', (<any>{{paramName}}).toISOString());
         {{/isDateTime}}
         {{^isDateTime}}
             queryParameters.append('{{baseName}}', <any>{{paramName}});
@@ -121,7 +121,7 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             headers['{{keyParamName}}'] = this.configuration.apiKeys["{{keyParamName}}"];
         }
 
@@ -130,7 +130,7 @@ export class {{classname}} {
         {{^hasQueryParams}}
         let queryParameters = new URLSearchParams();
         {{/hasQueryParams}}
-        if (this.configuration.apiKeys["{{keyParamName}}"]) {
+        if (this.configuration.apiKeys?.["{{keyParamName}}"]) {
             queryParameters.append('{{keyParamName}}', this.configuration.apiKeys["{{keyParamName}}"]);
         }
 
@@ -142,6 +142,13 @@ export class {{classname}} {
         }
 
 {{/isBasicBasic}}
+{{#isBasicBearer}}
+        if (typeof this.configuration.accessToken === 'function') {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken()}`;
+        } else if (this.configuration.accessToken) {
+            headers['Authorization'] = `Bearer ${this.configuration.accessToken}`;
+        }
+{{/isBasicBearer}}
 {{#isOAuth}}
         if (this.configuration.accessToken) {
             const accessToken = typeof this.configuration.accessToken === 'function'

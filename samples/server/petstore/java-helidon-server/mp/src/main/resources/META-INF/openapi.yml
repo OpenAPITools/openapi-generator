@@ -158,7 +158,7 @@ paths:
       tags:
       - pet
       x-webclient-blocking: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/findByTags:
     get:
       deprecated: true
@@ -203,7 +203,7 @@ paths:
       tags:
       - pet
       x-webclient-blocking: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /pet/{petId}:
     delete:
       description: ""
@@ -271,7 +271,7 @@ paths:
       tags:
       - pet
       x-webclient-blocking: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     post:
       description: ""
       operationId: updatePetWithForm
@@ -387,7 +387,7 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /store/order/{order_id}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -444,7 +444,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -543,7 +543,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
   /user/logout:
     get:
       description: ""
@@ -606,7 +606,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -978,6 +978,21 @@ paths:
       - fake
       x-content-type: application/json
       x-accepts: '*/*'
+  /fake/BigDecimalMap:
+    get:
+      description: "for Java apache and Java native, test toUrlQueryString for maps\
+        \ with BegDecimal keys"
+      operationId: fakeBigDecimalMap
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/fakeBigDecimalMap_200_response'
+          description: successful operation
+      tags:
+      - fake
+      x-accepts: '*/*'
   /fake/jsonFormData:
     get:
       description: ""
@@ -994,6 +1009,44 @@ paths:
       tags:
       - fake
       x-content-type: application/x-www-form-urlencoded
+      x-accepts: application/json
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
+      x-content-type: application/json
       x-accepts: application/json
   /fake/inline-additionalProperties:
     post:
@@ -1012,6 +1065,44 @@ paths:
         "200":
           description: successful operation
       summary: test inline additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/inline-freeform-additionalProperties:
+    post:
+      description: ""
+      operationId: testInlineFreeformAdditionalProperties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/testInlineFreeformAdditionalProperties_request'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test inline free-form additionalProperties
+      tags:
+      - fake
+      x-content-type: application/json
+      x-accepts: application/json
+  /fake/nullable:
+    post:
+      description: ""
+      operationId: testNullable
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChildWithNullable'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test nullable parent property
       tags:
       - fake
       x-content-type: application/json
@@ -1500,11 +1591,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         mapping:
@@ -1792,6 +1889,15 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -1841,6 +1947,29 @@ components:
     OuterBoolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
+    ParentWithNullable:
+      discriminator:
+        propertyName: type
+      properties:
+        type:
+          enum:
+          - ChildWithNullable
+          type: string
+        nullableProperty:
+          nullable: true
+          type: string
+      type: object
+    ChildWithNullable:
+      allOf:
+      - $ref: '#/components/schemas/ParentWithNullable'
+      - properties:
+          otherProperty:
+            type: string
+        type: object
+      example:
+        otherProperty: otherProperty
+        nullableProperty: nullableProperty
+        type: ChildWithNullable
     StringBooleanMap:
       additionalProperties:
         type: boolean
@@ -2107,6 +2236,19 @@ components:
       - number
       - pattern_without_delimiter
       type: object
+    fakeBigDecimalMap_200_response:
+      example:
+        someId: 0.8008281904610115
+        someMap:
+          key: 6.027456183070403
+      properties:
+        someId:
+          type: number
+        someMap:
+          additionalProperties:
+            type: number
+          type: object
+      type: object
     testJsonFormData_request:
       properties:
         param:
@@ -2118,6 +2260,12 @@ components:
       required:
       - param
       - param2
+      type: object
+    testInlineFreeformAdditionalProperties_request:
+      additionalProperties: true
+      properties:
+        someProperty:
+          type: string
       type: object
     uploadFileWithRequiredFile_request:
       properties:
@@ -2131,18 +2279,6 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

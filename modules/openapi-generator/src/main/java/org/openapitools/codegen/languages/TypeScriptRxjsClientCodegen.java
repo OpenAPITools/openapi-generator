@@ -117,7 +117,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -145,7 +145,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
             }
         }
 
-         return objs;
+        return objs;
     }
 
     @Override
@@ -264,10 +264,10 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
                 hasRequiredParams = true;
             }
 
-            for (CodegenParameter p: op.allParams) {
+            for (CodegenParameter p : op.allParams) {
                 String paramNameAlternative = null;
 
-                if(this.reservedParamNames.contains(p.paramName)){
+                if (this.reservedParamNames.contains(p.paramName)) {
                     paramNameAlternative = p.paramName + "Alias";
                     LOGGER.info("param: {} isReserved ––> {}", p.paramName, paramNameAlternative);
                 }
@@ -423,7 +423,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiException;
+import org.openapitools.client.model.StringEnumRef;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -42,12 +43,14 @@ public class HeaderApiTest {
      *          if the Api call fails
      */
     @Test
-    public void testHeaderIntegerBooleanStringTest() throws ApiException {
+    public void testHeaderIntegerBooleanStringEnumsTest() throws ApiException {
         Integer integerHeader = null;
         Boolean booleanHeader = null;
         String stringHeader = null;
+        String enumNonrefStringHeader = null;
+        StringEnumRef enumRefStringHeader = null;
         String response = 
-        api.testHeaderIntegerBooleanString(integerHeader, booleanHeader, stringHeader);
+        api.testHeaderIntegerBooleanStringEnums(integerHeader, booleanHeader, stringHeader, enumNonrefStringHeader, enumRefStringHeader);
         
         // TODO: test validations
     }

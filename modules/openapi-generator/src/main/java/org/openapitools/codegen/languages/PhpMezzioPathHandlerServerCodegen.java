@@ -336,13 +336,14 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
      * @param openAPI OpenAPI object
      */
     protected void generateContainerSchemas(OpenAPI openAPI) {
+        Set<Schema> visitedSchemas = new HashSet<>();
         Paths paths = openAPI.getPaths();
         for (String pathName : paths.keySet()) {
             for (Operation operation : paths.get(pathName).readOperations()) {
                 List<Parameter> parameters = operation.getParameters();
                 if (parameters != null) {
                     for (Parameter parameter : parameters) {
-                        generateContainerSchemas(openAPI, ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
+                        generateContainerSchemas(openAPI, visitedSchemas, ModelUtils.getReferencedParameter(openAPI, parameter).getSchema());
                     }
                 }
                 RequestBody requestBody = ModelUtils.getReferencedRequestBody(openAPI, operation.getRequestBody());
@@ -350,7 +351,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                     Content requestBodyContent = requestBody.getContent();
                     if (requestBodyContent != null) {
                         for (String mediaTypeName : requestBodyContent.keySet()) {
-                            generateContainerSchemas(openAPI, requestBodyContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(openAPI, visitedSchemas, requestBodyContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
@@ -360,7 +361,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                     Content responseContent = response.getContent();
                     if (responseContent != null) {
                         for (String mediaTypeName : responseContent.keySet()) {
-                            generateContainerSchemas(openAPI, responseContent.get(mediaTypeName).getSchema());
+                            generateContainerSchemas(openAPI, visitedSchemas, responseContent.get(mediaTypeName).getSchema());
                         }
                     }
                 }
@@ -372,9 +373,15 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
      * Generate additional model definitions for containers in specified schema
      *
      * @param openAPI OpenAPI object
-     * @param schema OAS schema to process
+     * @param visitedSchemas Set of Schemas that have been processed already
+     * @param schema  OAS schema to process
      */
-    protected void generateContainerSchemas(OpenAPI openAPI, Schema schema) {
+    protected void generateContainerSchemas(OpenAPI openAPI, Set<Schema> visitedSchemas, Schema schema) {
+        if (visitedSchemas.contains(schema)) {
+            return;
+        }
+        visitedSchemas.add(schema);
+
         if (schema != null) {
             //Dereference schema
             schema = ModelUtils.getReferencedSchema(openAPI, schema);
@@ -384,19 +391,19 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 //Recursively process all schemas of object properties
                 Map<String, Schema> properties = schema.getProperties();
                 if (properties != null) {
-                    for (String propertyName: properties.keySet()) {
-                        generateContainerSchemas(openAPI, properties.get(propertyName));
+                    for (String propertyName : properties.keySet()) {
+                        generateContainerSchemas(openAPI, visitedSchemas, properties.get(propertyName));
                     }
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
                 //Recursively process schema of array items
-                generateContainerSchemas(openAPI, ((ArraySchema) schema).getItems());
+                generateContainerSchemas(openAPI, visitedSchemas, ((ArraySchema) schema).getItems());
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
                 //Recursively process schema of map items
                 Object itemSchema = schema.getAdditionalProperties();
                 if (itemSchema instanceof Schema) {
-                    generateContainerSchemas(openAPI, (Schema) itemSchema);
+                    generateContainerSchemas(openAPI, visitedSchemas, (Schema) itemSchema);
                 }
                 isContainer = Boolean.TRUE;
             }
@@ -405,7 +412,7 @@ public class PhpMezzioPathHandlerServerCodegen extends AbstractPhpCodegen {
                 //Generate special component schema for container
                 String containerSchemaName = generateUniqueSchemaName(openAPI, "Collection");
                 Schema containerSchema = new ObjectSchema();
-                containerSchema.addProperties("inner", schema);
+                containerSchema.addProperty("inner", schema);
                 addInternalExtensionToSchema(containerSchema, VEN_FROM_CONTAINER, Boolean.TRUE);
                 openAPI.getComponents().addSchemas(containerSchemaName, containerSchema);
                 String containerDataType = getTypeDeclaration(toModelName(containerSchemaName));

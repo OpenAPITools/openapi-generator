@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -103,6 +104,7 @@ public class FileSchemaTestClass {
   public void setFiles(List<File> files) {
     this.files = files;
   }
+
 
   @Override
   public boolean equals(Object o) {

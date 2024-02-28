@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -44,9 +44,9 @@ class OuterComposite {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterComposite &&
-     other.myNumber == myNumber &&
-     other.myString == myString &&
-     other.myBoolean == myBoolean;
+    other.myNumber == myNumber &&
+    other.myString == myString &&
+    other.myBoolean == myBoolean;
 
   @override
   int get hashCode =>
@@ -97,9 +97,7 @@ class OuterComposite {
       }());
 
       return OuterComposite(
-        myNumber: json[r'my_number'] == null
-            ? null
-            : num.parse(json[r'my_number'].toString()),
+        myNumber: num.parse('${json[r'my_number']}'),
         myString: mapValueOfType<String>(json, r'my_string'),
         myBoolean: mapValueOfType<bool>(json, r'my_boolean'),
       );

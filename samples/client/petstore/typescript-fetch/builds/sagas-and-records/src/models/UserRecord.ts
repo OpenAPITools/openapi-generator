@@ -58,7 +58,7 @@ knownRecordFactories.set(UserRecordEntityProps.recType, UserRecordEntity);
 class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
     public normalize(apiObject: User, asEntity?: boolean): User {
         (apiObject as any).recType = asEntity ? UserRecordEntityProps.recType : UserRecordProps.recType;
-        (apiObject as any).id = apiObject.id.toString();
+        (apiObject as any)['id'] = apiObject['id'].toString();
         return apiObject;
     }
 
@@ -75,8 +75,8 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }
@@ -102,7 +102,7 @@ class UserRecordUtils extends ApiRecordUtils<User, UserRecord> {
 
     public toApi(record: UserRecord): User {
         const apiObject = super.toApi(record);
-        apiObject.id = parseFloat(record.id);
+        apiObject['id'] = parseFloat(record['id']);
         return apiObject;
     }
 }

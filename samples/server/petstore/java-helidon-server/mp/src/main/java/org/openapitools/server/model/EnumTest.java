@@ -56,7 +56,7 @@ public enum EnumStringEnum {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumStringEnum fromString(String s) {
+    public static EnumStringEnum fromString(String s) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -65,8 +65,8 @@ public enum EnumStringEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
@@ -105,7 +105,7 @@ public enum EnumStringRequiredEnum {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumStringRequiredEnum fromString(String s) {
+    public static EnumStringRequiredEnum fromString(String s) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -114,8 +114,8 @@ public enum EnumStringRequiredEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
@@ -154,7 +154,7 @@ public enum EnumIntegerEnum {
      * Convert a String into Integer, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumIntegerEnum fromString(String s) {
+    public static EnumIntegerEnum fromString(String s) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -163,8 +163,8 @@ public enum EnumIntegerEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
@@ -203,7 +203,7 @@ public enum EnumNumberEnum {
      * Convert a String into Double, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumNumberEnum fromString(String s) {
+    public static EnumNumberEnum fromString(String s) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -212,8 +212,8 @@ public enum EnumNumberEnum {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {

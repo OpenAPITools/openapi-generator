@@ -1,12 +1,15 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import io.helidon.webserver.Handler;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 import java.util.logging.Logger;
 
@@ -26,6 +30,10 @@ public class FakeServiceImpl implements FakeService {
     private static final Logger LOGGER = Logger.getLogger(FakeService.class.getName());
     private static final ObjectMapper MAPPER = JsonProvider.objectMapper();
 
+
+    public void fakeBigDecimalMap(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
 
     public void fakeHealthGet(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
@@ -52,6 +60,10 @@ public class FakeServiceImpl implements FakeService {
     }
 
     public void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, OuterObjectWithEnumProperty outerObjectWithEnumProperty) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
@@ -87,11 +99,23 @@ public class FakeServiceImpl implements FakeService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
     public void testJsonFormData(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void testNullable(ServerRequest request, ServerResponse response, ChildWithNullable childWithNullable) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
     public void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
+    public void testStringMapReference(ServerRequest request, ServerResponse response) {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 

@@ -48,7 +48,7 @@ enum class PetEnum(val value: kotlin.String) {
      * This solves a problem when the variable name and its value are different, and ensures that
      * the client sends the correct enum values to the server always.
      */
-    override fun toString(): String = value
+    override fun toString(): kotlin.String = value
 
     companion object {
         /**

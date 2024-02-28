@@ -32,7 +32,10 @@ type NullableClass struct {
 	ObjectNullableProp map[string]map[string]interface{} `json:"object_nullable_prop,omitempty"`
 	ObjectAndItemsNullableProp map[string]map[string]interface{} `json:"object_and_items_nullable_prop,omitempty"`
 	ObjectItemsNullable map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NullableClass NullableClass
 
 // NewNullableClass instantiates a new NullableClass object
 // This constructor will assign default values to properties that have it defined,
@@ -328,7 +331,7 @@ func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool
 
 // HasArrayNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayNullableProp() bool {
-	if o != nil && IsNil(o.ArrayNullableProp) {
+	if o != nil && !IsNil(o.ArrayNullableProp) {
 		return true
 	}
 
@@ -361,7 +364,7 @@ func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]*map[string]interfac
 
 // HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ArrayAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ArrayAndItemsNullableProp) {
 		return true
 	}
 
@@ -426,7 +429,7 @@ func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interfa
 
 // HasObjectNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectNullableProp() bool {
-	if o != nil && IsNil(o.ObjectNullableProp) {
+	if o != nil && !IsNil(o.ObjectNullableProp) {
 		return true
 	}
 
@@ -459,7 +462,7 @@ func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string
 
 // HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ObjectAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ObjectAndItemsNullableProp) {
 		return true
 	}
 
@@ -549,7 +552,44 @@ func (o NullableClass) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ObjectItemsNullable) {
 		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *NullableClass) UnmarshalJSON(data []byte) (err error) {
+	varNullableClass := _NullableClass{}
+
+	err = json.Unmarshal(data, &varNullableClass)
+
+	if err != nil {
+		return err
+	}
+
+	*o = NullableClass(varNullableClass)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "integer_prop")
+		delete(additionalProperties, "number_prop")
+		delete(additionalProperties, "boolean_prop")
+		delete(additionalProperties, "string_prop")
+		delete(additionalProperties, "date_prop")
+		delete(additionalProperties, "datetime_prop")
+		delete(additionalProperties, "array_nullable_prop")
+		delete(additionalProperties, "array_and_items_nullable_prop")
+		delete(additionalProperties, "array_items_nullable")
+		delete(additionalProperties, "object_nullable_prop")
+		delete(additionalProperties, "object_and_items_nullable_prop")
+		delete(additionalProperties, "object_items_nullable")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNullableClass struct {

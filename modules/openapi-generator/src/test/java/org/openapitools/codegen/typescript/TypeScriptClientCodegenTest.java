@@ -74,7 +74,7 @@ public class TypeScriptClientCodegenTest {
             .uniqueItems(true);
         final Schema model = new ObjectSchema()
             .description("an object has an array with uniqueItems")
-            .addProperties("uniqueArray", uniqueArray)
+            .addProperty("uniqueArray", uniqueArray)
             .addRequiredItem("uniqueArray");
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
@@ -92,7 +92,7 @@ public class TypeScriptClientCodegenTest {
         inner.setAdditionalProperties(true);
 
         final Schema root = new ObjectSchema()
-            .addProperties("inner", inner);
+            .addProperty("inner", inner);
 
         final DefaultCodegen codegen = new TypeScriptClientCodegen();
         final OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", root);

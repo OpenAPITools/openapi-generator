@@ -51,6 +51,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [org.openapitools.client.models.ModelWithEnumPropertyHavingDefault](docs/ModelWithEnumPropertyHavingDefault.md)
+ - [org.openapitools.client.models.PropertyOfDay](docs/PropertyOfDay.md)
 
 
 <a id="documentation-for-authorization"></a>

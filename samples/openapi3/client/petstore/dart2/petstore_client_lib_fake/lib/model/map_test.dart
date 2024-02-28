@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -29,10 +29,10 @@ class MapTest {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MapTest &&
-     other.mapMapOfString == mapMapOfString &&
-     other.mapOfEnumString == mapOfEnumString &&
-     other.directMap == directMap &&
-     other.indirectMap == indirectMap;
+    _deepEquality.equals(other.mapMapOfString, mapMapOfString) &&
+    _deepEquality.equals(other.mapOfEnumString, mapOfEnumString) &&
+    _deepEquality.equals(other.directMap, directMap) &&
+    _deepEquality.equals(other.indirectMap, indirectMap);
 
   @override
   int get hashCode =>

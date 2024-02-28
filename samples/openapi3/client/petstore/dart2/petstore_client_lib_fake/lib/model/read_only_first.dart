@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -35,8 +35,8 @@ class ReadOnlyFirst {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ReadOnlyFirst &&
-     other.bar == bar &&
-     other.baz == baz;
+    other.bar == bar &&
+    other.baz == baz;
 
   @override
   int get hashCode =>

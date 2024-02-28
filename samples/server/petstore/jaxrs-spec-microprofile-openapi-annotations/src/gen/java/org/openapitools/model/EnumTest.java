@@ -1,14 +1,11 @@
 package org.openapitools.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-import io.swagger.annotations.*;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -46,7 +43,7 @@ public class EnumTest  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumStringEnum fromString(String s) {
+    public static EnumStringEnum fromString(String s) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -55,8 +52,8 @@ public class EnumTest  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumStringEnum fromValue(String value) {
         for (EnumStringEnum b : EnumStringEnum.values()) {
@@ -94,7 +91,7 @@ public class EnumTest  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumStringRequiredEnum fromString(String s) {
+    public static EnumStringRequiredEnum fromString(String s) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -103,8 +100,8 @@ public class EnumTest  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumStringRequiredEnum fromValue(String value) {
         for (EnumStringRequiredEnum b : EnumStringRequiredEnum.values()) {
@@ -142,7 +139,7 @@ public class EnumTest  implements Serializable {
      * Convert a String into Integer, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumIntegerEnum fromString(String s) {
+    public static EnumIntegerEnum fromString(String s) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -151,8 +148,8 @@ public class EnumTest  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumIntegerEnum fromValue(Integer value) {
         for (EnumIntegerEnum b : EnumIntegerEnum.values()) {
@@ -190,7 +187,7 @@ public class EnumTest  implements Serializable {
      * Convert a String into Double, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static EnumNumberEnum fromString(String s) {
+    public static EnumNumberEnum fromString(String s) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -199,8 +196,8 @@ public class EnumTest  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static EnumNumberEnum fromValue(Double value) {
         for (EnumNumberEnum b : EnumNumberEnum.values()) {
@@ -234,7 +231,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
@@ -254,7 +250,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(required = true, value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("enum_string_required")
   @NotNull
@@ -275,7 +270,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
@@ -295,7 +289,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
@@ -315,7 +308,6 @@ public class EnumTest  implements Serializable {
   }
 
   
-  @ApiModelProperty(value = "")
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {

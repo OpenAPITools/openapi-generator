@@ -244,7 +244,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             ApiResponse apiResponse = findMethodResponse(operation.getResponses());
 
             if (apiResponse != null) {
-                Schema response = ModelUtils.getSchemaFromResponse(apiResponse);
+                Schema response = ModelUtils.getSchemaFromResponse(openAPI, apiResponse);
                 if (response != null) {
                     CodegenProperty cm = fromProperty("response", response, false);
                     op.vendorExtensions.put("x-codegen-response", cm);
@@ -386,7 +386,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
@@ -471,7 +471,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 return "\"\"";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(getAdditionalProperties(p));
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

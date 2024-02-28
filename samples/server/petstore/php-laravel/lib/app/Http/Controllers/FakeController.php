@@ -231,6 +231,49 @@ class FakeController extends Controller
         return response('How about implementing testGroupParameters as a delete method ?');
     }
     /**
+     * Operation fakeBigDecimalMap
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fakeBigDecimalMap()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fakeBigDecimalMap as a get method ?');
+    }
+    /**
+     * Operation testAdditionalPropertiesReference
+     *
+     * test referenced additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testAdditionalPropertiesReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['requestBody'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $requestBody when calling testAdditionalPropertiesReference');
+        }
+        $requestBody = $input['requestBody'];
+
+
+        return response('How about implementing testAdditionalPropertiesReference as a post method ?');
+    }
+    /**
      * Operation testBodyWithBinary
      *
      * .
@@ -379,6 +422,30 @@ class FakeController extends Controller
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
     }
     /**
+     * Operation testInlineFreeformAdditionalProperties
+     *
+     * test inline free-form additionalProperties.
+     *
+     *
+     * @return Http response
+     */
+    public function testInlineFreeformAdditionalProperties()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['testInlineFreeformAdditionalPropertiesRequest'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $testInlineFreeformAdditionalPropertiesRequest when calling testInlineFreeformAdditionalProperties');
+        }
+        $testInlineFreeformAdditionalPropertiesRequest = $input['testInlineFreeformAdditionalPropertiesRequest'];
+
+
+        return response('How about implementing testInlineFreeformAdditionalProperties as a post method ?');
+    }
+    /**
      * Operation testJsonFormData
      *
      * test json serialization of form data.
@@ -406,6 +473,30 @@ class FakeController extends Controller
 
 
         return response('How about implementing testJsonFormData as a get method ?');
+    }
+    /**
+     * Operation testNullable
+     *
+     * test nullable parent property.
+     *
+     *
+     * @return Http response
+     */
+    public function testNullable()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['childWithNullable'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $childWithNullable when calling testNullable');
+        }
+        $childWithNullable = $input['childWithNullable'];
+
+
+        return response('How about implementing testNullable as a post method ?');
     }
     /**
      * Operation fakeOuterBooleanSerialize
@@ -514,6 +605,30 @@ class FakeController extends Controller
 
 
         return response('How about implementing fakePropertyEnumIntegerSerialize as a post method ?');
+    }
+    /**
+     * Operation testStringMapReference
+     *
+     * test referenced string map.
+     *
+     *
+     * @return Http response
+     */
+    public function testStringMapReference()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['requestBody'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $requestBody when calling testStringMapReference');
+        }
+        $requestBody = $input['requestBody'];
+
+
+        return response('How about implementing testStringMapReference as a post method ?');
     }
     /**
      * Operation testQueryParameterCollectionFormat

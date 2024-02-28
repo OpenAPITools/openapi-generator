@@ -44,6 +44,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
     public static final String SAGAS_AND_RECORDS = "false";
     public static final String ENUM_UNKNOWN_DEFAULT_CASE_VALUE = "false";
     public static final String STRING_ENUMS = "false";
+    public static final String ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE = "false";
 
     @Override
     public String getLanguage() {
@@ -61,6 +62,7 @@ public class TypeScriptFetchClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PARAM_NAMING, PARAM_NAMING_VALUE)
                 .put(CodegenConstants.SUPPORTS_ES6, String.valueOf(SUPPORTS_ES6_VALUE))
                 .put(AbstractTypeScriptClientCodegen.NULL_SAFE_ADDITIONAL_PROPS, String.valueOf(NULL_SAFE_ADDITIONAL_PROPS_VALUE))
+                .put(AbstractTypeScriptClientCodegen.ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR, ENUM_PROPERTY_NAMING_REPLACE_SPECIAL_CHAR_VALUE)
                 .put(CodegenConstants.ENUM_NAME_SUFFIX, ENUM_NAME_SUFFIX)
                 .put(TypeScriptFetchClientCodegen.NPM_NAME, NMP_NAME)
                 .put(TypeScriptFetchClientCodegen.NPM_VERSION, NMP_VERSION)

@@ -22,15 +22,12 @@ src/gen/java/org/openapitools/model/ArrayOfArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayTest.java
 src/gen/java/org/openapitools/model/BigCat.java
-src/gen/java/org/openapitools/model/BigCatAllOf.java
 src/gen/java/org/openapitools/model/Capitalization.java
 src/gen/java/org/openapitools/model/Cat.java
-src/gen/java/org/openapitools/model/CatAllOf.java
 src/gen/java/org/openapitools/model/Category.java
 src/gen/java/org/openapitools/model/ClassModel.java
 src/gen/java/org/openapitools/model/Client.java
 src/gen/java/org/openapitools/model/Dog.java
-src/gen/java/org/openapitools/model/DogAllOf.java
 src/gen/java/org/openapitools/model/EnumArrays.java
 src/gen/java/org/openapitools/model/EnumClass.java
 src/gen/java/org/openapitools/model/EnumTest.java
@@ -59,5 +56,5 @@ src/gen/java/org/openapitools/model/User.java
 src/gen/java/org/openapitools/model/XmlItem.java
 src/main/docker/Dockerfile.jvm
 src/main/docker/Dockerfile.native
-src/main/openapi/openapi.yaml
+src/main/resources/META-INF/openapi.yaml
 src/main/resources/application.properties

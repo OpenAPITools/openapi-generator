@@ -156,46 +156,46 @@ public class StoreApi {
     /**
     * Place an order for a pet
     * 
-    * @param body order placed for purchasing the pet (required)
+    * @param order order placed for purchasing the pet (required)
     * @param resultHandler Asynchronous result handler
     */
-    public void placeOrder(Order body, Handler<AsyncResult<Order>> resultHandler) {
-        delegate.placeOrder(body, resultHandler);
+    public void placeOrder(Order order, Handler<AsyncResult<Order>> resultHandler) {
+        delegate.placeOrder(order, resultHandler);
     }
 
     /**
     * Place an order for a pet
     * 
-    * @param body order placed for purchasing the pet (required)
+    * @param order order placed for purchasing the pet (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
     */
-    public void placeOrder(Order body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> resultHandler) {
-        delegate.placeOrder(body, authInfo, resultHandler);
+    public void placeOrder(Order order, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> resultHandler) {
+        delegate.placeOrder(order, authInfo, resultHandler);
     }
 
     /**
     * Place an order for a pet
     * 
-    * @param body order placed for purchasing the pet (required)
+    * @param order order placed for purchasing the pet (required)
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Order> rxPlaceOrder(Order body) {
+    public Single<Order> rxPlaceOrder(Order order) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.placeOrder(body, fut)
+            delegate.placeOrder(order, fut)
         ));
     }
 
     /**
     * Place an order for a pet
     * 
-    * @param body order placed for purchasing the pet (required)
+    * @param order order placed for purchasing the pet (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)
     */
-    public Single<Order> rxPlaceOrder(Order body, ApiClient.AuthInfo authInfo) {
+    public Single<Order> rxPlaceOrder(Order order, ApiClient.AuthInfo authInfo) {
         return Single.create(new io.vertx.rx.java.SingleOnSubscribeAdapter<>(fut ->
-            delegate.placeOrder(body, authInfo, fut)
+            delegate.placeOrder(order, authInfo, fut)
         ));
     }
 

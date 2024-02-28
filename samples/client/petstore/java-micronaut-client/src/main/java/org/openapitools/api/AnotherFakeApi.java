@@ -18,6 +18,7 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.core.convert.format.Format;
 import reactor.core.publisher.Mono;
 import org.openapitools.model.ModelClient;
+import java.util.UUID;
 import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ public interface AnotherFakeApi {
      * To test special tags
      * To test special tags and operation ID starting with number
      *
+     * @param uuidTest to test uuid example value (required)
      * @param _body client model (required)
      * @return ModelClient
      */
@@ -40,6 +42,7 @@ public interface AnotherFakeApi {
     @Consumes({"application/json"})
     @Produces({"application/json"})
     Mono<ModelClient> call123testSpecialTags(
+        @Header(name="uuid_test") @NotNull UUID uuidTest, 
         @Body @NotNull @Valid ModelClient _body
     );
 

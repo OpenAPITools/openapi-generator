@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import {{invokerPackage}}.ApiException;
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.Configuration;
+{{#models.0}}
 import {{modelPackage}}.*;
+{{/models.0}}
 import {{invokerPackage}}.Pair;
 
 {{#imports}}import {{import}};
@@ -48,7 +50,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    {{#returnType}}
    * @return {{returnType}}
@@ -74,7 +76,7 @@ public class {{classname}} {
    * {{summary}}
    * {{notes}}
    {{#allParams}}
-   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
+   * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}{{/isContainer}}){{/required}}
    {{/allParams}}
    * @param additionalHeaders additionalHeaders for this call
    {{#returnType}}

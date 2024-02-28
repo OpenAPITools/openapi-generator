@@ -39,7 +39,7 @@ serde_with = "^2.0"
 {{/serdeWith}}
 serde_json = "^1.0"
 url = "^2.2"
-uuid = { version = "^1.0", features = ["serde"] }
+uuid = { version = "^1.0", features = ["serde", "v4"] }
 {{#hyper}}
 hyper = { version = "~0.14", features = ["full"] }
 hyper-tls = "~0.5"
@@ -54,7 +54,9 @@ secrecy = "0.8.0"
 {{/withAWSV4Signature}}
 {{#reqwest}}
 {{^supportAsync}}
-reqwest = "~0.9"
+[dependencies.reqwest]
+version = "^0.11"
+features = ["json", "blocking", "multipart"]
 {{/supportAsync}}
 {{#supportAsync}}
 {{#supportMiddleware}}

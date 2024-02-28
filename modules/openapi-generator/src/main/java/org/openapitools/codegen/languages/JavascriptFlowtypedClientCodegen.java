@@ -26,6 +26,7 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
@@ -114,7 +115,7 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 

@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -105,7 +105,7 @@ DateTime? mapDateTime(dynamic map, String key, [String? pattern]) {
     if (value is int) {
       millis = value;
     } else if (value is String) {
-      if (pattern == _dateEpochMarker) {
+      if (_isEpochMarker(pattern)) {
         millis = int.tryParse(value);
       } else {
         return DateTime.tryParse(value);

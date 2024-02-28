@@ -9,7 +9,13 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     },
-    "ghcr.io/snebjorn/devcontainer-feature/chromium:latest": {}
+    "ghcr.io/devcontainers/features/rust:1": {},
+    "ghcr.io/snebjorn/devcontainer-feature/chromium:latest": {},
+    "docker-in-docker": {
+      "version": "latest",
+      "moby": true,
+      "dockerDashComposeVersion": "v1"
+    }
   },
   // Configure tool-specific properties.
   "customizations": {

@@ -17,7 +17,44 @@ const (
 	{{#enumClassPrefix}}{{{classname.toUpperCase}}}_{{/enumClassPrefix}}{{name}} {{{classname}}} = {{{value}}}
 	{{/enumVars}}
 	{{/allowableValues}}
-){{/isEnum}}{{^isEnum}}{{#description}}
+)
+
+// Allowed{{{classname}}}EnumValues is all the allowed values of {{{classname}}} enum
+var Allowed{{{classname}}}EnumValues = []{{{classname}}}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+// valid{{{classname}}}EnumValue provides a map of {{classname}}s for fast verification of use input
+var valid{{{classname}}}EnumValues = map[{{{classname}}}]struct{}{
+	{{#allowableValues}}
+	{{#enumVars}}
+	{{{value}}}: {},
+	{{/enumVars}}
+	{{/allowableValues}}
+}
+
+// IsValid return true if the value is valid for the enum, false otherwise
+func (v {{{classname}}}) IsValid() bool {
+	_, ok := valid{{{classname}}}EnumValues[v]
+	return ok
+}
+
+// New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
+// for the value passed as argument, or an error if the value passed is not allowed by the enum
+func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) ({{{classname}}}, error) {
+	ev := {{{classname}}}(v)
+	if ev.IsValid() {
+		return ev, nil
+	} else {
+		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
+	}
+}
+
+{{/isEnum}}{{^isEnum}}{{#description}}
 // {{classname}} - {{{description}}}{{/description}}
 type {{classname}} struct {
 {{#parent}}
@@ -38,30 +75,6 @@ type {{classname}} struct {
 	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
 }{{/isEnum}}
-
-// UnmarshalJSON sets *m to a copy of data while respecting defaults if specified.
-func (m *{{classname}}) UnmarshalJSON(data []byte) error {
-	{{#vars}}
-	{{#defaultValue}}
-	{{^isArray}}
-	{{#isBoolean}}
-	m.{{name}} = {{{.}}}
-	{{/isBoolean}}
-	{{#isNumeric}}
-	m.{{name}} = {{{.}}}
-	{{/isNumeric}}
-	{{^isBoolean}}
-	{{^isNumeric}}
-	m.{{name}} = "{{{.}}}"
-	{{/isNumeric}}
-	{{/isBoolean}}
-	{{/isArray}}
-	{{/defaultValue}}
-	{{/vars}}
-
-	type Alias {{classname}} // To avoid infinite recursion
-    return json.Unmarshal(data, (*Alias)(m))
-}
 
 // Assert{{classname}}Required checks if the required fields are not zero-ed
 func Assert{{classname}}Required(obj {{classname}}) error {

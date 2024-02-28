@@ -19,6 +19,7 @@ import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiControllerImp extends FakeApiControllerImpInterface {
     @Override

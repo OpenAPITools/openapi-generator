@@ -36,8 +36,18 @@ import com.samskivert.mustache.Template.Fragment;
  * </pre>
  */
 public class TrimTrailingWhiteSpaceLambda implements Mustache.Lambda {
+    private final boolean withNewLine;
+
+    public TrimTrailingWhiteSpaceLambda(boolean withNewLine) {
+        this.withNewLine = withNewLine;
+    }
+
     @Override
     public void execute(Fragment fragment, Writer writer) throws IOException {
         writer.write(fragment.execute().stripTrailing());
+
+        if (this.withNewLine) {
+            writer.write("\n");
+        }
     }
 }

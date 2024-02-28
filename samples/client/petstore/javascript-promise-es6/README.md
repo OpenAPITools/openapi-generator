@@ -127,6 +127,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *OpenApiPetstore.FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*OpenApiPetstore.FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *OpenApiPetstore.FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -135,8 +136,10 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*OpenApiPetstore.FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*OpenApiPetstore.FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *OpenApiPetstore.PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *OpenApiPetstore.PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
@@ -172,7 +175,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.BasquePig](docs/BasquePig.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
- - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
  - [OpenApiPetstore.Category](docs/Category.md)
  - [OpenApiPetstore.ClassModel](docs/ClassModel.md)
  - [OpenApiPetstore.Client](docs/Client.md)
@@ -180,7 +182,6 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.DanishPig](docs/DanishPig.md)
  - [OpenApiPetstore.DeprecatedObject](docs/DeprecatedObject.md)
  - [OpenApiPetstore.Dog](docs/Dog.md)
- - [OpenApiPetstore.DogAllOf](docs/DogAllOf.md)
  - [OpenApiPetstore.EnumArrays](docs/EnumArrays.md)
  - [OpenApiPetstore.EnumClass](docs/EnumClass.md)
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
@@ -215,6 +216,7 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.StringOrBoolean](docs/StringOrBoolean.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
+ - [OpenApiPetstore.TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
  - [OpenApiPetstore.User](docs/User.md)
 
 

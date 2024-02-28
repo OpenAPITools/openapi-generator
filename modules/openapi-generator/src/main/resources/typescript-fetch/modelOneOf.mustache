@@ -1,7 +1,7 @@
 {{#hasImports}}
 {{#oneOf}}
+import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
-    {{{.}}},
     instanceOf{{{.}}},
     {{{.}}}FromJSON,
     {{{.}}}FromJSONTyped,
@@ -17,11 +17,11 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
 }
 
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
 {{#discriminator}}
-    switch (json['{{discriminator.propertyName}}']) {
+    switch (json['{{discriminator.propertyBaseName}}']) {
 {{#discriminator.mappedModels}}
         case '{{mappingName}}':
             return {...{{modelName}}FromJSONTyped(json, true), {{discriminator.propertyName}}: '{{mappingName}}'};

@@ -86,16 +86,20 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             packageName = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
         }
-        String srcPrefix = "src" + File.separator;
-        String serverPrefix = srcPrefix + "server" + File.separator + toFilename(modelPackage);
-        String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
-        String implPrefix = srcPrefix + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("server-skeleton-spec.mustache", "", serverPrefix + "-skeletons.ads"));
-        supportingFiles.add(new SupportingFile("server-skeleton-body.mustache", "", serverPrefix + "-skeletons.adb"));
-        supportingFiles.add(new SupportingFile("server-spec.mustache", "", implPrefix + "-servers.ads"));
-        supportingFiles.add(new SupportingFile("server-body.mustache", "", implPrefix + "-servers.adb"));
+        String srcDir = "src" + File.separator;
+        String awsDir = srcDir + "aws";
+        String ewsDir = srcDir + "ews";
+        String serverDir = srcDir + "server";
+        String modelDir = srcDir + "model";
+        String modelPrefix = toFilename(modelPackage);
+        supportingFiles.add(new SupportingFile("model-spec.mustache", modelDir, modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", modelDir, modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("server-skeleton-spec.mustache", serverDir, modelPrefix + "-skeletons.ads"));
+        supportingFiles.add(new SupportingFile("server-skeleton-body.mustache", serverDir, modelPrefix + "-skeletons.adb"));
+        supportingFiles.add(new SupportingFile("server-spec.mustache", srcDir, modelPrefix + "-servers.ads"));
+        supportingFiles.add(new SupportingFile("server-body.mustache", srcDir, modelPrefix + "-servers.adb"));
+        supportingFiles.add(new SupportingFile("server-aws.mustache", awsDir, modelPrefix + "_aws.adb"));
+        supportingFiles.add(new SupportingFile("server-ews.mustache", ewsDir, modelPrefix + "_ews.adb"));
 
         supportingFiles.add(new SupportingFile("openapi.mustache", "web" + File.separator + "swagger", "openapi.json"));
 
@@ -123,23 +127,24 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         additionalProperties.put("isServer", "true");
         additionalProperties.put("httpClientPackageName", httpClientPackageName);
         additionalProperties.put("openApiPackageName", openApiPackageName);
+        additionalProperties.put("openApiGprName", openApiPackageName.toLowerCase(Locale.ROOT));
+        additionalProperties.put("httpClientGprName", httpClientPackageName.toLowerCase(Locale.ROOT));
         additionalProperties.put(CodegenConstants.PROJECT_NAME, projectName);
 
         String names[] = this.modelPackage.split("\\.");
         String pkgName = names[0];
         additionalProperties.put("packageLevel1", pkgName);
-        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "",
-                            "src" + File.separator + toFilename(names[0]) + ".ads"));
+        supportingFiles.add(new SupportingFile("package-spec-level1.mustache", "src",
+                            toFilename(names[0]) + ".ads"));
         if (names.length > 1) {
             String fileName = toFilename(names[0]) + "-" + toFilename(names[1]) + ".ads";
             pkgName = names[0] + "." + names[1];
             additionalProperties.put("packageLevel2", pkgName);
-            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "",
-                                "src" + File.separator + fileName));
+            supportingFiles.add(new SupportingFile("package-spec-level2.mustache", "src", fileName));
         }
         pkgName = this.modelPackage;
-        supportingFiles.add(new SupportingFile("server.mustache", "",
-                            "src" + File.separator + toFilename(pkgName) + "-server.adb"));
+        supportingFiles.add(new SupportingFile("server.mustache", "src",
+                toFilename(pkgName) + "-server.adb"));
         additionalProperties.put("packageName", toFilename(pkgName));
 
         // add lambda for mustache templates

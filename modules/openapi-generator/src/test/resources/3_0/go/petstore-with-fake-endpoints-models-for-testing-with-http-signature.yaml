@@ -946,6 +946,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -963,6 +997,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1178,6 +1233,41 @@ paths:
       responses:
         '200':
           description: OK
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+        - name: http_debug_option
+          in: query
+          description: http debug option (to test parameter naming option)
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1262,11 +1352,22 @@ components:
       type: http
       scheme: signature
   schemas:
+    MapWithDateTime:
+      type: object
+      additionalProperties:
+        items:
+          format: date-time
+          type: string
+        type: array
     Foo:
       type: object
+      required:
+        - bar
       properties:
         bar:
           $ref: '#/components/schemas/Bar'
+        map:
+          $ref: '#/components/schemas/MapWithDateTime'
     Bar:
       type: string
       default: bar
@@ -1746,6 +1847,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -2058,3 +2168,20 @@ components:
           test: 
             type: string
             format: date-time
+    PropertyNameMapping:
+      properties: 
+        http_debug_operation: 
+          type: string
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+    IncidentData:
+      oneOf:
+        - type: array
+          items:
+            type: object
+        - type: object
+        - type: "null"

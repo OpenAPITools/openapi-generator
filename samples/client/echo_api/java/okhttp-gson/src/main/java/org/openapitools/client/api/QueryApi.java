@@ -40,7 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.GenericType;
 
 public class QueryApi {
     private ApiClient localVarApiClient;
@@ -81,6 +80,7 @@ public class QueryApi {
 
     /**
      * Build call for testEnumRefString
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @param _callback Callback for upload/download progress
      * @return Call to execute
@@ -91,7 +91,7 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -115,6 +115,10 @@ public class QueryApi {
         Map<String, String> localVarHeaderParams = new HashMap<String, String>();
         Map<String, String> localVarCookieParams = new HashMap<String, String>();
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (enumNonrefStringQuery != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_nonref_string_query", enumNonrefStringQuery));
+        }
 
         if (enumRefStringQuery != null) {
             localVarQueryParams.addAll(localVarApiClient.parameterToPair("enum_ref_string_query", enumRefStringQuery));
@@ -140,14 +144,15 @@ public class QueryApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testEnumRefStringValidateBeforeCall(StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
-        return testEnumRefStringCall(enumRefStringQuery, _callback);
+    private okhttp3.Call testEnumRefStringValidateBeforeCall(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback _callback) throws ApiException {
+        return testEnumRefStringCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
 
     }
 
     /**
      * Test query parameter(s)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @return String
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -157,14 +162,15 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testEnumRefString(StringEnumRef enumRefStringQuery) throws ApiException {
-        ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumRefStringQuery);
+    public String testEnumRefString(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+        ApiResponse<String> localVarResp = testEnumRefStringWithHttpInfo(enumNonrefStringQuery, enumRefStringQuery);
         return localVarResp.getData();
     }
 
     /**
      * Test query parameter(s)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @return ApiResponse&lt;String&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -174,8 +180,8 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testEnumRefStringWithHttpInfo(StringEnumRef enumRefStringQuery) throws ApiException {
-        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, null);
+    public ApiResponse<String> testEnumRefStringWithHttpInfo(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery) throws ApiException {
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -183,6 +189,7 @@ public class QueryApi {
     /**
      * Test query parameter(s) (asynchronously)
      * Test query parameter(s)
+     * @param enumNonrefStringQuery  (optional)
      * @param enumRefStringQuery  (optional)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call
@@ -193,9 +200,9 @@ public class QueryApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testEnumRefStringAsync(StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testEnumRefStringAsync(String enumNonrefStringQuery, StringEnumRef enumRefStringQuery, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumRefStringQuery, _callback);
+        okhttp3.Call localVarCall = testEnumRefStringValidateBeforeCall(enumNonrefStringQuery, enumRefStringQuery, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
@@ -712,6 +719,248 @@ public class QueryApi {
     public okhttp3.Call testQueryStyleDeepObjectExplodeTrueObjectAllOfAsync(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter queryObject, final ApiCallback<String> _callback) throws ApiException {
 
         okhttp3.Call localVarCall = testQueryStyleDeepObjectExplodeTrueObjectAllOfValidateBeforeCall(queryObject, _callback);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testQueryStyleFormExplodeFalseArrayInteger
+     * @param queryObject  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerCall(List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/query/style_form/explode_false/array_integer";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (queryObject != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "query_object", queryObject));
+        }
+
+        final String[] localVarAccepts = {
+            "text/plain"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(List<Integer> queryObject, final ApiCallback _callback) throws ApiException {
+        return testQueryStyleFormExplodeFalseArrayIntegerCall(queryObject, _callback);
+
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public String testQueryStyleFormExplodeFalseArrayInteger(List<Integer> queryObject) throws ApiException {
+        ApiResponse<String> localVarResp = testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(queryObject);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @return ApiResponse&lt;String&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayIntegerWithHttpInfo(List<Integer> queryObject) throws ApiException {
+        okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(queryObject, null);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s) (asynchronously)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayIntegerAsync(List<Integer> queryObject, final ApiCallback<String> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayIntegerValidateBeforeCall(queryObject, _callback);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for testQueryStyleFormExplodeFalseArrayString
+     * @param queryObject  (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringCall(List<String> queryObject, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/query/style_form/explode_false/array_string";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (queryObject != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("csv", "query_object", queryObject));
+        }
+
+        final String[] localVarAccepts = {
+            "text/plain"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] {  };
+        return localVarApiClient.buildCall(basePath, localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(List<String> queryObject, final ApiCallback _callback) throws ApiException {
+        return testQueryStyleFormExplodeFalseArrayStringCall(queryObject, _callback);
+
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @return String
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public String testQueryStyleFormExplodeFalseArrayString(List<String> queryObject) throws ApiException {
+        ApiResponse<String> localVarResp = testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(queryObject);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Test query parameter(s)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @return ApiResponse&lt;String&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<String> testQueryStyleFormExplodeFalseArrayStringWithHttpInfo(List<String> queryObject) throws ApiException {
+        okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(queryObject, null);
+        Type localVarReturnType = new TypeToken<String>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Test query parameter(s) (asynchronously)
+     * Test query parameter(s)
+     * @param queryObject  (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call testQueryStyleFormExplodeFalseArrayStringAsync(List<String> queryObject, final ApiCallback<String> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = testQueryStyleFormExplodeFalseArrayStringValidateBeforeCall(queryObject, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

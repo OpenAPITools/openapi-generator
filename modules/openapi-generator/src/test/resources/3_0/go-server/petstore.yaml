@@ -82,6 +82,24 @@ paths:
       description: Multiple status values can be provided with comma separated strings
       operationId: findPetsByStatus
       parameters:
+        - name: inlineEnumPath
+          in: path
+          description: Entity type
+          schema:
+            type: string
+            enum:
+              - "OPTION_1"
+              - "OPTION_2"
+              - "OPTION_3"
+        - name: inlineEnum
+          in: query
+          description: Entity type
+          schema:
+            type: string
+            enum:
+              - "OPTION_1"
+              - "OPTION_2"
+              - "OPTION_3"
         - name: status
           in: query
           description: Status values that need to be considered for filter
@@ -117,6 +135,53 @@ paths:
       security:
         - petstore_auth:
             - 'read:pets'
+  /pet/searchPetWithManyFilters:
+    get:
+      tags:
+        - pet
+      summary: Search Pets by filters
+      description: >-
+        Search endpoint
+      operationId: searchPet
+      parameters:
+      - name: age
+        in: query
+        description: age of the pet
+        schema:
+          type: integer
+          format: int64
+          nullable: true
+      - name: price
+        in: query
+        description: Price of the pet
+        schema:
+          type: number
+          nullable: true
+      - name: bornAfter
+        in: query
+        description: Find pets born after this date
+        style: form
+        explode: false
+        schema:
+          type: string
+          format: date-time
+          nullable: true
+      - description: Is the pet classified as old
+        in: query
+        name: old
+        schema:
+          type: boolean
+          nullable: true
+        style: form
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
   /pet/findByTags:
     get:
       tags:
@@ -137,6 +202,28 @@ paths:
             type: array
             items:
               type: string
+        - name: bornAfter
+          in: query
+          description: Find pets born after this date
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: string
+            format: date-time
+        - name: bornBefore
+          in: query
+          description: Find pets born before this date
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: string
+            format: date-time
+        - name: colour
+          in: query
+          schema:
+            $ref: '#/components/schemas/Colour'
       responses:
         '200':
           description: successful operation
@@ -157,6 +244,52 @@ paths:
         - petstore_auth:
             - 'read:pets'
       deprecated: true
+  '/pet/filterPets/{gender}':
+    get:
+      tags:
+        - pet
+      summary: Finds Pets
+      operationId: filterPetsByCategory
+      parameters:
+        - name: gender
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/Gender'
+        - name: species
+          in: query
+          description: Species to filter by
+          required: true
+          style: form
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Species'
+        - name: notSpecies
+          in: query
+          description: Species to omit from results
+          required: false
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Species'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid species value
   '/pet/{petId}':
     get:
       tags:
@@ -282,10 +415,41 @@ paths:
                 additionalMetadata:
                   description: Additional data to pass to server
                   type: string
+                extraOptionalMetadata:
+                  description: More data to pass to server
+                  type: array
+                  items:
+                    type: string
                 file:
                   description: file to upload
                   type: string
                   format: binary
+    get:
+      tags:
+        - pet
+      summary: Returns the image for the Pet that has been previously uploaded
+      description: Returns the image for the Pet that has been previously uploaded
+      operationId: getPetImageById
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
   /store/inventory:
     get:
       tags:
@@ -579,6 +743,97 @@ paths:
           description: User not found
       security:
         - api_key: []
+  '/fake/uploadImage/array of_file':
+    post:
+      tags:
+        - pet
+      summary: uploads images (array of files)
+      description: ''
+      operationId: uploadFileArrayOfFiles
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                files:
+                  description: files to upload
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+  /pets/boolean/parsing:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by only using boolean query parameters
+      operationId: GetPetsUsingBooleanQueryParameters
+      parameters:
+        - in: query
+          name: expr
+          required: true
+          schema:
+            type: boolean
+        - in: query
+          name: grouping
+          required: false
+          schema:
+            type: boolean
+        - in: query
+          name: inactive
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /pets/byTime/{createdTime}:
+    get:
+      tags:
+        - pet
+      summary: Get the pets by time
+      operationId: GetPetsByTime
+      parameters:
+        - in: path
+          name: createdTime
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
 externalDocs:
   description: Find out more about Swagger
   url: 'http://swagger.io'
@@ -617,9 +872,41 @@ components:
       name: api_key
       in: header
   schemas:
+    OrderInfo:
+      title: Pet Order Info
+      description: An order info for a pets from the pet store
+      type: object
+      properties:
+        petId:
+          type: integer
+          format: int64
+        quantity:
+          type: integer
+          format: int32
+        shipDate:
+          type: string
+          format: date-time
+      xml:
+        name: OrderInfo
+    SpecialInfo:
+      title: Pet Order Info
+      description: An order info for a pets from the pet store
+      discriminator:
+        propertyName: type
+      type: object
+      properties:
+        promotion:
+          type: boolean
+        type:
+          type: string
+      xml:
+        name: OrderInfo
     Order:
       title: Pet Order
       description: An order for a pets from the pet store
+      allOf:
+        - $ref: '#/components/schemas/OrderInfo'
+        - $ref: '#/components/schemas/SpecialInfo'
       type: object
       properties:
         id:
@@ -644,12 +931,18 @@ components:
         complete:
           type: boolean
           default: false
+        comment:
+          type: string
+          nullable: true
       xml:
         name: Order
+      required:
+        - comment
     Category:
       title: Pet category
       description: A category for a pet
       type: object
+      nullable: true
       properties:
         id:
           type: integer
@@ -679,12 +972,45 @@ components:
           type: string
         phone:
           type: string
+          nullable: true
         userStatus:
           type: integer
           format: int32
           description: User Status
+        deepSliceModel:
+          nullable: true
+          type: array
+          description: An array 1-deep.
+          items:
+            type: array
+            description: An array 2-deep.
+            items:
+              type: array
+              description: An array 3-deep.
+              items:
+                $ref: '#/components/schemas/Tag'
+        deepSliceMap:
+          type: array
+          description: An array 1-deep.
+          items:
+            type: array
+            description: An array 2-deep.
+            items:
+              title: an Object
+              type: object
+              description: An array 3-deep.
+              properties:
+                tag:
+                  $ref: '#/components/schemas/Tag'
+                Pet:
+                  type: array
+                  description: An array of pet.
+                  items:
+                    $ref: '#/components/schemas/Pet'
       xml:
         name: User
+      required:
+        - deepSliceModel
     Tag:
       title: Pet Tag
       description: A tag for a pet
@@ -714,6 +1040,7 @@ components:
           type: string
           example: doggie
         photoUrls:
+          nullable: true
           type: array
           xml:
             name: photoUrl
@@ -721,6 +1048,7 @@ components:
           items:
             type: string
         tags:
+          nullable: true
           type: array
           xml:
             name: tag
@@ -737,6 +1065,26 @@ components:
             - sold
       xml:
         name: Pet
+    Species:
+      title: The species of a pet
+      type: string
+      enum:
+        - cat
+        - dog
+        - fish
+        - goat
+        - pig
+    Gender:
+      type: string
+      enum:
+        - male
+        - female
+    Colour:
+      type: string
+      nullable: true
+      enum:
+        - Blue
+        - White
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource

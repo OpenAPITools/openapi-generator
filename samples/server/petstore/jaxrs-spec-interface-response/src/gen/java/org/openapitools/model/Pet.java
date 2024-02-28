@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +30,7 @@ public class Pet  implements Serializable {
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<Tag> tags = null;
+  private @Valid List<@Valid Tag> tags;
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -55,7 +56,7 @@ public class Pet  implements Serializable {
      * Convert a String into String, as specified in the
      * <a href="https://download.oracle.com/otndocs/jcp/jaxrs-2_0-fr-eval-spec/index.html">See JAX RS 2.0 Specification, section 3.2, p. 12</a>
      */
-	public static StatusEnum fromString(String s) {
+    public static StatusEnum fromString(String s) {
         for (StatusEnum b : StatusEnum.values()) {
             // using Objects.toString() to be safe if value type non-object type
             // because types like 'int' etc. will be auto-boxed
@@ -64,8 +65,8 @@ public class Pet  implements Serializable {
             }
         }
         throw new IllegalArgumentException("Unexpected string value '" + s + "'");
-	}
-	
+    }
+
     @JsonCreator
     public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
@@ -176,7 +177,7 @@ public class Pet  implements Serializable {
   }
   /**
    **/
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -189,7 +190,7 @@ public class Pet  implements Serializable {
   }
 
   @JsonProperty("tags")
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

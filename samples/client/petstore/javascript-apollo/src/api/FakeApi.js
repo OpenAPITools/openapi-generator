@@ -21,6 +21,7 @@ import HealthCheckResult from '../model/HealthCheckResult';
 import OuterComposite from '../model/OuterComposite';
 import OuterObjectWithEnumProperty from '../model/OuterObjectWithEnumProperty';
 import Pet from '../model/Pet';
+import TestInlineFreeformAdditionalPropertiesRequest from '../model/TestInlineFreeformAdditionalPropertiesRequest';
 import User from '../model/User';
 
 /**
@@ -273,6 +274,42 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/property/enum-int', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
+     * test referenced additionalProperties
+     * 
+     * @param {Object.<String, {String: Object}>} requestBody request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testAdditionalPropertiesReference(requestBody, requestInit) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testAdditionalPropertiesReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/additionalProperties-reference', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );
@@ -646,6 +683,42 @@ export default class FakeApi extends ApiClient {
     }
 
     /**
+     * test inline free-form additionalProperties
+     * 
+     * @param {module:model/TestInlineFreeformAdditionalPropertiesRequest} testInlineFreeformAdditionalPropertiesRequest request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest, requestInit) {
+      let postBody = testInlineFreeformAdditionalPropertiesRequest;
+      // verify the required parameter 'testInlineFreeformAdditionalPropertiesRequest' is set
+      if (testInlineFreeformAdditionalPropertiesRequest === undefined || testInlineFreeformAdditionalPropertiesRequest === null) {
+        throw new Error("Missing the required parameter 'testInlineFreeformAdditionalPropertiesRequest' when calling testInlineFreeformAdditionalProperties");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/inline-freeform-additionalProperties', 'POST',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
      * test json serialization of form data
      * 
      * @param {String} param field1
@@ -753,6 +826,42 @@ export default class FakeApi extends ApiClient {
 
       return this.callApi(
         '/fake/test-query-parameters', 'PUT',
+        pathParams, queryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, requestInit
+      );
+    }
+
+    /**
+     * test referenced string map
+     * 
+     * @param {Object.<String, {String: String}>} requestBody request body
+     * @param requestInit Dynamic configuration. @see {@link https://github.com/apollographql/apollo-server/pull/1277}
+     * @return {Promise}
+     */
+    async testStringMapReference(requestBody, requestInit) {
+      let postBody = requestBody;
+      // verify the required parameter 'requestBody' is set
+      if (requestBody === undefined || requestBody === null) {
+        throw new Error("Missing the required parameter 'requestBody' when calling testStringMapReference");
+      }
+
+      let pathParams = {
+      };
+      let queryParams = {
+      };
+      let headerParams = {
+        'User-Agent': 'OpenAPI-Generator/1.0.0/Javascript',
+      };
+      let formParams = {
+      };
+
+      let authNames = [];
+      let contentTypes = ['application/json'];
+      let accepts = [];
+      let returnType = null;
+
+      return this.callApi(
+        '/fake/stringMap-reference', 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, requestInit
       );

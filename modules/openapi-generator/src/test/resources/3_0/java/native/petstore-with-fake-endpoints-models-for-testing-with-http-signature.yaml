@@ -899,6 +899,26 @@ paths:
             schema:
               $ref: '#/components/schemas/OuterComposite'
         description: Input composite as post body
+  /fake/BigDecimalMap:
+    get:
+      tags:
+        - fake
+      description: for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
+      operationId: fakeBigDecimalMap
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                type: object
+                properties:
+                  someId:
+                    type: number
+                  someMap:
+                    type: object
+                    additionalProperties:
+                      type: number
   /fake/jsonFormData:
     get:
       tags:
@@ -924,6 +944,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -941,6 +995,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1111,6 +1186,19 @@ paths:
           description: Got named array of enums
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/application_json_utf8:
+    get:
+      tags:
+        - fake
+      summary: application/json UTF8
+      operationId: get_application_json_utf8
+      responses:
+        200:
+          description: test
+          content:
+            application/json;charset=utf-8:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
 servers:
@@ -1732,6 +1820,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string

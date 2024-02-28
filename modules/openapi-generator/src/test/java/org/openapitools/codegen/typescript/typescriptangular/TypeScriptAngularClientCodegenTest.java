@@ -226,10 +226,10 @@ public class TypeScriptAngularClientCodegenTest {
 
         final String modelName = "FooResponse__links";
         final Schema schema = new Schema()
-            .name(modelName)
-            .description("an inline model with name previously prefixed with underscore")
-            .addRequiredItem("self")
-            .addProperties("self", new StringSchema());
+                .name(modelName)
+                .description("an inline model with name previously prefixed with underscore")
+                .addRequiredItem("self")
+                .addProperty("self", new StringSchema());
 
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("test", schema);
         codegen.setOpenAPI(openAPI);
@@ -311,6 +311,37 @@ public class TypeScriptAngularClientCodegenTest {
                 Paths.get(output + "/model/token.ts"),
                 "import { ExpressionToken } from './expressionToken'",
                 "export type Token = ExpressionToken | StringToken"
+        );
+    }
+
+    @Test
+    public void testModelNameMappings() throws Exception {
+        final String specPath = "src/test/resources/2_0/issue_8289.json";
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TypeScriptAngularClientCodegen.TAGGED_UNIONS, "true");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        Map<String, String> modelNames = new HashMap<>();
+        modelNames.put("File", "SystemFile");
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setModelNameMappings(modelNames)
+                .setGeneratorName("typescript-angular")
+                .setInputSpec(specPath)
+                .setAdditionalProperties(properties)
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        Generator generator = new DefaultGenerator();
+        generator.opts(clientOptInput).generate();
+
+        TestUtils.assertFileContains(
+                Paths.get(output + "/model/folder.ts"),
+                "files?: Array<SystemFile>;" // ensure it's an array of SystemFile (not Any)
         );
     }
 }

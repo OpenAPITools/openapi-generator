@@ -2,6 +2,7 @@ package org.openapitools.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -48,7 +49,7 @@ public class ArrayOfNumberOnly  {
       return false;
     }
     ArrayOfNumberOnly arrayOfNumberOnly = (ArrayOfNumberOnly) o;
-    return Objects.equals(arrayNumber, arrayOfNumberOnly.arrayNumber);
+    return Objects.equals(this.arrayNumber, arrayOfNumberOnly.arrayNumber);
   }
 
   @Override

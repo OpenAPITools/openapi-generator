@@ -20,23 +20,23 @@ Method | HTTP request | Description
 package main
 
 import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
 )
 
 func main() {
 
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DefaultAPI.FooGet(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.FooGet``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `FooGet`: FooGetDefaultResponse
-    fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.FooGet`: %v\n", resp)
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.DefaultAPI.FooGet(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DefaultAPI.FooGet``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `FooGet`: FooGetDefaultResponse
+	fmt.Fprintf(os.Stdout, "Response from `DefaultAPI.FooGet`: %v\n", resp)
 }
 ```
 

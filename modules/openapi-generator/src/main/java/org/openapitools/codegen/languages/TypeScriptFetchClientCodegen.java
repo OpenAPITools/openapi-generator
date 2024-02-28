@@ -308,8 +308,8 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
         ImmutableMap.Builder<String, Mustache.Lambda> lambdas = super.addMustacheLambdas();
-        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* "));
-        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* "));
+        lambdas.put("indented_star_1", new IndentedLambda(1, " ", "* ", false, false));
+        lambdas.put("indented_star_4", new IndentedLambda(5, " ", "* ", false, false));
         return lambdas;
     }
 
@@ -325,7 +325,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -530,7 +530,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                 }
 
                 if (!op.hasReturnPassthroughVoid) {
-                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(methodResponse));
+                    Schema responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(openAPI, methodResponse));
                     ExtendedCodegenProperty cp = null;
                     if (op.returnPassthrough instanceof String && cm != null) {
                         cp = (ExtendedCodegenProperty) this.processCodeGenModel(cm).vars.get(1);
@@ -1303,6 +1303,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
+            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -1453,6 +1454,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.allVars = cm.allVars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
+            this.hasReadOnly = cm.hasReadOnly;
             this.readOnlyVars = cm.readOnlyVars;
             this.readWriteVars = cm.readWriteVars;
             this.parentVars = cm.parentVars;

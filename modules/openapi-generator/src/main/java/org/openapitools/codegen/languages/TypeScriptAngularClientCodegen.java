@@ -61,6 +61,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String PROVIDED_IN = "providedIn";
     public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
     public static final String HTTP_CONTEXT_IN_OPTIONS = "httpContextInOptions";
+    public static final String HTTP_TRANSFER_CACHE_IN_OPTIONS = "httpTransferCacheInOptions";
     public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String CONFIGURATION_PREFIX = "configurationPrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
@@ -72,7 +73,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "15.0.3";
+    protected String ngVersion = "17.0.0";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -141,7 +142,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -152,7 +153,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (9.x - 15.x) client library.";
+        return "Generates a TypeScript Angular (9.x - 17.x) client library.";
     }
 
     @Override
@@ -226,6 +227,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(HTTP_CONTEXT_IN_OPTIONS, true);
         }
 
+        if (ngVersion.atLeast("17.0.0")) {
+            additionalProperties.put(HTTP_TRANSFER_CACHE_IN_OPTIONS, true);
+        }
+
         additionalProperties.put(NG_VERSION, ngVersion);
 
         if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
@@ -282,7 +287,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("15.0.0")) {
+        // based on https://angular.io/guide/versions#actively-supported-versions
+        if (ngVersion.atLeast("17.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.9.3 <5.3.0");
+        } else if (ngVersion.atLeast("16.1.0")) {
+            additionalProperties.put("tsVersion", ">=4.9.3 <5.2.0");
+        } else if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("tsVersion", ">=4.9.3 <5.1.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("tsVersion", ">=4.8.2 <4.10.0");
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("tsVersion", ">=4.6.0 <=4.8.0");
@@ -301,7 +313,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("15.0.0")) {
+        if (ngVersion.atLeast("17.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.4.0");
+        } else if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("rxjsVersion", "7.4.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("rxjsVersion", "7.5.5");
@@ -316,7 +332,15 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("15.0.0")) {
+        if (ngVersion.atLeast("17.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "17.0.3");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 17.
+        } else if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "16.0.0");
+            // tsTickle is not required and there is no available version compatible with
+            // versions of TypeScript compatible with Angular 16.
+        } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("ngPackagrVersion", "15.0.2");
             // tsTickle is not required and there is no available version compatible with
             // versions of TypeScript compatible with Angular 15.
@@ -341,7 +365,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("15.0.0")) {
+        if (ngVersion.atLeast("17.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.14.0");
+        } else if (ngVersion.atLeast("16.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.13.0");
+        } else if (ngVersion.atLeast("15.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.5");
         } else if (ngVersion.atLeast("14.0.0")) {
             additionalProperties.put("zonejsVersion", "0.11.5");

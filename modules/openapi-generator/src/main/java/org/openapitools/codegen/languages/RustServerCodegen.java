@@ -22,8 +22,6 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.oas.models.parameters.Parameter;
@@ -193,7 +191,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         typeMapping.put("ByteArray", bytesType);
         typeMapping.put("binary", bytesType);
         typeMapping.put("boolean", "bool");
-        typeMapping.put("date", "chrono::DateTime::<chrono::Utc>");
+        typeMapping.put("date", "chrono::naive::NaiveDate");
         typeMapping.put("DateTime", "chrono::DateTime::<chrono::Utc>");
         typeMapping.put("password", "String");
         typeMapping.put("File", bytesType);
@@ -981,48 +979,13 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
-            String innerType = getTypeDeclaration(inner);
-            return typeMapping.get("array") + "<" + innerType + ">";
-        } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
-            String innerType = getTypeDeclaration(inner);
-            StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
-            typeDeclaration.append(innerType).append(">");
-            return typeDeclaration.toString();
-        } else if (!StringUtils.isEmpty(p.get$ref())) {
-            String datatype;
-            try {
-                datatype = p.get$ref();
-
-                if (datatype.indexOf("#/components/schemas/") == 0) {
-                    datatype = toModelName(datatype.substring("#/components/schemas/".length()));
-                    datatype = "models::" + datatype;
-                }
-            } catch (Exception e) {
-                LOGGER.warn("Error obtaining the datatype from schema (model):{}. Datatype default to Object", p);
-                datatype = "Object";
-                LOGGER.error(e.getMessage(), e);
-            }
-            return datatype;
-        } else if (p instanceof FileSchema) {
-            return typeMapping.get("File");
-        }
-
-        return super.getTypeDeclaration(p);
-    }
-
-    @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
             return null;
@@ -1036,11 +999,6 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
 
-        mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
-        if (!StringUtils.isEmpty(model.get$ref())) {
-            Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
-            mdl.dataType = typeMapping.get(schema.getType());
-        }
         if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
             String xmlName = null;
@@ -1070,24 +1028,12 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
                 mdl.vendorExtensions.put("x-item-xml-name", xmlName);
                 modelXmlNames.put("models::" + mdl.classname, xmlName);
             }
-
-            if (typeMapping.containsKey(mdl.arrayModelType)) {
-                mdl.arrayModelType = typeMapping.get(mdl.arrayModelType);
-            } else {
-                mdl.arrayModelType = toModelName(mdl.arrayModelType);
-            }
         } else if ((mdl.anyOf.size() > 0) || (mdl.oneOf.size() > 0)) {
             mdl.dataType = getSchemaType(model);
         }
 
         if (mdl.xmlNamespace != null) {
             additionalProperties.put("usesXmlNamespaces", true);
-        }
-
-        Schema additionalProperties = getAdditionalProperties(model);
-
-        if (additionalProperties != null) {
-            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
 
         LOGGER.trace("Created model: {}", mdl);
@@ -1236,7 +1182,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                defaultValue = "\"" + (String) p.getDefault() + "\".to_string()";
+                defaultValue = "\"" + String.valueOf(p.getDefault()) + "\".to_string()";
             }
         }
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))
@@ -1245,7 +1191,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toOneOfName(List<String> names, Schema composedSchema) {
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         List<String> types = new ArrayList<>();
@@ -1256,7 +1202,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+    public String toAnyOfName(List<String> names, Schema composedSchema) {
         List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
 
         List<String> types = new ArrayList<>();
@@ -1286,7 +1232,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
         if (Objects.equals(property.baseType, "integer")) {
 
             BigInteger minimum = Optional.ofNullable(property.getMinimum()).map(BigInteger::new).orElse(null);
-            BigInteger maximum =  Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
+            BigInteger maximum = Optional.ofNullable(property.getMaximum()).map(BigInteger::new).orElse(null);
 
             boolean unsigned = canFitIntoUnsigned(minimum, property.getExclusiveMinimum());
 
@@ -1467,7 +1413,7 @@ public class RustServerCodegen extends AbstractRustCodegen implements CodegenCon
     }
 
     @Override
-    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema){
+    protected void updateParameterForString(CodegenParameter codegenParameter, Schema parameterSchema) {
         /**
          * we have a custom version of this function to set isString to false for uuid
          */

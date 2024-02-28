@@ -152,7 +152,7 @@ void PFXStoreApi::enableResponseCompression() {
 }
 
 void PFXStoreApi::abortRequests() {
-    emit abortRequestsSignal();
+    Q_EMIT abortRequestsSignal();
 }
 
 QString PFXStoreApi::getParamStylePrefix(const QString &style) {
@@ -255,7 +255,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -272,11 +272,37 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit deleteOrderSignal();
-        emit deleteOrderSignalFull(worker);
+        Q_EMIT deleteOrderSignal();
+        Q_EMIT deleteOrderSignalFull(worker);
     } else {
-        emit deleteOrderSignalE(error_type, error_str);
-        emit deleteOrderSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT deleteOrderSignalE(error_type, error_str);
+        Q_EMIT deleteOrderSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT deleteOrderSignalError(error_type, error_str);
+        Q_EMIT deleteOrderSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -307,7 +333,7 @@ void PFXStoreApi::getInventory() {
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -334,11 +360,37 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getInventorySignal(output);
-        emit getInventorySignalFull(worker, output);
+        Q_EMIT getInventorySignal(output);
+        Q_EMIT getInventorySignalFull(worker, output);
     } else {
-        emit getInventorySignalE(output, error_type, error_str);
-        emit getInventorySignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT getInventorySignalE(output, error_type, error_str);
+        Q_EMIT getInventorySignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT getInventorySignalError(output, error_type, error_str);
+        Q_EMIT getInventorySignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -379,7 +431,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -397,11 +449,37 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit getOrderByIdSignal(output);
-        emit getOrderByIdSignalFull(worker, output);
+        Q_EMIT getOrderByIdSignal(output);
+        Q_EMIT getOrderByIdSignalFull(worker, output);
     } else {
-        emit getOrderByIdSignalE(output, error_type, error_str);
-        emit getOrderByIdSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT getOrderByIdSignalE(output, error_type, error_str);
+        Q_EMIT getOrderByIdSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT getOrderByIdSignalError(output, error_type, error_str);
+        Q_EMIT getOrderByIdSignalErrorFull(worker, error_type, error_str);
     }
 }
 
@@ -433,7 +511,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &pfx_order) {
     connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater);
     connect(worker, &QObject::destroyed, this, [this]() {
         if (findChildren<PFXHttpRequestWorker*>().count() == 0) {
-            emit allPendingRequestsCompleted();
+            Q_EMIT allPendingRequestsCompleted();
         }
     });
 
@@ -451,11 +529,37 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
     worker->deleteLater();
 
     if (worker->error_type == QNetworkReply::NoError) {
-        emit placeOrderSignal(output);
-        emit placeOrderSignalFull(worker, output);
+        Q_EMIT placeOrderSignal(output);
+        Q_EMIT placeOrderSignalFull(worker, output);
     } else {
-        emit placeOrderSignalE(output, error_type, error_str);
-        emit placeOrderSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+// For MSVC
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#elif defined(__clang__)
+// For Clang
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#elif defined(__GNUC__)
+// For GCC
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+        Q_EMIT placeOrderSignalE(output, error_type, error_str);
+        Q_EMIT placeOrderSignalEFull(worker, error_type, error_str);
+
+#if defined(_MSC_VER)
+#pragma warning(pop)
+#elif defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
+
+        Q_EMIT placeOrderSignalError(output, error_type, error_str);
+        Q_EMIT placeOrderSignalErrorFull(worker, error_type, error_str);
     }
 }
 

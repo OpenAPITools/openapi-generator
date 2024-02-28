@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -34,7 +35,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     public static final String FOLDER_STRATEGY_DEFAULT_VALUE = "Tags";
     // Select whether to create Postman variables for path templates
     public static final String PATH_PARAMS_AS_VARIABLES = "pathParamsAsVariables";
-    public static final Boolean PATH_PARAMS_AS_VARIABLES_DEFAULT_VALUE = true;
+    public static final Boolean PATH_PARAMS_AS_VARIABLES_DEFAULT_VALUE = false;
 
     public static final String POSTMAN_FILE_DEFAULT_VALUE = "postman.json";
 
@@ -74,9 +75,9 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
 
     // operations grouped by tag
-    protected Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
+    public Map<String, List<CodegenOperation>> codegenOperationsByTag = new HashMap<>();
     // list of operations
-    protected List<CodegenOperation> codegenOperationsList = new ArrayList<>();
+    public List<CodegenOperation> codegenOperationsList = new ArrayList<>();
 
     /**
      * Configures the type of generator.
@@ -130,11 +131,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
+        // create Postman variable from every path parameter
         if(pathParamsAsVariables && parameter.isPathParam) {
             variables.add(new PostmanVariable()
                     .addName(parameter.paramName)
                     .addType(mapToPostmanType(parameter.dataType))
-                    .addExample(parameter.example));
+                    .addeDefaultValue(parameter.defaultValue));
         }
     }
 
@@ -151,7 +153,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             variables.entrySet().stream().forEach(serverVariableEntry -> this.variables.add(new PostmanVariable()
                     .addName(serverVariableEntry.getKey())
                     .addType("string")
-                    .addExample(serverVariableEntry.getValue().getDefault())));
+                    .addeDefaultValue(serverVariableEntry.getValue().getDefault())));
         }
 
         return super.fromServerVariables(variables);
@@ -215,8 +217,14 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         for(CodegenOperation codegenOperation : opList) {
 
+            // use Postman notation for path parameter
+            codegenOperation.path = replacesBracesInPath(codegenOperation.path);
+
             if(pathParamsAsVariables) {
-                codegenOperation.path = doubleCurlyBraces(codegenOperation.path);
+                // set value of path parameter with corresponding env variable
+                for(CodegenParameter codegenParameter : codegenOperation.pathParams) {
+                    codegenParameter.defaultValue = "{{" + codegenParameter.paramName + "}}";
+                }
             }
 
             codegenOperation.summary = getSummary(codegenOperation);
@@ -226,6 +234,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // produces mediaType as `Accept` header (use first mediaType only)
                 String mediaType = codegenOperation.produces.get(0).get("mediaType");
                 CodegenParameter acceptHeader = new CodegenParameter();
+                acceptHeader.baseName = "Accept";
                 acceptHeader.paramName = "Accept";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -237,6 +246,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 // consumes mediaType as `Content-Type` header (use first mediaType only)
                 String mediaType = codegenOperation.consumes.get(0).get("mediaType");
                 CodegenParameter contentTypeHeader = new CodegenParameter();
+
+                contentTypeHeader.baseName = "Content-Type";
                 contentTypeHeader.paramName = "Content-Type";
                 CodegenProperty schema = new CodegenProperty();
                 schema.defaultValue = mediaType;
@@ -300,7 +311,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * The map groups the CodegenOperations by tag as defined in the OpenAPI spec
      * @param codegenOperation Codegen operation instance
      */
-    void addToMap(CodegenOperation codegenOperation){
+    public void addToMap(CodegenOperation codegenOperation){
 
         String key = null;
         if(codegenOperation.tags == null || codegenOperation.tags.isEmpty()) {
@@ -318,10 +329,16 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         codegenOperationsByTag.put(key, list);
 
+        // sort requests by path
+        Collections.sort(list, Comparator.comparing(obj -> obj.path));
     }
 
-    void addToList(CodegenOperation codegenOperation) {
+    public void addToList(CodegenOperation codegenOperation) {
+
         codegenOperationsList.add(codegenOperation);
+
+        // sort requests by path
+        Collections.sort(codegenOperationsList, Comparator.comparing(obj -> obj.path));
     }
 
     String getResponseBody(CodegenResponse codegenResponse) {
@@ -398,7 +415,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 variables.add(new PostmanVariable()
                         .addName(var)
                         .addType("string")
-                        .addExample(""));
+                        .addeDefaultValue(""));
             }
         }
 
@@ -460,6 +477,24 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     }
 
     /**
+     * Return the default value of the property
+     * <p>
+     * Return null when the default is not defined
+     *
+     * @param schema Property schema
+     * @return string presentation of the default value of the property
+     */
+    @SuppressWarnings("static-method")
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        }
+
+        return null;
+    }
+
+    /**
      * Escape single and/or double quote to avoid code injection
      *
      * @param input String to be cleaned up
@@ -470,15 +505,13 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         return input.replace("\"", "\\\"");
     }
 
-    public String doubleCurlyBraces(String str) {
+    // convert path from /users/{id} to /users/:id
+    String replacesBracesInPath(String path) {
 
-        // remove doublebraces first
-        String s = str.replace("{{", "{").replace("}}", "}");
-        // change all singlebraces to doublebraces
-        s = s.replace("{", "{{").replace("}", "}}");
+        String s = path.replace("{", ":");
+        s = s.replace("}", "");
 
         return s;
-
     }
 
     public String extractExampleByName(String ref) {
@@ -567,9 +600,10 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
      * @return Formatted text
      */
     public String formatDescription(String description) {
-
-        description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
-        description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        if (description != null) {
+            description = description.replace("\n", JSON_ESCAPE_NEW_LINE);
+            description = description.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        }
 
         return description;
     }
@@ -776,7 +810,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
 
         private String name;
         private String type;
-        private String example;
+        private String defaultValue;
 
         public PostmanVariable addName(String name) {
             this.name = name;
@@ -788,8 +822,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return this;
         }
 
-        public PostmanVariable addExample(String example) {
-            this.example = example;
+        public PostmanVariable addeDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
             return this;
         }
 
@@ -809,12 +843,12 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             this.type = type;
         }
 
-        public String getExample() {
-            return example;
+        public String getDefaultValue() {
+            return defaultValue;
         }
 
-        public void setExample(String example) {
-            this.example = example;
+        public void setDefaultValue(String defaultValue) {
+            this.defaultValue = defaultValue;
         }
 
         @Override
@@ -835,7 +869,7 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             return "PostmanVariable{" +
                     "name='" + name + '\'' +
                     ", type='" + type + '\'' +
-                    ", example='" + example + '\'' +
+                    ", defaultValue='" + defaultValue + '\'' +
                     '}';
         }
     }

@@ -38,9 +38,18 @@ commands: # a reusable command with parameters
       - run:
           command: 'sudo docker info >/dev/null 2>&1 || sudo service docker start; '
       - run:
-          command: |-
-            printf '127.0.0.1       petstore.swagger.io
-            ' | sudo tee -a /etc/hosts
+          command: |
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       path.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     path.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       operation.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     operation.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v1.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       server.v2.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.111     server.v3.test.openapi-generator.tech"
+            sudo tee -a /etc/hosts \<<< "127.0.0.1       petstore.swagger.io"
+            cat /etc/hosts
       #    - run: docker pull openapitools/openapi-petstore
       #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
       - run: docker pull swaggerapi/petstore
@@ -48,54 +57,43 @@ commands: # a reusable command with parameters
       - run: docker ps -a
       - run: sleep 30
       - run: cat /etc/hosts
-      # Test
-      - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      - run: export MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m"
       - run:
           name: "Setup custom environment variables"
           command: echo 'export CIRCLE_NODE_INDEX="<<parameters.nodeNo>>"' >> $BASH_ENV
       - run: ./CI/circle_parallel.sh
       # Save dependency cache
-      - save_cache:
-          key: source-v2-{{ .Branch }}-{{ .Revision }}
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/.nvm
-            - ~/.pyenv
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
-      # save "default" cache using the key "source-v2-"
-      - save_cache:
-          key: source-v2-
-          paths:
-            # This is a broad list of cache paths to include many possible development environments
-            # You can probably delete some of these entries
-            - vendor/bundle
-            - ~/.nvm
-            - ~/.pyenv
-            - ~/virtualenvs
-            - ~/.m2
-            - ~/.ivy2
-            - ~/.sbt
-            - ~/.bundle
-            - ~/.go_workspace
-            - ~/.gradle
-            - ~/.cache/bower
-            - ".git"
-            - ~/.stack
-            - /home/circleci/OpenAPITools/openapi-generator/samples/client/petstore/haskell-http-client/.stack-work
-            - ~/R
+      #- save_cache:
+      #    key: source-v2-{{ .Branch }}-{{ .Revision }}
+      #    paths:
+      #      # This is a broad list of cache paths to include many possible development environments
+      #      # You can probably delete some of these entries
+      #      - ~/.m2
+      #      - ~/.ivy2
+      #      - ~/.sbt
+      #      - ~/.bundle
+      #      - ~/.go_workspace
+      #      - ~/.gradle
+      #      - ".git"
+      #      - ~/.stack
+      #      - ~/R
+      ## save "default" cache using the key "source-v2-"
+      #- save_cache:
+      #    key: source-v2-
+      #    paths:
+      #      # This is a broad list of cache paths to include many possible development environments
+      #      # You can probably delete some of these entries
+      #      - vendor/bundle
+      #      - ~/.m2
+      #      - ~/.ivy2
+      #      - ~/.sbt
+      #      - ~/.bundle
+      #      - ~/.go_workspace
+      #      - ~/.gradle
+      #      - ~/.cache/bower
+      #      - ".git"
+      #      - ~/.stack
+      #      - ~/R
       # Teardown
       #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
       # Save test results
@@ -194,20 +192,6 @@ jobs:
       - checkout
       - command_build_and_test:
           nodeNo: "3"
-  node4:
-    docker:
-      - image: fkrull/multi-python
-    working_directory: ~/OpenAPITools/openapi-generator
-    shell: /bin/bash --login
-    environment:
-      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      DOCKER_GENERATOR_IMAGE_NAME: openapitools/openapi-generator
-      DOCKER_CODEGEN_CLI_IMAGE_NAME: openapitools/openapi-generator-cli
-    steps:
-      - checkout
-      - command_docker_build_and_test:
-          nodeNo: "4"
 workflows:
   version: 2
   build:
@@ -216,4 +200,3 @@ workflows:
       - node1
       - node2
       - node3
-      - node4

@@ -1,11 +1,17 @@
 package org.openapitools.client.api;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.openapitools.client.ApiClient;
+import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * API tests for UserApi
@@ -15,7 +21,7 @@ class UserApiTest {
     private UserApi api;
 
     @BeforeEach
-    void setup() {
+    public void setup() {
         api = new ApiClient().buildClient(UserApi.class);
     }
 
@@ -27,8 +33,8 @@ class UserApiTest {
      */
     @Test
     void createUserTest() {
-        User body = null;
-        // api.createUser(body);
+        User user = null;
+        // api.createUser(user);
 
         // TODO: test validations
     }
@@ -41,8 +47,8 @@ class UserApiTest {
      */
     @Test
     void createUsersWithArrayInputTest() {
-        List<User> body = null;
-        // api.createUsersWithArrayInput(body);
+        List<User> user = null;
+        // api.createUsersWithArrayInput(user);
 
         // TODO: test validations
     }
@@ -55,8 +61,8 @@ class UserApiTest {
      */
     @Test
     void createUsersWithListInputTest() {
-        List<User> body = null;
-        // api.createUsersWithListInput(body);
+        List<User> user = null;
+        // api.createUsersWithListInput(user);
 
         // TODO: test validations
     }
@@ -143,8 +149,8 @@ class UserApiTest {
     @Test
     void updateUserTest() {
         String username = null;
-        User body = null;
-        // api.updateUser(username, body);
+        User user = null;
+        // api.updateUser(username, user);
 
         // TODO: test validations
     }

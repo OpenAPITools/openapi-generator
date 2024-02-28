@@ -13,17 +13,21 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 
 import jakarta.ws.rs.*;
@@ -37,6 +41,11 @@ import jakarta.validation.Valid;
 @Path("/fake")
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
 public interface FakeService {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    FakeBigDecimalMap200Response fakeBigDecimalMap();
 
     @GET
     @Path("/health")
@@ -78,6 +87,11 @@ public interface FakeService {
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
 
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody);
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
@@ -104,7 +118,7 @@ public interface FakeService {
 
     @GET
     @Consumes({ "application/x-www-form-urlencoded" })
-    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<EnumClass> enumQueryModelArray, @FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray, @FormParam(value = "enum_form_string")  String enumFormString);
+    void testEnumParameters(@HeaderParam("enum_header_string_array")  List<String> enumHeaderStringArray, @HeaderParam("enum_header_string")  @DefaultValue("-efg") String enumHeaderString, @QueryParam("enum_query_string_array") List<String> enumQueryStringArray, @QueryParam("enum_query_string") @DefaultValue("-efg") String enumQueryString, @QueryParam("enum_query_integer") Integer enumQueryInteger, @QueryParam("enum_query_double") Double enumQueryDouble, @QueryParam("enum_query_model_array") List<@Valid EnumClass> enumQueryModelArray, @FormParam(value = "enum_form_string_array")  List<String> enumFormStringArray, @FormParam(value = "enum_form_string")  String enumFormString);
 
     @DELETE
     void testGroupParameters(@QueryParam("required_string_group") @NotNull Integer requiredStringGroup, @HeaderParam("required_boolean_group") @NotNull  Boolean requiredBooleanGroup, @QueryParam("required_int64_group") @NotNull Long requiredInt64Group, @QueryParam("string_group") Integer stringGroup, @HeaderParam("boolean_group")  Boolean booleanGroup, @QueryParam("int64_group") Long int64Group);
@@ -114,12 +128,27 @@ public interface FakeService {
     @Consumes({ "application/json" })
     void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> requestBody);
 
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    void testInlineFreeformAdditionalProperties(@Valid @NotNull TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
     @GET
     @Path("/jsonFormData")
     @Consumes({ "application/x-www-form-urlencoded" })
     void testJsonFormData(@FormParam(value = "param")  String param, @FormParam(value = "param2")  String param2);
 
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    void testNullable(@Valid @NotNull ChildWithNullable childWithNullable);
+
     @PUT
     @Path("/test-query-parameters")
     void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context, @QueryParam("allowEmpty") @NotNull String allowEmpty, @QueryParam("language") Map<String, String> language);
+
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    void testStringMapReference(@Valid @NotNull Map<String, String> requestBody);
 }

@@ -2,11 +2,9 @@ analyzer:
   language:
     strict-inference: true
     strict-raw-types: true
-  strong-mode:
-    implicit-dynamic: false
-    implicit-casts: false
+    strict-casts: false
   exclude:
     - test/*.dart{{#useJsonSerializable}}
-    - lib/src/model/*.g.dart{{/useJsonSerializable}}
+    - lib/{{sourceFolder}}/model/*.g.dart{{/useJsonSerializable}}
   errors:
     deprecated_member_use_from_same_package: ignore

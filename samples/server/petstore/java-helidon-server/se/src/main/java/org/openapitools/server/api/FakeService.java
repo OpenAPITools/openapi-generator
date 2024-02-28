@@ -1,12 +1,15 @@
 package org.openapitools.server.api;
 
 import java.math.BigDecimal;
+import org.openapitools.server.model.ChildWithNullable;
 import org.openapitools.server.model.Client;
 import org.openapitools.server.model.EnumClass;
+import org.openapitools.server.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.server.model.FileSchemaTestClass;
 import io.helidon.webserver.Handler;
 import org.openapitools.server.model.HealthCheckResult;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +17,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.server.model.OuterComposite;
 import org.openapitools.server.model.OuterObjectWithEnumProperty;
 import org.openapitools.server.model.Pet;
+import org.openapitools.server.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.server.model.User;
 
 import io.helidon.webserver.Routing;
@@ -29,6 +33,7 @@ public interface FakeService extends Service {
      */
     @Override
     default void update(Routing.Rules rules) {
+        rules.get("/fake/BigDecimalMap", this::fakeBigDecimalMap);
         rules.get("/fake/health", this::fakeHealthGet);
         rules.get("/fake/http-signature-test", Handler.create(Pet.class, this::fakeHttpSignatureTest));
         rules.post("/fake/outer/boolean", this::fakeOuterBooleanSerialize);
@@ -36,6 +41,7 @@ public interface FakeService extends Service {
         rules.post("/fake/outer/number", this::fakeOuterNumberSerialize);
         rules.post("/fake/outer/string", this::fakeOuterStringSerialize);
         rules.post("/fake/property/enum-int", Handler.create(OuterObjectWithEnumProperty.class, this::fakePropertyEnumIntegerSerialize));
+        rules.post("/fake/additionalProperties-reference", this::testAdditionalPropertiesReference);
         rules.put("/fake/body-with-binary", this::testBodyWithBinary);
         rules.put("/fake/body-with-file-schema", Handler.create(FileSchemaTestClass.class, this::testBodyWithFileSchema));
         rules.put("/fake/body-with-query-params", Handler.create(User.class, this::testBodyWithQueryParams));
@@ -44,10 +50,20 @@ public interface FakeService extends Service {
         rules.get("/fake", this::testEnumParameters);
         rules.delete("/fake", this::testGroupParameters);
         rules.post("/fake/inline-additionalProperties", this::testInlineAdditionalProperties);
+        rules.post("/fake/inline-freeform-additionalProperties", Handler.create(TestInlineFreeformAdditionalPropertiesRequest.class, this::testInlineFreeformAdditionalProperties));
         rules.get("/fake/jsonFormData", this::testJsonFormData);
+        rules.post("/fake/nullable", Handler.create(ChildWithNullable.class, this::testNullable));
         rules.put("/fake/test-query-parameters", this::testQueryParameterCollectionFormat);
+        rules.post("/fake/stringMap-reference", this::testStringMapReference);
     }
 
+
+    /**
+     * GET /fake/BigDecimalMap.
+     * @param request the server request
+     * @param response the server response
+     */
+    void fakeBigDecimalMap(ServerRequest request, ServerResponse response);
 
     /**
      * GET /fake/health : Health check endpoint.
@@ -100,6 +116,13 @@ public interface FakeService extends Service {
      * @param outerObjectWithEnumProperty Input enum (int) as post body 
      */
     void fakePropertyEnumIntegerSerialize(ServerRequest request, ServerResponse response, OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+    /**
+     * POST /fake/additionalProperties-reference : test referenced additionalProperties.
+     * @param request the server request
+     * @param response the server response
+     */
+    void testAdditionalPropertiesReference(ServerRequest request, ServerResponse response);
 
     /**
      * PUT /fake/body-with-binary.
@@ -161,6 +184,14 @@ public interface FakeService extends Service {
     void testInlineAdditionalProperties(ServerRequest request, ServerResponse response);
 
     /**
+     * POST /fake/inline-freeform-additionalProperties : test inline free-form additionalProperties.
+     * @param request the server request
+     * @param response the server response
+     * @param testInlineFreeformAdditionalPropertiesRequest request body 
+     */
+    void testInlineFreeformAdditionalProperties(ServerRequest request, ServerResponse response, TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest);
+
+    /**
      * GET /fake/jsonFormData : test json serialization of form data.
      * @param request the server request
      * @param response the server response
@@ -168,10 +199,25 @@ public interface FakeService extends Service {
     void testJsonFormData(ServerRequest request, ServerResponse response);
 
     /**
+     * POST /fake/nullable : test nullable parent property.
+     * @param request the server request
+     * @param response the server response
+     * @param childWithNullable request body 
+     */
+    void testNullable(ServerRequest request, ServerResponse response, ChildWithNullable childWithNullable);
+
+    /**
      * PUT /fake/test-query-parameters.
      * @param request the server request
      * @param response the server response
      */
     void testQueryParameterCollectionFormat(ServerRequest request, ServerResponse response);
+
+    /**
+     * POST /fake/stringMap-reference : test referenced string map.
+     * @param request the server request
+     * @param response the server response
+     */
+    void testStringMapReference(ServerRequest request, ServerResponse response);
 
 }

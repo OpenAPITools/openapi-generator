@@ -13,47 +13,41 @@ class Pet
     /**
      * @DTA\Data(field="id", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"int"})
-     * @var int|null
      */
-    public $id;
+    public ?int $id = null;
 
     /**
      * @DTA\Data(field="category", nullable=true)
      * @DTA\Strategy(name="Object", options={"type":\App\DTO\Category::class})
      * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Category::class})
-     * @var \App\DTO\Category|null
      */
-    public $category;
+    public ?\App\DTO\Category $category = null;
 
     /**
      * @DTA\Data(field="name")
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $name;
+    public ?string $name = null;
 
     /**
      * @DTA\Data(field="photoUrls")
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection32::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection32::class})
-     * @var \App\DTO\Collection32|null
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection::class})
      */
-    public $photo_urls;
+    public ?\App\DTO\Collection $photo_urls = null;
 
     /**
      * @DTA\Data(field="tags", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection33::class})
-     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection33::class})
-     * @var \App\DTO\Collection33|null
+     * @DTA\Strategy(name="Object", options={"type":\App\DTO\Collection1::class})
+     * @DTA\Validator(name="TypeCompliant", options={"type":\App\DTO\Collection1::class})
      */
-    public $tags;
+    public ?\App\DTO\Collection1 $tags = null;
 
     /**
      * pet status in the store
      * @DTA\Data(field="status", nullable=true)
      * @DTA\Validator(name="Scalar", options={"type":"string"})
-     * @var string|null
      */
-    public $status;
+    public ?string $status = null;
 
 }

@@ -80,7 +80,7 @@ afterEvaluate {
         def task = project.tasks.create "jar${variant.name.capitalize()}", Jar
         task.description = "Create jar artifact for ${variant.name}"
         task.dependsOn variant.javaCompile
-        task.from variant.javaCompile.destinationDir
+        task.from variant.javaCompile.destinationDirectory
         task.destinationDirectory = project.file("${project.buildDir}/outputs/jar")
         task.archiveFileName = "${project.name}-${variant.baseName}-${version}.jar"
         artifacts.add('archives', task);

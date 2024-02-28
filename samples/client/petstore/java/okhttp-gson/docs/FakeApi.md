@@ -4,12 +4,14 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint |
 | [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean |  |
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
-| [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
+| [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
+| [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
+| [**testAdditionalPropertiesReference**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
 | [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema |  |
 | [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params |  |
 | [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model |
@@ -17,65 +19,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters |
 | [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional) |
 | [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties |
+| [**testInlineFreeformAdditionalProperties**](FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
+| [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
-
-<a id="fakeHealthGet"></a>
-# **fakeHealthGet**
-> HealthCheckResult fakeHealthGet()
-
-Health check endpoint
-
-### Example
-```java
-// Import classes:
-import org.openapitools.client.ApiClient;
-import org.openapitools.client.ApiException;
-import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
-import org.openapitools.client.api.FakeApi;
-
-public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
-
-    FakeApi apiInstance = new FakeApi(defaultClient);
-    try {
-      HealthCheckResult result = apiInstance.fakeHealthGet();
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#fakeHealthGet");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
-    }
-  }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**HealthCheckResult**](HealthCheckResult.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
 
 <a id="fakeOuterBooleanSerialize"></a>
 # **fakeOuterBooleanSerialize**
@@ -325,9 +273,9 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
 
-<a id="getArrayOfEnums"></a>
-# **getArrayOfEnums**
-> List&lt;OuterEnum&gt; getArrayOfEnums()
+<a id="getFakeArrayofenums"></a>
+# **getFakeArrayofenums**
+> List&lt;OuterEnum&gt; getFakeArrayofenums()
 
 Array of Enums
 
@@ -347,10 +295,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      List<OuterEnum> result = apiInstance.getArrayOfEnums();
+      List<OuterEnum> result = apiInstance.getFakeArrayofenums();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#getArrayOfEnums");
+      System.err.println("Exception when calling FakeApi#getFakeArrayofenums");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -380,6 +328,186 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Got named array of enums |  -  |
+
+<a id="getFakeHealth"></a>
+# **getFakeHealth**
+> HealthCheckResult getFakeHealth()
+
+Health check endpoint
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    try {
+      HealthCheckResult result = apiInstance.getFakeHealth();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getFakeHealth");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**HealthCheckResult**](HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | The instance started successfully |  -  |
+
+<a id="getParameterNameMapping"></a>
+# **getParameterNameMapping**
+> getParameterNameMapping(underscoreType, type, typeWithUnderscore)
+
+parameter name mapping test
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long underscoreType = 56L; // Long | _type
+    String type = "type_example"; // String | type
+    String typeWithUnderscore = "typeWithUnderscore_example"; // String | type_
+    try {
+      apiInstance.getParameterNameMapping(underscoreType, type, typeWithUnderscore);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#getParameterNameMapping");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **underscoreType** | **Long**| _type | |
+| **type** | **String**| type | |
+| **typeWithUnderscore** | **String**| type_ | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | OK |  -  |
+
+<a id="testAdditionalPropertiesReference"></a>
+# **testAdditionalPropertiesReference**
+> testAdditionalPropertiesReference(requestBody)
+
+test referenced additionalProperties
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Map<String, Object> requestBody = null; // Map<String, Object> | request body
+    try {
+      apiInstance.testAdditionalPropertiesReference(requestBody);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testAdditionalPropertiesReference");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requestBody** | [**Map&lt;String, Object&gt;**](Object.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 <a id="testBodyWithFileSchema"></a>
 # **testBodyWithFileSchema**
@@ -876,6 +1004,67 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | successful operation |  -  |
 
+<a id="testInlineFreeformAdditionalProperties"></a>
+# **testInlineFreeformAdditionalProperties**
+> testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest)
+
+test inline free-form additionalProperties
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = new TestInlineFreeformAdditionalPropertiesRequest(); // TestInlineFreeformAdditionalPropertiesRequest | request body
+    try {
+      apiInstance.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testInlineFreeformAdditionalProperties");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **testInlineFreeformAdditionalPropertiesRequest** | [**TestInlineFreeformAdditionalPropertiesRequest**](TestInlineFreeformAdditionalPropertiesRequest.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
+
 <a id="testJsonFormData"></a>
 # **testJsonFormData**
 > testJsonFormData(param, param2)
@@ -1007,4 +1196,65 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
+
+<a id="testStringMapReference"></a>
+# **testStringMapReference**
+> testStringMapReference(requestBody)
+
+test referenced string map
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Map<String, String> requestBody = new HashMap(); // Map<String, String> | request body
+    try {
+      apiInstance.testStringMapReference(requestBody);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#testStringMapReference");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 

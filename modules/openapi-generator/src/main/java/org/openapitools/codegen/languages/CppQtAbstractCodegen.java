@@ -129,6 +129,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");
+
+        reservedWords.add("signals");
+        reservedWords.add("slots");
     }
 
     @Override
@@ -190,7 +193,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isBinarySchema(p)) {
             return getSchemaType(p);
@@ -226,7 +229,7 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = getAdditionalProperties(p);
+            Schema inner = ModelUtils.getAdditionalProperties(p);
             return "QMap<QString, " + getTypeDeclaration(inner) + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

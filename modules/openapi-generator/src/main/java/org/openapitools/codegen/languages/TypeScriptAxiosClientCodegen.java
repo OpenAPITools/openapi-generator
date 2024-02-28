@@ -210,7 +210,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -225,6 +225,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         for (ModelMap mo  : models) {
             CodegenModel cm = mo.getModel();
+
+            // Type is already any
+            if (cm.getAdditionalPropertiesIsAnyType() && "any".equals(cm.getAdditionalPropertiesType())) {
+                cm.setAdditionalPropertiesIsAnyType(false);
+            }
 
             // Deduce the model file name in kebab case
             cm.classFilename = cm.classname.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT);
@@ -313,7 +318,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     }
 
     @Override
-    protected void addImport(ComposedSchema composed, Schema childSchema, CodegenModel model, String modelName) {
+    protected void addImport(Schema composed, Schema childSchema, CodegenModel model, String modelName) {
         // import everything (including child schema of a composed schema)
         addImport(model, modelName);
     }

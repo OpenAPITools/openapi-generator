@@ -24,7 +24,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |org.openapitools.api|
 |artifactId|artifactId in generated pom.xml. This also becomes part of the generated library's filename| |openapi-groovy|
-|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename| |1.0.0|
+|artifactVersion|artifact version in generated pom.xml. This also becomes part of the generated library's filename. If not provided, uses the version from the OpenAPI specification file. If that's also not present, uses the default value of the artifactVersion option.| |1.0.0|
 |bigDecimalAsString|Treat BigDecimal values as Strings to avoid precision loss.| |false|
 |booleanGetterPrefix|Set booleanGetterPrefix| |get|
 |camelCaseDollarSign|Fix camelCase when starting with $ sign. when true : $Value when false : $value| |false|
@@ -123,6 +123,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>File</li>
 <li>Float</li>
 <li>Integer</li>
+<li>List</li>
 <li>Long</li>
 <li>Map</li>
 <li>Object</li>
@@ -168,7 +169,9 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>int</li>
 <li>interface</li>
 <li>list</li>
+<li>localdate</li>
 <li>localreturntype</li>
+<li>localtime</li>
 <li>localvaraccept</li>
 <li>localvaraccepts</li>
 <li>localvarauthnames</li>
@@ -186,6 +189,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>new</li>
 <li>null</li>
 <li>object</li>
+<li>offsetdatetime</li>
 <li>package</li>
 <li>private</li>
 <li>protected</li>
@@ -317,6 +321,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -11,10 +11,10 @@ info:
 servers:
 - url: http://localhost:3000/
 paths:
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       description: Test path parameter(s)
-      operationId: "tests/path/string/{path_string}/integer/{path_integer}"
+      operationId: "tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}"
       parameters:
       - explode: false
         in: path
@@ -29,6 +29,24 @@ paths:
         required: true
         schema:
           type: integer
+        style: simple
+      - explode: false
+        in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: simple
+      - explode: false
+        in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
         style: simple
       responses:
         "200":
@@ -62,10 +80,31 @@ paths:
       - form
       x-content-type: application/x-www-form-urlencoded
       x-accepts: text/plain
-  /header/integer/boolean/string:
+  /form/oneof:
+    post:
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/test_form_oneof_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test form parameter(s) for oneOf schema
+      tags:
+      - form
+      x-content-type: application/x-www-form-urlencoded
+      x-accepts: text/plain
+  /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - explode: true
         in: header
@@ -88,6 +127,24 @@ paths:
         schema:
           type: string
         style: form
+      - explode: true
+        in: header
+        name: enum_nonref_string_header
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
+      - explode: true
+        in: header
+        name: enum_ref_string_header
+        required: false
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
+        style: form
       responses:
         "200":
           content:
@@ -104,6 +161,17 @@ paths:
       description: Test query parameter(s)
       operationId: test/enum_ref_string
       parameters:
+      - explode: true
+        in: query
+        name: enum_nonref_string_query
+        required: false
+        schema:
+          enum:
+          - success
+          - failure
+          - unclassified
+          type: string
+        style: form
       - explode: true
         in: query
         name: enum_ref_string_query
@@ -209,6 +277,56 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/test_query_style_form_explode_true_array_string_query_object_parameter'
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_form/explode_false/array_integer:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: integer
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test query parameter(s)
+      tags:
+      - query
+      x-accepts: text/plain
+  /query/style_form/explode_false/array_string:
+    get:
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+      - explode: false
+        in: query
+        name: query_object
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
         style: form
       responses:
         "200":
@@ -353,6 +471,24 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: application/json
+  /echo/body/allOf/Pet:
+    post:
+      description: Test body parameter(s)
+      operationId: test/echo/body/allOf/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/AllOfPet'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: Successful operation
+      summary: Test body parameter(s)
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: application/json
   /echo/body/Pet/response_string:
     post:
       description: Test empty response body
@@ -411,6 +547,28 @@ paths:
       - body
       x-content-type: application/json
       x-accepts: text/plain
+  /echo/body/string_enum:
+    post:
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
+          description: Successful operation
+      summary: Test string enum response body
+      tags:
+      - body
+      x-content-type: application/json
+      x-accepts: application/json
   /binary/gif:
     post:
       description: Test binary (gif) response body
@@ -427,6 +585,82 @@ paths:
       tags:
       - body
       x-accepts: image/gif
+  /body/application/octetstream/single_binary:
+    post:
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_single_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test single binary in multipart mime
+      tags:
+      - body
+      x-content-type: multipart/form-data
+      x-accepts: text/plain
+  /body/application/octetstream/array_of_binary:
+    post:
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/test_body_multipart_formdata_array_of_binary_request'
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      summary: Test array of binary in multipart mime
+      tags:
+      - body
+      x-content-type: multipart/form-data
+      x-accepts: text/plain
+  /auth/http/basic:
+    post:
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_auth: []
+      summary: To test HTTP basic authentication
+      tags:
+      - auth
+      x-accepts: text/plain
+  /auth/http/bearer:
+    post:
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Successful operation
+      security:
+      - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      tags:
+      - auth
+      x-accepts: text/plain
 components:
   requestBodies:
     Pet:
@@ -434,6 +668,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    AllOfPet:
+      content:
+        application/json:
+          schema:
+            allOf:
+            - $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
     Tag:
       content:
@@ -610,7 +851,19 @@ components:
       x-parent: true
     DataQuery:
       allOf:
-      - $ref: '#/components/schemas/DataQuery_allOf'
+      - properties:
+          suffix:
+            description: test suffix
+            type: string
+          text:
+            description: Some text containing white spaces
+            example: Some text
+            type: string
+          date:
+            description: A date
+            format: date-time
+            type: string
+        type: object
       - $ref: '#/components/schemas/Query'
     NumberPropertiesOnly:
       properties:
@@ -634,6 +887,26 @@ components:
         string_form:
           type: string
       type: object
+    test_form_oneof_request_oneOf:
+      properties:
+        form1:
+          type: string
+        form2:
+          type: integer
+      type: object
+    test_form_oneof_request_oneOf_1:
+      properties:
+        form3:
+          type: string
+        form4:
+          type: boolean
+      type: object
+    test_form_oneof_request:
+      oneOf:
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf'
+      - $ref: '#/components/schemas/test_form_oneof_request_oneOf_1'
+      - $ref: '#/components/schemas/Tag'
+      type: object
     test_query_style_form_explode_true_array_string_query_object_parameter:
       properties:
         values:
@@ -645,19 +918,27 @@ components:
       allOf:
       - $ref: '#/components/schemas/Bird'
       - $ref: '#/components/schemas/Category'
-    DataQuery_allOf:
+    test_body_multipart_formdata_single_binary_request:
       properties:
-        suffix:
-          description: test suffix
-          type: string
-        text:
-          description: Some text containing white spaces
-          example: Some text
-          type: string
-        date:
-          description: A date
-          format: date-time
+        my-file:
+          format: binary
           type: string
       type: object
-      example: null
+    test_body_multipart_formdata_array_of_binary_request:
+      properties:
+        files:
+          items:
+            format: binary
+            type: string
+          type: array
+      required:
+      - files
+      type: object
+  securitySchemes:
+    http_auth:
+      scheme: basic
+      type: http
+    http_bearer_auth:
+      scheme: bearer
+      type: http
 

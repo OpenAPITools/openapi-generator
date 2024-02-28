@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -26,7 +26,7 @@ class NumberOnly {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is NumberOnly &&
-     other.justNumber == justNumber;
+    other.justNumber == justNumber;
 
   @override
   int get hashCode =>
@@ -65,9 +65,7 @@ class NumberOnly {
       }());
 
       return NumberOnly(
-        justNumber: json[r'JustNumber'] == null
-            ? null
-            : num.parse(json[r'JustNumber'].toString()),
+        justNumber: num.parse('${json[r'JustNumber']}'),
       );
     }
     return null;

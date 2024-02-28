@@ -233,7 +233,7 @@ bool fromStringValue(const QString &inStr, QByteArray &value) {
     } else {
         value.clear();
         value.append(inStr.toUtf8());
-        return value.size() > 0;
+        return !value.isEmpty();
     }
 }
 

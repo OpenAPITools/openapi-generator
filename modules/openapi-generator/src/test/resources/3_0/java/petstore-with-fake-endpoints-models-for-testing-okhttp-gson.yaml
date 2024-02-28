@@ -176,7 +176,8 @@ paths:
                 $ref: '#/components/schemas/Pet'
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'
+                allOf:
+                  - $ref: '#/components/schemas/Pet'
         '400':
           description: Invalid ID supplied
         '404':
@@ -920,6 +921,40 @@ paths:
               required:
                 - param
                 - param2
+  /fake/additionalProperties-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced additionalProperties
+      description: ''
+      operationId: testAdditionalPropertiesReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+  /fake/stringMap-reference:
+    post:
+      tags:
+        - fake
+      summary: test referenced string map
+      description: ''
+      operationId: testStringMapReference
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
   /fake/inline-additionalProperties:
     post:
       tags:
@@ -937,6 +972,27 @@ paths:
               type: object
               additionalProperties:
                 type: string
+        description: request body
+        required: true
+  /fake/inline-freeform-additionalProperties:
+    post:
+      tags:
+        - fake
+      summary: test inline free-form additionalProperties
+      description: ''
+      operationId: testInlineFreeformAdditionalProperties
+      responses:
+        '200':
+          description: successful operation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                someProperty:
+                  type: string
+              additionalProperties: true
         description: request body
         required: true
   /fake/body-with-query-params:
@@ -1109,6 +1165,150 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/parameter-name-mapping:
+    get:
+      tags:
+        - fake
+      summary: parameter name mapping test
+      operationId: getParameterNameMapping
+      parameters:
+        - name: _type
+          in: header 
+          description: _type
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: type
+          in: query
+          description: type
+          required: true
+          schema:
+            type: string
+        - name: type_
+          in: header 
+          description: type_
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+  /fake/parameter-string-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter string number
+      operationId: getParameterStringNumber
+      parameters:
+        - name: string_number
+          in: header 
+          description: string number
+          required: true
+          schema:
+            type: string
+            format: number
+      responses:
+        200:
+          description: OK
+  /fake/parameter-array-number:
+    get:
+      tags:
+        - another_fake
+      summary: parameter array number default value
+      operationId: getParameterArrayNumber
+      parameters:
+        - name: array
+          in: header
+          description: array integer
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+            default:
+              - 1
+      responses:
+        200:
+          description: OK
+  /fake/null-request-body:
+    get:
+      tags:
+        - another_fake
+      summary: null request body
+      operationId: null-request-body
+      parameters:
+        - name: Accept-Language
+          in: header
+          schema:
+            type: string
+            example: application/json
+      requestBody:
+        content:
+          text/plain:
+            examples:
+              Generar Orden por External ID:
+                value: |-
+                  {
+                      "external_reference": "{{external_order_ref}}",
+                      "notification_url": "www.yourserver.com/yourendpoint",
+                      "sponsor_id": 446566691,
+                      "items": [
+                          {
+                              "title": "Papas frita",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 6000,
+                              "quantity": 1
+                          },
+                          {
+                              "title": "Gaseosa",
+                              "currency_id": "{{currency_id}}",
+                              "unit_price": 3000,
+                              "quantity": 1
+                          }
+                      ]/*,
+                      "taxes": [
+                          {
+                              "value": 0,
+                              "type": "IVA"
+                          }
+                      ]*/
+                  }
+      responses:
+        '200':
+          description: ''
+  /values:
+    get:
+      tags:
+        - values
+      summary: Get some primitive variable values
+      description: ''
+      operationId: getSomeValues
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
+  /internal/only:
+    get:
+      x-internal: true
+      tags:
+        - values
+      summary: internal only
+      description: ''
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Variable'
+        '400':
+          description: Invalid Value
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1163,7 +1363,8 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Pet'
+            allOf:
+              - $ref: '#/components/schemas/Pet'
         application/xml:
           schema:
             $ref: '#/components/schemas/Pet'
@@ -1726,6 +1927,15 @@ components:
             enum:
               - fish
               - crab
+    FreeFormObject:
+      type: object
+      description: A schema consisting only of additional properties
+      additionalProperties: true
+    MapOfString:
+      type: object
+      description: A schema consisting only of additional properties of type string
+      additionalProperties:
+        type: string
     OuterEnum:
       nullable: true
       type: string
@@ -1733,6 +1943,8 @@ components:
         - placed
         - approved
         - delivered
+        - s
+        - S
     OuterEnumInteger:
       type: integer
       enum:
@@ -2213,3 +2425,188 @@ components:
           enum:
             - type_a
             - type_b
+    ArrayDefault:
+      properties:
+        WithDefaultEmptyBracket:
+          default: []
+          items:
+            type: string
+          type: array
+        WithoutDefault:
+          items:
+            type: string
+          type: array
+    Variable:
+      description: Value object
+      properties:
+        name:
+          type: string
+          example: 'variable_1'
+        value:
+          $ref: '#/components/schemas/Value'
+      required:
+        - name
+        - value
+    Value:
+      oneOf:
+        - $ref: '#/components/schemas/Scalar'
+        - $ref: '#/components/schemas/Array'
+    Scalar:
+      description: Values of scalar type
+      oneOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
+    ScalarAnyOf:
+      description: Values of scalar type using anyOf
+      anyOf:
+        - type: string
+          maxLength: 1089
+        - type: number
+        - type: boolean
+    Array:
+      description: Values of array type
+      type: array
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/Scalar'
+    NewPet:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category_inline_allof:
+          allOf:
+            - type: object
+              required:
+                - name
+              properties:
+                id:
+                  type: integer
+                  format: int64
+                name:
+                  type: string
+                  default: default-name
+                category_tag:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                    name:
+                      type: string
+        category_allOf_ref:
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+              - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold
+    PropertyNameCollision:
+      x-internal: false
+      type: object
+      properties:
+        _type:
+          type: string
+        type:
+          type: string
+        type_:
+          type: string
+    InteralOnly:
+      type: object
+      x-internal: true
+      properties:
+        type:
+          type: string
+    AllOfModelArrayAnyOf:
+      allOf:
+        - $ref: "#/components/schemas/Category"
+        - type: object
+          properties:
+            linkListColumn1:
+              type: object
+              properties:
+                value:
+                  type: array
+                  items:
+                    anyOf:
+                      - $ref: '#/components/schemas/User'
+                      - $ref: '#/components/schemas/Tag'
+              required:
+                - value
+            attributes:
+              type: object
+              properties:
+                C:
+                  oneOf:
+                  - $ref: '#/components/schemas/Pet'
+                  - $ref: '#/components/schemas/Order'
+    PetUsingAllOf:
+      type: object
+      required:
+        - name
+        - photoUrls
+      properties:
+        id:
+          type: integer
+          format: int64
+          x-is-unique: true
+        category:
+          description: |
+            multi line description
+            2nd line
+            last line
+          allOf:
+            - $ref: '#/components/schemas/Category'
+        name:
+          type: string
+          example: doggie
+        photoUrls:
+          type: array
+          xml:
+            name: photoUrl
+            wrapped: true
+          items:
+            type: string
+        tags:
+          type: array
+          xml:
+            name: tag
+            wrapped: true
+          items:
+            allOf:
+            - $ref: '#/components/schemas/Tag'
+        status:
+          type: string
+          description: pet status in the store
+          enum:
+            - available
+            - pending
+            - sold

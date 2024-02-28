@@ -122,7 +122,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(schema)) {
-            Schema inner = getAdditionalProperties(schema);
+            Schema inner = ModelUtils.getAdditionalProperties(schema);
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
 
@@ -176,6 +176,11 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toVarName(final String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         String varName = sanitizeName(name);
         // if it's all upper case, convert to lower case
         if (name.matches("^[A-Z_]*$")) {
@@ -200,7 +205,26 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     }
 
     @Override
+    public String addRegularExpressionDelimiter(String pattern) {
+        if (StringUtils.isEmpty(pattern)) {
+            return pattern;
+        }
+
+        if (!pattern.matches("^/.*")) {
+            // Perform a negative lookbehind on each `/` to ensure that it is escaped.
+            return "/" + pattern.replaceAll("(?<!\\\\)\\/", "\\\\/") + "/";
+        }
+
+        return pattern;
+    }
+
+    @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // should be the same as variable name
         return toVarName(name);
     }
@@ -265,5 +289,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public GeneratorLanguage generatorLanguage() { return GeneratorLanguage.RUBY; }
+    public GeneratorLanguage generatorLanguage() {
+        return GeneratorLanguage.RUBY;
+    }
 }

@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **uuid** | **string** |  | [optional] 
 **id** | **double** |  | [optional] 
-**deprecated_ref** | [**DeprecatedObject**](DeprecatedObject.md) |  | [optional] 
+**deprecated_ref** | [**DeprecatedModel**](DeprecatedModel.md) |  | [optional] 
 **bars** | **ARRAY[string]** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

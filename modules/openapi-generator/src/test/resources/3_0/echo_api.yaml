@@ -27,17 +27,17 @@ servers:
   - url: http://localhost:3000/
 paths:
   # Path usually starts with parameter type such as path, query, header, form
-  # For body/form parameters, path starts with "/echo" so the the echo server
-  # will response with the same body in the HTTP request.
+  # For body/form parameters, path starts with "/echo" so the echo server
+  # will respond with the same body in the HTTP request.
   #
   # path parameter tests
-  /path/string/{path_string}/integer/{path_integer}:
+  /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}:
     get:
       tags:
         - path 
       summary: Test path parameter(s)
       description: Test path parameter(s)
-      operationId: tests/path/string/{path_string}/integer/{path_integer}
+      operationId: tests/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}
       parameters:
       - in: path 
         name: path_string
@@ -49,6 +49,20 @@ paths:
         required: true
         schema:
           type: integer 
+      - in: path
+        name: enum_nonref_string_path
+        required: true
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: path
+        name: enum_ref_string_path
+        required: true
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -83,14 +97,48 @@ paths:
             text/plain:
               schema:
                 type: string
+  # form parameter tests for oneOf schema
+  /form/oneof:
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for oneOf schema
+      description: Test form parameter(s) for oneOf schema
+      operationId: test/form/oneof
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              oneOf:
+                - type: object
+                  properties:
+                    form1:
+                      type: string
+                    form2:
+                      type: integer
+                - type: object
+                  properties:
+                    form3:
+                      type: string
+                    form4:
+                      type: boolean
+                - $ref: '#/components/schemas/Tag'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # header parameter tests
-  /header/integer/boolean/string:
+  /header/integer/boolean/string/enums:
     get:
       tags:
         - header
       summary: Test header parameter(s)
       description: Test header parameter(s)
-      operationId: test/header/integer/boolean/string
+      operationId: test/header/integer/boolean/string/enums
       parameters:
       - in: header
         name: integer_header
@@ -110,6 +158,22 @@ paths:
         explode: true #default
         schema:
           type: string
+      - in: header
+        name: enum_nonref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
+      - in: header
+        name: enum_ref_string_header
+        style: form #default
+        explode: true #default
+        schema:
+          $ref: '#/components/schemas/StringEnumRef'
       responses:
         '200':
           description: Successful operation
@@ -126,6 +190,16 @@ paths:
       description: Test query parameter(s)
       operationId: test/enum_ref_string
       parameters:
+      - in: query
+        name: enum_nonref_string_query
+        style: form #default
+        explode: true #default
+        schema:
+          type: string
+          enum:
+          - success
+          - failure
+          - unclassified
       - in: query
         name: enum_ref_string_query
         style: form #default
@@ -226,6 +300,52 @@ paths:
                 type: array
                 items:
                     type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_false/array_integer:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_integer
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  /query/style_form/explode_false/array_string:
+    get:
+      tags:
+        - query
+      summary: Test query parameter(s)
+      description: Test query parameter(s)
+      operationId: test/query/style_form/explode_false/array_string
+      parameters:
+        - in: query
+          name: query_object
+          style: form #default
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         '200':
           description: Successful operation
@@ -356,6 +476,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+  /echo/body/allOf/Pet:
+    post:
+      tags:
+        - body
+      summary: Test body parameter(s)
+      description: Test body parameter(s)
+      operationId: test/echo/body/allOf/Pet
+      requestBody:
+        $ref: '#/components/requestBodies/AllOfPet'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
   /echo/body/Pet/response_string:
     post:
       tags:
@@ -408,6 +544,26 @@ paths:
             text/plain:
               schema:
                 type: string
+  /echo/body/string_enum:
+    post:
+      tags:
+        - body
+      summary: Test string enum response body
+      description: Test string enum response body
+      operationId: test/echo/body/string_enum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnumRef'
+        description: String enum
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnumRef'
   /binary/gif:
     post:
       tags:
@@ -423,14 +579,113 @@ paths:
               schema:
                 type: string
                 format: binary
-
+  # Single binary in multipart mime test
+  /body/application/octetstream/single_binary:
+    post:
+      tags:
+        - body
+      summary: Test single binary in multipart mime
+      description: Test single binary in multipart mime
+      operationId: test/body/multipart/formdata/single_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                my-file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # Array of binary in multipart mime tests
+  /body/application/octetstream/array_of_binary:
+    post:
+      tags:
+        - body
+      summary: Test array of binary in multipart mime
+      description: Test array of binary in multipart mime
+      operationId: test/body/multipart/formdata/array_of_binary
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - files
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # To test http basic auth
+  /auth/http/basic:
+    post:
+      tags:
+        - auth
+      security:
+        - http_auth: []
+      summary: To test HTTP basic authentication
+      description: To test HTTP basic authentication
+      operationId: test/auth/http/basic
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
+  # To test http bearer auth
+  /auth/http/bearer:
+    post:
+      tags:
+        - auth
+      security:
+        - http_bearer_auth: []
+      summary: To test HTTP bearer authentication
+      description: To test HTTP bearer authentication
+      operationId: test/auth/http/bearer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
 components:
+  securitySchemes:
+    http_auth:
+      type: http
+      scheme: basic
+    http_bearer_auth:
+      type: http
+      scheme: bearer
   requestBodies:
     Pet:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
+      description: Pet object that needs to be added to the store
+    AllOfPet:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
     Tag:
       content:

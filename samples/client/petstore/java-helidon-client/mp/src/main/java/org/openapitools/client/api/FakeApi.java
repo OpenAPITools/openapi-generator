@@ -26,8 +26,10 @@ import org.eclipse.microprofile.rest.client.annotation.RegisterProvider;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
+import org.openapitools.client.model.FakeBigDecimalMap200Response;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
@@ -36,6 +38,7 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
 
 /**
@@ -47,6 +50,11 @@ import org.openapitools.client.model.User;
 @RegisterProvider(ApiExceptionMapper.class)
 @Path("/fake")
 public interface FakeApi  {
+
+    @GET
+    @Path("/BigDecimalMap")
+    @Produces({ "*/*" })
+    FakeBigDecimalMap200Response fakeBigDecimalMap() throws ApiException, ProcessingException;
 
     /**
      * Health check endpoint
@@ -93,6 +101,15 @@ public interface FakeApi  {
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(OuterObjectWithEnumProperty outerObjectWithEnumProperty) throws ApiException, ProcessingException;
+
+    /**
+     * test referenced additionalProperties
+     * 
+     */
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(Map<String, Object> requestBody) throws ApiException, ProcessingException;
 
     @PUT
     @Path("/body-with-binary")
@@ -155,6 +172,15 @@ public interface FakeApi  {
     void testInlineAdditionalProperties(Map<String, String> requestBody) throws ApiException, ProcessingException;
 
     /**
+     * test inline free-form additionalProperties
+     * 
+     */
+    @POST
+    @Path("/inline-freeform-additionalProperties")
+    @Consumes({ "application/json" })
+    void testInlineFreeformAdditionalProperties(TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest) throws ApiException, ProcessingException;
+
+    /**
      * test json serialization of form data
      * 
      */
@@ -163,7 +189,25 @@ public interface FakeApi  {
     @Consumes({ "application/x-www-form-urlencoded" })
     void testJsonFormData(@FormParam("param") String param, @FormParam("param2") String param2) throws ApiException, ProcessingException;
 
+    /**
+     * test nullable parent property
+     * 
+     */
+    @POST
+    @Path("/nullable")
+    @Consumes({ "application/json" })
+    void testNullable(ChildWithNullable childWithNullable) throws ApiException, ProcessingException;
+
     @PUT
     @Path("/test-query-parameters")
     void testQueryParameterCollectionFormat(@QueryParam("pipe") List<String> pipe, @QueryParam("ioutil") List<String> ioutil, @QueryParam("http") List<String> http, @QueryParam("url") List<String> url, @QueryParam("context") List<String> context, @QueryParam("allowEmpty") String allowEmpty, @QueryParam("language") Map<String, String> language) throws ApiException, ProcessingException;
+
+    /**
+     * test referenced string map
+     * 
+     */
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    void testStringMapReference(Map<String, String> requestBody) throws ApiException, ProcessingException;
 }

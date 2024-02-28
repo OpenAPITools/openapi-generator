@@ -11,46 +11,46 @@
 
 use reqwest;
 
-use crate::apis::ResponseContent;
+use crate::{apis::ResponseContent, models};
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method [`create_user`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct CreateUserParams {
     /// Created user object
-    pub user: crate::models::User
+    pub user: models::User
 }
 
 /// struct for passing parameters to the method [`create_users_with_array_input`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct CreateUsersWithArrayInputParams {
     /// List of user object
-    pub user: Vec<crate::models::User>
+    pub user: Vec<models::User>
 }
 
 /// struct for passing parameters to the method [`create_users_with_list_input`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct CreateUsersWithListInputParams {
     /// List of user object
-    pub user: Vec<crate::models::User>
+    pub user: Vec<models::User>
 }
 
 /// struct for passing parameters to the method [`delete_user`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct DeleteUserParams {
     /// The name that needs to be deleted
     pub username: String
 }
 
 /// struct for passing parameters to the method [`get_user_by_name`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct GetUserByNameParams {
     /// The name that needs to be fetched. Use user1 for testing.
     pub username: String
 }
 
 /// struct for passing parameters to the method [`login_user`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct LoginUserParams {
     /// The user name for login
     pub username: String,
@@ -59,12 +59,12 @@ pub struct LoginUserParams {
 }
 
 /// struct for passing parameters to the method [`update_user`]
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UpdateUserParams {
     /// name that need to be deleted
     pub username: String,
     /// Updated user object
-    pub user: crate::models::User
+    pub user: models::User
 }
 
 
@@ -100,7 +100,7 @@ pub enum DeleteUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameSuccess {
-    Status200(crate::models::User),
+    Status200(models::User),
     UnknownValue(serde_json::Value),
 }
 

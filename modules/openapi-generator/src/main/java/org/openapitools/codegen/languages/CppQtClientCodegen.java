@@ -24,8 +24,11 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.model.ModelMap;
+import org.openapitools.codegen.model.OperationsMap;
 
 import java.io.File;
+import java.util.List;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -117,6 +120,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
         importMapping.put("QJsonValue", "#include <QJsonValue>");
+
+        reservedWords.add("valid");
+        reservedWords.add("set");
     }
 
     @Override
@@ -220,5 +226,12 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
 
     public void setOptionalProjectFileFlag(boolean flag) {
         this.optionalProjectFileFlag = flag;
+    }
+
+    @Override
+    public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
+        objs = super.postProcessOperationsWithModels(objs, allModels);
+        removeImport(objs, "#include <QList>");
+        return objs;
     }
 }

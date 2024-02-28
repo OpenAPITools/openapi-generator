@@ -577,13 +577,13 @@ paths:
       description: ''
       operationId: fake_query_param_default
       parameters:
-        - name: has_default
+        - name: hasDefault
           in: query
           description: has default value
           schema:
             type: string
             default: Hello World
-        - name: no_default 
+        - name: noDefault 
           in: query
           description: no default value
           schema:

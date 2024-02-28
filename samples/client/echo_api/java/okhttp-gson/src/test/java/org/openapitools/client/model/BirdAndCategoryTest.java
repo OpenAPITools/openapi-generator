@@ -34,7 +34,7 @@ public class BirdAndCategoryTest {
      */
     @Test
     public void testBirdAndCategory() {
-        // TODO: test BirdAndCategory
+
     }
 
     /**
@@ -42,7 +42,7 @@ public class BirdAndCategoryTest {
      */
     @Test
     public void sizeTest() {
-        // TODO: test size
+
     }
 
     /**

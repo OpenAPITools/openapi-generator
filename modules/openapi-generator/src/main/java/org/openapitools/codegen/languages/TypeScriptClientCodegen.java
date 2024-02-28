@@ -502,7 +502,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration((Schema) schema.getAdditionalProperties());
+        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -835,7 +835,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
         } else if (ModelUtils.isObjectSchema(schema)) {
             fullPrefix += "{";
             closeChars = "}";
-            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema);
             if (disc != null) {
                 MappedModel mm = getDiscriminatorMappedModel(disc);
                 if (mm != null) {
@@ -1041,7 +1041,7 @@ public class TypeScriptClientCodegen extends AbstractTypeScriptClientCodegen imp
 
         if (content.size() > 1) {
             // @see ModelUtils.getSchemaFromContent()
-            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+            once(LOGGER).debug("Multiple MediaTypes found, using only the first one");
         }
 
         MediaType mediaType = content.values().iterator().next();

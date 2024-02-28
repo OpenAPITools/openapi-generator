@@ -18,6 +18,8 @@
 package org.openapitools.codegen.languages;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.google.common.collect.ImmutableMap;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
@@ -27,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
+import org.openapitools.codegen.templating.mustache.EscapeChar;
+import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,10 +47,6 @@ import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETT
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
-
-    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson' or 'kotlinx_serialization'";
-
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson, kotlinx_serialization}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -77,7 +77,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     protected boolean nonPublicApi = false;
 
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
-    protected SERIALIZATION_LIBRARY_TYPE serializationLibrary = SERIALIZATION_LIBRARY_TYPE.moshi;
 
     // model classes cannot use the same property names defined in HashMap
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
@@ -261,9 +260,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         CliOption enumPropertyNamingOpt = new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC);
         cliOptions.add(enumPropertyNamingOpt.defaultValue(enumPropertyNaming.name()));
 
-        CliOption serializationLibraryOpt = new CliOption(CodegenConstants.SERIALIZATION_LIBRARY, SERIALIZATION_LIBRARY_DESC);
-        cliOptions.add(serializationLibraryOpt.defaultValue(serializationLibrary.name()));
-
         cliOptions.add(new CliOption(CodegenConstants.PARCELIZE_MODELS, CodegenConstants.PARCELIZE_MODELS_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SERIALIZABLE_MODEL, CodegenConstants.SERIALIZABLE_MODEL_DESC));
         cliOptions.add(new CliOption(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC));
@@ -289,6 +285,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    @Override
     public String escapeQuotationMark(String input) {
         // remove " to avoid code injection
         return input.replace("\"", "");
@@ -309,9 +310,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         return this.enumPropertyNaming;
     }
 
-    public SERIALIZATION_LIBRARY_TYPE getSerializationLibrary() {
-        return this.serializationLibrary;
-    }
 
     /**
      * Sets the naming convention for Kotlin enum properties
@@ -324,24 +322,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } catch (IllegalArgumentException ex) {
             StringBuilder sb = new StringBuilder(enumPropertyNamingType + " is an invalid enum property naming option. Please choose from:");
             for (CodegenConstants.ENUM_PROPERTY_NAMING_TYPE t : CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.values()) {
-                sb.append("\n  ").append(t.name());
-            }
-            throw new RuntimeException(sb.toString());
-        }
-    }
-
-    /**
-     * Sets the serialization engine for Kotlin
-     *
-     * @param enumSerializationLibrary The string representation of the serialization library as defined by
-     *                                 {@link org.openapitools.codegen.languages.AbstractKotlinCodegen.SERIALIZATION_LIBRARY_TYPE}
-     */
-    public void setSerializationLibrary(final String enumSerializationLibrary) {
-        try {
-            this.serializationLibrary = SERIALIZATION_LIBRARY_TYPE.valueOf(enumSerializationLibrary);
-        } catch (IllegalArgumentException ex) {
-            StringBuilder sb = new StringBuilder(enumSerializationLibrary + " is an invalid enum property naming option. Please choose from:");
-            for (SERIALIZATION_LIBRARY_TYPE t : SERIALIZATION_LIBRARY_TYPE.values()) {
                 sb.append("\n  ").append(t.name());
             }
             throw new RuntimeException(sb.toString());
@@ -386,7 +366,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
-            Schema<?> inner = getAdditionalProperties(target);
+            Schema<?> inner = ModelUtils.getAdditionalProperties(target);
             if (inner == null) {
                 LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
                 inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -457,13 +437,6 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_PROPERTY_NAMING)) {
             setEnumPropertyNaming((String) additionalProperties.get(CodegenConstants.ENUM_PROPERTY_NAMING));
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.SERIALIZATION_LIBRARY)) {
-            setSerializationLibrary((String) additionalProperties.get(CodegenConstants.SERIALIZATION_LIBRARY));
-            additionalProperties.put(this.serializationLibrary.name(), true);
-        } else {
-            additionalProperties.put(this.serializationLibrary.name(), true);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.SOURCE_FOLDER)) {
@@ -631,8 +604,12 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toEnumVarName(String value, String datatype) {
+        if (enumNameMapping.containsKey(value)) {
+            return enumNameMapping.get(value);
+        }
+
         String modified;
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
             modified = value;
@@ -729,7 +706,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             return importMapping.get(name);
         }
 
-        String modifiedName = name.replaceAll("\\.", "");
+        String modifiedName = name.replaceAll("\\.", "").replaceAll("-", "_");
 
         String nameWithPrefixSuffix = sanitizeKotlinSpecificNames(modifiedName);
         if (!StringUtils.isEmpty(modelNamePrefix)) {
@@ -937,6 +914,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toParamName(String name) {
+        // obtain the name from parameterNameMapping directly if provided
+        if (parameterNameMapping.containsKey(name)) {
+            return parameterNameMapping.get(name);
+        }
+
         // to avoid conflicts with 'callback' parameter for async call
         if ("callback".equals(name)) {
             return "paramCallback";
@@ -948,6 +930,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toVarName(String name) {
+        // obtain the name from nameMapping directly if provided
+        if (nameMapping.containsKey(name)) {
+            return nameMapping.get(name);
+        }
+
         name = toVariableName(name);
         if (propertyAdditionalKeywords.contains(name)) {
             return camelize("property_" + name, LOWERCASE_FIRST_LETTER);
@@ -1057,55 +1044,39 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toDefaultValue(Schema schema) {
-        Schema<?> p = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
+    public String toDefaultValue(CodegenProperty cp, Schema schema) {
+        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ModelUtils.isBooleanSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return schema.getDefault().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             // TODO
             return null;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             // TODO
             return null;
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return fixNumberValue(p.getDefault().toString(), p);
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return fixNumberValue(p.getDefault().toString(), p);
+        }
+        else if (ModelUtils.isIntegerSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        } else if (ModelUtils.isURISchema(p)) {
-            if (p.getDefault() != null) {
-                return importMapping.get("URI") + ".create(\"" + p.getDefault() + "\")";
+        }
+        else if (ModelUtils.isURISchema(schema)) {
+            if (schema.getDefault() != null) {
+                return importMapping.get("URI") + ".create(\"" + schema.getDefault() + "\")";
             }
-        } else if (ModelUtils.isArraySchema(p)) {
-            if (p.getDefault() != null) {
-                String arrInstantiationType = ModelUtils.isSet(p) ? "set" : "arrayList";
-
-                if (!(p.getDefault() instanceof ArrayNode)) {
-                    return null;
-                }
-                ArrayNode _default = (ArrayNode) p.getDefault();
-                if (_default.isEmpty()) {
-                    return arrInstantiationType + "Of()";
-                }
-
-                StringBuilder defaultContent = new StringBuilder();
-                Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
-                _default.elements().forEachRemaining((element) -> {
-                    itemsSchema.setDefault(element.asText());
-                    defaultContent.append(toDefaultValue(itemsSchema)).append(",");
-                });
-                defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
-                return arrInstantiationType + "Of(" + defaultContent + ")";
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                String _default = String.valueOf(p.getDefault());
-                if (p.getEnum() == null) {
+        }
+        else if (ModelUtils.isArraySchema(schema)) {
+            return toArrayDefaultValue(cp, schema);
+        } else if (ModelUtils.isStringSchema(schema)) {
+            if (schema.getDefault() != null) {
+                String _default = String.valueOf(schema.getDefault());
+                if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels
@@ -1113,8 +1084,52 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 }
             }
             return null;
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return super.toDefaultValue(schema);
+            }
+            return null;
         }
         return null;
+    }
+
+    private String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
+        if (schema.getDefault() != null) {
+            String arrInstantiationType = ModelUtils.isSet(schema) ? "set" : "arrayList";
+
+            if (!(schema.getDefault() instanceof ArrayNode)) {
+                return null;
+            }
+            ArrayNode _default = (ArrayNode) schema.getDefault();
+            if (_default.isEmpty()) {
+                return arrInstantiationType + "Of()";
+            }
+
+            StringBuilder defaultContent = new StringBuilder();
+            Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
+            _default.elements().forEachRemaining((element) -> {
+                String defaultValue = element.asText();
+                if (defaultValue != null) {
+                    if (cp.items.getIsEnumOrRef()) {
+                        String className = cp.items.datatypeWithEnum;
+                        String enumVarName = toEnumVarName(defaultValue, cp.items.dataType);
+                        defaultContent.append(className).append(".").append(enumVarName).append(",");
+                    } else {
+                        itemsSchema.setDefault(defaultValue);
+                        defaultValue = toDefaultValue(cp, itemsSchema);
+                        defaultContent.append(defaultValue).append(",");
+                    }
+                }
+            });
+            defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
+            return arrInstantiationType + "Of(" + defaultContent + ")";
+        }
+        return null;
+    }
+
+    @Override
+    public String toDefaultParameterValue(CodegenProperty cp, Schema schema) {
+        return toDefaultValue(cp, schema);
     }
 
     @Override
@@ -1129,7 +1144,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
          * ModelUtils.isMapSchema
          * In other generators, isMap is true for all type object schemas
          */
-        if (schema.getProperties() != null || schema.getRequired() != null && !(schema instanceof ComposedSchema)) {
+        if (schema.getProperties() != null || schema.getRequired() != null && !(ModelUtils.isComposedSchema(schema))) {
             // passing null to allProperties and allRequired as there's no parent
             addVars(m, unaliasPropertySchema(schema.getProperties()), schema.getRequired(), null, null);
         }
@@ -1138,7 +1153,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             addAdditionPropertiesToCodeGenModel(m, schema);
         } else {
             m.setIsMap(false);
-            if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+            if (ModelUtils.isFreeFormObject(schema)) {
                 // non-composed object type with no properties + additionalProperties
                 // additionalProperties must be null, ObjectSchema, or empty Schema
                 addAdditionPropertiesToCodeGenModel(m, schema);
@@ -1154,5 +1169,51 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     public void setAdditionalModelTypeAnnotations(final List<String> additionalModelTypeAnnotations) {
         this.additionalModelTypeAnnotations = additionalModelTypeAnnotations;
+    }
+
+    @Override
+    protected ImmutableMap.Builder<String, Mustache.Lambda> addMustacheLambdas() {
+        return super.addMustacheLambdas()
+                .put("escapeDollar", new EscapeChar("(?<!\\\\)\\$", "\\\\\\$"));
+    }
+
+    protected interface DataTypeAssigner {
+        void setReturnType(String returnType);
+
+        void setReturnContainer(String returnContainer);
+    }
+
+    /**
+     * @param returnType       The return type that needs to be converted
+     * @param dataTypeAssigner An object that will assign the data to the respective fields in the model.
+     */
+    protected void doDataTypeAssignment(final String returnType, DataTypeAssigner dataTypeAssigner) {
+        if (returnType == null) {
+            dataTypeAssigner.setReturnType("Unit");
+        } else if (returnType.startsWith("kotlin.collections.List")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.List<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("List");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableList")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableList<".length(), end).trim());
+                dataTypeAssigner.setReturnContainer("List");
+            }
+        } else if (returnType.startsWith("kotlin.collections.Map")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.Map<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnContainer("Map");
+            }
+        } else if (returnType.startsWith("kotlin.collections.MutableMap")) {
+            int end = returnType.lastIndexOf(">");
+            if (end > 0) {
+                dataTypeAssigner.setReturnType(returnType.substring("kotlin.collections.MutableMap<".length(), end).split(",")[1].trim());
+                dataTypeAssigner.setReturnContainer("Map");
+            }
+        }
     }
 }

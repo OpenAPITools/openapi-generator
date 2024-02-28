@@ -61,22 +61,22 @@ void PFXOrder::fromJson(QString jsonString) {
 
 void PFXOrder::fromJsonObject(QJsonObject json) {
 
-    m_id_isValid = ::test_namespace::fromJsonValue(id, json[QString("id")]);
+    m_id_isValid = ::test_namespace::fromJsonValue(m_id, json[QString("id")]);
     m_id_isSet = !json[QString("id")].isNull() && m_id_isValid;
 
-    m_pet_id_isValid = ::test_namespace::fromJsonValue(pet_id, json[QString("petId")]);
+    m_pet_id_isValid = ::test_namespace::fromJsonValue(m_pet_id, json[QString("petId")]);
     m_pet_id_isSet = !json[QString("petId")].isNull() && m_pet_id_isValid;
 
-    m_quantity_isValid = ::test_namespace::fromJsonValue(quantity, json[QString("quantity")]);
+    m_quantity_isValid = ::test_namespace::fromJsonValue(m_quantity, json[QString("quantity")]);
     m_quantity_isSet = !json[QString("quantity")].isNull() && m_quantity_isValid;
 
-    m_ship_date_isValid = ::test_namespace::fromJsonValue(ship_date, json[QString("shipDate")]);
+    m_ship_date_isValid = ::test_namespace::fromJsonValue(m_ship_date, json[QString("shipDate")]);
     m_ship_date_isSet = !json[QString("shipDate")].isNull() && m_ship_date_isValid;
 
-    m_status_isValid = ::test_namespace::fromJsonValue(status, json[QString("status")]);
+    m_status_isValid = ::test_namespace::fromJsonValue(m_status, json[QString("status")]);
     m_status_isSet = !json[QString("status")].isNull() && m_status_isValid;
 
-    m_complete_isValid = ::test_namespace::fromJsonValue(complete, json[QString("complete")]);
+    m_complete_isValid = ::test_namespace::fromJsonValue(m_complete, json[QString("complete")]);
     m_complete_isSet = !json[QString("complete")].isNull() && m_complete_isValid;
 }
 
@@ -90,32 +90,32 @@ QString PFXOrder::asJson() const {
 QJsonObject PFXOrder::asJsonObject() const {
     QJsonObject obj;
     if (m_id_isSet) {
-        obj.insert(QString("id"), ::test_namespace::toJsonValue(id));
+        obj.insert(QString("id"), ::test_namespace::toJsonValue(m_id));
     }
     if (m_pet_id_isSet) {
-        obj.insert(QString("petId"), ::test_namespace::toJsonValue(pet_id));
+        obj.insert(QString("petId"), ::test_namespace::toJsonValue(m_pet_id));
     }
     if (m_quantity_isSet) {
-        obj.insert(QString("quantity"), ::test_namespace::toJsonValue(quantity));
+        obj.insert(QString("quantity"), ::test_namespace::toJsonValue(m_quantity));
     }
     if (m_ship_date_isSet) {
-        obj.insert(QString("shipDate"), ::test_namespace::toJsonValue(ship_date));
+        obj.insert(QString("shipDate"), ::test_namespace::toJsonValue(m_ship_date));
     }
     if (m_status_isSet) {
-        obj.insert(QString("status"), ::test_namespace::toJsonValue(status));
+        obj.insert(QString("status"), ::test_namespace::toJsonValue(m_status));
     }
     if (m_complete_isSet) {
-        obj.insert(QString("complete"), ::test_namespace::toJsonValue(complete));
+        obj.insert(QString("complete"), ::test_namespace::toJsonValue(m_complete));
     }
     return obj;
 }
 
 qint64 PFXOrder::getId() const {
-    return id;
+    return m_id;
 }
 void PFXOrder::setId(const qint64 &id) {
-    this->id = id;
-    this->m_id_isSet = true;
+    m_id = id;
+    m_id_isSet = true;
 }
 
 bool PFXOrder::is_id_Set() const{
@@ -127,11 +127,11 @@ bool PFXOrder::is_id_Valid() const{
 }
 
 qint64 PFXOrder::getPetId() const {
-    return pet_id;
+    return m_pet_id;
 }
 void PFXOrder::setPetId(const qint64 &pet_id) {
-    this->pet_id = pet_id;
-    this->m_pet_id_isSet = true;
+    m_pet_id = pet_id;
+    m_pet_id_isSet = true;
 }
 
 bool PFXOrder::is_pet_id_Set() const{
@@ -143,11 +143,11 @@ bool PFXOrder::is_pet_id_Valid() const{
 }
 
 qint32 PFXOrder::getQuantity() const {
-    return quantity;
+    return m_quantity;
 }
 void PFXOrder::setQuantity(const qint32 &quantity) {
-    this->quantity = quantity;
-    this->m_quantity_isSet = true;
+    m_quantity = quantity;
+    m_quantity_isSet = true;
 }
 
 bool PFXOrder::is_quantity_Set() const{
@@ -159,11 +159,11 @@ bool PFXOrder::is_quantity_Valid() const{
 }
 
 QDateTime PFXOrder::getShipDate() const {
-    return ship_date;
+    return m_ship_date;
 }
 void PFXOrder::setShipDate(const QDateTime &ship_date) {
-    this->ship_date = ship_date;
-    this->m_ship_date_isSet = true;
+    m_ship_date = ship_date;
+    m_ship_date_isSet = true;
 }
 
 bool PFXOrder::is_ship_date_Set() const{
@@ -175,11 +175,11 @@ bool PFXOrder::is_ship_date_Valid() const{
 }
 
 QString PFXOrder::getStatus() const {
-    return status;
+    return m_status;
 }
 void PFXOrder::setStatus(const QString &status) {
-    this->status = status;
-    this->m_status_isSet = true;
+    m_status = status;
+    m_status_isSet = true;
 }
 
 bool PFXOrder::is_status_Set() const{
@@ -191,11 +191,11 @@ bool PFXOrder::is_status_Valid() const{
 }
 
 bool PFXOrder::isComplete() const {
-    return complete;
+    return m_complete;
 }
 void PFXOrder::setComplete(const bool &complete) {
-    this->complete = complete;
-    this->m_complete_isSet = true;
+    m_complete = complete;
+    m_complete_isSet = true;
 }
 
 bool PFXOrder::is_complete_Set() const{

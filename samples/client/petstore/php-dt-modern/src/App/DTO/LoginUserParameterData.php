@@ -24,7 +24,7 @@ class LoginUserParameterData
     #[DTA\Data(subset: "query", field: "username")]
     #[DTA\Strategy("QueryStringScalar", ["type" => "string"], "query")]
     #[DTA\Validator("QueryStringScalar", ["type" => "string"], subset: "query")]
-    #[DTA\Validator("Regex", ["pattern" => "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"], subset: "query")]
+    #[DTA\Validator("Match", ["pattern" => "/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/"], subset: "query")]
     public string|null $username = null;
 
 }

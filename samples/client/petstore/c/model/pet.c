@@ -4,12 +4,12 @@
 #include "pet.h"
 
 
-char* statuspet_ToString(openapi_petstore_pet_STATUS_e status) {
+char* pet_status_ToString(openapi_petstore_pet_STATUS_e status) {
     char* statusArray[] =  { "NULL", "available", "pending", "sold" };
-	return statusArray[status];
+    return statusArray[status];
 }
 
-openapi_petstore_pet_STATUS_e statuspet_FromString(char* status){
+openapi_petstore_pet_STATUS_e pet_status_FromString(char* status){
     int stringToReturn = 0;
     char *statusArray[] =  { "NULL", "available", "pending", "sold" };
     size_t sizeofArray = sizeof(statusArray) / sizeof(statusArray[0]);
@@ -253,7 +253,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
     {
     goto end; //Enum
     }
-    statusVariable = statuspet_FromString(status->valuestring);
+    statusVariable = pet_status_FromString(status->valuestring);
     }
 
 

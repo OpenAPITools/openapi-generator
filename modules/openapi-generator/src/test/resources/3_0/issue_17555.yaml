@@ -1,0 +1,51 @@
+openapi: 3.0.0
+info:
+  description: My description
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: department
+    description: Everything about your Department
+paths:
+  /api/department/{departmentId}/teams:
+    get:
+      tags:
+        - Department
+      summary: Find Department Teams
+      operationId: findDepartmentTeams
+      description: Find Department Teams
+      parameters:
+        - $ref: '#/components/parameters/departmentIdParam'
+        - $ref: '#/components/parameters/teamQueryParam'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    TeamCriteriaDTO:
+      type: object
+      title: TeamCriteriaDTO
+      properties:
+        key:
+          type: string
+        name:
+          type: string
+  parameters:
+    departmentIdParam:
+      name: departmentId
+      in: path
+      description: ID of the department to search
+      required: true
+      schema:
+        type: string
+    teamQueryParam:
+      name: filter
+      in: query
+      description: Fetch teams query
+      required: false
+      allowEmptyValue: true
+      schema:
+        $ref: '#/components/schemas/TeamCriteriaDTO'

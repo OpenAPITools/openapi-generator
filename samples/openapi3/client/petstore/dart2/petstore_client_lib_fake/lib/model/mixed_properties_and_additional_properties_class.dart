@@ -1,7 +1,7 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.12
+// @dart=2.18
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
@@ -38,9 +38,9 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is MixedPropertiesAndAdditionalPropertiesClass &&
-     other.uuid == uuid &&
-     other.dateTime == dateTime &&
-     other.map == map;
+    other.uuid == uuid &&
+    other.dateTime == dateTime &&
+    _deepEquality.equals(other.map, map);
 
   @override
   int get hashCode =>
@@ -88,7 +88,7 @@ class MixedPropertiesAndAdditionalPropertiesClass {
 
       return MixedPropertiesAndAdditionalPropertiesClass(
         uuid: mapValueOfType<String>(json, r'uuid'),
-        dateTime: mapDateTime(json, r'dateTime', ''),
+        dateTime: mapDateTime(json, r'dateTime', r''),
         map: Animal.mapFromJson(json[r'map']),
       );
     }

@@ -132,7 +132,7 @@ paths:
       tags:
       - pet
       x-spring-paginated: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
   /pet/all:
@@ -163,7 +163,7 @@ paths:
       tags:
       - pet
       x-spring-paginated: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
   /pet/findByTags:
@@ -208,7 +208,7 @@ paths:
       tags:
       - pet
       x-spring-paginated: true
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
   /pet/{petId}:
@@ -282,7 +282,7 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: pet
     post:
@@ -403,7 +403,7 @@ paths:
       - store
       x-codegen-request-body-name: body
       x-content-type: '*/*'
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: store
   /store/order/{order_id}:
@@ -468,7 +468,7 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: store
   /user:
@@ -593,7 +593,7 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: user
   /user/logout:
@@ -665,7 +665,7 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: application/json
+      x-accepts: "application/json,application/xml"
       x-tags:
       - tag: user
     put:
@@ -1683,11 +1683,17 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - properties:
+          breed:
+            type: string
+        type: object
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - properties:
+          declawed:
+            type: boolean
+        type: object
     Animal:
       discriminator:
         propertyName: className
@@ -2474,18 +2480,6 @@ components:
           type: string
       required:
       - requiredFile
-    Dog_allOf:
-      properties:
-        breed:
-          type: string
-      type: object
-      example: null
-    Cat_allOf:
-      properties:
-        declawed:
-          type: boolean
-      type: object
-      example: null
   securitySchemes:
     petstore_auth:
       flows:

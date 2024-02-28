@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import org.openapitools.model.Client;
+import java.util.UUID;
 
 import java.util.Map;
 import java.util.List;
@@ -62,8 +63,8 @@ public class AnotherFakeApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response call123testSpecialTags(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
+    public Response call123testSpecialTags(@ApiParam(value = "to test uuid example value" ,required=true)@HeaderParam("uuid_test") UUID uuidTest,@ApiParam(value = "client model", required = true) @NotNull @Valid  Client body,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.call123testSpecialTags(body, securityContext);
+        return delegate.call123testSpecialTags(uuidTest, body, securityContext);
     }
 }
