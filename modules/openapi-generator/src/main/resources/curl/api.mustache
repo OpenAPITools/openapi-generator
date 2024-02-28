@@ -1,0 +1,16 @@
+#!/bin/sh
+
+## {{classname}}
+{{#operations}}
+    {{#operation}}
+
+        ### {{#summary}}{{summary}}{{/summary}}
+        # {{operationId}}
+
+        curl -X {{httpMethod}} {{basePath}}{{path}} \
+        {{#consumes}}-H 'Content-Type: {{{mediaType}}}' \ {{/consumes}}
+        {{#consumes}}-H 'Accept: {{{mediaType}}}' \ {{/consumes}}
+        -H "x-API-key: YOUR_API_KEY"
+
+    {{/operation}}
+{{/operations}}
