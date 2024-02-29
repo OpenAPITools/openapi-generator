@@ -36,6 +36,7 @@ impl MultipartRelatedRequest {
 /// Converts the MultipartRelatedRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for MultipartRelatedRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -184,6 +185,7 @@ impl MultipartRequestObjectField {
 /// Converts the MultipartRequestObjectField value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for MultipartRequestObjectField {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -333,6 +335,7 @@ impl MultipleIdenticalMimeTypesPostRequest {
 /// Converts the MultipleIdenticalMimeTypesPostRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for MultipleIdenticalMimeTypesPostRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![

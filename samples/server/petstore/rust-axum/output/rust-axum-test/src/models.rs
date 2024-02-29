@@ -33,6 +33,7 @@ impl ANullableContainer {
 /// Converts the ANullableContainer value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ANullableContainer {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -197,6 +198,7 @@ impl std::ops::DerefMut for AdditionalPropertiesObject {
 /// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl ::std::string::ToString for AdditionalPropertiesObject {
     fn to_string(&self) -> String {
         // Skipping additionalProperties in query parameter serialization
@@ -242,6 +244,7 @@ impl AllOfObject {
 /// Converts the AllOfObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for AllOfObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -390,6 +393,7 @@ impl BaseAllOf {
 /// Converts the BaseAllOf value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for BaseAllOf {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> =
@@ -530,6 +534,7 @@ impl DummyPutRequest {
 /// Converts the DummyPutRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for DummyPutRequest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -676,6 +681,7 @@ impl GetYamlResponse {
 /// Converts the GetYamlResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for GetYamlResponse {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![self
@@ -808,6 +814,7 @@ impl ObjectOfObjects {
 /// Converts the ObjectOfObjects value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectOfObjects {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -945,6 +952,7 @@ impl ObjectOfObjectsInner {
 /// Converts the ObjectOfObjectsInner value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectOfObjectsInner {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![

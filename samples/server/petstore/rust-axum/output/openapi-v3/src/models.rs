@@ -124,6 +124,7 @@ impl std::ops::DerefMut for AdditionalPropertiesWithList {
 /// Converts the AdditionalPropertiesWithList value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl ::std::string::ToString for AdditionalPropertiesWithList {
     fn to_string(&self) -> String {
         // Skipping additionalProperties in query parameter serialization
@@ -215,6 +216,7 @@ impl std::ops::DerefMut for AnotherXmlArray {
 /// Converts the AnotherXmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for AnotherXmlArray {
     fn to_string(&self) -> String {
         self.iter()
@@ -300,6 +302,7 @@ impl std::convert::From<String> for AnotherXmlInner {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for AnotherXmlInner {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -352,6 +355,7 @@ impl AnotherXmlObject {
 /// Converts the AnotherXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for AnotherXmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![self
@@ -549,6 +553,7 @@ impl AnyOfProperty {
 /// Converts the AnyOfProperty value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for AnyOfProperty {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -701,6 +706,7 @@ impl DuplicateXmlObject {
 /// Converts the DuplicateXmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for DuplicateXmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -884,6 +890,7 @@ impl std::convert::From<String> for Err {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Err {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -932,6 +939,7 @@ impl std::convert::From<String> for Error {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Error {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -1012,6 +1020,7 @@ impl MultigetGet201Response {
 /// Converts the MultigetGet201Response value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for MultigetGet201Response {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![self
@@ -1230,6 +1239,7 @@ impl std::ops::DerefMut for MyIdList {
 /// Converts the MyIdList value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for MyIdList {
     fn to_string(&self) -> String {
         self.iter()
@@ -1364,6 +1374,7 @@ impl NullableTest {
 /// Converts the NullableTest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for NullableTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -1642,6 +1653,7 @@ impl ObjectHeader {
 /// Converts the ObjectHeader value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectHeader {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -1797,6 +1809,7 @@ impl ObjectParam {
 /// Converts the ObjectParam value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectParam {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -1958,6 +1971,7 @@ impl ObjectUntypedProps {
 /// Converts the ObjectUntypedProps value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectUntypedProps {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -2108,6 +2122,7 @@ impl ObjectWithArrayOfObjects {
 /// Converts the ObjectWithArrayOfObjects value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ObjectWithArrayOfObjects {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![self.object_array.as_ref().map(|object_array| {
@@ -2236,6 +2251,7 @@ impl std::convert::From<String> for Ok {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Ok {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -2383,6 +2399,7 @@ impl std::convert::From<String> for Result {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Result {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -2468,6 +2485,7 @@ impl std::convert::From<String> for StringObject {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for StringObject {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -2607,6 +2625,7 @@ impl std::ops::DerefMut for XmlArray {
 /// Converts the XmlArray value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for XmlArray {
     fn to_string(&self) -> String {
         self.iter()
@@ -2692,6 +2711,7 @@ impl std::convert::From<String> for XmlInner {
     }
 }
 
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for XmlInner {
     fn to_string(&self) -> String {
         self.0.to_string()
@@ -2751,6 +2771,7 @@ impl XmlObject {
 /// Converts the XmlObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for XmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![

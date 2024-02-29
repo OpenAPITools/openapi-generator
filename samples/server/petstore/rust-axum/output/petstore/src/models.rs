@@ -142,6 +142,7 @@ impl ApiResponse {
 /// Converts the ApiResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for ApiResponse {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -305,6 +306,7 @@ impl Category {
 /// Converts the Category value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Category {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -476,6 +478,7 @@ impl Order {
 /// Converts the Order value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Order {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -678,6 +681,7 @@ impl Pet {
 /// Converts the Pet value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Pet {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -868,6 +872,7 @@ impl Tag {
 /// Converts the Tag value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for Tag {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
@@ -1042,6 +1047,7 @@ impl User {
 /// Converts the User value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
+#[allow(clippy::to_string_trait_impl)]
 impl std::string::ToString for User {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
