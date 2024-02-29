@@ -115,7 +115,7 @@ public class CodeGenMojo extends AbstractMojo {
     /**
      * Location of the OpenAPI spec, as URL or file.
      */
-    @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec", required = true)
+    @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec")
     private String inputSpec;
 
     /**
@@ -557,6 +557,11 @@ public class CodeGenMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException {
+        if (StringUtils.isBlank(inputSpec) && StringUtils.isBlank(inputSpecRootDirectory)) {
+            LOGGER.error("inputSpec or inputSpecRootDirectory must be specified");
+            throw new MojoExecutionException("inputSpec or inputSpecRootDirectory must be specified");
+        }
+
         if (StringUtils.isNotBlank(inputSpecRootDirectory)) {
             inputSpec = new MergedSpecBuilder(inputSpecRootDirectory, mergedFileName)
                 .buildMergedSpec();
