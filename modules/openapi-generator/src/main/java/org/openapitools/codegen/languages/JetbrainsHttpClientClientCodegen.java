@@ -31,14 +31,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.model.ApiInfoMap;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
@@ -54,8 +49,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     private final Logger LOGGER = LoggerFactory.getLogger(JetbrainsHttpClientClientCodegen.class);
 
-    public static final String JSON_ESCAPE_NEW_LINE = "\\n";
-    public static final String JSON_ESCAPE_DOUBLE_QUOTE = "\\\"";
+    public static final String JSON_ESCAPE_NEW_LINE = "\n";
+    public static final String JSON_ESCAPE_DOUBLE_QUOTE = "\"";
 
     public static final String REQUEST_PARAMETER_GENERATION_DEFAULT_VALUE = "Example";
     protected String requestParameterGeneration = REQUEST_PARAMETER_GENERATION_DEFAULT_VALUE; // values: Example, Schema
@@ -263,8 +258,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             // convert to JSON object and prettify
             JsonNode actualObj = objectMapper.readTree(json);
             json = Json.pretty(actualObj);
-//            json = json.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
-//            json = json.replace("\n", JSON_ESCAPE_NEW_LINE);
 
         } catch (JsonProcessingException e) {
             LOGGER.warn("Error formatting JSON", e);
@@ -321,17 +314,33 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         JSON_ESCAPE_DOUBLE_QUOTE + value + JSON_ESCAPE_DOUBLE_QUOTE;
-            } else if (value instanceof Integer) {
+            } else if (value instanceof Integer || value instanceof Boolean) {
                 ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " +
                         value;
-            } else if (value instanceof LinkedHashMap) {
+            } else if (value instanceof HashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
-                ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
-            } else {
+                ret = traverseMap(((LinkedHashMap<String, Object>) value), in);
+            } else if (value instanceof List) {
+                // TODO : What if it's a list of objects? _urgh_
+                var items = ((List<?>) value);
+                StringBuilder jsonBuilder = new StringBuilder("[");
+
+                for (int i = 0; i < items.size(); i++) {
+                    jsonBuilder.append(JSON_ESCAPE_DOUBLE_QUOTE).append(items.get(i)).append(JSON_ESCAPE_DOUBLE_QUOTE);
+                    if (i < items.size() - 1) {jsonBuilder.append(",");}
+                }
+                jsonBuilder.append("]");
+
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + jsonBuilder ;
+            }
+            else {
                 LOGGER.warn("Value type unrecognised: " + value.getClass());
+                //WARNING: here we are undoing what is done in "add comma unless last attribute"
+                // This is meant to avoid dangling commas if we encounter an unknown type
+                ret = ret.substring(0, ret.length() - 3);
             }
 
-            if(counter < numVars) {
+            if(counter < numVars ) {
                 // add comma unless last attribute
                 ret = ret + "," + JSON_ESCAPE_NEW_LINE + " ";
             }
@@ -342,4 +351,5 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         return ret;
     }
+
 }
