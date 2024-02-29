@@ -522,7 +522,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
 ```
 
-- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
+- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
 
 Example:
 ```
