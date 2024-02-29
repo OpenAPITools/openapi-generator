@@ -212,7 +212,7 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart 2.x client library.";
+        return "Generates a Dart client library.";
     }
 
     @Override
