@@ -1666,8 +1666,8 @@ public class SpringCodegenTest {
         // previous bugs
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "private String atBaseType");
-        // imports for inherited properties
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
+        // methods for inherited properties
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "BigDecimal getPizzaSize()");
     }
 
     @Test
@@ -4451,11 +4451,11 @@ public class SpringCodegenTest {
         } else {
             javaFileAssert.doesNotHaveToString(" extends ");
         }
-        TypeAnnotationAssert dogAnnotation = javaFileAssert.assertTypeAnnotations();
+        TypeAnnotationAssert annotationAssert = javaFileAssert.assertTypeAnnotations();
         if (expectedJsonAnnotation == null) {
-            dogAnnotation.doesNotContainsWithName("JsonTypeName");
+            annotationAssert.doesNotContainsWithName("JsonTypeName");
         } else {
-            dogAnnotation.containsWithNameAndAttributes("JsonTypeName",
+            annotationAssert.containsWithNameAndAttributes("JsonTypeName",
                 Map.of("value", "\"" + expectedJsonAnnotation + "\""));
         }
         } catch (AssertionError e) {
