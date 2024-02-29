@@ -27,7 +27,7 @@ pub enum TestsFileResponseGetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum TestsTypeTestingGetSuccess {
-    Status200(crate::models::TypeTesting),
+    Status200(models::TypeTesting),
     UnknownValue(serde_json::Value),
 }
 

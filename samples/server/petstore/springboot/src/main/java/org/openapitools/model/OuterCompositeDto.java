@@ -21,6 +21,7 @@ import javax.annotation.Generated;
  * OuterCompositeDto
  */
 
+@JsonTypeName("OuterComposite")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterCompositeDto {
 

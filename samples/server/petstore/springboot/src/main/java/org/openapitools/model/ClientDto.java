@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  * ClientDto
  */
 
+@JsonTypeName("Client")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClientDto {
 

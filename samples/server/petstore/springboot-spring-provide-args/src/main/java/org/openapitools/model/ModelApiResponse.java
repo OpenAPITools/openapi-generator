@@ -19,6 +19,7 @@ import javax.annotation.Generated;
  * ModelApiResponse
  */
 
+@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 

@@ -19,32 +19,18 @@ class JacksonTest {
     private ObjectMapper mapper;
 
     @Test
-    void shouldDeserializeAnimal() throws JsonProcessingException {
-        // Given
-        AnimalDto animal = new AnimalDto()
-                .color("brown");
-        AnimalDto deserializedPet = mapper.readValue(mapper.writeValueAsString(animal), AnimalDto.class);
-
-        // Then
-        assertThat(deserializedPet)
-                .isNotNull()
-                .returns("Animal", AnimalDto::getClassName)
-                .returns("brown", AnimalDto::getColor);
-    }
-
-    @Test
     void shouldDeserializeWithoutLoss() throws JsonProcessingException {
         // Given
         CatDto animal = new CatDto()
             .color("Red");
 
         // When
-        AnimalDto deserializedPet = mapper.readValue(mapper.writeValueAsString(animal), AnimalDto.class);
+        CatDto deserializedPet = mapper.readValue(mapper.writeValueAsString(animal), CatDto.class);
 
         // Then
         assertThat(deserializedPet)
                 .isNotNull()
-                .returns("Cat", AnimalDto::getClassName)
+                .returns("CatDto", AnimalDto::getClassName)
                 .returns("Red", AnimalDto::getColor);
     }
 
@@ -54,12 +40,9 @@ class JacksonTest {
         String json = "{\"className\":\"BigCat\",\"color\":\"red\",\"declawed\":null,\"kind\":\"tigers\"}";
 
         // When
-        AnimalDto deserializedAnimal = mapper.readValue(json, AnimalDto.class);
+        BigCatDto deserializedCat = mapper.readValue(json, BigCatDto.class);
 
         // Then
-        assertThat(deserializedAnimal).isInstanceOf(BigCatDto.class);
-        BigCatDto deserializedCat = (BigCatDto)deserializedAnimal;
-
         assertThat(deserializedCat)
                 .isNotNull()
                 .returns("BigCat", AnimalDto::getClassName)

@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  * TagDto
  */
 
+@JsonTypeName("Tag")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TagDto {
 

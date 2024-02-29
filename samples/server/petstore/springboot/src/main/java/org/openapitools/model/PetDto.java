@@ -29,6 +29,7 @@ import javax.annotation.Generated;
  * PetDto
  */
 
+@JsonTypeName("Pet")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class PetDto {
 

@@ -25,6 +25,7 @@ import jakarta.annotation.Generated;
 @lombok.EqualsAndHashCode
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
+@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 

@@ -21,6 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Must be named `File` for test.")
+@JsonTypeName("File")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileDto {
 

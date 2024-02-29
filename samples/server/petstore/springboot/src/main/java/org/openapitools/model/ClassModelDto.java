@@ -21,6 +21,7 @@ import javax.annotation.Generated;
  */
 
 @ApiModel(description = "Model for testing model with \"_class\" property")
+@JsonTypeName("ClassModel")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ClassModelDto {
 

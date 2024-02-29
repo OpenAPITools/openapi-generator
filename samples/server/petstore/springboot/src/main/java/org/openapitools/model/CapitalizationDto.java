@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  * CapitalizationDto
  */
 
+@JsonTypeName("Capitalization")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CapitalizationDto {
 

@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  * ResponseObjectWithDifferentFieldNamesDto
  */
 
+@JsonTypeName("ResponseObjectWithDifferentFieldNames")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ResponseObjectWithDifferentFieldNamesDto {
 

@@ -24,6 +24,7 @@ import javax.annotation.Generated;
  * TypeHolderDefaultDto
  */
 
+@JsonTypeName("TypeHolderDefault")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderDefaultDto {
 
