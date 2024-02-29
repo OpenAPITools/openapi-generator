@@ -38,10 +38,8 @@ export interface DefaultMetaOnlyResponse {
  * Check if a given object implements the DefaultMetaOnlyResponse interface.
  */
 export function instanceOfDefaultMetaOnlyResponse(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "meta" in value;
-
-    return isInstance;
+    if (!('meta' in value)) return false;
+    return true;
 }
 
 export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyResponse {
@@ -49,7 +47,7 @@ export function DefaultMetaOnlyResponseFromJSON(json: any): DefaultMetaOnlyRespo
 }
 
 export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): DefaultMetaOnlyResponse {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -67,7 +65,7 @@ export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | 
     }
     return {
         
-        'meta': ResponseMetaToJSON(value.meta),
+        'meta': ResponseMetaToJSON(value['meta']),
     };
 }
 

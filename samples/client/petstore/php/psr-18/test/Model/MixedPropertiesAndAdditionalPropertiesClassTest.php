@@ -76,7 +76,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
     public function testMixedPropertiesAndAdditionalPropertiesClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
     public function testPropertyUuid()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
     public function testPropertyDateTime()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,6 +103,6 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
     public function testPropertyMap()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

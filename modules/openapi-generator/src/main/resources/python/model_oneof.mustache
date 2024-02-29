@@ -24,10 +24,10 @@ class {{classname}}({{#parent}}{{{.}}}{{/parent}}{{^parent}}BaseModel{{/parent}}
     actual_instance: Optional[Union[{{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}]] = None
     one_of_schemas: List[str] = Field(default=Literal[{{#oneOf}}"{{.}}"{{^-last}}, {{/-last}}{{/oneOf}}])
 
-    model_config = {
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 {{#discriminator}}
 

@@ -1454,6 +1454,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.allVars = cm.allVars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
+            this.hasReadOnly = cm.hasReadOnly;
             this.readOnlyVars = cm.readOnlyVars;
             this.readWriteVars = cm.readWriteVars;
             this.parentVars = cm.parentVars;

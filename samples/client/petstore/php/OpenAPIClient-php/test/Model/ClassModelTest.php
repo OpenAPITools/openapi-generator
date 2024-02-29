@@ -76,7 +76,7 @@ class ClassModelTest extends TestCase
     public function testClassModel()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class ClassModelTest extends TestCase
     public function testPropertyClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

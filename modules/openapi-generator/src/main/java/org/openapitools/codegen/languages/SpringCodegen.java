@@ -70,6 +70,7 @@ import org.openapitools.codegen.templating.mustache.SpringRightAssignLambda;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -596,16 +597,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                       (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                       "ApiKeyRequestInterceptor.java"));
 
-                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
-                      resourceFolder, "oauth2-client.properties"));
-
-                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
-                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                      "ClientPropertiesConfiguration.java"));
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "ClientPropertiesConfiguration.java"));
+                }
 
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
+
                 apiTemplateFiles.put("apiClient.mustache", "Client.java");
                 if (!additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");

@@ -76,7 +76,7 @@ class DogAllOfTest extends TestCase
     public function testDogAllOf()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class DogAllOfTest extends TestCase
     public function testPropertyBreed()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

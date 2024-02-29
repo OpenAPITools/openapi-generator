@@ -128,13 +128,11 @@ export interface FormatTest {
  * Check if a given object implements the FormatTest interface.
  */
 export function instanceOfFormatTest(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "number" in value;
-    isInstance = isInstance && "_byte" in value;
-    isInstance = isInstance && "date" in value;
-    isInstance = isInstance && "password" in value;
-
-    return isInstance;
+    if (!('number' in value)) return false;
+    if (!('_byte' in value)) return false;
+    if (!('date' in value)) return false;
+    if (!('password' in value)) return false;
+    return true;
 }
 
 export function FormatTestFromJSON(json: any): FormatTest {
@@ -142,7 +140,7 @@ export function FormatTestFromJSON(json: any): FormatTest {
 }
 
 export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): FormatTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -175,22 +173,22 @@ export function FormatTestToJSON(value?: FormatTest | null): any {
     }
     return {
         
-        'integer': value.integer,
-        'int32': value.int32,
-        'int64': value.int64,
-        'number': value.number,
-        'float': value._float,
-        'double': value._double,
-        'decimal': DecimalToJSON(value.decimal),
-        'string': value.string,
-        'byte': value._byte,
-        'binary': value.binary,
-        'date': (value.date.toISOString().substring(0,10)),
-        'dateTime': value.dateTime === undefined ? undefined : (value.dateTime.toISOString()),
-        'uuid': value.uuid,
-        'password': value.password,
-        'pattern_with_digits': value.patternWithDigits,
-        'pattern_with_digits_and_delimiter': value.patternWithDigitsAndDelimiter,
+        'integer': value['integer'],
+        'int32': value['int32'],
+        'int64': value['int64'],
+        'number': value['number'],
+        'float': value['_float'],
+        'double': value['_double'],
+        'decimal': DecimalToJSON(value['decimal']),
+        'string': value['string'],
+        'byte': value['_byte'],
+        'binary': value['binary'],
+        'date': ((value['date']).toISOString().substring(0,10)),
+        'dateTime': !exists(value, 'dateTime') ? undefined : ((value['dateTime']).toISOString()),
+        'uuid': value['uuid'],
+        'password': value['password'],
+        'pattern_with_digits': value['patternWithDigits'],
+        'pattern_with_digits_and_delimiter': value['patternWithDigitsAndDelimiter'],
     };
 }
 

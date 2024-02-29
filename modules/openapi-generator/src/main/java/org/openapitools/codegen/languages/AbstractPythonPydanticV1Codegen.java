@@ -879,10 +879,6 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 // if super class
                 if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
                     typingImports.add("Union");
-                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getModelName());
-                    }
                 }
             }
 

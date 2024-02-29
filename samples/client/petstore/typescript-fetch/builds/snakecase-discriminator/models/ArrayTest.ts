@@ -50,9 +50,7 @@ export interface ArrayTest {
  * Check if a given object implements the ArrayTest interface.
  */
 export function instanceOfArrayTest(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function ArrayTestFromJSON(json: any): ArrayTest {
@@ -60,7 +58,7 @@ export function ArrayTestFromJSON(json: any): ArrayTest {
 }
 
 export function ArrayTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): ArrayTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -80,9 +78,9 @@ export function ArrayTestToJSON(value?: ArrayTest | null): any {
     }
     return {
         
-        'array_of_string': value.arrayOfString,
-        'array_array_of_integer': value.arrayArrayOfInteger,
-        'array_array_of_model': value.arrayArrayOfModel,
+        'array_of_string': value['arrayOfString'],
+        'array_array_of_integer': value['arrayArrayOfInteger'],
+        'array_array_of_model': value['arrayArrayOfModel'],
     };
 }
 
