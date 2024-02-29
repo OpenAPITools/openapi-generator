@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## endpoint_get
 
-> crate::models::EmptyObject endpoint_get()
+> models::EmptyObject endpoint_get()
 Get endpoint
 
 ### Parameters
@@ -19,7 +19,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::EmptyObject**](EmptyObject.md)
+[**models::EmptyObject**](EmptyObject.md)
 
 ### Authorization
 

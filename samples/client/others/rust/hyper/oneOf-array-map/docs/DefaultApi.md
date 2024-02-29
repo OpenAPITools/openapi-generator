@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## root_get
 
-> crate::models::Fruit root_get()
+> models::Fruit root_get()
 
 
 ### Parameters
@@ -20,7 +20,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::Fruit**](fruit.md)
+[**models::Fruit**](fruit.md)
 
 ### Authorization
 

@@ -13,7 +13,7 @@ use crate::models;
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Banana {
     #[serde(rename = "lengthCm", skip_serializing_if = "Option::is_none")]
-    pub length_cm: Option<f32>,
+    pub length_cm: Option<f64>,
 }
 
 impl Banana {

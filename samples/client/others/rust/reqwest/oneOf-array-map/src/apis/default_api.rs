@@ -30,7 +30,7 @@ pub enum TestError {
 }
 
 
-pub fn root_get(configuration: &configuration::Configuration, ) -> Result<crate::models::Fruit, Error<RootGetError>> {
+pub fn root_get(configuration: &configuration::Configuration, ) -> Result<models::Fruit, Error<RootGetError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

@@ -13,15 +13,15 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "fruitType")]
 pub enum Fruit {
-    #[serde(rename="one_of_0")]
-    one_of_0(Box<crate::models::Apple>),
-    #[serde(rename="one_of_1")]
-    one_of_1(Box<crate::models::Banana>),
+    #[serde(rename="APPLE")]
+    Apple(Box<models::Apple>),
+    #[serde(rename="BANANA")]
+    Banana(Box<models::Banana>),
 }
 
 impl Default for Fruit {
     fn default() -> Self {
-        Self::one_of_0(Default::default())
+        Self::Apple(Default::default())
     }
 }
 

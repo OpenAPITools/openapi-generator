@@ -23,7 +23,7 @@ pub enum GetFruitError {
 }
 
 
-pub fn get_fruit(configuration: &configuration::Configuration, ) -> Result<crate::models::Fruit, Error<GetFruitError>> {
+pub fn get_fruit(configuration: &configuration::Configuration, ) -> Result<models::Fruit, Error<GetFruitError>> {
     let local_var_configuration = configuration;
 
     let local_var_client = &local_var_configuration.client;

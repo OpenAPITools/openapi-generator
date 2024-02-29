@@ -13,17 +13,17 @@ use crate::models;
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "realtype")]
 pub enum CustomOneOfArraySchemaInner {
-    #[serde(rename="one_of_0")]
-    one_of_0(Box<crate::models::ObjA>),
-    #[serde(rename="one_of_1")]
-    one_of_1(Box<crate::models::ObjB>),
-    #[serde(rename="one_of_2")]
-    one_of_2(Box<crate::models::ObjC>),
+    #[serde(rename="a-type")]
+    AType(Box<models::ObjA>),
+    #[serde(rename="b-type")]
+    BType(Box<models::ObjB>),
+    #[serde(rename="c-type")]
+    CType(Box<models::ObjC>),
 }
 
 impl Default for CustomOneOfArraySchemaInner {
     fn default() -> Self {
-        Self::one_of_0(Default::default())
+        Self::AType(Default::default())
     }
 }
 
