@@ -166,6 +166,8 @@ Class | Method | HTTP request | Description
  - [CreatureInfo](docs/CreatureInfo.md)
  - [DanishPig](docs/DanishPig.md)
  - [DeprecatedObject](docs/DeprecatedObject.md)
+ - [DiscriminatorAllOfSub](docs/DiscriminatorAllOfSub.md)
+ - [DiscriminatorAllOfSuper](docs/DiscriminatorAllOfSuper.md)
  - [Dog](docs/Dog.md)
  - [DummyModel](docs/DummyModel.md)
  - [EnumArrays](docs/EnumArrays.md)

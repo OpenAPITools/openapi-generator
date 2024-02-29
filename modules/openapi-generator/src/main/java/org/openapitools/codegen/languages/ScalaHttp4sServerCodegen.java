@@ -841,18 +841,6 @@ public class ScalaHttp4sServerCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator's contributed by Jim Schubert (https://github.com/jimschubert)#");
-        System.out.println("# Please support his work directly via https://patreon.com/jimschubert \uD83D\uDE4F      #");
-        System.out.println("################################################################################");
-    }
-
-    @Override
     public GeneratorLanguage generatorLanguage() {
         return GeneratorLanguage.SCALA;
     }

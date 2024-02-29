@@ -316,7 +316,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <feign-version>12.5</feign-version>
+        <feign-version>13.2.1</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         <jackson-version>2.15.2</jackson-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>

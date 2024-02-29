@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **toppings** | Option<**String**> |  | [optional]
-**pizza_size** | Option<**f32**> |  | [optional]
+**pizza_size** | Option<**f64**> |  | [optional]
 **href** | Option<**String**> | Hyperlink reference | [optional]
 **id** | Option<**String**> | unique identifier | [optional]
 **at_schema_location** | Option<**String**> | A URI to a JSON-Schema file that defines additional attributes and relationships | [optional]

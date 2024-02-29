@@ -952,6 +952,15 @@ components:
           items:
             type: string
           type: array
+        ref_array_prefix_items:
+          description: |
+            An item that was added to the queue.
+          items:
+            description: TODO default missing array inner type to string
+            type: string
+          maxItems: 5
+          minItems: 3
+          type: array
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
@@ -962,6 +971,15 @@ components:
           type: string
       - items:
           type: integer
+    ArrayPrefixItems:
+      description: |
+        An item that was added to the queue.
+      items:
+        description: TODO default missing array inner type to string
+        type: string
+      maxItems: 5
+      minItems: 3
+      type: array
     updatePetWithForm_request:
       properties:
         name:

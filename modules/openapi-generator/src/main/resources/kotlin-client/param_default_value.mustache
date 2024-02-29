@@ -1,0 +1,1 @@
+{{^isNumber}}{{#isEnum}}{{#enumDefaultValue}}{{enumName}}{{operationIdCamelCase}}.{{.}}{{/enumDefaultValue}}{{^enumDefaultValue}}null{{/enumDefaultValue}}{{/isEnum}}{{^isEnum}}{{{defaultValue}}}{{/isEnum}}{{/isNumber}}{{#isNumber}}{{{defaultValue}}}.toDouble(){{/isNumber}}

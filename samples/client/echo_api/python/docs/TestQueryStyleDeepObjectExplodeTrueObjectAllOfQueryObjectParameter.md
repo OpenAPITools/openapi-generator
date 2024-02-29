@@ -20,7 +20,7 @@ json = "{}"
 # create an instance of TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter from a JSON string
 test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_instance = TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.from_json(json)
 # print the JSON string representation of the object
-print TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.to_json()
+print(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.to_json())
 
 # convert the object into a dict
 test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_dict = test_query_style_deep_object_explode_true_object_all_of_query_object_parameter_instance.to_dict()

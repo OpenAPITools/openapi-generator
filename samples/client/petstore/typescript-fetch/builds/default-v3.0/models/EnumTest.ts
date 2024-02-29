@@ -73,7 +73,7 @@ export interface EnumTest {
      * @type {OuterEnum}
      * @memberof EnumTest
      */
-    outerEnum?: OuterEnum | null;
+    outerEnum?: OuterEnum;
     /**
      * 
      * @type {OuterEnumInteger}
@@ -138,10 +138,8 @@ export type EnumTestEnumNumberEnum = typeof EnumTestEnumNumberEnum[keyof typeof 
  * Check if a given object implements the EnumTest interface.
  */
 export function instanceOfEnumTest(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "enumStringRequired" in value;
-
-    return isInstance;
+    if (!('enumStringRequired' in value)) return false;
+    return true;
 }
 
 export function EnumTestFromJSON(json: any): EnumTest {
@@ -149,7 +147,7 @@ export function EnumTestFromJSON(json: any): EnumTest {
 }
 
 export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumTest {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -174,14 +172,14 @@ export function EnumTestToJSON(value?: EnumTest | null): any {
     }
     return {
         
-        'enum_string': value.enumString,
-        'enum_string_required': value.enumStringRequired,
-        'enum_integer': value.enumInteger,
-        'enum_number': value.enumNumber,
-        'outerEnum': OuterEnumToJSON(value.outerEnum),
-        'outerEnumInteger': OuterEnumIntegerToJSON(value.outerEnumInteger),
-        'outerEnumDefaultValue': OuterEnumDefaultValueToJSON(value.outerEnumDefaultValue),
-        'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value.outerEnumIntegerDefaultValue),
+        'enum_string': value['enumString'],
+        'enum_string_required': value['enumStringRequired'],
+        'enum_integer': value['enumInteger'],
+        'enum_number': value['enumNumber'],
+        'outerEnum': OuterEnumToJSON(value['outerEnum']),
+        'outerEnumInteger': OuterEnumIntegerToJSON(value['outerEnumInteger']),
+        'outerEnumDefaultValue': OuterEnumDefaultValueToJSON(value['outerEnumDefaultValue']),
+        'outerEnumIntegerDefaultValue': OuterEnumIntegerDefaultValueToJSON(value['outerEnumIntegerDefaultValue']),
     };
 }
 
