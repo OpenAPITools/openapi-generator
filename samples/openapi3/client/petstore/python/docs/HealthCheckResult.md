@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of HealthCheckResult from a JSON string
 health_check_result_instance = HealthCheckResult.from_json(json)
 # print the JSON string representation of the object
-print HealthCheckResult.to_json()
+print(HealthCheckResult.to_json())
 
 # convert the object into a dict
 health_check_result_dict = health_check_result_instance.to_dict()
