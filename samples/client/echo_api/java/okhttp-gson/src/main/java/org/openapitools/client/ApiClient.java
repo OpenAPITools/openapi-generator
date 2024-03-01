@@ -59,6 +59,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 /**
  * <p>ApiClient class.</p>
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
 
     private String basePath = "http://localhost:3000";
@@ -90,6 +91,10 @@ public class ApiClient {
     private OkHttpClient httpClient;
     private JSON json;
 
+    /**
+     * Visible so that unit tests don't have to mock java.util.logging.
+     */
+    HttpLoggingInterceptor.Logger debugLogger = HttpLoggingInterceptor.Logger.DEFAULT;
     private HttpLoggingInterceptor loggingInterceptor;
 
     /**
@@ -544,7 +549,8 @@ public class ApiClient {
     public ApiClient setDebugging(boolean debugging) {
         if (debugging != this.debugging) {
             if (debugging) {
-                loggingInterceptor = new HttpLoggingInterceptor();
+                loggingInterceptor = new HttpLoggingInterceptor(debugLogger);
+                loggingInterceptor.redactHeader("authorization");
                 loggingInterceptor.setLevel(Level.BODY);
                 httpClient = httpClient.newBuilder().addInterceptor(loggingInterceptor).build();
             } else {
