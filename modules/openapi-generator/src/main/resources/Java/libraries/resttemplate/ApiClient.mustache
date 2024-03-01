@@ -789,43 +789,33 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
               if (ex.getStatusCode().equals(HttpStatus.TOO_MANY_REQUESTS)) {
                   HttpHeaders responseHeaders = ex.getResponseHeaders();
                   String retryAfterHeader = responseHeaders.getFirst("Retry-After");
-                  if (retryAfterHeader != null) {
-                     try {
-                        ZonedDateTime currentTime = ZonedDateTime.now(ZoneOffset.UTC);
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
-                        ZonedDateTime retryAfterDate = ZonedDateTime.parse(retryAfterHeader, formatter);
-                        Duration duration = Duration.between(currentTime, retryAfterDate);
-                        long durationSeconds = duration.getSeconds();
-                        attempts++;
-                        if (attempts < maxAttemptsForRetry) {
-                           logger.info("Attempting to retry after " + retryAfterHeader);
-                           try {
-                              Thread.sleep(durationSeconds * 1000);
-                           } catch (InterruptedException ix) {
-                              Thread.currentThread().interrupt();
-                           }
-                        } else {
-                           throw ex;
-                        }
-                     } catch (DateTimeParseException e) {
-                        long retryAfterSeconds = Long.parseLong(retryAfterHeader);
-                        if (attempts < maxAttemptsForRetry) {
-                            logger.info("Attempting to retry after " + retryAfterSeconds + " seconds");
-                            attempts++;
-                            try {
-                               Thread.sleep(retryAfterSeconds * 1000);
-                            } catch (InterruptedException ix) {
-                               Thread.currentThread().interrupt();
-                            }
-                        } else {
-                            throw ex;
-                        }
-                     }
-                  } else {
+                  if (retryAfterHeader == null) {
                       logger.error("Retry-After header not found in response. Max attempts reached.");
                       throw ex;
+                  }
+                  long retryAfterSeconds = 0;
+                  try {
+                     ZonedDateTime currentTime = ZonedDateTime.now(ZoneOffset.UTC);
+                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss zzz", Locale.ENGLISH);
+                     ZonedDateTime retryAfterDate = ZonedDateTime.parse(retryAfterHeader, formatter);
+                     Duration duration = Duration.between(currentTime, retryAfterDate);
+                     retryAfterSeconds = duration.getSeconds();
+
+                  } catch (DateTimeParseException e) {
+                      retryAfterSeconds = Long.parseLong(retryAfterHeader);
+                  }
+                  attempts++;
+                  if (attempts < maxAttemptsForRetry) {
+                  logger.info("Attempting to retry after " + retryAfterSeconds + " seconds");
+                     try {
+                        Thread.sleep(retryAfterSeconds * 1000);
+                     } catch (InterruptedException ix) {
+                        Thread.currentThread().interrupt();
                      }
-                  } else if (ex instanceof HttpServerErrorException) {
+                  } else {
+                     throw ex;
+                  }
+              } else if (ex instanceof HttpServerErrorException) {
                       attempts++;
                       if (attempts < maxAttemptsForRetry) {
                           logger.info("Retry Attempt : " + attempts);
@@ -837,9 +827,9 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
                       } else {
                          throw ex;
                       }
-                  } else {
+              } else {
                       throw ex;
-                  }
+              }
            }
         }
 
