@@ -677,10 +677,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      * Loop through all the codegenModels to set the correct name when inheritance and discriminators are used.
      *
      * The name is used to set @jsonTypeName on classes whose names are different that the one specified in the contract.
-     * This is needed:
-     *   when a prefix and/or suffix configuration is set
-     *   when a discriminator mapping is specified in the contract.
-     *
+     * <p>
+     * This is needed when
+     * <ul>
+     *   <li>x-discriminator-value is specified on children
+     *   <li>discriminator mapping is specified on parents.
+     * </ul>
      * @param objs map of all CodeGenModels
      */
     private void postProcessMappingDiscriminators(Map<String, ModelsMap> objs) {
@@ -2537,8 +2539,30 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    /**
+     * Lambda to help the generation of {@literal @}JsontypeName.
+     *
+     *
+     * <p>
+     *     The main use case is to set the correct @jsonTypeName when inheritance is specified.
+     * <p>
+     *     No generated class is declared final, so @JsontypeName is also added for simple pojos.
+     * <p>
+     *
+     * {@literal @}JsontypeName is typically needed when
+     * <ul>
+     *   <li>modelNameSuffix and/or modelNamePrefix are used
+     *   <li>the model name is in lowercase
+     *   <li>the class name is sanitized (for example the name contains dots)
+     *   <li>x-discriminator-value is specified on the child model
+     *   <li>discriminator mapping on the parent model specifies a name different than the class name
+     *  </ul>
+     */
     private static class UseJsonTypeName implements Mustache.Lambda {
 
+        /**
+         * Write the enclosed fragment if the json type name is different than the class name.
+         */
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             // context index 1 is only valid when used in pojo.mustache
