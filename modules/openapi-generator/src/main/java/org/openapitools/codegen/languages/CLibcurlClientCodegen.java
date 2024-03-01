@@ -305,8 +305,6 @@ public class CLibcurlClientCodegen extends DefaultCodegen implements CodegenConf
 
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC).
                 defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION, CodegenConstants.HIDE_GENERATOR_VERSION_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
 
     }
 

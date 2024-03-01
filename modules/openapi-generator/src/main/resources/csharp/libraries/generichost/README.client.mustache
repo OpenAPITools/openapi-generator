@@ -10,7 +10,6 @@ $properties = @(
     'validatable={{validatable}}',
     'nullableReferenceTypes={{nullableReferenceTypes}}',
     'hideGenerationTimestamp={{hideGenerationTimestamp}}',
-    'hideGeneratorVersion={{hideGeneratorVersion}}',
     'packageVersion={{packageVersion}}',
     'packageAuthors={{packageAuthors}}',
     'packageCompany={{packageCompany}}',
@@ -184,9 +183,7 @@ Class | Method | HTTP request | Description
 {{^hideGenerationTimestamp}}
 - Build date: {{generatedDate}}
 {{/hideGenerationTimestamp}}
-{{^hideGeneratorVersion}}
 - Generator version: {{generatorVersion}}
-{{/hideGeneratorVersion}}
 - Build package: {{generatorClass}}
 
 ## Api Information
@@ -215,7 +212,6 @@ Class | Method | HTTP request | Description
 - gitRepoId: {{gitRepoId}}
 - gitUserId: {{gitUserId}}
 - hideGenerationTimestamp: {{hideGenerationTimestamp}}
-- hideGeneratorVersion: {{hideGeneratorVersion}}
 - interfacePrefix: {{interfacePrefix}}
 - library: {{library}}
 - licenseId: {{licenseId}}

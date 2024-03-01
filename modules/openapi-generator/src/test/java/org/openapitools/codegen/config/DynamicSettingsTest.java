@@ -135,7 +135,6 @@ public class DynamicSettingsTest {
                 .add("  booleanGetterPrefix: is")
                 .add("  artifactId: petstore-feign")
                 .add("  hideGenerationTimestamp: \"true\"")
-                .add("  hideGeneratorVersion: \"true\"")
                 .add("files:")
                 .add("  README.mustache:")
                 .add("    folder: ''")
@@ -180,7 +179,6 @@ public class DynamicSettingsTest {
         assertEquals(addlProps.get("booleanGetterPrefix"), "is");
         assertEquals(addlProps.get("artifactId"), "petstore-feign");
         assertEquals(addlProps.get("hideGenerationTimestamp"), "true");
-        assertEquals(addlProps.get("hideGeneratorVersion"), "true");
         assertEquals(generatorSettings.getGeneratorName(), "java");
         assertEquals(workflowSettings.getOutputDir(), "samples/client/petstore/java/feign");
         assertEquals(generatorSettings.getLibrary(), "feign");

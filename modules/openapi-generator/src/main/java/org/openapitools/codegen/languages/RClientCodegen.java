@@ -189,8 +189,6 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
-        cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATOR_VERSION, CodegenConstants.HIDE_GENERATOR_VERSION_DESC)
-                .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.EXCEPTION_ON_FAILURE, CodegenConstants.EXCEPTION_ON_FAILURE_DESC)
                 .defaultValue(Boolean.FALSE.toString()));
 

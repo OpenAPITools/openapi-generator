@@ -41,7 +41,6 @@ public class PerlClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, "true")
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, "true")
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
-                .put(CodegenConstants.HIDE_GENERATOR_VERSION, "true")
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
                 .build();
     }

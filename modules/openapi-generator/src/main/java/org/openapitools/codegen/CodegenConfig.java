@@ -260,10 +260,6 @@ public interface CodegenConfig {
 
     public void setHideGenerationTimestamp(boolean hideGenerationTimestamp);
 
-    public boolean isHideGeneratorVersion();
-
-    public void setHideGeneratorVersion(boolean hideGeneratorVersion);
-
     Map<String, String> supportedLibraries();
 
     void setLibrary(String library);

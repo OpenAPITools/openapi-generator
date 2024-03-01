@@ -162,9 +162,6 @@ CONFIG OPTIONS
 	hideGenerationTimestamp
 	    Hides the generation timestamp when files are generated. (Default: true)
 
-	hideGeneratorVersion
-	    Hides the OpenAPI Generator version when files are generated. (Default: true)
-
 	packageVersion
 	    Go package version. (Default: 1.0.0)
 

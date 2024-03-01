@@ -19,7 +19,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
-|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |packageName|GraphQL Node.js Express server package name (convention: lowercase).| |openapi3graphql-server|
 |packageVersion|GraphQL Node.js Express server package version.| |1.0.0|
 

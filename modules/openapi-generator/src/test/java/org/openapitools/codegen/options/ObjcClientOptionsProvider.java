@@ -48,7 +48,6 @@ public class ObjcClientOptionsProvider implements OptionsProvider {
                 .put(ObjcClientCodegen.GIT_REPO_URL, GIT_REPO_URL_VALUE)
                 .put(ObjcClientCodegen.CORE_DATA, CORE_DATA_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
-                .put(CodegenConstants.HIDE_GENERATOR_VERSION, "true")
                 .build();
     }
 

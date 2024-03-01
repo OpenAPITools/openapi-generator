@@ -59,7 +59,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |groupId|groupId in generated pom.xml| |org.openapitools|
 |hateoas|Use Spring HATEOAS library to allow adding HATEOAS links| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |false|
-|hideGeneratorVersion|Hides the OpenAPI Generator version when files are generated.| |true|
 |ignoreAnyOfInEnum|Ignore anyOf keyword in enum| |false|
 |implicitHeaders|Skip header parameters in the generated API methods using @ApiImplicitParams annotation.| |false|
 |implicitHeadersRegex|Skip header parameters that matches given regex in the generated API methods using @ApiImplicitParams annotation. Note: this parameter is ignored when implicitHeaders=true| |null|

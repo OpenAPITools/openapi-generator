@@ -214,31 +214,26 @@ public class DefaultCodegenTest {
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
         Assert.assertTrue(codegen.isHideGenerationTimestamp());
-        Assert.assertTrue(codegen.isHideGeneratorVersion());
     }
 
     @Test
     public void testSettersForConfigValues() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.setHideGenerationTimestamp(false);
-        codegen.setHideGeneratorVersion(false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertFalse(codegen.isHideGeneratorVersion());
     }
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
         final DefaultCodegen codegen = new DefaultCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
-        codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATOR_VERSION, false);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.FALSE);
         Assert.assertFalse(codegen.isHideGenerationTimestamp());
-        Assert.assertFalse(codegen.isHideGeneratorVersion());
     }
 
     @Test
