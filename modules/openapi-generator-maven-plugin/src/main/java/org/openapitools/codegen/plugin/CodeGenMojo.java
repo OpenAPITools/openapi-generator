@@ -116,13 +116,13 @@ public class CodeGenMojo extends AbstractMojo {
      * Location of the OpenAPI spec, as URL or file.
      */
     @Parameter(name = "inputSpec", property = "openapi.generator.maven.plugin.inputSpec")
-    private String inputSpec;
+    protected String inputSpec;
 
     /**
      * Local root folder with spec files
      */
     @Parameter(name = "inputSpecRootDirectory", property = "openapi.generator.maven.plugin.inputSpecRootDirectory")
-    private String inputSpecRootDirectory;
+    protected String inputSpecRootDirectory;
 
     /**
      * Name of the file that will contain all merged specs
