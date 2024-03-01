@@ -21,7 +21,7 @@ pub enum CustomOneOfSchema {
 
 impl Default for CustomOneOfSchema {
     fn default() -> Self {
-        Self::AType(Box::default())
+        Self::AType(Default::default())
     }
 }
 

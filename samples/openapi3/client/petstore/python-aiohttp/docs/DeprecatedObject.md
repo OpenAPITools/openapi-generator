@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of DeprecatedObject from a JSON string
 deprecated_object_instance = DeprecatedObject.from_json(json)
 # print the JSON string representation of the object
-print DeprecatedObject.to_json()
+print(DeprecatedObject.to_json())
 
 # convert the object into a dict
 deprecated_object_dict = deprecated_object_instance.to_dict()

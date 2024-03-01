@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of MixedPropertiesAndAdditionalPropertiesClass from a JSON string
 mixed_properties_and_additional_properties_class_instance = MixedPropertiesAndAdditionalPropertiesClass.from_json(json)
 # print the JSON string representation of the object
-print MixedPropertiesAndAdditionalPropertiesClass.to_json()
+print(MixedPropertiesAndAdditionalPropertiesClass.to_json())
 
 # convert the object into a dict
 mixed_properties_and_additional_properties_class_dict = mixed_properties_and_additional_properties_class_instance.to_dict()

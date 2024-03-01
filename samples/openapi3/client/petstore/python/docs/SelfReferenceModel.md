@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of SelfReferenceModel from a JSON string
 self_reference_model_instance = SelfReferenceModel.from_json(json)
 # print the JSON string representation of the object
-print SelfReferenceModel.to_json()
+print(SelfReferenceModel.to_json())
 
 # convert the object into a dict
 self_reference_model_dict = self_reference_model_instance.to_dict()

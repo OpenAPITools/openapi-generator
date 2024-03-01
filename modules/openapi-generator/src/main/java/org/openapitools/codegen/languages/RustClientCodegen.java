@@ -50,6 +50,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     private boolean withAWSV4Signature = false;
     private boolean preferUnsignedInt = false;
     private boolean bestFitInt = false;
+    private boolean avoidBoxedModels = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
@@ -60,6 +61,7 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
     public static final String PREFER_UNSIGNED_INT = "preferUnsignedInt";
     public static final String BEST_FIT_INT = "bestFitInt";
+    public static final String AVOID_BOXED_MODELS = "avoidBoxedModels";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -193,6 +195,8 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         cliOptions.add(new CliOption(PREFER_UNSIGNED_INT, "Prefer unsigned integers where minimum value is >= 0", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(new CliOption(BEST_FIT_INT, "Use best fitting integer type where minimum or maximum is set", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(AVOID_BOXED_MODELS, "If set, `Box<T>` will not be used for models", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
@@ -343,6 +347,11 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
         }
         writePropertyBack(BEST_FIT_INT, getBestFitInt());
 
+        if (additionalProperties.containsKey(AVOID_BOXED_MODELS)) {
+            this.setAvoidBoxedModels(convertPropertyToBoolean(AVOID_BOXED_MODELS));
+        }
+        writePropertyBack(AVOID_BOXED_MODELS, getAvoidBoxedModels());
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
@@ -437,6 +446,14 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
 
     private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
         this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
+    public boolean getAvoidBoxedModels() {
+        return avoidBoxedModels;
+    }
+
+    public void setAvoidBoxedModels(boolean avoidBoxedModels) {
+        this.avoidBoxedModels = avoidBoxedModels;
     }
 
     @Override
@@ -604,5 +621,4 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
             return null;
         }
     }
-
 }

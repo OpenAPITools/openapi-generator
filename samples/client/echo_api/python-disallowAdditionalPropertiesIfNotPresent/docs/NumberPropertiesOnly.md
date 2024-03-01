@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of NumberPropertiesOnly from a JSON string
 number_properties_only_instance = NumberPropertiesOnly.from_json(json)
 # print the JSON string representation of the object
-print NumberPropertiesOnly.to_json()
+print(NumberPropertiesOnly.to_json())
 
 # convert the object into a dict
 number_properties_only_dict = number_properties_only_instance.to_dict()

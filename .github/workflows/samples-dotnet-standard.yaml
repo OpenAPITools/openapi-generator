@@ -1,12 +1,24 @@
-name: Samples C# .Net Standard
+name: Samples C# .Net Standard Client
 
 on:
   push:
     paths:
-      - 'samples/client/petstore/csharp/**netstandard**/'
+      # build C# API client (netstandard)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/*netstandard*/**
+      # build C# API client (netstandard with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (netstandard httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
   pull_request:
     paths:
-      - 'samples/client/petstore/csharp/**netstandard**/'
+      # build C# API client (netstandard)
+      - samples/client/petstore/csharp/OpenAPIClient/**
+      - samples/client/petstore/csharp/*netstandard*/**
+      # build C# API client (netstandard with ConditionalSerialization)
+      - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/**
+      # build C# API client (netstandard httpclient)
+      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
 jobs:
   build:
     name: Build .Net projects
@@ -15,8 +27,13 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          # clients
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0
+          # build C# API client (netstandard)
+          - samples/client/petstore/csharp/OpenAPIClient/
+          - samples/client/petstore/csharp/OpenAPIClient-generichost-netstandard2.0/
+          # build C# API client (netstandard with ConditionalSerialization)
+          - samples/client/petstore/csharp/OpenAPIClient-ConditionalSerialization/
+          # build C# API client (netstandard httpclient)
+          - samples/client/petstore/csharp/OpenAPIClient-httpclient/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
@@ -25,6 +42,8 @@ jobs:
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: dotnet build Org.OpenAPITools.sln
-      - name: Test
-        working-directory: ${{ matrix.sample }}
-        run: dotnet test Org.OpenAPITools.sln
+      # skip tests as petstore server it not running
+      # these tests are run in appveyor instead
+      #- name: Test
+      #  working-directory: ${{ matrix.sample }}
+      #  run: dotnet test Org.OpenAPITools.sln
