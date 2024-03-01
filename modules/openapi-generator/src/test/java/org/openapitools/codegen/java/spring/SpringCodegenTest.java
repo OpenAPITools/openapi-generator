@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDER;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
@@ -4479,10 +4480,13 @@ public class SpringCodegenTest {
 
         final OpenAPI openAPI =
 //            TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
-                        TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+//                        TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
-        final JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.setLibrary("resttemplate");
+        final SpringCodegen codegen = new SpringCodegen();
+codegen.additionalProperties().put(GENERATE_BUILDER, true);
+
+//        codegen.setLibrary("resttemplate");
 //        codegen.setOpenApiNullable(true);
 //        codegen.setUseBeanValidation(true);
 //        codegen.setUseOptional(true);
@@ -4496,7 +4500,7 @@ public class SpringCodegenTest {
         List<File> generatedFiles = generator.opts(input).generate();
         final Map<String, File> files = generatedFiles.stream()
             .collect(Collectors.toMap(File::getName, Function.identity()));
-
+System.out.println("files:");
         System.out.println(files);
     }
 }

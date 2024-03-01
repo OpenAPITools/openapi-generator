@@ -89,6 +89,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String JAVAX_PACKAGE = "javaxPackage";
     public static final String USE_JAKARTA_EE = "useJakartaEe";
     public static final String CONTAINER_DEFAULT_TO_NULL = "containerDefaultToNull";
+    public static final String GENERATE_BUILDER = "generateBuilder";
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
@@ -143,7 +144,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-    private boolean internalSkipValidation;
+    private boolean generateBuilder = true;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -284,6 +285,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_BUILDER, "whether to create a builder in the models"));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -570,6 +572,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setUseOneOfInterfaces(Boolean.parseBoolean(additionalProperties.get(USE_ONE_OF_INTERFACES).toString()));
         }
 
+        if (additionalProperties.containsKey(GENERATE_BUILDER)) {
+            this.setGenerateBuilder(Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDER).toString()));
+        }
+        writePropertyBack(GENERATE_BUILDER, generateBuilder);
+
         if (!StringUtils.isEmpty(parentGroupId) && !StringUtils.isEmpty(parentArtifactId) && !StringUtils.isEmpty(parentVersion)) {
             additionalProperties.put("parentOverridden", true);
         }
@@ -669,6 +676,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
         }
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
+    }
+
+    public void setGenerateBuilder(boolean generateBuilder) {
+        this.generateBuilder = generateBuilder;
+    }
+
+    public boolean isGenerateBuilder() {
+        return generateBuilder;
     }
 
     @Override
@@ -931,17 +946,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        try {
-            // do not generate validation for response
-            internalSkipValidation = true;
-            return super.fromResponse(responseCode, response);
-        } finally {
-            internalSkipValidation = false;
-        }
-    }
-
-    @Override
     public String getTypeDeclaration(Schema p) {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
@@ -972,9 +976,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String getTypeDeclarationForArray(Schema<?> items) {
         String typeDeclaration = super.getTypeDeclaration(items);
-        if (internalSkipValidation) {
-            return typeDeclaration;
-        }
+
         String extraAnnotation = Optional.ofNullable(items.getExtensions())
             .map(extensions -> extensions.get("x-field-extra-annotation"))
             .map(a -> a + " ")

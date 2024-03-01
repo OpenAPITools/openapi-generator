@@ -328,49 +328,53 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
     return o.toString().replace("\n", "\n    ");
   }
   {{/lombok.ToString}}
-  {{/lombok.Data}}  public static class Builder {
+  {{/lombok.Data}}
 
-  private {{classname}} instance;
-  protected Builder() [
-  this.instance = new  {{classname}}();
-  }
+
+  {{#generateBuilder}}
+    public static class Builder {
+
+      private {{classname}} instance;
+      protected Builder() {
+         this.instance = new  {{classname}}();
+      }
 {{#vars}}
-    public {{classname}}.Builder {{name}}({{#springDataTypeWithValidation}}{{{.}}}{{/springDataTypeWithValidation}} {{name}}) {
-    this.instance.{{name}} = {{#rightAssign}}{{.}}{{/rightAssign}};
-    return this;
-    }
+       public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+          this.instance.{{name}}({{name}});
+          return this;
+      }
+{{/vars}}
 
   {{#parentVars}}
-      public {{classname}}.Builder {{name}}({{#springDataTypeWithValidation}}{{{.}}}{{/springDataTypeWithValidation}} {{name}}) {
-      this.instance.{{name}}({{name}});
-      return this;
+      public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+          this.instance.{{name}}({{name}});
+          return this;
       }
   {{/parentVars}}
 
-    public {{classname}} build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
+      public {{classname}} build() {
+        return instance;
+      }
+      @Override
+      public String toString() {
+        return getClass() + "=(" + instance + ")";
+      }
+   }
 
-{{/vars}}
 
   public static {{classname}}.Builder builder() {
-  return new Builder();
+     return new Builder();
   }
   public {{classname}}.Builder toBuilder() {
-  return new Builder()
+    return new Builder()
 {{#vars}}
     .{{name}}({{name}})
 {{/vars}}
 {{#parentVars}}
-    .{{name}}({{name}})
+    .{{name}}({{getter}}())
 {{/parentVars}};
 
   }
-
+  {{/generateBuilder}}
 
 }
