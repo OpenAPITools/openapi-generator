@@ -1,0 +1,9 @@
+name := "{{artifactId}}"
+organization:="{{groupId}}"
+version := "0.0.1-SNAPSHOT"
+scalaVersion := "3.3.1"
+scalafmtOnCompile := true
+libraryDependencies ++= Seq(
+  "com.lihaoyi" %% "cask" % "0.9.2" ,
+  "com.lihaoyi" %% "upickle" % "3.2.0"
+)

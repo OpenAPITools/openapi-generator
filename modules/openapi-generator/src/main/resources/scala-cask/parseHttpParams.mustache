@@ -1,0 +1,55 @@
+        for {
+{{#pathParams}}
+            {{vendorExtensions.x-debug}}
+    {{#isString}}
+            {{paramName}} <- Parsed({{paramName}})
+    {{/isString}}
+    {{^isString}}
+            {{paramName}} <- Parsed({{paramName}})
+    {{/isString}}
+{{/pathParams}}
+{{#headerParams}}
+            {{vendorExtensions.x-debug}}
+            {{#required}}
+                {{paramName}} <- request.headerSingleValueRequired("{{paramName}}")
+            {{/required}}
+            {{^required}}
+                {{paramName}} <- request.headerSingleValueOptional("{{paramName}}")
+            {{/required}}
+{{/headerParams}}
+{{#formParams}}
+    {{vendorExtensions.x-debug}}
+    {{#required}}
+        {{paramName}} <- {{#isFile}}request.formValueAsFileRequired("{{paramName}}"){{/isFile}}{{^isFile}}request.formSingleValueRequired("{{paramName}}"){{/isFile}}
+    {{/required}}
+    {{^required}}
+        {{paramName}} <- {{#isFile}}request.formValueAsFileOptional("{{paramName}}"){{/isFile}}{{^isFile}}request.formSingleValueOptional("{{paramName}}"){{/isFile}}
+    {{/required}}
+{{/formParams}}
+{{#bodyParams}}
+            {{vendorExtensions.x-debug}}
+            /** TODO - this is a bit of a hack - we should do content type negotiation */
+    {{#vendorExtensions.x-consumes-json}}
+        {{#isArray}}
+            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.manyFromJsonString(request.bodyAsString))
+        {{/isArray}}
+        {{^isArray}}
+            {{#isMap}}
+            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.mapFromJsonString(request.bodyAsString))
+            {{/isMap}}
+            {{^isMap}}
+            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.fromJsonString(request.bodyAsString))
+            {{/isMap}}
+        {{/isArray}}
+    {{/vendorExtensions.x-consumes-json}}
+    {{^vendorExtensions.x-consumes-json}}
+        {{#vendorExtensions.x-consumes-xml}}
+            {{paramName}} <- Parsed.fail("TODO - xml deserialisation")
+        {{/vendorExtensions.x-consumes-xml}}
+        {{^vendorExtensions.x-consumes-xml}}
+            {{paramName}} <- Parsed.fail("TODO - content deserialisation")
+        {{/vendorExtensions.x-consumes-xml}}
+    {{/vendorExtensions.x-consumes-json}}
+{{/bodyParams}}
+            result <- Parsed.eval(service.{{operationId}}({{vendorExtensions.x-param-list}}))
+        } yield result

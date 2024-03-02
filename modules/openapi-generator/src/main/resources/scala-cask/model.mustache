@@ -1,0 +1,63 @@
+{{>licenseInfo}}
+// this model was generated using model.mustache
+package {{package}}
+{{#imports}}import {{import}}
+{{/imports}}
+import scala.util.control.NonFatal
+
+// see https://com-lihaoyi.github.io/upickle/
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
+{{#models}}
+{{#model}}
+case class {{classname}}(
+  {{#vars}}
+  {{#description}}
+/* {{{description}}} */
+  {{/description}}
+
+  {{name}}: {{#isEnum}}{{classname}}.{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{^required}} = {{{defaultValue}}} {{/required}}{{^-last}},{{/-last}}
+
+  {{/vars}}) {
+
+  def asJson = write(this)
+
+}
+
+object {{classname}}{
+
+{{#vars}}
+    {{#isEnum}}
+        enum {{datatypeWithEnum}} derives ReadWriter {
+        {{#_enum}}
+            case {{.}}
+        {{/_enum}}
+        }
+    {{/isEnum}}
+{{/vars}}
+
+  given RW[{{classname}}] = macroRW
+
+  def fromJsonString(jason : String) : {{classname}} = try {
+        read[{{classname}}](jason)
+     } catch {
+          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
+     }
+
+  def manyFromJsonString(jason : String) : List[{{classname}}] = try {
+        read[List[{{classname}}]](jason)
+    } catch {
+        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
+    }
+
+  def mapFromJsonString(jason : String) : Map[String, {{classname}}] = try {
+        read[Map[String, {{classname}}]](jason)
+    } catch {
+        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
+    }
+
+}
+
+{{/model}}
+{{/models}}

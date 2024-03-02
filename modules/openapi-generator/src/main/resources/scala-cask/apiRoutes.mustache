@@ -1,0 +1,48 @@
+//> using scala "3.3.1"
+//> using lib "com.lihaoyi::cask:0.8.3"
+//> using lib "com.lihaoyi::scalatags:0.12.0"
+{{>licenseInfo}}
+
+// this is generated from apiRoutes.mustache
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+{{vendorExtensions.x-debug}}
+final case class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
+
+{{#route-groups}}
+    // route group for {{methodName}}
+    {{caskAnnotation}}("{{pathPrefix}}", true)
+    def {{methodName}}(request: cask.Request{{>apiRoutesQueryParamsTyped}}) = {
+        request.remainingPathSegments match {
+    {{#operations}}
+            case Seq({{>pathExtractor}}) => {{operationId}}({{>pathExtractorParams}}request{{>queryParams}})
+    {{/operations}}
+            case _          => asHttpResponse(Right(ServiceResponse.NotFound()))
+        }
+    }
+{{/route-groups}}
+
+{{#operations}}
+    {{#operation}}
+        {{vendorExtensions.x-debug}}
+        /** {{summary}}
+         * {{description}}
+         */
+        {{vendorExtensions.x-annotation}}("{{vendorExtensions.x-cask-path}}")
+        def {{operationId}}({{vendorExtensions.x-cask-path-typed}}) = {
+        {{#authMethods}}
+            // auth method {{name}} : {{type}}, keyParamName: {{keyParamName}}
+        {{/authMethods}}
+
+        val serviceResponse = {{>parseHttpParams}}
+
+        asHttpResponse(serviceResponse)
+      }
+    {{/operation}}
+{{/operations}}
+
+    initialize()
+}
