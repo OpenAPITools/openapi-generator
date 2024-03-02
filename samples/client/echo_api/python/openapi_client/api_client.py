@@ -24,6 +24,8 @@ import tempfile
 
 from urllib.parse import quote
 from typing import Tuple, Optional, List, Dict
+from pydantic import SecretStr
+
 
 from openapi_client.configuration import Configuration
 from openapi_client.api_response import ApiResponse, T as ApiResponseT
@@ -333,6 +335,7 @@ class ApiClient:
         """Builds a JSON POST object.
 
         If obj is None, return None.
+        If obj is SecretStr, return obj.get_secret_value()
         If obj is str, int, long, float, bool, return directly.
         If obj is datetime.datetime, datetime.date
             convert to string in iso8601 format.
@@ -345,6 +348,8 @@ class ApiClient:
         """
         if obj is None:
             return None
+        elif isinstance(obj, SecretStr):
+            return obj.get_secret_value()
         elif isinstance(obj, self.PRIMITIVE_TYPES):
             return obj
         elif isinstance(obj, list):
