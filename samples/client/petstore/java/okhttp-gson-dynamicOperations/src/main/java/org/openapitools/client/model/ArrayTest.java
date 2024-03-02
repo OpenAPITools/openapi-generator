@@ -60,11 +60,11 @@ public class ArrayTest {
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List> arrayArrayOfInteger;
 
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_OF_MODEL)
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -96,7 +96,7 @@ public class ArrayTest {
   }
 
 
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -114,16 +114,16 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
-  public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -141,11 +141,11 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

@@ -203,5 +203,78 @@ public class TypeHolderDefault {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderDefault instance;
+
+    public Builder() {
+      this(new TypeHolderDefault());
+    }
+
+    protected Builder(TypeHolderDefault instance) {
+      this.instance = instance;
+    }
+
+    public TypeHolderDefault.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    public TypeHolderDefault.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    public TypeHolderDefault.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    public TypeHolderDefault.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    public TypeHolderDefault.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    /**
+    * returns a built TypeHolderDefault instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderDefault build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TypeHolderDefault.Builder builder() {
+    return new TypeHolderDefault.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderDefault.Builder toBuilder() {
+    TypeHolderDefault.Builder builder = new TypeHolderDefault.Builder();
+    builder.instance.setStringItem(stringItem);
+    builder.instance.setNumberItem(numberItem);
+    builder.instance.setIntegerItem(integerItem);
+    builder.instance.setBoolItem(boolItem);
+    builder.instance.setArrayItem(arrayItem);
+    return builder;
+  }
+
 }
 

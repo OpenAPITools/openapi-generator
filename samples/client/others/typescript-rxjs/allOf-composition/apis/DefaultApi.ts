@@ -13,14 +13,15 @@
 
 import type { Observable } from 'rxjs';
 import type { AjaxResponse } from 'rxjs/ajax';
-import { BaseAPI, throwIfNullOrUndefined, encodeURI } from '../runtime';
-import type { OperationOpts } from '../runtime';
+import { BaseAPI, throwIfNullOrUndefined } from '../runtime';
+import type { OperationOpts, HttpQuery } from '../runtime';
 import type {
+    BiggerObject3,
     SuperMan,
 } from '../models';
 
 export interface ListRequest {
-    personId: string;
+    bigObject3: BiggerObject3;
 }
 
 /**
@@ -30,14 +31,19 @@ export class DefaultApi extends BaseAPI {
 
     /**
      */
-    list({ personId }: ListRequest): Observable<SuperMan>
-    list({ personId }: ListRequest, opts?: OperationOpts): Observable<AjaxResponse<SuperMan>>
-    list({ personId }: ListRequest, opts?: OperationOpts): Observable<SuperMan | AjaxResponse<SuperMan>> {
-        throwIfNullOrUndefined(personId, 'personId', 'list');
+    list({ bigObject3 }: ListRequest): Observable<SuperMan>
+    list({ bigObject3 }: ListRequest, opts?: OperationOpts): Observable<AjaxResponse<SuperMan>>
+    list({ bigObject3 }: ListRequest, opts?: OperationOpts): Observable<SuperMan | AjaxResponse<SuperMan>> {
+        throwIfNullOrUndefined(bigObject3, 'bigObject3', 'list');
+
+        const query: HttpQuery = { // required parameters are used directly since they are already checked by throwIfNullOrUndefined
+            'BigObject3': bigObject3,
+        };
 
         return this.request<SuperMan>({
-            url: '/person/display/{personId}'.replace('{personId}', encodeURI(personId)),
+            url: '/person/display/',
             method: 'GET',
+            query,
         }, opts?.responseOpts);
     };
 

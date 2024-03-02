@@ -152,5 +152,73 @@ public class Name {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Name instance;
+
+    public Builder() {
+      this(new Name());
+    }
+
+    protected Builder(Name instance) {
+      this.instance = instance;
+    }
+
+    public Name.Builder name(Integer name) {
+      this.instance.name(name);
+      return this;
+    }
+    public Name.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase(snakeCase);
+      return this;
+    }
+    public Name.Builder property(String property) {
+      this.instance.property(property);
+      return this;
+    }
+    public Name.Builder _123number(Integer _123number) {
+      this.instance._123number(_123number);
+      return this;
+    }
+    /**
+    * returns a built Name instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Name build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Name.Builder builder() {
+    return new Name.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Name.Builder toBuilder() {
+    Name.Builder builder = new Name.Builder();
+    builder.instance.setName(name);
+    builder.instance.setSnakeCase(snakeCase);
+    builder.instance.setProperty(property);
+    builder.instance.set123number(_123number);
+    return builder;
+  }
+
 }
 

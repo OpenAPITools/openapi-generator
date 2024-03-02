@@ -29,10 +29,10 @@ public class ArrayTest {
   private List<String> arrayOfString;
 
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List> arrayArrayOfInteger;
 
   @Valid
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -62,7 +62,7 @@ public class ArrayTest {
     this.arrayOfString = arrayOfString;
   }
 
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -82,20 +82,20 @@ public class ArrayTest {
   @Valid 
   @Schema(name = "array_array_of_integer", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_integer")
-  public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -110,11 +110,11 @@ public class ArrayTest {
   @Valid 
   @Schema(name = "array_array_of_model", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("array_array_of_model")
-  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -158,5 +158,68 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ArrayTest instance;
+
+    public Builder() {
+      this(new ArrayTest());
+    }
+
+    protected Builder(ArrayTest instance) {
+      this.instance = instance;
+    }
+
+    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
+      this.instance.arrayOfString(arrayOfString);
+      return this;
+    }
+    public ArrayTest.Builder arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+      this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
+      return this;
+    }
+    public ArrayTest.Builder arrayArrayOfModel(List<List> arrayArrayOfModel) {
+      this.instance.arrayArrayOfModel(arrayArrayOfModel);
+      return this;
+    }
+    /**
+    * returns a built ArrayTest instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ArrayTest build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayTest.Builder builder() {
+    return new ArrayTest.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayTest.Builder toBuilder() {
+    ArrayTest.Builder builder = new ArrayTest.Builder();
+    builder.instance.setArrayOfString(arrayOfString);
+    builder.instance.setArrayArrayOfInteger(arrayArrayOfInteger);
+    builder.instance.setArrayArrayOfModel(arrayArrayOfModel);
+    return builder;
+  }
+
 }
 

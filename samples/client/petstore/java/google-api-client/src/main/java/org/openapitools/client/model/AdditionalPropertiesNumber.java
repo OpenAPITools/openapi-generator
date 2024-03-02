@@ -105,5 +105,59 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static class Builder {
+
+    private AdditionalPropertiesNumber instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesNumber());
+    }
+
+    protected Builder(AdditionalPropertiesNumber instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesNumber.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built AdditionalPropertiesNumber instance.
+    *
+    * The builder is not reusable.
+    */
+    public AdditionalPropertiesNumber build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesNumber.Builder builder() {
+    return new AdditionalPropertiesNumber.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesNumber.Builder toBuilder() {
+    return new AdditionalPropertiesNumber.Builder()
+      .name(getName());
+  }
+
+
 }
 

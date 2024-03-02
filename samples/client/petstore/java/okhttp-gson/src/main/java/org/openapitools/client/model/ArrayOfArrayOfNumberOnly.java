@@ -56,12 +56,12 @@ import org.openapitools.client.JSON;
 public class ArrayOfArrayOfNumberOnly {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -79,11 +79,11 @@ public class ArrayOfArrayOfNumberOnly {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

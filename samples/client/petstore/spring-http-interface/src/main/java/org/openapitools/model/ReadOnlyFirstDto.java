@@ -101,5 +101,63 @@ public class ReadOnlyFirstDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ReadOnlyFirstDto instance;
+
+    public Builder() {
+      this(new ReadOnlyFirstDto());
+    }
+
+    protected Builder(ReadOnlyFirstDto instance) {
+      this.instance = instance;
+    }
+
+    public ReadOnlyFirstDto.Builder bar(String bar) {
+      this.instance.bar(bar);
+      return this;
+    }
+    public ReadOnlyFirstDto.Builder baz(String baz) {
+      this.instance.baz(baz);
+      return this;
+    }
+    /**
+    * returns a built ReadOnlyFirstDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ReadOnlyFirstDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ReadOnlyFirstDto.Builder builder() {
+    return new ReadOnlyFirstDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ReadOnlyFirstDto.Builder toBuilder() {
+    ReadOnlyFirstDto.Builder builder = new ReadOnlyFirstDto.Builder();
+    builder.instance.setBar(bar);
+    builder.instance.setBaz(baz);
+    return builder;
+  }
+
 }
 

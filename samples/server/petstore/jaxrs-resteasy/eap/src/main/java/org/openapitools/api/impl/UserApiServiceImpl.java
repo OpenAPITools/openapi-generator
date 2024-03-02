@@ -22,11 +22,11 @@ public class UserApiServiceImpl implements UserApi {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext) {
+      public Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }
-      public Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext) {
+      public Response createUsersWithListInput(List<User> body,SecurityContext securityContext) {
       // do some magic!
       return Response.ok().build();
   }

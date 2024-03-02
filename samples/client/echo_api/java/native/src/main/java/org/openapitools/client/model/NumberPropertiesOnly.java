@@ -221,5 +221,71 @@ public class NumberPropertiesOnly {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private NumberPropertiesOnly instance;
+
+    public Builder() {
+      this(new NumberPropertiesOnly());
+    }
+
+    protected Builder(NumberPropertiesOnly instance) {
+      this.instance = instance;
+    }
+
+    public NumberPropertiesOnly.Builder number(BigDecimal number) {
+      this.instance.number = number;
+      return this;
+    }
+
+    public NumberPropertiesOnly.Builder _float(Float _float) {
+      this.instance._float = _float;
+      return this;
+    }
+
+    public NumberPropertiesOnly.Builder _double(Double _double) {
+      this.instance._double = _double;
+      return this;
+    }
+
+
+    /**
+    * returns a built NumberPropertiesOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public NumberPropertiesOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NumberPropertiesOnly.Builder builder() {
+    return new NumberPropertiesOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NumberPropertiesOnly.Builder toBuilder() {
+    return new NumberPropertiesOnly.Builder()
+      .number(getNumber())
+      ._float(getFloat())
+      ._double(getDouble());
+  }
+
 }
 

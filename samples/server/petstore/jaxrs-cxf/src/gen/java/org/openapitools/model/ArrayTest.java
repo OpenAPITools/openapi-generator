@@ -19,11 +19,11 @@ public class ArrayTest  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List> arrayArrayOfInteger;
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List> arrayArrayOfModel;
  /**
    * Get arrayOfString
    * @return arrayOfString
@@ -52,15 +52,15 @@ public class ArrayTest  {
    * @return arrayArrayOfInteger
   **/
   @JsonProperty("array_array_of_integer")
-  public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -75,20 +75,20 @@ public class ArrayTest  {
    * @return arrayArrayOfModel
   **/
   @JsonProperty("array_array_of_model")
-  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
   }

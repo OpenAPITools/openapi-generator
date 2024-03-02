@@ -31,7 +31,7 @@ public class FileSchemaTestClassDto {
   private FileDto file;
 
   @Valid
-  private List<@Valid FileDto> files;
+  private List<FileDto> files;
 
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;
@@ -53,7 +53,7 @@ public class FileSchemaTestClassDto {
     this.file = file;
   }
 
-  public FileSchemaTestClassDto files(List<@Valid FileDto> files) {
+  public FileSchemaTestClassDto files(List<FileDto> files) {
     this.files = files;
     return this;
   }
@@ -73,11 +73,11 @@ public class FileSchemaTestClassDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<@Valid FileDto> getFiles() {
+  public List<FileDto> getFiles() {
     return files;
   }
 
-  public void setFiles(List<@Valid FileDto> files) {
+  public void setFiles(List<FileDto> files) {
     this.files = files;
   }
 
@@ -119,5 +119,63 @@ public class FileSchemaTestClassDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private FileSchemaTestClassDto instance;
+
+    public Builder() {
+      this(new FileSchemaTestClassDto());
+    }
+
+    protected Builder(FileSchemaTestClassDto instance) {
+      this.instance = instance;
+    }
+
+    public FileSchemaTestClassDto.Builder file(FileDto file) {
+      this.instance.file(file);
+      return this;
+    }
+    public FileSchemaTestClassDto.Builder files(List<FileDto> files) {
+      this.instance.files(files);
+      return this;
+    }
+    /**
+    * returns a built FileSchemaTestClassDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FileSchemaTestClassDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FileSchemaTestClassDto.Builder builder() {
+    return new FileSchemaTestClassDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FileSchemaTestClassDto.Builder toBuilder() {
+    FileSchemaTestClassDto.Builder builder = new FileSchemaTestClassDto.Builder();
+    builder.instance.setFile(file);
+    builder.instance.setFiles(files);
+    return builder;
+  }
+
 }
 

@@ -43,7 +43,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private List<@Valid TagDto> tags;
+  private List<TagDto> tags;
 
   /**
    * pet status in the store
@@ -186,7 +186,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<@Valid TagDto> tags) {
+  public PetDto tags(List<TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -206,11 +206,11 @@ public class PetDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<@Valid TagDto> getTags() {
+  public List<TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid TagDto> tags) {
+  public void setTags(List<TagDto> tags) {
     this.tags = tags;
   }
 
@@ -286,5 +286,83 @@ public class PetDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private PetDto instance;
+
+    public Builder() {
+      this(new PetDto());
+    }
+
+    protected Builder(PetDto instance) {
+      this.instance = instance;
+    }
+
+    public PetDto.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    public PetDto.Builder category(CategoryDto category) {
+      this.instance.category(category);
+      return this;
+    }
+    public PetDto.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    public PetDto.Builder photoUrls(Set<String> photoUrls) {
+      this.instance.photoUrls(photoUrls);
+      return this;
+    }
+    public PetDto.Builder tags(List<TagDto> tags) {
+      this.instance.tags(tags);
+      return this;
+    }
+    public PetDto.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    /**
+    * returns a built PetDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public PetDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static PetDto.Builder builder() {
+    return new PetDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public PetDto.Builder toBuilder() {
+    PetDto.Builder builder = new PetDto.Builder();
+    builder.instance.setId(id);
+    builder.instance.setCategory(category);
+    builder.instance.setName(name);
+    builder.instance.setPhotoUrls(photoUrls);
+    builder.instance.setTags(tags);
+    builder.instance.setStatus(status);
+    return builder;
+  }
+
 }
 

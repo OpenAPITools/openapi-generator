@@ -131,5 +131,68 @@ public class ModelApiResponse {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ModelApiResponse instance;
+
+    public Builder() {
+      this(new ModelApiResponse());
+    }
+
+    protected Builder(ModelApiResponse instance) {
+      this.instance = instance;
+    }
+
+    public ModelApiResponse.Builder code(Integer code) {
+      this.instance.code(code);
+      return this;
+    }
+    public ModelApiResponse.Builder type(String type) {
+      this.instance.type(type);
+      return this;
+    }
+    public ModelApiResponse.Builder message(String message) {
+      this.instance.message(message);
+      return this;
+    }
+    /**
+    * returns a built ModelApiResponse instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ModelApiResponse build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ModelApiResponse.Builder builder() {
+    return new ModelApiResponse.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ModelApiResponse.Builder toBuilder() {
+    ModelApiResponse.Builder builder = new ModelApiResponse.Builder();
+    builder.instance.setCode(code);
+    builder.instance.setType(type);
+    builder.instance.setMessage(message);
+    return builder;
+  }
+
 }
 

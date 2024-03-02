@@ -128,7 +128,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{! begin feature: fluent setter methods }}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
     {{#openApiNullable}}
-    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.of({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
+    this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
     {{/openApiNullable}}
     {{^openApiNullable}}
     this.{{name}} = {{name}};
@@ -329,52 +329,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   }
   {{/lombok.ToString}}
   {{/lombok.Data}}
-
-
   {{#generateBuilder}}
-    public static class Builder {
-
-      private {{classname}} instance;
-      protected Builder() {
-         this.instance = new  {{classname}}();
-      }
-{{#vars}}
-       public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
-          this.instance.{{name}}({{name}});
-          return this;
-      }
-{{/vars}}
-
-  {{#parentVars}}
-      public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
-          this.instance.{{name}}({{name}});
-          return this;
-      }
-  {{/parentVars}}
-
-      public {{classname}} build() {
-        return instance;
-      }
-      @Override
-      public String toString() {
-        return getClass() + "=(" + instance + ")";
-      }
-   }
-
-
-  public static {{classname}}.Builder builder() {
-     return new Builder();
-  }
-  public {{classname}}.Builder toBuilder() {
-    return new Builder()
-{{#vars}}
-    .{{name}}({{name}})
-{{/vars}}
-{{#parentVars}}
-    .{{name}}({{getter}}())
-{{/parentVars}};
-
-  }
+  {{>javaBuilder}}
   {{/generateBuilder}}
-
 }

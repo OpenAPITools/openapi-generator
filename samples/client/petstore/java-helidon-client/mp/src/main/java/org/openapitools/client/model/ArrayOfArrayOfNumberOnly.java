@@ -27,24 +27,24 @@ import java.util.List;
 
 public class ArrayOfArrayOfNumberOnly  {
   
-  private List<List<BigDecimal>> arrayArrayNumber = null;
+  private List<List> arrayArrayNumber = null;
 
  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
   /**
     * Set arrayArrayNumber
   **/
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }

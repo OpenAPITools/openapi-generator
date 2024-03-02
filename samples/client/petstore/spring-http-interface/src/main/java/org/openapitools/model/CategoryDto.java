@@ -101,5 +101,63 @@ public class CategoryDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private CategoryDto instance;
+
+    public Builder() {
+      this(new CategoryDto());
+    }
+
+    protected Builder(CategoryDto instance) {
+      this.instance = instance;
+    }
+
+    public CategoryDto.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    public CategoryDto.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    /**
+    * returns a built CategoryDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public CategoryDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static CategoryDto.Builder builder() {
+    return new CategoryDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public CategoryDto.Builder toBuilder() {
+    CategoryDto.Builder builder = new CategoryDto.Builder();
+    builder.instance.setId(id);
+    builder.instance.setName(name);
+    return builder;
+  }
+
 }
 

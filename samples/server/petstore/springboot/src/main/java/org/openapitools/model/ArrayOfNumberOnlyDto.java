@@ -95,5 +95,58 @@ public class ArrayOfNumberOnlyDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ArrayOfNumberOnlyDto instance;
+
+    public Builder() {
+      this(new ArrayOfNumberOnlyDto());
+    }
+
+    protected Builder(ArrayOfNumberOnlyDto instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfNumberOnlyDto.Builder arrayNumber(List<BigDecimal> arrayNumber) {
+      this.instance.arrayNumber(arrayNumber);
+      return this;
+    }
+    /**
+    * returns a built ArrayOfNumberOnlyDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ArrayOfNumberOnlyDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfNumberOnlyDto.Builder builder() {
+    return new ArrayOfNumberOnlyDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfNumberOnlyDto.Builder toBuilder() {
+    ArrayOfNumberOnlyDto.Builder builder = new ArrayOfNumberOnlyDto.Builder();
+    builder.instance.setArrayNumber(arrayNumber);
+    return builder;
+  }
+
 }
 

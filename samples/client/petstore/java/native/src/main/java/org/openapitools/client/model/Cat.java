@@ -187,5 +187,63 @@ static {
   mappings.put("Cat", Cat.class);
   JSON.registerDiscriminator(Cat.class, "className", mappings);
 }
+
+    public static class Builder extends Animal.Builder {
+
+    private Cat instance;
+
+    public Builder() {
+      this(new Cat());
+    }
+
+    protected Builder(Cat instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public Cat.Builder declawed(Boolean declawed) {
+      this.instance.declawed = declawed;
+      return this;
+    }
+
+
+    /**
+    * returns a built Cat instance.
+    *
+    * The builder is not reusable.
+    */
+    public Cat build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Cat.Builder builder() {
+    return new Cat.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Cat.Builder toBuilder() {
+    return new Cat.Builder()
+      .className(getClassName())
+      .color(getColor())
+      .declawed(getDeclawed());
+  }
+
 }
 

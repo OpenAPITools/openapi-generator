@@ -27,7 +27,7 @@ public class ReadOnlyFirst {
   private Optional<String> baz = Optional.empty();
 
   public ReadOnlyFirst bar(String bar) {
-    this.bar = Optional.of(bar);
+    this.bar = Optional.ofNullable(bar);
     return this;
   }
 
@@ -47,7 +47,7 @@ public class ReadOnlyFirst {
   }
 
   public ReadOnlyFirst baz(String baz) {
-    this.baz = Optional.of(baz);
+    this.baz = Optional.ofNullable(baz);
     return this;
   }
 
@@ -104,5 +104,63 @@ public class ReadOnlyFirst {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ReadOnlyFirst instance;
+
+    public Builder() {
+      this(new ReadOnlyFirst());
+    }
+
+    protected Builder(ReadOnlyFirst instance) {
+      this.instance = instance;
+    }
+
+    public ReadOnlyFirst.Builder bar(String bar) {
+      this.instance.bar(bar);
+      return this;
+    }
+    public ReadOnlyFirst.Builder baz(String baz) {
+      this.instance.baz(baz);
+      return this;
+    }
+    /**
+    * returns a built ReadOnlyFirst instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ReadOnlyFirst build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ReadOnlyFirst.Builder builder() {
+    return new ReadOnlyFirst.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ReadOnlyFirst.Builder toBuilder() {
+    ReadOnlyFirst.Builder builder = new ReadOnlyFirst.Builder();
+    builder.instance.setBar(bar);
+    builder.instance.setBaz(baz);
+    return builder;
+  }
+
 }
 

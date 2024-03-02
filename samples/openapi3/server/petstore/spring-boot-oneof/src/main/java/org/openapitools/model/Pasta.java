@@ -122,5 +122,95 @@ public class Pasta extends Entity {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private Pasta instance;
+
+    public Builder() {
+      this(new Pasta());
+    }
+
+    protected Builder(Pasta instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public Pasta.Builder vendor(String vendor) {
+      this.instance.vendor(vendor);
+      return this;
+    }
+
+    @Override
+    public Pasta.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+
+    @Override
+    public Pasta.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+
+    @Override
+    public Pasta.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+
+    @Override
+    public Pasta.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+
+    @Override
+    public Pasta.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    /**
+    * returns a built Pasta instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pasta build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Pasta.Builder builder() {
+    return new Pasta.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pasta.Builder toBuilder() {
+    Pasta.Builder builder = new Pasta.Builder();
+    builder.instance.setVendor(vendor);
+    builder.instance.setHref(getHref());
+    builder.instance.setId(getId());
+    builder.instance.setAtSchemaLocation(getAtSchemaLocation());
+    builder.instance.setAtBaseType(getAtBaseType());
+    builder.instance.setAtType(getAtType());
+    return builder;
+  }
+
 }
 

@@ -104,5 +104,74 @@ public class Dog extends Animal {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Animal.Builder {
+
+    private Dog instance;
+
+    public Builder() {
+      this(new Dog());
+    }
+
+    protected Builder(Dog instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public Dog.Builder breed(String breed) {
+      this.instance.breed(breed);
+      return this;
+    }
+
+    @Override
+    public Dog.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+
+    @Override
+    public Dog.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    /**
+    * returns a built Dog instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Dog build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Dog.Builder builder() {
+    return new Dog.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Dog.Builder toBuilder() {
+    Dog.Builder builder = new Dog.Builder();
+    builder.instance.setBreed(breed);
+    builder.instance.setClassName(getClassName());
+    builder.instance.setColor(getColor());
+    return builder;
+  }
+
 }
 

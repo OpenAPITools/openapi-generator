@@ -37,9 +37,9 @@ import javax.validation.Valid;
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List> arrayArrayNumber;
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -59,11 +59,11 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   @JsonProperty(value = "ArrayArrayNumber")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

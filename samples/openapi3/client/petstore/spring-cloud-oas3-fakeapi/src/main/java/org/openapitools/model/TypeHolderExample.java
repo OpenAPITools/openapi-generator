@@ -212,5 +212,83 @@ public class TypeHolderExample {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderExample instance;
+
+    public Builder() {
+      this(new TypeHolderExample());
+    }
+
+    protected Builder(TypeHolderExample instance) {
+      this.instance = instance;
+    }
+
+    public TypeHolderExample.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    public TypeHolderExample.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    public TypeHolderExample.Builder floatItem(Float floatItem) {
+      this.instance.floatItem(floatItem);
+      return this;
+    }
+    public TypeHolderExample.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    public TypeHolderExample.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    public TypeHolderExample.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    /**
+    * returns a built TypeHolderExample instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderExample build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TypeHolderExample.Builder builder() {
+    return new TypeHolderExample.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderExample.Builder toBuilder() {
+    TypeHolderExample.Builder builder = new TypeHolderExample.Builder();
+    builder.instance.setStringItem(stringItem);
+    builder.instance.setNumberItem(numberItem);
+    builder.instance.setFloatItem(floatItem);
+    builder.instance.setIntegerItem(integerItem);
+    builder.instance.setBoolItem(boolItem);
+    builder.instance.setArrayItem(arrayItem);
+    return builder;
+  }
+
 }
 

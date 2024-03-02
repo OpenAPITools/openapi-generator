@@ -202,5 +202,73 @@ public class ContainerDefaultValue {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ContainerDefaultValue instance;
+
+    public Builder() {
+      this(new ContainerDefaultValue());
+    }
+
+    protected Builder(ContainerDefaultValue instance) {
+      this.instance = instance;
+    }
+
+    public ContainerDefaultValue.Builder nullableArray(List<String> nullableArray) {
+      this.instance.nullableArray(nullableArray);
+      return this;
+    }
+    public ContainerDefaultValue.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
+      this.instance.nullableRequiredArray(nullableRequiredArray);
+      return this;
+    }
+    public ContainerDefaultValue.Builder requiredArray(List<String> requiredArray) {
+      this.instance.requiredArray(requiredArray);
+      return this;
+    }
+    public ContainerDefaultValue.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+      this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
+      return this;
+    }
+    /**
+    * returns a built ContainerDefaultValue instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ContainerDefaultValue build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ContainerDefaultValue.Builder builder() {
+    return new ContainerDefaultValue.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ContainerDefaultValue.Builder toBuilder() {
+    ContainerDefaultValue.Builder builder = new ContainerDefaultValue.Builder();
+    builder.instance.setNullableArray(nullableArray);
+    builder.instance.setNullableRequiredArray(nullableRequiredArray);
+    builder.instance.setRequiredArray(requiredArray);
+    builder.instance.setNullableArrayWithDefault(nullableArrayWithDefault);
+    return builder;
+  }
+
 }
 

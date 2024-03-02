@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDER;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -3116,5 +3117,40 @@ public class JavaClientCodegenTest {
 
         Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
         TestUtils.assertFileContains(petApi, "if (filter != null) {");
+    }
+
+    @Test
+    void testBuilderJavaClient() throws IOException {
+//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        File output = new File("/temp/builder").getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        final OpenAPI openAPI =
+                TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
+
+        final JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.additionalProperties().put(GENERATE_BUILDER, true);
+
+        codegen.setLibrary("resttemplate");
+        codegen.setOutputDir(outputPath);
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.opts(input).generate();
+
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Pet.java"))
+                .fileContains("protected String petReadonlyProperty",
+                        "toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        ".petType(getPetType())",
+                        ".name(getName())",
+                        "hasLegs(getHasLegs())");
     }
 }

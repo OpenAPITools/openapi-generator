@@ -147,5 +147,73 @@ public class NameDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private NameDto instance;
+
+    public Builder() {
+      this(new NameDto());
+    }
+
+    protected Builder(NameDto instance) {
+      this.instance = instance;
+    }
+
+    public NameDto.Builder name(Integer name) {
+      this.instance.name(name);
+      return this;
+    }
+    public NameDto.Builder snakeCase(Integer snakeCase) {
+      this.instance.snakeCase(snakeCase);
+      return this;
+    }
+    public NameDto.Builder property(String property) {
+      this.instance.property(property);
+      return this;
+    }
+    public NameDto.Builder _123number(Integer _123number) {
+      this.instance._123number(_123number);
+      return this;
+    }
+    /**
+    * returns a built NameDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public NameDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NameDto.Builder builder() {
+    return new NameDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NameDto.Builder toBuilder() {
+    NameDto.Builder builder = new NameDto.Builder();
+    builder.instance.setName(name);
+    builder.instance.setSnakeCase(snakeCase);
+    builder.instance.setProperty(property);
+    builder.instance.set123number(_123number);
+    return builder;
+  }
+
 }
 

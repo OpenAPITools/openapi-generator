@@ -44,7 +44,6 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.lang.reflect.Field;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.text.StringEscapeUtils;
@@ -2931,77 +2930,6 @@ public class DefaultCodegen implements CodegenConfig {
         // end of code block for composed schema
     }
 
-//    protected void updateModelForComposedSchema(CodegenProperty m, Schema schema, Map<String, Schema> allDefinitions) {
-//        List<Schema> allOf = schema.getAllOf();
-//        Map<String, Schema> allProperties = new LinkedHashMap<>();
-//        if (!allOf.isEmpty()) {
-//            for (Schema interfaceSchema : allOf) {
-//                interfaceSchema = unaliasSchema(interfaceSchema);
-//
-//
-//                CodegenProperty codeGenProperty = fromProperty(key, prop, true);
-//                m.vars.add(codeGenProperty);
-//            }
-//        }
-//    }
-//        final Schema composed = schema;
-//        Map<String, Schema> properties = new LinkedHashMap<>();
-//        List<String> required = new ArrayList<>();
-//        Map<String, Schema> allProperties = new LinkedHashMap<>();
-//        List<String> allRequired = new ArrayList<>();
-//
-//        // if schema has properties outside of allOf/oneOf/anyOf also add them to m
-//        if (composed.getProperties() != null && !composed.getProperties().isEmpty()) {
-//            if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
-//                LOGGER.warn("'oneOf' is intended to include only the additional optional OAS extension discriminator object. " +
-//                    "For more details, see https://json-schema.org/draft/2019-09/json-schema-core.html#rfc.section.9.2.1.3 and the OAS section on 'Composition and Inheritance'.");
-//            }
-//            addVars(m, unaliasPropertySchema(composed.getProperties()), composed.getRequired(), null, null);
-//        }
-//
-//        // parent model
-//        final String parentName = ModelUtils.getParentName(composed, allDefinitions);
-//        final List<String> allParents = ModelUtils.getAllParentsName(composed, allDefinitions, false);
-//        final Schema parent = StringUtils.isBlank(parentName) || allDefinitions == null ? null : allDefinitions.get(parentName);
-//
-//        if (parent != null && composed.getAllOf() != null) {
-//
-//        }
-////
-////        if (parent != null && composed.getAllOf() != null) { // set parent for allOf only
-////
-////            if (supportsMultipleInheritance) {
-////
-////                for (String pname : allParents) {
-////                    String pModelName = toModelName(pname);
-////                    m.vars.add()
-//////                    addImport(m, pModelName);
-////                }
-////            } else { // single inheritance
-//////                addImport(m, m.parent);
-////            }
-////        }
-//
-//        // child schema (properties owned by the schema itself)
-//
-//
-//        if (composed.getRequired() != null) {
-//            required.addAll(composed.getRequired());
-//            allRequired.addAll(composed.getRequired());
-//        }
-//
-//        addVars(m, unaliasPropertySchema(properties), required, unaliasPropertySchema(allProperties), allRequired);
-//
-//
-//        if (Boolean.TRUE.equals(schema.getNullable())) {
-//            m.isNullable = Boolean.TRUE;
-//        }
-//
-//        // end of code block for composed schema
-//    }
-//
-
-
     /**
      * Combines all previously-detected type entries for a schema with newly-discovered ones, to ensure
      * that schema for items like enum include all possible values.
@@ -4047,13 +3975,6 @@ public class DefaultCodegen implements CodegenConfig {
             return cpc;
         }
 
-//        CodegenModel model = fromModel(name, p);
-//
-//        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-//        copyTo(model, property);
-//        property.name = toVarName(name);
-//        property.baseName = name;
-        //
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(p) && p.getAllOf().size() == 1) {
@@ -4138,20 +4059,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (referencedSchema.getExtensions() != null && !referencedSchema.getExtensions().isEmpty()) {
                 property.getVendorExtensions().putAll(referencedSchema.getExtensions());
             }
-////            if (ModelUtils.isObjectSchema(referencedSchema)) {
-//            if (ModelUtils.isComposedSchema(referencedSchema)) {
-//                updateModelForComposedSchema(property, referencedSchema, ModelUtils.getSchemas(this.openAPI));
-//            }
-//        } else {
-//            if (ModelUtils.isComposedSchema(p)) {
-//                updateModelForComposedSchema(property, p, ModelUtils.getSchemas(this.openAPI));
-//            }
         }
-
-//            if (ModelUtils.isComposedSchema(p)) {
-////                var a = 1;
-//                updateModelForComposedSchema(property, p, ModelUtils.getSchemas(this.openAPI));
-//            }
 
         //Inline enum case:
         if (p.getEnum() != null && !p.getEnum().isEmpty()) {
@@ -4344,29 +4252,6 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging from property return: {}", property);
         schemaCodegenPropertyCache.put(ns, property);
         return property;
-    }
-
-    private void copyTo(CodegenModel model, CodegenProperty property) {
-        try {
-            Field[] propertyFieldArray = property.getClass().getFields();
-            Map<String, Field> propertyFields = new HashMap<>();
-            for (Field propertyField: propertyFieldArray) {
-                propertyFields.put(propertyField.getName(), propertyField);
-            }
-
-            for (Field modelField: model.getClass().getFields()) {
-                Field propertyField = propertyFields.get(modelField.getName());
-                if (propertyField != null && propertyField.getClass().equals(modelField.getClass())) {
-                    modelField.setAccessible(true);
-                    Object value = modelField.get(model);
-                    propertyField.setAccessible(true);
-                    propertyField.set(property, value);
-
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     /**
@@ -5382,8 +5267,7 @@ public class DefaultCodegen implements CodegenConfig {
                 // $ref (e.g. #components/schemas/Pet) to determine whether it's a model
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
             } else if (getUseInlineModelResolver()) {
-                var referencedSchema = getReferencedSchemaWhenNotEnum(parameterSchema);
-                prop = fromProperty(parameter.getName(), referencedSchema, false);
+                prop = fromProperty(parameter.getName(), getReferencedSchemaWhenNotEnum(parameterSchema), false);
             } else {
                 prop = fromProperty(parameter.getName(), parameterSchema, false);
             }
@@ -5453,7 +5337,6 @@ public class DefaultCodegen implements CodegenConfig {
         // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#user-content-parameterexplode
         codegenParameter.isExplode = parameter.getExplode() != null && parameter.getExplode();
 
-
         // TODO revise collectionFormat, default collection format in OAS 3 appears to multi at least for query parameters
         // https://swagger.io/docs/specification/serialization/
         String collectionFormat = null;
@@ -5490,15 +5373,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isFreeFormObject(parameterSchema)) {
                 codegenParameter.isFreeFormObject = true;
             }
-
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
-            if (codegenParameter.isExplode && codegenParameter.isQueryParam) {
-                // handling of allof
-                CodegenModel codegenModel = fromModel(codegenParameter.baseName, parameterSchema);
-                codegenParameter.vars = codegenModel.vars;
-                codegenParameter.requiredVars = codegenModel.parentRequiredVars;
-                codegenParameter.requiredVars.addAll(codegenParameter.requiredVars);
-            }
         } else if (ModelUtils.isNullType(parameterSchema)) {
         } else if (ModelUtils.isAnyType(parameterSchema)) {
             // any schema with no type set, composed schemas often do this
@@ -5588,23 +5463,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
-        if (true && codegenParameter.isQueryParam && codegenParameter.isExplode && ModelUtils.isTypeObjectSchema(parameterSchema)) {
-
-            if (parameterSchema.getAllOf() != null) {
-
-                for (var allOfSchema: parameterSchema.getAllOf()) {
-                    Schema innerSchema = (Schema)allOfSchema;
-                    if (innerSchema.get$ref() != null) {
-                        innerSchema = ModelUtils.getReferencedSchema(openAPI, innerSchema);
-                    }
-                    CodegenProperty property = fromProperty(innerSchema.getName(), innerSchema, false);
-                    codegenParameter.vars.addAll(property.vars);
-                    codegenParameter.requiredVars.addAll(property.requiredVars);
-
-                }
-
-            }
-        }
         if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
             Schema schema = parameterSchema;
             if (schema.get$ref() != null) {
@@ -5640,29 +5498,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         finishUpdatingParameter(codegenParameter, parameter);
         return codegenParameter;
-    }
-
-    private CodegenProperty fromPropertyUsingModel(String name, Schema p, boolean schemaIsFromAdditionalProperties) {
-        if (p == null) {
-            LOGGER.error("Undefined property/schema for `{}`. Default to type:string.", name);
-            return null;
-        }
-        boolean required = false;
-        LOGGER.debug("debugging fromProperty for {} : {}", name, p);
-        NamedSchema ns = new NamedSchema(name, p, required, schemaIsFromAdditionalProperties);
-        CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
-        if (cpc != null) {
-            LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
-            return cpc;
-        }
-
-        CodegenModel model = fromModel(name, p);
-
-        CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-        copyTo(model, property);
-        LOGGER.debug("debugging from property return: {}", property);
-        schemaCodegenPropertyCache.put(ns, property);
-        return property;
     }
 
     private Schema getReferencedSchemaWhenNotEnum(Schema parameterSchema) {
@@ -6099,9 +5934,7 @@ public class DefaultCodegen implements CodegenConfig {
         return properties;
     }
 
-
-
-    protected void  addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
+    protected void addVars(CodegenModel m, Map<String, Schema> properties, List<String> required,
                            Map<String, Schema> allProperties, List<String> allRequired) {
 
         m.hasRequired = false;

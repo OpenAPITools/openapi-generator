@@ -183,5 +183,78 @@ public class TypeHolderDefaultDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderDefaultDto instance;
+
+    public Builder() {
+      this(new TypeHolderDefaultDto());
+    }
+
+    protected Builder(TypeHolderDefaultDto instance) {
+      this.instance = instance;
+    }
+
+    public TypeHolderDefaultDto.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    public TypeHolderDefaultDto.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    public TypeHolderDefaultDto.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    public TypeHolderDefaultDto.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    public TypeHolderDefaultDto.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    /**
+    * returns a built TypeHolderDefaultDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderDefaultDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TypeHolderDefaultDto.Builder builder() {
+    return new TypeHolderDefaultDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderDefaultDto.Builder toBuilder() {
+    TypeHolderDefaultDto.Builder builder = new TypeHolderDefaultDto.Builder();
+    builder.instance.setStringItem(stringItem);
+    builder.instance.setNumberItem(numberItem);
+    builder.instance.setIntegerItem(integerItem);
+    builder.instance.setBoolItem(boolItem);
+    builder.instance.setArrayItem(arrayItem);
+    return builder;
+  }
+
 }
 

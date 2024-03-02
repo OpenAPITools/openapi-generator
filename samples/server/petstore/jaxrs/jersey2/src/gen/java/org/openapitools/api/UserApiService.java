@@ -19,8 +19,8 @@ import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class UserApiService {
     public abstract Response createUser(User body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response createUsersWithListInput(List<User> body,SecurityContext securityContext) throws NotFoundException;
     public abstract Response deleteUser(String username,SecurityContext securityContext) throws NotFoundException;
     public abstract Response getUserByName(String username,SecurityContext securityContext) throws NotFoundException;
     public abstract Response loginUser( @NotNull String username, @NotNull String password,SecurityContext securityContext) throws NotFoundException;

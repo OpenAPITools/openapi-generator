@@ -216,5 +216,83 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    public Pet.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    public Pet.Builder age(Integer age) {
+      this.instance.age(age);
+      return this;
+    }
+    public Pet.Builder happy(Boolean happy) {
+      this.instance.happy(happy);
+      return this;
+    }
+    public Pet.Builder price(BigDecimal price) {
+      this.instance.price(price);
+      return this;
+    }
+    public Pet.Builder lastFeed(OffsetDateTime lastFeed) {
+      this.instance.lastFeed(lastFeed);
+      return this;
+    }
+    public Pet.Builder dateOfBirth(LocalDate dateOfBirth) {
+      this.instance.dateOfBirth(dateOfBirth);
+      return this;
+    }
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    Pet.Builder builder = new Pet.Builder();
+    builder.instance.setAtType(atType);
+    builder.instance.setAge(age);
+    builder.instance.setHappy(happy);
+    builder.instance.setPrice(price);
+    builder.instance.setLastFeed(lastFeed);
+    builder.instance.setDateOfBirth(dateOfBirth);
+    return builder;
+  }
+
 }
 

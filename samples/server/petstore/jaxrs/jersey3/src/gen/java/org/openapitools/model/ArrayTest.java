@@ -41,11 +41,11 @@ public class ArrayTest   {
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
-  private List<List<Long>> arrayArrayOfInteger;
+  private List<List> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
-  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
+  private List<List> arrayArrayOfModel;
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -75,7 +75,7 @@ public class ArrayTest   {
     this.arrayOfString = arrayOfString;
   }
 
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -95,20 +95,20 @@ public class ArrayTest   {
   @JsonProperty(value = "array_array_of_integer")
   @Schema(description = "")
   @Valid 
-  public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -123,11 +123,11 @@ public class ArrayTest   {
   @JsonProperty(value = "array_array_of_model")
   @Schema(description = "")
   @Valid 
-  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 

@@ -60,6 +60,9 @@ components:
           type: string
         name:
           type: string
+        petReadonlyProperty:
+          type: string
+          readOnly: true
       discriminator:
         propertyName: petType
     Cat:
@@ -88,6 +91,7 @@ components:
           properties:
             lovesRocks:
               type: boolean
+              readOnly: true
     Snake:
       allOf:
         - $ref: '#/components/schemas/Reptile'

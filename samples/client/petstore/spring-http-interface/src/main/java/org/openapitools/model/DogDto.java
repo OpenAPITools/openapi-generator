@@ -95,5 +95,74 @@ public class DogDto extends AnimalDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends AnimalDto.Builder {
+
+    private DogDto instance;
+
+    public Builder() {
+      this(new DogDto());
+    }
+
+    protected Builder(DogDto instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public DogDto.Builder breed(String breed) {
+      this.instance.breed(breed);
+      return this;
+    }
+
+    @Override
+    public DogDto.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+
+    @Override
+    public DogDto.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    /**
+    * returns a built DogDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public DogDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static DogDto.Builder builder() {
+    return new DogDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public DogDto.Builder toBuilder() {
+    DogDto.Builder builder = new DogDto.Builder();
+    builder.instance.setBreed(breed);
+    builder.instance.setClassName(getClassName());
+    builder.instance.setColor(getColor());
+    return builder;
+  }
+
 }
 

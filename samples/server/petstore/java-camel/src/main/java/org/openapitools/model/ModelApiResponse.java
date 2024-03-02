@@ -141,5 +141,72 @@ public class ModelApiResponse {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
+/*builder*/
+    public static class Builder {
+
+  private ModelApiResponse instance;
+  protected Builder() [
+  this.instance = new  ModelApiResponse();
+  }
+    public ModelApiResponse.Builder code(Optional<Integer> code) {
+    this.instance.code = Optional.ofNullable(code);
+    return this;
+    }
+
+
+    public ModelApiResponse build() {
+    return instance;
+    }
+    @Override
+    public String toString() {
+    return getClass() + "=(" + instance + ")";
+    }
+    }
+
+    public ModelApiResponse.Builder type(Optional<String> type) {
+    this.instance.type = Optional.ofNullable(type);
+    return this;
+    }
+
+
+    public ModelApiResponse build() {
+    return instance;
+    }
+    @Override
+    public String toString() {
+    return getClass() + "=(" + instance + ")";
+    }
+    }
+
+    public ModelApiResponse.Builder message(Optional<String> message) {
+    this.instance.message = Optional.ofNullable(message);
+    return this;
+    }
+
+
+    public ModelApiResponse build() {
+    return instance;
+    }
+    @Override
+    public String toString() {
+    return getClass() + "=(" + instance + ")";
+    }
+    }
+
+
+  public static ModelApiResponse.Builder builder() {
+  return new Builder();
+  }
+  public ModelApiResponse.Builder toBuilder() {
+  return new Builder()
+    .code(code)
+    .type(type)
+    .message(message)
+;
+
+  }
+
 }
 

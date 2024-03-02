@@ -234,5 +234,83 @@ public class OrderDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private OrderDto instance;
+
+    public Builder() {
+      this(new OrderDto());
+    }
+
+    protected Builder(OrderDto instance) {
+      this.instance = instance;
+    }
+
+    public OrderDto.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    public OrderDto.Builder petId(Long petId) {
+      this.instance.petId(petId);
+      return this;
+    }
+    public OrderDto.Builder quantity(Integer quantity) {
+      this.instance.quantity(quantity);
+      return this;
+    }
+    public OrderDto.Builder shipDate(OffsetDateTime shipDate) {
+      this.instance.shipDate(shipDate);
+      return this;
+    }
+    public OrderDto.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    public OrderDto.Builder complete(Boolean complete) {
+      this.instance.complete(complete);
+      return this;
+    }
+    /**
+    * returns a built OrderDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public OrderDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static OrderDto.Builder builder() {
+    return new OrderDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public OrderDto.Builder toBuilder() {
+    OrderDto.Builder builder = new OrderDto.Builder();
+    builder.instance.setId(id);
+    builder.instance.setPetId(petId);
+    builder.instance.setQuantity(quantity);
+    builder.instance.setShipDate(shipDate);
+    builder.instance.setStatus(status);
+    builder.instance.setComplete(complete);
+    return builder;
+  }
+
 }
 

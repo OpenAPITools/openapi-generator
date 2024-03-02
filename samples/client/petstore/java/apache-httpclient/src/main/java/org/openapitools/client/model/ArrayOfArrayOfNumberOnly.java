@@ -39,12 +39,12 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
-  private List<List<BigDecimal>> arrayArrayNumber;
+  private List<List> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
     
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
@@ -66,14 +66,14 @@ public class ArrayOfArrayOfNumberOnly {
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List<BigDecimal>> getArrayArrayNumber() {
+  public List<List> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -164,6 +164,60 @@ public class ArrayOfArrayOfNumberOnly {
 
     return joiner.toString();
   }
+
+  public static class Builder {
+
+    private ArrayOfArrayOfNumberOnly instance;
+
+    public Builder() {
+      this(new ArrayOfArrayOfNumberOnly());
+    }
+
+    protected Builder(ArrayOfArrayOfNumberOnly instance) {
+      this.instance = instance;
+    }
+
+    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List> arrayArrayNumber) {
+      this.instance.arrayArrayNumber = arrayArrayNumber;
+      return this;
+    }
+
+
+    /**
+    * returns a built ArrayOfArrayOfNumberOnly instance.
+    *
+    * The builder is not reusable.
+    */
+    public ArrayOfArrayOfNumberOnly build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ArrayOfArrayOfNumberOnly.Builder builder() {
+    return new ArrayOfArrayOfNumberOnly.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
+    return new ArrayOfArrayOfNumberOnly.Builder()
+      .arrayArrayNumber(getArrayArrayNumber());
+  }
+
 
 }
 

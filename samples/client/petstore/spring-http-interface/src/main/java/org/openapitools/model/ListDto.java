@@ -78,5 +78,58 @@ public class ListDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ListDto instance;
+
+    public Builder() {
+      this(new ListDto());
+    }
+
+    protected Builder(ListDto instance) {
+      this.instance = instance;
+    }
+
+    public ListDto.Builder _123list(String _123list) {
+      this.instance._123list(_123list);
+      return this;
+    }
+    /**
+    * returns a built ListDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ListDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ListDto.Builder builder() {
+    return new ListDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ListDto.Builder toBuilder() {
+    ListDto.Builder builder = new ListDto.Builder();
+    builder.instance.set123list(_123list);
+    return builder;
+  }
+
 }
 

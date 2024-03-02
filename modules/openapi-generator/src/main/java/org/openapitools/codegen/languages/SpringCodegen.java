@@ -64,9 +64,6 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
-import org.openapitools.codegen.templating.mustache.SpringDataTypeWithValidationLambda;
-import org.openapitools.codegen.templating.mustache.SpringExpressionWithValidationLambda;
-import org.openapitools.codegen.templating.mustache.SpringRightAssignLambda;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
@@ -734,12 +731,6 @@ public class SpringCodegen extends AbstractJavaCodegen
             modelTemplateFiles.clear();
         }
         supportsAdditionalPropertiesWithComposedSchema = true;
-
-        additionalProperties.put("rightAssign", new SpringRightAssignLambda(isOpenApiNullable(), useOptional));
-        additionalProperties.put("springDataType", new SpringDataTypeWithValidationLambda(isOpenApiNullable(), useOptional));
-        additionalProperties.put("springDataTypeWithValidation", new SpringDataTypeWithValidationLambda(isOpenApiNullable(), useOptional));
-        additionalProperties.put("springExpression", new SpringExpressionWithValidationLambda(isOpenApiNullable(), useOptional));
-
     }
 
     private boolean containsEnums() {
@@ -1168,66 +1159,6 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         return codegenModel;
     }
-
-    /**
-     * Analyse and post process all Models.
-     *  Add parentVars to every Model which has a parent. This allows to generate
-     *  fluent setter methods for inherited properties.
-     * @param objs the models map.
-     * @return the processed models map.
-     */
-    @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        objs = super.postProcessAllModels(objs);
-        objs = super.updateAllModels(objs);
-
-        for (ModelsMap modelsAttrs : objs.values()) {
-            for (ModelMap mo : modelsAttrs.getModels()) {
-                CodegenModel codegenModel = mo.getModel();
-                Set<String> inheritedImports = new HashSet<>();
-                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
-                for (final CodegenProperty property : codegenModel.vars) {
-                    propertyHash.put(property.name, property);
-                }
-                CodegenModel parentCodegenModel = codegenModel.parentModel;
-                while (parentCodegenModel != null) {
-                    for (final CodegenProperty property : parentCodegenModel.vars) {
-                        // helper list of parentVars simplifies templating
-                        if (!propertyHash.containsKey(property.name)) {
-                            propertyHash.put(property.name, property);
-                            final CodegenProperty parentVar = property.clone();
-                            parentVar.isInherited = true;
-                            LOGGER.info("adding parent variable {}", property.name);
-                            codegenModel.parentVars.add(parentVar);
-                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
-                            for (String imp: imports) {
-                                // Avoid dupes
-                                if (!codegenModel.getImports().contains(imp)) {
-                                    inheritedImports.add(imp);
-                                    codegenModel.getImports().add(imp);
-                                }
-                            }
-                        }
-                    }
-                    parentCodegenModel = parentCodegenModel.getParentModel();
-                }
-                if (codegenModel.getParentModel() != null) {
-                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
-                }
-                // There must be a better way ...
-                for (String imp: inheritedImports) {
-                    String qimp = importMapping().get(imp);
-                    if (qimp != null) {
-                        Map<String,String> toAdd = new HashMap<>();
-                        toAdd.put("import", qimp);
-                        modelsAttrs.getImports().add(toAdd);
-                    }
-                }
-            }
-        }
-        return objs;
-    }
-
 
     /*
      * Add dynamic imports based on the parameters and vendor extensions of an operation.

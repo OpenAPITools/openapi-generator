@@ -39,7 +39,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private List<@Valid Tag> tags;
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -180,7 +180,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<@Valid Tag> tags) {
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -200,11 +200,11 @@ public class Pet {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<@Valid Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid Tag> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
@@ -274,5 +274,83 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Pet instance;
+
+    public Builder() {
+      this(new Pet());
+    }
+
+    protected Builder(Pet instance) {
+      this.instance = instance;
+    }
+
+    public Pet.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    public Pet.Builder category(Category category) {
+      this.instance.category(category);
+      return this;
+    }
+    public Pet.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    public Pet.Builder photoUrls(List<String> photoUrls) {
+      this.instance.photoUrls(photoUrls);
+      return this;
+    }
+    public Pet.Builder tags(List<Tag> tags) {
+      this.instance.tags(tags);
+      return this;
+    }
+    public Pet.Builder status(StatusEnum status) {
+      this.instance.status(status);
+      return this;
+    }
+    /**
+    * returns a built Pet instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Pet build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Pet.Builder builder() {
+    return new Pet.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Pet.Builder toBuilder() {
+    Pet.Builder builder = new Pet.Builder();
+    builder.instance.setId(id);
+    builder.instance.setCategory(category);
+    builder.instance.setName(name);
+    builder.instance.setPhotoUrls(photoUrls);
+    builder.instance.setTags(tags);
+    builder.instance.setStatus(status);
+    return builder;
+  }
+
 }
 

@@ -26,12 +26,12 @@ public class UserApiServiceImpl implements UserApiService {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext)
+      public Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
   }
-      public Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext)
+      public Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException {
       // do some magic!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

@@ -33,7 +33,7 @@ public class Pet   {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @JsonProperty("tags")
-  private List<@Valid Tag> tags = null;
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -149,7 +149,7 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<@Valid Tag> tags) {
+  public Pet tags(List<Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -167,11 +167,11 @@ public class Pet   {
    * @return tags
   **/
   @ApiModelProperty(value = "")
-  public List<@Valid Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<@Valid Tag> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 

@@ -24,7 +24,7 @@ public class Pet   {
   private Category category;
   private String name;
   private List<String> photoUrls = new ArrayList<>();
-  private List<@Valid Tag> tags;
+  private List<Tag> tags;
 
   /**
    * pet status in the store
@@ -107,10 +107,10 @@ public class Pet   {
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   @Valid
-  public List<@Valid Tag> getTags() {
+  public List<Tag> getTags() {
     return tags;
   }
-  public void setTags(List<@Valid Tag> tags) {
+  public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 

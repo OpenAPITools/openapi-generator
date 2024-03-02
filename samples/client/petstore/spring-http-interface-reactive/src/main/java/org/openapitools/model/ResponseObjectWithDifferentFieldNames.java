@@ -145,5 +145,73 @@ public class ResponseObjectWithDifferentFieldNames {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ResponseObjectWithDifferentFieldNames instance;
+
+    public Builder() {
+      this(new ResponseObjectWithDifferentFieldNames());
+    }
+
+    protected Builder(ResponseObjectWithDifferentFieldNames instance) {
+      this.instance = instance;
+    }
+
+    public ResponseObjectWithDifferentFieldNames.Builder normalPropertyName(String normalPropertyName) {
+      this.instance.normalPropertyName(normalPropertyName);
+      return this;
+    }
+    public ResponseObjectWithDifferentFieldNames.Builder UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
+      this.instance.UPPER_CASE_PROPERTY_SNAKE(UPPER_CASE_PROPERTY_SNAKE);
+      return this;
+    }
+    public ResponseObjectWithDifferentFieldNames.Builder lowerCasePropertyDashes(String lowerCasePropertyDashes) {
+      this.instance.lowerCasePropertyDashes(lowerCasePropertyDashes);
+      return this;
+    }
+    public ResponseObjectWithDifferentFieldNames.Builder propertyNameWithSpaces(String propertyNameWithSpaces) {
+      this.instance.propertyNameWithSpaces(propertyNameWithSpaces);
+      return this;
+    }
+    /**
+    * returns a built ResponseObjectWithDifferentFieldNames instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ResponseObjectWithDifferentFieldNames build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ResponseObjectWithDifferentFieldNames.Builder builder() {
+    return new ResponseObjectWithDifferentFieldNames.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ResponseObjectWithDifferentFieldNames.Builder toBuilder() {
+    ResponseObjectWithDifferentFieldNames.Builder builder = new ResponseObjectWithDifferentFieldNames.Builder();
+    builder.instance.setNormalPropertyName(normalPropertyName);
+    builder.instance.setUPPERCASEPROPERTYSNAKE(UPPER_CASE_PROPERTY_SNAKE);
+    builder.instance.setLowerCasePropertyDashes(lowerCasePropertyDashes);
+    builder.instance.setPropertyNameWithSpaces(propertyNameWithSpaces);
+    return builder;
+  }
+
 }
 

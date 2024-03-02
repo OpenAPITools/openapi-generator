@@ -43,7 +43,7 @@ public interface UserApi {
    */
   @POST("user/createWithArray")
   CompletionStage<Response<Void>> createUsersWithArrayInput(
-    @retrofit2.http.Body List<@Valid User> body
+    @retrofit2.http.Body List<User> body
   );
 
   /**
@@ -54,7 +54,7 @@ public interface UserApi {
    */
   @POST("user/createWithList")
   CompletionStage<Response<Void>> createUsersWithListInput(
-    @retrofit2.http.Body List<@Valid User> body
+    @retrofit2.http.Body List<User> body
   );
 
   /**

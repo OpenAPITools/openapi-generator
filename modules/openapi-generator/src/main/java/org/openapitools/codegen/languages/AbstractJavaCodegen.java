@@ -28,10 +28,8 @@ import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
-import java.math.BigDecimal;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -144,7 +142,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean camelCaseDollarSign = false;
     protected boolean useJakartaEe = false;
     protected boolean containerDefaultToNull = false;
-    private boolean generateBuilder = true;
+    protected boolean generateBuilder = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
 
@@ -686,11 +684,61 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return generateBuilder;
     }
 
+    /**
+     * Analyse and post process all Models.
+     *  Add parentVars to every Model which has a parent. This allows to generate
+     *  fluent setter methods for inherited properties.
+     * @param objs the models map.
+     * @return the processed models map.
+     */
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
-
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Set<String> inheritedImports = new HashSet<>();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                CodegenModel parentCodegenModel = codegenModel.parentModel;
+                while (parentCodegenModel != null) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {}", property.name);
+                            codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp: imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    inheritedImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
+                        }
+                    }
+                    parentCodegenModel = parentCodegenModel.getParentModel();
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+                }
+                // There must be a better way ...
+                for (String imp: inheritedImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -951,9 +999,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            String typeDeclaration = super.getTypeDeclaration(items);
-//            return publicTypeDeclarationForArray(schema, target);
-            return getSchemaType(target) + "<" + typeDeclaration + ">";
+            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -968,40 +1014,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return super.getTypeDeclaration(target);
     }
 
-    public String publicTypeDeclarationForArray(Schema<?> items, Schema<?> target) {
-
-        String typeDeclaration = getTypeDeclarationForArray(items);
-        return getSchemaType(target) + "<" + typeDeclaration + ">";
-    }
-
-    private String getTypeDeclarationForArray(Schema<?> items) {
-        String typeDeclaration = super.getTypeDeclaration(items);
-
-        String extraAnnotation = Optional.ofNullable(items.getExtensions())
-            .map(extensions -> extensions.get("x-field-extra-annotation"))
-            .map(a -> a + " ")
-            .orElse("");
-
-        String beanValidation = getBeanValidation(items);
-        if (beanValidation == null && extraAnnotation.isEmpty()) {
-            return typeDeclaration;
-        }
-        beanValidation = (beanValidation==null?"": beanValidation + " ") + extraAnnotation;
-        int idxLt = typeDeclaration.indexOf('<');
-        int idx = idxLt < 0 ?
-            typeDeclaration.lastIndexOf('.'):
-            // last dot before the generic like in List<com.mycompany.Container<java.lang.Object>
-            typeDeclaration.substring(0, idxLt).lastIndexOf('.');
-        if (idx > 0) {
-            // fix full qualified name, we need List<java.lang.@Valid String>
-            // or List<com.mycompany.@Valid Container<java.lang.Object>
-            return typeDeclaration.substring(0, idx + 1) + beanValidation
-                + typeDeclaration.substring(idx + 1);
-        } else {
-            return beanValidation + typeDeclaration;
-        }
-    }
-
     /**
      * This method stand for resolve bean validation for container(array, set).
      * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
@@ -1011,12 +1023,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     private String getBeanValidation(Schema<?> items) {
         if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
-            return null;
+            return "";
         }
 
         if (ModelUtils.isTypeObjectSchema(items)) {
             // prevents generation '@Valid' for Object
-            return null;
+            return "";
         }
 
         if (items.get$ref() != null) {
@@ -1035,29 +1047,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getIntegerBeanValidation(items);
         }
 
-        return null;
+        return "";
     }
 
     private String getIntegerBeanValidation(Schema<?> items) {
-        BigDecimal minimum = items.getMinimum();
-        BigDecimal maximum = items.getMaximum();
-        if (minimum == null && maximum == null) {
-            return null;
-        }
-        BigDecimal minAdd = items.getExclusiveMinimum()==Boolean.TRUE? BigDecimal.ONE: BigDecimal.ZERO;
-        BigDecimal maxSubtract = items.getExclusiveMaximum()==Boolean.TRUE? BigDecimal.ONE: BigDecimal.ZERO;
-        if (minimum != null && maximum != null) {
-            return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", minimum.add(minAdd), maximum.subtract(maxSubtract));
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
         }
 
-        if (minimum != null) {
-            return String.format(Locale.ROOT, "@Min(%s)", minimum.add(minAdd));
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
         }
 
-        if (maximum != null) {
-            return String.format(Locale.ROOT, "@Max(%s)", maximum.subtract(maxSubtract));
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
         }
-        return null;
+        return "";
     }
 
     private String getNumberBeanValidation(Schema<?> items) {
@@ -1128,7 +1133,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength()));
         }
 
-        return validations.isEmpty()? null: validations;
+        return validations;
     }
 
     @Override
@@ -1702,6 +1707,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         // if data type happens to be the same as the property name and both are upper case
         if (property.dataType != null && property.dataType.equals(property.name) && property.dataType.toUpperCase(Locale.ROOT).equals(property.name)) {
             property.name = property.name.toLowerCase(Locale.ROOT);
+        }
+    }
+
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+        if (response == null || property == null || response.dataType == null || property.dataType == null) {
+            return;
+        }
+
+        // the response data types should not contains a bean validation annotation.
+        if (property.dataType.contains("@")) {
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+        }
+        // the response data types should not contains a bean validation annotation.
+        if (response.dataType.contains("@")) {
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
         }
     }
 

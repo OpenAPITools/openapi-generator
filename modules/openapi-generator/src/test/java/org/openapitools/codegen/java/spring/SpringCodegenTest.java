@@ -4473,34 +4473,36 @@ public class SpringCodegenTest {
     }
 
     @Test
-    void testBuilder() throws IOException {
-        File output = new File("C:\\temp\\builder");//Files.createTempDirectory("test").toFile().getCanonicalFile();
+    void testBuilderJavaSpring() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         final OpenAPI openAPI =
-//            TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
-//                        TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition.yaml");
                 TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
 
         final SpringCodegen codegen = new SpringCodegen();
-codegen.additionalProperties().put(GENERATE_BUILDER, true);
+        codegen.additionalProperties().put(GENERATE_BUILDER, true);
 
-//        codegen.setLibrary("resttemplate");
-//        codegen.setOpenApiNullable(true);
-//        codegen.setUseBeanValidation(true);
-//        codegen.setUseOptional(true);
-//        codegen.additionalProperties().put(USE_OPTIONAL, true);
+        codegen.additionalProperties().put(USE_OPTIONAL, false);
         codegen.setOutputDir(outputPath);
         ClientOptInput input = new ClientOptInput();
 
         input.openAPI(openAPI);
         input.config(codegen);
         DefaultGenerator generator = new DefaultGenerator();
-        List<File> generatedFiles = generator.opts(input).generate();
-        final Map<String, File> files = generatedFiles.stream()
-            .collect(Collectors.toMap(File::getName, Function.identity()));
-System.out.println("files:");
-        System.out.println(files);
+        generator.opts(input).generate();
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "builder.instance.setPetType(getPetType());",
+                        "builder.instance.setHasLegs(hasLegs);",
+                        "builder.instance.setName(getName());");
     }
+
 }

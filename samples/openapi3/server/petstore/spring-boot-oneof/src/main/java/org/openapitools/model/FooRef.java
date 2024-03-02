@@ -132,5 +132,109 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends EntityRef.Builder {
+
+    private FooRef instance;
+
+    public Builder() {
+      this(new FooRef());
+    }
+
+    protected Builder(FooRef instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public FooRef.Builder foorefPropA(String foorefPropA) {
+      this.instance.foorefPropA(foorefPropA);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder atReferredType(String atReferredType) {
+      this.instance.atReferredType(atReferredType);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+
+    @Override
+    public FooRef.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    /**
+    * returns a built FooRef instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FooRef build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FooRef.Builder builder() {
+    return new FooRef.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FooRef.Builder toBuilder() {
+    FooRef.Builder builder = new FooRef.Builder();
+    builder.instance.setFoorefPropA(foorefPropA);
+    builder.instance.setName(getName());
+    builder.instance.setAtReferredType(getAtReferredType());
+    builder.instance.setHref(getHref());
+    builder.instance.setId(getId());
+    builder.instance.setAtSchemaLocation(getAtSchemaLocation());
+    builder.instance.setAtBaseType(getAtBaseType());
+    builder.instance.setAtType(getAtType());
+    return builder;
+  }
+
 }
 

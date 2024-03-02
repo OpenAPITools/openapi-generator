@@ -78,5 +78,58 @@ public class SpecialModelNameDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private SpecialModelNameDto instance;
+
+    public Builder() {
+      this(new SpecialModelNameDto());
+    }
+
+    protected Builder(SpecialModelNameDto instance) {
+      this.instance = instance;
+    }
+
+    public SpecialModelNameDto.Builder $specialPropertyName(Long $specialPropertyName) {
+      this.instance.$specialPropertyName($specialPropertyName);
+      return this;
+    }
+    /**
+    * returns a built SpecialModelNameDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public SpecialModelNameDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static SpecialModelNameDto.Builder builder() {
+    return new SpecialModelNameDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public SpecialModelNameDto.Builder toBuilder() {
+    SpecialModelNameDto.Builder builder = new SpecialModelNameDto.Builder();
+    builder.instance.set$SpecialPropertyName($specialPropertyName);
+    return builder;
+  }
+
 }
 

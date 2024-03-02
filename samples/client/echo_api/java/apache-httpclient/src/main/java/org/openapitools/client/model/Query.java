@@ -39,7 +39,7 @@ import java.util.StringJoiner;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Query {
   public static final String JSON_PROPERTY_ID = "id";
-  private Long id;
+  protected Long id;
 
   /**
    * Gets or Sets outcomes
@@ -79,7 +79,7 @@ public class Query {
   }
 
   public static final String JSON_PROPERTY_OUTCOMES = "outcomes";
-  private List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
+  protected List<OutcomesEnum> outcomes = new ArrayList<>(Arrays.asList(OutcomesEnum.SUCCESS, OutcomesEnum.FAILURE));
 
   public Query() {
   }
@@ -240,6 +240,66 @@ public class Query {
 
     return joiner.toString();
   }
+
+  public static class Builder {
+
+    private Query instance;
+
+    public Builder() {
+      this(new Query());
+    }
+
+    protected Builder(Query instance) {
+      this.instance = instance;
+    }
+
+    public Query.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+
+    public Query.Builder outcomes(List<OutcomesEnum> outcomes) {
+      this.instance.outcomes = outcomes;
+      return this;
+    }
+
+
+    /**
+    * returns a built Query instance.
+    *
+    * The builder is not reusable.
+    */
+    public Query build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Query.Builder builder() {
+    return new Query.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Query.Builder toBuilder() {
+    return new Query.Builder()
+      .id(getId())
+      .outcomes(getOutcomes());
+  }
+
 
 }
 

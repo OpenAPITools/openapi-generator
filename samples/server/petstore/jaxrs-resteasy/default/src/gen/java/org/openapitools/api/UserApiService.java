@@ -21,9 +21,9 @@ import javax.ws.rs.core.SecurityContext;
 public interface UserApiService {
       Response createUser(User body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithArrayInput(List<@Valid User> body,SecurityContext securityContext)
+      Response createUsersWithArrayInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
-      Response createUsersWithListInput(List<@Valid User> body,SecurityContext securityContext)
+      Response createUsersWithListInput(List<User> body,SecurityContext securityContext)
       throws NotFoundException;
       Response deleteUser(String username,SecurityContext securityContext)
       throws NotFoundException;

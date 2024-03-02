@@ -29,9 +29,9 @@ public class ArrayTest  {
   
   private List<String> arrayOfString = null;
 
-  private List<List<Long>> arrayArrayOfInteger = null;
+  private List<List> arrayArrayOfInteger = null;
 
-  private List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
+  private List<List> arrayArrayOfModel = null;
 
  /**
    * Get arrayOfString
@@ -62,18 +62,18 @@ public class ArrayTest  {
    * Get arrayArrayOfInteger
    * @return arrayArrayOfInteger
   **/
-  public List<List<Long>> getArrayArrayOfInteger() {
+  public List<List> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
   /**
     * Set arrayArrayOfInteger
   **/
-  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -87,18 +87,18 @@ public class ArrayTest  {
    * Get arrayArrayOfModel
    * @return arrayArrayOfModel
   **/
-  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+  public List<List> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
   /**
     * Set arrayArrayOfModel
   **/
-  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
-  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }

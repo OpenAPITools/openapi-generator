@@ -163,5 +163,59 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
     return joiner.toString();
   }
 
+  public static class Builder {
+
+    private TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter instance;
+
+    public Builder() {
+      this(new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter());
+    }
+
+    protected Builder(TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter instance) {
+      this.instance = instance;
+    }
+
+    public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.Builder values(List<String> values) {
+      this.instance.values = values;
+      return this;
+    }
+
+
+    /**
+    * returns a built TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter instance.
+    *
+    * The builder is not reusable.
+    */
+    public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.Builder builder() {
+    return new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.Builder toBuilder() {
+    return new TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.Builder()
+      .values(getValues());
+  }
+
+
 }
 

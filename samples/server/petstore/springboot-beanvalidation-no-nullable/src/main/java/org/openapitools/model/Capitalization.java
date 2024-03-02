@@ -199,5 +199,83 @@ public class Capitalization {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private Capitalization instance;
+
+    public Builder() {
+      this(new Capitalization());
+    }
+
+    protected Builder(Capitalization instance) {
+      this.instance = instance;
+    }
+
+    public Capitalization.Builder smallCamel(String smallCamel) {
+      this.instance.smallCamel(smallCamel);
+      return this;
+    }
+    public Capitalization.Builder capitalCamel(String capitalCamel) {
+      this.instance.capitalCamel(capitalCamel);
+      return this;
+    }
+    public Capitalization.Builder smallSnake(String smallSnake) {
+      this.instance.smallSnake(smallSnake);
+      return this;
+    }
+    public Capitalization.Builder capitalSnake(String capitalSnake) {
+      this.instance.capitalSnake(capitalSnake);
+      return this;
+    }
+    public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
+      this.instance.scAETHFlowPoints(scAETHFlowPoints);
+      return this;
+    }
+    public Capitalization.Builder ATT_NAME(String ATT_NAME) {
+      this.instance.ATT_NAME(ATT_NAME);
+      return this;
+    }
+    /**
+    * returns a built Capitalization instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public Capitalization build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static Capitalization.Builder builder() {
+    return new Capitalization.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public Capitalization.Builder toBuilder() {
+    Capitalization.Builder builder = new Capitalization.Builder();
+    builder.instance.setSmallCamel(smallCamel);
+    builder.instance.setCapitalCamel(capitalCamel);
+    builder.instance.setSmallSnake(smallSnake);
+    builder.instance.setCapitalSnake(capitalSnake);
+    builder.instance.setScAETHFlowPoints(scAETHFlowPoints);
+    builder.instance.setATTNAME(ATT_NAME);
+    return builder;
+  }
+
 }
 

@@ -395,5 +395,123 @@ public class FormatTestDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private FormatTestDto instance;
+
+    public Builder() {
+      this(new FormatTestDto());
+    }
+
+    protected Builder(FormatTestDto instance) {
+      this.instance = instance;
+    }
+
+    public FormatTestDto.Builder integer(Integer integer) {
+      this.instance.integer(integer);
+      return this;
+    }
+    public FormatTestDto.Builder int32(Integer int32) {
+      this.instance.int32(int32);
+      return this;
+    }
+    public FormatTestDto.Builder int64(Long int64) {
+      this.instance.int64(int64);
+      return this;
+    }
+    public FormatTestDto.Builder number(BigDecimal number) {
+      this.instance.number(number);
+      return this;
+    }
+    public FormatTestDto.Builder _float(Float _float) {
+      this.instance._float(_float);
+      return this;
+    }
+    public FormatTestDto.Builder _double(Double _double) {
+      this.instance._double(_double);
+      return this;
+    }
+    public FormatTestDto.Builder string(String string) {
+      this.instance.string(string);
+      return this;
+    }
+    public FormatTestDto.Builder _byte(byte[] _byte) {
+      this.instance._byte(_byte);
+      return this;
+    }
+    public FormatTestDto.Builder binary(org.springframework.core.io.Resource binary) {
+      this.instance.binary(binary);
+      return this;
+    }
+    public FormatTestDto.Builder date(LocalDate date) {
+      this.instance.date(date);
+      return this;
+    }
+    public FormatTestDto.Builder dateTime(OffsetDateTime dateTime) {
+      this.instance.dateTime(dateTime);
+      return this;
+    }
+    public FormatTestDto.Builder uuid(UUID uuid) {
+      this.instance.uuid(uuid);
+      return this;
+    }
+    public FormatTestDto.Builder password(String password) {
+      this.instance.password(password);
+      return this;
+    }
+    public FormatTestDto.Builder bigDecimal(BigDecimal bigDecimal) {
+      this.instance.bigDecimal(bigDecimal);
+      return this;
+    }
+    /**
+    * returns a built FormatTestDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public FormatTestDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static FormatTestDto.Builder builder() {
+    return new FormatTestDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public FormatTestDto.Builder toBuilder() {
+    FormatTestDto.Builder builder = new FormatTestDto.Builder();
+    builder.instance.setInteger(integer);
+    builder.instance.setInt32(int32);
+    builder.instance.setInt64(int64);
+    builder.instance.setNumber(number);
+    builder.instance.setFloat(_float);
+    builder.instance.setDouble(_double);
+    builder.instance.setString(string);
+    builder.instance.setByte(_byte);
+    builder.instance.setBinary(binary);
+    builder.instance.setDate(date);
+    builder.instance.setDateTime(dateTime);
+    builder.instance.setUuid(uuid);
+    builder.instance.setPassword(password);
+    builder.instance.setBigDecimal(bigDecimal);
+    return builder;
+  }
+
 }
 

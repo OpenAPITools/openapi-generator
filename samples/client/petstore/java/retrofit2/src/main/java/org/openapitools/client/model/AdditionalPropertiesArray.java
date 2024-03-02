@@ -98,5 +98,59 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static class Builder {
+
+    private AdditionalPropertiesArray instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesArray());
+    }
+
+    protected Builder(AdditionalPropertiesArray instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesArray.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built AdditionalPropertiesArray instance.
+    *
+    * The builder is not reusable.
+    */
+    public AdditionalPropertiesArray build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesArray.Builder builder() {
+    return new AdditionalPropertiesArray.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesArray.Builder toBuilder() {
+    return new AdditionalPropertiesArray.Builder()
+      .name(getName());
+  }
+
+
 }
 

@@ -140,5 +140,81 @@ public class BigCatDto extends CatDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends CatDto.Builder {
+
+    private BigCatDto instance;
+
+    public Builder() {
+      this(new BigCatDto());
+    }
+
+    protected Builder(BigCatDto instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public BigCatDto.Builder kind(KindEnum kind) {
+      this.instance.kind(kind);
+      return this;
+    }
+
+    @Override
+    public BigCatDto.Builder declawed(Boolean declawed) {
+      this.instance.declawed(declawed);
+      return this;
+    }
+
+    @Override
+    public BigCatDto.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+
+    @Override
+    public BigCatDto.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    /**
+    * returns a built BigCatDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public BigCatDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static BigCatDto.Builder builder() {
+    return new BigCatDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public BigCatDto.Builder toBuilder() {
+    BigCatDto.Builder builder = new BigCatDto.Builder();
+    builder.instance.setKind(kind);
+    builder.instance.setDeclawed(getDeclawed());
+    builder.instance.setClassName(getClassName());
+    builder.instance.setColor(getColor());
+    return builder;
+  }
+
 }
 

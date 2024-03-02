@@ -173,5 +173,105 @@ public class BarCreate extends Entity {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends Entity.Builder {
+
+    private BarCreate instance;
+
+    public Builder() {
+      this(new BarCreate());
+    }
+
+    protected Builder(BarCreate instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public BarCreate.Builder barPropA(String barPropA) {
+      this.instance.barPropA(barPropA);
+      return this;
+    }
+    public BarCreate.Builder fooPropB(String fooPropB) {
+      this.instance.fooPropB(fooPropB);
+      return this;
+    }
+    public BarCreate.Builder foo(FooRefOrValue foo) {
+      this.instance.foo(foo);
+      return this;
+    }
+
+    @Override
+    public BarCreate.Builder href(String href) {
+      this.instance.href(href);
+      return this;
+    }
+
+    @Override
+    public BarCreate.Builder id(String id) {
+      this.instance.id(id);
+      return this;
+    }
+
+    @Override
+    public BarCreate.Builder atSchemaLocation(String atSchemaLocation) {
+      this.instance.atSchemaLocation(atSchemaLocation);
+      return this;
+    }
+
+    @Override
+    public BarCreate.Builder atBaseType(String atBaseType) {
+      this.instance.atBaseType(atBaseType);
+      return this;
+    }
+
+    @Override
+    public BarCreate.Builder atType(String atType) {
+      this.instance.atType(atType);
+      return this;
+    }
+    /**
+    * returns a built BarCreate instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public BarCreate build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static BarCreate.Builder builder() {
+    return new BarCreate.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public BarCreate.Builder toBuilder() {
+    BarCreate.Builder builder = new BarCreate.Builder();
+    builder.instance.setBarPropA(barPropA);
+    builder.instance.setFooPropB(fooPropB);
+    builder.instance.setFoo(foo);
+    builder.instance.setHref(getHref());
+    builder.instance.setId(getId());
+    builder.instance.setAtSchemaLocation(getAtSchemaLocation());
+    builder.instance.setAtBaseType(getAtBaseType());
+    builder.instance.setAtType(getAtType());
+    return builder;
+  }
+
 }
 

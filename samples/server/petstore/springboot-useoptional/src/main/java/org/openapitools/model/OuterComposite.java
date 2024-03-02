@@ -30,7 +30,7 @@ public class OuterComposite {
   private Optional<Boolean> myBoolean = Optional.empty();
 
   public OuterComposite myNumber(BigDecimal myNumber) {
-    this.myNumber = Optional.of(myNumber);
+    this.myNumber = Optional.ofNullable(myNumber);
     return this;
   }
 
@@ -50,7 +50,7 @@ public class OuterComposite {
   }
 
   public OuterComposite myString(String myString) {
-    this.myString = Optional.of(myString);
+    this.myString = Optional.ofNullable(myString);
     return this;
   }
 
@@ -70,7 +70,7 @@ public class OuterComposite {
   }
 
   public OuterComposite myBoolean(Boolean myBoolean) {
-    this.myBoolean = Optional.of(myBoolean);
+    this.myBoolean = Optional.ofNullable(myBoolean);
     return this;
   }
 
@@ -129,5 +129,68 @@ public class OuterComposite {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private OuterComposite instance;
+
+    public Builder() {
+      this(new OuterComposite());
+    }
+
+    protected Builder(OuterComposite instance) {
+      this.instance = instance;
+    }
+
+    public OuterComposite.Builder myNumber(BigDecimal myNumber) {
+      this.instance.myNumber(myNumber);
+      return this;
+    }
+    public OuterComposite.Builder myString(String myString) {
+      this.instance.myString(myString);
+      return this;
+    }
+    public OuterComposite.Builder myBoolean(Boolean myBoolean) {
+      this.instance.myBoolean(myBoolean);
+      return this;
+    }
+    /**
+    * returns a built OuterComposite instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public OuterComposite build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static OuterComposite.Builder builder() {
+    return new OuterComposite.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public OuterComposite.Builder toBuilder() {
+    OuterComposite.Builder builder = new OuterComposite.Builder();
+    builder.instance.setMyNumber(myNumber);
+    builder.instance.setMyString(myString);
+    builder.instance.setMyBoolean(myBoolean);
+    return builder;
+  }
+
 }
 

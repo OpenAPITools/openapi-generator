@@ -104,5 +104,59 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static class Builder {
+
+    private AdditionalPropertiesInteger instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesInteger());
+    }
+
+    protected Builder(AdditionalPropertiesInteger instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesInteger.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built AdditionalPropertiesInteger instance.
+    *
+    * The builder is not reusable.
+    */
+    public AdditionalPropertiesInteger build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesInteger.Builder builder() {
+    return new AdditionalPropertiesInteger.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesInteger.Builder toBuilder() {
+    return new AdditionalPropertiesInteger.Builder()
+      .name(getName());
+  }
+
+
 }
 

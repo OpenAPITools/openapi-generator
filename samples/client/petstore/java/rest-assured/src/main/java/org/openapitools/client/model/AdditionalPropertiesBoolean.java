@@ -101,5 +101,59 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
     return o.toString().replace("\n", "\n    ");
   }
 
+  public static class Builder {
+
+    private AdditionalPropertiesBoolean instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesBoolean());
+    }
+
+    protected Builder(AdditionalPropertiesBoolean instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesBoolean.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built AdditionalPropertiesBoolean instance.
+    *
+    * The builder is not reusable.
+    */
+    public AdditionalPropertiesBoolean build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesBoolean.Builder builder() {
+    return new AdditionalPropertiesBoolean.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesBoolean.Builder toBuilder() {
+    return new AdditionalPropertiesBoolean.Builder()
+      .name(getName());
+  }
+
+
 }
 

@@ -36,11 +36,11 @@ import javax.annotation.Generated;
 @Introspected
 public class ArrayOfArrayOfNumberOnly {
     public static final String JSON_PROPERTY_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
-    private List<List<BigDecimal>> arrayArrayNumber = null;
+    private List<List> arrayArrayNumber = null;
 
     public ArrayOfArrayOfNumberOnly() {
     }
-    public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
         this.arrayArrayNumber = arrayArrayNumber;
         return this;
     }
@@ -60,13 +60,13 @@ public class ArrayOfArrayOfNumberOnly {
     @Nullable
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public List<List<BigDecimal>> getArrayArrayNumber() {
+    public List<List> getArrayArrayNumber() {
         return arrayArrayNumber;
     }
 
     @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
     @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
+    public void setArrayArrayNumber(List<List> arrayArrayNumber) {
         this.arrayArrayNumber = arrayArrayNumber;
     }
 

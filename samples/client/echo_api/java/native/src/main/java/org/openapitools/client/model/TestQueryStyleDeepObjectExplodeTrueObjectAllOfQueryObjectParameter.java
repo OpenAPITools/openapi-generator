@@ -254,5 +254,77 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter instance;
+
+    public Builder() {
+      this(new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter());
+    }
+
+    protected Builder(TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter instance) {
+      this.instance = instance;
+    }
+
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder size(String size) {
+      this.instance.size = size;
+      return this;
+    }
+
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder color(String color) {
+      this.instance.color = color;
+      return this;
+    }
+
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder id(Long id) {
+      this.instance.id = id;
+      return this;
+    }
+
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder name(String name) {
+      this.instance.name = name;
+      return this;
+    }
+
+
+    /**
+    * returns a built TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter instance.
+    *
+    * The builder is not reusable.
+    */
+    public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder builder() {
+    return new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder toBuilder() {
+    return new TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.Builder()
+      .size(getSize())
+      .color(getColor())
+      .id(getId())
+      .name(getName());
+  }
+
 }
 

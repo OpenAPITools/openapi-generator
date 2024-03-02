@@ -239,5 +239,93 @@ public class UserDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private UserDto instance;
+
+    public Builder() {
+      this(new UserDto());
+    }
+
+    protected Builder(UserDto instance) {
+      this.instance = instance;
+    }
+
+    public UserDto.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    public UserDto.Builder username(String username) {
+      this.instance.username(username);
+      return this;
+    }
+    public UserDto.Builder firstName(String firstName) {
+      this.instance.firstName(firstName);
+      return this;
+    }
+    public UserDto.Builder lastName(String lastName) {
+      this.instance.lastName(lastName);
+      return this;
+    }
+    public UserDto.Builder email(String email) {
+      this.instance.email(email);
+      return this;
+    }
+    public UserDto.Builder password(String password) {
+      this.instance.password(password);
+      return this;
+    }
+    public UserDto.Builder phone(String phone) {
+      this.instance.phone(phone);
+      return this;
+    }
+    public UserDto.Builder userStatus(Integer userStatus) {
+      this.instance.userStatus(userStatus);
+      return this;
+    }
+    /**
+    * returns a built UserDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public UserDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static UserDto.Builder builder() {
+    return new UserDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public UserDto.Builder toBuilder() {
+    UserDto.Builder builder = new UserDto.Builder();
+    builder.instance.setId(id);
+    builder.instance.setUsername(username);
+    builder.instance.setFirstName(firstName);
+    builder.instance.setLastName(lastName);
+    builder.instance.setEmail(email);
+    builder.instance.setPassword(password);
+    builder.instance.setPhone(phone);
+    builder.instance.setUserStatus(userStatus);
+    return builder;
+  }
+
 }
 
