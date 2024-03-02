@@ -2121,6 +2121,7 @@ public class JavaClientCodegenTest {
                         .getOpenAPI();
 
         JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setLibrary("resttemplate");
         codegen.setOutputDir(output.getAbsolutePath());
         codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
         codegen.setUseOneOfInterfaces(true);
@@ -2145,14 +2146,14 @@ public class JavaClientCodegenTest {
 
         generator.opts(input).generate();
 
-        assertFileNotContains(
-                Paths.get(
-                        outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingADTO.java"),
-                "@JsonTypeName");
-        assertFileNotContains(
-                Paths.get(
-                        outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingBDTO.java"),
-                "@JsonTypeName");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingADTO.java"),
+                "@JsonTypeName(\"child_a\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ChildWithMappingBDTO.java"),
+                "@JsonTypeName(\"child_b\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ParentWithMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithMapping\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/client/model/ParentWithoutMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithoutMapping\")");
     }
 
     @Test
