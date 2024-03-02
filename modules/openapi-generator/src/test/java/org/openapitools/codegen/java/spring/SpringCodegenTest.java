@@ -1705,9 +1705,14 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingADTO.java"),
+                "@JsonTypeName(\"child_a\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingBDTO.java"),
+                "@JsonTypeName(\"child_b\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ParentWithMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithMapping\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ParentWithoutMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithoutMapping\")");
     }
 
     @Test
