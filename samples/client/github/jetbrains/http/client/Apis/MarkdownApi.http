@@ -1,0 +1,22 @@
+## MarkdownApi
+
+### Render a Markdown document
+## Render a Markdown document
+POST https://api.github.com/markdown
+Content-Type: application/json
+
+{
+  "text" : "Hello **world**"
+}
+
+
+### Render a Markdown document in raw mode
+## Render a Markdown document in raw mode
+POST https://api.github.com/markdown/raw
+Content-Type: text/plain
+Content-Type: text/x-markdown
+
+{
+  "text" : "Hello **world**"
+}
+

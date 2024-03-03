@@ -1,0 +1,36 @@
+## MetaApi
+
+### Get GitHub meta information
+## Get GitHub meta information
+GET https://api.github.com/meta
+
+
+
+
+### Get all API versions
+## Get all API versions
+GET https://api.github.com/versions
+
+
+
+
+### Get Octocat
+## Get Octocat
+GET https://api.github.com/octocat
+
+
+
+
+### Get the Zen of GitHub
+## Get the Zen of GitHub
+GET https://api.github.com/zen
+
+
+
+
+### GitHub API Root
+## GitHub API Root
+GET https://api.github.com/
+
+
+

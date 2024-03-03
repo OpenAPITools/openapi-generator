@@ -41,7 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /*
-Note : This code has been MASSIVELY inspired by PostmanCollectionCodegen.
+Note : This code has been MASSIVELY inspired by PostmanCollectionCodegen from @gcatanese.
 
 Hopefully one day we can merge the similar code, as both generators stabilize
  */
@@ -148,10 +148,11 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
                     // find in components/examples
                     for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
                         String exampleRef = entry.getValue().get$ref();
-                        Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
-                        String exampleAsString = getJsonFromExample(example);
-
-                        items.add(new RequestItem(example.getSummary(), exampleAsString));
+                        if(exampleRef != null){
+                            Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
+                            String exampleAsString = getJsonFromExample(example);
+                            items.add(new RequestItem(example.getSummary(), exampleAsString));
+                        }
                     }
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example
@@ -175,15 +176,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     @Override
     public void postProcess() {
-        System.out.println("################################################################################");
-        System.out.println("# Thanks for using OpenAPI Generator.                                          #");
-        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                 #");
-        System.out.println("# https://opencollective.com/openapi_generator/donate                          #");
-        System.out.println("#                                                                              #");
-        System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)    #");
-        System.out.println("################################################################################");
+        System.out.println("##########################################################################################");
+        System.out.println("# Thanks for using OpenAPI Generator.                                                    #");
+        System.out.println("# Please consider donation to help us maintain this project \uD83D\uDE4F                           #");
+        System.out.println("# https://opencollective.com/openapi_generator/donate                                    #");
+        System.out.println("#                                                                                        #");
+        System.out.println("# This generator was written by Julien Lengrand-Lambert (https://github.com/jlengrand)   #");
+        System.out.println("##########################################################################################");
     }
-
 
     public class RequestItem {
 

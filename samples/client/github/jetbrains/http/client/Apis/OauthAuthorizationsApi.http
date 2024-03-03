@@ -1,0 +1,95 @@
+## OauthAuthorizationsApi
+
+### Create a new authorization
+## Create a new authorization
+POST http://HOSTNAME/api/v3/authorizations
+Content-Type: application/json
+
+{
+  "scopes" : [ "public_repo" ],
+  "note" : "optional note",
+  "note_url" : "http://optional/note/url",
+  "client_id" : "abcde12345fghij67890",
+  "client_secret" : "3ef4ad510c59ad37bac6bb4f80047fb3aee3cc7f"
+}
+
+
+### Delete an authorization
+## Delete an authorization
+DELETE http://HOSTNAME/api/v3/authorizations/{{authorization_id}}
+
+
+
+
+### Delete a grant
+## Delete a grant
+DELETE http://HOSTNAME/api/v3/applications/grants/{{grant_id}}
+
+
+
+
+### Get a single authorization
+## Get a single authorization
+GET http://HOSTNAME/api/v3/authorizations/{{authorization_id}}
+
+
+
+
+### Get a single grant
+## Get a single grant
+GET http://HOSTNAME/api/v3/applications/grants/{{grant_id}}
+
+
+
+
+### Get-or-create an authorization for a specific app
+## Get-or-create an authorization for a specific app
+PUT http://HOSTNAME/api/v3/authorizations/clients/{{client_id}}
+Content-Type: application/json
+
+{
+  "client_secret" : "3ef4ad510c59ad37bac6bb4f80047fb3aee3cc7f",
+  "scopes" : [ "public_repo" ],
+  "note" : "optional note",
+  "note_url" : "http://optional/note/url"
+}
+
+
+### Get-or-create an authorization for a specific app and fingerprint
+## Get-or-create an authorization for a specific app and fingerprint
+PUT http://HOSTNAME/api/v3/authorizations/clients/{{client_id}}/{{fingerprint}}
+Content-Type: application/json
+
+{
+  "client_secret" : "3ef4ad510c59ad37bac6bb4f80047fb3aee3cc7f",
+  "scopes" : [ "public_repo" ],
+  "note" : "optional note",
+  "note_url" : "http://optional/note/url"
+}
+
+
+### List your authorizations
+## List your authorizations
+GET http://HOSTNAME/api/v3/authorizations
+
+
+
+
+### List your grants
+## List your grants
+GET http://HOSTNAME/api/v3/applications/grants
+
+
+
+
+### Update an existing authorization
+## Update an existing authorization
+PATCH http://HOSTNAME/api/v3/authorizations/{{authorization_id}}
+Content-Type: application/json
+
+{
+  "add_scopes" : [ "public_repo" ],
+  "remove_scopes" : [ "user" ],
+  "note" : "optional note"
+}
+

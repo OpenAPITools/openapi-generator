@@ -1,0 +1,43 @@
+## ClassroomApi
+
+### Get a classroom
+## Get a classroom
+GET https://api.github.com/classrooms/{{classroom_id}}
+
+
+
+
+### Get an assignment
+## Get an assignment
+GET https://api.github.com/assignments/{{assignment_id}}
+
+
+
+
+### Get assignment grades
+## Get assignment grades
+GET https://api.github.com/assignments/{{assignment_id}}/grades
+
+
+
+
+### List accepted assignments for an assignment
+## List accepted assignments for an assignment
+GET https://api.github.com/assignments/{{assignment_id}}/accepted_assignments
+
+
+
+
+### List assignments for a classroom
+## List assignments for a classroom
+GET https://api.github.com/classrooms/{{classroom_id}}/assignments
+
+
+
+
+### List classrooms
+## List classrooms
+GET https://api.github.com/classrooms
+
+
+

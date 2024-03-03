@@ -1,0 +1,15 @@
+## CodesOfConductApi
+
+### Get all codes of conduct
+## Get all codes of conduct
+GET https://api.github.com/codes_of_conduct
+
+
+
+
+### Get a code of conduct
+## Get a code of conduct
+GET https://api.github.com/codes_of_conduct/{{key}}
+
+
+

@@ -1,0 +1,239 @@
+## ActivityApi
+
+### Check if a repository is starred by the authenticated user
+## Check if a repository is starred by the authenticated user
+GET https://api.github.com/user/starred/{{owner}}/{{repo}}
+
+
+
+
+### Delete a repository subscription
+## Delete a repository subscription
+DELETE https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+
+
+
+
+### Delete a thread subscription
+## Delete a thread subscription
+DELETE https://api.github.com/notifications/threads/{{thread_id}}/subscription
+
+
+
+
+### Get feeds
+## Get feeds
+GET https://api.github.com/feeds
+
+
+
+
+### Get a repository subscription
+## Get a repository subscription
+GET https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+
+
+
+
+### Get a thread
+## Get a thread
+GET https://api.github.com/notifications/threads/{{thread_id}}
+
+
+
+
+### Get a thread subscription for the authenticated user
+## Get a thread subscription for the authenticated user
+GET https://api.github.com/notifications/threads/{{thread_id}}/subscription
+
+
+
+
+### List events for the authenticated user
+## List events for the authenticated user
+GET https://api.github.com/users/{{username}}/events
+
+
+
+
+### List notifications for the authenticated user
+## List notifications for the authenticated user
+GET https://api.github.com/notifications
+
+
+
+
+### List organization events for the authenticated user
+## List organization events for the authenticated user
+GET https://api.github.com/users/{{username}}/events/orgs/{{org}}
+
+
+
+
+### List public events
+## List public events
+GET https://api.github.com/events
+
+
+
+
+### List public events for a network of repositories
+## List public events for a network of repositories
+GET https://api.github.com/networks/{{owner}}/{{repo}}/events
+
+
+
+
+### List public events for a user
+## List public events for a user
+GET https://api.github.com/users/{{username}}/events/public
+
+
+
+
+### List public organization events
+## List public organization events
+GET https://api.github.com/orgs/{{org}}/events
+
+
+
+
+### List events received by the authenticated user
+## List events received by the authenticated user
+GET https://api.github.com/users/{{username}}/received_events
+
+
+
+
+### List public events received by a user
+## List public events received by a user
+GET https://api.github.com/users/{{username}}/received_events/public
+
+
+
+
+### List repository events
+## List repository events
+GET https://api.github.com/repos/{{owner}}/{{repo}}/events
+
+
+
+
+### List repository notifications for the authenticated user
+## List repository notifications for the authenticated user
+GET https://api.github.com/repos/{{owner}}/{{repo}}/notifications
+
+
+
+
+### List repositories starred by the authenticated user
+## List repositories starred by the authenticated user
+GET https://api.github.com/user/starred
+
+
+
+
+### List repositories starred by a user
+## List repositories starred by a user
+GET https://api.github.com/users/{{username}}/starred
+
+
+
+
+### List repositories watched by a user
+## List repositories watched by a user
+GET https://api.github.com/users/{{username}}/subscriptions
+
+
+
+
+### List stargazers
+## List stargazers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/stargazers
+
+
+
+
+### List repositories watched by the authenticated user
+## List repositories watched by the authenticated user
+GET https://api.github.com/user/subscriptions
+
+
+
+
+### List watchers
+## List watchers
+GET https://api.github.com/repos/{{owner}}/{{repo}}/subscribers
+
+
+
+
+### Mark notifications as read
+## Mark notifications as read
+PUT https://api.github.com/notifications
+Content-Type: application/json
+
+{
+  "last_read_at" : "2022-06-10T00:00:00Z",
+  "read" : true
+}
+
+
+### Mark repository notifications as read
+## Mark repository notifications as read
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/notifications
+Content-Type: application/json
+
+{
+  "last_read_at" : "2019-01-01T00:00:00Z"
+}
+
+
+### Mark a thread as done
+## Mark a thread as done
+DELETE https://api.github.com/notifications/threads/{{thread_id}}
+
+
+
+
+### Mark a thread as read
+## Mark a thread as read
+PATCH https://api.github.com/notifications/threads/{{thread_id}}
+
+
+
+
+### Set a repository subscription
+## Set a repository subscription
+PUT https://api.github.com/repos/{{owner}}/{{repo}}/subscription
+Content-Type: application/json
+
+{
+  "subscribed" : true,
+  "ignored" : false
+}
+
+
+### Set a thread subscription
+## Set a thread subscription
+PUT https://api.github.com/notifications/threads/{{thread_id}}/subscription
+Content-Type: application/json
+
+{
+  "ignored" : false
+}
+
+
+### Star a repository for the authenticated user
+## Star a repository for the authenticated user
+PUT https://api.github.com/user/starred/{{owner}}/{{repo}}
+
+
+
+
+### Unstar a repository for the authenticated user
+## Unstar a repository for the authenticated user
+DELETE https://api.github.com/user/starred/{{owner}}/{{repo}}
+
+
+
