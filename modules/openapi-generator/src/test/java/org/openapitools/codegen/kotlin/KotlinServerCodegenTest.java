@@ -1,11 +1,11 @@
 package org.openapitools.codegen.kotlin;
 
-import org.junit.Test;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -180,7 +180,7 @@ public class KotlinServerCodegenTest {
                         .config(codegen))
                 .generate();
 
-        String outputPath = output.getAbsolutePath() + "src/main/kotlin/org/openapitools";
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools";
         Path order = Paths.get(outputPath + "/model/Order.kt");
         assertFileContains(
                 order,
