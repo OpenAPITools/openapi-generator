@@ -37,6 +37,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.ModelUtils.getAdditionalProperties;
 
@@ -108,12 +109,12 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
         this.objectMapper.configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, true);
         this.objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         this.modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme)
-                        .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
-                        .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                        .excludeGlobalFeatures(GlobalFeature.XMLStructureDefinitions, GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling)
-                        .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
-                        .excludeParameterFeatures(ParameterFeature.Cookie)
-                        .includeClientModificationFeatures(ClientModificationFeature.BasePath));
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+                .excludeGlobalFeatures(GlobalFeature.XMLStructureDefinitions, GlobalFeature.Callbacks, GlobalFeature.LinkObjects, GlobalFeature.ParameterStyling)
+                .excludeSchemaSupportFeatures(SchemaSupportFeature.Polymorphism)
+                .excludeParameterFeatures(ParameterFeature.Cookie)
+                .includeClientModificationFeatures(ClientModificationFeature.BasePath));
         this.sourceFolder = "src" + File.separator + "test" + File.separator + "kotlin";
         this.outputFolder = "generated-code/gatling";
         this.apiTemplateFiles.put("api.mustache", ".kt");
@@ -466,12 +467,16 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
             Schema<?> schema = stringSchemaEntry.getValue();
             String propertyName = stringSchemaEntry.getKey();
 
-            if (schema instanceof ArraySchema && schema.getType().equals(ARRAY_TYPE)) {
-                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, true);
-                rootNode.set(propertyName, arrayNode);
-            } else if (schema.get$ref() != null) {
+            if (schema.get$ref() != null) {
                 Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
                 rootNode.set(propertyName, this.createJsonRequestBodyFromSchema(nestedPropertiesMap));
+            } else if (schema.getType().equals(ARRAY_TYPE)) {
+                if (schema.getItems().get$ref() != null) {
+                    Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema.getItems(), this.openAPI);
+                    rootNode.set(propertyName, this.createJsonRequestBodyFromSchema(nestedPropertiesMap));
+                } else {
+                    rootNode.put(propertyName, "#{" + propertyName + "}");
+                }
             } else {
                 rootNode.put(propertyName, "#{" + propertyName + "}");
             }
@@ -481,87 +486,80 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
 
     private ObjectNode createJsonFromSchema(Map<String, Schema<?>> propertiesMap) {
         ObjectNode rootNode = this.objectMapper.createObjectNode();
-
-        for (Map.Entry<String, Schema<?>> stringSchemaEntry : propertiesMap.entrySet()) {
-            Schema<?> schema = stringSchemaEntry.getValue();
-            String propertyName = stringSchemaEntry.getKey();
+        for (Map.Entry<String, Schema<?>> entry : propertiesMap.entrySet()) {
+            Schema<?> schema = entry.getValue();
+            String propertyName = entry.getKey();
 
             if (schema instanceof ArraySchema && schema.getType().equals(ARRAY_TYPE)) {
-                ArrayNode arrayNode = parseArraySchema(schema, this.objectMapper, this.openAPI, false);
-                rootNode.set(propertyName, arrayNode);
+                rootNode.set(propertyName, parseArraySchemaToJson(schema, this.objectMapper, this.openAPI));
             } else if (schema.get$ref() != null) {
-                Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(schema, this.openAPI);
-                rootNode.set(propertyName, this.createJsonFromSchema(nestedPropertiesMap));
+                rootNode.set(propertyName, this.createJsonFromSchema(getNestedProperties(schema, this.openAPI)));
             } else {
-                if (schema.getMaximum() != null) {
-                    rootNode.put(propertyName, schema.getMaximum());
-                } else if (schema.getFormat() != null) {
-                    LocalDateTime currentDateTime = LocalDateTime.now(ZoneOffset.UTC);
-                    switch (schema.getFormat()) {
-                        case "date":
-                            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'Z'", Locale.US);
-                            String formattedDate = LocalDateTime.now(ZoneOffset.UTC).format(dateFormatter);
-                            rootNode.put(propertyName, formattedDate);
-                            break;
-                        case "date-time":
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
-                            String formattedDateTime = currentDateTime.format(formatter);
-                            rootNode.put(propertyName, formattedDateTime);
-                            break;
-                        case "int32":
-                        case "int64":
-                            rootNode.put(propertyName, 0);
-                            break;
-                        case "uuid":
-                            rootNode.put(propertyName, "9c5f2640-a590-4f14-8e88-536764e57251");
-                            break;
-                        default:
-                            rootNode.put(propertyName, schema.getFormat());
-                            break;
-                    }
-                } else if (schema.getEnum() != null) {
-                    String enumValue = schema.getEnum().get(0).toString();
-                    rootNode.put(propertyName, enumValue);
-                } else if (schema.getPattern() != null) {
-                    rootNode.put(propertyName, schema.getPattern());
-                } else if (schema.getType() != null) {
-                    switch (schema.getType()) {
-                        case BOOLEAN_TYPE:
-                            rootNode.put(propertyName, true);
-                            break;
-                        case "number":
-                        case "integer":
-                            rootNode.put(propertyName, 0);
-                            break;
-                        default:
-                            rootNode.put(propertyName, schema.getType());
-                            break;
-                    }
-                }
+                rootNode.put(propertyName, getSchemaValue(schema));
             }
         }
         return rootNode;
     }
 
-    private ArrayNode parseArraySchema(Schema<?> schema, ObjectMapper objectMapper, OpenAPI openAPI, boolean isBody) {
+    private String getSchemaValue(Schema<?> schema) {
+        if (schema.getMaximum() != null) {
+            return schema.getMaximum().toString();
+        } else if (schema.getMinimum() != null) {
+            return schema.getMinimum().toString();
+        } else if (schema.getFormat() != null) {
+            return getFormattedValue(schema);
+        } else if (schema.getEnum() != null) {
+            return schema.getEnum().get(0).toString();
+        } else if (schema.getPattern() != null) {
+            return schema.getPattern();
+        } else if (schema.getExample() != null) {
+            return schema.getExample().toString();
+        } else if (schema.getType() != null) {
+            return getSchemaTypeValue(schema);
+        }
+        return "";
+    }
+
+    private String getFormattedValue(Schema<?> schema) {
+        LocalDateTime currentDateTime = LocalDateTime.now(ZoneOffset.UTC);
+        switch (schema.getFormat()) {
+            case "date":
+                return currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'Z'"));
+            case "date-time":
+                return currentDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+            case "int32":
+            case "int64":
+                return "0";
+            case "uuid":
+                return "9c5f2640-a590-4f14-8e88-536764e57251";
+            default:
+                return schema.getFormat();
+        }
+    }
+
+    private String getSchemaTypeValue(Schema<?> schema) {
+        switch (schema.getType()) {
+            case BOOLEAN_TYPE:
+                return "true";
+            case "number":
+            case "integer":
+                return "0";
+            default:
+                return schema.getType();
+        }
+    }
+
+    private ArrayNode parseArraySchemaToJson(Schema<?> schema, ObjectMapper objectMapper, OpenAPI openAPI) {
         Schema<?> items = schema.getItems();
         ArrayNode arrayNode = objectMapper.createArrayNode();
 
         if (items.get$ref() != null) {
-            String[] refArray = items.get$ref().split("/");
-            Schema nestedModel = openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
-            Map<String, Schema<?>> nestedPropertiesMap = nestedModel.getProperties();
+            Map<String, Schema<?>> nestedPropertiesMap = getNestedProperties(items, openAPI);
             ObjectNode jsonFromSchema;
-
-            if (isBody) {
-                jsonFromSchema = this.createJsonRequestBodyFromSchema(nestedPropertiesMap);
-            } else {
-                jsonFromSchema = this.createJsonFromSchema(nestedPropertiesMap);
-            }
-
+            jsonFromSchema = this.createJsonFromSchema(nestedPropertiesMap);
             arrayNode.add(jsonFromSchema);
         } else {
-            arrayNode.add(items.getType());
+            arrayNode.add(getSchemaValue(items));
         }
         return arrayNode;
     }
@@ -569,7 +567,12 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
     private Map<String, Schema<?>> getNestedProperties(Schema<?> schema, OpenAPI openAPI) {
         String[] refArray = schema.get$ref().split("/");
         Schema nestedModel = openAPI.getComponents().getSchemas().get(refArray[refArray.length - 1]);
-        return nestedModel.getProperties();
+        Map<String, Schema<?>> nestedProperties = nestedModel.getProperties();
+
+        if (nestedProperties == null) {
+            return new HashMap<>();
+        }
+        return nestedProperties;
     }
 
     private void writeBodyJsonFile(Operation operation, ObjectNode node) {
@@ -603,19 +606,8 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
 
     private void prepareGatlingData(Operation operation, Set<Parameter> parameters, String parameterType) {
         if (!parameters.isEmpty() && !Objects.equals(parameterType, "body")) {
-            List<Object> vendorList = new ArrayList<>();
-            Map<String, String> parameterNameType = new HashMap<>();
-
-            for (Parameter parameter : parameters) {
-                Map<String, Object> extensionMap = new HashMap<>();
-                extensionMap.put("gatlingParamName", parameter.getName());
-                extensionMap.put("gatlingParamValue", "#{" + parameter.getName() + "}");
-                vendorList.add(extensionMap);
-
-                if (parameter.getSchema() != null) {
-                    parameterNameType.put(parameter.getName(), parameter.getSchema().getType());
-                }
-            }
+            List<Object> vendorList = getVendorList(parameters);
+            Map<String, String> parameterNameType = getParameterNameType(parameters);
 
             operation.addExtension(PROPERTY_KEY_X_GATLING + parameterType.toLowerCase(Locale.ROOT) +
                     "-params", vendorList);
@@ -639,27 +631,101 @@ public class KotlinPerfanaGatlingCodegen extends AbstractKotlinCodegen implement
         }
     }
 
+    private List<Object> getVendorList(Set<Parameter> parameters) {
+        return parameters.stream().map(parameter -> {
+            Map<String, Object> extensionMap = new HashMap<>();
+            extensionMap.put("gatlingParamName", parameter.getName());
+            extensionMap.put("gatlingParamValue", "#{" + parameter.getName() + "}");
+            return extensionMap;
+        }).collect(Collectors.toList());
+    }
+
+    private Map<String, String> getParameterNameType(Set<Parameter> parameters) {
+        Map<String, String> parameterNameType = new HashMap<>();
+
+        for (Parameter parameter : parameters) {
+            Schema<?> schema = parameter.getSchema();
+
+            if (schema != null) {
+                String type = schema.getType();
+
+                if (schema.get$ref() != null) {
+                    parameterNameType.putAll(getRefParameterNameType(schema));
+                } else if (type.equals(ARRAY_TYPE)) {
+                    parameterNameType.put(parameter.getName(), type + ":" + schema.getItems().getType());
+                } else {
+                    String schemaValue = getSchemaValue(schema);
+                    parameterNameType.put(parameter.getName(), schemaValue);
+                }
+            }
+        }
+        return parameterNameType;
+    }
+
+    private Map<String, String> getRefParameterNameType(Schema<?> schema) {
+        Map<String, String> parameterNameType = new HashMap<>();
+        Map<String, Schema<?>> nestedProperties = getNestedProperties(schema, openAPI);
+        nestedProperties.forEach((key, value) -> {
+            if (value.getType().equals(ARRAY_TYPE)) {
+                String $ref = value.getItems().get$ref();
+                if ($ref != null) {
+                    getRefParameterNameType(value);
+                }
+                String schemaValue = getSchemaValue(value.getItems());
+                parameterNameType.put(key, "array:" + schemaValue);
+            } else {
+                String schemaValue = getSchemaValue(value);
+                parameterNameType.put(key, schemaValue);
+            }
+        });
+
+        return parameterNameType;
+    }
+
     private ImmutablePair<String, String> generateCsvFeederData(Map<String, String> parameterNameType) {
         List<String> typeValues = new ArrayList<>();
         String headerRowString = String.join(",", parameterNameType.keySet());
 
-        parameterNameType.values()
-                .forEach(value -> {
-                    switch (value) {
-                        case BOOLEAN_TYPE:
-                            typeValues.add("false");
-                            break;
-                        case "number":
-                        case "integer":
-                            typeValues.add("0");
-                            break;
-                        default:
-                            typeValues.add("string");
-                            break;
-                    }
-                });
-        String valuesRowString = String.join(",", typeValues);
+        parameterNameType.forEach((key, value) ->
+        {
+            String arrayTypeValue = "array";
 
+            if (value.contains(ARRAY_TYPE)) {
+                arrayTypeValue = Arrays.stream(value.split(":"))
+                        .reduce((first, second) -> second).orElse("array");
+                value = "array";
+            }
+
+            switch (value) {
+                case BOOLEAN_TYPE:
+                    typeValues.add("false");
+                    break;
+                case "number":
+                case "integer":
+                    typeValues.add("0");
+                    break;
+                case "object":
+                    typeValues.add("{" + key + " object}");
+                    break;
+                case "date":
+                    typeValues.add(LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                    break;
+                case "date-time":
+                    typeValues.add(LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")));
+                    break;
+                case "array":
+                    typeValues.add("[" + arrayTypeValue + "]");
+                    break;
+                case "string":
+                    typeValues.add("string");
+                    break;
+                default:
+                    typeValues.add(value);
+                    break;
+            }
+        });
+
+        String valuesRowString = String.join(",", typeValues);
         return new ImmutablePair<>(headerRowString, valuesRowString);
     }
 
