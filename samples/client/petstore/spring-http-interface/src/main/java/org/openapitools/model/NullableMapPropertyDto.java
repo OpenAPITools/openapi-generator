@@ -22,6 +22,7 @@ import jakarta.annotation.Generated;
  * NullableMapPropertyDto
  */
 
+@JsonTypeName("NullableMapProperty")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class NullableMapPropertyDto {
 

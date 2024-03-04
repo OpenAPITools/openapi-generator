@@ -24,6 +24,7 @@ import jakarta.annotation.Generated;
  * AdditionalPropertiesClassDto
  */
 
+@JsonTypeName("AdditionalPropertiesClass")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClassDto {
 

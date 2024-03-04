@@ -17,6 +17,7 @@ import jakarta.annotation.Generated;
  * ReadOnlyFirstDto
  */
 
+@JsonTypeName("ReadOnlyFirst")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ReadOnlyFirstDto {
 

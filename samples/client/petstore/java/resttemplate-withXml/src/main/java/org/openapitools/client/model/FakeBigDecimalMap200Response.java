@@ -37,6 +37,7 @@ import io.github.threetenjaxb.core.*;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_ID,
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
+@JsonTypeName("fakeBigDecimalMap_200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FakeBigDecimalMap200Response")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -17,6 +17,7 @@ import jakarta.annotation.Generated;
  * Model for testing reserved words
  */
 
+@JsonTypeName("Return")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn {
 

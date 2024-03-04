@@ -17,6 +17,7 @@ import jakarta.annotation.Generated;
  * ModelList
  */
 
+@JsonTypeName("List")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelList {
 

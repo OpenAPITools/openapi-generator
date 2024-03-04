@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
+@JsonTypeName("ApiResponse")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse {
 

@@ -35,6 +35,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   TestInlineFreeformAdditionalPropertiesRequest.JSON_PROPERTY_SOME_PROPERTY
 })
+@JsonTypeName("testInlineFreeformAdditionalProperties_request")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TestInlineFreeformAdditionalPropertiesRequest")
 @XmlAccessorType(XmlAccessType.FIELD)

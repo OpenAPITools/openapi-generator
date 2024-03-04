@@ -17,6 +17,7 @@ import jakarta.annotation.Generated;
  * CategoryDto
  */
 
+@JsonTypeName("Category")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class CategoryDto {
 

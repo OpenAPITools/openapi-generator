@@ -23,6 +23,7 @@ import jakarta.annotation.Generated;
  */
 
 @Schema(name = "ApiResponse", description = "Describes the result of uploading an image resource")
+@JsonTypeName("ApiResponse")
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)

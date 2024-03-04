@@ -20,6 +20,7 @@ import jakarta.annotation.Generated;
  * OrderDto
  */
 
+@JsonTypeName("Order")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OrderDto {
 

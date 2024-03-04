@@ -17,6 +17,7 @@ import jakarta.annotation.Generated;
  * Must be named &#x60;File&#x60; for test.
  */
 
+@JsonTypeName("File")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FileDto {
 

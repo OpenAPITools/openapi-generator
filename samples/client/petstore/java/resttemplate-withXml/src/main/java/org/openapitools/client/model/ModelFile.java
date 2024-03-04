@@ -33,6 +33,7 @@ import io.github.threetenjaxb.core.*;
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
+@JsonTypeName("File")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ModelFile")
 @XmlAccessorType(XmlAccessType.FIELD)

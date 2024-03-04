@@ -25,6 +25,7 @@ import jakarta.annotation.Generated;
  */
 
 
+@JsonTypeName("ChildWithNullable")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 

@@ -2565,11 +2565,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
             // context index 1 is only valid when used in pojo.mustache
-            CodegenModel codegenModel = (CodegenModel)fragment.context(1);
-            Object xDiscriminatorValue = codegenModel.vendorExtensions.get("x-discriminator-value");
-            if (codegenModel.getIsClassnameSanitized() || (xDiscriminatorValue!=null && !codegenModel.classname.equals(xDiscriminatorValue))) {
-                String text = fragment.execute();
-                writer.write(text);
+            Object context = fragment.context(1);
+            if (context instanceof ModelMap) {
+                context = ((ModelMap)context).getModel();
+            }
+            if (context instanceof CodegenModel) {
+                CodegenModel codegenModel = (CodegenModel)context;
+                Object xDiscriminatorValue = codegenModel.vendorExtensions.get("x-discriminator-value");
+                if (codegenModel.getIsClassnameSanitized() || (xDiscriminatorValue != null && !codegenModel.classname.equals(xDiscriminatorValue))) {
+                    String text = fragment.execute();
+                    writer.write(text);
+                }
             }
         }
     }

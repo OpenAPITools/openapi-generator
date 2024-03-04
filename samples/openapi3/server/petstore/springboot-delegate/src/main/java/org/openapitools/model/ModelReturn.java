@@ -20,6 +20,7 @@ import javax.annotation.Generated;
  */
 
 @Schema(name = "Return", description = "Model for testing reserved words")
+@JsonTypeName("Return")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelReturn {
 
