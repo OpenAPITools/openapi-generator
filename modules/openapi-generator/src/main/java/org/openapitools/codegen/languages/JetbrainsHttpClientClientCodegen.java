@@ -58,9 +58,14 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public static final String PROJECT_NAME = "Jetbrains HTTP Client";
 
-    public static final String CUSTOM_VARIABLES = "customVariables";
+    public static final String BODY_VARIABLES = "bodyVariables";
 
-    public List<String> customVariables = new ArrayList<>();
+    public List<String> bodyVariables = new ArrayList<>();
+
+    public static final String PATH_VARIABLES = "pathVariables";
+
+    public List<String> pathVariables = new ArrayList<>();
+
 
     public CodegenType getTag() {
         return CodegenType.CLIENT;
@@ -94,7 +99,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
 
         cliOptions.clear();
-        cliOptions.add(CliOption.newString(CUSTOM_VARIABLES, "whether to convert placeholders (i.e. {{VAR_1}}) into variables"));
+        cliOptions.add(CliOption.newString(BODY_VARIABLES, "whether to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})"));
+        cliOptions.add(CliOption.newString(PATH_VARIABLES, "whether to convert path placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})"));
 
     }
 
@@ -104,8 +110,12 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         var additionalProperties = additionalProperties();
 
-        if(additionalProperties.containsKey(CUSTOM_VARIABLES)) {
-            customVariables = Arrays.asList(additionalProperties.get(CUSTOM_VARIABLES).toString().split("-"));
+        if(additionalProperties.containsKey(BODY_VARIABLES)) {
+            bodyVariables = Arrays.asList(additionalProperties.get(BODY_VARIABLES).toString().split("-"));
+        }
+
+        if(additionalProperties.containsKey(PATH_VARIABLES)) {
+            pathVariables = Arrays.asList(additionalProperties.get(PATH_VARIABLES).toString().split("-"));
         }
     }
 
@@ -185,15 +195,13 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         // Handling custom variables now
-        items = handleCustomVariablesInRequests(items);
-
-        return items;
+        return handleCustomVariablesInRequests(items);
     }
 
     private List<RequestItem> handleCustomVariablesInRequests(List<RequestItem> items) {
-        if(!customVariables.isEmpty()){
+        if(!bodyVariables.isEmpty()){
             for(var item : items){
-                for(var customVariable: customVariables){
+                for(var customVariable: bodyVariables){
                     var body = item.getBody();
                     body = body.replace(customVariable, "{{" + customVariable + "}}");
                     item.setBody(body);

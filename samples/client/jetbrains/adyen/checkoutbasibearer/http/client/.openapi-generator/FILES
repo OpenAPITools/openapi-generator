@@ -1,0 +1,3 @@
+.openapi-generator-ignore
+Apis/PaymentsApi.http
+README.md

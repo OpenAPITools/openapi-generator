@@ -5,19 +5,12 @@
 {{#vendorExtensions.requests}}
 ### {{#summary}}{{summary}}{{/summary}}
 ## {{name}}
-{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}
+{{httpMethod}} {{basePath}}{{#lambda.doubleMustache}}{{path}}{{/lambda.doubleMustache}}{{#authMethods}}{{#isApiKey}}{{#isKeyInQuery}}?{{keyParamName}}={{#lambda.doubleMustache}}{queryKey}{{/lambda.doubleMustache}}{{/isKeyInQuery}}{{/isApiKey}}{{/authMethods}}
 {{#consumes}}Content-Type: {{{mediaType}}}
 {{/consumes}}
-{{#authMethods}}
-    {{#isApiKey}}
-{{keyParamName}}: {{#lambda.doubleMustache}}{apiKey}{{/lambda.doubleMustache}}
-    {{/isApiKey}}
-{{#isBasicBasic}}Authorization: Basic: {{#lambda.doubleMustache}}{username-password}{{/lambda.doubleMustache}}
-    {{/isBasicBasic}}
-{{/authMethods}}
 
+{{#body}}
 {{{body}}}
+{{/body}}
 
-{{/vendorExtensions.requests}}
-{{/operation}}
-{{/operations}}
+{{/vendorExtensions.requests}}{{/operation}}{{/operations}}
