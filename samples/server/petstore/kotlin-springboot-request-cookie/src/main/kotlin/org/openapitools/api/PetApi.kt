@@ -107,14 +107,14 @@ interface PetApi {
             ApiResponse(responseCode = "200", description = "successful operation", content = [Content(array = ArraySchema(schema = Schema(implementation = Pet::class)))]),
             ApiResponse(responseCode = "400", description = "Invalid tag value")
         ],
-        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "write:pets", "read:pets" ]) ]
+        security = [ SecurityRequirement(name = "petstore_auth", scopes = [ "read:pets" ]) ]
     )
     @RequestMapping(
             method = [RequestMethod.GET],
             value = ["/pet/findByTags"],
             produces = ["application/xml", "application/json"]
     )
-    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.Set<kotlin.String>,serverHttpRequest: ServerHttpRequest): ResponseEntity<set<kotlin.collections.Set<Pet>>> {
+    fun findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) tags: kotlin.collections.List<kotlin.String>,serverHttpRequest: ServerHttpRequest): ResponseEntity<List<Pet>> {
         return ResponseEntity(HttpStatus.NOT_IMPLEMENTED)
     }
 
