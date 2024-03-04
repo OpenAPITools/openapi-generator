@@ -11,10 +11,7 @@ The last Dart version that was used to generate the keywords can be found in `da
 
 ## What does the shellscript do? 
 
-1. compile a dart app 
-    - `dart2native save-dart-keywords.dart`
-
 1. run the dart app 
-    - `./save-dart-keywords.exe`
+    - `dart run save-dart-keywords.dart`
 
 1. the output is `dart-keywords.txt` and `dart-version.txt`

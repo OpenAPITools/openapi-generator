@@ -1,3 +1,2 @@
-dart2native save-dart-keywords.dart
-./save-dart-keywords.exe
+dart run save-dart-keywords.dart
 dart --version &> dart-version.txt
