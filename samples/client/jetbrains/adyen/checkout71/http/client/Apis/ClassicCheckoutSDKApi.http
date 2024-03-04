@@ -22,7 +22,7 @@ X-API-Key: {{apiKey}}
  "sessionValidity": "2017-04-06T13:09:13Z",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Create a payment session
 ## Set up a payment session with the option to store card details
 POST https://checkout-test.adyen.com/v71/paymentSession
@@ -47,7 +47,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "sdkVersion": "1.7.0"
 }
-
+    
 ### Create a payment session
 ## Set up a payment session (iOS)
 POST https://checkout-test.adyen.com/v71/paymentSession
@@ -70,7 +70,7 @@ X-API-Key: {{apiKey}}
  "sessionValidity": "2017-04-06T13:09:13Z",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Create a payment session
 ## Split a payment between a sub-merchant and a platform account
 POST https://checkout-test.adyen.com/v71/paymentSession
@@ -107,7 +107,7 @@ X-API-Key: {{apiKey}}
  "sessionValidity": "2017-04-06T13:09:13Z",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Create a payment session
 ## Set up a payment session (Web)
 POST https://checkout-test.adyen.com/v71/paymentSession
@@ -130,7 +130,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "sdkVersion": "1.9.5"
 }
-
+    
 
 ### Verify a payment result
 ## Verify payment results
@@ -142,4 +142,4 @@ X-API-Key: {{apiKey}}
 {
  "payload": "VALUE_YOU_GET_FROM_CHECKOUT_SDK"
 }
-
+    

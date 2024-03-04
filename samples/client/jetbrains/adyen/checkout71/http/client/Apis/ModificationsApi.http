@@ -12,7 +12,7 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE_FOR_THE_CANCELLATION",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 
 ### Update an authorised amount
 ## Update the amount of an authorised payment
@@ -29,7 +29,7 @@ X-API-Key: {{apiKey}}
 },
  "reference": "YOUR_UNIQUE_REFERENCE"
 }
-
+    
 
 ### Cancel an authorised payment
 ## Cancel payment using a PSP reference
@@ -42,7 +42,7 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 
 ### Capture an authorised payment
 ## Capture an authorised payment
@@ -64,7 +64,7 @@ X-API-Key: {{apiKey}}
  "costAllocationAccount": "BA00000000000000000000001"
 }
 }
-
+    
 
 ### Refund a captured payment
 ## Refund a payment
@@ -81,7 +81,7 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 
 ### Refund or cancel a payment
 ## Reverse (cancel or refund) a payment
@@ -94,4 +94,4 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_UNIQUE_REFERENCE",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    

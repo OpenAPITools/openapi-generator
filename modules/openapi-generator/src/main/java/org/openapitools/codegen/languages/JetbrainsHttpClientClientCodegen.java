@@ -62,9 +62,9 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public List<String> bodyVariables = new ArrayList<>();
 
-    public static final String PATH_VARIABLES = "pathVariables";
+    public static final String CUSTOM_HEADERS = "customHeaders";
 
-    public List<String> pathVariables = new ArrayList<>();
+    public List<String> customHeaders = new ArrayList<>();
 
 
     public CodegenType getTag() {
@@ -100,8 +100,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         cliOptions.clear();
         cliOptions.add(CliOption.newString(BODY_VARIABLES, "whether to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})"));
-        cliOptions.add(CliOption.newString(PATH_VARIABLES, "whether to convert path placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})"));
-
+        cliOptions.add(CliOption.newString(CUSTOM_HEADERS, "custom headers that can be set for each request. Can be used for unsupported features, for example auth methods like oauth."));
     }
 
     @Override
@@ -114,9 +113,12 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             bodyVariables = Arrays.asList(additionalProperties.get(BODY_VARIABLES).toString().split("-"));
         }
 
-        if(additionalProperties.containsKey(PATH_VARIABLES)) {
-            pathVariables = Arrays.asList(additionalProperties.get(PATH_VARIABLES).toString().split("-"));
+        if(additionalProperties.containsKey(CUSTOM_HEADERS)) {
+            customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split(","));
         }
+
+
+        System.out.println(customHeaders);
     }
 
     @Override

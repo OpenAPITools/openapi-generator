@@ -7,7 +7,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 
-
+    
 
 ### Get tokens for stored payment details
 ## Get tokens for stored payment details
@@ -16,4 +16,4 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 
-
+    

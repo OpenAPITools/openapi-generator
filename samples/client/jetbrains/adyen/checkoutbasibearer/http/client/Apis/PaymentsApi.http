@@ -3,7 +3,6 @@
 ### Get payment method by id
 ## Get payment method by id
 GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}
-Authorization: Bearer {{token}}
 
 
 
@@ -11,7 +10,6 @@ Authorization: Bearer {{token}}
 ### Get payment methods
 ## Get payment methods
 GET https://checkout-test.adyen.com/v71/paymentMethods
-Authorization: Bearer {{token}}
 
 
 
@@ -20,7 +18,6 @@ Authorization: Bearer {{token}}
 ## ApplePay request
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
-Authorization: Bearer {{token}}
 
 {
   "paymentMethod" : {
@@ -39,7 +36,6 @@ Authorization: Bearer {{token}}
 ## GooglePay request
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
-Authorization: Bearer {{token}}
 
 {
   "paymentMethod" : {
@@ -58,7 +54,6 @@ Authorization: Bearer {{token}}
 ## Example with a merchant account that doesn&#39;t exist
 POST https://checkout-test.adyen.com/v71/payments
 Content-Type: application/json
-Authorization: Bearer {{token}}
 
 {
   "paymentMethod" : {

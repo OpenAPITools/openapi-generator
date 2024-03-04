@@ -7,7 +7,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 
-
+    
 
 ### Get the list of brands on the card
 ## Get a list of brands on a card
@@ -20,7 +20,7 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "cardNumber": "411111"
 }
-
+    
 ### Get the list of brands on the card
 ## Get a list of brands on a card specifying your supported card brands
 POST https://checkout-test.adyen.com/v71/cardDetails
@@ -33,7 +33,7 @@ X-API-Key: {{apiKey}}
  "cardNumber": "411111",
  "supportedBrands": ["visa","mc","amex"]
 }
-
+    
 
 ### Get a list of available payment methods
 ## Get available payment methods
@@ -45,7 +45,7 @@ X-API-Key: {{apiKey}}
 {
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Get a list of available payment methods
 ## Get payment methods based on the country and amount
 POST https://checkout-test.adyen.com/v71/paymentMethods
@@ -62,7 +62,7 @@ X-API-Key: {{apiKey}}
  "value": 1000
 }
 }
-
+    
 ### Get a list of available payment methods
 ## Get payment methods including stored card details
 POST https://checkout-test.adyen.com/v71/paymentMethods
@@ -79,7 +79,7 @@ X-API-Key: {{apiKey}}
 },
  "shopperReference": "YOUR_SHOPPER_REFERENCE"
 }
-
+    
 
 ### Start a transaction
 ## Make an Apple Pay payment
@@ -101,7 +101,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a card payment with 3D Secure 2 native authentication
 POST https://checkout-test.adyen.com/v71/payments
@@ -153,7 +153,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/checkout/",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a card payment with 3D Secure redirect authentication
 POST https://checkout-test.adyen.com/v71/payments
@@ -188,7 +188,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a card payment with unencrypted card details
 POST https://checkout-test.adyen.com/v71/payments
@@ -213,7 +213,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a card payment
 POST https://checkout-test.adyen.com/v71/payments
@@ -237,7 +237,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Tokenize card details for one-off payments
 POST https://checkout-test.adyen.com/v71/payments
@@ -265,7 +265,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a Google Pay payment
 POST https://checkout-test.adyen.com/v71/payments
@@ -286,7 +286,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "YourMerchantAccount"
 }
-
+    
 ### Start a transaction
 ## Make an iDEAL payment
 POST https://checkout-test.adyen.com/v71/payments
@@ -307,7 +307,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 ### Start a transaction
 ## Make a Klarna payment
 POST https://checkout-test.adyen.com/v71/payments
@@ -351,7 +351,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://www.your-company.com/...",
  "lineItems": ["{quantity=1, amountExcludingTax=331, taxPercentage=2100, description=Shoes, id=Item #1, taxAmount=69, amountIncludingTax=400, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}","{quantity=2, amountExcludingTax=248, taxPercentage=2100, description=Socks, id=Item #2, taxAmount=52, amountIncludingTax=300, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}"]
 }
-
+    
 ### Start a transaction
 ## Make a one-off payment with a token and CVV
 POST https://checkout-test.adyen.com/v71/payments
@@ -376,7 +376,7 @@ X-API-Key: {{apiKey}}
  "shopperInteraction": "ContAuth",
  "recurringProcessingModel": "CardOnFile"
 }
-
+    
 ### Start a transaction
 ## Make a subscription card payment with a token
 POST https://checkout-test.adyen.com/v71/payments
@@ -400,7 +400,7 @@ X-API-Key: {{apiKey}}
  "shopperInteraction": "ContAuth",
  "recurringProcessingModel": "Subscription"
 }
-
+    
 ### Start a transaction
 ## Split a payment between balance accounts
 POST https://checkout-test.adyen.com/v71/payments
@@ -430,7 +430,7 @@ X-API-Key: {{apiKey}}
 },
  "splits": ["{amount={value=39600}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{type=PaymentFee, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees}"]
 }
-
+    
 ### Start a transaction
 ## Split a payment in a Classic Platforms integration
 POST https://checkout-test.adyen.com/v71/payments
@@ -455,7 +455,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "splits": ["{amount={value=6000}, type=MarketPlace, account=151272963, reference=6124145, description=Porcelain Doll: Eliza (20cm)}","{amount={value=200}, type=Commission, reference=6124146}"]
 }
-
+    
 ### Start a transaction
 ## Tokenize card details for a subscription
 POST https://checkout-test.adyen.com/v71/payments
@@ -483,7 +483,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
-
+    
 
 ### Submit details for a payment
 ## Submit the redirect result
@@ -497,7 +497,7 @@ X-API-Key: {{apiKey}}
  "redirectResult": "X6XtfGC3!Y..."
 }
 }
-
+    
 ### Submit details for a payment
 ## Submit 3D Secure 2 authentication result
 POST https://checkout-test.adyen.com/v71/payments/details
@@ -510,7 +510,7 @@ X-API-Key: {{apiKey}}
  "threeDSResult": "eyJ0cmFuc1N0YXR1cyI6IlkifQ=="
 }
 }
-
+    
 
 ### Create a payment session
 ## Create a payment session
@@ -529,7 +529,7 @@ X-API-Key: {{apiKey}}
  "reference": "YOUR_PAYMENT_REFERENCE",
  "countryCode": "NL"
 }
-
+    
 ### Create a payment session
 ## Create a payment session including Klarna fields
 POST https://checkout-test.adyen.com/v71/sessions
@@ -572,7 +572,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://example.org",
  "lineItems": ["{quantity=1, amountExcludingTax=331, taxPercentage=2100, description=Shoes, id=Item #1, taxAmount=69, amountIncludingTax=400, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}","{quantity=2, amountExcludingTax=248, taxPercentage=2100, description=Socks, id=Item #2, taxAmount=52, amountIncludingTax=300, productUrl=URL_TO_PURCHASED_ITEM, imageUrl=URL_TO_PICTURE_OF_PURCHASED_ITEM}"]
 }
-
+    
 ### Create a payment session
 ## Tokenize card details for one-off payments without asking shopper
 POST https://checkout-test.adyen.com/v71/sessions
@@ -594,7 +594,7 @@ X-API-Key: {{apiKey}}
  "shopperInteraction": "Ecommerce",
  "recurringProcessingModel": "CardOnFile"
 }
-
+    
 ### Create a payment session
 ## Split a payment between balance accounts
 POST https://checkout-test.adyen.com/v71/sessions
@@ -612,4 +612,4 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://your-company.com/...",
  "splits": ["{amount={value=39200}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{amount={value=400}, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees, type=PaymentFee}"]
 }
-
+    
