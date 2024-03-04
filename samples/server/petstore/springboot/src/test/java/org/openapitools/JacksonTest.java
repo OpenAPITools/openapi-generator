@@ -30,7 +30,7 @@ class JacksonTest {
         // Then
         assertThat(deserializedPet)
                 .isNotNull()
-                .returns("CatDto", AnimalDto::getClassName)
+                .returns("Cat", AnimalDto::getClassName)
                 .returns("Red", AnimalDto::getColor);
     }
 
