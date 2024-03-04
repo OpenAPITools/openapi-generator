@@ -35,7 +35,7 @@ X-API-Key: {{apiKey}}
  "currency": "BRL"
 },
  "countryCode": "BR",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "shopperReference": "YOUR_SHOPPER_REFERENCE",
  "shopperEmail": "test@email.com",
  "shopperLocale": "pt-BR",

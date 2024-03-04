@@ -17,7 +17,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "cardNumber": "411111"
 }
 
@@ -29,7 +29,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "cardNumber": "411111",
  "supportedBrands": ["visa","mc","amex"]
 }
@@ -43,7 +43,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Get a list of available payment methods
@@ -54,7 +54,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "countryCode": "NL",
  "shopperLocale": "nl-NL",
  "amount": {
@@ -71,7 +71,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "countryCode": "NL",
  "amount": {
  "currency": "EUR",
@@ -99,7 +99,7 @@ X-API-Key: {{apiKey}}
  "applePayToken": "VNRWtuNlNEWkRCSm1xWndjMDFFbktkQU..."
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -151,7 +151,7 @@ X-API-Key: {{apiKey}}
  "channel": "Web",
  "origin": "https://your-company.com",
  "returnUrl": "https://your-company.com/checkout/",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -186,7 +186,7 @@ X-API-Key: {{apiKey}}
  "language": "en"
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -211,7 +211,7 @@ X-API-Key: {{apiKey}}
  "cvc": "737"
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -235,7 +235,7 @@ X-API-Key: {{apiKey}}
  "encryptedSecurityCode": "test_737"
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -263,7 +263,7 @@ X-API-Key: {{apiKey}}
  "shopperInteraction": "Ecommerce",
  "recurringProcessingModel": "CardOnFile",
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -305,7 +305,7 @@ X-API-Key: {{apiKey}}
  "issuer": "1121"
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Start a transaction
@@ -316,7 +316,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "reference": "YOUR_ORDER_REFERENCE",
  "paymentMethod": {
  "type": "klarna"
@@ -372,7 +372,7 @@ X-API-Key: {{apiKey}}
 },
  "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_6738oneoff",
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "shopperInteraction": "ContAuth",
  "recurringProcessingModel": "CardOnFile"
 }
@@ -396,7 +396,7 @@ X-API-Key: {{apiKey}}
 },
  "shopperReference": "YOUR_UNIQUE_SHOPPER_ID_IOfW3subscription",
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "shopperInteraction": "ContAuth",
  "recurringProcessingModel": "Subscription"
 }
@@ -421,7 +421,7 @@ X-API-Key: {{apiKey}}
  "currency": "USD"
 },
  "reference": "YOUR_ORDER_NUMBER",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "returnUrl": "https://your-company.com/...",
  "platformChargebackLogic": {
  "behavior": "deductFromOneBalanceAccount",
@@ -451,7 +451,7 @@ X-API-Key: {{apiKey}}
  "currency": "EUR"
 },
  "reference": "YOUR_ORDER_NUMBER",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "returnUrl": "https://your-company.com/...",
  "splits": ["{amount={value=6000}, type=MarketPlace, account=151272963, reference=6124145, description=Porcelain Doll: Eliza (20cm)}","{amount={value=200}, type=Commission, reference=6124146}"]
 }
@@ -481,7 +481,7 @@ X-API-Key: {{apiKey}}
  "shopperInteraction": "Ecommerce",
  "recurringProcessingModel": "Subscription",
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -520,7 +520,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "amount": {
  "value": 100,
  "currency": "EUR"
@@ -538,7 +538,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "reference": "YOUR_ORDER_REFERENCE",
  "amount": {
  "currency": "SEK",
@@ -608,7 +608,7 @@ X-API-Key: {{apiKey}}
  "currency": "USD"
 },
  "reference": "YOUR_ORDER_NUMBER",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "returnUrl": "https://your-company.com/...",
  "splits": ["{amount={value=39200}, type=BalanceAccount, account=BA00000000000000000000001, reference=Your reference for the sale amount, description=Your description for the sale amount}","{amount={value=400}, type=Commission, reference=Your reference for the commission, description=Your description for the commission}","{amount={value=400}, account=BA00000000000000000000001, reference=Your reference for the fees, description=Your description for the fees, type=PaymentFee}"]
 }

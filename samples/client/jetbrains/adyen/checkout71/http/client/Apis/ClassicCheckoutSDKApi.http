@@ -20,7 +20,7 @@ X-API-Key: {{apiKey}}
  "countryCode": "NL",
  "shopperLocale": "nl_NL",
  "sessionValidity": "2017-04-06T13:09:13Z",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Create a payment session
@@ -44,7 +44,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://www.yourshop.com/checkout/result",
  "countryCode": "NL",
  "shopperLocale": "nl_NL",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "sdkVersion": "1.7.0"
 }
 
@@ -68,7 +68,7 @@ X-API-Key: {{apiKey}}
  "countryCode": "NL",
  "shopperLocale": "nl_NL",
  "sessionValidity": "2017-04-06T13:09:13Z",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Create a payment session
@@ -105,7 +105,7 @@ X-API-Key: {{apiKey}}
  "countryCode": "NL",
  "shopperLocale": "nl_NL",
  "sessionValidity": "2017-04-06T13:09:13Z",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Create a payment session
@@ -127,7 +127,7 @@ X-API-Key: {{apiKey}}
  "returnUrl": "https://www.yourshop.com/checkout/result",
  "countryCode": "NL",
  "shopperLocale": "nl_NL",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "sdkVersion": "1.9.5"
 }
 

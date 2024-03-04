@@ -10,7 +10,7 @@ X-API-Key: {{apiKey}}
 {
  "paymentReference": "YOUR_UNIQUE_REFERENCE_FOR_THE_PAYMENT",
  "reference": "YOUR_UNIQUE_REFERENCE_FOR_THE_CANCELLATION",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -22,7 +22,7 @@ Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
 {
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "amount": {
  "currency": "EUR",
  "value": 2500
@@ -40,7 +40,7 @@ X-API-Key: {{apiKey}}
 
 {
  "reference": "YOUR_UNIQUE_REFERENCE",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -53,7 +53,7 @@ X-API-Key: {{apiKey}}
 
 {
  "reference": "YOUR_UNIQUE_REFERENCE",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "amount": {
  "value": 2000,
  "currency": "EUR"
@@ -79,7 +79,7 @@ X-API-Key: {{apiKey}}
  "value": 2500
 },
  "reference": "YOUR_UNIQUE_REFERENCE",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -92,6 +92,6 @@ X-API-Key: {{apiKey}}
 
 {
  "reference": "YOUR_UNIQUE_REFERENCE",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 

@@ -58,6 +58,10 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
     public static final String PROJECT_NAME = "Jetbrains HTTP Client";
 
+    public static final String CUSTOM_VARIABLES = "customVariables";
+
+    public List<String> customVariables = new ArrayList<>();
+
     public CodegenType getTag() {
         return CodegenType.CLIENT;
     }
@@ -87,6 +91,22 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         embeddedTemplateDir = templateDir = "jetbrains-http-client";
         apiPackage = "Apis";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+
+        cliOptions.clear();
+        cliOptions.add(CliOption.newString(CUSTOM_VARIABLES, "whether to convert placeholders (i.e. {{VAR_1}}) into variables"));
+
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        var additionalProperties = additionalProperties();
+
+        if(additionalProperties.containsKey(CUSTOM_VARIABLES)) {
+            customVariables = Arrays.asList(additionalProperties.get(CUSTOM_VARIABLES).toString().split("-"));
+        }
     }
 
     @Override
@@ -108,11 +128,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
     }
 
     @Override
-    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> bundle) {
-        return bundle;
-    }
-
-    @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationsMap results =  super.postProcessOperationsWithModels(objs, allModels);
 
@@ -121,7 +136,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
         for(CodegenOperation codegenOperation : opList) {
             List<RequestItem> requests = getRequests(codegenOperation);
-
 
             if(requests != null) {
                 codegenOperation.vendorExtensions.put("requests", requests);
@@ -168,6 +182,23 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         } else {
             // operation without bodyParam
             items.add(new RequestItem(codegenOperation.summary, ""));
+        }
+
+        // Handling custom variables now
+        items = handleCustomVariablesInRequests(items);
+
+        return items;
+    }
+
+    private List<RequestItem> handleCustomVariablesInRequests(List<RequestItem> items) {
+        if(!customVariables.isEmpty()){
+            for(var item : items){
+                for(var customVariable: customVariables){
+                    var body = item.getBody();
+                    body = body.replace(customVariable, "{{" + customVariable + "}}");
+                    item.setBody(body);
+                }
+            }
         }
 
         return items;

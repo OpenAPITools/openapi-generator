@@ -20,7 +20,7 @@ X-API-Key: {{apiKey}}
  "donationOriginalPspReference": "991559660454807J",
  "donationAccount": "CHARITY_ACCOUNT",
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "shopperInteraction": "ContAuth"
 }
 
@@ -42,7 +42,7 @@ X-API-Key: {{apiKey}}
  "recurringDetailReference": "7219687191761347"
 },
  "returnUrl": "https://your-company.com/...",
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT",
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "donationAccount": "CHARITY_ACCOUNT",
  "shopperInteraction": "ContAuth",
  "shopperReference": "YOUR_SHOPPER_REFERENCE",

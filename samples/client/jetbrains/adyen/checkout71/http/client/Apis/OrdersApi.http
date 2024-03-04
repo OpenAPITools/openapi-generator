@@ -13,7 +13,7 @@ X-API-Key: {{apiKey}}
  "value": 2500,
  "currency": "EUR"
 },
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -29,7 +29,7 @@ X-API-Key: {{apiKey}}
  "pspReference": "8815517812932012",
  "orderData": "823fh892f8f18f4...148f13f9f3f"
 },
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 
@@ -50,7 +50,7 @@ X-API-Key: {{apiKey}}
  "currency": "EUR",
  "value": 1000
 },
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
 ### Get the balance of a gift card
@@ -70,6 +70,6 @@ X-API-Key: {{apiKey}}
  "currency": "EUR",
  "value": 10000
 },
- "merchantAccount": "YOUR_MERCHANT_ACCOUNT"
+ "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}"
 }
 
