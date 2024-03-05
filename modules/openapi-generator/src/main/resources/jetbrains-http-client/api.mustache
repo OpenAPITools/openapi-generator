@@ -9,6 +9,9 @@
 {{#consumes}}
 Content-Type: {{{mediaType}}}
 {{/consumes}}
+{{#vendorExtensions.customHeaders}}
+{{{.}}}
+{{/vendorExtensions.customHeaders}}
 {{#authMethods}}
     {{#isKeyInCookie}}
 Cookie: {{keyParamName}}={{#lambda.doubleMustache}}{cookieKey}{{/lambda.doubleMustache}}

@@ -114,9 +114,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         }
 
         if(additionalProperties.containsKey(CUSTOM_HEADERS)) {
-            customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split(","));
+            customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split("&"));
         }
-
 
         System.out.println(customHeaders);
     }
@@ -151,6 +150,8 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
 
             if(requests != null) {
                 codegenOperation.vendorExtensions.put("requests", requests);
+                //Adding to each operation for now, we may be smarter later on
+                codegenOperation.vendorExtensions.put("customHeaders", customHeaders);
             }
         }
         return results;

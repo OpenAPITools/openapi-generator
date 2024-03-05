@@ -3,7 +3,8 @@
 ### Get payment method by id
 ## Get payment method by id
 GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}?api_key={{queryKey}}
-
+Cookie:X-API-KEY={{cookieKey}}
+Accept-Encoding=gzip
 
 
 
@@ -11,7 +12,8 @@ GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}?api_key={{queryKey
 ### Get payment methods
 ## Get payment methods
 GET https://checkout-test.adyen.com/v71/paymentMethods?api_key={{queryKey}}
-
+Cookie:X-API-KEY={{cookieKey}}
+Accept-Encoding=gzip
 
 
 
@@ -20,7 +22,8 @@ GET https://checkout-test.adyen.com/v71/paymentMethods?api_key={{queryKey}}
 ## ApplePay request
 POST https://checkout-test.adyen.com/v71/payments?api_key={{queryKey}}
 Content-Type: application/json
-
+Cookie:X-API-KEY={{cookieKey}}
+Accept-Encoding=gzip
 
 {
   "paymentMethod" : {
@@ -39,7 +42,8 @@ Content-Type: application/json
 ## GooglePay request
 POST https://checkout-test.adyen.com/v71/payments?api_key={{queryKey}}
 Content-Type: application/json
-
+Cookie:X-API-KEY={{cookieKey}}
+Accept-Encoding=gzip
 
 {
   "paymentMethod" : {
@@ -58,7 +62,8 @@ Content-Type: application/json
 ## Example with a merchant account that doesn&#39;t exist
 POST https://checkout-test.adyen.com/v71/payments?api_key={{queryKey}}
 Content-Type: application/json
-
+Cookie:X-API-KEY={{cookieKey}}
+Accept-Encoding=gzip
 
 {
   "paymentMethod" : {
