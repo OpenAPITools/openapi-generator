@@ -106,5 +106,65 @@ public class TagDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TagDto instance;
+
+    public Builder() {
+      this(new TagDto());
+    }
+
+    protected Builder(TagDto instance) {
+      this.instance = instance;
+    }
+
+    public TagDto.Builder id(Long id) {
+      this.instance.id(id);
+      return this;
+    }
+    
+    public TagDto.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    /**
+    * returns a built TagDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TagDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TagDto.Builder builder() {
+    return new TagDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TagDto.Builder toBuilder() {
+    TagDto.Builder builder = new TagDto.Builder();
+    builder.instance.setId(id);
+    builder.instance.setName(name);
+    return builder;
+  }
+
 }
 

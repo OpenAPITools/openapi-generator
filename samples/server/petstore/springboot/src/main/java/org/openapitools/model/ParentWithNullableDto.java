@@ -165,5 +165,70 @@ public class ParentWithNullableDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ParentWithNullableDto instance;
+
+    public Builder() {
+      this(new ParentWithNullableDto());
+    }
+
+    protected Builder(ParentWithNullableDto instance) {
+      this.instance = instance;
+    }
+
+    public ParentWithNullableDto.Builder type(TypeEnum type) {
+      this.instance.type(type);
+      return this;
+    }
+    
+    public ParentWithNullableDto.Builder nullableProperty(String nullableProperty) {
+      this.instance.nullableProperty(nullableProperty);
+      return this;
+    }
+    
+    public ParentWithNullableDto.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.nullableProperty = nullableProperty;
+      return this;
+    }
+    
+    /**
+    * returns a built ParentWithNullableDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ParentWithNullableDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ParentWithNullableDto.Builder builder() {
+    return new ParentWithNullableDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ParentWithNullableDto.Builder toBuilder() {
+    ParentWithNullableDto.Builder builder = new ParentWithNullableDto.Builder();
+    builder.instance.setType(type);
+    builder.instance.setNullableProperty(nullableProperty);
+    return builder;
+  }
+
 }
 

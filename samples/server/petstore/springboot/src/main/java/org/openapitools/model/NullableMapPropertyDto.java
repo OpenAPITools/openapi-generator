@@ -107,5 +107,64 @@ public class NullableMapPropertyDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private NullableMapPropertyDto instance;
+
+    public Builder() {
+      this(new NullableMapPropertyDto());
+    }
+
+    protected Builder(NullableMapPropertyDto instance) {
+      this.instance = instance;
+    }
+
+    public NullableMapPropertyDto.Builder languageValues(Map<String, String> languageValues) {
+      this.instance.languageValues(languageValues);
+      return this;
+    }
+    
+    public NullableMapPropertyDto.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
+      this.instance.languageValues = languageValues;
+      return this;
+    }
+    
+    /**
+    * returns a built NullableMapPropertyDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public NullableMapPropertyDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static NullableMapPropertyDto.Builder builder() {
+    return new NullableMapPropertyDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public NullableMapPropertyDto.Builder toBuilder() {
+    NullableMapPropertyDto.Builder builder = new NullableMapPropertyDto.Builder();
+    builder.instance.setLanguageValues(languageValues);
+    return builder;
+  }
+
 }
 

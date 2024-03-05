@@ -412,5 +412,124 @@ public class AdditionalPropertiesClassDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesClassDto instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesClassDto());
+    }
+
+    protected Builder(AdditionalPropertiesClassDto instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesClassDto.Builder mapString(Map<String, String> mapString) {
+      this.instance.mapString(mapString);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapNumber(Map<String, BigDecimal> mapNumber) {
+      this.instance.mapNumber(mapNumber);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapInteger(Map<String, Integer> mapInteger) {
+      this.instance.mapInteger(mapInteger);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapBoolean(Map<String, Boolean> mapBoolean) {
+      this.instance.mapBoolean(mapBoolean);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+      this.instance.mapArrayInteger(mapArrayInteger);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+      this.instance.mapArrayAnytype(mapArrayAnytype);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapMapString(Map<String, Map<String, String>> mapMapString) {
+      this.instance.mapMapString(mapMapString);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+      this.instance.mapMapAnytype(mapMapAnytype);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder anytype1(Object anytype1) {
+      this.instance.anytype1(anytype1);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder anytype2(Object anytype2) {
+      this.instance.anytype2(anytype2);
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder anytype2(JsonNullable<Object> anytype2) {
+      this.instance.anytype2 = anytype2;
+      return this;
+    }
+    
+    public AdditionalPropertiesClassDto.Builder anytype3(Object anytype3) {
+      this.instance.anytype3(anytype3);
+      return this;
+    }
+    
+    /**
+    * returns a built AdditionalPropertiesClassDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesClassDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesClassDto.Builder builder() {
+    return new AdditionalPropertiesClassDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesClassDto.Builder toBuilder() {
+    AdditionalPropertiesClassDto.Builder builder = new AdditionalPropertiesClassDto.Builder();
+    builder.instance.setMapString(mapString);
+    builder.instance.setMapNumber(mapNumber);
+    builder.instance.setMapInteger(mapInteger);
+    builder.instance.setMapBoolean(mapBoolean);
+    builder.instance.setMapArrayInteger(mapArrayInteger);
+    builder.instance.setMapArrayAnytype(mapArrayAnytype);
+    builder.instance.setMapMapString(mapMapString);
+    builder.instance.setMapMapAnytype(mapMapAnytype);
+    builder.instance.setAnytype1(anytype1);
+    builder.instance.setAnytype2(anytype2);
+    builder.instance.setAnytype3(anytype3);
+    return builder;
+  }
+
 }
 

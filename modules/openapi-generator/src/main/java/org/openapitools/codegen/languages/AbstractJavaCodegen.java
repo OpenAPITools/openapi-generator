@@ -571,7 +571,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (additionalProperties.containsKey(GENERATE_BUILDERS)) {
-            this.setGenerateBuilder(Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString()));
+            this.setGenerateBuilders(Boolean.parseBoolean(additionalProperties.get(GENERATE_BUILDERS).toString()));
         }
         writePropertyBack(GENERATE_BUILDERS, generateBuilders);
 
@@ -676,7 +676,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
     }
 
-    public void setGenerateBuilder(boolean generateBuilders) {
+    public void setGenerateBuilders(boolean generateBuilders) {
         this.generateBuilders = generateBuilders;
     }
 

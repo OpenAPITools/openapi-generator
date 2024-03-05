@@ -127,5 +127,59 @@ public class AdditionalPropertiesArrayDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesArrayDto instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesArrayDto());
+    }
+
+    protected Builder(AdditionalPropertiesArrayDto instance) {
+      this.instance = instance;
+    }
+
+    public AdditionalPropertiesArrayDto.Builder name(String name) {
+      this.instance.name(name);
+      return this;
+    }
+    
+    /**
+    * returns a built AdditionalPropertiesArrayDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesArrayDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static AdditionalPropertiesArrayDto.Builder builder() {
+    return new AdditionalPropertiesArrayDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesArrayDto.Builder toBuilder() {
+    AdditionalPropertiesArrayDto.Builder builder = new AdditionalPropertiesArrayDto.Builder();
+    builder.instance.setName(name);
+    return builder;
+  }
+
 }
 

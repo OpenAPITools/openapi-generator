@@ -117,5 +117,77 @@ public class CatDto extends AnimalDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder extends AnimalDto.Builder {
+
+    private CatDto instance;
+
+    public Builder() {
+      this(new CatDto());
+    }
+
+    protected Builder(CatDto instance) {
+      super(instance);
+      this.instance = instance;
+    }
+
+    public CatDto.Builder declawed(Boolean declawed) {
+      this.instance.declawed(declawed);
+      return this;
+    }
+    
+
+    @Override
+    public CatDto.Builder className(String className) {
+      this.instance.className(className);
+      return this;
+    }
+    
+
+    @Override
+    public CatDto.Builder color(String color) {
+      this.instance.color(color);
+      return this;
+    }
+    
+    /**
+    * returns a built CatDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public CatDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        super.build();
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static CatDto.Builder builder() {
+    return new CatDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public CatDto.Builder toBuilder() {
+    CatDto.Builder builder = new CatDto.Builder();
+    builder.instance.setDeclawed(declawed);
+    builder.instance.setClassName(getClassName());
+    builder.instance.setColor(getColor());
+    return builder;
+  }
+
 }
 

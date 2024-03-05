@@ -218,5 +218,92 @@ public class ContainerDefaultValueDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ContainerDefaultValueDto instance;
+
+    public Builder() {
+      this(new ContainerDefaultValueDto());
+    }
+
+    protected Builder(ContainerDefaultValueDto instance) {
+      this.instance = instance;
+    }
+
+    public ContainerDefaultValueDto.Builder nullableArray(List<String> nullableArray) {
+      this.instance.nullableArray(nullableArray);
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder nullableArray(JsonNullable<List<String>> nullableArray) {
+      this.instance.nullableArray = nullableArray;
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
+      this.instance.nullableRequiredArray(nullableRequiredArray);
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+      this.instance.nullableRequiredArray = nullableRequiredArray;
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder requiredArray(List<String> requiredArray) {
+      this.instance.requiredArray(requiredArray);
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
+      this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
+      return this;
+    }
+    
+    public ContainerDefaultValueDto.Builder nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+      this.instance.nullableArrayWithDefault = nullableArrayWithDefault;
+      return this;
+    }
+    
+    /**
+    * returns a built ContainerDefaultValueDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ContainerDefaultValueDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ContainerDefaultValueDto.Builder builder() {
+    return new ContainerDefaultValueDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ContainerDefaultValueDto.Builder toBuilder() {
+    ContainerDefaultValueDto.Builder builder = new ContainerDefaultValueDto.Builder();
+    builder.instance.setNullableArray(nullableArray);
+    builder.instance.setNullableRequiredArray(nullableRequiredArray);
+    builder.instance.setRequiredArray(requiredArray);
+    builder.instance.setNullableArrayWithDefault(nullableArrayWithDefault);
+    return builder;
+  }
+
 }
 

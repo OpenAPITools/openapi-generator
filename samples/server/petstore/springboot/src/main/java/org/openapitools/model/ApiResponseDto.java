@@ -130,5 +130,71 @@ public class ApiResponseDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private ApiResponseDto instance;
+
+    public Builder() {
+      this(new ApiResponseDto());
+    }
+
+    protected Builder(ApiResponseDto instance) {
+      this.instance = instance;
+    }
+
+    public ApiResponseDto.Builder code(Integer code) {
+      this.instance.code(code);
+      return this;
+    }
+    
+    public ApiResponseDto.Builder type(String type) {
+      this.instance.type(type);
+      return this;
+    }
+    
+    public ApiResponseDto.Builder message(String message) {
+      this.instance.message(message);
+      return this;
+    }
+    
+    /**
+    * returns a built ApiResponseDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public ApiResponseDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static ApiResponseDto.Builder builder() {
+    return new ApiResponseDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public ApiResponseDto.Builder toBuilder() {
+    ApiResponseDto.Builder builder = new ApiResponseDto.Builder();
+    builder.instance.setCode(code);
+    builder.instance.setType(type);
+    builder.instance.setMessage(message);
+    return builder;
+  }
+
 }
 

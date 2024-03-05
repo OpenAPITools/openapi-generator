@@ -182,5 +182,64 @@ public class IsoscelesTriangle {
 
     return joiner.toString();
   }
+
+    public static class Builder {
+
+    private IsoscelesTriangle instance;
+
+    public Builder() {
+      this(new IsoscelesTriangle());
+    }
+
+    protected Builder(IsoscelesTriangle instance) {
+      this.instance = instance;
+    }
+
+    public IsoscelesTriangle.Builder shapeType(String shapeType) {
+      this.instance.shapeType = shapeType;
+      return this;
+    }
+    public IsoscelesTriangle.Builder triangleType(String triangleType) {
+      this.instance.triangleType = triangleType;
+      return this;
+    }
+
+
+    /**
+    * returns a built IsoscelesTriangle instance.
+    *
+    * The builder is not reusable.
+    */
+    public IsoscelesTriangle build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static IsoscelesTriangle.Builder builder() {
+    return new IsoscelesTriangle.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public IsoscelesTriangle.Builder toBuilder() {
+    return new IsoscelesTriangle.Builder()
+      .shapeType(getShapeType())
+      .triangleType(getTriangleType());
+  }
+
 }
 

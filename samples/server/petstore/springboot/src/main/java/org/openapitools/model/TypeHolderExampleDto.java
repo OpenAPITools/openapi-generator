@@ -231,5 +231,89 @@ public class TypeHolderExampleDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private TypeHolderExampleDto instance;
+
+    public Builder() {
+      this(new TypeHolderExampleDto());
+    }
+
+    protected Builder(TypeHolderExampleDto instance) {
+      this.instance = instance;
+    }
+
+    public TypeHolderExampleDto.Builder stringItem(String stringItem) {
+      this.instance.stringItem(stringItem);
+      return this;
+    }
+    
+    public TypeHolderExampleDto.Builder numberItem(BigDecimal numberItem) {
+      this.instance.numberItem(numberItem);
+      return this;
+    }
+    
+    public TypeHolderExampleDto.Builder floatItem(Float floatItem) {
+      this.instance.floatItem(floatItem);
+      return this;
+    }
+    
+    public TypeHolderExampleDto.Builder integerItem(Integer integerItem) {
+      this.instance.integerItem(integerItem);
+      return this;
+    }
+    
+    public TypeHolderExampleDto.Builder boolItem(Boolean boolItem) {
+      this.instance.boolItem(boolItem);
+      return this;
+    }
+    
+    public TypeHolderExampleDto.Builder arrayItem(List<Integer> arrayItem) {
+      this.instance.arrayItem(arrayItem);
+      return this;
+    }
+    
+    /**
+    * returns a built TypeHolderExampleDto instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public TypeHolderExampleDto build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+  }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field.
+  */
+  public static TypeHolderExampleDto.Builder builder() {
+    return new TypeHolderExampleDto.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public TypeHolderExampleDto.Builder toBuilder() {
+    TypeHolderExampleDto.Builder builder = new TypeHolderExampleDto.Builder();
+    builder.instance.setStringItem(stringItem);
+    builder.instance.setNumberItem(numberItem);
+    builder.instance.setFloatItem(floatItem);
+    builder.instance.setIntegerItem(integerItem);
+    builder.instance.setBoolItem(boolItem);
+    builder.instance.setArrayItem(arrayItem);
+    return builder;
+  }
+
 }
 
