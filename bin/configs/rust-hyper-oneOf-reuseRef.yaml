@@ -1,0 +1,8 @@
+generatorName: rust
+outputDir: samples/client/others/rust/hyper/oneOf-reuseRef
+library: hyper
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_reuseRef.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: false
+  packageName: oneof-reuse-ref-hyper

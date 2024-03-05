@@ -68,6 +68,7 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -594,16 +595,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                       (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                       "ApiKeyRequestInterceptor.java"));
 
-                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
-                      resourceFolder, "oauth2-client.properties"));
-
-                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
-                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                      "ClientPropertiesConfiguration.java"));
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "ClientPropertiesConfiguration.java"));
+                }
 
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
+
                 apiTemplateFiles.put("apiClient.mustache", "Client.java");
                 if (!additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
@@ -668,7 +669,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
         }
         if (reactive) {
-            additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            // The response wrapper when Reactive is enabled must depend on the return type:
+            // Flux<X> when X is an array
+            // Mono<X> otherwise
+            // But there are corner cases when also using response entity.
+            // When reactive is enabled, all this is managed in the mustache templates.
+            additionalProperties.put(RESPONSE_WRAPPER, "");
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers

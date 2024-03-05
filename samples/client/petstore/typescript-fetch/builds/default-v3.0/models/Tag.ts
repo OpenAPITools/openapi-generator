@@ -37,9 +37,7 @@ export interface Tag {
  * Check if a given object implements the Tag interface.
  */
 export function instanceOfTag(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function TagFromJSON(json: any): Tag {
@@ -47,7 +45,7 @@ export function TagFromJSON(json: any): Tag {
 }
 
 export function TagFromJSONTyped(json: any, ignoreDiscriminator: boolean): Tag {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -66,8 +64,8 @@ export function TagToJSON(value?: Tag | null): any {
     }
     return {
         
-        'id': value.id,
-        'name': value.name,
+        'id': value['id'],
+        'name': value['name'],
     };
 }
 

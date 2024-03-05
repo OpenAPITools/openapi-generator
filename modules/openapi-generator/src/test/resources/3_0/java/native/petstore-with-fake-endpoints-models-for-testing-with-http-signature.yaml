@@ -1188,6 +1188,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/application_json_utf8:
+    get:
+      tags:
+        - fake
+      summary: application/json UTF8
+      operationId: get_application_json_utf8
+      responses:
+        200:
+          description: test
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

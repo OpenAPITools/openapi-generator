@@ -1,2 +1,2 @@
 [workspace]
-members = ["reqwest-regression-16119"]
+members = ["hyper/*", "reqwest/*", "reqwest-regression-16119"]

@@ -16,7 +16,7 @@ json = "{}"
 # create an instance of IntOrString from a JSON string
 int_or_string_instance = IntOrString.from_json(json)
 # print the JSON string representation of the object
-print IntOrString.to_json()
+print(IntOrString.to_json())
 
 # convert the object into a dict
 int_or_string_dict = int_or_string_instance.to_dict()

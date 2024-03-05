@@ -80,7 +80,7 @@ class PetApiTest extends TestCase
     public function testAddPet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +92,7 @@ class PetApiTest extends TestCase
     public function testDeletePet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class PetApiTest extends TestCase
     public function testFindPetsByStatus()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -116,7 +116,7 @@ class PetApiTest extends TestCase
     public function testFindPetsByTags()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -128,7 +128,7 @@ class PetApiTest extends TestCase
     public function testGetPetById()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -140,7 +140,7 @@ class PetApiTest extends TestCase
     public function testUpdatePet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -152,7 +152,7 @@ class PetApiTest extends TestCase
     public function testUpdatePetWithForm()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -164,7 +164,7 @@ class PetApiTest extends TestCase
     public function testUploadFile()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -176,6 +176,6 @@ class PetApiTest extends TestCase
     public function testUploadFileWithRequiredFile()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

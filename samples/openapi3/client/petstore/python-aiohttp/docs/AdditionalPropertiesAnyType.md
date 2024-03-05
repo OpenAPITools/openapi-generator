@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of AdditionalPropertiesAnyType from a JSON string
 additional_properties_any_type_instance = AdditionalPropertiesAnyType.from_json(json)
 # print the JSON string representation of the object
-print AdditionalPropertiesAnyType.to_json()
+print(AdditionalPropertiesAnyType.to_json())
 
 # convert the object into a dict
 additional_properties_any_type_dict = additional_properties_any_type_instance.to_dict()

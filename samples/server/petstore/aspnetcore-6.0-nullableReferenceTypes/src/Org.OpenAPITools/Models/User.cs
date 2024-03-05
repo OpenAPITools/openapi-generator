@@ -30,50 +30,50 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=true)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Username
         /// </summary>
         [DataMember(Name="username", EmitDefaultValue=false)]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
         [DataMember(Name="firstName", EmitDefaultValue=false)]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// Gets or Sets LastName
         /// </summary>
         [DataMember(Name="lastName", EmitDefaultValue=false)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Gets or Sets Email
         /// </summary>
         [DataMember(Name="email", EmitDefaultValue=false)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Gets or Sets Password
         /// </summary>
         [DataMember(Name="password", EmitDefaultValue=false)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// Gets or Sets Phone
         /// </summary>
         [DataMember(Name="phone", EmitDefaultValue=false)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// User Status
         /// </summary>
         /// <value>User Status</value>
         [DataMember(Name="userStatus", EmitDefaultValue=true)]
-        public int UserStatus { get; set; }
+        public int? UserStatus { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

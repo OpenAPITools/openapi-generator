@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *OpenapiClient::BodyApi* | [**test_echo_body_free_form_object_response_string**](docs/BodyApi.md#test_echo_body_free_form_object_response_string) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *OpenapiClient::BodyApi* | [**test_echo_body_pet**](docs/BodyApi.md#test_echo_body_pet) | **POST** /echo/body/Pet | Test body parameter(s)
 *OpenapiClient::BodyApi* | [**test_echo_body_pet_response_string**](docs/BodyApi.md#test_echo_body_pet_response_string) | **POST** /echo/body/Pet/response_string | Test empty response body
+*OpenapiClient::BodyApi* | [**test_echo_body_string_enum**](docs/BodyApi.md#test_echo_body_string_enum) | **POST** /echo/body/string_enum | Test string enum response body
 *OpenapiClient::BodyApi* | [**test_echo_body_tag_response_string**](docs/BodyApi.md#test_echo_body_tag_response_string) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *OpenapiClient::FormApi* | [**test_form_integer_boolean_string**](docs/FormApi.md#test_form_integer_boolean_string) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *OpenapiClient::FormApi* | [**test_form_oneof**](docs/FormApi.md#test_form_oneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema

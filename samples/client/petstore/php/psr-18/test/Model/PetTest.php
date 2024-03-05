@@ -76,7 +76,7 @@ class PetTest extends TestCase
     public function testPet()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class PetTest extends TestCase
     public function testPropertyId()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,7 +94,7 @@ class PetTest extends TestCase
     public function testPropertyCategory()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -103,7 +103,7 @@ class PetTest extends TestCase
     public function testPropertyName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -112,7 +112,7 @@ class PetTest extends TestCase
     public function testPropertyPhotoUrls()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -121,7 +121,7 @@ class PetTest extends TestCase
     public function testPropertyTags()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -130,6 +130,6 @@ class PetTest extends TestCase
     public function testPropertyStatus()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

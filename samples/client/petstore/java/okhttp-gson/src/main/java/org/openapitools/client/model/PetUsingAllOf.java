@@ -161,7 +161,7 @@ public class PetUsingAllOf {
   }
 
    /**
-   * Get category
+   * multi line description 2nd line last line 
    * @return category
   **/
   @javax.annotation.Nullable
@@ -464,7 +464,12 @@ public class PetUsingAllOf {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

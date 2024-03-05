@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Tiger from a JSON string
 tiger_instance = Tiger.from_json(json)
 # print the JSON string representation of the object
-print Tiger.to_json()
+print(Tiger.to_json())
 
 # convert the object into a dict
 tiger_dict = tiger_instance.to_dict()

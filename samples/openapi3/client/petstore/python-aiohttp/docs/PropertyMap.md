@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of PropertyMap from a JSON string
 property_map_instance = PropertyMap.from_json(json)
 # print the JSON string representation of the object
-print PropertyMap.to_json()
+print(PropertyMap.to_json())
 
 # convert the object into a dict
 property_map_dict = property_map_instance.to_dict()

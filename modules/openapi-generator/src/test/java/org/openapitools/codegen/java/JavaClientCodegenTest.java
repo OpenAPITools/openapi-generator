@@ -615,6 +615,34 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithUseBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, true);
+        properties.put(JavaClientCodegen.USE_JAKARTA_EE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/issue-17485.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/UserApi.java"),
+                "@Pattern", "import jakarta.validation.constraints.*");
+    }
+
+    @Test
     public void testJdkHttpClientWithAndWithoutDiscriminator() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
@@ -763,6 +791,35 @@ public class JavaClientCodegenTest {
         validateJavaSourceFiles(files);
 
         Assert.assertEquals(files.size(), 1);
+        files.forEach(File::deleteOnExit);
+    }
+
+    @Test
+    public void testTypedAndNonTypedComposedSchemaGeneration_3_1() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTEASY)
+            .setValidateSpec(false)
+            .setInputSpec("src/test/resources/3_1/composed-schemas-with-and-without-type.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        Assert.assertEquals(files.size(), 9);
         files.forEach(File::deleteOnExit);
     }
 
@@ -2642,6 +2699,129 @@ public class JavaClientCodegenTest {
         Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
         TestUtils.assertFileContains(petApi, "@Component");
     }
+
+    @Test
+    public void testRestTemplateWithUseBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileContains(pomFile, "<artifactId>jakarta.validation-api</artifactId>");
+
+        Path petModel = Paths.get(output + "/src/main/java/org/openapitools/client/model/Pet.java");
+        TestUtils.assertFileContains(petModel, "@Valid");
+    }
+
+    @Test
+    public void testRestTemplateWithUseBeanValidationDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileNotContains(pomFile, "<artifactId>jakarta.validation-api</artifactId>");
+
+        Path petModel = Paths.get(output + "/src/main/java/org/openapitools/client/model/Pet.java");
+        TestUtils.assertFileNotContains(petModel, "@Valid");
+    }
+
+    @Test
+    public void testRestTemplateWithPerformBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.PERFORM_BEANVALIDATION, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileContains(pomFile, "<artifactId>hibernate-validator</artifactId>");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/BeanValidationException.java");
+        TestUtils.assertFileExists(petApi);
+    }
+
+    @Test
+    public void testRestTemplateWithPerformBeanValidationDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.PERFORM_BEANVALIDATION, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileNotContains(pomFile, "<artifactId>hibernate-validator</artifactId>");
+
+        Path petApi = Paths.get(output + "/src/main/java/org/openapitools/client/invoker/BeanValidationException.java");
+        TestUtils.assertFileNotExists(petApi);
+    }
+
 
     @Test
     public void testLogicToAvoidStackOverflow() throws IOException {

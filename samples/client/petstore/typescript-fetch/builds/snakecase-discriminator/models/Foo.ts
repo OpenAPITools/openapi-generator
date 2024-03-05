@@ -31,9 +31,7 @@ export interface Foo {
  * Check if a given object implements the Foo interface.
  */
 export function instanceOfFoo(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function FooFromJSON(json: any): Foo {
@@ -41,7 +39,7 @@ export function FooFromJSON(json: any): Foo {
 }
 
 export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -59,7 +57,7 @@ export function FooToJSON(value?: Foo | null): any {
     }
     return {
         
-        'bar': value.bar,
+        'bar': value['bar'],
     };
 }
 

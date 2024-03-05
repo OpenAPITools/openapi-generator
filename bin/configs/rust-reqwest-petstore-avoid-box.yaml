@@ -1,0 +1,11 @@
+generatorName: rust
+outputDir: samples/client/petstore/rust/reqwest/petstore-avoid-box
+library: reqwest
+inputSpec: modules/openapi-generator/src/test/resources/3_0/rust/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/rust
+additionalProperties:
+  supportAsync: true
+  supportMultipleResponses: true
+  avoidBoxedModels: true
+  packageName: petstore-reqwest-avoid-box
+  useSingleRequestParameter: true
