@@ -194,7 +194,7 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             }
         } else {
             // operation without bodyParam
-            items.add(new RequestItem(codegenOperation.summary, ""));
+            items.add(new RequestItem(codegenOperation.summary, null));
         }
 
         // Handling custom variables now
@@ -206,8 +206,10 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
             for(var item : items){
                 for(var customVariable: bodyVariables){
                     var body = item.getBody();
-                    body = body.replace(customVariable, "{{" + customVariable + "}}");
-                    item.setBody(body);
+                    if(body != null){
+                        body = body.replace(customVariable, "{{" + customVariable + "}}");
+                        item.setBody(body);
+                    }
                 }
             }
         }

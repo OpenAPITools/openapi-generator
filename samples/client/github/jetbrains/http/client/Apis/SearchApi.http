@@ -3,6 +3,7 @@
 ### Search code
 ## Search code
 GET https://api.github.com/search/code
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ GET https://api.github.com/search/code
 ### Search commits
 ## Search commits
 GET https://api.github.com/search/commits
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ GET https://api.github.com/search/commits
 ### Search issues and pull requests
 ## Search issues and pull requests
 GET https://api.github.com/search/issues
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ GET https://api.github.com/search/issues
 ### Search labels
 ## Search labels
 GET https://api.github.com/search/labels
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -31,6 +35,7 @@ GET https://api.github.com/search/labels
 ### Search repositories
 ## Search repositories
 GET https://api.github.com/search/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -38,6 +43,7 @@ GET https://api.github.com/search/repositories
 ### Search topics
 ## Search topics
 GET https://api.github.com/search/topics
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -45,6 +51,7 @@ GET https://api.github.com/search/topics
 ### Search users
 ## Search users
 GET https://api.github.com/search/users
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

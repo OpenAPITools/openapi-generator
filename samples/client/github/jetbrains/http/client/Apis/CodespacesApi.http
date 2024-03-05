@@ -3,6 +3,7 @@
 ### Add a selected repository to a user secret
 ## Add a selected repository to a user secret
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/
 ### Add selected repository to an organization secret
 ## Add selected repository to an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repos
 ### Check if permissions defined by a devcontainer have been accepted by the authenticated user
 ## Check if permissions defined by a devcontainer have been accepted by the authenticated user
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/permissions_check
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/permissions_check
 ### List machine types for a codespace
 ## List machine types for a codespace
 GET https://api.github.com/user/codespaces/{{codespace_name}}/machines
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -32,6 +36,7 @@ GET https://api.github.com/user/codespaces/{{codespace_name}}/machines
 ## Create a codespace for the authenticated user
 POST https://api.github.com/user/codespaces
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repository_id" : 1,
@@ -44,6 +49,7 @@ Content-Type: application/json
 ## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -57,6 +63,7 @@ Content-Type: application/json
 ## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -68,6 +75,7 @@ Content-Type: application/json
 ## Create or update a secret for the authenticated user
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -80,6 +88,7 @@ Content-Type: application/json
 ## Create a codespace from a pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/{{pull_number}}/codespaces
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repository_id" : 1,
@@ -91,6 +100,7 @@ Content-Type: application/json
 ## Create a codespace in a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "ref" : "main",
@@ -102,6 +112,7 @@ Content-Type: application/json
 ## Remove users from Codespaces access for an organization
 DELETE https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_usernames" : [ "johnDoe", "atomIO" ]
@@ -111,6 +122,7 @@ Content-Type: application/json
 ### Delete a codespace for the authenticated user
 ## Delete a codespace for the authenticated user
 DELETE https://api.github.com/user/codespaces/{{codespace_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -118,6 +130,7 @@ DELETE https://api.github.com/user/codespaces/{{codespace_name}}
 ### Delete a codespace from the organization
 ## Delete a codespace from the organization
 DELETE https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codespace_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -125,6 +138,7 @@ DELETE https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{cod
 ### Delete an organization secret
 ## Delete an organization secret
 DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -132,6 +146,7 @@ DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
 ### Delete a repository secret
 ## Delete a repository secret
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -139,6 +154,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secr
 ### Delete a secret for the authenticated user
 ## Delete a secret for the authenticated user
 DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -146,6 +162,7 @@ DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}
 ### Export a codespace for the authenticated user
 ## Export a codespace for the authenticated user
 POST https://api.github.com/user/codespaces/{{codespace_name}}/exports
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -153,6 +170,7 @@ POST https://api.github.com/user/codespaces/{{codespace_name}}/exports
 ### List codespaces for a user in organization
 ## List codespaces for a user in organization
 GET https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -160,6 +178,7 @@ GET https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces
 ### Get details about a codespace export
 ## Get details about a codespace export
 GET https://api.github.com/user/codespaces/{{codespace_name}}/exports/{{export_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -167,6 +186,7 @@ GET https://api.github.com/user/codespaces/{{codespace_name}}/exports/{{export_i
 ### Get a codespace for the authenticated user
 ## Get a codespace for the authenticated user
 GET https://api.github.com/user/codespaces/{{codespace_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -174,6 +194,7 @@ GET https://api.github.com/user/codespaces/{{codespace_name}}
 ### Get an organization public key
 ## Get an organization public key
 GET https://api.github.com/orgs/{{org}}/codespaces/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -181,6 +202,7 @@ GET https://api.github.com/orgs/{{org}}/codespaces/secrets/public-key
 ### Get an organization secret
 ## Get an organization secret
 GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -188,6 +210,7 @@ GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}
 ### Get public key for the authenticated user
 ## Get public key for the authenticated user
 GET https://api.github.com/user/codespaces/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -195,6 +218,7 @@ GET https://api.github.com/user/codespaces/secrets/public-key
 ### Get a repository public key
 ## Get a repository public key
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -202,6 +226,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/public-ke
 ### Get a repository secret
 ## Get a repository secret
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -209,6 +234,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets/{{secret_
 ### Get a secret for the authenticated user
 ## Get a secret for the authenticated user
 GET https://api.github.com/user/codespaces/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -216,6 +242,7 @@ GET https://api.github.com/user/codespaces/secrets/{{secret_name}}
 ### List devcontainer configurations in a repository for the authenticated user
 ## List devcontainer configurations in a repository for the authenticated user
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/devcontainers
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -223,6 +250,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/devcontainers
 ### List codespaces for the authenticated user
 ## List codespaces for the authenticated user
 GET https://api.github.com/user/codespaces
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -230,6 +258,7 @@ GET https://api.github.com/user/codespaces
 ### List codespaces for the organization
 ## List codespaces for the organization
 GET https://api.github.com/orgs/{{org}}/codespaces
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -237,6 +266,7 @@ GET https://api.github.com/orgs/{{org}}/codespaces
 ### List codespaces in a repository for the authenticated user
 ## List codespaces in a repository for the authenticated user
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -244,6 +274,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces
 ### List organization secrets
 ## List organization secrets
 GET https://api.github.com/orgs/{{org}}/codespaces/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -251,6 +282,7 @@ GET https://api.github.com/orgs/{{org}}/codespaces/secrets
 ### List repository secrets
 ## List repository secrets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -258,6 +290,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/secrets
 ### List selected repositories for a user secret
 ## List selected repositories for a user secret
 GET https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -265,6 +298,7 @@ GET https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
 ### List secrets for the authenticated user
 ## List secrets for the authenticated user
 GET https://api.github.com/user/codespaces/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -272,6 +306,7 @@ GET https://api.github.com/user/codespaces/secrets
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
 GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -279,6 +314,7 @@ GET https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repos
 ### Get default attributes for a codespace
 ## Get default attributes for a codespace
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -287,6 +323,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/new
 ## Create a repository from an unpublished codespace
 POST https://api.github.com/user/codespaces/{{codespace_name}}/publish
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repository" : "monalisa-octocat-hello-world-g4wpq6h95q",
@@ -297,6 +334,7 @@ Content-Type: application/json
 ### Remove a selected repository from a user secret
 ## Remove a selected repository from a user secret
 DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -304,6 +342,7 @@ DELETE https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositori
 ### Remove selected repository from an organization secret
 ## Remove selected repository from an organization secret
 DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -311,6 +350,7 @@ DELETE https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/re
 ### List available machine types for a repository
 ## List available machine types for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -319,6 +359,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codespaces/machines
 ## Manage access control for organization codespaces
 PUT https://api.github.com/orgs/{{org}}/codespaces/access
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "visibility" : "selected_members",
@@ -330,6 +371,7 @@ Content-Type: application/json
 ## Add users to Codespaces access for an organization
 POST https://api.github.com/orgs/{{org}}/codespaces/access/selected_users
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_usernames" : [ "johnDoe", "atomIO" ]
@@ -340,6 +382,7 @@ Content-Type: application/json
 ## Set selected repositories for a user secret
 PUT https://api.github.com/user/codespaces/secrets/{{secret_name}}/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ "1296269", "1296280" ]
@@ -350,6 +393,7 @@ Content-Type: application/json
 ## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/codespaces/secrets/{{secret_name}}/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ 64780797 ]
@@ -359,6 +403,7 @@ Content-Type: application/json
 ### Start a codespace for the authenticated user
 ## Start a codespace for the authenticated user
 POST https://api.github.com/user/codespaces/{{codespace_name}}/start
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -366,6 +411,7 @@ POST https://api.github.com/user/codespaces/{{codespace_name}}/start
 ### Stop a codespace for the authenticated user
 ## Stop a codespace for the authenticated user
 POST https://api.github.com/user/codespaces/{{codespace_name}}/stop
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -373,6 +419,7 @@ POST https://api.github.com/user/codespaces/{{codespace_name}}/stop
 ### Stop a codespace for an organization user
 ## Stop a codespace for an organization user
 POST https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codespace_name}}/stop
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -381,6 +428,7 @@ POST https://api.github.com/orgs/{{org}}/members/{{username}}/codespaces/{{codes
 ## Update a codespace for the authenticated user
 PATCH https://api.github.com/user/codespaces/{{codespace_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "machine" : "standardLinux"

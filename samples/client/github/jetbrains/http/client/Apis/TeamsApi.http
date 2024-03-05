@@ -3,6 +3,7 @@
 ### Add team member (Legacy)
 ## Add team member (Legacy)
 PUT https://api.github.com/teams/{{team_id}}/members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -11,6 +12,7 @@ PUT https://api.github.com/teams/{{team_id}}/members/{{username}}
 ## Add or update team membership for a user
 PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "role" : "maintainer"
@@ -21,6 +23,7 @@ Content-Type: application/json
 ## Add or update team membership for a user (Legacy)
 PUT https://api.github.com/teams/{{team_id}}/memberships/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "role" : "member"
@@ -31,6 +34,7 @@ Content-Type: application/json
 ## Add or update team project permissions
 PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "write"
@@ -41,6 +45,7 @@ Content-Type: application/json
 ## Add or update team project permissions (Legacy)
 PUT https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "read"
@@ -51,6 +56,7 @@ Content-Type: application/json
 ## Add or update team repository permissions
 PUT https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "push"
@@ -61,6 +67,7 @@ Content-Type: application/json
 ## Add or update team repository permissions (Legacy)
 PUT https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "push"
@@ -70,6 +77,7 @@ Content-Type: application/json
 ### Check team permissions for a project
 ## Check team permissions for a project
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -77,6 +85,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_i
 ### Check team permissions for a project (Legacy)
 ## Check team permissions for a project (Legacy)
 GET https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -84,6 +93,7 @@ GET https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
 ### Check team permissions for a repository
 ## Check team permissions for a repository
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -91,6 +101,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{re
 ### Check team permissions for a repository (Legacy)
 ## Check team permissions for a repository (Legacy)
 GET https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -99,6 +110,7 @@ GET https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
 ## Create a team
 POST https://api.github.com/orgs/{{org}}/teams
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Justice League",
@@ -113,6 +125,7 @@ Content-Type: application/json
 ## Create a discussion comment
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Do you like apples?"
@@ -123,6 +136,7 @@ Content-Type: application/json
 ## Create a discussion comment (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Do you like apples?"
@@ -133,6 +147,7 @@ Content-Type: application/json
 ## Create a discussion
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "Our first team post",
@@ -144,6 +159,7 @@ Content-Type: application/json
 ## Create a discussion (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "Our first team post",
@@ -154,6 +170,7 @@ Content-Type: application/json
 ### Delete a discussion comment
 ## Delete a discussion comment
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -161,6 +178,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{dis
 ### Delete a discussion comment (Legacy)
 ## Delete a discussion comment (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -168,6 +186,7 @@ DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}
 ### Delete a discussion
 ## Delete a discussion
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -175,6 +194,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{dis
 ### Delete a discussion (Legacy)
 ## Delete a discussion (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -182,6 +202,7 @@ DELETE https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}
 ### Delete a team
 ## Delete a team
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -189,6 +210,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
 ### Delete a team (Legacy)
 ## Delete a team (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -196,6 +218,7 @@ DELETE https://api.github.com/teams/{{team_id}}
 ### Get a team by name
 ## Get a team by name
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -203,6 +226,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
 ### Get a discussion comment
 ## Get a discussion comment
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -210,6 +234,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discus
 ### Get a discussion comment (Legacy)
 ## Get a discussion comment (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -217,6 +242,7 @@ GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/c
 ### Get a discussion
 ## Get a discussion
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -224,6 +250,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discus
 ### Get a discussion (Legacy)
 ## Get a discussion (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -231,6 +258,7 @@ GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
 ### Get a team (Legacy)
 ## Get a team (Legacy)
 GET https://api.github.com/teams/{{team_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -238,6 +266,7 @@ GET https://api.github.com/teams/{{team_id}}
 ### Get team member (Legacy)
 ## Get team member (Legacy)
 GET https://api.github.com/teams/{{team_id}}/members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -245,6 +274,7 @@ GET https://api.github.com/teams/{{team_id}}/members/{{username}}
 ### Get team membership for a user
 ## Get team membership for a user
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -252,6 +282,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{userna
 ### Get team membership for a user (Legacy)
 ## Get team membership for a user (Legacy)
 GET https://api.github.com/teams/{{team_id}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -259,6 +290,7 @@ GET https://api.github.com/teams/{{team_id}}/memberships/{{username}}
 ### List teams
 ## List teams
 GET https://api.github.com/orgs/{{org}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -266,6 +298,7 @@ GET https://api.github.com/orgs/{{org}}/teams
 ### List child teams
 ## List child teams
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -273,6 +306,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/teams
 ### List child teams (Legacy)
 ## List child teams (Legacy)
 GET https://api.github.com/teams/{{team_id}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -280,6 +314,7 @@ GET https://api.github.com/teams/{{team_id}}/teams
 ### List discussion comments
 ## List discussion comments
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -287,6 +322,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discus
 ### List discussion comments (Legacy)
 ## List discussion comments (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -294,6 +330,7 @@ GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/c
 ### List discussions
 ## List discussions
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -301,6 +338,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions
 ### List discussions (Legacy)
 ## List discussions (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -308,6 +346,7 @@ GET https://api.github.com/teams/{{team_id}}/discussions
 ### List teams for the authenticated user
 ## List teams for the authenticated user
 GET https://api.github.com/user/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -315,6 +354,7 @@ GET https://api.github.com/user/teams
 ### List team members
 ## List team members
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/members
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -322,6 +362,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/members
 ### List team members (Legacy)
 ## List team members (Legacy)
 GET https://api.github.com/teams/{{team_id}}/members
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -329,6 +370,7 @@ GET https://api.github.com/teams/{{team_id}}/members
 ### List pending team invitations
 ## List pending team invitations
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -336,6 +378,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/invitations
 ### List pending team invitations (Legacy)
 ## List pending team invitations (Legacy)
 GET https://api.github.com/teams/{{team_id}}/invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -343,6 +386,7 @@ GET https://api.github.com/teams/{{team_id}}/invitations
 ### List team projects
 ## List team projects
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -350,6 +394,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects
 ### List team projects (Legacy)
 ## List team projects (Legacy)
 GET https://api.github.com/teams/{{team_id}}/projects
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -357,6 +402,7 @@ GET https://api.github.com/teams/{{team_id}}/projects
 ### List team repositories
 ## List team repositories
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -364,6 +410,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos
 ### List team repositories (Legacy)
 ## List team repositories (Legacy)
 GET https://api.github.com/teams/{{team_id}}/repos
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -371,6 +418,7 @@ GET https://api.github.com/teams/{{team_id}}/repos
 ### Remove team member (Legacy)
 ## Remove team member (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -378,6 +426,7 @@ DELETE https://api.github.com/teams/{{team_id}}/members/{{username}}
 ### Remove team membership for a user
 ## Remove team membership for a user
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -385,6 +434,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/memberships/{{use
 ### Remove team membership for a user (Legacy)
 ## Remove team membership for a user (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -392,6 +442,7 @@ DELETE https://api.github.com/teams/{{team_id}}/memberships/{{username}}
 ### Remove a project from a team
 ## Remove a project from a team
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -399,6 +450,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/projects/{{projec
 ### Remove a project from a team (Legacy)
 ## Remove a project from a team (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -406,6 +458,7 @@ DELETE https://api.github.com/teams/{{team_id}}/projects/{{project_id}}
 ### Remove a repository from a team
 ## Remove a repository from a team
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -413,6 +466,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/repos/{{owner}}/{
 ### Remove a repository from a team (Legacy)
 ## Remove a repository from a team (Legacy)
 DELETE https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -421,6 +475,7 @@ DELETE https://api.github.com/teams/{{team_id}}/repos/{{owner}}/{{repo}}
 ## Update a discussion comment
 PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Do you like pineapples?"
@@ -431,6 +486,7 @@ Content-Type: application/json
 ## Update a discussion comment (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Do you like pineapples?"
@@ -441,6 +497,7 @@ Content-Type: application/json
 ## Update a discussion
 PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "Welcome to our first team post"
@@ -451,6 +508,7 @@ Content-Type: application/json
 ## Update a discussion (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "Welcome to our first team post"
@@ -461,6 +519,7 @@ Content-Type: application/json
 ## Update a team
 PATCH https://api.github.com/orgs/{{org}}/teams/{{team_slug}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "new team name",
@@ -474,6 +533,7 @@ Content-Type: application/json
 ## Update a team (Legacy)
 PATCH https://api.github.com/teams/{{team_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "new team name",

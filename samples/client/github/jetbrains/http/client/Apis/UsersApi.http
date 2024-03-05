@@ -4,6 +4,7 @@
 ## Add an email address for the authenticated user
 POST https://api.github.com/user/emails
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "emails" : [ "octocat@github.com", "mona@github.com", "octocat@octocat.org" ]
@@ -14,6 +15,7 @@ Content-Type: application/json
 ## Add social accounts for the authenticated user
 POST https://api.github.com/user/social_accounts
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "account_urls" : [ "https://facebook.com/GitHub", "https://www.youtube.com/@GitHub" ]
@@ -23,6 +25,7 @@ Content-Type: application/json
 ### Block a user
 ## Block a user
 PUT https://api.github.com/user/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -30,6 +33,7 @@ PUT https://api.github.com/user/blocks/{{username}}
 ### Check if a user is blocked by the authenticated user
 ## Check if a user is blocked by the authenticated user
 GET https://api.github.com/user/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -37,6 +41,7 @@ GET https://api.github.com/user/blocks/{{username}}
 ### Check if a user follows another user
 ## Check if a user follows another user
 GET https://api.github.com/users/{{username}}/following/{{target_user}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -44,6 +49,7 @@ GET https://api.github.com/users/{{username}}/following/{{target_user}}
 ### Check if a person is followed by the authenticated user
 ## Check if a person is followed by the authenticated user
 GET https://api.github.com/user/following/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +58,7 @@ GET https://api.github.com/user/following/{{username}}
 ## Create a GPG key for the authenticated user
 POST https://api.github.com/user/gpg_keys
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Octocat's GPG Key",
@@ -63,6 +70,7 @@ Content-Type: application/json
 ## Create a public SSH key for the authenticated user
 POST https://api.github.com/user/keys
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "ssh-rsa AAAAB3NzaC1yc2EAAA",
@@ -74,6 +82,7 @@ Content-Type: application/json
 ## Create a SSH signing key for the authenticated user
 POST https://api.github.com/user/ssh_signing_keys
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "key" : "2Sg8iYjAxxmI2LvUXpJjkYrMxURPc8r+dB7TJyvv1234",
@@ -85,6 +94,7 @@ Content-Type: application/json
 ## Delete an email address for the authenticated user
 DELETE https://api.github.com/user/emails
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "emails" : [ "octocat@github.com", "mona@github.com" ]
@@ -94,6 +104,7 @@ Content-Type: application/json
 ### Delete a GPG key for the authenticated user
 ## Delete a GPG key for the authenticated user
 DELETE https://api.github.com/user/gpg_keys/{{gpg_key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -101,6 +112,7 @@ DELETE https://api.github.com/user/gpg_keys/{{gpg_key_id}}
 ### Delete a public SSH key for the authenticated user
 ## Delete a public SSH key for the authenticated user
 DELETE https://api.github.com/user/keys/{{key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -109,6 +121,7 @@ DELETE https://api.github.com/user/keys/{{key_id}}
 ## Delete social accounts for the authenticated user
 DELETE https://api.github.com/user/social_accounts
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "account_urls" : [ "https://facebook.com/GitHub", "https://www.youtube.com/@GitHub" ]
@@ -118,6 +131,7 @@ Content-Type: application/json
 ### Delete an SSH signing key for the authenticated user
 ## Delete an SSH signing key for the authenticated user
 DELETE https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -125,6 +139,7 @@ DELETE https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
 ### Follow a user
 ## Follow a user
 PUT https://api.github.com/user/following/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -132,6 +147,7 @@ PUT https://api.github.com/user/following/{{username}}
 ### Get the authenticated user
 ## Get the authenticated user
 GET https://api.github.com/user
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -139,6 +155,7 @@ GET https://api.github.com/user
 ### Get a user
 ## Get a user
 GET https://api.github.com/users/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -146,6 +163,7 @@ GET https://api.github.com/users/{{username}}
 ### Get contextual information for a user
 ## Get contextual information for a user
 GET https://api.github.com/users/{{username}}/hovercard
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -153,6 +171,7 @@ GET https://api.github.com/users/{{username}}/hovercard
 ### Get a GPG key for the authenticated user
 ## Get a GPG key for the authenticated user
 GET https://api.github.com/user/gpg_keys/{{gpg_key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -160,6 +179,7 @@ GET https://api.github.com/user/gpg_keys/{{gpg_key_id}}
 ### Get a public SSH key for the authenticated user
 ## Get a public SSH key for the authenticated user
 GET https://api.github.com/user/keys/{{key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -167,6 +187,7 @@ GET https://api.github.com/user/keys/{{key_id}}
 ### Get an SSH signing key for the authenticated user
 ## Get an SSH signing key for the authenticated user
 GET https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -174,6 +195,7 @@ GET https://api.github.com/user/ssh_signing_keys/{{ssh_signing_key_id}}
 ### List users
 ## List users
 GET https://api.github.com/users
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -181,6 +203,7 @@ GET https://api.github.com/users
 ### List users blocked by the authenticated user
 ## List users blocked by the authenticated user
 GET https://api.github.com/user/blocks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -188,6 +211,7 @@ GET https://api.github.com/user/blocks
 ### List email addresses for the authenticated user
 ## List email addresses for the authenticated user
 GET https://api.github.com/user/emails
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -195,6 +219,7 @@ GET https://api.github.com/user/emails
 ### List the people the authenticated user follows
 ## List the people the authenticated user follows
 GET https://api.github.com/user/following
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -202,6 +227,7 @@ GET https://api.github.com/user/following
 ### List followers of the authenticated user
 ## List followers of the authenticated user
 GET https://api.github.com/user/followers
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -209,6 +235,7 @@ GET https://api.github.com/user/followers
 ### List followers of a user
 ## List followers of a user
 GET https://api.github.com/users/{{username}}/followers
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -216,6 +243,7 @@ GET https://api.github.com/users/{{username}}/followers
 ### List the people a user follows
 ## List the people a user follows
 GET https://api.github.com/users/{{username}}/following
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -223,6 +251,7 @@ GET https://api.github.com/users/{{username}}/following
 ### List GPG keys for the authenticated user
 ## List GPG keys for the authenticated user
 GET https://api.github.com/user/gpg_keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -230,6 +259,7 @@ GET https://api.github.com/user/gpg_keys
 ### List GPG keys for a user
 ## List GPG keys for a user
 GET https://api.github.com/users/{{username}}/gpg_keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -237,6 +267,7 @@ GET https://api.github.com/users/{{username}}/gpg_keys
 ### List public email addresses for the authenticated user
 ## List public email addresses for the authenticated user
 GET https://api.github.com/user/public_emails
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -244,6 +275,7 @@ GET https://api.github.com/user/public_emails
 ### List public keys for a user
 ## List public keys for a user
 GET https://api.github.com/users/{{username}}/keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -251,6 +283,7 @@ GET https://api.github.com/users/{{username}}/keys
 ### List public SSH keys for the authenticated user
 ## List public SSH keys for the authenticated user
 GET https://api.github.com/user/keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -258,6 +291,7 @@ GET https://api.github.com/user/keys
 ### List social accounts for the authenticated user
 ## List social accounts for the authenticated user
 GET https://api.github.com/user/social_accounts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -265,6 +299,7 @@ GET https://api.github.com/user/social_accounts
 ### List social accounts for a user
 ## List social accounts for a user
 GET https://api.github.com/users/{{username}}/social_accounts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -272,6 +307,7 @@ GET https://api.github.com/users/{{username}}/social_accounts
 ### List SSH signing keys for the authenticated user
 ## List SSH signing keys for the authenticated user
 GET https://api.github.com/user/ssh_signing_keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -279,6 +315,7 @@ GET https://api.github.com/user/ssh_signing_keys
 ### List SSH signing keys for a user
 ## List SSH signing keys for a user
 GET https://api.github.com/users/{{username}}/ssh_signing_keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -287,6 +324,7 @@ GET https://api.github.com/users/{{username}}/ssh_signing_keys
 ## Set primary email visibility for the authenticated user
 PATCH https://api.github.com/user/email/visibility
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "visibility" : "private"
@@ -296,6 +334,7 @@ Content-Type: application/json
 ### Unblock a user
 ## Unblock a user
 DELETE https://api.github.com/user/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -303,6 +342,7 @@ DELETE https://api.github.com/user/blocks/{{username}}
 ### Unfollow a user
 ## Unfollow a user
 DELETE https://api.github.com/user/following/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -311,6 +351,7 @@ DELETE https://api.github.com/user/following/{{username}}
 ## Update the authenticated user
 PATCH https://api.github.com/user
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "blog" : "https://github.com/blog",

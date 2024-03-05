@@ -4,6 +4,7 @@
 ## 
 POST https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/snapshots
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "version" : 0,
@@ -46,6 +47,7 @@ Content-Type: application/json
 ### Get a diff of the dependencies between commits
 ## Get a diff of the dependencies between commits
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{basehead}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -53,6 +55,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/compare/{{b
 ### Export a software bill of materials (SBOM) for a repository.
 ## Export a software bill of materials (SBOM) for a repository.
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependency-graph/sbom
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

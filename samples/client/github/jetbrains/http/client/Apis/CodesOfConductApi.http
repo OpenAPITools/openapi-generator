@@ -3,6 +3,7 @@
 ### Get all codes of conduct
 ## Get all codes of conduct
 GET https://api.github.com/codes_of_conduct
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ GET https://api.github.com/codes_of_conduct
 ### Get a code of conduct
 ## Get a code of conduct
 GET https://api.github.com/codes_of_conduct/{{key}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

@@ -26,7 +26,8 @@ Authorization: Basic: {{#lambda.doubleMustache}}{username-password}{{/lambda.dou
 Authorization: Bearer {{#lambda.doubleMustache}}{bearerToken}{{/lambda.doubleMustache}}
     {{/isBasicBearer}}
 {{/authMethods}}
+{{#body}}
 
-{{{body}}}
-
+{{{.}}}
+{{/body}}
 {{/vendorExtensions.requests}}{{/operation}}{{/operations}}

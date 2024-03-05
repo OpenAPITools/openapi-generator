@@ -3,6 +3,7 @@
 ### Add selected repository to an organization secret
 ## Add selected repository to an organization secret
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -11,6 +12,7 @@ PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repos
 ## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -24,6 +26,7 @@ Content-Type: application/json
 ## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -34,6 +37,7 @@ Content-Type: application/json
 ### Delete an organization secret
 ## Delete an organization secret
 DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -41,6 +45,7 @@ DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
 ### Delete a repository secret
 ## Delete a repository secret
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -48,6 +53,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secr
 ### Get a Dependabot alert
 ## Get a Dependabot alert
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts/{{alert_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -55,6 +61,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts/{{alert_nu
 ### Get an organization public key
 ## Get an organization public key
 GET https://api.github.com/orgs/{{org}}/dependabot/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -62,6 +69,7 @@ GET https://api.github.com/orgs/{{org}}/dependabot/secrets/public-key
 ### Get an organization secret
 ## Get an organization secret
 GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -69,6 +77,7 @@ GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}
 ### Get a repository public key
 ## Get a repository public key
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -76,6 +85,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/public-ke
 ### Get a repository secret
 ## Get a repository secret
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -83,6 +93,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets/{{secret_
 ### List Dependabot alerts for an enterprise
 ## List Dependabot alerts for an enterprise
 GET https://api.github.com/enterprises/{{enterprise}}/dependabot/alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -90,6 +101,7 @@ GET https://api.github.com/enterprises/{{enterprise}}/dependabot/alerts
 ### List Dependabot alerts for an organization
 ## List Dependabot alerts for an organization
 GET https://api.github.com/orgs/{{org}}/dependabot/alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -97,6 +109,7 @@ GET https://api.github.com/orgs/{{org}}/dependabot/alerts
 ### List Dependabot alerts for a repository
 ## List Dependabot alerts for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -104,6 +117,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts
 ### List organization secrets
 ## List organization secrets
 GET https://api.github.com/orgs/{{org}}/dependabot/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -111,6 +125,7 @@ GET https://api.github.com/orgs/{{org}}/dependabot/secrets
 ### List repository secrets
 ## List repository secrets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -118,6 +133,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/secrets
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
 GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -125,6 +141,7 @@ GET https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repos
 ### Remove selected repository from an organization secret
 ## Remove selected repository from an organization secret
 DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -133,6 +150,7 @@ DELETE https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/re
 ## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/dependabot/secrets/{{secret_name}}/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ 64780797 ]
@@ -143,6 +161,7 @@ Content-Type: application/json
 ## Update a Dependabot alert
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/dependabot/alerts/{{alert_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "state" : "dismissed",

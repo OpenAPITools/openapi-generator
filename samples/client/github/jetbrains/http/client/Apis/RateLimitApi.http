@@ -3,6 +3,7 @@
 ### Get rate limit status for the authenticated user
 ## Get rate limit status for the authenticated user
 GET https://api.github.com/rate_limit
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

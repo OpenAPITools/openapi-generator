@@ -4,6 +4,7 @@
 ## Create a check run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "mighty_readme",
@@ -23,6 +24,7 @@ Content-Type: application/json
 ## Create a check suite
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "head_sha" : "d6fde92930d4715a2b49857d24b940956b26d2d3"
@@ -32,6 +34,7 @@ Content-Type: application/json
 ### Get a check run
 ## Get a check run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -39,6 +42,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
 ### Get a check suite
 ## Get a check suite
 GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -46,6 +50,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_i
 ### List check run annotations
 ## List check run annotations
 GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/annotations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -53,6 +58,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/
 ### List check runs for a Git reference
 ## List check runs for a Git reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-runs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -60,6 +66,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-runs
 ### List check runs in a check suite
 ## List check runs in a check suite
 GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/check-runs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -67,6 +74,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_i
 ### List check suites for a Git reference
 ## List check suites for a Git reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-suites
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -74,6 +82,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/check-suites
 ### Rerequest a check run
 ## Rerequest a check run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}/rerequest
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -81,6 +90,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
 ### Rerequest a check suite
 ## Rerequest a check suite
 POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_id}}/rerequest
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -89,6 +99,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/{{check_suite_
 ## Update repository preferences for check suites
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-suites/preferences
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "auto_trigger_checks" : [ {
@@ -102,6 +113,7 @@ Content-Type: application/json
 ## Update a check run
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/check-runs/{{check_run_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "mighty_readme",

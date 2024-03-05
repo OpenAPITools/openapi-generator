@@ -4,6 +4,7 @@
 ## Create reaction for a commit comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -14,6 +15,7 @@ Content-Type: application/json
 ## Create reaction for an issue
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -24,6 +26,7 @@ Content-Type: application/json
 ## Create reaction for an issue comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -34,6 +37,7 @@ Content-Type: application/json
 ## Create reaction for a pull request review comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -44,6 +48,7 @@ Content-Type: application/json
 ## Create reaction for a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -54,6 +59,7 @@ Content-Type: application/json
 ## Create reaction for a team discussion comment
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -64,6 +70,7 @@ Content-Type: application/json
 ## Create reaction for a team discussion comment (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -74,6 +81,7 @@ Content-Type: application/json
 ## Create reaction for a team discussion
 POST https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -84,6 +92,7 @@ Content-Type: application/json
 ## Create reaction for a team discussion (Legacy)
 POST https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/reactions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "heart"
@@ -93,6 +102,7 @@ Content-Type: application/json
 ### Delete a commit comment reaction
 ## Delete a commit comment reaction
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -100,6 +110,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/r
 ### Delete an issue reaction
 ## Delete an issue reaction
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -107,6 +118,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/r
 ### Delete an issue comment reaction
 ## Delete an issue comment reaction
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -114,6 +126,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment
 ### Delete a pull request comment reaction
 ## Delete a pull request comment reaction
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -121,6 +134,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_
 ### Delete a release reaction
 ## Delete a release reaction
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -128,6 +142,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/r
 ### Delete team discussion reaction
 ## Delete team discussion reaction
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -135,6 +150,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{dis
 ### Delete team discussion comment reaction
 ## Delete team discussion comment reaction
 DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions/{{reaction_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -142,6 +158,7 @@ DELETE https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{dis
 ### List reactions for a commit comment
 ## List reactions for a commit comment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -149,6 +166,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}/reac
 ### List reactions for an issue
 ## List reactions for an issue
 GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -156,6 +174,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/{{issue_number}}/reac
 ### List reactions for an issue comment
 ## List reactions for an issue comment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -163,6 +182,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/issues/comments/{{comment_id
 ### List reactions for a pull request review comment
 ## List reactions for a pull request review comment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -170,6 +190,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pulls/comments/{{comment_id}
 ### List reactions for a release
 ## List reactions for a release
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -177,6 +198,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/reac
 ### List reactions for a team discussion comment
 ## List reactions for a team discussion comment
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -184,6 +206,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discus
 ### List reactions for a team discussion comment (Legacy)
 ## List reactions for a team discussion comment (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/comments/{{comment_number}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -191,6 +214,7 @@ GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/c
 ### List reactions for a team discussion
 ## List reactions for a team discussion
 GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discussion_number}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -198,6 +222,7 @@ GET https://api.github.com/orgs/{{org}}/teams/{{team_slug}}/discussions/{{discus
 ### List reactions for a team discussion (Legacy)
 ## List reactions for a team discussion (Legacy)
 GET https://api.github.com/teams/{{team_id}}/discussions/{{discussion_number}}/reactions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

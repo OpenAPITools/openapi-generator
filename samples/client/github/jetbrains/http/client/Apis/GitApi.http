@@ -4,6 +4,7 @@
 ## Create a blob
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content" : "Content of the blob",
@@ -15,6 +16,7 @@ Content-Type: application/json
 ## Create a commit
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/commits
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "message" : "my commit message",
@@ -33,6 +35,7 @@ Content-Type: application/json
 ## Create a reference
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/refs
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "ref" : "refs/heads/featureA",
@@ -44,6 +47,7 @@ Content-Type: application/json
 ## Create a tag object
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/tags
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "tag" : "v0.0.1",
@@ -62,6 +66,7 @@ Content-Type: application/json
 ## Create a tree
 POST https://api.github.com/repos/{{owner}}/{{repo}}/git/trees
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "base_tree" : "9fb037999f264ba9a7fc6274d15fa3ae2ab98312",
@@ -77,6 +82,7 @@ Content-Type: application/json
 ### Delete a reference
 ## Delete a reference
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -84,6 +90,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
 ### Get a blob
 ## Get a blob
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs/{{file_sha}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -91,6 +98,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/blobs/{{file_sha}}
 ### Get a commit object
 ## Get a commit object
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/commits/{{commit_sha}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -98,6 +106,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/commits/{{commit_sha}}
 ### Get a reference
 ## Get a reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/ref/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -105,6 +114,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/ref/{{ref}}
 ### Get a tag
 ## Get a tag
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/tags/{{tag_sha}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -112,6 +122,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/tags/{{tag_sha}}
 ### Get a tree
 ## Get a tree
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -119,6 +130,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/trees/{{tree_sha}}
 ### List matching references
 ## List matching references
 GET https://api.github.com/repos/{{owner}}/{{repo}}/git/matching-refs/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -127,6 +139,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/git/matching-refs/{{ref}}
 ## Update a reference
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/git/refs/{{ref}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "sha" : "aa218f56b14c9653891f9e74264a383fa43fefbd",

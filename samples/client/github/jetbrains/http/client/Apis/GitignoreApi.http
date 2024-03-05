@@ -3,6 +3,7 @@
 ### Get all gitignore templates
 ## Get all gitignore templates
 GET https://api.github.com/gitignore/templates
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ GET https://api.github.com/gitignore/templates
 ### Get a gitignore template
 ## Get a gitignore template
 GET https://api.github.com/gitignore/templates/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

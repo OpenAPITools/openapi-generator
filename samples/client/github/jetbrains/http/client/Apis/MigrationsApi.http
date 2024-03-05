@@ -3,6 +3,7 @@
 ### Cancel an import
 ## Cancel an import
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/import
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/import
 ### Delete a user migration archive
 ## Delete a user migration archive
 DELETE https://api.github.com/user/migrations/{{migration_id}}/archive
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ DELETE https://api.github.com/user/migrations/{{migration_id}}/archive
 ### Delete an organization migration archive
 ## Delete an organization migration archive
 DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
 ### Download an organization migration archive
 ## Download an organization migration archive
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -31,6 +35,7 @@ GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/archive
 ### Download a user migration archive
 ## Download a user migration archive
 GET https://api.github.com/user/migrations/{{migration_id}}/archive
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -38,6 +43,7 @@ GET https://api.github.com/user/migrations/{{migration_id}}/archive
 ### Get commit authors
 ## Get commit authors
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import/authors
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -45,6 +51,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/import/authors
 ### Get an import status
 ## Get an import status
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +59,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/import
 ### Get large files
 ## Get large files
 GET https://api.github.com/repos/{{owner}}/{{repo}}/import/large_files
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -59,6 +67,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/import/large_files
 ### Get a user migration status
 ## Get a user migration status
 GET https://api.github.com/user/migrations/{{migration_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -66,6 +75,7 @@ GET https://api.github.com/user/migrations/{{migration_id}}
 ### Get an organization migration status
 ## Get an organization migration status
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -73,6 +83,7 @@ GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}
 ### List user migrations
 ## List user migrations
 GET https://api.github.com/user/migrations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -80,6 +91,7 @@ GET https://api.github.com/user/migrations
 ### List organization migrations
 ## List organization migrations
 GET https://api.github.com/orgs/{{org}}/migrations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -87,6 +99,7 @@ GET https://api.github.com/orgs/{{org}}/migrations
 ### List repositories for a user migration
 ## List repositories for a user migration
 GET https://api.github.com/user/migrations/{{migration_id}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -94,6 +107,7 @@ GET https://api.github.com/user/migrations/{{migration_id}}/repositories
 ### List repositories in an organization migration
 ## List repositories in an organization migration
 GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -102,6 +116,7 @@ GET https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repositories
 ## Map a commit author
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import/authors/{{author_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "email" : "hubot@github.com",
@@ -113,6 +128,7 @@ Content-Type: application/json
 ## Update Git LFS preference
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import/lfs
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "use_lfs" : "opt_in"
@@ -123,6 +139,7 @@ Content-Type: application/json
 ## Start a user migration
 POST https://api.github.com/user/migrations
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repositories" : [ "octocat/Hello-World" ],
@@ -134,6 +151,7 @@ Content-Type: application/json
 ## Start an organization migration
 POST https://api.github.com/orgs/{{org}}/migrations
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repositories" : [ "github/Hello-World" ],
@@ -145,6 +163,7 @@ Content-Type: application/json
 ## Start an import
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/import
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "vcs" : "subversion",
@@ -157,6 +176,7 @@ Content-Type: application/json
 ### Unlock a user repository
 ## Unlock a user repository
 DELETE https://api.github.com/user/migrations/{{migration_id}}/repos/{{repo_name}}/lock
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -164,6 +184,7 @@ DELETE https://api.github.com/user/migrations/{{migration_id}}/repos/{{repo_name
 ### Unlock an organization repository
 ## Unlock an organization repository
 DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repos/{{repo_name}}/lock
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -172,6 +193,7 @@ DELETE https://api.github.com/orgs/{{org}}/migrations/{{migration_id}}/repos/{{r
 ## Update an import
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/import
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "vcs_username" : "octocat",

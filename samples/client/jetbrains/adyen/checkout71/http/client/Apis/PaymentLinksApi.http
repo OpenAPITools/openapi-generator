@@ -6,9 +6,6 @@ GET https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
-
-    
-
 ### Update the status of a payment link
 ## Update the status of a payment link
 PATCH https://checkout-test.adyen.com/v71/paymentLinks/{{linkId}}
@@ -19,7 +16,6 @@ X-API-Key: {{apiKey}}
 {
  "status": "expired"
 }
-    
 
 ### Create a payment link
 ## Create a payment link
@@ -56,4 +52,3 @@ X-API-Key: {{apiKey}}
  "stateOrProvince": "SP"
 }
 }
-    

@@ -8,7 +8,6 @@ Accept-Encoding=gzip
 
 
 
-
 ### Get payment methods
 ## Get payment methods
 GET https://checkout-test.adyen.com/v71/paymentMethods?api_key={{queryKey}}

@@ -3,6 +3,7 @@
 ### Add a security manager team
 ## Add a security manager team
 PUT https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ PUT https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
 ### Assign an organization role to a team
 ## Assign an organization role to a team
 PUT https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ PUT https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}/{
 ### Assign an organization role to a user
 ## Assign an organization role to a user
 PUT https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ PUT https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{
 ### Block a user from an organization
 ## Block a user from an organization
 PUT https://api.github.com/orgs/{{org}}/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -31,6 +35,7 @@ PUT https://api.github.com/orgs/{{org}}/blocks/{{username}}
 ### Cancel an organization invitation
 ## Cancel an organization invitation
 DELETE https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -38,6 +43,7 @@ DELETE https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}
 ### Check if a user is blocked by an organization
 ## Check if a user is blocked by an organization
 GET https://api.github.com/orgs/{{org}}/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -45,6 +51,7 @@ GET https://api.github.com/orgs/{{org}}/blocks/{{username}}
 ### Check organization membership for a user
 ## Check organization membership for a user
 GET https://api.github.com/orgs/{{org}}/members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +59,7 @@ GET https://api.github.com/orgs/{{org}}/members/{{username}}
 ### Check public organization membership for a user
 ## Check public organization membership for a user
 GET https://api.github.com/orgs/{{org}}/public_members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -60,6 +68,7 @@ GET https://api.github.com/orgs/{{org}}/public_members/{{username}}
 ## Convert an organization member to outside collaborator
 PUT https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "async" : true
@@ -70,6 +79,7 @@ Content-Type: application/json
 ## Create a custom organization role
 POST https://api.github.com/orgs/{{org}}/organization-roles
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Custom Role Manager",
@@ -82,6 +92,7 @@ Content-Type: application/json
 ## Create an organization invitation
 POST https://api.github.com/orgs/{{org}}/invitations
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "email" : "octocat@github.com",
@@ -94,6 +105,7 @@ Content-Type: application/json
 ## Create or update custom properties for an organization
 PATCH https://api.github.com/orgs/{{org}}/properties/schema
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "properties" : [ {
@@ -119,6 +131,7 @@ Content-Type: application/json
 ## 
 PATCH https://api.github.com/orgs/{{org}}/properties/values
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "repository_names" : [ "Hello-World", "octo-repo" ],
@@ -139,6 +152,7 @@ Content-Type: application/json
 ## Create or update a custom property for an organization
 PUT https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "value_type" : "single_select",
@@ -153,6 +167,7 @@ Content-Type: application/json
 ## Create an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "web",
@@ -168,6 +183,7 @@ Content-Type: application/json
 ### Delete an organization
 ## Delete an organization
 DELETE https://api.github.com/orgs/{{org}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -175,6 +191,7 @@ DELETE https://api.github.com/orgs/{{org}}
 ### Delete a custom organization role.
 ## Delete a custom organization role.
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -182,6 +199,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
 ### Delete an organization webhook
 ## Delete an organization webhook
 DELETE https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -190,6 +208,7 @@ DELETE https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 ### Get an organization
 ## Get an organization
 GET https://api.github.com/orgs/{{org}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -197,6 +216,7 @@ GET https://api.github.com/orgs/{{org}}
 ### Get all custom properties for an organization
 ## Get all custom properties for an organization
 GET https://api.github.com/orgs/{{org}}/properties/schema
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -204,6 +224,7 @@ GET https://api.github.com/orgs/{{org}}/properties/schema
 ### Get a custom property for an organization
 ## Get a custom property for an organization
 GET https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -211,6 +232,7 @@ GET https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name
 ### Get an organization membership for the authenticated user
 ## Get an organization membership for the authenticated user
 GET https://api.github.com/user/memberships/orgs/{{org}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -218,6 +240,7 @@ GET https://api.github.com/user/memberships/orgs/{{org}}
 ### Get organization membership for a user
 ## Get organization membership for a user
 GET https://api.github.com/orgs/{{org}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -225,6 +248,7 @@ GET https://api.github.com/orgs/{{org}}/memberships/{{username}}
 ### Get an organization role
 ## Get an organization role
 GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -232,6 +256,7 @@ GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
 ### Get an organization webhook
 ## Get an organization webhook
 GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -239,6 +264,7 @@ GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 ### Get a webhook configuration for an organization
 ## Get a webhook configuration for an organization
 GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -246,6 +272,7 @@ GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
 ### Get a webhook delivery for an organization webhook
 ## Get a webhook delivery for an organization webhook
 GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -253,6 +280,7 @@ GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery_
 ### List organizations
 ## List organizations
 GET https://api.github.com/organizations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -260,6 +288,7 @@ GET https://api.github.com/organizations
 ### List app installations for an organization
 ## List app installations for an organization
 GET https://api.github.com/orgs/{{org}}/installations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -267,6 +296,7 @@ GET https://api.github.com/orgs/{{org}}/installations
 ### List users blocked by an organization
 ## List users blocked by an organization
 GET https://api.github.com/orgs/{{org}}/blocks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -274,6 +304,7 @@ GET https://api.github.com/orgs/{{org}}/blocks
 ### List custom property values for organization repositories
 ## List custom property values for organization repositories
 GET https://api.github.com/orgs/{{org}}/properties/values
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -281,6 +312,7 @@ GET https://api.github.com/orgs/{{org}}/properties/values
 ### List failed organization invitations
 ## List failed organization invitations
 GET https://api.github.com/orgs/{{org}}/failed_invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -288,6 +320,7 @@ GET https://api.github.com/orgs/{{org}}/failed_invitations
 ### List organizations for the authenticated user
 ## List organizations for the authenticated user
 GET https://api.github.com/user/orgs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -295,6 +328,7 @@ GET https://api.github.com/user/orgs
 ### List organizations for a user
 ## List organizations for a user
 GET https://api.github.com/users/{{username}}/orgs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -302,6 +336,7 @@ GET https://api.github.com/users/{{username}}/orgs
 ### List organization invitation teams
 ## List organization invitation teams
 GET https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -309,6 +344,7 @@ GET https://api.github.com/orgs/{{org}}/invitations/{{invitation_id}}/teams
 ### List organization members
 ## List organization members
 GET https://api.github.com/orgs/{{org}}/members
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -316,6 +352,7 @@ GET https://api.github.com/orgs/{{org}}/members
 ### List organization memberships for the authenticated user
 ## List organization memberships for the authenticated user
 GET https://api.github.com/user/memberships/orgs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -323,6 +360,7 @@ GET https://api.github.com/user/memberships/orgs
 ### List teams that are assigned to an organization role
 ## List teams that are assigned to an organization role
 GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -330,6 +368,7 @@ GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/teams
 ### List users that are assigned to an organization role
 ## List users that are assigned to an organization role
 GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/users
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -337,6 +376,7 @@ GET https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}/users
 ### Get all organization roles for an organization
 ## Get all organization roles for an organization
 GET https://api.github.com/orgs/{{org}}/organization-roles
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -344,6 +384,7 @@ GET https://api.github.com/orgs/{{org}}/organization-roles
 ### List organization fine-grained permissions for an organization
 ## List organization fine-grained permissions for an organization
 GET https://api.github.com/orgs/{{org}}/organization-fine-grained-permissions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -351,6 +392,7 @@ GET https://api.github.com/orgs/{{org}}/organization-fine-grained-permissions
 ### List outside collaborators for an organization
 ## List outside collaborators for an organization
 GET https://api.github.com/orgs/{{org}}/outside_collaborators
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -358,6 +400,7 @@ GET https://api.github.com/orgs/{{org}}/outside_collaborators
 ### List repositories a fine-grained personal access token has access to
 ## List repositories a fine-grained personal access token has access to
 GET https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -365,6 +408,7 @@ GET https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}/reposi
 ### List repositories requested to be accessed by a fine-grained personal access token
 ## List repositories requested to be accessed by a fine-grained personal access token
 GET https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -372,6 +416,7 @@ GET https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_req
 ### List requests to access organization resources with fine-grained personal access tokens
 ## List requests to access organization resources with fine-grained personal access tokens
 GET https://api.github.com/orgs/{{org}}/personal-access-token-requests
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -379,6 +424,7 @@ GET https://api.github.com/orgs/{{org}}/personal-access-token-requests
 ### List fine-grained personal access tokens with access to organization resources
 ## List fine-grained personal access tokens with access to organization resources
 GET https://api.github.com/orgs/{{org}}/personal-access-tokens
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -386,6 +432,7 @@ GET https://api.github.com/orgs/{{org}}/personal-access-tokens
 ### List pending organization invitations
 ## List pending organization invitations
 GET https://api.github.com/orgs/{{org}}/invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -393,6 +440,7 @@ GET https://api.github.com/orgs/{{org}}/invitations
 ### List public organization members
 ## List public organization members
 GET https://api.github.com/orgs/{{org}}/public_members
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -400,6 +448,7 @@ GET https://api.github.com/orgs/{{org}}/public_members
 ### List security manager teams
 ## List security manager teams
 GET https://api.github.com/orgs/{{org}}/security-managers
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -407,6 +456,7 @@ GET https://api.github.com/orgs/{{org}}/security-managers
 ### List deliveries for an organization webhook
 ## List deliveries for an organization webhook
 GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -414,6 +464,7 @@ GET https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries
 ### List organization webhooks
 ## List organization webhooks
 GET https://api.github.com/orgs/{{org}}/hooks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -422,6 +473,7 @@ GET https://api.github.com/orgs/{{org}}/hooks
 ## Update a custom organization role
 PATCH https://api.github.com/orgs/{{org}}/organization-roles/{{role_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "description" : "Permissions to manage custom roles within an org."
@@ -431,6 +483,7 @@ Content-Type: application/json
 ### Ping an organization webhook
 ## Ping an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/pings
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -438,6 +491,7 @@ POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/pings
 ### Redeliver a delivery for an organization webhook
 ## Redeliver a delivery for an organization webhook
 POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}/attempts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -445,6 +499,7 @@ POST https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/deliveries/{{delivery
 ### Remove a custom property for an organization
 ## Remove a custom property for an organization
 DELETE https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -452,6 +507,7 @@ DELETE https://api.github.com/orgs/{{org}}/properties/schema/{{custom_property_n
 ### Remove an organization member
 ## Remove an organization member
 DELETE https://api.github.com/orgs/{{org}}/members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -459,6 +515,7 @@ DELETE https://api.github.com/orgs/{{org}}/members/{{username}}
 ### Remove organization membership for a user
 ## Remove organization membership for a user
 DELETE https://api.github.com/orgs/{{org}}/memberships/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -466,6 +523,7 @@ DELETE https://api.github.com/orgs/{{org}}/memberships/{{username}}
 ### Remove outside collaborator from an organization
 ## Remove outside collaborator from an organization
 DELETE https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -473,6 +531,7 @@ DELETE https://api.github.com/orgs/{{org}}/outside_collaborators/{{username}}
 ### Remove public organization membership for the authenticated user
 ## Remove public organization membership for the authenticated user
 DELETE https://api.github.com/orgs/{{org}}/public_members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -480,6 +539,7 @@ DELETE https://api.github.com/orgs/{{org}}/public_members/{{username}}
 ### Remove a security manager team
 ## Remove a security manager team
 DELETE https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -488,6 +548,7 @@ DELETE https://api.github.com/orgs/{{org}}/security-managers/teams/{{team_slug}}
 ## Review a request to access organization resources with a fine-grained personal access token
 POST https://api.github.com/orgs/{{org}}/personal-access-token-requests/{{pat_request_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "action" : "deny",
@@ -499,6 +560,7 @@ Content-Type: application/json
 ## Review requests to access organization resources with fine-grained personal access tokens
 POST https://api.github.com/orgs/{{org}}/personal-access-token-requests
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "pat_request_ids" : [ 42, 73 ],
@@ -510,6 +572,7 @@ Content-Type: application/json
 ### Remove all organization roles for a team
 ## Remove all organization roles for a team
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -517,6 +580,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}
 ### Remove all organization roles for a user
 ## Remove all organization roles for a user
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -524,6 +588,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}
 ### Remove an organization role from a team
 ## Remove an organization role from a team
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}}/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -531,6 +596,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/teams/{{team_slug}
 ### Remove an organization role from a user
 ## Remove an organization role from a user
 DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}/{{role_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -539,6 +605,7 @@ DELETE https://api.github.com/orgs/{{org}}/organization-roles/users/{{username}}
 ## Set organization membership for a user
 PUT https://api.github.com/orgs/{{org}}/memberships/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "role" : "member"
@@ -548,6 +615,7 @@ Content-Type: application/json
 ### Set public organization membership for the authenticated user
 ## Set public organization membership for the authenticated user
 PUT https://api.github.com/orgs/{{org}}/public_members/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -555,6 +623,7 @@ PUT https://api.github.com/orgs/{{org}}/public_members/{{username}}
 ### Unblock a user from an organization
 ## Unblock a user from an organization
 DELETE https://api.github.com/orgs/{{org}}/blocks/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -563,6 +632,7 @@ DELETE https://api.github.com/orgs/{{org}}/blocks/{{username}}
 ## Update an organization
 PATCH https://api.github.com/orgs/{{org}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "billing_email" : "mona@github.com",
@@ -582,6 +652,7 @@ Content-Type: application/json
 ## Update an organization membership for the authenticated user
 PATCH https://api.github.com/user/memberships/orgs/{{org}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "state" : "active"
@@ -592,6 +663,7 @@ Content-Type: application/json
 ## Update the access a fine-grained personal access token has to organization resources
 POST https://api.github.com/orgs/{{org}}/personal-access-tokens/{{pat_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "action" : "revoke"
@@ -602,6 +674,7 @@ Content-Type: application/json
 ## Update the access to organization resources via fine-grained personal access tokens
 POST https://api.github.com/orgs/{{org}}/personal-access-tokens
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "action" : "revoke",
@@ -613,6 +686,7 @@ Content-Type: application/json
 ## Update an organization webhook
 PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "active" : true,
@@ -624,6 +698,7 @@ Content-Type: application/json
 ## Update a webhook configuration for an organization
 PATCH https://api.github.com/orgs/{{org}}/hooks/{{hook_id}}/config
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "url" : "http://example.com/webhook",

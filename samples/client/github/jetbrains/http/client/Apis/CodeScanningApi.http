@@ -3,6 +3,7 @@
 ### Delete a code scanning analysis from a repository
 ## Delete a code scanning analysis from a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{analysis_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{
 ### Get a code scanning alert
 ## Get a code scanning alert
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert
 ### Get a code scanning analysis for a repository
 ## Get a code scanning analysis for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{analysis_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses/{{ana
 ### Get a CodeQL database for a repository
 ## Get a CodeQL database for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/codeql/databases/{{language}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -31,6 +35,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/codeql/databas
 ### Get a code scanning default setup configuration
 ## Get a code scanning default setup configuration
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/default-setup
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -38,6 +43,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/default-setup
 ### Get information about a SARIF upload
 ## Get information about a SARIF upload
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/sarifs/{{sarif_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -45,6 +51,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/sarifs/{{sarif
 ### List instances of a code scanning alert
 ## List instances of a code scanning alert
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}/instances
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +59,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert
 ### List code scanning alerts for an organization
 ## List code scanning alerts for an organization
 GET https://api.github.com/orgs/{{org}}/code-scanning/alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -59,6 +67,7 @@ GET https://api.github.com/orgs/{{org}}/code-scanning/alerts
 ### List code scanning alerts for a repository
 ## List code scanning alerts for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -66,6 +75,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts
 ### List CodeQL databases for a repository
 ## List CodeQL databases for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/codeql/databases
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -73,6 +83,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/codeql/databas
 ### List code scanning analyses for a repository
 ## List code scanning analyses for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -81,6 +92,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/analyses
 ## Update a code scanning alert
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/alerts/{{alert_number}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "state" : "dismissed",
@@ -93,6 +105,7 @@ Content-Type: application/json
 ## 
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/default-setup
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "state" : "configured"
@@ -103,6 +116,7 @@ Content-Type: application/json
 ## Upload an analysis as SARIF data
 POST https://api.github.com/repos/{{owner}}/{{repo}}/code-scanning/sarifs
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "commit_sha" : "4b6472266afd7b471e86085a6659e8c7f2b119da",

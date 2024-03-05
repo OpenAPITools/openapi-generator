@@ -3,6 +3,7 @@
 ### Get emojis
 ## Get emojis
 GET https://api.github.com/emojis
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

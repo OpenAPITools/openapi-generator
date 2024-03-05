@@ -6,14 +6,8 @@ DELETE https://checkout-test.adyen.com/v71/storedPaymentMethods/{{storedPaymentM
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
 
-
-    
-
 ### Get tokens for stored payment details
 ## Get tokens for stored payment details
 GET https://checkout-test.adyen.com/v71/storedPaymentMethods
 Authorization: Basic: {{username-password}}
 X-API-Key: {{apiKey}}
-
-
-    

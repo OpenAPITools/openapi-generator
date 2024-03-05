@@ -3,6 +3,7 @@
 ### Get the customization template for an OIDC subject claim for an organization
 ## Get the customization template for an OIDC subject claim for an organization
 GET https://api.github.com/orgs/{{org}}/actions/oidc/customization/sub
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -11,6 +12,7 @@ GET https://api.github.com/orgs/{{org}}/actions/oidc/customization/sub
 ## 
 PUT https://api.github.com/orgs/{{org}}/actions/oidc/customization/sub
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "include_claim_keys" : [ "repo", "context" ]

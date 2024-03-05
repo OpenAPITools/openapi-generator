@@ -3,6 +3,7 @@
 ### Get a license
 ## Get a license
 GET https://api.github.com/licenses/{{license}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ GET https://api.github.com/licenses/{{license}}
 ### Get all commonly used licenses
 ## Get all commonly used licenses
 GET https://api.github.com/licenses
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ GET https://api.github.com/licenses
 ### Get the license for a repository
 ## Get the license for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/license
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

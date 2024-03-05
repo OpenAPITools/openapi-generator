@@ -4,6 +4,7 @@
 ## Render a Markdown document
 POST https://api.github.com/markdown
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "text" : "Hello **world**"
@@ -15,6 +16,7 @@ Content-Type: application/json
 POST https://api.github.com/markdown/raw
 Content-Type: text/plain
 Content-Type: text/x-markdown
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "text" : "Hello **world**"

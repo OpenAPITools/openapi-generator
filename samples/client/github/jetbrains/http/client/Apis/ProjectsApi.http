@@ -4,6 +4,7 @@
 ## Add project collaborator
 PUT https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "write"
@@ -14,6 +15,7 @@ Content-Type: application/json
 ## Create a project card
 POST https://api.github.com/projects/columns/{{column_id}}/cards
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "note" : "Add payload for delete Project column"
@@ -24,6 +26,7 @@ Content-Type: application/json
 ## Create a project column
 POST https://api.github.com/projects/{{project_id}}/columns
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Remaining tasks"
@@ -34,6 +37,7 @@ Content-Type: application/json
 ## Create a user project
 POST https://api.github.com/user/projects
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "My Projects",
@@ -45,6 +49,7 @@ Content-Type: application/json
 ## Create an organization project
 POST https://api.github.com/orgs/{{org}}/projects
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Organization Roadmap",
@@ -56,6 +61,7 @@ Content-Type: application/json
 ## Create a repository project
 POST https://api.github.com/repos/{{owner}}/{{repo}}/projects
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Projects Documentation",
@@ -66,6 +72,7 @@ Content-Type: application/json
 ### Delete a project
 ## Delete a project
 DELETE https://api.github.com/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -73,6 +80,7 @@ DELETE https://api.github.com/projects/{{project_id}}
 ### Delete a project card
 ## Delete a project card
 DELETE https://api.github.com/projects/columns/cards/{{card_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -80,6 +88,7 @@ DELETE https://api.github.com/projects/columns/cards/{{card_id}}
 ### Delete a project column
 ## Delete a project column
 DELETE https://api.github.com/projects/columns/{{column_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -87,6 +96,7 @@ DELETE https://api.github.com/projects/columns/{{column_id}}
 ### Get a project
 ## Get a project
 GET https://api.github.com/projects/{{project_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -94,6 +104,7 @@ GET https://api.github.com/projects/{{project_id}}
 ### Get a project card
 ## Get a project card
 GET https://api.github.com/projects/columns/cards/{{card_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -101,6 +112,7 @@ GET https://api.github.com/projects/columns/cards/{{card_id}}
 ### Get a project column
 ## Get a project column
 GET https://api.github.com/projects/columns/{{column_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -108,6 +120,7 @@ GET https://api.github.com/projects/columns/{{column_id}}
 ### Get project permission for a user
 ## Get project permission for a user
 GET https://api.github.com/projects/{{project_id}}/collaborators/{{username}}/permission
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -115,6 +128,7 @@ GET https://api.github.com/projects/{{project_id}}/collaborators/{{username}}/pe
 ### List project cards
 ## List project cards
 GET https://api.github.com/projects/columns/{{column_id}}/cards
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -122,6 +136,7 @@ GET https://api.github.com/projects/columns/{{column_id}}/cards
 ### List project collaborators
 ## List project collaborators
 GET https://api.github.com/projects/{{project_id}}/collaborators
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -129,6 +144,7 @@ GET https://api.github.com/projects/{{project_id}}/collaborators
 ### List project columns
 ## List project columns
 GET https://api.github.com/projects/{{project_id}}/columns
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -136,6 +152,7 @@ GET https://api.github.com/projects/{{project_id}}/columns
 ### List organization projects
 ## List organization projects
 GET https://api.github.com/orgs/{{org}}/projects
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -143,6 +160,7 @@ GET https://api.github.com/orgs/{{org}}/projects
 ### List repository projects
 ## List repository projects
 GET https://api.github.com/repos/{{owner}}/{{repo}}/projects
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -150,6 +168,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/projects
 ### List user projects
 ## List user projects
 GET https://api.github.com/users/{{username}}/projects
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -158,6 +177,7 @@ GET https://api.github.com/users/{{username}}/projects
 ## Move a project card
 POST https://api.github.com/projects/columns/cards/{{card_id}}/moves
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "column_id" : 42,
@@ -169,6 +189,7 @@ Content-Type: application/json
 ## Move a project column
 POST https://api.github.com/projects/columns/{{column_id}}/moves
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "position" : "last"
@@ -178,6 +199,7 @@ Content-Type: application/json
 ### Remove user as a collaborator
 ## Remove user as a collaborator
 DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -186,6 +208,7 @@ DELETE https://api.github.com/projects/{{project_id}}/collaborators/{{username}}
 ## Update a project
 PATCH https://api.github.com/projects/{{project_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Week One Sprint",
@@ -198,6 +221,7 @@ Content-Type: application/json
 ## Update an existing project card
 PATCH https://api.github.com/projects/columns/cards/{{card_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "note" : "Add payload for delete Project column"
@@ -208,6 +232,7 @@ Content-Type: application/json
 ## Update an existing project column
 PATCH https://api.github.com/projects/columns/{{column_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "To Do"

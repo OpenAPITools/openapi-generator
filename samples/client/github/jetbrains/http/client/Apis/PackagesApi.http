@@ -3,6 +3,7 @@
 ### Delete a package for the authenticated user
 ## Delete a package for the authenticated user
 DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -10,6 +11,7 @@ DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}
 ### Delete a package for an organization
 ## Delete a package for an organization
 DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -17,6 +19,7 @@ DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_n
 ### Delete a package for a user
 ## Delete a package for a user
 DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -24,6 +27,7 @@ DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{pac
 ### Delete a package version for the authenticated user
 ## Delete a package version for the authenticated user
 DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -31,6 +35,7 @@ DELETE https://api.github.com/user/packages/{{package_type}}/{{package_name}}/ve
 ### Delete package version for an organization
 ## Delete package version for an organization
 DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -38,6 +43,7 @@ DELETE https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_n
 ### Delete package version for a user
 ## Delete package version for a user
 DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -45,6 +51,7 @@ DELETE https://api.github.com/users/{{username}}/packages/{{package_type}}/{{pac
 ### List package versions for a package owned by the authenticated user
 ## List package versions for a package owned by the authenticated user
 GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +59,7 @@ GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versi
 ### List package versions for a package owned by an organization
 ## List package versions for a package owned by an organization
 GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -59,6 +67,7 @@ GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name
 ### List package versions for a package owned by a user
 ## List package versions for a package owned by a user
 GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -66,6 +75,7 @@ GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{packag
 ### Get a package for the authenticated user
 ## Get a package for the authenticated user
 GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -73,6 +83,7 @@ GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}
 ### Get a package for an organization
 ## Get a package for an organization
 GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -80,6 +91,7 @@ GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name
 ### Get a package for a user
 ## Get a package for a user
 GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -87,6 +99,7 @@ GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{packag
 ### Get a package version for the authenticated user
 ## Get a package version for the authenticated user
 GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -94,6 +107,7 @@ GET https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versi
 ### Get a package version for an organization
 ## Get a package version for an organization
 GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -101,6 +115,7 @@ GET https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name
 ### Get a package version for a user
 ## Get a package version for a user
 GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -108,6 +123,7 @@ GET https://api.github.com/users/{{username}}/packages/{{package_type}}/{{packag
 ### Get list of conflicting packages during Docker migration for authenticated-user
 ## Get list of conflicting packages during Docker migration for authenticated-user
 GET https://api.github.com/user/docker/conflicts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -115,6 +131,7 @@ GET https://api.github.com/user/docker/conflicts
 ### Get list of conflicting packages during Docker migration for organization
 ## Get list of conflicting packages during Docker migration for organization
 GET https://api.github.com/orgs/{{org}}/docker/conflicts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -122,6 +139,7 @@ GET https://api.github.com/orgs/{{org}}/docker/conflicts
 ### Get list of conflicting packages during Docker migration for user
 ## Get list of conflicting packages during Docker migration for user
 GET https://api.github.com/users/{{username}}/docker/conflicts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -129,6 +147,7 @@ GET https://api.github.com/users/{{username}}/docker/conflicts
 ### List packages for the authenticated user&#39;s namespace
 ## List packages for the authenticated user&#39;s namespace
 GET https://api.github.com/user/packages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -136,6 +155,7 @@ GET https://api.github.com/user/packages
 ### List packages for an organization
 ## List packages for an organization
 GET https://api.github.com/orgs/{{org}}/packages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -143,6 +163,7 @@ GET https://api.github.com/orgs/{{org}}/packages
 ### List packages for a user
 ## List packages for a user
 GET https://api.github.com/users/{{username}}/packages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -150,6 +171,7 @@ GET https://api.github.com/users/{{username}}/packages
 ### Restore a package for the authenticated user
 ## Restore a package for the authenticated user
 POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -157,6 +179,7 @@ POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/rest
 ### Restore a package for an organization
 ## Restore a package for an organization
 POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -164,6 +187,7 @@ POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_nam
 ### Restore a package for a user
 ## Restore a package for a user
 POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -171,6 +195,7 @@ POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{packa
 ### Restore a package version for the authenticated user
 ## Restore a package version for the authenticated user
 POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -178,6 +203,7 @@ POST https://api.github.com/user/packages/{{package_type}}/{{package_name}}/vers
 ### Restore package version for an organization
 ## Restore package version for an organization
 POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -185,6 +211,7 @@ POST https://api.github.com/orgs/{{org}}/packages/{{package_type}}/{{package_nam
 ### Restore package version for a user
 ## Restore package version for a user
 POST https://api.github.com/users/{{username}}/packages/{{package_type}}/{{package_name}}/versions/{{package_version_id}}/restore
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

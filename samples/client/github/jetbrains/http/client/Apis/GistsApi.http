@@ -3,6 +3,7 @@
 ### Check if a gist is starred
 ## Check if a gist is starred
 GET https://api.github.com/gists/{{gist_id}}/star
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -11,6 +12,7 @@ GET https://api.github.com/gists/{{gist_id}}/star
 ## Create a gist
 POST https://api.github.com/gists
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "description" : "Example of a gist",
@@ -27,6 +29,7 @@ Content-Type: application/json
 ## Create a gist comment
 POST https://api.github.com/gists/{{gist_id}}/comments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "This is a comment to a gist"
@@ -36,6 +39,7 @@ Content-Type: application/json
 ### Delete a gist
 ## Delete a gist
 DELETE https://api.github.com/gists/{{gist_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -43,6 +47,7 @@ DELETE https://api.github.com/gists/{{gist_id}}
 ### Delete a gist comment
 ## Delete a gist comment
 DELETE https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -50,6 +55,7 @@ DELETE https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
 ### Fork a gist
 ## Fork a gist
 POST https://api.github.com/gists/{{gist_id}}/forks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -57,6 +63,7 @@ POST https://api.github.com/gists/{{gist_id}}/forks
 ### Get a gist
 ## Get a gist
 GET https://api.github.com/gists/{{gist_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -64,6 +71,7 @@ GET https://api.github.com/gists/{{gist_id}}
 ### Get a gist comment
 ## Get a gist comment
 GET https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -71,6 +79,7 @@ GET https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
 ### Get a gist revision
 ## Get a gist revision
 GET https://api.github.com/gists/{{gist_id}}/{{sha}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -78,6 +87,7 @@ GET https://api.github.com/gists/{{gist_id}}/{{sha}}
 ### List gists for the authenticated user
 ## List gists for the authenticated user
 GET https://api.github.com/gists
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -85,6 +95,7 @@ GET https://api.github.com/gists
 ### List gist comments
 ## List gist comments
 GET https://api.github.com/gists/{{gist_id}}/comments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -92,6 +103,7 @@ GET https://api.github.com/gists/{{gist_id}}/comments
 ### List gist commits
 ## List gist commits
 GET https://api.github.com/gists/{{gist_id}}/commits
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -99,6 +111,7 @@ GET https://api.github.com/gists/{{gist_id}}/commits
 ### List gists for a user
 ## List gists for a user
 GET https://api.github.com/users/{{username}}/gists
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -106,6 +119,7 @@ GET https://api.github.com/users/{{username}}/gists
 ### List gist forks
 ## List gist forks
 GET https://api.github.com/gists/{{gist_id}}/forks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -113,6 +127,7 @@ GET https://api.github.com/gists/{{gist_id}}/forks
 ### List public gists
 ## List public gists
 GET https://api.github.com/gists/public
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -120,6 +135,7 @@ GET https://api.github.com/gists/public
 ### List starred gists
 ## List starred gists
 GET https://api.github.com/gists/starred
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -127,6 +143,7 @@ GET https://api.github.com/gists/starred
 ### Star a gist
 ## Star a gist
 PUT https://api.github.com/gists/{{gist_id}}/star
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -134,6 +151,7 @@ PUT https://api.github.com/gists/{{gist_id}}/star
 ### Unstar a gist
 ## Unstar a gist
 DELETE https://api.github.com/gists/{{gist_id}}/star
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -142,6 +160,7 @@ DELETE https://api.github.com/gists/{{gist_id}}/star
 ## Update a gist
 PATCH https://api.github.com/gists/{{gist_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "description" : "An updated gist description",
@@ -157,6 +176,7 @@ Content-Type: application/json
 ## Update a gist comment
 PATCH https://api.github.com/gists/{{gist_id}}/comments/{{comment_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "This is an update to a comment in a gist"

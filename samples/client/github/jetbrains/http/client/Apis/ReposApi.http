@@ -3,6 +3,7 @@
 ### Accept a repository invitation
 ## Accept a repository invitation
 PATCH https://api.github.com/user/repository_invitations/{{invitation_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -11,6 +12,7 @@ PATCH https://api.github.com/user/repository_invitations/{{invitation_id}}
 ## Add app access restrictions
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "apps" : [ "octoapp" ]
@@ -21,6 +23,7 @@ Content-Type: application/json
 ## Add a repository collaborator
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permission" : "triage"
@@ -31,6 +34,7 @@ Content-Type: application/json
 ## Add status check contexts
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "contexts" : [ "continuous-integration/travis-ci", "continuous-integration/jenkins" ]
@@ -41,6 +45,7 @@ Content-Type: application/json
 ## Add team access restrictions
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "teams" : [ "justice-league" ]
@@ -51,6 +56,7 @@ Content-Type: application/json
 ## Add user access restrictions
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "users" : [ "octocat" ]
@@ -60,6 +66,7 @@ Content-Type: application/json
 ### Cancel a GitHub Pages deployment
 ## Cancel a GitHub Pages deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_deployment_id}}/cancel
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -67,6 +74,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_d
 ### Check if automated security fixes are enabled for a repository
 ## Check if automated security fixes are enabled for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -74,6 +82,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
 ### Check if a user is a repository collaborator
 ## Check if a user is a repository collaborator
 GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -81,6 +90,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
 ### Check if vulnerability alerts are enabled for a repository
 ## Check if vulnerability alerts are enabled for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -88,6 +98,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
 ### List CODEOWNERS errors
 ## List CODEOWNERS errors
 GET https://api.github.com/repos/{{owner}}/{{repo}}/codeowners/errors
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -95,6 +106,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/codeowners/errors
 ### Compare two commits
 ## Compare two commits
 GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -103,6 +115,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/compare/{{basehead}}
 ## Create an autolink reference for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "key_prefix" : "TICKET-",
@@ -115,6 +128,7 @@ Content-Type: application/json
 ## Create a commit comment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Great stuff",
@@ -127,6 +141,7 @@ Content-Type: application/json
 ### Create commit signature protection
 ## Create commit signature protection
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -135,6 +150,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protect
 ## Create a commit status
 POST https://api.github.com/repos/{{owner}}/{{repo}}/statuses/{{sha}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "state" : "success",
@@ -148,6 +164,7 @@ Content-Type: application/json
 ## Create a deploy key
 POST https://api.github.com/repos/{{owner}}/{{repo}}/keys
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "title" : "octocat@octomac",
@@ -160,6 +177,7 @@ Content-Type: application/json
 ## Create a deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "ref" : "topic-branch",
@@ -172,6 +190,7 @@ Content-Type: application/json
 ## Create a deployment branch policy
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "release/*"
@@ -182,6 +201,7 @@ Content-Type: application/json
 ## Create a custom deployment protection rule on an environment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "integration_id" : 5
@@ -192,6 +212,7 @@ Content-Type: application/json
 ## Create a deployment status
 POST https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "environment" : "production",
@@ -205,6 +226,7 @@ Content-Type: application/json
 ## Create a repository dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/dispatches
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "event_type" : "on-demand-test",
@@ -219,6 +241,7 @@ Content-Type: application/json
 ## Create a repository for the authenticated user
 POST https://api.github.com/user/repos
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Hello-World",
@@ -233,6 +256,7 @@ Content-Type: application/json
 ## Create a fork
 POST https://api.github.com/repos/{{owner}}/{{repo}}/forks
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "organization" : "octocat",
@@ -245,6 +269,7 @@ Content-Type: application/json
 ## Create an organization repository
 POST https://api.github.com/orgs/{{org}}/repos
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Hello-World",
@@ -261,6 +286,7 @@ Content-Type: application/json
 ## 
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "properties" : [ {
@@ -280,6 +306,7 @@ Content-Type: application/json
 ## Create or update an environment
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "wait_timer" : 30,
@@ -302,6 +329,7 @@ Content-Type: application/json
 ## Create or update file contents
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "message" : "my commit message",
@@ -317,6 +345,7 @@ Content-Type: application/json
 ## Create an organization repository ruleset
 POST https://api.github.com/orgs/{{org}}/rulesets
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "super cool ruleset",
@@ -352,6 +381,7 @@ Content-Type: application/json
 ## Create a GitHub Pages deployment
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "artifact_url" : "https://downloadcontent/",
@@ -366,6 +396,7 @@ Content-Type: application/json
 ## Create a GitHub Pages site
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "source" : {
@@ -379,6 +410,7 @@ Content-Type: application/json
 ## Create a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "tag_name" : "v1.0.0",
@@ -395,6 +427,7 @@ Content-Type: application/json
 ## Create a repository ruleset
 POST https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "super cool ruleset",
@@ -425,6 +458,7 @@ Content-Type: application/json
 ## Create a tag protection state for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "pattern" : "v1.*"
@@ -435,6 +469,7 @@ Content-Type: application/json
 ## Create a repository using a template
 POST https://api.github.com/repos/{{template_owner}}/{{template_repo}}/generate
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "owner" : "octocat",
@@ -449,6 +484,7 @@ Content-Type: application/json
 ## Create a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "web",
@@ -465,6 +501,7 @@ Content-Type: application/json
 ### Decline a repository invitation
 ## Decline a repository invitation
 DELETE https://api.github.com/user/repository_invitations/{{invitation_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -472,6 +509,7 @@ DELETE https://api.github.com/user/repository_invitations/{{invitation_id}}
 ### Delete a repository
 ## Delete a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -479,6 +517,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}
 ### Delete access restrictions
 ## Delete access restrictions
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -486,6 +525,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ### Delete admin branch protection
 ## Delete admin branch protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -493,6 +533,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ### Delete an environment
 ## Delete an environment
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -500,6 +541,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environmen
 ### Delete an autolink reference from a repository
 ## Delete an autolink reference from a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -507,6 +549,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
 ### Delete branch protection
 ## Delete branch protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -514,6 +557,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ### Delete a commit comment
 ## Delete a commit comment
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -521,6 +565,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
 ### Delete commit signature protection
 ## Delete commit signature protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -528,6 +573,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ### Delete a deploy key
 ## Delete a deploy key
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -535,6 +581,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
 ### Delete a deployment
 ## Delete a deployment
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -542,6 +589,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_
 ### Delete a deployment branch policy
 ## Delete a deployment branch policy
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -550,6 +598,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environmen
 ## Delete a file
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "message" : "my commit message",
@@ -564,6 +613,7 @@ Content-Type: application/json
 ### Delete a repository invitation
 ## Delete a repository invitation
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -571,6 +621,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_
 ### Delete an organization repository ruleset
 ## Delete an organization repository ruleset
 DELETE https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -578,6 +629,7 @@ DELETE https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
 ### Delete a GitHub Pages site
 ## Delete a GitHub Pages site
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -585,6 +637,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/pages
 ### Delete pull request review protection
 ## Delete pull request review protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -592,6 +645,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ### Delete a release
 ## Delete a release
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -599,6 +653,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
 ### Delete a release asset
 ## Delete a release asset
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -606,6 +661,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_i
 ### Delete a repository ruleset
 ## Delete a repository ruleset
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -613,6 +669,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
 ### Delete a tag protection state for a repository
 ## Delete a tag protection state for a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection/{{tag_protection_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -620,6 +677,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection/{{tag_pro
 ### Delete a repository webhook
 ## Delete a repository webhook
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -627,6 +685,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
 ### Disable automated security fixes
 ## Disable automated security fixes
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -634,6 +693,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
 ### Disable a custom protection rule for an environment
 ## Disable a custom protection rule for an environment
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/{{protection_rule_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -641,6 +701,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environmen
 ### Disable private vulnerability reporting for a repository
 ## Disable private vulnerability reporting for a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-reporting
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -648,6 +709,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-rep
 ### Disable vulnerability alerts
 ## Disable vulnerability alerts
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -655,6 +717,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
 ### Download a repository archive (tar)
 ## Download a repository archive (tar)
 GET https://api.github.com/repos/{{owner}}/{{repo}}/tarball/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -662,6 +725,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/tarball/{{ref}}
 ### Download a repository archive (zip)
 ## Download a repository archive (zip)
 GET https://api.github.com/repos/{{owner}}/{{repo}}/zipball/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -669,6 +733,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/zipball/{{ref}}
 ### Enable automated security fixes
 ## Enable automated security fixes
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -676,6 +741,7 @@ PUT https://api.github.com/repos/{{owner}}/{{repo}}/automated-security-fixes
 ### Enable private vulnerability reporting for a repository
 ## Enable private vulnerability reporting for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-reporting
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -683,6 +749,7 @@ PUT https://api.github.com/repos/{{owner}}/{{repo}}/private-vulnerability-report
 ### Enable vulnerability alerts
 ## Enable vulnerability alerts
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -691,6 +758,7 @@ PUT https://api.github.com/repos/{{owner}}/{{repo}}/vulnerability-alerts
 ## Generate release notes content for a release
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/generate-notes
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "tag_name" : "v1.0.0",
@@ -703,6 +771,7 @@ Content-Type: application/json
 ### Get a repository
 ## Get a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -710,6 +779,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}
 ### Get access restrictions
 ## Get access restrictions
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -717,6 +787,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get admin branch protection
 ## Get admin branch protection
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -724,6 +795,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get all deployment protection rules for an environment
 ## Get all deployment protection rules for an environment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -731,6 +803,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### List environments
 ## List environments
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -738,6 +811,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments
 ### Get all status check contexts
 ## Get all status check contexts
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -745,6 +819,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get all repository topics
 ## Get all repository topics
 GET https://api.github.com/repos/{{owner}}/{{repo}}/topics
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -752,6 +827,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/topics
 ### Get apps with access to the protected branch
 ## Get apps with access to the protected branch
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -759,6 +835,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get an autolink reference of a repository
 ## Get an autolink reference of a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -766,6 +843,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks/{{autolink_id}}
 ### Get a branch
 ## Get a branch
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -773,6 +851,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}
 ### Get branch protection
 ## Get branch protection
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -780,6 +859,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get rules for a branch
 ## Get rules for a branch
 GET https://api.github.com/repos/{{owner}}/{{repo}}/rules/branches/{{branch}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -787,6 +867,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/rules/branches/{{branch}}
 ### Get repository clones
 ## Get repository clones
 GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/clones
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -794,6 +875,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/clones
 ### Get the weekly commit activity
 ## Get the weekly commit activity
 GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/code_frequency
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -801,6 +883,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/code_frequency
 ### Get repository permissions for a user
 ## Get repository permissions for a user
 GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}/permission
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -808,6 +891,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}/p
 ### Get the combined status for a specific reference
 ## Get the combined status for a specific reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/status
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -815,6 +899,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/status
 ### Get a commit
 ## Get a commit
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -822,6 +907,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}
 ### Get the last year of commit activity
 ## Get the last year of commit activity
 GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/commit_activity
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -829,6 +915,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/commit_activity
 ### Get a commit comment
 ## Get a commit comment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -836,6 +923,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
 ### Get commit signature protection
 ## Get commit signature protection
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_signatures
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -843,6 +931,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get community profile metrics
 ## Get community profile metrics
 GET https://api.github.com/repos/{{owner}}/{{repo}}/community/profile
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -850,6 +939,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/community/profile
 ### Get repository content
 ## Get repository content
 GET https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -857,6 +947,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/contents/{{path}}
 ### Get all contributor commit activity
 ## Get all contributor commit activity
 GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/contributors
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -864,6 +955,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/contributors
 ### Get a custom deployment protection rule
 ## Get a custom deployment protection rule
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/{{protection_rule_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -871,6 +963,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### Get all custom property values for a repository
 ## Get all custom property values for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -878,6 +971,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/properties/values
 ### Get a deploy key
 ## Get a deploy key
 GET https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -885,6 +979,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/keys/{{key_id}}
 ### Get a deployment
 ## Get a deployment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -892,6 +987,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}
 ### Get a deployment branch policy
 ## Get a deployment branch policy
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -899,6 +995,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### Get a deployment status
 ## Get a deployment status
 GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses/{{status_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -906,6 +1003,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}
 ### Get an environment
 ## Get an environment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -913,6 +1011,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### Get latest Pages build
 ## Get latest Pages build
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/latest
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -920,6 +1019,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/latest
 ### Get the latest release
 ## Get the latest release
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/latest
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -927,6 +1027,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/latest
 ### Get an organization rule suite
 ## Get an organization rule suite
 GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites/{{rule_suite_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -934,6 +1035,7 @@ GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites/{{rule_suite_id}}
 ### List organization rule suites
 ## List organization rule suites
 GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -941,6 +1043,7 @@ GET https://api.github.com/orgs/{{org}}/rulesets/rule-suites
 ### Get an organization repository ruleset
 ## Get an organization repository ruleset
 GET https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -948,6 +1051,7 @@ GET https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
 ### Get all organization repository rulesets
 ## Get all organization repository rulesets
 GET https://api.github.com/orgs/{{org}}/rulesets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -955,6 +1059,7 @@ GET https://api.github.com/orgs/{{org}}/rulesets
 ### Get a GitHub Pages site
 ## Get a GitHub Pages site
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -962,6 +1067,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages
 ### Get GitHub Pages build
 ## Get GitHub Pages build
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/{{build_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -969,6 +1075,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds/{{build_id}}
 ### Get the status of a GitHub Pages deployment
 ## Get the status of a GitHub Pages deployment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_deployment_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -976,6 +1083,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/deployments/{{pages_de
 ### Get a DNS health check for GitHub Pages
 ## Get a DNS health check for GitHub Pages
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/health
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -983,6 +1091,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/health
 ### Get the weekly commit count
 ## Get the weekly commit count
 GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/participation
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -990,6 +1099,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/participation
 ### Get pull request review protection
 ## Get pull request review protection
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -997,6 +1107,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get the hourly commit count for each day
 ## Get the hourly commit count for each day
 GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/punch_card
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1004,6 +1115,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/stats/punch_card
 ### Get a repository README
 ## Get a repository README
 GET https://api.github.com/repos/{{owner}}/{{repo}}/readme
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1011,6 +1123,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/readme
 ### Get a repository README for a directory
 ## Get a repository README for a directory
 GET https://api.github.com/repos/{{owner}}/{{repo}}/readme/{{dir}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1018,6 +1131,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/readme/{{dir}}
 ### Get a release
 ## Get a release
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1025,6 +1139,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
 ### Get a release asset
 ## Get a release asset
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1032,6 +1147,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
 ### Get a release by tag name
 ## Get a release by tag name
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/tags/{{tag}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1039,6 +1155,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/tags/{{tag}}
 ### Get a repository rule suite
 ## Get a repository rule suite
 GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites/{{rule_suite_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1046,6 +1163,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites/{{rule_
 ### List repository rule suites
 ## List repository rule suites
 GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1053,6 +1171,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/rule-suites
 ### Get a repository ruleset
 ## Get a repository ruleset
 GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1060,6 +1179,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
 ### Get all repository rulesets
 ## Get all repository rulesets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1067,6 +1187,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/rulesets
 ### Get status checks protection
 ## Get status checks protection
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1074,6 +1195,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get teams with access to the protected branch
 ## Get teams with access to the protected branch
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1081,6 +1203,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get top referral paths
 ## Get top referral paths
 GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/paths
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1088,6 +1211,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/paths
 ### Get top referral sources
 ## Get top referral sources
 GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/referrers
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1095,6 +1219,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/popular/referrers
 ### Get users with access to the protected branch
 ## Get users with access to the protected branch
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1102,6 +1227,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protecti
 ### Get page views
 ## Get page views
 GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/views
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1109,6 +1235,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/traffic/views
 ### Get a repository webhook
 ## Get a repository webhook
 GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1116,6 +1243,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
 ### Get a webhook configuration for a repository
 ## Get a webhook configuration for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1123,6 +1251,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
 ### Get a delivery for a repository webhook
 ## Get a delivery for a repository webhook
 GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1130,6 +1259,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries
 ### List repository activities
 ## List repository activities
 GET https://api.github.com/repos/{{owner}}/{{repo}}/activity
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1137,6 +1267,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/activity
 ### Get all autolinks of a repository
 ## Get all autolinks of a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1144,6 +1275,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/autolinks
 ### List branches
 ## List branches
 GET https://api.github.com/repos/{{owner}}/{{repo}}/branches
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1151,6 +1283,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/branches
 ### List branches for HEAD commit
 ## List branches for HEAD commit
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/branches-where-head
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1158,6 +1291,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/branc
 ### List repository collaborators
 ## List repository collaborators
 GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1165,6 +1299,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/collaborators
 ### List commit comments
 ## List commit comments
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1172,6 +1307,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/comme
 ### List commit comments for a repository
 ## List commit comments for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/comments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1179,6 +1315,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/comments
 ### List commit statuses for a reference
 ## List commit statuses for a reference
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/statuses
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1186,6 +1323,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{ref}}/statuses
 ### List commits
 ## List commits
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1193,6 +1331,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits
 ### List repository contributors
 ## List repository contributors
 GET https://api.github.com/repos/{{owner}}/{{repo}}/contributors
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1200,6 +1339,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/contributors
 ### List custom deployment rule integrations available for an environment
 ## List custom deployment rule integrations available for an environment
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment_protection_rules/apps
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1207,6 +1347,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### List deploy keys
 ## List deploy keys
 GET https://api.github.com/repos/{{owner}}/{{repo}}/keys
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1214,6 +1355,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/keys
 ### List deployment branch policies
 ## List deployment branch policies
 GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1221,6 +1363,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_n
 ### List deployment statuses
 ## List deployment statuses
 GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}}/statuses
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1228,6 +1371,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments/{{deployment_id}
 ### List deployments
 ## List deployments
 GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1235,6 +1379,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/deployments
 ### List repositories for the authenticated user
 ## List repositories for the authenticated user
 GET https://api.github.com/user/repos
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1242,6 +1387,7 @@ GET https://api.github.com/user/repos
 ### List organization repositories
 ## List organization repositories
 GET https://api.github.com/orgs/{{org}}/repos
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1249,6 +1395,7 @@ GET https://api.github.com/orgs/{{org}}/repos
 ### List repositories for a user
 ## List repositories for a user
 GET https://api.github.com/users/{{username}}/repos
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1256,6 +1403,7 @@ GET https://api.github.com/users/{{username}}/repos
 ### List forks
 ## List forks
 GET https://api.github.com/repos/{{owner}}/{{repo}}/forks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1263,6 +1411,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/forks
 ### List repository invitations
 ## List repository invitations
 GET https://api.github.com/repos/{{owner}}/{{repo}}/invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1270,6 +1419,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/invitations
 ### List repository invitations for the authenticated user
 ## List repository invitations for the authenticated user
 GET https://api.github.com/user/repository_invitations
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1277,6 +1427,7 @@ GET https://api.github.com/user/repository_invitations
 ### List repository languages
 ## List repository languages
 GET https://api.github.com/repos/{{owner}}/{{repo}}/languages
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1284,6 +1435,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/languages
 ### List GitHub Pages builds
 ## List GitHub Pages builds
 GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1291,6 +1443,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
 ### List public repositories
 ## List public repositories
 GET https://api.github.com/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1298,6 +1451,7 @@ GET https://api.github.com/repositories
 ### List pull requests associated with a commit
 ## List pull requests associated with a commit
 GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/pulls
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1305,6 +1459,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/commits/{{commit_sha}}/pulls
 ### List release assets
 ## List release assets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1312,6 +1467,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/asse
 ### List releases
 ## List releases
 GET https://api.github.com/repos/{{owner}}/{{repo}}/releases
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1319,6 +1475,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/releases
 ### List tag protection states for a repository
 ## List tag protection states for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1326,6 +1483,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/tags/protection
 ### List repository tags
 ## List repository tags
 GET https://api.github.com/repos/{{owner}}/{{repo}}/tags
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1333,6 +1491,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/tags
 ### List repository teams
 ## List repository teams
 GET https://api.github.com/repos/{{owner}}/{{repo}}/teams
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1340,6 +1499,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/teams
 ### List deliveries for a repository webhook
 ## List deliveries for a repository webhook
 GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1347,6 +1507,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries
 ### List repository webhooks
 ## List repository webhooks
 GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1355,6 +1516,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/hooks
 ## Merge a branch
 POST https://api.github.com/repos/{{owner}}/{{repo}}/merges
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "base" : "master",
@@ -1367,6 +1529,7 @@ Content-Type: application/json
 ## Sync a fork branch with the upstream repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/merge-upstream
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "branch" : "main"
@@ -1376,6 +1539,7 @@ Content-Type: application/json
 ### Ping a repository webhook
 ## Ping a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/pings
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1383,6 +1547,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/pings
 ### Redeliver a delivery for a repository webhook
 ## Redeliver a delivery for a repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliveries/{{delivery_id}}/attempts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1391,6 +1556,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/deliverie
 ## Remove app access restrictions
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "apps" : [ "my-app" ]
@@ -1400,6 +1566,7 @@ Content-Type: application/json
 ### Remove a repository collaborator
 ## Remove a repository collaborator
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1408,6 +1575,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/collaborators/{{username}
 ## Remove status check contexts
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "contexts" : [ "continuous-integration/jenkins" ]
@@ -1417,6 +1585,7 @@ Content-Type: application/json
 ### Remove status check protection
 ## Remove status check protection
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1425,6 +1594,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/prote
 ## Remove team access restrictions
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "teams" : [ "octocats" ]
@@ -1435,6 +1605,7 @@ Content-Type: application/json
 ## Remove user access restrictions
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "users" : [ "octocat" ]
@@ -1445,6 +1616,7 @@ Content-Type: application/json
 ## Rename a branch
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/rename
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "new_name" : "my_renamed_branch"
@@ -1455,6 +1627,7 @@ Content-Type: application/json
 ## Replace all repository topics
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/topics
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "names" : [ "octocat", "atom", "electron", "api" ]
@@ -1464,6 +1637,7 @@ Content-Type: application/json
 ### Request a GitHub Pages build
 ## Request a GitHub Pages build
 POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1471,6 +1645,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/pages/builds
 ### Set admin branch protection
 ## Set admin branch protection
 POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/enforce_admins
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1479,6 +1654,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protect
 ## Set app access restrictions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/apps
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "apps" : [ "octoapp" ]
@@ -1489,6 +1665,7 @@ Content-Type: application/json
 ## Set status check contexts
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks/contexts
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "contexts" : [ "continuous-integration/travis-ci" ]
@@ -1499,6 +1676,7 @@ Content-Type: application/json
 ## Set team access restrictions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/teams
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "teams" : [ "justice-league" ]
@@ -1509,6 +1687,7 @@ Content-Type: application/json
 ## Set user access restrictions
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/restrictions/users
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "users" : [ "octocat" ]
@@ -1518,6 +1697,7 @@ Content-Type: application/json
 ### Test the push repository webhook
 ## Test the push repository webhook
 POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/tests
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -1526,6 +1706,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/tests
 ## Transfer a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/transfer
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "new_owner" : "github",
@@ -1538,6 +1719,7 @@ Content-Type: application/json
 ## Update a repository
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "Hello-World",
@@ -1554,6 +1736,7 @@ Content-Type: application/json
 ## Update branch protection
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "required_status_checks" : {
@@ -1594,6 +1777,7 @@ Content-Type: application/json
 ## Update a commit comment
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/comments/{{comment_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "body" : "Nice change"
@@ -1604,6 +1788,7 @@ Content-Type: application/json
 ## Update a deployment branch policy
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/environments/{{environment_name}}/deployment-branch-policies/{{branch_policy_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "release/*"
@@ -1614,6 +1799,7 @@ Content-Type: application/json
 ## Update information about a GitHub Pages site
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/pages
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "cname" : "octocatblog.com",
@@ -1628,6 +1814,7 @@ Content-Type: application/json
 ## Update a repository invitation
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/invitations/{{invitation_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "permissions" : "write"
@@ -1638,6 +1825,7 @@ Content-Type: application/json
 ## Update an organization repository ruleset
 PUT https://api.github.com/orgs/{{org}}/rulesets/{{ruleset_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "super cool ruleset",
@@ -1673,6 +1861,7 @@ Content-Type: application/json
 ## Update pull request review protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_pull_request_reviews
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "dismissal_restrictions" : {
@@ -1696,6 +1885,7 @@ Content-Type: application/json
 ## Update a release
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "tag_name" : "v1.0.0",
@@ -1711,6 +1901,7 @@ Content-Type: application/json
 ## Update a release asset
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/releases/assets/{{asset_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "foo-1.0.0-osx.zip",
@@ -1722,6 +1913,7 @@ Content-Type: application/json
 ## Update a repository ruleset
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/rulesets/{{ruleset_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "super cool ruleset",
@@ -1752,6 +1944,7 @@ Content-Type: application/json
 ## Update status check protection
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/branches/{{branch}}/protection/required_status_checks
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "strict" : true,
@@ -1763,6 +1956,7 @@ Content-Type: application/json
 ## Update a repository webhook
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "active" : true,
@@ -1774,6 +1968,7 @@ Content-Type: application/json
 ## Update a webhook configuration for a repository
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/hooks/{{hook_id}}/config
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "content_type" : "json",
@@ -1785,6 +1980,7 @@ Content-Type: application/json
 ## Upload a release asset
 POST https://api.github.com/repos/{{owner}}/{{repo}}/releases/{{release_id}}/assets
 Content-Type: application/octet-stream
+Cookie:X-API-KEY={{cookieKey}}
 
 
 

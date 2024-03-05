@@ -23,7 +23,6 @@ X-API-Key: {{apiKey}}
  "merchantAccount": "{{YOUR_MERCHANT_ACCOUNT}}",
  "shopperInteraction": "ContAuth"
 }
-    
 ### Start a transaction for donations
 ## Start a donation transaction with a token
 POST https://checkout-test.adyen.com/v71/donations
@@ -48,4 +47,3 @@ X-API-Key: {{apiKey}}
  "shopperReference": "YOUR_SHOPPER_REFERENCE",
  "recurringProcessingModel": "CardOnFile"
 }
-    

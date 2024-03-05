@@ -4,6 +4,7 @@
 ## Add custom labels to a self-hosted runner for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "labels" : [ "gpu", "accelerated" ]
@@ -14,6 +15,7 @@ Content-Type: application/json
 ## Add custom labels to a self-hosted runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "labels" : [ "gpu", "accelerated" ]
@@ -23,6 +25,7 @@ Content-Type: application/json
 ### Add selected repository to an organization secret
 ## Add selected repository to an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -30,6 +33,7 @@ PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/reposito
 ### Add selected repository to an organization variable
 ## Add selected repository to an organization variable
 PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -37,6 +41,7 @@ PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/
 ### Approve a workflow run for a fork pull request
 ## Approve a workflow run for a fork pull request
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/approve
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -44,6 +49,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/app
 ### Cancel a workflow run
 ## Cancel a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/cancel
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -52,6 +58,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/can
 ## Create an environment variable
 POST https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
@@ -63,6 +70,7 @@ Content-Type: application/json
 ## Create or update an environment secret
 PUT https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -74,6 +82,7 @@ Content-Type: application/json
 ## Create or update an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -87,6 +96,7 @@ Content-Type: application/json
 ## Create or update a repository secret
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "encrypted_value" : "c2VjcmV0",
@@ -98,6 +108,7 @@ Content-Type: application/json
 ## Create an organization variable
 POST https://api.github.com/orgs/{{org}}/actions/variables
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
@@ -110,6 +121,7 @@ Content-Type: application/json
 ### Create a registration token for an organization
 ## Create a registration token for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/registration-token
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -117,6 +129,7 @@ POST https://api.github.com/orgs/{{org}}/actions/runners/registration-token
 ### Create a registration token for a repository
 ## Create a registration token for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/registration-token
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -124,6 +137,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/registratio
 ### Create a remove token for an organization
 ## Create a remove token for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/remove-token
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -131,6 +145,7 @@ POST https://api.github.com/orgs/{{org}}/actions/runners/remove-token
 ### Create a remove token for a repository
 ## Create a remove token for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/remove-token
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -139,6 +154,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/remove-toke
 ## Create a repository variable
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
@@ -150,6 +166,7 @@ Content-Type: application/json
 ## Create a workflow dispatch event
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/dispatches
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "ref" : "topic-branch",
@@ -163,6 +180,7 @@ Content-Type: application/json
 ### Delete a GitHub Actions cache for a repository (using a cache ID)
 ## Delete a GitHub Actions cache for a repository (using a cache ID)
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches/{{cache_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -170,6 +188,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches/{{cache_id
 ### Delete GitHub Actions caches for a repository (using a cache key)
 ## Delete GitHub Actions caches for a repository (using a cache key)
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -177,6 +196,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
 ### Delete an artifact
 ## Delete an artifact
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -184,6 +204,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artif
 ### Delete an environment secret
 ## Delete an environment secret
 DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -191,6 +212,7 @@ DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{envi
 ### Delete an environment variable
 ## Delete an environment variable
 DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -198,6 +220,7 @@ DELETE https://api.github.com/repositories/{{repository_id}}/environments/{{envi
 ### Delete an organization secret
 ## Delete an organization secret
 DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -205,6 +228,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
 ### Delete an organization variable
 ## Delete an organization variable
 DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -212,6 +236,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
 ### Delete a repository secret
 ## Delete a repository secret
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -219,6 +244,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_
 ### Delete a repository variable
 ## Delete a repository variable
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -226,6 +252,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}
 ### Delete a self-hosted runner from an organization
 ## Delete a self-hosted runner from an organization
 DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -233,6 +260,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
 ### Delete a self-hosted runner from a repository
 ## Delete a self-hosted runner from a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -240,6 +268,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_
 ### Delete a workflow run
 ## Delete a workflow run
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -247,6 +276,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
 ### Delete workflow run logs
 ## Delete workflow run logs
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/logs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -254,6 +284,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/l
 ### Disable a selected repository for GitHub Actions in an organization
 ## Disable a selected repository for GitHub Actions in an organization
 DELETE https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -261,6 +292,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{re
 ### Disable a workflow
 ## Disable a workflow
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/disable
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -268,6 +300,7 @@ PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow
 ### Download an artifact
 ## Download an artifact
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}/{{archive_format}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -275,6 +308,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact
 ### Download job logs for a workflow run
 ## Download job logs for a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}/logs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -282,6 +316,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}/logs
 ### Download workflow run attempt logs
 ## Download workflow run attempt logs
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/logs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -289,6 +324,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/atte
 ### Download workflow run logs
 ## Download workflow run logs
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/logs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -296,6 +332,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/logs
 ### Enable a selected repository for GitHub Actions in an organization
 ## Enable a selected repository for GitHub Actions in an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -303,6 +340,7 @@ PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories/{{repos
 ### Enable a workflow
 ## Enable a workflow
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/enable
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -310,6 +348,7 @@ PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow
 ### Force cancel a workflow run
 ## Force cancel a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/force-cancel
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -318,6 +357,7 @@ POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/for
 ## Create configuration for a just-in-time runner for an organization
 POST https://api.github.com/orgs/{{org}}/actions/runners/generate-jitconfig
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "New runner",
@@ -331,6 +371,7 @@ Content-Type: application/json
 ## Create configuration for a just-in-time runner for a repository
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/generate-jitconfig
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "New runner",
@@ -343,6 +384,7 @@ Content-Type: application/json
 ### List GitHub Actions caches for a repository
 ## List GitHub Actions caches for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -350,6 +392,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/caches
 ### Get GitHub Actions cache usage for a repository
 ## Get GitHub Actions cache usage for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/cache/usage
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -357,6 +400,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/cache/usage
 ### List repositories with GitHub Actions cache usage for an organization
 ## List repositories with GitHub Actions cache usage for an organization
 GET https://api.github.com/orgs/{{org}}/actions/cache/usage-by-repository
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -364,6 +408,7 @@ GET https://api.github.com/orgs/{{org}}/actions/cache/usage-by-repository
 ### Get GitHub Actions cache usage for an organization
 ## Get GitHub Actions cache usage for an organization
 GET https://api.github.com/orgs/{{org}}/actions/cache/usage
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -371,6 +416,7 @@ GET https://api.github.com/orgs/{{org}}/actions/cache/usage
 ### Get allowed actions and reusable workflows for an organization
 ## Get allowed actions and reusable workflows for an organization
 GET https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -378,6 +424,7 @@ GET https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
 ### Get allowed actions and reusable workflows for a repository
 ## Get allowed actions and reusable workflows for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -385,6 +432,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected
 ### Get an artifact
 ## Get an artifact
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -392,6 +440,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts/{{artifact
 ### Get the customization template for an OIDC subject claim for a repository
 ## Get the customization template for an OIDC subject claim for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -399,6 +448,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/s
 ### Get an environment public key
 ## Get an environment public key
 GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -406,6 +456,7 @@ GET https://api.github.com/repositories/{{repository_id}}/environments/{{environ
 ### Get an environment secret
 ## Get an environment secret
 GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -413,6 +464,7 @@ GET https://api.github.com/repositories/{{repository_id}}/environments/{{environ
 ### Get an environment variable
 ## Get an environment variable
 GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -420,6 +472,7 @@ GET https://api.github.com/repositories/{{repository_id}}/environments/{{environ
 ### Get default workflow permissions for an organization
 ## Get default workflow permissions for an organization
 GET https://api.github.com/orgs/{{org}}/actions/permissions/workflow
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -427,6 +480,7 @@ GET https://api.github.com/orgs/{{org}}/actions/permissions/workflow
 ### Get default workflow permissions for a repository
 ## Get default workflow permissions for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/workflow
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -434,6 +488,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/workflow
 ### Get GitHub Actions permissions for an organization
 ## Get GitHub Actions permissions for an organization
 GET https://api.github.com/orgs/{{org}}/actions/permissions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -441,6 +496,7 @@ GET https://api.github.com/orgs/{{org}}/actions/permissions
 ### Get GitHub Actions permissions for a repository
 ## Get GitHub Actions permissions for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -448,6 +504,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
 ### Get a job for a workflow run
 ## Get a job for a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -455,6 +512,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/jobs/{{job_id}}
 ### Get an organization public key
 ## Get an organization public key
 GET https://api.github.com/orgs/{{org}}/actions/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -462,6 +520,7 @@ GET https://api.github.com/orgs/{{org}}/actions/secrets/public-key
 ### Get an organization secret
 ## Get an organization secret
 GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -469,6 +528,7 @@ GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}
 ### Get an organization variable
 ## Get an organization variable
 GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -476,6 +536,7 @@ GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
 ### Get pending deployments for a workflow run
 ## Get pending deployments for a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -483,6 +544,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pend
 ### Get a repository public key
 ## Get a repository public key
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/public-key
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -490,6 +552,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/public-key
 ### Get a repository secret
 ## Get a repository secret
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -497,6 +560,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets/{{secret_nam
 ### Get a repository variable
 ## Get a repository variable
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -504,6 +568,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
 ### Get the review history for a workflow run
 ## Get the review history for a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/approvals
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -511,6 +576,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/appr
 ### Get a self-hosted runner for an organization
 ## Get a self-hosted runner for an organization
 GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -518,6 +584,7 @@ GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}
 ### Get a self-hosted runner for a repository
 ## Get a self-hosted runner for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -525,6 +592,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}
 ### Get a workflow
 ## Get a workflow
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -532,6 +600,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow
 ### Get the level of access for workflows outside of the repository
 ## Get the level of access for workflows outside of the repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -539,6 +608,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
 ### Get a workflow run
 ## Get a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -546,6 +616,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}
 ### Get a workflow run attempt
 ## Get a workflow run attempt
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -553,6 +624,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/atte
 ### Get workflow run usage
 ## Get workflow run usage
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/timing
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -560,6 +632,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/timi
 ### Get workflow usage
 ## Get workflow usage
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/timing
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -567,6 +640,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow
 ### List artifacts for a repository
 ## List artifacts for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -574,6 +648,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/artifacts
 ### List environment secrets
 ## List environment secrets
 GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -581,6 +656,7 @@ GET https://api.github.com/repositories/{{repository_id}}/environments/{{environ
 ### List environment variables
 ## List environment variables
 GET https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -588,6 +664,7 @@ GET https://api.github.com/repositories/{{repository_id}}/environments/{{environ
 ### List jobs for a workflow run
 ## List jobs for a workflow run
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/jobs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -595,6 +672,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/jobs
 ### List jobs for a workflow run attempt
 ## List jobs for a workflow run attempt
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/attempts/{{attempt_number}}/jobs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -602,6 +680,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/atte
 ### List labels for a self-hosted runner for an organization
 ## List labels for a self-hosted runner for an organization
 GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -609,6 +688,7 @@ GET https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 ### List labels for a self-hosted runner for a repository
 ## List labels for a self-hosted runner for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -616,6 +696,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}
 ### List organization secrets
 ## List organization secrets
 GET https://api.github.com/orgs/{{org}}/actions/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -623,6 +704,7 @@ GET https://api.github.com/orgs/{{org}}/actions/secrets
 ### List organization variables
 ## List organization variables
 GET https://api.github.com/orgs/{{org}}/actions/variables
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -630,6 +712,7 @@ GET https://api.github.com/orgs/{{org}}/actions/variables
 ### List repository organization secrets
 ## List repository organization secrets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -637,6 +720,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-secrets
 ### List repository organization variables
 ## List repository organization variables
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-variables
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -644,6 +728,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/organization-variabl
 ### List repository secrets
 ## List repository secrets
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -651,6 +736,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/secrets
 ### List repository variables
 ## List repository variables
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -658,6 +744,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables
 ### List repository workflows
 ## List repository workflows
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -665,6 +752,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows
 ### List runner applications for an organization
 ## List runner applications for an organization
 GET https://api.github.com/orgs/{{org}}/actions/runners/downloads
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -672,6 +760,7 @@ GET https://api.github.com/orgs/{{org}}/actions/runners/downloads
 ### List runner applications for a repository
 ## List runner applications for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/downloads
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -679,6 +768,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/downloads
 ### List selected repositories for an organization secret
 ## List selected repositories for an organization secret
 GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -686,6 +776,7 @@ GET https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/reposito
 ### List selected repositories for an organization variable
 ## List selected repositories for an organization variable
 GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -693,6 +784,7 @@ GET https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
 ### List selected repositories enabled for GitHub Actions in an organization
 ## List selected repositories enabled for GitHub Actions in an organization
 GET https://api.github.com/orgs/{{org}}/actions/permissions/repositories
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -700,6 +792,7 @@ GET https://api.github.com/orgs/{{org}}/actions/permissions/repositories
 ### List self-hosted runners for an organization
 ## List self-hosted runners for an organization
 GET https://api.github.com/orgs/{{org}}/actions/runners
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -707,6 +800,7 @@ GET https://api.github.com/orgs/{{org}}/actions/runners
 ### List self-hosted runners for a repository
 ## List self-hosted runners for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -714,6 +808,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners
 ### List workflow run artifacts
 ## List workflow run artifacts
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/artifacts
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -721,6 +816,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/arti
 ### List workflow runs for a workflow
 ## List workflow runs for a workflow
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow_id}}/runs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -728,6 +824,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/workflows/{{workflow
 ### List workflow runs for a repository
 ## List workflow runs for a repository
 GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -738,6 +835,7 @@ GET https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs
 ### Remove all custom labels from a self-hosted runner for an organization
 ## Remove all custom labels from a self-hosted runner for an organization
 DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -745,6 +843,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 ### Remove all custom labels from a self-hosted runner for a repository
 ## Remove all custom labels from a self-hosted runner for a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -752,6 +851,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_
 ### Remove a custom label from a self-hosted runner for an organization
 ## Remove a custom label from a self-hosted runner for an organization
 DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -759,6 +859,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels/
 ### Remove a custom label from a self-hosted runner for a repository
 ## Remove a custom label from a self-hosted runner for a repository
 DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels/{{name}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -766,6 +867,7 @@ DELETE https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_
 ### Remove selected repository from an organization secret
 ## Remove selected repository from an organization secret
 DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -773,6 +875,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repos
 ### Remove selected repository from an organization variable
 ## Remove selected repository from an organization variable
 DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories/{{repository_id}}
+Cookie:X-API-KEY={{cookieKey}}
 
 
 
@@ -781,6 +884,7 @@ DELETE https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositori
 ## Review custom deployment protection rules for a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/deployment_protection_rule
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "environment_name" : "prod-eus",
@@ -793,6 +897,7 @@ Content-Type: application/json
 ## Review pending deployments for a workflow run
 POST https://api.github.com/repos/{{owner}}/{{repo}}/actions/runs/{{run_id}}/pending_deployments
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "environment_ids" : [ 161171787 ],
@@ -805,6 +910,7 @@ Content-Type: application/json
 ## 
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/selected-actions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "github_owned_allowed" : true,
@@ -817,6 +923,7 @@ Content-Type: application/json
 ## 
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/selected-actions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "github_owned_allowed" : true,
@@ -829,6 +936,7 @@ Content-Type: application/json
 ## Set custom labels for a self-hosted runner for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "labels" : [ "gpu", "accelerated" ]
@@ -839,6 +947,7 @@ Content-Type: application/json
 ## Set custom labels for a self-hosted runner for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/runners/{{runner_id}}/labels
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "labels" : [ "gpu", "accelerated" ]
@@ -849,6 +958,7 @@ Content-Type: application/json
 ## Set the customization template for an OIDC subject claim for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/oidc/customization/sub
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "use_default" : false,
@@ -860,6 +970,7 @@ Content-Type: application/json
 ## Give read-only permission, and allow approving PRs.
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/workflow
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "default_workflow_permissions" : "read",
@@ -871,6 +982,7 @@ Content-Type: application/json
 ## Give read-only permission, and allow approving PRs.
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/workflow
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "default_workflow_permissions" : "read",
@@ -882,6 +994,7 @@ Content-Type: application/json
 ## Set GitHub Actions permissions for an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "enabled_repositories" : "all",
@@ -893,6 +1006,7 @@ Content-Type: application/json
 ## Set GitHub Actions permissions for a repository
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "enabled" : true,
@@ -904,6 +1018,7 @@ Content-Type: application/json
 ## Set selected repositories for an organization secret
 PUT https://api.github.com/orgs/{{org}}/actions/secrets/{{secret_name}}/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ 64780797 ]
@@ -914,6 +1029,7 @@ Content-Type: application/json
 ## Set selected repositories for an organization variable
 PUT https://api.github.com/orgs/{{org}}/actions/variables/{{name}}/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ 64780797 ]
@@ -924,6 +1040,7 @@ Content-Type: application/json
 ## Set selected repositories enabled for GitHub Actions in an organization
 PUT https://api.github.com/orgs/{{org}}/actions/permissions/repositories
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "selected_repository_ids" : [ 32, 42 ]
@@ -934,6 +1051,7 @@ Content-Type: application/json
 ## 
 PUT https://api.github.com/repos/{{owner}}/{{repo}}/actions/permissions/access
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "access_level" : "organization"
@@ -944,6 +1062,7 @@ Content-Type: application/json
 ## Update an environment variable
 PATCH https://api.github.com/repositories/{{repository_id}}/environments/{{environment_name}}/variables/{{name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
@@ -955,6 +1074,7 @@ Content-Type: application/json
 ## Update an organization variable
 PATCH https://api.github.com/orgs/{{org}}/actions/variables/{{name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
@@ -968,6 +1088,7 @@ Content-Type: application/json
 ## Update a repository variable
 PATCH https://api.github.com/repos/{{owner}}/{{repo}}/actions/variables/{{name}}
 Content-Type: application/json
+Cookie:X-API-KEY={{cookieKey}}
 
 {
   "name" : "USERNAME",
