@@ -514,6 +514,9 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
         // Query parameters appended to routes
         for (CodegenParameter param : op.queryParams) {
             String paramType = param.dataType;
+            if (param.contentType == "application/json") {
+                paramType = "(JSONQueryParam " + paramType + ")";
+            }
             if (param.isArray) {
                 if (StringUtils.isEmpty(param.collectionFormat)) {
                     param.collectionFormat = "csv";
