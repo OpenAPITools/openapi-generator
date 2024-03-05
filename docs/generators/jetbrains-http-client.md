@@ -4,22 +4,22 @@ title: Documentation for the jetbrains-http-client Generator
 
 ## METADATA
 
-| Property | Value                                                                                                            | Notes |
-| -------- |------------------------------------------------------------------------------------------------------------------| ----- |
-| generator name | jetbrains-http-client                                                                                            | pass this to the generate command after -g |
-| generator stability | BETA                                                                                                             | |
-| generator type | CLIENT                                                                                                           | |
-| generator language | Jetbrains HTTP Client (HTTP/REST)                                                                                | |
-| generator default templating engine | mustache                                                                                                         | |
-| helpTxt | Generates a [jetbrains-http client](https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html) | |
+| Property | Value | Notes |
+| -------- | ----- | ----- |
+| generator name | jetbrains-http-client | pass this to the generate command after -g |
+| generator stability | EXPERIMENTAL | |
+| generator type | CLIENT | |
+| generator language | Jetbrains HTTP Client (HTTP/REST) | |
+| generator default templating engine | mustache | |
+| helpTxt | Generates a jetbrains-http client. See https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html | |
 
 ## CONFIG OPTIONS
 These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
 
-| Option | Description                                                                                                                                               | Values | Default |
-| ------ |-----------------------------------------------------------------------------------------------------------------------------------------------------------| ------ |----|
-|bodyVariables| "-" separated list of values, used to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})                                              | |    |
-|customHeaders| "&" separated list of values, custom headers that can be set for each request. Can be used for unsupported features, for example auth methods like oauth. | |  |
+| Option | Description | Values | Default |
+| ------ | ----------- | ------ | ------- |
+|bodyVariables|whether to convert body placeholders (i.e. VAR_1) into variables (i.e. {{VAR_1}})| |null|
+|customHeaders|custom headers that can be set for each request. Can be used for unsupported features, for example auth methods like oauth.| |null|
 
 ## IMPORT MAPPING
 
