@@ -9,6 +9,9 @@
 {{#consumes}}
 Content-Type: {{{mediaType}}}
 {{/consumes}}
+{{#produces}}
+Accept: {{{mediaType}}}
+{{/produces}}
 {{#vendorExtensions.customHeaders}}
 {{{.}}}
 {{/vendorExtensions.customHeaders}}
