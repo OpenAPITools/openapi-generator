@@ -9,4 +9,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   camelCaseDollarSign: "true"
   modelNameSuffix: 'Dto'
-  generateBuilder: true
+  generateBuilders: true

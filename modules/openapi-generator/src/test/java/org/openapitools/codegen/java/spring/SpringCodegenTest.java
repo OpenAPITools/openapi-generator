@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDER;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
@@ -4482,7 +4482,7 @@ public class SpringCodegenTest {
         TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
 
         final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(GENERATE_BUILDER, true);
+        codegen.additionalProperties().put(GENERATE_BUILDERS, true);
 
         codegen.additionalProperties().put(USE_OPTIONAL, false);
         codegen.setOutputDir(outputPath);

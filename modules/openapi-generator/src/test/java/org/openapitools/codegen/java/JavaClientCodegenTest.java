@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
 import static org.openapitools.codegen.TestUtils.validateJavaSourceFiles;
-import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDER;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.JavaClientCodegen.USE_ENUM_CASE_INSENSITIVE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -3130,7 +3130,7 @@ public class JavaClientCodegenTest {
 
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
-        codegen.additionalProperties().put(GENERATE_BUILDER, true);
+        codegen.additionalProperties().put(GENERATE_BUILDERS, true);
 
         codegen.setLibrary("resttemplate");
         codegen.setOutputDir(outputPath);

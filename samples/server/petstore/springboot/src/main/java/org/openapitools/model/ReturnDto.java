@@ -83,59 +83,5 @@ public class ReturnDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private ReturnDto instance;
-
-    public Builder() {
-      this(new ReturnDto());
-    }
-
-    protected Builder(ReturnDto instance) {
-      this.instance = instance;
-    }
-
-    public ReturnDto.Builder _return(Integer _return) {
-      this.instance._return(_return);
-      return this;
-    }
-    
-    /**
-    * returns a built ReturnDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ReturnDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ReturnDto.Builder builder() {
-    return new ReturnDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ReturnDto.Builder toBuilder() {
-    ReturnDto.Builder builder = new ReturnDto.Builder();
-    builder.instance.setReturn(_return);
-    return builder;
-  }
-
 }
 

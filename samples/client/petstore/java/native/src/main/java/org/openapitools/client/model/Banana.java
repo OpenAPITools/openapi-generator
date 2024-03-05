@@ -147,59 +147,5 @@ public class Banana {
 
     return joiner.toString();
   }
-
-    public static class Builder {
-
-    private Banana instance;
-
-    public Builder() {
-      this(new Banana());
-    }
-
-    protected Builder(Banana instance) {
-      this.instance = instance;
-    }
-
-    public Banana.Builder lengthCm(BigDecimal lengthCm) {
-      this.instance.lengthCm = lengthCm;
-      return this;
-    }
-
-
-    /**
-    * returns a built Banana instance.
-    *
-    * The builder is not reusable.
-    */
-    public Banana build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static Banana.Builder builder() {
-    return new Banana.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public Banana.Builder toBuilder() {
-    return new Banana.Builder()
-      .lengthCm(getLengthCm());
-  }
-
 }
 

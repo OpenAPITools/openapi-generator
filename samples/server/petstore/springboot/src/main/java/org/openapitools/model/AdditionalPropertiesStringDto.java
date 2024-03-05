@@ -126,59 +126,5 @@ public class AdditionalPropertiesStringDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private AdditionalPropertiesStringDto instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesStringDto());
-    }
-
-    protected Builder(AdditionalPropertiesStringDto instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesStringDto.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    
-    /**
-    * returns a built AdditionalPropertiesStringDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public AdditionalPropertiesStringDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesStringDto.Builder builder() {
-    return new AdditionalPropertiesStringDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesStringDto.Builder toBuilder() {
-    AdditionalPropertiesStringDto.Builder builder = new AdditionalPropertiesStringDto.Builder();
-    builder.instance.setName(name);
-    return builder;
-  }
-
 }
 

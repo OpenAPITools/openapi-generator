@@ -83,59 +83,5 @@ public class FileDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private FileDto instance;
-
-    public Builder() {
-      this(new FileDto());
-    }
-
-    protected Builder(FileDto instance) {
-      this.instance = instance;
-    }
-
-    public FileDto.Builder sourceURI(String sourceURI) {
-      this.instance.sourceURI(sourceURI);
-      return this;
-    }
-    
-    /**
-    * returns a built FileDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public FileDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static FileDto.Builder builder() {
-    return new FileDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FileDto.Builder toBuilder() {
-    FileDto.Builder builder = new FileDto.Builder();
-    builder.instance.setSourceURI(sourceURI);
-    return builder;
-  }
-
 }
 
