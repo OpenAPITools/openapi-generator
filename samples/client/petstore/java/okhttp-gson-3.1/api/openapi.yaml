@@ -908,12 +908,7 @@ components:
         message:
           type: string
       title: An uploaded response
-    StringOrInt:
-      anyOf:
-      - type: string
-      - format: int32
-        type: integer
-      description: string or int
+    StringOrInt: {}
     OneOfStringOrInt:
       description: string or int (onefOf)
       oneOf:
