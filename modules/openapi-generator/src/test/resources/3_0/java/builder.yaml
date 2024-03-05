@@ -45,6 +45,9 @@ components:
           items:
             minLength: 1
             type: string
+        nullableObject:
+          type: string
+          nullable: true
         nullableList:
           type: array
           nullable: true
@@ -63,6 +66,9 @@ components:
         petReadonlyProperty:
           type: string
           readOnly: true
+        petNullableProperty:
+          type: string
+          nullable: true
       discriminator:
         propertyName: petType
     Cat:

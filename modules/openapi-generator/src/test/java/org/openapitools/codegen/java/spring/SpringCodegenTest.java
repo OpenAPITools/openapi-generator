@@ -4474,12 +4474,14 @@ public class SpringCodegenTest {
 
     @Test
     void testBuilderJavaSpring() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        File output = new File("/temp/builder").getCanonicalFile();
+//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         final OpenAPI openAPI =
-                TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+//                TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
+        TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
 
         final SpringCodegen codegen = new SpringCodegen();
         codegen.additionalProperties().put(GENERATE_BUILDER, true);

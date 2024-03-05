@@ -19,7 +19,13 @@
       this.instance.{{name}}({{name}});
       return this;
     }
-{{/vars}}
+    {{#openApiNullable}}{{#isNullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+      this.instance.{{name}} = {{name}};
+      return this;
+    }
+    {{/isNullable}}{{/openApiNullable}}
+    {{/vars}}
 {{#parentVars}}
 
     @Override
@@ -27,6 +33,12 @@
       this.instance.{{name}}({{name}});
       return this;
     }
+    {{#openApiNullable}}{{#isNullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+      this.instance.{{setter}}({{name}});
+      return this;
+    }
+    {{/isNullable}}{{/openApiNullable}}
 {{/parentVars}}
     /**
     * returns a built {{classname}} instance.

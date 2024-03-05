@@ -23,13 +23,25 @@ public static class Builder {{#parentModel}}extends {{classname}}.Builder {{/par
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
       return this;
     }
-
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+      this.instance.{{name}} = {{name}};
+      return this;
+    }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
     {{/vars}}
-    {{#parentVars}}
+
+{{#parentVars}}
     public {{classname}}.Builder {{name}}({{{datatypeWithEnum}}} {{name}}) { // inherited: {{isInherited}}
       super.{{name}}({{name}});
       return this;
+   }
+    {{#vendorExtensions.x-is-jackson-optional-nullable}}
+    public {{classname}}.Builder {{name}}(JsonNullable<{{{datatypeWithEnum}}}> {{name}}) {
+      this.instance.{{name}} = {{name}};
+      return this;
     }
+    {{/vendorExtensions.x-is-jackson-optional-nullable}}
 
     {{/parentVars}}
 
