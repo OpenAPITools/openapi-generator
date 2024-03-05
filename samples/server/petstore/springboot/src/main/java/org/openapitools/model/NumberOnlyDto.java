@@ -100,6 +100,7 @@ public class NumberOnlyDto {
       this.instance.justNumber(justNumber);
       return this;
     }
+    
     /**
     * returns a built NumberOnlyDto instance.
     *

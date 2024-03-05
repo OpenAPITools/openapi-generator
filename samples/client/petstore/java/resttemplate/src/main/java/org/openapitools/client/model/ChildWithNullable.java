@@ -154,6 +154,20 @@ public class ChildWithNullable extends ParentWithNullable {
       return this;
     }
 
+    public ChildWithNullable.Builder type(TypeEnum type) { // inherited: true
+      super.type(type);
+      return this;
+   }
+
+    public ChildWithNullable.Builder nullableProperty(String nullableProperty) { // inherited: true
+      super.nullableProperty(nullableProperty);
+      return this;
+   }
+    public ChildWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.nullableProperty = nullableProperty;
+      return this;
+    }
+
 
     /**
     * returns a built ChildWithNullable instance.

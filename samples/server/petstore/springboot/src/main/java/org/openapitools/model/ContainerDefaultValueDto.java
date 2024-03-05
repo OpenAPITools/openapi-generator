@@ -235,18 +235,37 @@ public class ContainerDefaultValueDto {
       this.instance.nullableArray(nullableArray);
       return this;
     }
+    
+    public ContainerDefaultValueDto.Builder nullableArray(JsonNullable<List<String>> nullableArray) {
+      this.instance.nullableArray = nullableArray;
+      return this;
+    }
+    
     public ContainerDefaultValueDto.Builder nullableRequiredArray(List<String> nullableRequiredArray) {
       this.instance.nullableRequiredArray(nullableRequiredArray);
       return this;
     }
+    
+    public ContainerDefaultValueDto.Builder nullableRequiredArray(JsonNullable<List<String>> nullableRequiredArray) {
+      this.instance.nullableRequiredArray = nullableRequiredArray;
+      return this;
+    }
+    
     public ContainerDefaultValueDto.Builder requiredArray(List<String> requiredArray) {
       this.instance.requiredArray(requiredArray);
       return this;
     }
+    
     public ContainerDefaultValueDto.Builder nullableArrayWithDefault(List<String> nullableArrayWithDefault) {
       this.instance.nullableArrayWithDefault(nullableArrayWithDefault);
       return this;
     }
+    
+    public ContainerDefaultValueDto.Builder nullableArrayWithDefault(JsonNullable<List<String>> nullableArrayWithDefault) {
+      this.instance.nullableArrayWithDefault = nullableArrayWithDefault;
+      return this;
+    }
+    
     /**
     * returns a built ContainerDefaultValueDto instance.
     *

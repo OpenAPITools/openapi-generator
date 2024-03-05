@@ -148,7 +148,6 @@ public class Model200Response {
       this.instance.name = name;
       return this;
     }
-
     public Model200Response.Builder propertyClass(String propertyClass) {
       this.instance.propertyClass = propertyClass;
       return this;

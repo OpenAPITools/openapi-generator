@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 
 public class ArrayOfArrayOfNumberOnly   {
 
-    private List<List> arrayArrayNumber;
+    private List<List<BigDecimal>> arrayArrayNumber;
 
     /**
      * Default constructor.
@@ -26,7 +26,7 @@ public class ArrayOfArrayOfNumberOnly   {
      * @param arrayArrayNumber arrayArrayNumber
      */
     public ArrayOfArrayOfNumberOnly(
-        List<List> arrayArrayNumber
+        List<List<BigDecimal>> arrayArrayNumber
     ) {
         this.arrayArrayNumber = arrayArrayNumber;
     }
@@ -37,11 +37,11 @@ public class ArrayOfArrayOfNumberOnly   {
      * Get arrayArrayNumber
      * @return arrayArrayNumber
      */
-    public List<List> getArrayArrayNumber() {
+    public List<List<BigDecimal>> getArrayArrayNumber() {
         return arrayArrayNumber;
     }
 
-    public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+    public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
         this.arrayArrayNumber = arrayArrayNumber;
     }
 

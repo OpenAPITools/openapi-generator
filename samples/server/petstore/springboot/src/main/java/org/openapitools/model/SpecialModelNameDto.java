@@ -99,6 +99,7 @@ public class SpecialModelNameDto {
       this.instance.$SpecialPropertyName($SpecialPropertyName);
       return this;
     }
+    
     /**
     * returns a built SpecialModelNameDto instance.
     *

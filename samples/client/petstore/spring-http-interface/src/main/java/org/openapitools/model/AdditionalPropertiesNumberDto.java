@@ -123,58 +123,5 @@ public class AdditionalPropertiesNumberDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private AdditionalPropertiesNumberDto instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesNumberDto());
-    }
-
-    protected Builder(AdditionalPropertiesNumberDto instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesNumberDto.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    /**
-    * returns a built AdditionalPropertiesNumberDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public AdditionalPropertiesNumberDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesNumberDto.Builder builder() {
-    return new AdditionalPropertiesNumberDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesNumberDto.Builder toBuilder() {
-    AdditionalPropertiesNumberDto.Builder builder = new AdditionalPropertiesNumberDto.Builder();
-    builder.instance.setName(name);
-    return builder;
-  }
-
 }
 

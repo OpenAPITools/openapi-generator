@@ -41,10 +41,10 @@ public class ArrayTest {
   private List<String> arrayOfString;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List> arrayArrayOfModel;
+  private List<List<ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -83,7 +83,7 @@ public class ArrayTest {
   }
 
 
-  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
@@ -105,19 +105,19 @@ public class ArrayTest {
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
-  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
@@ -139,14 +139,14 @@ public class ArrayTest {
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List> getArrayArrayOfModel() {
+  public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -207,13 +207,11 @@ public class ArrayTest {
       this.instance.arrayOfString = arrayOfString;
       return this;
     }
-
-    public ArrayTest.Builder arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+    public ArrayTest.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
       this.instance.arrayArrayOfInteger = arrayArrayOfInteger;
       return this;
     }
-
-    public ArrayTest.Builder arrayArrayOfModel(List<List> arrayArrayOfModel) {
+    public ArrayTest.Builder arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
       this.instance.arrayArrayOfModel = arrayArrayOfModel;
       return this;
     }

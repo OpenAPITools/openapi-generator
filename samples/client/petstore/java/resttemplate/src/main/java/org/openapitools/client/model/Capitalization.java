@@ -275,27 +275,22 @@ public class Capitalization {
       this.instance.smallCamel = smallCamel;
       return this;
     }
-
     public Capitalization.Builder capitalCamel(String capitalCamel) {
       this.instance.capitalCamel = capitalCamel;
       return this;
     }
-
     public Capitalization.Builder smallSnake(String smallSnake) {
       this.instance.smallSnake = smallSnake;
       return this;
     }
-
     public Capitalization.Builder capitalSnake(String capitalSnake) {
       this.instance.capitalSnake = capitalSnake;
       return this;
     }
-
     public Capitalization.Builder scAETHFlowPoints(String scAETHFlowPoints) {
       this.instance.scAETHFlowPoints = scAETHFlowPoints;
       return this;
     }
-
     public Capitalization.Builder ATT_NAME(String ATT_NAME) {
       this.instance.ATT_NAME = ATT_NAME;
       return this;

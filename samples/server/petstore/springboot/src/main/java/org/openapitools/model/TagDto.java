@@ -123,10 +123,12 @@ public class TagDto {
       this.instance.id(id);
       return this;
     }
+    
     public TagDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built TagDto instance.
     *

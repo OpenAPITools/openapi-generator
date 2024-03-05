@@ -135,18 +135,21 @@ public class CatDto extends AnimalDto {
       this.instance.declawed(declawed);
       return this;
     }
+    
 
     @Override
     public CatDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
+    
 
     @Override
     public CatDto.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built CatDto instance.
     *

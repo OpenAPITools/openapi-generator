@@ -443,58 +443,72 @@ public class FormatTestDto {
       this.instance.integer(integer);
       return this;
     }
+    
     public FormatTestDto.Builder int32(Integer int32) {
       this.instance.int32(int32);
       return this;
     }
+    
     public FormatTestDto.Builder int64(Long int64) {
       this.instance.int64(int64);
       return this;
     }
+    
     public FormatTestDto.Builder number(BigDecimal number) {
       this.instance.number(number);
       return this;
     }
+    
     public FormatTestDto.Builder _float(Float _float) {
       this.instance._float(_float);
       return this;
     }
+    
     public FormatTestDto.Builder _double(Double _double) {
       this.instance._double(_double);
       return this;
     }
+    
     public FormatTestDto.Builder string(String string) {
       this.instance.string(string);
       return this;
     }
+    
     public FormatTestDto.Builder _byte(byte[] _byte) {
       this.instance._byte(_byte);
       return this;
     }
+    
     public FormatTestDto.Builder binary(org.springframework.core.io.Resource binary) {
       this.instance.binary(binary);
       return this;
     }
+    
     public FormatTestDto.Builder date(LocalDate date) {
       this.instance.date(date);
       return this;
     }
+    
     public FormatTestDto.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime(dateTime);
       return this;
     }
+    
     public FormatTestDto.Builder uuid(UUID uuid) {
       this.instance.uuid(uuid);
       return this;
     }
+    
     public FormatTestDto.Builder password(String password) {
       this.instance.password(password);
       return this;
     }
+    
     public FormatTestDto.Builder bigDecimal(BigDecimal bigDecimal) {
       this.instance.bigDecimal(bigDecimal);
       return this;
     }
+    
     /**
     * returns a built FormatTestDto instance.
     *

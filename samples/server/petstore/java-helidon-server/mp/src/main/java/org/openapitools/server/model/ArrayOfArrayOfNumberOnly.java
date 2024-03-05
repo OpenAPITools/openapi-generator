@@ -27,24 +27,24 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public class ArrayOfArrayOfNumberOnly  {
   
-  private List<List> arrayArrayNumber = null;
+  private List<List<BigDecimal>> arrayArrayNumber = null;
 
  /**
    * Get arrayArrayNumber
    * @return arrayArrayNumber
   **/
-  public List<List> getArrayArrayNumber() {
+  public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
   /**
     * Set arrayArrayNumber
   **/
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }

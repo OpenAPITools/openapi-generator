@@ -228,7 +228,6 @@ public class EnumArrays {
       this.instance.justSymbol = justSymbol;
       return this;
     }
-
     public EnumArrays.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
       this.instance.arrayEnum = arrayEnum;
       return this;

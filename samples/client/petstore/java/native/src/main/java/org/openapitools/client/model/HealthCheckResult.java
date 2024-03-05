@@ -186,6 +186,10 @@ public class HealthCheckResult {
       this.instance.nullableMessage = JsonNullable.<String>of(nullableMessage);
       return this;
     }
+    public HealthCheckResult.Builder nullableMessage(JsonNullable<String> nullableMessage) {
+      this.instance.nullableMessage = nullableMessage;
+      return this;
+    }
 
 
     /**

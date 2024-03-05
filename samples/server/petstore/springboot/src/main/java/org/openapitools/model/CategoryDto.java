@@ -134,10 +134,12 @@ public class CategoryDto {
       this.instance.id(id);
       return this;
     }
+    
     public CategoryDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built CategoryDto instance.
     *

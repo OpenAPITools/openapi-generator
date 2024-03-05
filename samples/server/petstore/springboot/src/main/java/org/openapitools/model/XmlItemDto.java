@@ -856,118 +856,147 @@ public class XmlItemDto {
       this.instance.attributeString(attributeString);
       return this;
     }
+    
     public XmlItemDto.Builder attributeNumber(BigDecimal attributeNumber) {
       this.instance.attributeNumber(attributeNumber);
       return this;
     }
+    
     public XmlItemDto.Builder attributeInteger(Integer attributeInteger) {
       this.instance.attributeInteger(attributeInteger);
       return this;
     }
+    
     public XmlItemDto.Builder attributeBoolean(Boolean attributeBoolean) {
       this.instance.attributeBoolean(attributeBoolean);
       return this;
     }
+    
     public XmlItemDto.Builder wrappedArray(List<Integer> wrappedArray) {
       this.instance.wrappedArray(wrappedArray);
       return this;
     }
+    
     public XmlItemDto.Builder nameString(String nameString) {
       this.instance.nameString(nameString);
       return this;
     }
+    
     public XmlItemDto.Builder nameNumber(BigDecimal nameNumber) {
       this.instance.nameNumber(nameNumber);
       return this;
     }
+    
     public XmlItemDto.Builder nameInteger(Integer nameInteger) {
       this.instance.nameInteger(nameInteger);
       return this;
     }
+    
     public XmlItemDto.Builder nameBoolean(Boolean nameBoolean) {
       this.instance.nameBoolean(nameBoolean);
       return this;
     }
+    
     public XmlItemDto.Builder nameArray(List<Integer> nameArray) {
       this.instance.nameArray(nameArray);
       return this;
     }
+    
     public XmlItemDto.Builder nameWrappedArray(List<Integer> nameWrappedArray) {
       this.instance.nameWrappedArray(nameWrappedArray);
       return this;
     }
+    
     public XmlItemDto.Builder prefixString(String prefixString) {
       this.instance.prefixString(prefixString);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNumber(BigDecimal prefixNumber) {
       this.instance.prefixNumber(prefixNumber);
       return this;
     }
+    
     public XmlItemDto.Builder prefixInteger(Integer prefixInteger) {
       this.instance.prefixInteger(prefixInteger);
       return this;
     }
+    
     public XmlItemDto.Builder prefixBoolean(Boolean prefixBoolean) {
       this.instance.prefixBoolean(prefixBoolean);
       return this;
     }
+    
     public XmlItemDto.Builder prefixArray(List<Integer> prefixArray) {
       this.instance.prefixArray(prefixArray);
       return this;
     }
+    
     public XmlItemDto.Builder prefixWrappedArray(List<Integer> prefixWrappedArray) {
       this.instance.prefixWrappedArray(prefixWrappedArray);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceString(String namespaceString) {
       this.instance.namespaceString(namespaceString);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceNumber(BigDecimal namespaceNumber) {
       this.instance.namespaceNumber(namespaceNumber);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceInteger(Integer namespaceInteger) {
       this.instance.namespaceInteger(namespaceInteger);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceBoolean(Boolean namespaceBoolean) {
       this.instance.namespaceBoolean(namespaceBoolean);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceArray(List<Integer> namespaceArray) {
       this.instance.namespaceArray(namespaceArray);
       return this;
     }
+    
     public XmlItemDto.Builder namespaceWrappedArray(List<Integer> namespaceWrappedArray) {
       this.instance.namespaceWrappedArray(namespaceWrappedArray);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsString(String prefixNsString) {
       this.instance.prefixNsString(prefixNsString);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsNumber(BigDecimal prefixNsNumber) {
       this.instance.prefixNsNumber(prefixNsNumber);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsInteger(Integer prefixNsInteger) {
       this.instance.prefixNsInteger(prefixNsInteger);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsBoolean(Boolean prefixNsBoolean) {
       this.instance.prefixNsBoolean(prefixNsBoolean);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsArray(List<Integer> prefixNsArray) {
       this.instance.prefixNsArray(prefixNsArray);
       return this;
     }
+    
     public XmlItemDto.Builder prefixNsWrappedArray(List<Integer> prefixNsWrappedArray) {
       this.instance.prefixNsWrappedArray(prefixNsWrappedArray);
       return this;
     }
+    
     /**
     * returns a built XmlItemDto instance.
     *

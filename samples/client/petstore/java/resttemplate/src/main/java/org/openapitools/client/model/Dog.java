@@ -142,6 +142,16 @@ public class Dog extends Animal {
       return this;
     }
 
+    public Dog.Builder className(String className) { // inherited: true
+      super.className(className);
+      return this;
+   }
+
+    public Dog.Builder color(String color) { // inherited: true
+      super.color(color);
+      return this;
+   }
+
 
     /**
     * returns a built Dog instance.

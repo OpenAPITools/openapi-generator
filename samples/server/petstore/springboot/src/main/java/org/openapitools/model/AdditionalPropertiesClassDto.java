@@ -429,46 +429,62 @@ public class AdditionalPropertiesClassDto {
       this.instance.mapString(mapString);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapNumber(Map<String, BigDecimal> mapNumber) {
       this.instance.mapNumber(mapNumber);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapInteger(Map<String, Integer> mapInteger) {
       this.instance.mapInteger(mapInteger);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapBoolean(Map<String, Boolean> mapBoolean) {
       this.instance.mapBoolean(mapBoolean);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
       this.instance.mapArrayInteger(mapArrayInteger);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
       this.instance.mapArrayAnytype(mapArrayAnytype);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapMapString(Map<String, Map<String, String>> mapMapString) {
       this.instance.mapMapString(mapMapString);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
       this.instance.mapMapAnytype(mapMapAnytype);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder anytype1(Object anytype1) {
       this.instance.anytype1(anytype1);
       return this;
     }
+    
     public AdditionalPropertiesClassDto.Builder anytype2(Object anytype2) {
       this.instance.anytype2(anytype2);
       return this;
     }
+    
+    public AdditionalPropertiesClassDto.Builder anytype2(JsonNullable<Object> anytype2) {
+      this.instance.anytype2 = anytype2;
+      return this;
+    }
+    
     public AdditionalPropertiesClassDto.Builder anytype3(Object anytype3) {
       this.instance.anytype3(anytype3);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesClassDto instance.
     *

@@ -235,12 +235,10 @@ public class Whale {
       this.instance.hasBaleen = hasBaleen;
       return this;
     }
-
     public Whale.Builder hasTeeth(Boolean hasTeeth) {
       this.instance.hasTeeth = hasTeeth;
       return this;
     }
-
     public Whale.Builder className(String className) {
       this.instance.className = className;
       return this;

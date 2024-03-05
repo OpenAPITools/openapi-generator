@@ -99,6 +99,7 @@ public class ListDto {
       this.instance._123List(_123List);
       return this;
     }
+    
     /**
     * returns a built ListDto instance.
     *

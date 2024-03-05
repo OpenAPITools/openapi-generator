@@ -206,10 +206,12 @@ public class EnumArraysDto {
       this.instance.justSymbol(justSymbol);
       return this;
     }
+    
     public EnumArraysDto.Builder arrayEnum(List<ArrayEnumEnum> arrayEnum) {
       this.instance.arrayEnum(arrayEnum);
       return this;
     }
+    
     /**
     * returns a built EnumArraysDto instance.
     *

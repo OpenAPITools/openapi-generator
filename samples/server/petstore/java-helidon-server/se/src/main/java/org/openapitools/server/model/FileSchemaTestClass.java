@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 public class FileSchemaTestClass   {
 
     private ModelFile _file;
-    private List<ModelFile> files;
+    private List<@Valid ModelFile> files;
 
     /**
      * Default constructor.
@@ -29,7 +29,7 @@ public class FileSchemaTestClass   {
      */
     public FileSchemaTestClass(
         ModelFile _file, 
-        List<ModelFile> files
+        List<@Valid ModelFile> files
     ) {
         this._file = _file;
         this.files = files;
@@ -53,11 +53,11 @@ public class FileSchemaTestClass   {
      * Get files
      * @return files
      */
-    public List<ModelFile> getFiles() {
+    public List<@Valid ModelFile> getFiles() {
         return files;
     }
 
-    public void setFiles(List<ModelFile> files) {
+    public void setFiles(List<@Valid ModelFile> files) {
         this.files = files;
     }
 

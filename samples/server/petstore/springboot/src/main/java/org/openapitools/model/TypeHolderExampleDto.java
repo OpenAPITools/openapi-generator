@@ -248,26 +248,32 @@ public class TypeHolderExampleDto {
       this.instance.stringItem(stringItem);
       return this;
     }
+    
     public TypeHolderExampleDto.Builder numberItem(BigDecimal numberItem) {
       this.instance.numberItem(numberItem);
       return this;
     }
+    
     public TypeHolderExampleDto.Builder floatItem(Float floatItem) {
       this.instance.floatItem(floatItem);
       return this;
     }
+    
     public TypeHolderExampleDto.Builder integerItem(Integer integerItem) {
       this.instance.integerItem(integerItem);
       return this;
     }
+    
     public TypeHolderExampleDto.Builder boolItem(Boolean boolItem) {
       this.instance.boolItem(boolItem);
       return this;
     }
+    
     public TypeHolderExampleDto.Builder arrayItem(List<Integer> arrayItem) {
       this.instance.arrayItem(arrayItem);
       return this;
     }
+    
     /**
     * returns a built TypeHolderExampleDto instance.
     *

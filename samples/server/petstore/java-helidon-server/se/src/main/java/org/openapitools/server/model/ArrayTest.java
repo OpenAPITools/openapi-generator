@@ -12,8 +12,8 @@ import jakarta.validation.Valid;
 public class ArrayTest   {
 
     private List<String> arrayOfString;
-    private List<List> arrayArrayOfInteger;
-    private List<List> arrayArrayOfModel;
+    private List<List<Long>> arrayArrayOfInteger;
+    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
     /**
      * Default constructor.
@@ -31,8 +31,8 @@ public class ArrayTest   {
      */
     public ArrayTest(
         List<String> arrayOfString, 
-        List<List> arrayArrayOfInteger, 
-        List<List> arrayArrayOfModel
+        List<List<Long>> arrayArrayOfInteger, 
+        List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel
     ) {
         this.arrayOfString = arrayOfString;
         this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -57,11 +57,11 @@ public class ArrayTest   {
      * Get arrayArrayOfInteger
      * @return arrayArrayOfInteger
      */
-    public List<List> getArrayArrayOfInteger() {
+    public List<List<Long>> getArrayArrayOfInteger() {
         return arrayArrayOfInteger;
     }
 
-    public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+    public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
         this.arrayArrayOfInteger = arrayArrayOfInteger;
     }
 
@@ -69,11 +69,11 @@ public class ArrayTest   {
      * Get arrayArrayOfModel
      * @return arrayArrayOfModel
      */
-    public List<List> getArrayArrayOfModel() {
+    public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
         return arrayArrayOfModel;
     }
 
-    public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
+    public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
         this.arrayArrayOfModel = arrayArrayOfModel;
     }
 

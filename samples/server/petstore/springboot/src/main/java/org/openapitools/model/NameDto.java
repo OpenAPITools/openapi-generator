@@ -183,18 +183,22 @@ public class NameDto {
       this.instance.name(name);
       return this;
     }
+    
     public NameDto.Builder snakeCase(Integer snakeCase) {
       this.instance.snakeCase(snakeCase);
       return this;
     }
+    
     public NameDto.Builder property(String property) {
       this.instance.property(property);
       return this;
     }
+    
     public NameDto.Builder _123Number(Integer _123Number) {
       this.instance._123Number(_123Number);
       return this;
     }
+    
     /**
     * returns a built NameDto instance.
     *

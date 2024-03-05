@@ -131,18 +131,26 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
       this.instance.otherProperty(otherProperty);
       return this;
     }
+    
 
     @Override
     public ChildWithNullableDto.Builder type(TypeEnum type) {
       this.instance.type(type);
       return this;
     }
+    
 
     @Override
     public ChildWithNullableDto.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
       return this;
     }
+    
+    public ChildWithNullableDto.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.setNullableProperty(nullableProperty);
+      return this;
+    }
+    
     /**
     * returns a built ChildWithNullableDto instance.
     *

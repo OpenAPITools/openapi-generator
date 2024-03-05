@@ -260,26 +260,32 @@ public class OrderDto {
       this.instance.id(id);
       return this;
     }
+    
     public OrderDto.Builder petId(Long petId) {
       this.instance.petId(petId);
       return this;
     }
+    
     public OrderDto.Builder quantity(Integer quantity) {
       this.instance.quantity(quantity);
       return this;
     }
+    
     public OrderDto.Builder shipDate(OffsetDateTime shipDate) {
       this.instance.shipDate(shipDate);
       return this;
     }
+    
     public OrderDto.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    
     public OrderDto.Builder complete(Boolean complete) {
       this.instance.complete(complete);
       return this;
     }
+    
     /**
     * returns a built OrderDto instance.
     *

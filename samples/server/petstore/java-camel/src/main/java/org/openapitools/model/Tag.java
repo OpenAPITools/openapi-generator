@@ -114,56 +114,5 @@ public class Tag {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
-/*builder*/
-    public static class Builder {
-
-  private Tag instance;
-  protected Builder() [
-  this.instance = new  Tag();
-  }
-    public Tag.Builder id(Optional<Long> id) {
-    this.instance.id = Optional.ofNullable(id);
-    return this;
-    }
-
-
-    public Tag build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Tag.Builder name(Optional<String> name) {
-    this.instance.name = Optional.ofNullable(name);
-    return this;
-    }
-
-
-    public Tag build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-
-  public static Tag.Builder builder() {
-  return new Builder();
-  }
-  public Tag.Builder toBuilder() {
-  return new Builder()
-    .id(id)
-    .name(name)
-;
-
-  }
-
 }
 

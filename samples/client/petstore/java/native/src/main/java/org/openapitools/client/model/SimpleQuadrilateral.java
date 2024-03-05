@@ -199,7 +199,6 @@ public class SimpleQuadrilateral {
       this.instance.shapeType = shapeType;
       return this;
     }
-
     public SimpleQuadrilateral.Builder quadrilateralType(String quadrilateralType) {
       this.instance.quadrilateralType = quadrilateralType;
       return this;

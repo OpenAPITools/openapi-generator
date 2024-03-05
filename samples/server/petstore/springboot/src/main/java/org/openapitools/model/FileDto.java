@@ -100,6 +100,7 @@ public class FileDto {
       this.instance.sourceURI(sourceURI);
       return this;
     }
+    
     /**
     * returns a built FileDto instance.
     *

@@ -293,17 +293,14 @@ public class ObjectWithDeprecatedFields {
       this.instance.uuid = uuid;
       return this;
     }
-
     public ObjectWithDeprecatedFields.Builder id(BigDecimal id) {
       this.instance.id = id;
       return this;
     }
-
     public ObjectWithDeprecatedFields.Builder deprecatedRef(DeprecatedObject deprecatedRef) {
       this.instance.deprecatedRef = deprecatedRef;
       return this;
     }
-
     public ObjectWithDeprecatedFields.Builder bars(List<String> bars) {
       this.instance.bars = bars;
       return this;

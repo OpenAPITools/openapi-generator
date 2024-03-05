@@ -199,7 +199,6 @@ public class IsoscelesTriangle {
       this.instance.shapeType = shapeType;
       return this;
     }
-
     public IsoscelesTriangle.Builder triangleType(String triangleType) {
       this.instance.triangleType = triangleType;
       return this;

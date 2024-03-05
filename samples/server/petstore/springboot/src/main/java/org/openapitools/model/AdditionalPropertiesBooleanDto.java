@@ -143,6 +143,7 @@ public class AdditionalPropertiesBooleanDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesBooleanDto instance.
     *

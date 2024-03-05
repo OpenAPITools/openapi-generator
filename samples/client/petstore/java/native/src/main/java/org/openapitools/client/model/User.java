@@ -598,59 +598,60 @@ public class User {
       this.instance.id = id;
       return this;
     }
-
     public User.Builder username(String username) {
       this.instance.username = username;
       return this;
     }
-
     public User.Builder firstName(String firstName) {
       this.instance.firstName = firstName;
       return this;
     }
-
     public User.Builder lastName(String lastName) {
       this.instance.lastName = lastName;
       return this;
     }
-
     public User.Builder email(String email) {
       this.instance.email = email;
       return this;
     }
-
     public User.Builder password(String password) {
       this.instance.password = password;
       return this;
     }
-
     public User.Builder phone(String phone) {
       this.instance.phone = phone;
       return this;
     }
-
     public User.Builder userStatus(Integer userStatus) {
       this.instance.userStatus = userStatus;
       return this;
     }
-
     public User.Builder objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
       this.instance.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
       return this;
     }
-
     public User.Builder objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
       this.instance.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
       return this;
     }
-
+    public User.Builder objectWithNoDeclaredPropsNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
+      this.instance.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+      return this;
+    }
     public User.Builder anyTypeProp(Object anyTypeProp) {
       this.instance.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
       return this;
     }
-
+    public User.Builder anyTypeProp(JsonNullable<Object> anyTypeProp) {
+      this.instance.anyTypeProp = anyTypeProp;
+      return this;
+    }
     public User.Builder anyTypePropNullable(Object anyTypePropNullable) {
       this.instance.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+      return this;
+    }
+    public User.Builder anyTypePropNullable(JsonNullable<Object> anyTypePropNullable) {
+      this.instance.anyTypePropNullable = anyTypePropNullable;
       return this;
     }
 

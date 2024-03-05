@@ -28,7 +28,7 @@ public class FileSchemaTestClass {
   private File file;
 
   @Valid
-  private List<File> files;
+  private List<@Valid File> files;
 
   public FileSchemaTestClass file(File file) {
     this.file = file;
@@ -50,7 +50,7 @@ public class FileSchemaTestClass {
     this.file = file;
   }
 
-  public FileSchemaTestClass files(List<File> files) {
+  public FileSchemaTestClass files(List<@Valid File> files) {
     this.files = files;
     return this;
   }
@@ -70,11 +70,11 @@ public class FileSchemaTestClass {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("files")
-  public List<File> getFiles() {
+  public List<@Valid File> getFiles() {
     return files;
   }
 
-  public void setFiles(List<File> files) {
+  public void setFiles(List<@Valid File> files) {
     this.files = files;
   }
 
@@ -116,63 +116,5 @@ public class FileSchemaTestClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private FileSchemaTestClass instance;
-
-    public Builder() {
-      this(new FileSchemaTestClass());
-    }
-
-    protected Builder(FileSchemaTestClass instance) {
-      this.instance = instance;
-    }
-
-    public FileSchemaTestClass.Builder file(File file) {
-      this.instance.file(file);
-      return this;
-    }
-    public FileSchemaTestClass.Builder files(List<File> files) {
-      this.instance.files(files);
-      return this;
-    }
-    /**
-    * returns a built FileSchemaTestClass instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public FileSchemaTestClass build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static FileSchemaTestClass.Builder builder() {
-    return new FileSchemaTestClass.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public FileSchemaTestClass.Builder toBuilder() {
-    FileSchemaTestClass.Builder builder = new FileSchemaTestClass.Builder();
-    builder.instance.setFile(file);
-    builder.instance.setFiles(files);
-    return builder;
-  }
-
 }
 

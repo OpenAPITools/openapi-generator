@@ -208,10 +208,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithArrayInputOper body(List<User> body) {
+        public CreateUsersWithArrayInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }
@@ -269,10 +269,10 @@ public class UserApi {
         }
 
          /**
-         * @param body (List&lt;User&gt;) List of user object (required)
+         * @param body (List&lt;@Valid User&gt;) List of user object (required)
          * @return operation
          */
-        public CreateUsersWithListInputOper body(List<User> body) {
+        public CreateUsersWithListInputOper body(List<@Valid User> body) {
             reqSpec.setBody(body);
             return this;
         }

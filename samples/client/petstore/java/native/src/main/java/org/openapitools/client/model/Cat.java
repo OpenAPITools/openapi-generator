@@ -206,6 +206,16 @@ static {
       return this;
     }
 
+    public Cat.Builder className(String className) { // inherited: true
+      super.className(className);
+      return this;
+   }
+
+    public Cat.Builder color(String color) { // inherited: true
+      super.color(color);
+      return this;
+   }
+
 
     /**
     * returns a built Cat instance.

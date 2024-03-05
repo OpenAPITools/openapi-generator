@@ -199,7 +199,6 @@ public class Tag {
       this.instance.id = id;
       return this;
     }
-
     public Tag.Builder name(String name) {
       this.instance.name = name;
       return this;

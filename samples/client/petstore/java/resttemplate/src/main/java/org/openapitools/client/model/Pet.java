@@ -337,27 +337,22 @@ public class Pet {
       this.instance.id = id;
       return this;
     }
-
     public Pet.Builder category(Category category) {
       this.instance.category = category;
       return this;
     }
-
     public Pet.Builder name(String name) {
       this.instance.name = name;
       return this;
     }
-
     public Pet.Builder photoUrls(Set<String> photoUrls) {
       this.instance.photoUrls = photoUrls;
       return this;
     }
-
     public Pet.Builder tags(List<Tag> tags) {
       this.instance.tags = tags;
       return this;
     }
-
     public Pet.Builder status(StatusEnum status) {
       this.instance.status = status;
       return this;

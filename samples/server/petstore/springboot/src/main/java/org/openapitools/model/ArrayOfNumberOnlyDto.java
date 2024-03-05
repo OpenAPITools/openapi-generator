@@ -112,6 +112,7 @@ public class ArrayOfNumberOnlyDto {
       this.instance.arrayNumber(arrayNumber);
       return this;
     }
+    
     /**
     * returns a built ArrayOfNumberOnlyDto instance.
     *

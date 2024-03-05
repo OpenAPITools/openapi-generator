@@ -22,11 +22,11 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("ArrayOfArrayOfNumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
 public class ArrayOfArrayOfNumberOnly  implements Serializable {
-  private @Valid List<List> arrayArrayNumber;
+  private @Valid List<List<BigDecimal>> arrayArrayNumber;
 
   /**
    **/
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -39,7 +39,7 @@ public class ArrayOfArrayOfNumberOnly  implements Serializable {
   }
 
   @JsonProperty("ArrayArrayNumber")
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 

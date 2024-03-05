@@ -144,6 +144,7 @@ public class AdditionalPropertiesNumberDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesNumberDto instance.
     *

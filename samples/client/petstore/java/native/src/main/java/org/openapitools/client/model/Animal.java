@@ -221,7 +221,6 @@ static {
       this.instance.className = className;
       return this;
     }
-
     public Animal.Builder color(String color) {
       this.instance.color = color;
       return this;

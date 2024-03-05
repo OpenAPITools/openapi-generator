@@ -199,7 +199,6 @@ public class EquilateralTriangle {
       this.instance.shapeType = shapeType;
       return this;
     }
-
     public EquilateralTriangle.Builder triangleType(String triangleType) {
       this.instance.triangleType = triangleType;
       return this;

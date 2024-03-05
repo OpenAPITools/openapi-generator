@@ -101,59 +101,5 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
     return o.toString().replace("\n", "\n    ");
   }
 
-  public static class Builder {
-
-    private AdditionalPropertiesAnyType instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesAnyType());
-    }
-
-    protected Builder(AdditionalPropertiesAnyType instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesAnyType.Builder name(String name) {
-      this.instance.name = name;
-      return this;
-    }
-
-
-    /**
-    * returns a built AdditionalPropertiesAnyType instance.
-    *
-    * The builder is not reusable.
-    */
-    public AdditionalPropertiesAnyType build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesAnyType.Builder builder() {
-    return new AdditionalPropertiesAnyType.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesAnyType.Builder toBuilder() {
-    return new AdditionalPropertiesAnyType.Builder()
-      .name(getName());
-  }
-
-
 }
 

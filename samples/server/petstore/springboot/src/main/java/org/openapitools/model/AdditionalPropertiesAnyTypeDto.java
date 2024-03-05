@@ -143,6 +143,7 @@ public class AdditionalPropertiesAnyTypeDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesAnyTypeDto instance.
     *

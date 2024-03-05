@@ -12,7 +12,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
-
   /reptile:
     get:
       responses:
@@ -33,19 +32,12 @@ paths:
                 $ref: '#/components/schemas/MyPets'
 components:
   schemas:
-    SimpleObject:
-      type: object
-      properties:
-        simple:
-          type: string
     Pet:
       type: object
       required:
         - petType
       properties:
         petType:
-          type: string
-        name:
           type: string
       discriminator:
         propertyName: petType
@@ -66,8 +58,6 @@ components:
           properties:
             bark:
               type: string
-            simple:
-              $ref: '#/components/schemas/SimpleObject'
     Lizard:
       allOf:
         - $ref: '#/components/schemas/Reptile'

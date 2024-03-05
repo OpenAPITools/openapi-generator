@@ -488,37 +488,34 @@ public class AdditionalPropertiesClass {
       this.instance.mapProperty = mapProperty;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
       this.instance.mapOfMapProperty = mapOfMapProperty;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
       this.instance.anytype1 = JsonNullable.<Object>of(anytype1);
       return this;
     }
-
+    public AdditionalPropertiesClass.Builder anytype1(JsonNullable<Object> anytype1) {
+      this.instance.anytype1 = anytype1;
+      return this;
+    }
     public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
       this.instance.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
       this.instance.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
       this.instance.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder emptyMap(Object emptyMap) {
       this.instance.emptyMap = emptyMap;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
       this.instance.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
       return this;

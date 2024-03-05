@@ -718,77 +718,62 @@ public class FormatTest {
       this.instance.integer = integer;
       return this;
     }
-
     public FormatTest.Builder int32(Integer int32) {
       this.instance.int32 = int32;
       return this;
     }
-
     public FormatTest.Builder int64(Long int64) {
       this.instance.int64 = int64;
       return this;
     }
-
     public FormatTest.Builder number(BigDecimal number) {
       this.instance.number = number;
       return this;
     }
-
     public FormatTest.Builder _float(Float _float) {
       this.instance._float = _float;
       return this;
     }
-
     public FormatTest.Builder _double(Double _double) {
       this.instance._double = _double;
       return this;
     }
-
     public FormatTest.Builder decimal(BigDecimal decimal) {
       this.instance.decimal = decimal;
       return this;
     }
-
     public FormatTest.Builder string(String string) {
       this.instance.string = string;
       return this;
     }
-
     public FormatTest.Builder _byte(byte[] _byte) {
       this.instance._byte = _byte;
       return this;
     }
-
     public FormatTest.Builder binary(File binary) {
       this.instance.binary = binary;
       return this;
     }
-
     public FormatTest.Builder date(LocalDate date) {
       this.instance.date = date;
       return this;
     }
-
     public FormatTest.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime = dateTime;
       return this;
     }
-
     public FormatTest.Builder uuid(UUID uuid) {
       this.instance.uuid = uuid;
       return this;
     }
-
     public FormatTest.Builder password(String password) {
       this.instance.password = password;
       return this;
     }
-
     public FormatTest.Builder patternWithDigits(String patternWithDigits) {
       this.instance.patternWithDigits = patternWithDigits;
       return this;
     }
-
     public FormatTest.Builder patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
       this.instance.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
       return this;

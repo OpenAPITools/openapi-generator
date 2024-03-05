@@ -143,6 +143,7 @@ public class AdditionalPropertiesStringDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesStringDto instance.
     *

@@ -256,7 +256,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
-                .bodyContainsLines("this.born = Optional.of(born)")
+                .bodyContainsLines("this.born = Optional.ofNullable(born)")
                 .doesNotHaveComment();
     }
 
@@ -4190,7 +4190,7 @@ public class SpringCodegenTest {
     }
 
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "Optional", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "Optional", "ofNullable", type, expectedName, getterReturnType);
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
@@ -4198,14 +4198,14 @@ public class SpringCodegenTest {
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "JsonNullable", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "JsonNullable", "of", type, expectedName, getterReturnType);
     }
 
-    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
+    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String ofMethod, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
-                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
+                .bodyContainsLines("this."+expectedName+" = "+wrapperType+"." + ofMethod + "("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
                 .withType(type)
                 .toMethod()
@@ -4474,13 +4474,11 @@ public class SpringCodegenTest {
 
     @Test
     void testBuilderJavaSpring() throws IOException {
-        File output = new File("/temp/builder").getCanonicalFile();
-//        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         String outputPath = output.getAbsolutePath().replace('\\', '/');
 
         final OpenAPI openAPI =
-//                TestUtils.parseFlattenSpec("src/test/resources/3_0/allOf_composition_discriminator.yaml");
         TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
 
         final SpringCodegen codegen = new SpringCodegen();

@@ -352,22 +352,27 @@ public class EnumTestDto {
       this.instance.enumString(enumString);
       return this;
     }
+    
     public EnumTestDto.Builder enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
       this.instance.enumStringRequired(enumStringRequired);
       return this;
     }
+    
     public EnumTestDto.Builder enumInteger(EnumIntegerEnum enumInteger) {
       this.instance.enumInteger(enumInteger);
       return this;
     }
+    
     public EnumTestDto.Builder enumNumber(EnumNumberEnum enumNumber) {
       this.instance.enumNumber(enumNumber);
       return this;
     }
+    
     public EnumTestDto.Builder outerEnum(OuterEnumDto outerEnum) {
       this.instance.outerEnum(outerEnum);
       return this;
     }
+    
     /**
     * returns a built EnumTestDto instance.
     *

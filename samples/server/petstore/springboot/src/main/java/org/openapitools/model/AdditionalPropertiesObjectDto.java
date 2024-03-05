@@ -144,6 +144,7 @@ public class AdditionalPropertiesObjectDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesObjectDto instance.
     *

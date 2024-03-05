@@ -199,7 +199,6 @@ public class ScaleneTriangle {
       this.instance.shapeType = shapeType;
       return this;
     }
-
     public ScaleneTriangle.Builder triangleType(String triangleType) {
       this.instance.triangleType = triangleType;
       return this;

@@ -43,7 +43,7 @@ public class PetDto {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   @Valid
-  private List<TagDto> tags;
+  private List<@Valid TagDto> tags;
 
   /**
    * pet status in the store
@@ -186,7 +186,7 @@ public class PetDto {
     this.photoUrls = photoUrls;
   }
 
-  public PetDto tags(List<TagDto> tags) {
+  public PetDto tags(List<@Valid TagDto> tags) {
     this.tags = tags;
     return this;
   }
@@ -206,11 +206,11 @@ public class PetDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
-  public List<TagDto> getTags() {
+  public List<@Valid TagDto> getTags() {
     return tags;
   }
 
-  public void setTags(List<TagDto> tags) {
+  public void setTags(List<@Valid TagDto> tags) {
     this.tags = tags;
   }
 
@@ -303,26 +303,32 @@ public class PetDto {
       this.instance.id(id);
       return this;
     }
+    
     public PetDto.Builder category(CategoryDto category) {
       this.instance.category(category);
       return this;
     }
+    
     public PetDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
+    
     public PetDto.Builder photoUrls(Set<String> photoUrls) {
       this.instance.photoUrls(photoUrls);
       return this;
     }
-    public PetDto.Builder tags(List<TagDto> tags) {
+    
+    public PetDto.Builder tags(List<@Valid TagDto> tags) {
       this.instance.tags(tags);
       return this;
     }
+    
     public PetDto.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    
     /**
     * returns a built PetDto instance.
     *

@@ -128,18 +128,21 @@ public class DogDto extends AnimalDto {
       this.instance.breed(breed);
       return this;
     }
+    
 
     @Override
     public DogDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
+    
 
     @Override
     public DogDto.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built DogDto instance.
     *

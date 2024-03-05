@@ -46,7 +46,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    default void createUsersWithArrayInput(List<User> user) {
+    default void createUsersWithArrayInput(List<@Valid User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }
@@ -59,7 +59,7 @@ public interface UserApiDelegate {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    default void createUsersWithListInput(List<User> user) {
+    default void createUsersWithListInput(List<@Valid User> user) {
         throw new IllegalArgumentException("Not implemented");
 
     }

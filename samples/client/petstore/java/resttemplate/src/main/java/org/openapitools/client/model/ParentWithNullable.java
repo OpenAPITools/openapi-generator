@@ -215,9 +215,12 @@ public class ParentWithNullable {
       this.instance.type = type;
       return this;
     }
-
     public ParentWithNullable.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty = JsonNullable.<String>of(nullableProperty);
+      return this;
+    }
+    public ParentWithNullable.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.nullableProperty = nullableProperty;
       return this;
     }
 

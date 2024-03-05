@@ -163,14 +163,17 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
       this.instance.uuid(uuid);
       return this;
     }
+    
     public MixedPropertiesAndAdditionalPropertiesClassDto.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime(dateTime);
       return this;
     }
+    
     public MixedPropertiesAndAdditionalPropertiesClassDto.Builder map(Map<String, AnimalDto> map) {
       this.instance.map(map);
       return this;
     }
+    
     /**
     * returns a built MixedPropertiesAndAdditionalPropertiesClassDto instance.
     *

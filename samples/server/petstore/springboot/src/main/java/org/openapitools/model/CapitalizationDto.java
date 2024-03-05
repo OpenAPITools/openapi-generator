@@ -219,26 +219,32 @@ public class CapitalizationDto {
       this.instance.smallCamel(smallCamel);
       return this;
     }
+    
     public CapitalizationDto.Builder capitalCamel(String capitalCamel) {
       this.instance.capitalCamel(capitalCamel);
       return this;
     }
+    
     public CapitalizationDto.Builder smallSnake(String smallSnake) {
       this.instance.smallSnake(smallSnake);
       return this;
     }
+    
     public CapitalizationDto.Builder capitalSnake(String capitalSnake) {
       this.instance.capitalSnake(capitalSnake);
       return this;
     }
+    
     public CapitalizationDto.Builder scAETHFlowPoints(String scAETHFlowPoints) {
       this.instance.scAETHFlowPoints(scAETHFlowPoints);
       return this;
     }
+    
     public CapitalizationDto.Builder ATT_NAME(String ATT_NAME) {
       this.instance.ATT_NAME(ATT_NAME);
       return this;
     }
+    
     /**
     * returns a built CapitalizationDto instance.
     *

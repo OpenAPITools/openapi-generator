@@ -182,10 +182,17 @@ public class ParentWithNullableDto {
       this.instance.type(type);
       return this;
     }
+    
     public ParentWithNullableDto.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
       return this;
     }
+    
+    public ParentWithNullableDto.Builder nullableProperty(JsonNullable<String> nullableProperty) {
+      this.instance.nullableProperty = nullableProperty;
+      return this;
+    }
+    
     /**
     * returns a built ParentWithNullableDto instance.
     *

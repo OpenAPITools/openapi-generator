@@ -158,6 +158,12 @@ static {
     }
 
 
+    public ParentPet.Builder petType(String petType) { // inherited: true
+      super.petType(petType);
+      return this;
+   }
+
+
     /**
     * returns a built ParentPet instance.
     *

@@ -267,34 +267,42 @@ public class UserDto {
       this.instance.id(id);
       return this;
     }
+    
     public UserDto.Builder username(String username) {
       this.instance.username(username);
       return this;
     }
+    
     public UserDto.Builder firstName(String firstName) {
       this.instance.firstName(firstName);
       return this;
     }
+    
     public UserDto.Builder lastName(String lastName) {
       this.instance.lastName(lastName);
       return this;
     }
+    
     public UserDto.Builder email(String email) {
       this.instance.email(email);
       return this;
     }
+    
     public UserDto.Builder password(String password) {
       this.instance.password(password);
       return this;
     }
+    
     public UserDto.Builder phone(String phone) {
       this.instance.phone(phone);
       return this;
     }
+    
     public UserDto.Builder userStatus(Integer userStatus) {
       this.instance.userStatus(userStatus);
       return this;
     }
+    
     /**
     * returns a built UserDto instance.
     *

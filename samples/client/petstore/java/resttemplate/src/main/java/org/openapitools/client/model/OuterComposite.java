@@ -180,12 +180,10 @@ public class OuterComposite {
       this.instance.myNumber = myNumber;
       return this;
     }
-
     public OuterComposite.Builder myString(String myString) {
       this.instance.myString = myString;
       return this;
     }
-
     public OuterComposite.Builder myBoolean(Boolean myBoolean) {
       this.instance.myBoolean = myBoolean;
       return this;

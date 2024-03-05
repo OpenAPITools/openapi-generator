@@ -124,6 +124,12 @@ public class NullableMapPropertyDto {
       this.instance.languageValues(languageValues);
       return this;
     }
+    
+    public NullableMapPropertyDto.Builder languageValues(JsonNullable<Map<String, String>> languageValues) {
+      this.instance.languageValues = languageValues;
+      return this;
+    }
+    
     /**
     * returns a built NullableMapPropertyDto instance.
     *

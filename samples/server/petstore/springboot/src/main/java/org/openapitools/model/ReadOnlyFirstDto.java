@@ -123,10 +123,12 @@ public class ReadOnlyFirstDto {
       this.instance.bar(bar);
       return this;
     }
+    
     public ReadOnlyFirstDto.Builder baz(String baz) {
       this.instance.baz(baz);
       return this;
     }
+    
     /**
     * returns a built ReadOnlyFirstDto instance.
     *

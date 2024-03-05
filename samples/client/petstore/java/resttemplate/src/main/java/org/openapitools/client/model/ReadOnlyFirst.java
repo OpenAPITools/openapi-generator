@@ -144,7 +144,6 @@ public class ReadOnlyFirst {
       this.instance.bar = bar;
       return this;
     }
-
     public ReadOnlyFirst.Builder baz(String baz) {
       this.instance.baz = baz;
       return this;

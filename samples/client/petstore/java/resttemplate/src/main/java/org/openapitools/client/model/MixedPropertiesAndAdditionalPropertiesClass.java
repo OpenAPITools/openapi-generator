@@ -192,12 +192,10 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
       this.instance.uuid = uuid;
       return this;
     }
-
     public MixedPropertiesAndAdditionalPropertiesClass.Builder dateTime(OffsetDateTime dateTime) {
       this.instance.dateTime = dateTime;
       return this;
     }
-
     public MixedPropertiesAndAdditionalPropertiesClass.Builder map(Map<String, Animal> map) {
       this.instance.map = map;
       return this;

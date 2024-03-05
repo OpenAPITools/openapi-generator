@@ -143,6 +143,7 @@ public class AdditionalPropertiesIntegerDto {
       this.instance.name(name);
       return this;
     }
+    
     /**
     * returns a built AdditionalPropertiesIntegerDto instance.
     *

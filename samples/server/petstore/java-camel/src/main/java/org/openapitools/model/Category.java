@@ -114,56 +114,5 @@ public class Category {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
-/*builder*/
-    public static class Builder {
-
-  private Category instance;
-  protected Builder() [
-  this.instance = new  Category();
-  }
-    public Category.Builder id(Optional<Long> id) {
-    this.instance.id = Optional.ofNullable(id);
-    return this;
-    }
-
-
-    public Category build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Category.Builder name(Optional<String> name) {
-    this.instance.name = Optional.ofNullable(name);
-    return this;
-    }
-
-
-    public Category build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-
-  public static Category.Builder builder() {
-  return new Builder();
-  }
-  public Category.Builder toBuilder() {
-  return new Builder()
-    .id(id)
-    .name(name)
-;
-
-  }
-
 }
 

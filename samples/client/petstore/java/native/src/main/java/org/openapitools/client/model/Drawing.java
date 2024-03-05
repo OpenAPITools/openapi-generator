@@ -366,17 +366,18 @@ public class Drawing extends HashMap<String, Fruit> {
       this.instance.mainShape = mainShape;
       return this;
     }
-
     public Drawing.Builder shapeOrNull(ShapeOrNull shapeOrNull) {
       this.instance.shapeOrNull = shapeOrNull;
       return this;
     }
-
     public Drawing.Builder nullableShape(NullableShape nullableShape) {
       this.instance.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
       return this;
     }
-
+    public Drawing.Builder nullableShape(JsonNullable<NullableShape> nullableShape) {
+      this.instance.nullableShape = nullableShape;
+      return this;
+    }
     public Drawing.Builder shapes(List<Shape> shapes) {
       this.instance.shapes = shapes;
       return this;

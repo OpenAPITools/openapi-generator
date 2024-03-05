@@ -43,10 +43,10 @@ public class ArrayTest {
   private List<String> arrayOfString;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER = "array_array_of_integer";
-  private List<List> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger;
 
   public static final String JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL = "array_array_of_model";
-  private List<List> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel;
 
   public ArrayTest() {
   }
@@ -86,7 +86,7 @@ public class ArrayTest {
   }
 
 
-  public ArrayTest arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
@@ -110,25 +110,25 @@ public class ArrayTest {
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
 
-  public ArrayTest arrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public ArrayTest arrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTest addArrayArrayOfModelItem(List<ReadOnlyFirst> arrayArrayOfModelItem) {
+  public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -146,14 +146,14 @@ public class ArrayTest {
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public List<List> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
 
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -197,72 +197,6 @@ public class ArrayTest {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-  public static class Builder {
-
-    private ArrayTest instance;
-
-    public Builder() {
-      this(new ArrayTest());
-    }
-
-    protected Builder(ArrayTest instance) {
-      this.instance = instance;
-    }
-
-    public ArrayTest.Builder arrayOfString(List<String> arrayOfString) {
-      this.instance.arrayOfString = arrayOfString;
-      return this;
-    }
-
-    public ArrayTest.Builder arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
-      this.instance.arrayArrayOfInteger = arrayArrayOfInteger;
-      return this;
-    }
-
-    public ArrayTest.Builder arrayArrayOfModel(List<List> arrayArrayOfModel) {
-      this.instance.arrayArrayOfModel = arrayArrayOfModel;
-      return this;
-    }
-
-
-    /**
-    * returns a built ArrayTest instance.
-    *
-    * The builder is not reusable.
-    */
-    public ArrayTest build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-    }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayTest.Builder builder() {
-    return new ArrayTest.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayTest.Builder toBuilder() {
-    return new ArrayTest.Builder()
-      .arrayOfString(getArrayOfString())
-      .arrayArrayOfInteger(getArrayArrayOfInteger())
-      .arrayArrayOfModel(getArrayArrayOfModel());
-  }
-
 
 }
 

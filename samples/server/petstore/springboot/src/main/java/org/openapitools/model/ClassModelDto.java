@@ -100,6 +100,7 @@ public class ClassModelDto {
       this.instance.propertyClass(propertyClass);
       return this;
     }
+    
     /**
     * returns a built ClassModelDto instance.
     *

@@ -280,17 +280,14 @@ public class MapTest {
       this.instance.mapMapOfString = mapMapOfString;
       return this;
     }
-
     public MapTest.Builder mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
       this.instance.mapOfEnumString = mapOfEnumString;
       return this;
     }
-
     public MapTest.Builder directMap(Map<String, Boolean> directMap) {
       this.instance.directMap = directMap;
       return this;
     }
-
     public MapTest.Builder indirectMap(Map<String, Boolean> indirectMap) {
       this.instance.indirectMap = indirectMap;
       return this;

@@ -36,21 +36,21 @@ public abstract class UserApiControllerImpInterface {
 
     public abstract void createUser(Http.Request request, User body) ;
 
-    public Result createUsersWithArrayInputHttp(Http.Request request, List<User> body)  {
+    public Result createUsersWithArrayInputHttp(Http.Request request, List<@Valid User> body)  {
         createUsersWithArrayInput(request, body);
         return ok();
 
     }
 
-    public abstract void createUsersWithArrayInput(Http.Request request, List<User> body) ;
+    public abstract void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) ;
 
-    public Result createUsersWithListInputHttp(Http.Request request, List<User> body)  {
+    public Result createUsersWithListInputHttp(Http.Request request, List<@Valid User> body)  {
         createUsersWithListInput(request, body);
         return ok();
 
     }
 
-    public abstract void createUsersWithListInput(Http.Request request, List<User> body) ;
+    public abstract void createUsersWithListInput(Http.Request request, List<@Valid User> body) ;
 
     public Result deleteUserHttp(Http.Request request, String username)  {
         deleteUser(request, username);

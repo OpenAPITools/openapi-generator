@@ -215,7 +215,6 @@ public class FileSchemaTestClass {
       this.instance._file = _file;
       return this;
     }
-
     public FileSchemaTestClass.Builder files(List<ModelFile> files) {
       this.instance.files = files;
       return this;

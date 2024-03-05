@@ -99,6 +99,7 @@ public class ClientDto {
       this.instance.client(client);
       return this;
     }
+    
     /**
     * returns a built ClientDto instance.
     *

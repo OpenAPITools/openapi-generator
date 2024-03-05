@@ -147,14 +147,17 @@ public class ApiResponseDto {
       this.instance.code(code);
       return this;
     }
+    
     public ApiResponseDto.Builder type(String type) {
       this.instance.type(type);
       return this;
     }
+    
     public ApiResponseDto.Builder message(String message) {
       this.instance.message(message);
       return this;
     }
+    
     /**
     * returns a built ApiResponseDto instance.
     *

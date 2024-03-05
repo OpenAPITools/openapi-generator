@@ -200,7 +200,6 @@ public class BananaReq {
       this.instance.lengthCm = lengthCm;
       return this;
     }
-
     public BananaReq.Builder sweet(Boolean sweet) {
       this.instance.sweet = sweet;
       return this;

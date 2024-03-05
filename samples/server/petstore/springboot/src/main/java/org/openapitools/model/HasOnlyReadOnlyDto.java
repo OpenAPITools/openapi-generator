@@ -123,10 +123,12 @@ public class HasOnlyReadOnlyDto {
       this.instance.bar(bar);
       return this;
     }
+    
     public HasOnlyReadOnlyDto.Builder foo(String foo) {
       this.instance.foo(foo);
       return this;
     }
+    
     /**
     * returns a built HasOnlyReadOnlyDto instance.
     *

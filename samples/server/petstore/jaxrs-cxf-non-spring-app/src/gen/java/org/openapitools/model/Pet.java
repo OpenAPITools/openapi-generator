@@ -37,7 +37,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<Tag> tags;
+  private List<@Valid Tag> tags;
 
 public enum StatusEnum {
 
@@ -160,15 +160,15 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * @return tags
   **/
   @JsonProperty("tags")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }

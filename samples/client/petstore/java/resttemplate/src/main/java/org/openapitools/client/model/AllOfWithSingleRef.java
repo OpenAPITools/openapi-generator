@@ -148,7 +148,6 @@ public class AllOfWithSingleRef {
       this.instance.username = username;
       return this;
     }
-
     public AllOfWithSingleRef.Builder singleRefType(SingleRefType singleRefType) {
       this.instance.singleRefType = singleRefType;
       return this;

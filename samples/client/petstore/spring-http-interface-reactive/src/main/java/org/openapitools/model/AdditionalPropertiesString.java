@@ -120,58 +120,5 @@ public class AdditionalPropertiesString {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private AdditionalPropertiesString instance;
-
-    public Builder() {
-      this(new AdditionalPropertiesString());
-    }
-
-    protected Builder(AdditionalPropertiesString instance) {
-      this.instance = instance;
-    }
-
-    public AdditionalPropertiesString.Builder name(String name) {
-      this.instance.name(name);
-      return this;
-    }
-    /**
-    * returns a built AdditionalPropertiesString instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public AdditionalPropertiesString build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static AdditionalPropertiesString.Builder builder() {
-    return new AdditionalPropertiesString.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public AdditionalPropertiesString.Builder toBuilder() {
-    AdditionalPropertiesString.Builder builder = new AdditionalPropertiesString.Builder();
-    builder.instance.setName(name);
-    return builder;
-  }
-
 }
 

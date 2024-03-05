@@ -62,7 +62,7 @@ public class Pet   {
 
   public static final String JSON_PROPERTY_TAGS = "tags";
   @JsonProperty(JSON_PROPERTY_TAGS)
-  private List<Tag> tags;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -190,7 +190,7 @@ public class Pet   {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -210,11 +210,11 @@ public class Pet   {
   @JsonProperty(value = "tags")
   @ApiModelProperty(value = "")
   @Valid 
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 

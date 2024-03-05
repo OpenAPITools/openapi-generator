@@ -58,7 +58,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithArrayInput(
-         @Valid @RequestBody List<User> user
+         @Valid @RequestBody List<@Valid User> user
     );
 
 
@@ -76,7 +76,7 @@ public interface UserApi {
     )
     
     ResponseEntity<Void> createUsersWithListInput(
-         @Valid @RequestBody List<User> user
+         @Valid @RequestBody List<@Valid User> user
     );
 
 

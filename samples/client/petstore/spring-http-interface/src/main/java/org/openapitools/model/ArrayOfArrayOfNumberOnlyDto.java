@@ -26,9 +26,9 @@ import jakarta.annotation.Generated;
 public class ArrayOfArrayOfNumberOnlyDto {
 
   
-  private List<List> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
-  public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -47,11 +47,11 @@ public class ArrayOfArrayOfNumberOnlyDto {
   */
   
   @JsonProperty("ArrayArrayNumber")
-  public List<List> getArrayArrayNumber() {
+  public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -91,58 +91,5 @@ public class ArrayOfArrayOfNumberOnlyDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private ArrayOfArrayOfNumberOnlyDto instance;
-
-    public Builder() {
-      this(new ArrayOfArrayOfNumberOnlyDto());
-    }
-
-    protected Builder(ArrayOfArrayOfNumberOnlyDto instance) {
-      this.instance = instance;
-    }
-
-    public ArrayOfArrayOfNumberOnlyDto.Builder arrayArrayNumber(List<List> arrayArrayNumber) {
-      this.instance.arrayArrayNumber(arrayArrayNumber);
-      return this;
-    }
-    /**
-    * returns a built ArrayOfArrayOfNumberOnlyDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ArrayOfArrayOfNumberOnlyDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayOfArrayOfNumberOnlyDto.Builder builder() {
-    return new ArrayOfArrayOfNumberOnlyDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayOfArrayOfNumberOnlyDto.Builder toBuilder() {
-    ArrayOfArrayOfNumberOnlyDto.Builder builder = new ArrayOfArrayOfNumberOnlyDto.Builder();
-    builder.instance.setArrayArrayNumber(arrayArrayNumber);
-    return builder;
-  }
-
 }
 

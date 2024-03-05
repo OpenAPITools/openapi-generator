@@ -199,7 +199,6 @@ public class SpecialModelName {
       this.instance.$specialPropertyName = $specialPropertyName;
       return this;
     }
-
     public SpecialModelName.Builder specialModelName(String specialModelName) {
       this.instance.specialModelName = specialModelName;
       return this;

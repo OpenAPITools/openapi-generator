@@ -223,22 +223,27 @@ public class TypeHolderDefaultDto {
       this.instance.stringItem(stringItem);
       return this;
     }
+    
     public TypeHolderDefaultDto.Builder numberItem(BigDecimal numberItem) {
       this.instance.numberItem(numberItem);
       return this;
     }
+    
     public TypeHolderDefaultDto.Builder integerItem(Integer integerItem) {
       this.instance.integerItem(integerItem);
       return this;
     }
+    
     public TypeHolderDefaultDto.Builder boolItem(Boolean boolItem) {
       this.instance.boolItem(boolItem);
       return this;
     }
+    
     public TypeHolderDefaultDto.Builder arrayItem(List<Integer> arrayItem) {
       this.instance.arrayItem(arrayItem);
       return this;
     }
+    
     /**
     * returns a built TypeHolderDefaultDto instance.
     *

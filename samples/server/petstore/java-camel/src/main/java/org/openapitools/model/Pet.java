@@ -46,7 +46,7 @@ public class Pet {
   private List<String> photoUrls = new ArrayList<>();
 
   @Valid
-  private List<Tag> tags;
+  private List<@Valid Tag> tags;
 
   /**
    * pet status in the store
@@ -192,7 +192,7 @@ public class Pet {
     this.photoUrls = photoUrls;
   }
 
-  public Pet tags(List<Tag> tags) {
+  public Pet tags(List<@Valid Tag> tags) {
     this.tags = tags;
     return this;
   }
@@ -213,11 +213,11 @@ public class Pet {
   @Schema(name = "tags", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("tags")
   @JacksonXmlProperty(localName = "tag")
-  public List<Tag> getTags() {
+  public List<@Valid Tag> getTags() {
     return tags;
   }
 
-  public void setTags(List<Tag> tags) {
+  public void setTags(List<@Valid Tag> tags) {
     this.tags = tags;
   }
 
@@ -294,120 +294,5 @@ public class Pet {
     }
     return o.toString().replace("\n", "\n    ");
   }
-
-
-/*builder*/
-    public static class Builder {
-
-  private Pet instance;
-  protected Builder() [
-  this.instance = new  Pet();
-  }
-    public Pet.Builder id(Optional<Long> id) {
-    this.instance.id = Optional.ofNullable(id);
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Pet.Builder category(Optional<Category> category) {
-    this.instance.category = Optional.ofNullable(category);
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Pet.Builder name(String name) {
-    this.instance.name = name;
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Pet.Builder photoUrls(List<String> photoUrls) {
-    this.instance.photoUrls = photoUrls;
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Pet.Builder tags(List<Tag> tags) {
-    this.instance.tags = tags;
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-    public Pet.Builder status(Optional<StatusEnum> status) {
-    this.instance.status = Optional.ofNullable(status);
-    return this;
-    }
-
-
-    public Pet build() {
-    return instance;
-    }
-    @Override
-    public String toString() {
-    return getClass() + "=(" + instance + ")";
-    }
-    }
-
-
-  public static Pet.Builder builder() {
-  return new Builder();
-  }
-  public Pet.Builder toBuilder() {
-  return new Builder()
-    .id(id)
-    .category(category)
-    .name(name)
-    .photoUrls(photoUrls)
-    .tags(tags)
-    .status(status)
-;
-
-  }
-
 }
 

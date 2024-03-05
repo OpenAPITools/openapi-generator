@@ -233,7 +233,6 @@ static {
       this.instance.name = name;
       return this;
     }
-
     public ChildCat.Builder petType(String petType) {
       this.instance.petType = petType;
       return this;

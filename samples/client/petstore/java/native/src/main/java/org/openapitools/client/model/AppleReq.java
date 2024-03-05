@@ -199,7 +199,6 @@ public class AppleReq {
       this.instance.cultivar = cultivar;
       return this;
     }
-
     public AppleReq.Builder mealy(Boolean mealy) {
       this.instance.mealy = mealy;
       return this;

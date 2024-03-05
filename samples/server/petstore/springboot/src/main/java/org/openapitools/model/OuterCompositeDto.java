@@ -148,14 +148,17 @@ public class OuterCompositeDto {
       this.instance.myNumber(myNumber);
       return this;
     }
+    
     public OuterCompositeDto.Builder myString(String myString) {
       this.instance.myString(myString);
       return this;
     }
+    
     public OuterCompositeDto.Builder myBoolean(Boolean myBoolean) {
       this.instance.myBoolean(myBoolean);
       return this;
     }
+    
     /**
     * returns a built OuterCompositeDto instance.
     *

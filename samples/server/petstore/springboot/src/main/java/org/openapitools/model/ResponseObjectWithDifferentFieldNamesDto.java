@@ -171,18 +171,22 @@ public class ResponseObjectWithDifferentFieldNamesDto {
       this.instance.normalPropertyName(normalPropertyName);
       return this;
     }
+    
     public ResponseObjectWithDifferentFieldNamesDto.Builder UPPER_CASE_PROPERTY_SNAKE(String UPPER_CASE_PROPERTY_SNAKE) {
       this.instance.UPPER_CASE_PROPERTY_SNAKE(UPPER_CASE_PROPERTY_SNAKE);
       return this;
     }
+    
     public ResponseObjectWithDifferentFieldNamesDto.Builder lowerCasePropertyDashes(String lowerCasePropertyDashes) {
       this.instance.lowerCasePropertyDashes(lowerCasePropertyDashes);
       return this;
     }
+    
     public ResponseObjectWithDifferentFieldNamesDto.Builder propertyNameWithSpaces(String propertyNameWithSpaces) {
       this.instance.propertyNameWithSpaces(propertyNameWithSpaces);
       return this;
     }
+    
     /**
     * returns a built ResponseObjectWithDifferentFieldNamesDto instance.
     *

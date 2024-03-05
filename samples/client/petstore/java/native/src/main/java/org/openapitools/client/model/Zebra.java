@@ -289,7 +289,6 @@ public class Zebra extends HashMap<String, Object> {
       this.instance.type = type;
       return this;
     }
-
     public Zebra.Builder className(String className) {
       this.instance.className = className;
       return this;

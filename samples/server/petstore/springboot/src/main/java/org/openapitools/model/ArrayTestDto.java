@@ -32,10 +32,10 @@ public class ArrayTestDto {
   private List<String> arrayOfString;
 
   @Valid
-  private List<List> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger;
 
   @Valid
-  private List<List> arrayArrayOfModel;
+  private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel;
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -65,7 +65,7 @@ public class ArrayTestDto {
     this.arrayOfString = arrayOfString;
   }
 
-  public ArrayTestDto arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public ArrayTestDto arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -85,20 +85,20 @@ public class ArrayTestDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_integer")
-  public List<List> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTestDto arrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public ArrayTestDto arrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
 
-  public ArrayTestDto addArrayArrayOfModelItem(List<ReadOnlyFirstDto> arrayArrayOfModelItem) {
+  public ArrayTestDto addArrayArrayOfModelItem(List<@Valid ReadOnlyFirstDto> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
       this.arrayArrayOfModel = new ArrayList<>();
     }
@@ -113,11 +113,11 @@ public class ArrayTestDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("array_array_of_model")
-  public List<List> getArrayArrayOfModel() {
+  public List<List<@Valid ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -178,14 +178,17 @@ public class ArrayTestDto {
       this.instance.arrayOfString(arrayOfString);
       return this;
     }
-    public ArrayTestDto.Builder arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+    
+    public ArrayTestDto.Builder arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
       this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
       return this;
     }
-    public ArrayTestDto.Builder arrayArrayOfModel(List<List> arrayArrayOfModel) {
+    
+    public ArrayTestDto.Builder arrayArrayOfModel(List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
       this.instance.arrayArrayOfModel(arrayArrayOfModel);
       return this;
     }
+    
     /**
     * returns a built ArrayTestDto instance.
     *

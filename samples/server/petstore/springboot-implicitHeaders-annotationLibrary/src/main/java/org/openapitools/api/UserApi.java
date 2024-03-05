@@ -65,7 +65,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithArrayInput(
-         @Valid @RequestBody List<User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
@@ -86,7 +86,7 @@ public interface UserApi {
     )
     
     default ResponseEntity<Void> createUsersWithListInput(
-         @Valid @RequestBody List<User> user
+         @Valid @RequestBody List<@Valid User> user
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

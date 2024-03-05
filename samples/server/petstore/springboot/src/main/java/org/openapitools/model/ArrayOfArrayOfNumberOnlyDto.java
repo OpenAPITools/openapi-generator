@@ -29,9 +29,9 @@ import javax.annotation.Generated;
 public class ArrayOfArrayOfNumberOnlyDto {
 
   @Valid
-  private List<List> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
-  public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -51,11 +51,11 @@ public class ArrayOfArrayOfNumberOnlyDto {
   @Valid 
   @ApiModelProperty(value = "")
   @JsonProperty("ArrayArrayNumber")
-  public List<List> getArrayArrayNumber() {
+  public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -108,10 +108,11 @@ public class ArrayOfArrayOfNumberOnlyDto {
       this.instance = instance;
     }
 
-    public ArrayOfArrayOfNumberOnlyDto.Builder arrayArrayNumber(List<List> arrayArrayNumber) {
+    public ArrayOfArrayOfNumberOnlyDto.Builder arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
       this.instance.arrayArrayNumber(arrayArrayNumber);
       return this;
     }
+    
     /**
     * returns a built ArrayOfArrayOfNumberOnlyDto instance.
     *

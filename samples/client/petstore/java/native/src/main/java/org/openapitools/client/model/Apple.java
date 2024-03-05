@@ -199,7 +199,6 @@ public class Apple {
       this.instance.cultivar = cultivar;
       return this;
     }
-
     public Apple.Builder origin(String origin) {
       this.instance.origin = origin;
       return this;

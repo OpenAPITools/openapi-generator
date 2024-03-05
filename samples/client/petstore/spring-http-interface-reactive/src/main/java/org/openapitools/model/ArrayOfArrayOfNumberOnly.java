@@ -24,9 +24,9 @@ import jakarta.annotation.Generated;
 public class ArrayOfArrayOfNumberOnly {
 
   
-  private List<List> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -45,11 +45,11 @@ public class ArrayOfArrayOfNumberOnly {
   */
   
   @JsonProperty("ArrayArrayNumber")
-  public List<List> getArrayArrayNumber() {
+  public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -89,58 +89,5 @@ public class ArrayOfArrayOfNumberOnly {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private ArrayOfArrayOfNumberOnly instance;
-
-    public Builder() {
-      this(new ArrayOfArrayOfNumberOnly());
-    }
-
-    protected Builder(ArrayOfArrayOfNumberOnly instance) {
-      this.instance = instance;
-    }
-
-    public ArrayOfArrayOfNumberOnly.Builder arrayArrayNumber(List<List> arrayArrayNumber) {
-      this.instance.arrayArrayNumber(arrayArrayNumber);
-      return this;
-    }
-    /**
-    * returns a built ArrayOfArrayOfNumberOnly instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ArrayOfArrayOfNumberOnly build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayOfArrayOfNumberOnly.Builder builder() {
-    return new ArrayOfArrayOfNumberOnly.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayOfArrayOfNumberOnly.Builder toBuilder() {
-    ArrayOfArrayOfNumberOnly.Builder builder = new ArrayOfArrayOfNumberOnly.Builder();
-    builder.instance.setArrayArrayNumber(arrayArrayNumber);
-    return builder;
-  }
-
 }
 

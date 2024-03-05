@@ -29,10 +29,10 @@ public class ArrayTestDto {
   private List<String> arrayOfString;
 
   
-  private List<List> arrayArrayOfInteger;
+  private List<List<Long>> arrayArrayOfInteger;
 
   
-  private List<List> arrayArrayOfModel;
+  private List<List<ReadOnlyFirstDto>> arrayArrayOfModel;
 
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
@@ -61,7 +61,7 @@ public class ArrayTestDto {
     this.arrayOfString = arrayOfString;
   }
 
-  public ArrayTestDto arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public ArrayTestDto arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -80,15 +80,15 @@ public class ArrayTestDto {
   */
   
   @JsonProperty("array_array_of_integer")
-  public List<List> getArrayArrayOfInteger() {
+  public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
   }
 
-  public void setArrayArrayOfInteger(List<List> arrayArrayOfInteger) {
+  public void setArrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
     this.arrayArrayOfInteger = arrayArrayOfInteger;
   }
 
-  public ArrayTestDto arrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public ArrayTestDto arrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -107,11 +107,11 @@ public class ArrayTestDto {
   */
   
   @JsonProperty("array_array_of_model")
-  public List<List> getArrayArrayOfModel() {
+  public List<List<ReadOnlyFirstDto>> getArrayArrayOfModel() {
     return arrayArrayOfModel;
   }
 
-  public void setArrayArrayOfModel(List<List> arrayArrayOfModel) {
+  public void setArrayArrayOfModel(List<List<ReadOnlyFirstDto>> arrayArrayOfModel) {
     this.arrayArrayOfModel = arrayArrayOfModel;
   }
 
@@ -155,68 +155,5 @@ public class ArrayTestDto {
     }
     return o.toString().replace("\n", "\n    ");
   }
-  
-  public static class Builder {
-
-    private ArrayTestDto instance;
-
-    public Builder() {
-      this(new ArrayTestDto());
-    }
-
-    protected Builder(ArrayTestDto instance) {
-      this.instance = instance;
-    }
-
-    public ArrayTestDto.Builder arrayOfString(List<String> arrayOfString) {
-      this.instance.arrayOfString(arrayOfString);
-      return this;
-    }
-    public ArrayTestDto.Builder arrayArrayOfInteger(List<List> arrayArrayOfInteger) {
-      this.instance.arrayArrayOfInteger(arrayArrayOfInteger);
-      return this;
-    }
-    public ArrayTestDto.Builder arrayArrayOfModel(List<List> arrayArrayOfModel) {
-      this.instance.arrayArrayOfModel(arrayArrayOfModel);
-      return this;
-    }
-    /**
-    * returns a built ArrayTestDto instance.
-    *
-    * The builder is not reusable (NullPointerException)
-    */
-    public ArrayTestDto build() {
-      try {
-        return this.instance;
-      } finally {
-        // ensure that this.instance is not reused
-        this.instance = null;
-      }
-  }
-
-    @Override
-    public String toString() {
-      return getClass() + "=(" + instance + ")";
-    }
-  }
-
-  /**
-  * Create a builder with no initialized field.
-  */
-  public static ArrayTestDto.Builder builder() {
-    return new ArrayTestDto.Builder();
-  }
-
-  /**
-  * Create a builder with a shallow copy of this instance.
-  */
-  public ArrayTestDto.Builder toBuilder() {
-    ArrayTestDto.Builder builder = new ArrayTestDto.Builder();
-    builder.instance.setArrayOfString(arrayOfString);
-    builder.instance.setArrayArrayOfInteger(arrayArrayOfInteger);
-    builder.instance.setArrayArrayOfModel(arrayArrayOfModel);
-    return builder;
-  }
-
 }
 

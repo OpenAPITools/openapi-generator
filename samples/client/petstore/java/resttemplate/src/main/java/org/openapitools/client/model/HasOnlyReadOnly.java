@@ -136,7 +136,6 @@ public class HasOnlyReadOnly {
       this.instance.bar = bar;
       return this;
     }
-
     public HasOnlyReadOnly.Builder foo(String foo) {
       this.instance.foo = foo;
       return this;

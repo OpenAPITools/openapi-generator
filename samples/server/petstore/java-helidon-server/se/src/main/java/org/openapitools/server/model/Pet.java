@@ -21,7 +21,7 @@ public class Pet   {
     private Category category;
     private String name;
     private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<Tag> tags;
+    private List<@Valid Tag> tags;
 
     /**
     * pet status in the store
@@ -84,7 +84,7 @@ public class Pet   {
         Category category, 
         String name, 
         Set<String> photoUrls, 
-        List<Tag> tags, 
+        List<@Valid Tag> tags, 
         StatusEnum status
     ) {
         this.id = id;
@@ -149,11 +149,11 @@ public class Pet   {
      * Get tags
      * @return tags
      */
-    public List<Tag> getTags() {
+    public List<@Valid Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<@Valid Tag> tags) {
         this.tags = tags;
     }
 

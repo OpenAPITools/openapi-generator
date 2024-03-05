@@ -245,18 +245,22 @@ public class MapTestDto {
       this.instance.mapMapOfString(mapMapOfString);
       return this;
     }
+    
     public MapTestDto.Builder mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
       this.instance.mapOfEnumString(mapOfEnumString);
       return this;
     }
+    
     public MapTestDto.Builder directMap(Map<String, Boolean> directMap) {
       this.instance.directMap(directMap);
       return this;
     }
+    
     public MapTestDto.Builder indirectMap(Map<String, Boolean> indirectMap) {
       this.instance.indirectMap(indirectMap);
       return this;
     }
+    
     /**
     * returns a built MapTestDto instance.
     *

@@ -214,7 +214,6 @@ public class FakeBigDecimalMap200Response {
       this.instance.someId = someId;
       return this;
     }
-
     public FakeBigDecimalMap200Response.Builder someMap(Map<String, BigDecimal> someMap) {
       this.instance.someMap = someMap;
       return this;

@@ -165,7 +165,6 @@ public class AdditionalPropertiesClass {
       this.instance.mapProperty = mapProperty;
       return this;
     }
-
     public AdditionalPropertiesClass.Builder mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
       this.instance.mapOfMapProperty = mapOfMapProperty;
       return this;

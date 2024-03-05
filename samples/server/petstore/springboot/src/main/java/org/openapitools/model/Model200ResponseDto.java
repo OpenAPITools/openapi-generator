@@ -124,10 +124,12 @@ public class Model200ResponseDto {
       this.instance.name(name);
       return this;
     }
+    
     public Model200ResponseDto.Builder propertyClass(String propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
     }
+    
     /**
     * returns a built Model200ResponseDto instance.
     *

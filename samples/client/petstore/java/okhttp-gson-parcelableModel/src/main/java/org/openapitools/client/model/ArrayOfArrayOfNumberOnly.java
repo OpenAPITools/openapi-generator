@@ -58,12 +58,12 @@ import org.openapitools.client.JSON;
 public class ArrayOfArrayOfNumberOnly implements Parcelable {
   public static final String SERIALIZED_NAME_ARRAY_ARRAY_NUMBER = "ArrayArrayNumber";
   @SerializedName(SERIALIZED_NAME_ARRAY_ARRAY_NUMBER)
-  private List<List> arrayArrayNumber;
+  private List<List<BigDecimal>> arrayArrayNumber;
 
   public ArrayOfArrayOfNumberOnly() {
   }
 
-  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List> arrayArrayNumber) {
+  public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }
@@ -81,11 +81,11 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
    * @return arrayArrayNumber
   **/
   @javax.annotation.Nullable
-  public List<List> getArrayArrayNumber() {
+  public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;
   }
 
-  public void setArrayArrayNumber(List<List> arrayArrayNumber) {
+  public void setArrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
   }
 
@@ -134,7 +134,7 @@ public class ArrayOfArrayOfNumberOnly implements Parcelable {
   }
 
   ArrayOfArrayOfNumberOnly(Parcel in) {
-    arrayArrayNumber = (List<List>)in.readValue(List.class.getClassLoader());
+    arrayArrayNumber = (List<List<BigDecimal>>)in.readValue(List.class.getClassLoader());
   }
 
   public int describeContents() {

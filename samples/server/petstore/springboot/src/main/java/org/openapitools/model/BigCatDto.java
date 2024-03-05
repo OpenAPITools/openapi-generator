@@ -173,24 +173,28 @@ public class BigCatDto extends CatDto {
       this.instance.kind(kind);
       return this;
     }
+    
 
     @Override
     public BigCatDto.Builder declawed(Boolean declawed) {
       this.instance.declawed(declawed);
       return this;
     }
+    
 
     @Override
     public BigCatDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
+    
 
     @Override
     public BigCatDto.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built BigCatDto instance.
     *

@@ -147,10 +147,12 @@ public class AnimalDto {
       this.instance.className(className);
       return this;
     }
+    
     public AnimalDto.Builder color(String color) {
       this.instance.color(color);
       return this;
     }
+    
     /**
     * returns a built AnimalDto instance.
     *
