@@ -32,7 +32,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |legacyDiscriminatorBehavior|Set to false for generators with better support for discriminators. (Python, Java, Go, PowerShell, C# have this enabled by default).|<dl><dt>**true**</dt><dd>The mapping in the discriminator includes descendent schemas that allOf inherit from self and the discriminator mapping schemas in the OAS document.</dd><dt>**false**</dt><dd>The mapping in the discriminator includes any descendent schemas that allOf inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values, and the discriminator mapping schemas in the OAS document AND Codegen validates that oneOf and anyOf schemas contain the required discriminator and throws an error if the discriminator is missing.</dd></dl>|true|
 |licenseName|The name of the license| |null|
 |modelPackage|package for generated models| |null|
-|modern|use modern language features (generated code will require PHP 8.0)| |false|
+|modern|use modern language features (generated code will require PHP 8.1)| |false|
 |packageName|The main package name for classes. e.g. GeneratedPetstore| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
@@ -257,6 +257,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

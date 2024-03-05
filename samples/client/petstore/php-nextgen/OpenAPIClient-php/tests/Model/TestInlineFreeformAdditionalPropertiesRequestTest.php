@@ -76,7 +76,7 @@ class TestInlineFreeformAdditionalPropertiesRequestTest extends TestCase
     public function testTestInlineFreeformAdditionalPropertiesRequest()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class TestInlineFreeformAdditionalPropertiesRequestTest extends TestCase
     public function testPropertySomeProperty()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

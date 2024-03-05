@@ -40,6 +40,23 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
 
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AdditionalPropertiesAnyType additionalPropertiesAnyType = (AdditionalPropertiesAnyType) o;
+    return super.equals(o) && Objects.equals(name, additionalPropertiesAnyType.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), name);
+  }
+
+  @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesAnyType {\n");

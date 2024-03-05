@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import io.swagger.models.Model;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -34,7 +33,9 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.DocumentationProviderFeatures;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -52,6 +53,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -88,7 +90,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public static final String CAMEL_CASE_DOLLAR_SIGN = "camelCaseDollarSign";
     public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
-
+    public static final String LOMBOK = "lombok";
     public static final String DEFAULT_TEST_FOLDER = "${project.build.directory}/generated-test-sources/openapi";
 
     protected String dateLibrary = "java8";
@@ -127,6 +129,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected Map<String, Boolean> lombokAnnotations = null;
     protected List<String> additionalOneOfTypeAnnotations = new LinkedList<>();
     protected List<String> additionalEnumTypeAnnotations = new LinkedList<>();
     protected boolean openApiNullable = true;
@@ -930,7 +933,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
             Schema<?> items = getSchemaItems((ArraySchema) schema);
-            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+            return getSchemaType(target) + "<" + getBeanValidation(items) + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
@@ -943,6 +946,136 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
         return super.getTypeDeclaration(target);
+    }
+
+    /**
+     * This method stand for resolve bean validation for container(array, set).
+     * Return empty if there's no bean validation for requested type or prop useBeanValidation false or missed.
+     *
+     * @param items type
+     * @return BeanValidation for declared type in container(array, set)
+     */
+    private String getBeanValidation(Schema<?> items) {
+        if (Boolean.FALSE.equals(additionalProperties.getOrDefault(BeanValidationFeatures.USE_BEANVALIDATION, Boolean.FALSE))) {
+            return "";
+        }
+
+        if (ModelUtils.isTypeObjectSchema(items)) {
+            // prevents generation '@Valid' for Object
+            return "";
+        }
+
+        if (items.get$ref() != null) {
+            Map<String, Schema>  shemas = this.openAPI.getComponents().getSchemas();
+            String ref = ModelUtils.getSimpleRef(items.get$ref());
+            if (ref != null) {
+                Schema<?> schema = shemas.get(ref);
+                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                    return "@Valid ";
+                }
+                items = schema;
+            }
+        }
+
+        if (ModelUtils.isStringSchema(items)) {
+            return getStringBeanValidation(items);
+        }
+
+        if (ModelUtils.isNumberSchema(items)) {
+            return getNumberBeanValidation(items);
+        }
+
+        if (ModelUtils.isIntegerSchema(items)) {
+            return getIntegerBeanValidation(items);
+        }
+
+        return "";
+    }
+
+    private String getIntegerBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s) @Max(%s)", items.getMinimum(), items.getMaximum());
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@Min(%s)", items.getMinimum());
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@Max(%s)", items.getMaximum());
+        }
+        return "";
+    }
+
+    private String getNumberBeanValidation(Schema<?> items) {
+        if (items.getMinimum() != null && items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin(value = \"%s\", inclusive = %s) @DecimalMax(value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE),
+                    items.getMaximum(),
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMinimum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMin( value = \"%s\", inclusive = %s)",
+                    items.getMinimum(),
+                    !Optional.ofNullable(items.getExclusiveMinimum()).orElse(Boolean.FALSE));
+        }
+
+        if (items.getMaximum() != null) {
+            return String.format(Locale.ROOT, "@DecimalMax( value = \"%s\", inclusive = %s)",
+                    items.getMaximum(),
+                    !Optional.ofNullable(items.getExclusiveMaximum()).orElse(Boolean.FALSE));
+        }
+
+        return "";
+    }
+
+    private String getStringBeanValidation(Schema<?> items) {
+        String validations = "";
+        if (ModelUtils.isByteArraySchema(items) || ModelUtils.isBinarySchema(items)) {
+            return validations;
+        }
+
+        if (StringUtils.isNotEmpty(items.getPattern())) {
+            final String pattern = escapeUnsafeCharacters(
+                    StringEscapeUtils.unescapeJava(
+                                    StringEscapeUtils.escapeJava(items.getPattern())
+                                            .replace("\\/", "/"))
+                            .replaceAll("[\\t\\n\\r]", " ")
+                            .replace("\\", "\\\\")
+                            .replace("\"", "\\\""));
+
+            validations = String.format(Locale.ROOT, "@Pattern(regexp = \"%s\")", pattern);
+        }
+
+        if (ModelUtils.isEmailSchema(items)) {
+            return String.join("", "@Email ");
+        }
+
+        if (ModelUtils.isDecimalSchema(items)) {
+            return String.join("", validations, getNumberBeanValidation(items));
+        }
+
+        if (items.getMinLength() != null && items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d, max = %d)", items.getMinLength(), items.getMaxLength()));
+        }
+
+        if (items.getMinLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(min = %d)", items.getMinLength()));
+        }
+
+        if (items.getMaxLength() != null) {
+            return String.join("",
+                    validations,
+                    String.format(Locale.ROOT, "@Size(max = %d)", items.getMaxLength()));
+        }
+
+        return validations;
     }
 
     @Override
@@ -1164,6 +1297,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return localDate.toString();
         }
         if (ModelUtils.isArraySchema(schema)) {
+            // swagger-parser parses the default value differently depending on whether it's in a referenced file or not.
+            // cf. https://github.com/swagger-api/swagger-parser/issues/1958
+            // ArrayList if in the referenced file, ArrayNode if not.
             if (defaultValue instanceof ArrayNode) {
                 ArrayNode array = (ArrayNode) defaultValue;
                 return StreamSupport.stream(array.spliterator(), false)
@@ -1171,6 +1307,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         // remove wrapper quotes
                         .map(item -> StringUtils.removeStart(item, "\""))
                         .map(item -> StringUtils.removeEnd(item, "\""))
+                        .collect(Collectors.joining(","));
+            } else if (defaultValue instanceof ArrayList) {
+                ArrayList<?> array = (ArrayList<?>) defaultValue;
+                return array.stream()
+                        .map(Object::toString)
                         .collect(Collectors.joining(","));
             }
         }
@@ -1511,6 +1652,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
+    public void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property) {
+        if (response == null || property == null || response.dataType == null || property.dataType == null) {
+            return;
+        }
+
+        // the response data types should not contains a bean validation annotation.
+        if (property.dataType.contains("@")) {
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+        }
+        // the response data types should not contains a bean validation annotation.
+        if (response.dataType.contains("@")) {
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
+        }
+    }
+
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
         // recursively add import for mapping one type to multiple imports
@@ -1537,6 +1693,22 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
                 ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
             }
+        }
+
+        // parse lombok additional model type annotations
+        Map<String, Boolean> lombokOptions = new HashMap<>();
+        String regexp = "@lombok.(\\w+\\.)*(?<ClassName>\\w+)(\\(.*?\\))?";
+        Pattern pattern = Pattern.compile(regexp);
+        for (String annotation : additionalModelTypeAnnotations) {
+            Matcher matcher = pattern.matcher(annotation);
+            if  (matcher.find()) {
+                String className = matcher.group("ClassName");
+                lombokOptions.put(className, true);
+            }
+        }
+        if (!lombokOptions.isEmpty()) {
+            lombokAnnotations = lombokOptions;
+            writePropertyBack(LOMBOK, lombokOptions);
         }
 
         return postProcessModelsEnum(objs);
@@ -1598,7 +1770,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-content-type", contentType);
                     }
-                    String accepts = getAccept(openAPI, operation);
+                    String accepts = getAccepts(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
                 }
             }
@@ -1649,32 +1821,19 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccept(OpenAPI openAPI, Operation operation) {
-        String accepts = null;
-        String defaultContentType = "application/json";
-        Set<String> producesInfo = getProducesInfo(openAPI, operation);
+    private static String getAccepts(OpenAPI openAPIArg, Operation operation) {
+        final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            ArrayList<String> produces = new ArrayList<>(producesInfo);
             StringBuilder sb = new StringBuilder();
-            for (String produce : produces) {
-                if (defaultContentType.equalsIgnoreCase(produce)) {
-                    accepts = defaultContentType;
-                    break;
-                } else {
-                    if (sb.length() > 0) {
-                        sb.append(",");
-                    }
-                    sb.append(produce);
+            for (String produce : producesInfo) {
+                if (sb.length() > 0) {
+                    sb.append(",");
                 }
+                sb.append(produce);
             }
-            if (accepts == null) {
-                accepts = sb.toString();
-            }
-        } else {
-            accepts = defaultContentType;
+            return sb.toString();
         }
-
-        return accepts;
+        return "application/json"; // default media type
     }
 
     @Override
@@ -2289,7 +2448,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         operation.hasParams = !operation.allParams.isEmpty();
     }
-    
+
     private boolean shouldBeImplicitHeader(CodegenParameter parameter) {
         return StringUtils.isNotBlank(implicitHeadersRegex) && parameter.baseName.matches(implicitHeadersRegex);
     }

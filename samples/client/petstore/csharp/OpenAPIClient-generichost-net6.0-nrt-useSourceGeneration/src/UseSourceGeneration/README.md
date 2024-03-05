@@ -69,42 +69,7 @@ namespace YourProject
           .ConfigureApi((context, options) =>
           {
               // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
-              options.AddTokens(token);
-
-              // optionally choose the method the tokens will be provided with, default is RateLimitProvider
-              options.UseProvider<RateLimitProvider<ApiKeyToken>, ApiKeyToken>();
-
-              // the type of token here depends on the api security specifications
-              ApiKeyToken token = new("<your token>");
+              ApiKeyToken token = new("<your token>", ClientUtils.ApiKeyHeader.Authorization);
               options.AddTokens(token);
 
               // optionally choose the method the tokens will be provided with, default is RateLimitProvider

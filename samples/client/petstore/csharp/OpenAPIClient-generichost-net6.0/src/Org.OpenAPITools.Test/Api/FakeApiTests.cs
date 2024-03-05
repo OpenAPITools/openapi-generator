@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Test.Api
             decimal number = default;
             double varDouble = default;
             string patternWithoutDelimiter = default;
-            Client.Option<DateTime> date = default;
+            Client.Option<DateOnly> date = default;
             Client.Option<System.IO.Stream> binary = default;
             Client.Option<float> varFloat = default;
             Client.Option<int> integer = default;
@@ -217,6 +217,16 @@ namespace Org.OpenAPITools.Test.Api
         {
             Dictionary<string, string> requestBody = default;
             await _instance.TestInlineAdditionalPropertiesAsync(requestBody);
+        }
+
+        /// <summary>
+        /// Test TestInlineFreeformAdditionalProperties
+        /// </summary>
+        [Fact (Skip = "not implemented")]
+        public async Task TestInlineFreeformAdditionalPropertiesAsyncTest()
+        {
+            TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = default;
+            await _instance.TestInlineFreeformAdditionalPropertiesAsync(testInlineFreeformAdditionalPropertiesRequest);
         }
 
         /// <summary>

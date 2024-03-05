@@ -539,7 +539,7 @@ class ApiClient:
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
-                    new_params.extend((k, value) for value in v)
+                    new_params.extend((k, str(value)) for value in v)
                 else:
                     if collection_format == 'ssv':
                         delimiter = ' '
@@ -554,7 +554,7 @@ class ApiClient:
             else:
                 new_params.append((k, quote(str(v))))
 
-        return "&".join(["=".join(item) for item in new_params])
+        return "&".join(["=".join(map(str, item)) for item in new_params])
 
     def files_parameters(self, files=None):
         """Builds form parameters.

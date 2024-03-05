@@ -13,6 +13,7 @@ import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 import javax.validation.constraints.*;
+import javax.validation.Valid;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiControllerImp extends UserApiControllerImpInterface {
     @Override
@@ -21,12 +22,12 @@ public class UserApiControllerImp extends UserApiControllerImpInterface {
     }
 
     @Override
-    public void createUsersWithArrayInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithArrayInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void createUsersWithListInput(Http.Request request, List<User> body) throws Exception {
+    public void createUsersWithListInput(Http.Request request, List<@Valid User> body) throws Exception {
         //Do your magic!!!
     }
 

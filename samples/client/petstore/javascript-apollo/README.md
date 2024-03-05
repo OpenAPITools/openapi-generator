@@ -129,6 +129,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
 *OpenApiPetstore.FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/FakeApi.md#fakePropertyEnumIntegerSerialize) | **POST** /fake/property/enum-int | 
+*OpenApiPetstore.FakeApi* | [**testAdditionalPropertiesReference**](docs/FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *OpenApiPetstore.FakeApi* | [**testBodyWithBinary**](docs/FakeApi.md#testBodyWithBinary) | **PUT** /fake/body-with-binary | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -140,6 +141,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/FakeApi.md#testInlineFreeformAdditionalProperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *OpenApiPetstore.FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
 *OpenApiPetstore.FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters | 
+*OpenApiPetstore.FakeApi* | [**testStringMapReference**](docs/FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map
 *OpenApiPetstore.FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *OpenApiPetstore.PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
 *OpenApiPetstore.PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet

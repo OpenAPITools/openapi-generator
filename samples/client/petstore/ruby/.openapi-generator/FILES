@@ -19,6 +19,7 @@ docs/Cat.md
 docs/Category.md
 docs/ClassModel.md
 docs/Client.md
+docs/Cow.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
 docs/Dog.md
@@ -36,6 +37,7 @@ docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/List.md
+docs/MamalWithEnum.md
 docs/Mammal.md
 docs/MammalAnyof.md
 docs/MammalWithoutDiscriminator.md
@@ -91,6 +93,7 @@ lib/petstore/models/cat.rb
 lib/petstore/models/category.rb
 lib/petstore/models/class_model.rb
 lib/petstore/models/client.rb
+lib/petstore/models/cow.rb
 lib/petstore/models/deprecated_object.rb
 lib/petstore/models/dog.rb
 lib/petstore/models/enum_arrays.rb
@@ -105,6 +108,7 @@ lib/petstore/models/format_test.rb
 lib/petstore/models/has_only_read_only.rb
 lib/petstore/models/health_check_result.rb
 lib/petstore/models/list.rb
+lib/petstore/models/mamal_with_enum.rb
 lib/petstore/models/mammal.rb
 lib/petstore/models/mammal_anyof.rb
 lib/petstore/models/mammal_without_discriminator.rb
@@ -135,6 +139,4 @@ lib/petstore/models/whale.rb
 lib/petstore/models/zebra.rb
 lib/petstore/version.rb
 petstore.gemspec
-spec/api_client_spec.rb
-spec/configuration_spec.rb
 spec/spec_helper.rb

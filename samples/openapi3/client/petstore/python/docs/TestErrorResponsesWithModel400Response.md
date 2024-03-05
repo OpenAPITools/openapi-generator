@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of TestErrorResponsesWithModel400Response from a JSON string
 test_error_responses_with_model400_response_instance = TestErrorResponsesWithModel400Response.from_json(json)
 # print the JSON string representation of the object
-print TestErrorResponsesWithModel400Response.to_json()
+print(TestErrorResponsesWithModel400Response.to_json())
 
 # convert the object into a dict
 test_error_responses_with_model400_response_dict = test_error_responses_with_model400_response_instance.to_dict()

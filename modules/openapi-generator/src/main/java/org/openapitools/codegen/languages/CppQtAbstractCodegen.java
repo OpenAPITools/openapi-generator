@@ -129,6 +129,9 @@ public abstract class CppQtAbstractCodegen extends AbstractCppCodegen implements
         systemIncludes.add("QDate");
         systemIncludes.add("QDateTime");
         systemIncludes.add("QByteArray");
+
+        reservedWords.add("signals");
+        reservedWords.add("slots");
     }
 
     @Override

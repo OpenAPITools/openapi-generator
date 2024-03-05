@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **VarByte** | **byte[]** |  | 
-**Date** | **DateTime** |  | 
+**Date** | **DateOnly** |  | 
 **Number** | **decimal** |  | 
 **Password** | **string** |  | 
 **Binary** | **System.IO.Stream** |  | [optional] 

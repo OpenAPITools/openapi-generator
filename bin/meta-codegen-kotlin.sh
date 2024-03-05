@@ -7,8 +7,8 @@ declare cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare root="$(cd "$cwd" && cd ../ && pwd)"
 
 if ! command -v gradle > /dev/null; then
-		echo "[WARN] This script requires a system gradle to be installed. Not treating this as an error."
-		exit 0
+  echo "[WARN] This script requires a system gradle to be installed. Not treating this as an error."
+  exit 0
 fi
 
 executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"

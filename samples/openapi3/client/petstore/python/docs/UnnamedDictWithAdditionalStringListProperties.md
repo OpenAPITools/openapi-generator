@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of UnnamedDictWithAdditionalStringListProperties from a JSON string
 unnamed_dict_with_additional_string_list_properties_instance = UnnamedDictWithAdditionalStringListProperties.from_json(json)
 # print the JSON string representation of the object
-print UnnamedDictWithAdditionalStringListProperties.to_json()
+print(UnnamedDictWithAdditionalStringListProperties.to_json())
 
 # convert the object into a dict
 unnamed_dict_with_additional_string_list_properties_dict = unnamed_dict_with_additional_string_list_properties_instance.to_dict()

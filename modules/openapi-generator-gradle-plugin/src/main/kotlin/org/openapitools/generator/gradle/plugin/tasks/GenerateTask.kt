@@ -245,6 +245,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
+     * Specifies .openapi-generator-ignore list in the form of relative/path/to/file1,relative/path/to/file2. For example: README.md,pom.xml.
+     */
+    @Optional
+    @Input
+    val openapiGeneratorIgnoreList = project.objects.listProperty<String>()
+
+    /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
     @Optional
@@ -299,6 +306,13 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
     @Optional
     @Input
     val enumNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
+     * Specifies mappings between the operation id name and the new name
+     */
+    @Optional
+    @Input
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies mappings (rules) in OpenAPI normalizer
@@ -865,6 +879,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
                 }
             }
 
+            if (operationIdNameMappings.isPresent) {
+                operationIdNameMappings.get().forEach { entry ->
+                    configurator.addOperationIdNameMapping(entry.key, entry.value)
+                }
+            }
+
             if (openapiNormalizer.isPresent) {
                 openapiNormalizer.get().forEach { entry ->
                     configurator.addOpenAPINormalizer(entry.key, entry.value)
@@ -892,6 +912,12 @@ open class GenerateTask @Inject constructor(private val objectFactory: ObjectFac
             if (languageSpecificPrimitives.isPresent) {
                 languageSpecificPrimitives.get().forEach {
                     configurator.addLanguageSpecificPrimitive(it)
+                }
+            }
+
+            if (openapiGeneratorIgnoreList.isPresent) {
+                openapiGeneratorIgnoreList.get().forEach {
+                    configurator.addOpenAPIGeneratorIgnoreList(it)
                 }
             }
 

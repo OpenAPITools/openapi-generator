@@ -1,0 +1,53 @@
+package {{packageName}}
+
+import org.http4s.circe._
+import cats.Monad
+import cats.syntax.all._
+import cats.data.OptionT
+import cats.data.Kleisli
+import org.http4s._
+import org.http4s.server._
+
+import {{apiPackage}}._
+
+final case class API [
+  F[_]: JsonDecoder: Monad{{#authMethods}}, {{name}}{{/authMethods}}
+](
+{{#authMethods}}
+  {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: Kleisli[OptionT[F, *], Request[F], {{name}}],
+{{/authMethods}}
+)(
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+  delegate{{classname}}: {{classname}}Delegate[F{{#allAuth}}, {{.}}{{/allAuth}}],
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+){
+{{#authToOperationMap}}
+{{#addMiddleware}}
+  val {{#lambda.camelcase}}{{auth}}{{/lambda.camelcase}}Middleware = AuthMiddleware{{^-last}}.withFallThrough{{/-last}}({{#lambda.camelcase}}{{auth}}{{/lambda.camelcase}})
+{{/addMiddleware}}
+{{/authToOperationMap}}
+
+{{#apiInfo}}
+{{#apis}}
+{{#operations}}
+  val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Routes = new {{classname}}Routes(delegate{{classname}})
+{{/operations}}
+{{/apis}}
+{{/apiInfo}}
+
+{{#authToOperationMap}}
+  val routes{{auth}} = {{#addMiddleware}}{{#lambda.camelcase}}{{auth}}{{/lambda.camelcase}}Middleware({{/addMiddleware}}
+  {{#ops}}
+    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}Routes.routes{{auth}}{{^-last}} <+>{{/-last}}
+  {{/ops}}{{#addMiddleware}}){{/addMiddleware}}
+{{/authToOperationMap}}
+
+  val routesAll =
+{{#authToOperationMap}}
+    routes{{auth}}{{^-last}} <+>{{/-last}}
+{{/authToOperationMap}}
+}

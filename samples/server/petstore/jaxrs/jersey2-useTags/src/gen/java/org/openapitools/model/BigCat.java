@@ -101,7 +101,7 @@ public class BigCat extends Cat  {
       return false;
     }
     BigCat bigCat = (BigCat) o;
-    return super.equals(o) && Objects.equals(kind, bigCat.kind);
+    return super.equals(o) && Objects.equals(this.kind, bigCat.kind);
   }
 
   @Override

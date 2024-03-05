@@ -55,7 +55,7 @@ knownRecordFactories.set(OrderRecordEntityProps.recType, OrderRecordEntity);
 class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
     public normalize(apiObject: Order, asEntity?: boolean): Order {
         (apiObject as any).recType = asEntity ? OrderRecordEntityProps.recType : OrderRecordProps.recType;
-        if (apiObject.id) { (apiObject as any).id = apiObject.id.toString(); } 
+        if (apiObject['id']) { (apiObject as any)['id'] = apiObject['id'].toString(); } 
         return apiObject;
     }
 
@@ -72,8 +72,8 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 
         const {
             recType,
-		    ...unchangedProperties
-		} = entity;
+            ...unchangedProperties
+        } = entity;
 
         const entityProperties = {
         }
@@ -99,7 +99,7 @@ class OrderRecordUtils extends ApiRecordUtils<Order, OrderRecord> {
 
     public toApi(record: OrderRecord): Order {
         const apiObject = super.toApi(record);
-        if (record.id) { apiObject.id = parseFloat(record.id); } 
+        if (record['id']) { apiObject['id'] = parseFloat(record['id']); } 
         return apiObject;
     }
 }

@@ -1,0 +1,54 @@
+---
+openapi: 3.0.3
+info:
+  title: Test
+  version: 1.0.0-SNAPSHOT
+paths:
+  /test:
+    get:
+      parameters:
+        - name: fileEnumWithDefault
+          in: query
+          schema:
+            $ref: './issue_16223_enum_with_default.yaml'
+        - name: fileEnumWithDefaultEmpty
+          in: query
+          schema:
+            $ref: './issue_16223_enum_with_default_empty.yaml'
+        - name: inlineEnumWithDefault
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - A
+                - B
+                - C
+            default:
+              - A
+              - B
+        - name: inlineEnumWithDefaultEmpty
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - A
+                - B
+                - C
+            default: []
+      responses:
+        "200":
+          description: OK
+
+components:
+  schemas:
+    Test:
+      type: object
+      properties:
+        withDefault:
+          $ref: './issue_16223_enum_with_default.yaml'
+        withEmptyDefault:
+          $ref: './issue_16223_enum_with_default_empty.yaml'

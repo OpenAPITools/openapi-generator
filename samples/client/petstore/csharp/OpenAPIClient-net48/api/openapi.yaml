@@ -262,6 +262,7 @@ paths:
           description: Pet not found
       security:
       - api_key: []
+      - api_key_query: []
       summary: Find pet by ID
       tags:
       - pet
@@ -499,6 +500,14 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false
@@ -575,6 +584,14 @@ paths:
           description: Invalid username supplied
         "404":
           description: User not found
+        "598":
+          description: Not a real HTTP status code
+        "599":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Not a real HTTP status code with a return object
       summary: Get user by user name
       tags:
       - user
@@ -924,6 +941,40 @@ paths:
       summary: test json serialization of form data
       tags:
       - fake
+  /fake/additionalProperties-reference:
+    post:
+      description: ""
+      operationId: testAdditionalPropertiesReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FreeFormObject'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced additionalProperties
+      tags:
+      - fake
+  /fake/stringMap-reference:
+    post:
+      description: ""
+      operationId: testStringMapReference
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MapOfString'
+        description: request body
+        required: true
+      responses:
+        "200":
+          description: successful operation
+      summary: test referenced string map
+      tags:
+      - fake
   /fake/inline-additionalProperties:
     post:
       description: ""
@@ -1160,6 +1211,32 @@ paths:
                 $ref: '#/components/schemas/ArrayOfEnums'
           description: Got named array of enums
       summary: Array of Enums
+      tags:
+      - fake
+  /fake/mixed/anyOf:
+    get:
+      operationId: getMixedAnyOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+          description: Got mixed anyOf
+      summary: Test mixed type anyOf deserialization
+      tags:
+      - fake
+  /fake/mixed/oneOf:
+    get:
+      operationId: getMixedOneOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
+          description: Got mixed oneOf
+      summary: Test mixed type oneOf deserialization
       tags:
       - fake
   /country:
@@ -1851,6 +1928,15 @@ components:
             type: string
           type: array
       type: object
+    FreeFormObject:
+      additionalProperties: true
+      description: A schema consisting only of additional properties
+      type: object
+    MapOfString:
+      additionalProperties:
+        type: string
+      description: A schema consisting only of additional properties of type string
+      type: object
     OuterEnum:
       enum:
       - placed
@@ -2491,6 +2577,8 @@ components:
             - ChildCat
             type: string
             x-enum-as-string: true
+        required:
+        - pet_type
         type: object
     ArrayOfEnums:
       items:
@@ -2630,6 +2718,22 @@ components:
       - a_objVariableobject
       - pkiNotificationtestID
       type: object
+    MixedOneOf:
+      example:
+        content: MixedOneOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedOneOf_content'
+    MixedAnyOf:
+      example:
+        content: MixedAnyOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedAnyOf_content'
+    MixedSubId:
+      properties:
+        id:
+          type: string
     _foo_get_default_response:
       example:
         string:
@@ -2794,6 +2898,26 @@ components:
         name:
           type: string
       type: object
+    MixedOneOf_content:
+      description: Mixed oneOf types for testing
+      oneOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+    MixedAnyOf_content:
+      anyOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+      description: Mixed anyOf types for testing
   securitySchemes:
     petstore_auth:
       flows:

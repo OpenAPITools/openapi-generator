@@ -331,7 +331,7 @@ func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool
 
 // HasArrayNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayNullableProp() bool {
-	if o != nil && IsNil(o.ArrayNullableProp) {
+	if o != nil && !IsNil(o.ArrayNullableProp) {
 		return true
 	}
 
@@ -364,7 +364,7 @@ func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]*map[string]interfac
 
 // HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ArrayAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ArrayAndItemsNullableProp) {
 		return true
 	}
 
@@ -429,7 +429,7 @@ func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interfa
 
 // HasObjectNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectNullableProp() bool {
-	if o != nil && IsNil(o.ObjectNullableProp) {
+	if o != nil && !IsNil(o.ObjectNullableProp) {
 		return true
 	}
 
@@ -462,7 +462,7 @@ func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string
 
 // HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ObjectAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ObjectAndItemsNullableProp) {
 		return true
 	}
 
@@ -560,10 +560,10 @@ func (o NullableClass) ToMap() (map[string]interface{}, error) {
 	return toSerialize, nil
 }
 
-func (o *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
+func (o *NullableClass) UnmarshalJSON(data []byte) (err error) {
 	varNullableClass := _NullableClass{}
 
-	err = json.Unmarshal(bytes, &varNullableClass)
+	err = json.Unmarshal(data, &varNullableClass)
 
 	if err != nil {
 		return err
@@ -573,7 +573,7 @@ func (o *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
 
 	additionalProperties := make(map[string]interface{})
 
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "integer_prop")
 		delete(additionalProperties, "number_prop")
 		delete(additionalProperties, "boolean_prop")

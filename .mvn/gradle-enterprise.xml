@@ -34,19 +34,12 @@
   </buildScan>
   <buildCache>
     <local>
-      <enabled>false</enabled>
+      <enabled>true</enabled>
     </local>
     <remote>
-      <server>
-        <url>https://ge.openapi-generator.tech/cache/exp3/</url>           <!-- adjust to your GE hostname, and note the trailing slash -->
-        <allowUntrusted>true</allowUntrusted>                   <!-- set to false if a trusted certificate is configured for the GE server -->
-        <credentials>
-          <username>${env.GRADLE_ENTERPRISE_CACHE_USERNAME}</username>
-          <password>${env.GRADLE_ENTERPRISE_CACHE_PASSWORD}</password>
-        </credentials>
-      </server>
-      <enabled>true</enabled>                                   <!-- must be true for this experiment -->
-      <storeEnabled>#{env['CI'] != null}</storeEnabled>  <!-- adjust to an env var that is always present only in your CI environment -->
+      <enabled>true</enabled>
+      <!-- Check credentials presence to avoid build cache errors on PR builds when credentials are not present -->
+      <storeEnabled>#{isTrue(env['CI']) and isTrue(env['GRADLE_ENTERPRISE_ACCESS_KEY'])}</storeEnabled>
     </remote>
   </buildCache>
 </gradleEnterprise>

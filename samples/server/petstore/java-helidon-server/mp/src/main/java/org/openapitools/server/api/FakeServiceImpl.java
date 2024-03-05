@@ -110,6 +110,12 @@ public class FakeServiceImpl implements FakeService {
         return result;
     }
 
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    public void testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody) {
+    }
+
     @PUT
     @Path("/body-with-binary")
     @Consumes({ "image/png" })
@@ -177,5 +183,11 @@ public class FakeServiceImpl implements FakeService {
     @PUT
     @Path("/test-query-parameters")
     public void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe,@QueryParam("ioutil") @NotNull List<String> ioutil,@QueryParam("http") @NotNull List<String> http,@QueryParam("url") @NotNull List<String> url,@QueryParam("context") @NotNull List<String> context,@QueryParam("allowEmpty") @NotNull String allowEmpty,@QueryParam("language") Map<String, String> language) {
+    }
+
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    public void testStringMapReference(@Valid @NotNull Map<String, String> requestBody) {
     }
 }

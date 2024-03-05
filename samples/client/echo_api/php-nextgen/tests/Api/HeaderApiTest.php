@@ -81,6 +81,6 @@ class HeaderApiTest extends TestCase
     public function testTestHeaderIntegerBooleanString()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

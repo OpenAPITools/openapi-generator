@@ -1,0 +1,8 @@
+pom.xml
+src/main/java/org/openapitools/mockserver/api/AnotherFakeApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/DefaultApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/FakeApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/FakeClassnameTags123ApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/PetApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/StoreApiMockServer.java
+src/main/java/org/openapitools/mockserver/api/UserApiMockServer.java

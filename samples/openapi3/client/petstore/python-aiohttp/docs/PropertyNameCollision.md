@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**underscore_type** | **str** |  | [optional] 
 **type** | **str** |  | [optional] 
-**type** | **str** |  | [optional] 
-**type_** | **str** |  | [optional] 
+**type_with_underscore** | **str** |  | [optional] 
 
 ## Example
 
@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of PropertyNameCollision from a JSON string
 property_name_collision_instance = PropertyNameCollision.from_json(json)
 # print the JSON string representation of the object
-print PropertyNameCollision.to_json()
+print(PropertyNameCollision.to_json())
 
 # convert the object into a dict
 property_name_collision_dict = property_name_collision_instance.to_dict()

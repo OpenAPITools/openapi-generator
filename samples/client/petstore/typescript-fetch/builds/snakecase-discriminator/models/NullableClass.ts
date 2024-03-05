@@ -25,49 +25,49 @@ export interface NullableClass {
      * @type {number}
      * @memberof NullableClass
      */
-    integerProp?: number | null;
+    integerProp?: number;
     /**
      * 
      * @type {number}
      * @memberof NullableClass
      */
-    numberProp?: number | null;
+    numberProp?: number;
     /**
      * 
      * @type {boolean}
      * @memberof NullableClass
      */
-    booleanProp?: boolean | null;
+    booleanProp?: boolean;
     /**
      * 
      * @type {string}
      * @memberof NullableClass
      */
-    stringProp?: string | null;
+    stringProp?: string;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    dateProp?: Date | null;
+    dateProp?: Date;
     /**
      * 
      * @type {Date}
      * @memberof NullableClass
      */
-    datetimeProp?: Date | null;
+    datetimeProp?: Date;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayNullableProp?: Array<object> | null;
+    arrayNullableProp?: Array<object>;
     /**
      * 
      * @type {Array<object>}
      * @memberof NullableClass
      */
-    arrayAndItemsNullableProp?: Array<object> | null;
+    arrayAndItemsNullableProp?: Array<object>;
     /**
      * 
      * @type {Array<object>}
@@ -79,28 +79,26 @@ export interface NullableClass {
      * @type {{ [key: string]: object; }}
      * @memberof NullableClass
      */
-    objectNullableProp?: { [key: string]: object; } | null;
+    objectNullableProp?: { [key: string]: object; };
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectAndItemsNullableProp?: { [key: string]: object; } | null;
+    objectAndItemsNullableProp?: { [key: string]: object | null; };
     /**
      * 
-     * @type {{ [key: string]: object; }}
+     * @type {{ [key: string]: object | null; }}
      * @memberof NullableClass
      */
-    objectItemsNullable?: { [key: string]: object; };
+    objectItemsNullable?: { [key: string]: object | null; };
 }
 
 /**
  * Check if a given object implements the NullableClass interface.
  */
 export function instanceOfNullableClass(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function NullableClassFromJSON(json: any): NullableClass {
@@ -108,7 +106,7 @@ export function NullableClassFromJSON(json: any): NullableClass {
 }
 
 export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boolean): NullableClass {
-    if ((json === undefined) || (json === null)) {
+    if (json === undefined || json === null) {
         return json;
     }
     return {
@@ -118,8 +116,8 @@ export function NullableClassFromJSONTyped(json: any, ignoreDiscriminator: boole
         'numberProp': !exists(json, 'number_prop') ? undefined : json['number_prop'],
         'booleanProp': !exists(json, 'boolean_prop') ? undefined : json['boolean_prop'],
         'stringProp': !exists(json, 'string_prop') ? undefined : json['string_prop'],
-        'dateProp': !exists(json, 'date_prop') ? undefined : (json['date_prop'] === null ? null : new Date(json['date_prop'])),
-        'datetimeProp': !exists(json, 'datetime_prop') ? undefined : (json['datetime_prop'] === null ? null : new Date(json['datetime_prop'])),
+        'dateProp': !exists(json, 'date_prop') ? undefined : (new Date(json['date_prop'])),
+        'datetimeProp': !exists(json, 'datetime_prop') ? undefined : (new Date(json['datetime_prop'])),
         'arrayNullableProp': !exists(json, 'array_nullable_prop') ? undefined : json['array_nullable_prop'],
         'arrayAndItemsNullableProp': !exists(json, 'array_and_items_nullable_prop') ? undefined : json['array_and_items_nullable_prop'],
         'arrayItemsNullable': !exists(json, 'array_items_nullable') ? undefined : json['array_items_nullable'],
@@ -139,18 +137,18 @@ export function NullableClassToJSON(value?: NullableClass | null): any {
     return {
         
             ...value,
-        'integer_prop': value.integerProp,
-        'number_prop': value.numberProp,
-        'boolean_prop': value.booleanProp,
-        'string_prop': value.stringProp,
-        'date_prop': value.dateProp === undefined ? undefined : (value.dateProp === null ? null : value.dateProp.toISOString().substring(0,10)),
-        'datetime_prop': value.datetimeProp === undefined ? undefined : (value.datetimeProp === null ? null : value.datetimeProp.toISOString()),
-        'array_nullable_prop': value.arrayNullableProp,
-        'array_and_items_nullable_prop': value.arrayAndItemsNullableProp,
-        'array_items_nullable': value.arrayItemsNullable,
-        'object_nullable_prop': value.objectNullableProp,
-        'object_and_items_nullable_prop': value.objectAndItemsNullableProp,
-        'object_items_nullable': value.objectItemsNullable,
+        'integer_prop': value['integerProp'],
+        'number_prop': value['numberProp'],
+        'boolean_prop': value['booleanProp'],
+        'string_prop': value['stringProp'],
+        'date_prop': !exists(value, 'dateProp') ? undefined : ((value['dateProp'] as any).toISOString().substring(0,10)),
+        'datetime_prop': !exists(value, 'datetimeProp') ? undefined : ((value['datetimeProp'] as any).toISOString()),
+        'array_nullable_prop': value['arrayNullableProp'],
+        'array_and_items_nullable_prop': value['arrayAndItemsNullableProp'],
+        'array_items_nullable': value['arrayItemsNullable'],
+        'object_nullable_prop': value['objectNullableProp'],
+        'object_and_items_nullable_prop': value['objectAndItemsNullableProp'],
+        'object_items_nullable': value['objectItemsNullable'],
     };
 }
 

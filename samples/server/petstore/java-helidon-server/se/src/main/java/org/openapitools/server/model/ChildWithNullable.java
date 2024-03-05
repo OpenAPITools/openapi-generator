@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.openapitools.jackson.nullable.JsonNullable;
 import org.openapitools.server.model.ParentWithNullable;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 

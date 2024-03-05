@@ -48,7 +48,7 @@ public interface UserApi {
      */
     @Post(uri="/user/createWithArray")
     Mono<Void> createUsersWithArrayInput(
-        @Body @NotNull List<User> _body
+        @Body @NotNull List<@Valid User> _body
     );
 
     /**
@@ -58,7 +58,7 @@ public interface UserApi {
      */
     @Post(uri="/user/createWithList")
     Mono<Void> createUsersWithListInput(
-        @Body @NotNull List<User> _body
+        @Body @NotNull List<@Valid User> _body
     );
 
     /**

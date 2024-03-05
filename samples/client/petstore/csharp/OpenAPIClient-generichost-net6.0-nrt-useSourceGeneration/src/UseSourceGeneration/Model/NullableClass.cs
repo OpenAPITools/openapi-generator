@@ -30,7 +30,7 @@ namespace UseSourceGeneration.Model
     /// <summary>
     /// NullableClass
     /// </summary>
-    public partial class NullableClass : Dictionary<String, Object>, IValidatableObject
+    public partial class NullableClass : IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
@@ -48,7 +48,7 @@ namespace UseSourceGeneration.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
         [JsonConstructor]
-        public NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateTime?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default) : base()
+        public NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateOnly?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default)
         {
             ArrayAndItemsNullablePropOption = arrayAndItemsNullableProp;
             ArrayItemsNullableOption = arrayItemsNullable;
@@ -124,13 +124,13 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> DatePropOption { get; private set; }
+        public Option<DateOnly?> DatePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
-        public DateTime? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new(value); } }
+        public DateOnly? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DatetimeProp
@@ -237,7 +237,6 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class NullableClass {\n");
-            sb.Append("  ").Append(base.ToString()?.Replace("\n", "\n  ")).Append("\n");
             sb.Append("  ArrayAndItemsNullableProp: ").Append(ArrayAndItemsNullableProp).Append("\n");
             sb.Append("  ArrayItemsNullable: ").Append(ArrayItemsNullable).Append("\n");
             sb.Append("  ArrayNullableProp: ").Append(ArrayNullableProp).Append("\n");
@@ -261,16 +260,6 @@ namespace UseSourceGeneration.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
@@ -312,7 +301,7 @@ namespace UseSourceGeneration.Model
             Option<List<Object>?> arrayItemsNullable = default;
             Option<List<Object>?> arrayNullableProp = default;
             Option<bool?> booleanProp = default;
-            Option<DateTime?> dateProp = default;
+            Option<DateOnly?> dateProp = default;
             Option<DateTime?> datetimeProp = default;
             Option<int?> integerProp = default;
             Option<decimal?> numberProp = default;
@@ -354,7 +343,7 @@ namespace UseSourceGeneration.Model
                             break;
                         case "date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                dateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

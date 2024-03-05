@@ -54,30 +54,21 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'ArrayItemsNullable'
-        /// </summary>
-        [Fact]
-        public void ArrayItemsNullableTest()
-        {
-            // TODO unit test for the property 'ArrayItemsNullable'
-        }
-
-        /// <summary>
-        /// Test the property 'ObjectItemsNullable'
-        /// </summary>
-        [Fact]
-        public void ObjectItemsNullableTest()
-        {
-            // TODO unit test for the property 'ObjectItemsNullable'
-        }
-
-        /// <summary>
         /// Test the property 'ArrayAndItemsNullableProp'
         /// </summary>
         [Fact]
         public void ArrayAndItemsNullablePropTest()
         {
             // TODO unit test for the property 'ArrayAndItemsNullableProp'
+        }
+
+        /// <summary>
+        /// Test the property 'ArrayItemsNullable'
+        /// </summary>
+        [Fact]
+        public void ArrayItemsNullableTest()
+        {
+            // TODO unit test for the property 'ArrayItemsNullable'
         }
 
         /// <summary>
@@ -141,6 +132,15 @@ namespace UseSourceGeneration.Test.Model
         public void ObjectAndItemsNullablePropTest()
         {
             // TODO unit test for the property 'ObjectAndItemsNullableProp'
+        }
+
+        /// <summary>
+        /// Test the property 'ObjectItemsNullable'
+        /// </summary>
+        [Fact]
+        public void ObjectItemsNullableTest()
+        {
+            // TODO unit test for the property 'ObjectItemsNullable'
         }
 
         /// <summary>

@@ -266,6 +266,11 @@ Upon first code generation, you may also pass the CLI option `--ignore-file-over
 
 Editor support for `.openapi-generator-ignore` files is available in IntelliJ via the [.ignore plugin](https://plugins.jetbrains.com/plugin/7495--ignore).
 
+One may want to pre-populate `.openapi-generator-ignore` with a list of entries during the code generation process and the global/general option `openapiGeneatorIgnoreList` (e.g. --openapi-generator-ignore-list in CLI) can do exactly that. For example,
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g spring -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/spring --additional-properties useTags=true --openapi-generator-ignore-list "README.md,pom.xml,docs/*.md,src/main/java/org/openapitools/model/*"
+```
+
 ## Customizing the generator
 
 There are different aspects of customizing the code generator beyond just creating or modifying templates.  Each language has a supporting configuration file to handle different type mappings, etc:
@@ -431,6 +436,13 @@ Not all generators support thess features yet. Please give it a try to confirm t
 
 NOTE: some generators use `baseName` (original name obtained direclty from OpenAPI spec, e.g. `shipping-date`) mustache tag in the templates so the mapping feature won't work.
 
+To map `operationId` (used in method naming) to something else, use `operationIdNameMappings` option, e.g.
+
+```sh
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -o /tmp/java/ --operation-id-name-mappings getPetById=returnPetById
+```
+will name the API method as `returnPetById` instead of `getPetById` obtained from OpenAPI doc/spec.
+
 ## Schema Mapping
 
 One can map the schema to something else (e.g. external objects/models outside of the package) using the `schemaMappings` option, e.g. in CLI
@@ -510,7 +522,7 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REF_AS_PARENT_IN_ALLOF=true
 ```
 
-- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
+- `REMOVE_ANYOF_ONEOF_AND_KEEP_PROPERTIES_ONLY`: when set to `true`, oneOf/anyOf schema with only required properies only in a schema with properties will be removed. [(example)](https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/test/resources/3_0/removeAnyOfOneOfAndKeepPropertiesOnly_test.yaml)
 
 Example:
 ```
@@ -545,11 +557,18 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer KEEP_ONLY_FIRST_TAG_IN_OPERATION=true
 ```
 
-- `SET_TAGS_FOR_ALL_OPERATIONS`: when set to a string value, tags in all operatinos will reset to the string value provided.
+- `SET_TAGS_FOR_ALL_OPERATIONS`: when set to a string value, tags in all operations will reset to the string value provided.
 
 Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_FOR_ALL_OPERATIONS=another_tag_name
+```
+
+- `SET_TAGS_TO_OPERATIONID`: when set to true, tags in all operations will be set to operationId or "default" if operationId is empty
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_TAGS_TO_OPERATIONID=true
 ```
 
 - `ADD_UNSIGNED_TO_INTEGER_WITH_INVALID_MAX_VALUE`: when set to true, auto fix integer with maximum value 4294967295 (2^32-1) or long with 18446744073709551615 (2^64-1) by adding x-unsigned to the schema
@@ -566,3 +585,16 @@ Example:
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/allOf_extension_parent.yaml -o /tmp/java-okhttp/ --openapi-normalizer REFACTOR_ALLOF_WITH_PROPERTIES_ONLY=true
 ```
 
+- `REMOVE_X_INTERNAL`: Set to true if you want to disable the default behavior of removing/hiding the x-internal in operations and model
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml -o /tmp/java-okhttp/ --openapi-normalizer REMOVE_X_INTERNAL=true
+```
+
+- `FILTER`: When set to `operationId:addPet|getPetById` for example, it will add `x-internal:true` to operations with operationId not equal to addPet/getPetById (which will have x-internal set to false) so that these operations marked as internal won't be generated.
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer FILTER="operationId:addPet|getPetById"
+```

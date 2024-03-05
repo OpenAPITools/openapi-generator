@@ -36,7 +36,7 @@ No authorization required
 
 ## tests_type_testing_get
 
-> crate::models::TypeTesting tests_type_testing_get()
+> models::TypeTesting tests_type_testing_get()
 Route to test the TypeTesting schema
 
 ### Parameters
@@ -45,7 +45,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**crate::models::TypeTesting**](TypeTesting.md)
+[**models::TypeTesting**](TypeTesting.md)
 
 ### Authorization
 

@@ -36,7 +36,7 @@ class {{classname}} {{#parentSchema}}extends {{{parent}}}{{/parentSchema}}{{^par
       */
     protected static array $openAPINullables = [
         {{#vars}}'{{name}}' => {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{^-last}},
-		{{/-last}}{{/vars}}
+        {{/-last}}{{/vars}}
     ];
 
     /**

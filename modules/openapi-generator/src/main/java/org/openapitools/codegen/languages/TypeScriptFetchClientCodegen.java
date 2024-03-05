@@ -1303,6 +1303,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isMultipart = o.isMultipart;
             this.isResponseBinary = o.isResponseBinary;
             this.isResponseFile = o.isResponseFile;
+            this.isResponseOptional = o.isResponseOptional;
             this.hasReference = o.hasReference;
             this.isRestfulIndex = o.isRestfulIndex;
             this.isRestfulShow = o.isRestfulShow;
@@ -1453,6 +1454,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.allVars = cm.allVars;
             this.requiredVars = cm.requiredVars;
             this.optionalVars = cm.optionalVars;
+            this.hasReadOnly = cm.hasReadOnly;
             this.readOnlyVars = cm.readOnlyVars;
             this.readWriteVars = cm.readWriteVars;
             this.parentVars = cm.parentVars;

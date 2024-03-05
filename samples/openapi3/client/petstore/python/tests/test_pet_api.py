@@ -35,7 +35,7 @@ class TimeoutWithEqual(urllib3.Timeout):
         return self._read == other._read and self._connect == other._connect and self.total == other.total
 
 
-class MockPoolManager(object):
+class MockPoolManager(urllib3.PoolManager):
     def __init__(self, tc):
         self._tc = tc
         self._reqs = []
@@ -117,16 +117,19 @@ class PetApiTests(unittest.TestCase):
 
     def test_add_pet_and_get_pet_by_id(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
-        self.assertIsNotNone(fetched)
+        assert fetched is not None
         self.assertEqual(self.pet.id, fetched.id)
-        self.assertIsNotNone(fetched.category)
+        assert fetched.category is not None
+        assert self.pet.category is not None
         self.assertEqual(self.pet.category.name, fetched.category.name)
 
     def test_add_pet_and_get_pet_by_id_without_preload_content_flag(self):
-
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
+
         fetched = self.pet_api.get_pet_by_id_without_preload_content(pet_id=self.pet.id)
 
         self.assertIsInstance(fetched, urllib3.HTTPResponse)
@@ -141,30 +144,35 @@ class PetApiTests(unittest.TestCase):
 
     def test_add_pet_and_get_pet_by_id_with_http_info(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         # fetched is an ApiResponse object
         fetched = self.pet_api.get_pet_by_id_with_http_info(pet_id=self.pet.id)
-        self.assertIsNotNone(fetched.data)
+        assert fetched.data is not None
         self.assertEqual(self.pet.id, fetched.data.id)
-        self.assertIsNotNone(fetched.data.category)
+        assert fetched.data.category is not None
+        assert self.pet.category is not None
         self.assertEqual(self.pet.category.name, fetched.data.category.name)
 
     def test_get_pet_by_id_serialize(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         fetched = self.pet_api._get_pet_by_id_serialize(self.pet.id, None, None, None, None)
-        self.assertIsNotNone(fetched)
+        assert fetched is not None
         self.assertIsInstance(fetched, tuple)
 
     def test_update_pet(self):
         self.pet.name = "hello kity with updated"
         self.pet_api.update_pet(self.pet)
+        assert self.pet.id is not None
 
         fetched = self.pet_api.get_pet_by_id(pet_id=self.pet.id)
-        self.assertIsNotNone(fetched)
+        assert fetched is not None
         self.assertEqual(self.pet.id, fetched.id)
         self.assertEqual(self.pet.name, fetched.name)
-        self.assertIsNotNone(fetched.category)
+        assert fetched.category is not None
+        assert self.pet.category is not None
         self.assertEqual(fetched.category.name, self.pet.category.name)
 
     def test_find_pets_by_status(self):
@@ -180,6 +188,8 @@ class PetApiTests(unittest.TestCase):
 
     def test_find_pets_by_tags(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
+        assert self.tag.name is not None
 
         self.assertIn(
             self.pet.id,
@@ -188,6 +198,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_update_pet_with_form(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
 
         name = "hello kity with form updated abc"
         status = "pending"
@@ -199,6 +210,7 @@ class PetApiTests(unittest.TestCase):
         self.assertEqual(status, fetched.status)
 
     def test_upload_file(self):
+        assert self.pet.id is not None
         # upload file with form parameter
         try:
             additional_metadata = "special data 123"
@@ -218,6 +230,7 @@ class PetApiTests(unittest.TestCase):
 
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)
+        assert self.pet.id is not None
         self.pet_api.delete_pet(pet_id=self.pet.id, api_key="special-key")
 
         try:

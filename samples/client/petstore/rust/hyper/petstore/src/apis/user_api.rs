@@ -17,6 +17,7 @@ use std::option::Option;
 use hyper;
 use futures::Future;
 
+use crate::models;
 use super::{Error, configuration};
 use super::request as __internal_request;
 
@@ -35,20 +36,20 @@ impl<C: hyper::client::connect::Connect> UserApiClient<C>
 }
 
 pub trait UserApi {
-    fn create_user(&self, user: crate::models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn create_users_with_array_input(&self, user: Vec<crate::models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn create_users_with_list_input(&self, user: Vec<crate::models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn create_user(&self, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn create_users_with_array_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn create_users_with_list_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
     fn delete_user(&self, username: &str) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn get_user_by_name(&self, username: &str) -> Pin<Box<dyn Future<Output = Result<crate::models::User, Error>>>>;
+    fn get_user_by_name(&self, username: &str) -> Pin<Box<dyn Future<Output = Result<models::User, Error>>>>;
     fn login_user(&self, username: &str, password: &str) -> Pin<Box<dyn Future<Output = Result<String, Error>>>>;
     fn logout_user(&self, ) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
-    fn update_user(&self, username: &str, user: crate::models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
+    fn update_user(&self, username: &str, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>>;
 }
 
 impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
     where C: Clone + std::marker::Send + Sync {
     #[allow(unused_mut)]
-    fn create_user(&self, user: crate::models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn create_user(&self, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -63,7 +64,7 @@ impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn create_users_with_array_input(&self, user: Vec<crate::models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn create_users_with_array_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user/createWithArray".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -78,7 +79,7 @@ impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn create_users_with_list_input(&self, user: Vec<crate::models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn create_users_with_list_input(&self, user: Vec<models::User>) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::POST, "/user/createWithList".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,
@@ -108,7 +109,7 @@ impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn get_user_by_name(&self, username: &str) -> Pin<Box<dyn Future<Output = Result<crate::models::User, Error>>>> {
+    fn get_user_by_name(&self, username: &str) -> Pin<Box<dyn Future<Output = Result<models::User, Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::GET, "/user/{username}".to_string())
         ;
         req = req.with_path_param("username".to_string(), username.to_string());
@@ -141,7 +142,7 @@ impl<C: hyper::client::connect::Connect>UserApi for UserApiClient<C>
     }
 
     #[allow(unused_mut)]
-    fn update_user(&self, username: &str, user: crate::models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
+    fn update_user(&self, username: &str, user: models::User) -> Pin<Box<dyn Future<Output = Result<(), Error>>>> {
         let mut req = __internal_request::Request::new(hyper::Method::PUT, "/user/{username}".to_string())
             .with_auth(__internal_request::Auth::ApiKey(__internal_request::ApiKey{
                 in_header: true,

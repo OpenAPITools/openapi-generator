@@ -76,6 +76,6 @@ class OuterEnumIntegerDefaultValueTest extends TestCase
     public function testOuterEnumIntegerDefaultValue()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

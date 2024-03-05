@@ -83,6 +83,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterStringSerialize**](docs/Api/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
 *FakeApi* | [**fakePropertyEnumIntegerSerialize**](docs/Api/FakeApi.md#fakepropertyenumintegerserialize) | **POST** /fake/property/enum-int | 
 *FakeApi* | [**getParameterNameMapping**](docs/Api/FakeApi.md#getparameternamemapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test
+*FakeApi* | [**testAdditionalPropertiesReference**](docs/Api/FakeApi.md#testadditionalpropertiesreference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties
 *FakeApi* | [**testBodyWithBinary**](docs/Api/FakeApi.md#testbodywithbinary) | **PUT** /fake/body-with-binary | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/Api/FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/Api/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
@@ -94,6 +95,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testInlineFreeformAdditionalProperties**](docs/Api/FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/Api/FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/Api/FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters | 
+*FakeApi* | [**testStringMapReference**](docs/Api/FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**testClassname**](docs/Api/FakeClassnameTags123Api.md#testclassname) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/Api/PetApi.md#addpet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/Api/PetApi.md#deletepet) | **DELETE** /pet/{petId} | Deletes a pet

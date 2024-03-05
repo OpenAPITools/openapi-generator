@@ -22,6 +22,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |annotationLibrary|Select the complementary documentation annotation library.|<dl><dt>**none**</dt><dd>Do not annotate Model and Api with complementary annotations.</dd><dt>**swagger1**</dt><dd>Annotate Model and Api using the Swagger Annotations 1.x library.</dd><dt>**swagger2**</dt><dd>Annotate Model and Api using the Swagger Annotations 2.x library.</dd></dl>|swagger2|
 |apiPackage|api package for generated code| |org.openapitools.api|
 |apiSuffix|suffix for api classes| |Api|
+|appendRequestToHandler|Append ServerHttpRequest to handler method for getting request stuff| |false|
 |artifactId|Generated artifact id (name of jar).| |openapi-spring|
 |artifactVersion|Generated artifact's package version.| |1.0.0|
 |basePackage|base package (invokerPackage) for generated code| |org.openapitools|
@@ -291,6 +292,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✓|OAS2,OAS3
 |OAuth2_AuthorizationCode|✓|OAS2,OAS3
 |SignatureAuth|✗|OAS3
+|AWSV4Signature|✗|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |

@@ -75,8 +75,10 @@ public class CodegenConfigurator {
     private Map<String, String> parameterNameMappings = new HashMap<>();
     private Map<String, String> modelNameMappings = new HashMap<>();
     private Map<String, String> enumNameMappings = new HashMap<>();
+    private Map<String, String> operationIdNameMappings = new HashMap<>();
     private Map<String, String> openapiNormalizer = new HashMap<>();
     private Set<String> languageSpecificPrimitives = new HashSet<>();
+    private Set<String> openapiGeneratorIgnoreList = new HashSet<>();
     private Map<String, String> reservedWordsMappings = new HashMap<>();
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
@@ -140,11 +142,17 @@ public class CodegenConfigurator {
             if(generatorSettings.getEnumNameMappings() != null) {
                 configurator.enumNameMappings.putAll(generatorSettings.getEnumNameMappings());
             }
+            if(generatorSettings.getOperationIdNameMappings() != null) {
+                configurator.operationIdNameMappings.putAll(generatorSettings.getOperationIdNameMappings());
+            }
             if(generatorSettings.getOpenAPINormalizer() != null) {
                 configurator.openapiNormalizer.putAll(generatorSettings.getOpenAPINormalizer());
             }
             if(generatorSettings.getLanguageSpecificPrimitives() != null) {
                 configurator.languageSpecificPrimitives.addAll(generatorSettings.getLanguageSpecificPrimitives());
+            }
+            if(generatorSettings.getOpenAPIGeneratorIgnoreList() != null) {
+                configurator.openapiGeneratorIgnoreList.addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());
             }
             if(generatorSettings.getReservedWordsMappings() != null) {
                 configurator.reservedWordsMappings.putAll(generatorSettings.getReservedWordsMappings());
@@ -254,6 +262,12 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator addOperationIdNameMapping(String key, String value) {
+        this.operationIdNameMappings.put(key, value);
+        generatorSettingsBuilder.withOperationIdNameMapping(key, value);
+        return this;
+    }
+
     public CodegenConfigurator addOpenAPINormalizer(String key, String value) {
         this.openapiNormalizer.put(key, value);
         generatorSettingsBuilder.withOpenAPINormalizer(key, value);
@@ -269,6 +283,12 @@ public class CodegenConfigurator {
     public CodegenConfigurator addLanguageSpecificPrimitive(String value) {
         this.languageSpecificPrimitives.add(value);
         generatorSettingsBuilder.withLanguageSpecificPrimitive(value);
+        return this;
+    }
+
+    public CodegenConfigurator addOpenAPIGeneratorIgnoreList(String value) {
+        this.openapiGeneratorIgnoreList.add(value);
+        generatorSettingsBuilder.withOpenAPIGeneratorIgnoreList(value);
         return this;
     }
 
@@ -456,6 +476,12 @@ public class CodegenConfigurator {
         return this;
     }
 
+    public CodegenConfigurator setOperationIdNameMappings(Map<String, String> operationIdNameMappings) {
+        this.operationIdNameMappings = operationIdNameMappings;
+        generatorSettingsBuilder.withOperationIdNameMappings(operationIdNameMappings);
+        return this;
+    }
+
     public CodegenConfigurator setOpenAPINormalizer(Map<String, String> openapiNormalizer) {
         this.openapiNormalizer = openapiNormalizer;
         generatorSettingsBuilder.withOpenAPINormalizer(openapiNormalizer);
@@ -486,6 +512,13 @@ public class CodegenConfigurator {
             Set<String> languageSpecificPrimitives) {
         this.languageSpecificPrimitives = languageSpecificPrimitives;
         generatorSettingsBuilder.withLanguageSpecificPrimitives(languageSpecificPrimitives);
+        return this;
+    }
+
+    public CodegenConfigurator setOpenAPIGeneratorIgnoreList(
+            Set<String> openapiGeneratorIgnoreList) {
+        this.openapiGeneratorIgnoreList = openapiGeneratorIgnoreList;
+        generatorSettingsBuilder.withOpenAPIGeneratorIgnoreList(openapiGeneratorIgnoreList);
         return this;
     }
 
@@ -745,8 +778,10 @@ public class CodegenConfigurator {
         config.parameterNameMapping().putAll(generatorSettings.getParameterNameMappings());
         config.modelNameMapping().putAll(generatorSettings.getModelNameMappings());
         config.enumNameMapping().putAll(generatorSettings.getEnumNameMappings());
+        config.operationIdNameMapping().putAll(generatorSettings.getOperationIdNameMappings());
         config.openapiNormalizer().putAll(generatorSettings.getOpenAPINormalizer());
         config.languageSpecificPrimitives().addAll(generatorSettings.getLanguageSpecificPrimitives());
+        config.openapiGeneratorIgnoreList().addAll(generatorSettings.getOpenAPIGeneratorIgnoreList());
         config.reservedWordsMappings().putAll(generatorSettings.getReservedWordsMappings());
         config.additionalProperties().putAll(generatorSettings.getAdditionalProperties());
 

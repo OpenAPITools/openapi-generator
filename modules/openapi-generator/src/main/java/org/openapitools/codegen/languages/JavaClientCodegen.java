@@ -141,6 +141,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean generateClientAsBean = false;
     protected boolean useEnumCaseInsensitive = false;
 
+    protected int maxAttemptsForRetry = 1;
+    protected long waitTimeMillis = 10l;
+
     private static class MpRestClientVersion {
         public final String rootPackage;
         public final String pomTemplate;
@@ -183,7 +186,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
                 SecurityFeature.OAuth2_ClientCredentials,
                 SecurityFeature.OAuth2_Password,
-                SecurityFeature.SignatureAuth)//jersey only
+                SecurityFeature.SignatureAuth,//jersey only
+                SecurityFeature.AWSV4Signature)//okhttp-gson only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
@@ -225,7 +229,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newString(CONFIG_KEY_FROM_CLASS_NAME, "If true, set tag as key in @RegisterRestClient. Default to false. Only `microprofile` supports this option."));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC + " Only jersey2, jersey3, native, okhttp-gson support this option."));
         cliOptions.add(CliOption.newString(MICROPROFILE_REST_CLIENT_VERSION, "Version of MicroProfile Rest Client API."));
-        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson support this option."));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter. ONLY jersey2, jersey3, okhttp-gson, microprofile support this option."));
         cliOptions.add(CliOption.newBoolean(WEBCLIENT_BLOCKING_OPERATIONS, "Making all WebClient operations blocking(sync). Note that if on operation 'x-webclient-blocking: false' then such operation won't be sync", this.webclientBlockingOperations));
         cliOptions.add(CliOption.newBoolean(GENERATE_CLIENT_AS_BEAN, "For resttemplate, configure whether to create `ApiClient.java` and Apis clients as bean (with `@Component` annotation).", this.generateClientAsBean));
         cliOptions.add(CliOption.newBoolean(SUPPORT_URL_QUERY, "Generate toUrlQueryString in POJO (default to true). Available on `native`, `apache-httpclient` libraries."));
@@ -473,6 +477,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
             this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY)) {
+            this.setMaxAttemptsForRetry(Integer.parseInt(additionalProperties.get(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY).toString()));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, maxAttemptsForRetry);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.WAIT_TIME_OF_THREAD)) {
+            this.setWaitTimeMillis(Long.parseLong((additionalProperties.get(CodegenConstants.WAIT_TIME_OF_THREAD).toString())));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.WAIT_TIME_OF_THREAD, waitTimeMillis);
+        }
         writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -596,8 +614,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (RETROFIT_2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-            forceSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
-            if (RETROFIT_2.equals(getLibrary()) && !usePlayWS) {
+            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("JSON_jackson.mustache", invokerFolder, "JSON.java"));
+            } else if (!usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {
@@ -1254,6 +1273,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
         this.useEnumCaseInsensitive = useEnumCaseInsensitive;
+    }
+
+    public void setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry= maxAttemptsForRetry;
+    }
+
+    public void setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis= waitTimeMillis;
     }
 
     /**

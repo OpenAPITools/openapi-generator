@@ -22,7 +22,7 @@ public class UnitTest1
             IHostBuilder hostBuild = Host.CreateDefaultBuilder(Array.Empty<string>()).ConfigureApi((context, services, options) =>
             {
                 string apiKeyTokenValue = context.Configuration["<token>"] ?? "Token not found.";
-                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken = new(apiKeyTokenValue, ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken);
 
                 string bearerTokenValue = context.Configuration["<token>"] ?? "Token not found.";
@@ -112,7 +112,7 @@ public class UnitTest1
                 gmFruit2.Apple.Origin.Equals(gmFruit.Apple.Origin) &&
                 gmFruit2.Banana.LengthCm.Equals(gmFruit.Banana.LengthCm));
 
-            // TODO: assert the the properties from Banana and GmFruit are in additionalProperties
+            // TODO: assert the properties from Banana and GmFruit are in additionalProperties
         }
 
         [TestMethod]

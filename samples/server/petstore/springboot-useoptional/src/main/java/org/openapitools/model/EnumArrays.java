@@ -61,7 +61,7 @@ public class EnumArrays {
     }
   }
 
-  private JustSymbolEnum justSymbol;
+  private Optional<JustSymbolEnum> justSymbol = Optional.empty();
 
   /**
    * Gets or Sets arrayEnum
@@ -102,7 +102,7 @@ public class EnumArrays {
   private List<ArrayEnumEnum> arrayEnum;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
-    this.justSymbol = justSymbol;
+    this.justSymbol = Optional.of(justSymbol);
     return this;
   }
 
@@ -113,11 +113,11 @@ public class EnumArrays {
   
   @ApiModelProperty(value = "")
   @JsonProperty("just_symbol")
-  public JustSymbolEnum getJustSymbol() {
+  public Optional<JustSymbolEnum> getJustSymbol() {
     return justSymbol;
   }
 
-  public void setJustSymbol(JustSymbolEnum justSymbol) {
+  public void setJustSymbol(Optional<JustSymbolEnum> justSymbol) {
     this.justSymbol = justSymbol;
   }
 

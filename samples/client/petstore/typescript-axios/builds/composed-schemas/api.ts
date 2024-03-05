@@ -299,9 +299,9 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async filePost(filePostRequest?: FilePostRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.filePost(filePostRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.filePost']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.filePost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -311,9 +311,9 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsFilteredPatch(petsFilteredPatchRequest?: PetsFilteredPatchRequest | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsFilteredPatch(petsFilteredPatchRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.petsFilteredPatch']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.petsFilteredPatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
@@ -323,9 +323,9 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async petsPatch(petsPatchRequest?: PetsPatchRequest | null, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.petsPatch(petsPatchRequest, options);
-            const index = configuration?.serverIndex ?? 0;
-            const operationBasePath = operationServerMap['DefaultApi.petsPatch']?.[index]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DefaultApi.petsPatch']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
