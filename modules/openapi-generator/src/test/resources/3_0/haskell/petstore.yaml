@@ -157,6 +157,40 @@ paths:
         - petstore_auth:
             - 'read:pets'
       deprecated: true
+  /pet/find:
+    get:
+      tags:
+        - pet
+      summary: Finds Pets
+      operationId: findPets
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PetFilter'
+
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '400':
+          description: Invalid status value
+      security:
+        - petstore_auth:
+            - 'read:pets'
   '/pet/{petId}':
     get:
       tags:
@@ -752,3 +786,14 @@ components:
         - "\""
         - "\\"
       description: description
+    PetFilter:
+      type: object
+      properties:
+        tags:
+          type: array
+          items:
+            type: string
+        status:
+          type: array
+          items:
+            type: string
