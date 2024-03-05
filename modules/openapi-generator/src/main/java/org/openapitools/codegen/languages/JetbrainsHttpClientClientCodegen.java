@@ -116,8 +116,6 @@ public class JetbrainsHttpClientClientCodegen extends DefaultCodegen implements 
         if(additionalProperties.containsKey(CUSTOM_HEADERS)) {
             customHeaders = Arrays.asList(additionalProperties.get(CUSTOM_HEADERS).toString().split("&"));
         }
-
-        System.out.println(customHeaders);
     }
 
     @Override
