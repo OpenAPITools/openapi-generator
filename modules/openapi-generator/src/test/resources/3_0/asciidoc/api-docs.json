@@ -1400,19 +1400,22 @@
                             "$ref": "#/components/schemas/TaskWeek"
                         }
                     },
-                    "pricingModelType":{
-                        "$ref": "#/components/schemas/PricingModelType"
+                    "dayOfWeek":{
+                        "$ref": "#/components/schemas/DayOfWeek"
                     }
                 },
                 "description": "week, holds all work and working assignments."
             },
-            "PricingModelType": {
+            "DayOfWeek": {
                 "type": "string",
                 "enum": [
-                    "Unsupported",
-                    "Flex",
-                    "Community",
-                    "Freedom"
+                    "Sunday",
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday"
                 ]
             }
         },
