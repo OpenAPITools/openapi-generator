@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 Apis/ActionsApi.http
 Apis/ActivityApi.http
 Apis/AppsApi.http
