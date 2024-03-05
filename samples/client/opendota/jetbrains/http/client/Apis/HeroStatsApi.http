@@ -1,6 +1,6 @@
 ## HeroStatsApi
 
 ### GET /heroStats
-## Get stats about hero performance in recent matches
-# @name heroStatsGet
+## GET /heroStats
 GET https://api.opendota.com/api/heroStats
+Accept: application/json; charset=utf-8

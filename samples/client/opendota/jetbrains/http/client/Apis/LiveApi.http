@@ -1,6 +1,6 @@
 ## LiveApi
 
 ### GET /live
-## Get top currently ongoing live games
-# @name liveGet
+## GET /live
 GET https://api.opendota.com/api/live
+Accept: application/json; charset=utf-8

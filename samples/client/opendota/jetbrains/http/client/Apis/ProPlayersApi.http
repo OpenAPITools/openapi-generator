@@ -1,6 +1,6 @@
 ## ProPlayersApi
 
 ### GET /proPlayers
-## Get list of pro players
-# @name proPlayersGet
+## GET /proPlayers
 GET https://api.opendota.com/api/proPlayers
+Accept: application/json; charset=utf-8

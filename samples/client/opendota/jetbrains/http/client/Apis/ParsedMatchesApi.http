@@ -1,6 +1,6 @@
 ## ParsedMatchesApi
 
 ### GET /parsedMatches
-## Get list of parsed match IDs
-# @name parsedMatchesGet
+## GET /parsedMatches
 GET https://api.opendota.com/api/parsedMatches
+Accept: application/json; charset=utf-8

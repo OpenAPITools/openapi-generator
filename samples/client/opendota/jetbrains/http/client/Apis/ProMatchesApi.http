@@ -1,6 +1,6 @@
 ## ProMatchesApi
 
 ### GET /proMatches
-## Get list of pro matches
-# @name proMatchesGet
+## GET /proMatches
 GET https://api.opendota.com/api/proMatches
+Accept: application/json; charset=utf-8

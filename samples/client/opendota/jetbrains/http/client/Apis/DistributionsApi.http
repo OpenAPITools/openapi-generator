@@ -1,6 +1,6 @@
 ## DistributionsApi
 
 ### GET /distributions
-## Distributions of MMR data by bracket and country
-# @name distributionsGet
+## GET /distributions
 GET https://api.opendota.com/api/distributions
+Accept: application/json; charset=utf-8

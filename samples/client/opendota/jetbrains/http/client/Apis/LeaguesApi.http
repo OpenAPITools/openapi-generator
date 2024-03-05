@@ -1,21 +1,21 @@
 ## LeaguesApi
 
 ### GET /leagues
-## Get league data
-# @name leaguesGet
+## GET /leagues
 GET https://api.opendota.com/api/leagues
+Accept: application/json; charset=utf-8
 
 ### GET /leagues/{league_id}
-## Get data for a league
-# @name leaguesLeagueIdGet
+## GET /leagues/{league_id}
 GET https://api.opendota.com/api/leagues/{{league_id}}
+Accept: application/json; charset=utf-8
 
 ### GET /leagues/{league_id}/matches
-## Get matches for a team
-# @name leaguesLeagueIdMatchesGet
+## GET /leagues/{league_id}/matches
 GET https://api.opendota.com/api/leagues/{{league_id}}/matches
+Accept: application/json; charset=utf-8
 
 ### GET /leagues/{league_id}/teams
-## Get teams for a league
-# @name leaguesLeagueIdTeamsGet
+## GET /leagues/{league_id}/teams
 GET https://api.opendota.com/api/leagues/{{league_id}}/teams
+Accept: application/json; charset=utf-8

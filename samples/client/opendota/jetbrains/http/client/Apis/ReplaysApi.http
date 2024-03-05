@@ -1,6 +1,6 @@
 ## ReplaysApi
 
 ### GET /replays
-## Get data to construct a replay URL with
-# @name replaysGet
+## GET /replays
 GET https://api.opendota.com/api/replays
+Accept: application/json; charset=utf-8

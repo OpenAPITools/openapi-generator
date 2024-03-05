@@ -1,26 +1,26 @@
 ## TeamsApi
 
 ### GET /teams
-## Get team data
-# @name teamsGet
+## GET /teams
 GET https://api.opendota.com/api/teams
+Accept: application/json; charset=utf-8
 
 ### GET /teams/{team_id}
-## Get data for a team
-# @name teamsTeamIdGet
+## GET /teams/{team_id}
 GET https://api.opendota.com/api/teams/{{team_id}}
+Accept: application/json; charset=utf-8
 
 ### GET /teams/{team_id}/heroes
-## Get heroes for a team
-# @name teamsTeamIdHeroesGet
+## GET /teams/{team_id}/heroes
 GET https://api.opendota.com/api/teams/{{team_id}}/heroes
+Accept: application/json; charset=utf-8
 
 ### GET /teams/{team_id}/matches
-## Get matches for a team
-# @name teamsTeamIdMatchesGet
+## GET /teams/{team_id}/matches
 GET https://api.opendota.com/api/teams/{{team_id}}/matches
+Accept: application/json; charset=utf-8
 
 ### GET /teams/{team_id}/players
-## Get players who have played for a team
-# @name teamsTeamIdPlayersGet
+## GET /teams/{team_id}/players
 GET https://api.opendota.com/api/teams/{{team_id}}/players
+Accept: application/json; charset=utf-8

@@ -1,6 +1,6 @@
 ## StatusApi
 
 ### GET /status
-## Get current service statistics
-# @name statusGet
+## GET /status
 GET https://api.opendota.com/api/status
+Accept: application/json; charset=utf-8
