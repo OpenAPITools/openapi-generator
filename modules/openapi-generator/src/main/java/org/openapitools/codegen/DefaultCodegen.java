@@ -7526,7 +7526,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
             // object type schema or composed schema with properties defined
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
         }

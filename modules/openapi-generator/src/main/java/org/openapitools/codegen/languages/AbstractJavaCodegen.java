@@ -966,7 +966,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (items.get$ref() != null) {
-            return "@Valid ";
+            Map<String, Schema>  shemas = this.openAPI.getComponents().getSchemas();
+            String ref = ModelUtils.getSimpleRef(items.get$ref());
+            if (ref != null) {
+                Schema<?> schema = shemas.get(ref);
+                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                    return "@Valid ";
+                }
+                items = schema;
+            }
         }
 
         if (ModelUtils.isStringSchema(items)) {
@@ -1651,11 +1659,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // the response data types should not contains a bean validation annotation.
         if (property.dataType.contains("@")) {
-            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
         // the response data types should not contains a bean validation annotation.
         if (response.dataType.contains("@")) {
-            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
     }
 

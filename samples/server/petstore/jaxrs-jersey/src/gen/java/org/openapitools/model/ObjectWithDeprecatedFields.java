@@ -52,7 +52,7 @@ public class ObjectWithDeprecatedFields   {
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @JsonProperty(JSON_PROPERTY_BARS)
-  private List<@Valid String> bars;
+  private List<String> bars;
 
   public ObjectWithDeprecatedFields uuid(String uuid) {
     this.uuid = uuid;
@@ -114,7 +114,7 @@ public class ObjectWithDeprecatedFields   {
     this.deprecatedRef = deprecatedRef;
   }
 
-  public ObjectWithDeprecatedFields bars(List<@Valid String> bars) {
+  public ObjectWithDeprecatedFields bars(List<String> bars) {
     this.bars = bars;
     return this;
   }
@@ -134,11 +134,11 @@ public class ObjectWithDeprecatedFields   {
   @JsonProperty(value = "bars")
   @ApiModelProperty(value = "")
   
-  public List<@Valid String> getBars() {
+  public List<String> getBars() {
     return bars;
   }
 
-  public void setBars(List<@Valid String> bars) {
+  public void setBars(List<String> bars) {
     this.bars = bars;
   }
 

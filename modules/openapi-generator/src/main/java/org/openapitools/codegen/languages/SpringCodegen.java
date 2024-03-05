@@ -669,7 +669,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
         }
         if (reactive) {
-            additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            // The response wrapper when Reactive is enabled must depend on the return type:
+            // Flux<X> when X is an array
+            // Mono<X> otherwise
+            // But there are corner cases when also using response entity.
+            // When reactive is enabled, all this is managed in the mustache templates.
+            additionalProperties.put(RESPONSE_WRAPPER, "");
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers

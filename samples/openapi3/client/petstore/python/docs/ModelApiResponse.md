@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of ModelApiResponse from a JSON string
 model_api_response_instance = ModelApiResponse.from_json(json)
 # print the JSON string representation of the object
-print ModelApiResponse.to_json()
+print(ModelApiResponse.to_json())
 
 # convert the object into a dict
 model_api_response_dict = model_api_response_instance.to_dict()

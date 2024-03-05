@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of DanishPig from a JSON string
 danish_pig_instance = DanishPig.from_json(json)
 # print the JSON string representation of the object
-print DanishPig.to_json()
+print(DanishPig.to_json())
 
 # convert the object into a dict
 danish_pig_dict = danish_pig_instance.to_dict()

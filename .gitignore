@@ -179,7 +179,7 @@ samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
 samples/client/petstore/python/.projectile
 samples/client/petstore/python-asyncio/.pytest_cache/
-
+**/poetry.lock
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock

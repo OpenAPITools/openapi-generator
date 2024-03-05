@@ -42,6 +42,8 @@ jobs:
       - name: Build
         working-directory: ${{ matrix.sample }}
         run: dotnet build Org.OpenAPITools.sln
-      - name: Test
-        working-directory: ${{ matrix.sample }}
-        run: dotnet test Org.OpenAPITools.sln
+      # skip tests as petstore server it not running
+      # these tests are run in appveyor instead
+      #- name: Test
+      #  working-directory: ${{ matrix.sample }}
+      #  run: dotnet test Org.OpenAPITools.sln
