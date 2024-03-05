@@ -92,6 +92,7 @@ import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
 import org.openapitools.codegen.java.assertions.TypeAnnotationAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaCamelServerCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -4341,6 +4342,36 @@ public class SpringCodegenTest {
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestPart(value = \"additionalMetadata\", required = false) String additionalMetadata");
     }
+
+    @Test
+    public void javaCamelCodegenUseJsonTypeName() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final JavaCamelServerCodegen codegen = new JavaCamelServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setModelNameSuffix("Dto");
+        Map<String, Object> additionalProperties = codegen.additionalProperties();
+        additionalProperties.put("jackson", true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+
+        generator.opts(input).generate();
+        assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/model/CategoryDto.java"),
+                "@JsonTypeName(\"Category\")");
+        assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/model/PetDto.java"),
+                "@JsonTypeName(\"Pet\")");
+
+    }
+
 
     @Test
     public void givenMultipartForm_whenGenerateBlockedServer_thenParameterAreCreatedAsRequestPart() throws IOException {

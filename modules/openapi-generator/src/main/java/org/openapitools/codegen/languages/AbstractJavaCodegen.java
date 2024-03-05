@@ -2560,22 +2560,26 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static class UseJsonTypeName implements Mustache.Lambda {
 
         /**
-         * Write the enclosed fragment if the json type name is different than the class name.
+         * Write the enclosed fragment if the json type name is different from the class name.
          */
         @Override
         public void execute(Template.Fragment fragment, Writer writer) throws IOException {
-            // context index 1 is only valid when used in pojo.mustache
-            Object context = fragment.context(1);
-            if (context instanceof ModelMap) {
-                context = ((ModelMap)context).getModel();
-            }
-            if (context instanceof CodegenModel) {
-                CodegenModel codegenModel = (CodegenModel)context;
-                Object xDiscriminatorValue = codegenModel.vendorExtensions.get("x-discriminator-value");
-                if (codegenModel.getIsClassnameSanitized() || (xDiscriminatorValue != null && !codegenModel.classname.equals(xDiscriminatorValue))) {
-                    String text = fragment.execute();
-                    writer.write(text);
+            // context() contains the CodeGenModel for JavaCamelServerCodegen
+            Object context = fragment.context();
+            if (!(context instanceof CodegenModel)) {
+                // for most other libraries, codegenModel is at index 1
+                context = fragment.context(1);
+                if (!(context instanceof CodegenModel)) {
+                    // pathological case, should not happen
+                    return;
                 }
+            }
+
+            CodegenModel codegenModel = (CodegenModel)context;
+            Object xDiscriminatorValue = codegenModel.vendorExtensions.get("x-discriminator-value");
+            if (codegenModel.getIsClassnameSanitized() || (xDiscriminatorValue != null && !codegenModel.classname.equals(xDiscriminatorValue))) {
+                String text = fragment.execute();
+                writer.write(text);
             }
         }
     }
