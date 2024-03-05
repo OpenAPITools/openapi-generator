@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -2486,10 +2485,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
-        } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
+        } else if (typeMapping.containsKey(ModelUtils.getSchemaType(schema) + "+" + schema.getFormat())) {
             // allows custom type_format mapping.
             // use {type}+{format}
-            return typeMapping.get(schema.getType() + "+" + schema.getFormat());
+            return typeMapping.get(ModelUtils.getSchemaType(schema) + "+" + schema.getFormat());
         } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -2530,7 +2529,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isShortSchema(schema)) {// int32
                 return "integer";
             } else {
-                return schema.getType(); // integer
+                return ModelUtils.getSchemaType(schema); // integer
             }
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
@@ -2561,11 +2560,11 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
-        } else if (StringUtils.isNotEmpty(schema.getType())) {
-            if (!schemaMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", schema.getType());
+        } else if (StringUtils.isNotEmpty(ModelUtils.getSchemaType(schema))) {
+            if (!schemaMapping.containsKey(ModelUtils.getSchemaType(schema))) {
+                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", ModelUtils.getSchemaType(schema));
             }
-            return schema.getType();
+            return ModelUtils.getSchemaType(schema);
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
         // can be an arbitrary type, e.g. integer, string, object, array, number...
@@ -4005,11 +4004,12 @@ public class DefaultCodegen implements CodegenConfig {
 
         property.name = toVarName(name);
         property.baseName = name;
-        if (p.getType() == null) {
-            property.openApiType = getSchemaType(p);
-        } else {
-            property.openApiType = p.getType();
+
+        String propertyType = ModelUtils.getSchemaType(p);
+        if (propertyType == null) {
+            propertyType = getSchemaType(p);
         }
+        property.openApiType = propertyType;
         property.nameInCamelCase = camelize(property.name);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
@@ -7111,7 +7111,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getSchemaType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
@@ -7745,7 +7745,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getSchemaType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);

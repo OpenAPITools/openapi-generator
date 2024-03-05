@@ -161,7 +161,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
     private static ValidationRule.Result checkInvalidType(SchemaWrapper schemaWrapper) {
         Schema schema = schemaWrapper.getSchema();
         ValidationRule.Result result = ValidationRule.Pass.empty();
-        if (schema.getType() != null && !validTypes.contains(schema.getType())) {
+        if (ModelUtils.getSchemaType(schema) != null && !validTypes.contains(ModelUtils.getSchemaType(schema))) {
             result = new ValidationRule.Fail();
             String name = schema.getName();
             if (name == null) {
@@ -169,7 +169,7 @@ class OpenApiSchemaValidations extends GenericValidator<SchemaWrapper> {
             }
             result.setDetails(String.format(Locale.ROOT,
                 "Schema '%s' uses the '%s' type, which is not a valid type.",
-                name, schema.getType()));
+                name, ModelUtils.getSchemaType(schema)));
             return result;
         }
         return result;

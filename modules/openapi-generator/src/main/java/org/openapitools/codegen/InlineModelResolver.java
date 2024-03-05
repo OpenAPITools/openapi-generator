@@ -210,7 +210,7 @@ public class InlineModelResolver {
         if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (ModelUtils.getSchemaType(schema) == null || ModelUtils.isTypeObjectSchema(schema)) {
             // object or undeclared type with properties
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 return true;
@@ -269,7 +269,7 @@ public class InlineModelResolver {
         if (schema.get$ref() != null) {
             // if ref already, no inline schemas should be present but check for
             // any to catch OpenAPI violations
-            if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
+            if (isModelNeeded(schema) || ModelUtils.isTypeObjectSchema(schema) ||
                     schema.getProperties() != null || schema.getAdditionalProperties() != null ||
                     ModelUtils.isComposedSchema(schema)) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
@@ -280,7 +280,7 @@ public class InlineModelResolver {
         // Check object models / any type models / composed models for properties,
         // if the schema has a type defined that is not "object" it should not define
         // any properties
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (ModelUtils.getSchemaType(schema) == null || ModelUtils.isTypeObjectSchema(schema)) {
             // Check properties and recurse, each property could be its own inline model
             Map<String, Schema> props = schema.getProperties();
             if (props != null) {
@@ -300,8 +300,8 @@ public class InlineModelResolver {
                         props.put(propName, refSchema);
                     } else if (ModelUtils.isComposedSchema(prop)) {
                         if (prop.getAllOf() != null && prop.getAllOf().size() == 1 &&
-                                !(((Schema) prop.getAllOf().get(0)).getType() == null ||
-                                        "object".equals(((Schema) prop.getAllOf().get(0)).getType()))) {
+                                !(ModelUtils.getSchemaType((Schema) prop.getAllOf().get(0)) == null) ||
+                                        ModelUtils.isTypeObjectSchema((Schema) prop.getAllOf().get(0))) {
                             // allOf with only 1 type (non-model)
                             LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type)", propName);
                             props.put(propName, (Schema) prop.getAllOf().get(0));
@@ -666,16 +666,12 @@ public class InlineModelResolver {
      * @param m Schema implementation
      */
     private void fixStringModel(Schema m) {
-        if (schemaIsOfType(m, "string") && schemaContainsExample(m)) {
+        if (ModelUtils.isStringSchema(m) && schemaContainsExample(m)) {
             String example = m.getExample().toString();
             if (example.startsWith("\"") && example.endsWith("\"")) {
                 m.setExample(example.substring(1, example.length() - 1));
             }
         }
-    }
-
-    private boolean schemaIsOfType(Schema m, String type) {
-        return m.getType() != null && m.getType().equals(type);
     }
 
     private boolean schemaContainsExample(Schema m) {
@@ -892,7 +888,7 @@ public class InlineModelResolver {
         // NOTE:
         // No need to null check setters below. All defaults in the new'd Schema are null, so setting to null would just be a noop.
         Schema model = new Schema();
-        model.setType(object.getType());
+        model.setType(ModelUtils.getSchemaType(object));
 
         // Even though the `format` keyword typically applies to primitive types only,
         // the JSON schema specification states `format` can be used for any model type instance
@@ -908,7 +904,7 @@ public class InlineModelResolver {
         model.setRequired(object.getRequired());
         model.setNullable(object.getNullable());
         model.setEnum(object.getEnum());
-        model.setType(object.getType());
+        model.setType(ModelUtils.getSchemaType(object));
         model.setDiscriminator(object.getDiscriminator());
         model.setWriteOnly(object.getWriteOnly());
         model.setUniqueItems(object.getUniqueItems());

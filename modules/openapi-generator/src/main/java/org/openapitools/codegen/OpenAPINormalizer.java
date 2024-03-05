@@ -818,7 +818,7 @@ public class OpenAPINormalizer {
             }
         }
 
-        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+        if (!(schema instanceof JsonSchema) && (ModelUtils.getSchemaType(schema) == null || ModelUtils.isNullType(schema)) && schema.get$ref() == null) {
             return true;
         }
 
@@ -1000,7 +1000,7 @@ public class OpenAPINormalizer {
 
         if (schema instanceof JsonSchema &&
                 schema.get$schema() == null &&
-                schema.getTypes() == null && schema.getType() == null) {
+                ModelUtils.getSchemaType(schema) == null) {
             // convert any type in v3.1 to empty schema (any type in v3.0 spec), any type example:
             // components:
             //  schemas:
