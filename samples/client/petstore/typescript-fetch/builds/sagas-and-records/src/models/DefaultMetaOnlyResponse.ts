@@ -18,6 +18,7 @@ import {
     ResponseMetaFromJSON,
     ResponseMetaFromJSONTyped,
     ResponseMetaToJSON,
+    ResponseMetaToJSONTyped,
 } from './ResponseMeta';
 
 /**
@@ -55,8 +56,10 @@ export function DefaultMetaOnlyResponseFromJSONTyped(json: any, ignoreDiscrimina
         'meta': ResponseMetaFromJSON(json['meta']),
     };
 }
-
 export function DefaultMetaOnlyResponseToJSON(value?: DefaultMetaOnlyResponse | null): any {
+    return DefaultMetaOnlyResponseToJSONTyped(false, value);
+}
+export function DefaultMetaOnlyResponseToJSONTyped(ignoreDiscriminator: boolean, value?: DefaultMetaOnlyResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

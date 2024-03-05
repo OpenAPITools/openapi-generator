@@ -18,6 +18,7 @@ import {
     FooFromJSON,
     FooFromJSONTyped,
     FooToJSON,
+    FooToJSONTyped,
 } from './Foo';
 
 /**
@@ -54,8 +55,10 @@ export function FooGetDefaultResponseFromJSONTyped(json: any, ignoreDiscriminato
         'string': !exists(json, 'string') ? undefined : FooFromJSON(json['string']),
     };
 }
-
 export function FooGetDefaultResponseToJSON(value?: FooGetDefaultResponse | null): any {
+    return FooGetDefaultResponseToJSONTyped(false, value);
+}
+export function FooGetDefaultResponseToJSONTyped(ignoreDiscriminator: boolean, value?: FooGetDefaultResponse | null): any {
     if (value === undefined) {
         return undefined;
     }

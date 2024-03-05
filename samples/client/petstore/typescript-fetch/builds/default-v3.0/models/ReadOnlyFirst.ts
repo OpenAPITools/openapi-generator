@@ -54,8 +54,10 @@ export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boole
         'baz': !exists(json, 'baz') ? undefined : json['baz'],
     };
 }
-
 export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
+    return ReadOnlyFirstToJSONTyped(false, value);
+}
+export function ReadOnlyFirstToJSONTyped(ignoreDiscriminator: boolean, value?: ReadOnlyFirst | null): any {
     if (value === undefined) {
         return undefined;
     }

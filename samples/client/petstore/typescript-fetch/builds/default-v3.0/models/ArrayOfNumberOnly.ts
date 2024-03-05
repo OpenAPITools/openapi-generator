@@ -47,8 +47,10 @@ export function ArrayOfNumberOnlyFromJSONTyped(json: any, ignoreDiscriminator: b
         'arrayNumber': !exists(json, 'ArrayNumber') ? undefined : json['ArrayNumber'],
     };
 }
-
 export function ArrayOfNumberOnlyToJSON(value?: ArrayOfNumberOnly | null): any {
+    return ArrayOfNumberOnlyToJSONTyped(false, value);
+}
+export function ArrayOfNumberOnlyToJSONTyped(ignoreDiscriminator: boolean, value?: ArrayOfNumberOnly | null): any {
     if (value === undefined) {
         return undefined;
     }

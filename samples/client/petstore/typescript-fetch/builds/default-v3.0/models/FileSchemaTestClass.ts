@@ -54,8 +54,10 @@ export function FileSchemaTestClassFromJSONTyped(json: any, ignoreDiscriminator:
         'files': !exists(json, 'files') ? undefined : json['files'],
     };
 }
-
 export function FileSchemaTestClassToJSON(value?: FileSchemaTestClass | null): any {
+    return FileSchemaTestClassToJSONTyped(false, value);
+}
+export function FileSchemaTestClassToJSONTyped(ignoreDiscriminator: boolean, value?: FileSchemaTestClass | null): any {
     if (value === undefined) {
         return undefined;
     }

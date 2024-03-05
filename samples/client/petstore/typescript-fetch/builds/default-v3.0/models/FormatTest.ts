@@ -18,6 +18,7 @@ import {
     DecimalFromJSON,
     DecimalFromJSONTyped,
     DecimalToJSON,
+    DecimalToJSONTyped,
 } from './Decimal';
 
 /**
@@ -163,8 +164,10 @@ export function FormatTestFromJSONTyped(json: any, ignoreDiscriminator: boolean)
         'patternWithDigitsAndDelimiter': !exists(json, 'pattern_with_digits_and_delimiter') ? undefined : json['pattern_with_digits_and_delimiter'],
     };
 }
-
 export function FormatTestToJSON(value?: FormatTest | null): any {
+    return FormatTestToJSONTyped(false, value);
+}
+export function FormatTestToJSONTyped(ignoreDiscriminator: boolean, value?: FormatTest | null): any {
     if (value === undefined) {
         return undefined;
     }

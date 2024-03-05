@@ -47,8 +47,10 @@ export function HealthCheckResultFromJSONTyped(json: any, ignoreDiscriminator: b
         'nullableMessage': !exists(json, 'NullableMessage') ? undefined : json['NullableMessage'],
     };
 }
-
 export function HealthCheckResultToJSON(value?: HealthCheckResult | null): any {
+    return HealthCheckResultToJSONTyped(false, value);
+}
+export function HealthCheckResultToJSONTyped(ignoreDiscriminator: boolean, value?: HealthCheckResult | null): any {
     if (value === undefined) {
         return undefined;
     }

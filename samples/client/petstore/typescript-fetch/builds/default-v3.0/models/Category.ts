@@ -55,8 +55,10 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'name': json['name'],
     };
 }
-
 export function CategoryToJSON(value?: Category | null): any {
+    return CategoryToJSONTyped(false, value);
+}
+export function CategoryToJSONTyped(ignoreDiscriminator: boolean, value?: Category | null): any {
     if (value === undefined) {
         return undefined;
     }

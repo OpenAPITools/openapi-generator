@@ -47,8 +47,10 @@ export function ClientFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cl
         'client': !exists(json, 'client') ? undefined : json['client'],
     };
 }
-
 export function ClientToJSON(value?: Client | null): any {
+    return ClientToJSONTyped(false, value);
+}
+export function ClientToJSONTyped(ignoreDiscriminator: boolean, value?: Client | null): any {
     if (value === undefined) {
         return undefined;
     }

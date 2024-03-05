@@ -47,8 +47,10 @@ export function ModelFileFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'sourceURI': !exists(json, 'sourceURI') ? undefined : json['sourceURI'],
     };
 }
-
 export function ModelFileToJSON(value?: ModelFile | null): any {
+    return ModelFileToJSONTyped(false, value);
+}
+export function ModelFileToJSONTyped(ignoreDiscriminator: boolean, value?: ModelFile | null): any {
     if (value === undefined) {
         return undefined;
     }

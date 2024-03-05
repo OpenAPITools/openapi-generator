@@ -69,8 +69,10 @@ export function NameFromJSONTyped(json: any, ignoreDiscriminator: boolean): Name
         '_123number': !exists(json, '123Number') ? undefined : json['123Number'],
     };
 }
-
 export function NameToJSON(value?: Name | null): any {
+    return NameToJSONTyped(false, value);
+}
+export function NameToJSONTyped(ignoreDiscriminator: boolean, value?: Name | null): any {
     if (value === undefined) {
         return undefined;
     }

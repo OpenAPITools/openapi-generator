@@ -6,6 +6,7 @@ import {
     {{.}}FromJSON,
     {{.}}FromJSONTyped,
     {{.}}ToJSON,
+    {{.}}ToJSONTyped,
 } from './{{.}}{{importFileExtension}}';
 {{/imports}}
 
@@ -13,6 +14,8 @@ import {
 {{#discriminator}}
 import {
 {{#discriminator.mappedModels}}
+     {{modelName}},
+     {{modelName}}ToJSONTyped,
      {{modelName}}FromJSONTyped{{^-last}},{{/-last}}
 {{/discriminator.mappedModels}}
 } from './index{{importFileExtension}}';
@@ -99,8 +102,17 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     return json;
     {{/hasVars}}
 }
-
+{{#discriminator}}
+{{#discriminator.mappedModels}}
+function is{{modelName}}(value: {{classname}}):value is {{modelName}}{
+    return value['{{discriminator.propertyName}}'] === '{{mappingName}}';
+}
+{{/discriminator.mappedModels}}
+{{/discriminator}}
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+    return {{classname}}ToJSONTyped(value);
+}
+export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDiscriminator = false): any {
     {{#hasVars}}
     if (value === undefined) {
         return undefined;
@@ -108,8 +120,17 @@ export function {{classname}}ToJSON(value?: {{classname}} | null): any {
     if (value === null) {
         return null;
     }
+{{#discriminator}}
+    if (!ignoreDiscriminator) {
+{{#discriminator.mappedModels}}
+        if (is{{modelName}}(value)) {
+            return {{modelName}}ToJSONTyped(value, true);
+        }
+{{/discriminator.mappedModels}}
+    }
+{{/discriminator}}
     return {
-        {{#parent}}...{{{.}}}ToJSON(value),{{/parent}}
+        {{#parent}}...{{{.}}}ToJSONTyped(value, ignoreDiscriminator),{{/parent}}
         {{#additionalPropertiesType}}
             ...value,
         {{/additionalPropertiesType}}

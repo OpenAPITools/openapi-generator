@@ -47,8 +47,10 @@ export function DeprecatedObjectFromJSONTyped(json: any, ignoreDiscriminator: bo
         'name': !exists(json, 'name') ? undefined : json['name'],
     };
 }
-
 export function DeprecatedObjectToJSON(value?: DeprecatedObject | null): any {
+    return DeprecatedObjectToJSONTyped(false, value);
+}
+export function DeprecatedObjectToJSONTyped(ignoreDiscriminator: boolean, value?: DeprecatedObject | null): any {
     if (value === undefined) {
         return undefined;
     }
