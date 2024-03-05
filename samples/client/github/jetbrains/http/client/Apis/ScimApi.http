@@ -1,8 +1,0 @@
-## ScimApi
-
-### List provisioned SCIM groups for an enterprise
-## List provisioned SCIM groups for an enterprise
-GET http://HOSTNAME/api/v3/scim/v2/Groups
-
-
-
