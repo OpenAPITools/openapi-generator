@@ -870,6 +870,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
