@@ -855,7 +855,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
      * @param arr The input array property
      * @return The type declaration when the type is an array of arrays.
      */
-    private String getArrayTypeDeclaration(ArraySchema arr) {
+    private String getArrayTypeDeclaration(Schema arr) {
         // TODO: collection type here should be fully qualified namespace to avoid model conflicts
         // This supports arrays of arrays.
         String arrayType = typeMapping.get("array");
@@ -869,7 +869,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+            return getArrayTypeDeclaration(p);
         }
         return super.toInstantiationType(p);
     }
@@ -877,7 +877,7 @@ public abstract class AbstractFSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
-            return getArrayTypeDeclaration((ArraySchema) p);
+            return getArrayTypeDeclaration(p);
         } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema inner = ModelUtils.getAdditionalProperties(p);

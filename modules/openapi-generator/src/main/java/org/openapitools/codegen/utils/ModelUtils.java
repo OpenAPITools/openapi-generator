@@ -355,8 +355,8 @@ public class ModelUtils {
                     visitSchema(openAPI, s, mimeType, visitedSchemas, visitor);
                 }
             }
-        } else if (schema instanceof ArraySchema) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+        } else if (ModelUtils.isArraySchema(schema)) {
+            Schema itemsSchema = schema.getItems();
             if (itemsSchema != null) {
                 visitSchema(openAPI, itemsSchema, mimeType, visitedSchemas, visitor);
             }
@@ -601,7 +601,7 @@ public class ModelUtils {
      * @return true if the specified schema is an Array schema.
      */
     public static boolean isArraySchema(Schema schema) {
-        return (schema instanceof ArraySchema);
+        return schema instanceof ArraySchema || "array".equals(getSchemaType(schema));
     }
 
     public static boolean isSet(Schema schema) {
@@ -1187,7 +1187,7 @@ public class ModelUtils {
                 }
             }
         } else if (isArraySchema(schema)) {
-            Schema itemsSchema = ((ArraySchema) schema).getItems();
+            Schema itemsSchema = schema.getItems();
             if (itemsSchema != null) {
                 return hasSelfReference(openAPI, itemsSchema, visitedSchemaNames);
             }
