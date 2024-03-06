@@ -415,6 +415,9 @@ public class ModelUtils {
      * @return the type of the specified schema
      */
     public static String getSchemaType(Schema schema) {
+        if (schema == null) {
+            return null;
+        }
         if (schema.getType() != null) {
             // 3.0.x or 2.0 spec
             return schema.getType();

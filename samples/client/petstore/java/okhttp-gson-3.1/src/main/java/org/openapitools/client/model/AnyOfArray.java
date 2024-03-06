@@ -14,7 +14,6 @@
 package org.openapitools.client.model;
 
 import java.util.Objects;
-import java.util.List;
 
 
 
@@ -63,7 +62,12 @@ public class AnyOfArray extends AbstractOpenApiSchema {
                 return null; // this class only serializes 'AnyOfArray' and its subtypes
             }
             final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
-            final TypeAdapter<List> adapterList = gson.getDelegateAdapter(this, TypeToken.get(List.class));
+
+            final Type typeInstance = new TypeToken<List<>>(){}.getType();
+            final TypeAdapter<List<String>> adapterList = (TypeAdapter<List<>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
+
+            final Type typeInstance = new TypeToken<List<>>(){}.getType();
+            final TypeAdapter<List<Integer>> adapterList = (TypeAdapter<List<>>) gson.getDelegateAdapter(this, TypeToken.get(typeInstance));
 
             return (TypeAdapter<T>) new TypeAdapter<AnyOfArray>() {
                 @Override
@@ -73,13 +77,31 @@ public class AnyOfArray extends AbstractOpenApiSchema {
                         return;
                     }
 
-                    // check if the actual instance is of the type `List`
-                    if (value.getActualInstance() instanceof List) {
-                      JsonElement element = adapterList.toJsonTree((List)value.getActualInstance());
-                      elementAdapter.write(out, element);
+                    // check if the actual instance is of the type `List<String>`
+                    if (value.getActualInstance() instanceof List<?>) {
+                      JsonPrimitive primitive = adapterList<String>.toJsonTree((List<String>)value.getActualInstance()).getAsJsonPrimitive();
+                      elementAdapter.write(out, primitive);
                       return;
+                      List<?> list = (List<?>) value.getActualInstance();
+        	            if(list.get(0) instanceof ) {
+        		            JsonArray array = adapterList.toJsonTree((List<String>)value.getActualInstance()).getAsJsonArray();
+                        elementAdapter.write(out, array);
+                        return;
+        	            }
                     }
-                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: List");
+                    // check if the actual instance is of the type `List<Integer>`
+                    if (value.getActualInstance() instanceof List<?>) {
+                      JsonPrimitive primitive = adapterList<Integer>.toJsonTree((List<Integer>)value.getActualInstance()).getAsJsonPrimitive();
+                      elementAdapter.write(out, primitive);
+                      return;
+                      List<?> list = (List<?>) value.getActualInstance();
+        	            if(list.get(0) instanceof ) {
+        		            JsonArray array = adapterList.toJsonTree((List<Integer>)value.getActualInstance()).getAsJsonArray();
+                        elementAdapter.write(out, array);
+                        return;
+        	            }
+                    }
+                    throw new IOException("Failed to serialize as the type doesn't match anyOf schemae: List<Integer>, List<String>");
                 }
 
                 @Override
@@ -90,18 +112,59 @@ public class AnyOfArray extends AbstractOpenApiSchema {
                     ArrayList<String> errorMessages = new ArrayList<>();
                     TypeAdapter actualAdapter = elementAdapter;
 
-                    // deserialize List
+                    // deserialize List<String>
                     try {
                       // validate the JSON object to see if any exception is thrown
-                      List.validateJsonElement(jsonElement);
+                      if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+                      actualAdapter = adapterList<String>;
+                      if (!jsonElement.isJsonArray()) {
+                        throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+
+                      JsonArray array = jsonElement.getAsJsonArray();
+                      // validate array items
+                      for(JsonElement element : array) {
+                      if(!element.getAsJsonPrimitive().isString()) {
+                        throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+                      }
                       actualAdapter = adapterList;
                       AnyOfArray ret = new AnyOfArray();
                       ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
                       return ret;
                     } catch (Exception e) {
                       // deserialization failed, continue
-                      errorMessages.add(String.format("Deserialization for List failed with `%s`.", e.getMessage()));
-                      log.log(Level.FINER, "Input data does not match schema 'List'", e);
+                      errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
+                      log.log(Level.FINER, "Input data does not match schema 'List<String>'", e);
+                    }
+                    // deserialize List<Integer>
+                    try {
+                      // validate the JSON object to see if any exception is thrown
+                      if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+                        throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+                      actualAdapter = adapterList<Integer>;
+                      if (!jsonElement.isJsonArray()) {
+                        throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+
+                      JsonArray array = jsonElement.getAsJsonArray();
+                      // validate array items
+                      for(JsonElement element : array) {
+                      if(!element.getAsJsonPrimitive().isNumber()) {
+                        throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+                      }
+                      }
+                      actualAdapter = adapterList;
+                      AnyOfArray ret = new AnyOfArray();
+                      ret.setActualInstance(actualAdapter.fromJsonTree(jsonElement));
+                      return ret;
+                    } catch (Exception e) {
+                      // deserialization failed, continue
+                      errorMessages.add(String.format("Deserialization for List<Integer> failed with `%s`.", e.getMessage()));
+                      log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
                     }
 
                     throw new IOException(String.format("Failed deserialization for AnyOfArray: no class matches result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
@@ -117,13 +180,19 @@ public class AnyOfArray extends AbstractOpenApiSchema {
         super("anyOf", Boolean.FALSE);
     }
 
-    public AnyOfArray(List o) {
+    public AnyOfArray(List<Integer> o) {
+        super("anyOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public AnyOfArray(List<String> o) {
         super("anyOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     static {
-        schemas.put("List", List.class);
+        schemas.put("List<String>", List.class);
+        schemas.put("List<Integer>", List.class);
     }
 
     @Override
@@ -134,25 +203,36 @@ public class AnyOfArray extends AbstractOpenApiSchema {
     /**
      * Set the instance that matches the anyOf child schema, check
      * the instance parameter is valid against the anyOf child schemas:
-     * List
+     * List<Integer>, List<String>
      *
      * It could be an instance of the 'anyOf' schemas.
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof List) {
-            super.setActualInstance(instance);
-            return;
+        if (instance instanceof List<?>) {
+            List<?> list = (List<?>) instance;
+        	if(list.get(0) instanceof ) {
+        		super.setActualInstance(instance);
+        		return;
+        	}
         }
 
-        throw new RuntimeException("Invalid instance type. Must be List");
+        if (instance instanceof List<?>) {
+            List<?> list = (List<?>) instance;
+        	if(list.get(0) instanceof ) {
+        		super.setActualInstance(instance);
+        		return;
+        	}
+        }
+
+        throw new RuntimeException("Invalid instance type. Must be List<Integer>, List<String>");
     }
 
     /**
      * Get the actual instance, which can be the following:
-     * List
+     * List<Integer>, List<String>
      *
-     * @return The actual instance (List)
+     * @return The actual instance (List<Integer>, List<String>)
      */
     @Override
     public Object getActualInstance() {
@@ -160,14 +240,24 @@ public class AnyOfArray extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `List`. If the actual instance is not `List`,
+     * Get the actual instance of `List<String>`. If the actual instance is not `List<String>`,
      * the ClassCastException will be thrown.
      *
-     * @return The actual instance of `List`
-     * @throws ClassCastException if the instance is not `List`
+     * @return The actual instance of `List<String>`
+     * @throws ClassCastException if the instance is not `List<String>`
      */
-    public List getList() throws ClassCastException {
-        return (List)super.getActualInstance();
+    public List<String> getList() throws ClassCastException {
+        return (List<String>)super.getActualInstance();
+    }
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+    public List<Integer> getList() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
     }
 
  /**
@@ -179,15 +269,47 @@ public class AnyOfArray extends AbstractOpenApiSchema {
   public static void validateJsonElement(JsonElement jsonElement) throws IOException {
     // validate anyOf schemas one by one
     ArrayList<String> errorMessages = new ArrayList<>();
-    // validate the json string with List
+    // validate the json string with List<String>
     try {
-      List.validateJsonElement(jsonElement);
+      if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+        throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+      }
+      if (!jsonElement.isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+      }
+      JsonArray array = jsonElement.getAsJsonArray();
+      // validate array items
+      for(JsonElement element : array) {
+        if(!element.getAsJsonPrimitive().isString()) {
+          throw new IllegalArgumentException(String.format("Expected array items to be of type String in the JSON string but got `%s`", jsonElement.toString()));
+        }
+      }
       return;
     } catch (Exception e) {
-      errorMessages.add(String.format("Deserialization for List failed with `%s`.", e.getMessage()));
+      errorMessages.add(String.format("Deserialization for List<String> failed with `%s`.", e.getMessage()));
       // continue to the next one
     }
-    throw new IOException(String.format("The JSON string is invalid for AnyOfArray with anyOf schemas: List. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
+    // validate the json string with List<Integer>
+    try {
+      if(!jsonElement.getAsJsonPrimitive().isNumber()) {
+        throw new IllegalArgumentException(String.format("Expected json element to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+      }
+      if (!jsonElement.isJsonArray()) {
+          throw new IllegalArgumentException(String.format("Expected json element to be a array type in the JSON string but got `%s`", jsonElement.toString()));
+      }
+      JsonArray array = jsonElement.getAsJsonArray();
+      // validate array items
+      for(JsonElement element : array) {
+        if(!element.getAsJsonPrimitive().isNumber()) {
+          throw new IllegalArgumentException(String.format("Expected array items to be of type Number in the JSON string but got `%s`", jsonElement.toString()));
+        }
+      }
+      return;
+    } catch (Exception e) {
+      errorMessages.add(String.format("Deserialization for List<Integer> failed with `%s`.", e.getMessage()));
+      // continue to the next one
+    }
+    throw new IOException(String.format("The JSON string is invalid for AnyOfArray with anyOf schemas: List<Integer>, List<String>. no class match the result, expected at least 1. Detailed failure message for anyOf schemas: %s. JSON: %s", errorMessages, jsonElement.toString()));
     
   }
 
