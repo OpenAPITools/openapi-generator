@@ -908,7 +908,6 @@ components:
         message:
           type: string
       title: An uploaded response
-    StringOrInt: {}
     OneOfStringOrInt:
       description: string or int (onefOf)
       oneOf:

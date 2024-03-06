@@ -841,9 +841,6 @@ components:
           type: string
         message:
           type: string
-    StringOrInt:
-      description: string or int
-      type: [string, integer]
     OneOfStringOrInt:
       description: string or int (onefOf)
       oneOf:
