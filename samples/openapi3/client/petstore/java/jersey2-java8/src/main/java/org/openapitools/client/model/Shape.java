@@ -239,12 +239,12 @@ public class Shape extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
-    public Shape(Quadrilateral o) {
+    public Shape(Triangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public Shape(Triangle o) {
+    public Shape(Quadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

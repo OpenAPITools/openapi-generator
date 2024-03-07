@@ -239,13 +239,13 @@ public class NullableShape extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
-    public NullableShape(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
+    public NullableShape(Triangle o) {
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public NullableShape(Triangle o) {
-        super("oneOf", Boolean.TRUE);
+    public NullableShape(Quadrilateral o) {
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 

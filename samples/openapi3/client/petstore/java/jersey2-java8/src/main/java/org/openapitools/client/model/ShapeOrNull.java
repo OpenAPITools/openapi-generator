@@ -239,13 +239,13 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
-    public ShapeOrNull(Quadrilateral o) {
-        super("oneOf", Boolean.TRUE);
+    public ShapeOrNull(Triangle o) {
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public ShapeOrNull(Triangle o) {
-        super("oneOf", Boolean.TRUE);
+    public ShapeOrNull(Quadrilateral o) {
+        super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 

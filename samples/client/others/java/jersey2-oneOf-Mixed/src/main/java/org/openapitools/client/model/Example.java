@@ -151,12 +151,12 @@ public class Example extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Example(List<Integer> o) {
+    public Example(UUID o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public Example(UUID o) {
+    public Example(List o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

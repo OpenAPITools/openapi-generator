@@ -239,12 +239,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
-    public Quadrilateral(ComplexQuadrilateral o) {
+    public Quadrilateral(SimpleQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public Quadrilateral(SimpleQuadrilateral o) {
+    public Quadrilateral(ComplexQuadrilateral o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }

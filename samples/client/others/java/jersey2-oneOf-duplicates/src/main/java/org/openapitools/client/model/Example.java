@@ -141,15 +141,11 @@ public class Example extends AbstractOpenApiSchema {
         super("oneOf", Boolean.FALSE);
     }
 
-    public Example(List<BigDecimal> o) {
+    public Example(List o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
-    public Example(List<Integer> o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
 
     static {
         schemas.put("List<BigDecimal>", new GenericType<List<BigDecimal>>() {
@@ -174,11 +170,6 @@ public class Example extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List.class, instance, new HashSet<>())) {
-            super.setActualInstance(instance);
-            return;
-        }
-
         if (JSON.isInstanceOf(List.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;

@@ -270,17 +270,17 @@ public class Mammal extends AbstractOpenApiSchema {
     public int hashCode() {
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
-    public Mammal(Pig o) {
-        super("oneOf", Boolean.FALSE);
-        setActualInstance(o);
-    }
-
     public Mammal(Whale o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
 
     public Mammal(Zebra o) {
+        super("oneOf", Boolean.FALSE);
+        setActualInstance(o);
+    }
+
+    public Mammal(Pig o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
     }
