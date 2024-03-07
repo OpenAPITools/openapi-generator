@@ -167,13 +167,17 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
     }
     {{/additionalPropertiesType}}
+    {{#composedSchemas}}
     {{#oneOf}}
-    public {{classname}}({{{.}}} o) {
+    {{^vendorExtensions.x-duplicated-data-type}}
+    public {{classname}}({{{baseType}}} o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
+    {{/vendorExtensions.x-duplicated-data-type}}
 
     {{/oneOf}}
+    {{/composedSchemas}}
     static {
         {{#oneOf}}
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
@@ -215,11 +219,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         {{/isNullable}}
         {{#composedSchemas}}
         {{#oneOf}}
+        {{^vendorExtensions.x-duplicated-data-type}}
         if (JSON.isInstanceOf({{{baseType}}}.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
+        {{/vendorExtensions.x-duplicated-data-type}}
         {{/oneOf}}
         {{/composedSchemas}}
         throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");

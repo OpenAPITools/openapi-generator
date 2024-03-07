@@ -8435,12 +8435,17 @@ public class DefaultCodegen implements CodegenConfig {
             xOf.add(cp);
             i += 1;
 
-            if (dataTypeSet.contains(cp.dataType)) {
+            if (dataTypeSet.contains(cp.dataType)
+                    || (isTypeErasedGenerics() && dataTypeSet.contains(cp.baseType))) {
                 // add "x-duplicated-data-type" to indicate if the dataType already occurs before
                 // in other sub-schemas of allOf/anyOf/oneOf
                 cp.vendorExtensions.putIfAbsent("x-duplicated-data-type", true);
             } else {
-                dataTypeSet.add(cp.dataType);
+                if(isTypeErasedGenerics()) {
+                    dataTypeSet.add(cp.baseType);
+                } else {
+                    dataTypeSet.add(cp.dataType);
+                }
             }
         }
         return xOf;
@@ -8477,11 +8482,16 @@ public class DefaultCodegen implements CodegenConfig {
         return openapiGeneratorIgnoreList;
     }
 
+    @Override
+    public boolean isTypeErasedGenerics() {
+        return false;
+    }
+
     /*
-    A function to convert yaml or json ingested strings like property names
-    And convert special characters like newline, tab, carriage return
-    Into strings that can be rendered in the language that the generator will output to
-    */
+        A function to convert yaml or json ingested strings like property names
+        And convert special characters like newline, tab, carriage return
+        Into strings that can be rendered in the language that the generator will output to
+        */
     protected String handleSpecialCharacters(String name) { return name; }
 
     /**

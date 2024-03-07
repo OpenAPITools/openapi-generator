@@ -2521,4 +2521,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             imports.add(importsItem);
         }
     }
+
+    @Override
+    public boolean isTypeErasedGenerics() {
+        return true;
+    }
 }
