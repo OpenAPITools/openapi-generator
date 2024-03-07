@@ -103,7 +103,6 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((AppleReq.class.equals(Float.class) || AppleReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (AppleReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (AppleReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {
@@ -130,7 +129,6 @@ public class FruitReq extends AbstractOpenApiSchema {
                         attemptParsing |= ((BananaReq.class.equals(Float.class) || BananaReq.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
                         attemptParsing |= (BananaReq.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
                         attemptParsing |= (BananaReq.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
                     }
                 }
                 if (attemptParsing) {

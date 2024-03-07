@@ -16,6 +16,7 @@ package org.openapitools.client.model;
 import java.util.Objects;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
@@ -47,7 +48,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @JsonDeserialize(using = Example.ExampleDeserializer.class)
 @JsonSerialize(using = Example.ExampleSerializer.class)
 public class Example extends AbstractOpenApiSchema {
@@ -84,32 +85,6 @@ public class Example extends AbstractOpenApiSchema {
             boolean typeCoercion = ctxt.isEnabled(MapperFeature.ALLOW_COERCION_OF_SCALARS);
             int match = 0;
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
-            // deserialize List<Integer>
-            try {
-                boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (List<Integer>.class.equals(Integer.class) || List<Integer>.class.equals(Long.class) || List<Integer>.class.equals(Float.class) || List<Integer>.class.equals(Double.class) || List<Integer>.class.equals(Boolean.class) || List<Integer>.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((List<Integer>.class.equals(Integer.class) || List<Integer>.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((List<Integer>.class.equals(Float.class) || List<Integer>.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (List<Integer>.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (List<Integer>.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
-                if (attemptParsing) {
-                    deserialized = tree.traverse(jp.getCodec()).readValueAs(List<Integer>.class);
-                    // TODO: there is no validation against JSON schema constraints
-                    // (min, max, enum, pattern...), this does not perform a strict JSON
-                    // validation, which means the 'match' count may be higher than it should be.
-                    match++;
-                    log.log(Level.FINER, "Input data matches schema 'List<Integer>'");
-                }
-            } catch (Exception e) {
-                // deserialization failed, continue
-                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
-            }
-
             // deserialize UUID
             try {
                 boolean attemptParsing = true;
@@ -134,6 +109,22 @@ public class Example extends AbstractOpenApiSchema {
             } catch (Exception e) {
                 // deserialization failed, continue
                 log.log(Level.FINER, "Input data does not match schema 'UUID'", e);
+            }
+
+            // deserialize List<Integer>
+            try {
+                if (token == JsonToken.START_ARRAY) {
+                    final TypeReference<List<Integer>> ref = new TypeReference<List<Integer>>(){};
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ref);
+                    // TODO: there is no validation against JSON schema constraints
+                    // (min, max, enum, pattern...), this does not perform a strict JSON
+                    // validation, which means the 'match' count may be higher than it should be.
+                    match++;
+                    log.log(Level.FINER, "Input data matches schema 'List<Integer>'");
+                }
+            } catch (Exception e) {
+                // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'List<Integer>'", e);
             }
 
             if (match == 1) {
@@ -193,12 +184,12 @@ public class Example extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(List<Integer>.class, instance, new HashSet<>())) {
+        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(UUID.class, instance, new HashSet<>())) {
+        if (JSON.isInstanceOf(List.class, instance, new HashSet<>())) {
             super.setActualInstance(instance);
             return;
         }
@@ -218,17 +209,6 @@ public class Example extends AbstractOpenApiSchema {
     }
 
     /**
-     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
-     * the ClassCastException will be thrown.
-     *
-     * @return The actual instance of `List<Integer>`
-     * @throws ClassCastException if the instance is not `List<Integer>`
-     */
-    public List<Integer> getList<Integer>() throws ClassCastException {
-        return (List<Integer>)super.getActualInstance();
-    }
-
-    /**
      * Get the actual instance of `UUID`. If the actual instance is not `UUID`,
      * the ClassCastException will be thrown.
      *
@@ -238,6 +218,17 @@ public class Example extends AbstractOpenApiSchema {
     public UUID getUUID() throws ClassCastException {
         return (UUID)super.getActualInstance();
     }
+
+    /**
+     * Get the actual instance of `List<Integer>`. If the actual instance is not `List<Integer>`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `List<Integer>`
+     * @throws ClassCastException if the instance is not `List<Integer>`
+     */
+        public List<Integer> getListInteger() throws ClassCastException {
+        return (List<Integer>)super.getActualInstance();
+        }
 
 }
 

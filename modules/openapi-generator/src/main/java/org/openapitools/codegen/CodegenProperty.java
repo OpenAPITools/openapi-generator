@@ -46,6 +46,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public String datatypeWithEnum;
     public String dataFormat;
     /**
+     * The value of {@link #dataType}, but with characters that are illegal in identifiers converted to {@code _} if present.
+     */
+    public String escapedDataType;
+    /**
      * The name of this property in the OpenAPI schema.
      */
     public String name;
@@ -1139,6 +1143,15 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isEnum = isEnum;
     }
 
+    public String getEscapedDataType() {
+        return escapedDataType;
+    }
+
+    public void setEscapedDataType(String escapedDataType) {
+        this.escapedDataType = escapedDataType;
+    }
+
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -1254,6 +1267,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", format=").append(format);
         sb.append(", dependentRequired=").append(dependentRequired);
         sb.append(", contains=").append(contains);
+        sb.append(", escapedDataType=").append(escapedDataType);
         sb.append('}');
         return sb.toString();
     }
