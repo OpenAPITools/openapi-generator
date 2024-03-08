@@ -45,6 +45,23 @@ import static org.openapitools.codegen.languages.features.DocumentationProviderF
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import com.github.javaparser.ast.NodeList;
+import com.github.javaparser.ast.expr.ArrayInitializerExpr;
+import com.github.javaparser.ast.expr.ClassExpr;
+import com.github.javaparser.ast.expr.MemberValuePair;
+import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.NormalAnnotationExpr;
+import com.github.javaparser.ast.expr.SingleMemberAnnotationExpr;
+import com.github.javaparser.ast.expr.StringLiteralExpr;
+import com.github.javaparser.ast.type.ClassOrInterfaceType;
+import com.google.common.collect.ImmutableMap;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -52,6 +69,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -72,7 +90,9 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;
+import org.openapitools.codegen.java.assertions.TypeAnnotationAssert;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.JavaCamelServerCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -82,16 +102,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-
-import com.google.common.collect.ImmutableMap;
-
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
 
 public class SpringCodegenTest {
 
@@ -1706,47 +1716,8 @@ public class SpringCodegenTest {
         // previous bugs
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "atTypesuper.hashCode");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/BarRef.java"), "private String atBaseType");
-        // imports for inherited properties
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "import java.math.BigDecimal");
-    }
-
-    @Test
-    public void testDiscriminatorWithMappingIssue14731() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
-        OpenAPI openAPI = new OpenAPIParser()
-            .readLocation("src/test/resources/bugs/issue_14731.yaml", null, new ParseOptions()).getOpenAPI();
-
-        SpringCodegen codegen = new SpringCodegen();
-        codegen.setOutputDir(output.getAbsolutePath());
-        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
-        codegen.setUseOneOfInterfaces(true);
-
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-        codegen.setHateoas(true);
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "false");
-
-
-        codegen.setUseOneOfInterfaces(true);
-        codegen.setLegacyDiscriminatorBehavior(false);
-        codegen.setUseSpringBoot3(true);
-        codegen.setModelNameSuffix("DTO");
-
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
-        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
-        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-
-        generator.opts(input).generate();
-
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingADTO.java"), "@JsonTypeName");
-        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingBDTO.java"), "@JsonTypeName");
+        // methods for inherited properties
+        assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/PizzaSpeziale.java"), "BigDecimal getPizzaSize()");
     }
 
     @Test
@@ -1784,9 +1755,14 @@ public class SpringCodegenTest {
 
         generator.opts(input).generate();
 
-
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingADTO.java"), "@JsonTypeName");
-        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithoutMappingBDTO.java"), "@JsonTypeName");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingADTO.java"),
+                "@JsonTypeName(\"child_a\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ChildWithMappingBDTO.java"),
+                "@JsonTypeName(\"child_b\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ParentWithMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithMapping\")");
+        assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/model/ParentWithoutMappingDTO.java"),
+                "@JsonTypeName(\"ParentWithoutMapping\")");
     }
 
     @Test
@@ -4231,7 +4207,7 @@ public class SpringCodegenTest {
         assertMethod(javaFileAssert, BigDecimal.class, "numberMaxNullable");
 
     }
-    
+
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
         assertOptionalMethod(javaFileAssert, type.getSimpleName(), expectedName, getterReturnType);
     }
@@ -4417,6 +4393,36 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void javaCamelCodegenUseJsonTypeName() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-echo.yaml");
+        final JavaCamelServerCodegen codegen = new JavaCamelServerCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.setModelNameSuffix("Dto");
+        Map<String, Object> additionalProperties = codegen.additionalProperties();
+        additionalProperties.put("jackson", true);
+
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+
+        generator.opts(input).generate();
+        assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/model/CategoryDto.java"),
+                "@JsonTypeName(\"Category\")");
+        assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/model/PetDto.java"),
+                "@JsonTypeName(\"Pet\")");
+
+    }
+
+
+    @Test
     public void givenMultipartForm_whenGenerateBlockedServer_thenParameterAreCreatedAsRequestPart() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
@@ -4443,6 +4449,103 @@ public class SpringCodegenTest {
 
         assertFileContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/PetApi.java"),
                 "@Valid @RequestParam(value = \"additionalMetadata\", required = false) String additionalMetadata");
+    }
+
+    /**
+     *
+     * test the generation of @JsonSubTypes and @JsonTypeNames for different combinations of
+     * <ul>
+     *   <li>swagger 2</li>
+     *   <ul>
+     *    <li>with x-discriminator-value</li>
+     *    <li>without x-discriminator-value</li>
+     *   </ul>
+     *  <li>openapi 3</li>
+     *   <ul>
+     *    <li>with discriminator mapping</li>
+     *    <li>without mapping</li>
+     *   </ul>
+     *  <li>model name</li>
+     *   <ul>
+     *    <li>matching the class name (Cat - Cat.class)</li>
+     *    <li>not matching (cat vs CatDto.class or dog vs Dog.class)</li>
+     *   </ul>
+     * </ul>
+     *
+     */
+    @DataProvider(name = "discriminator17343")
+    static Object[] discriminator17343() {
+        return new Object[][]{
+            { "Dto", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", "Pet", "Cat", "dog", "BigCat" },
+            { "Dto", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BigCat", "Pet", "CAT", "DOG", "BigCat"  },
+            { "Dto", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BigCat", "Pet", "CAT", "DOG", "BigCat" },
+            { "Dto", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", "Cat", "dog", "BigCat" },
+            { "", "issue_17343_swagger_no_x-discriminator-value.yaml", "Cat", "dog", "BigCat", null, null, "dog", null },
+            { "", "issue_17343_swagger_and_x-discriminator-value.yaml", "CAT", "DOG", "BigCat", null, "CAT", "DOG", null },
+            { "", "issue_17343_openapi_and_mapping.yaml", "CAT", "DOG", "BigCat", null, "CAT", "DOG", null },
+            { "", "issue_17343_openapi_no_mapping.yaml", "Cat", "dog", "BigCat", "pet", null, "dog", null },
+        };
+    }
+    @Test(dataProvider = "discriminator17343")
+    public void testXDiscriminatorValue_issue17343(String modelNameSuffix, String testFile,
+        String expectedCatAnnotation,
+        String expectedDogAnnotation,
+        String expectedBigCatAnnotation,
+
+        String expectedJsonTypeNamePetAnnotation,
+        String expectedTypeNameCatAnnotation,
+        String expectedTypeNameDogAnnotation,
+        String expectedTypeNameBigCatAnnotation
+        ) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/" + testFile);
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setModelNameSuffix(modelNameSuffix);
+        codegen.setOutputDir(output.getAbsolutePath());
+        ClientOptInput input = new ClientOptInput();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        String petClass = "Pet" + modelNameSuffix;
+        File petFile = files.get(petClass + ".java");
+        JavaFileAssert.assertThat(petFile)
+            .fileContains(
+                String.format(Locale.ROOT,"@JsonSubTypes.Type(value = BigCat%s.class, name = \"%s\")", modelNameSuffix, expectedBigCatAnnotation),
+                String.format(Locale.ROOT, "@JsonSubTypes.Type(value = Cat%s.class, name = \"%s\")", modelNameSuffix, expectedCatAnnotation),
+                String.format(Locale.ROOT, "@JsonSubTypes.Type(value = Dog%s.class, name = \"%s\")", modelNameSuffix, expectedDogAnnotation));
+
+        expectJsonTypeNameAnnotation(petFile, null, expectedJsonTypeNamePetAnnotation);
+        expectJsonTypeNameAnnotation(files.get("Dog" + modelNameSuffix + ".java"), petClass, expectedTypeNameDogAnnotation);
+        expectJsonTypeNameAnnotation(files.get("Cat" + modelNameSuffix + ".java"), petClass, expectedTypeNameCatAnnotation);
+        expectJsonTypeNameAnnotation(files.get("BigCat" + modelNameSuffix + ".java"), "Cat" + modelNameSuffix, expectedTypeNameBigCatAnnotation);
+    }
+
+    private void expectJsonTypeNameAnnotation(File file, String expectedExtends, String expectedJsonAnnotation) {
+        try {
+        JavaFileAssert javaFileAssert = JavaFileAssert.assertThat(file);
+        if (expectedExtends != null) {
+            javaFileAssert.fileContains(" extends " + expectedExtends);
+        } else {
+            javaFileAssert.doesNotHaveToString(" extends ");
+        }
+        TypeAnnotationAssert annotationAssert = javaFileAssert.assertTypeAnnotations();
+        if (expectedJsonAnnotation == null) {
+            annotationAssert.doesNotContainsWithName("JsonTypeName");
+        } else {
+            annotationAssert.containsWithNameAndAttributes("JsonTypeName",
+                Map.of("value", "\"" + expectedJsonAnnotation + "\""));
+        }
+        } catch (AssertionError e) {
+            throw new AssertionError("Error on " + file, e);
+        }
     }
 
     @Test

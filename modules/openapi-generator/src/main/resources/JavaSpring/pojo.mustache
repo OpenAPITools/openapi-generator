@@ -18,11 +18,9 @@
 {{>typeInfoAnnotation}}
 {{/discriminator}}
 {{#jackson}}
-{{#isClassnameSanitized}}
-{{^hasDiscriminatorWithNonEmptyMapping}}
+{{#useJsonTypeName}}
 @JsonTypeName("{{name}}")
-{{/hasDiscriminatorWithNonEmptyMapping}}
-{{/isClassnameSanitized}}
+{{/useJsonTypeName}}
 {{/jackson}}
 {{#withXml}}
 {{>xmlAnnotation}}
