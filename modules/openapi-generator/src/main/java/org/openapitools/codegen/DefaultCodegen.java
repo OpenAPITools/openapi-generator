@@ -4725,14 +4725,14 @@ public class DefaultCodegen implements CodegenConfig {
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
 
-        Boolean skipFormModel = (Boolean) additionalProperties.get(CodegenConstants.SKIP_FORM_MODEL);
+        Boolean handleFormContent = additionalProperties.get(CodegenConstants.HANDLE_FORM_CONTENT) != null ? (Boolean) additionalProperties.get(CodegenConstants.HANDLE_FORM_CONTENT) : false;
 
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (skipFormModel && contentType != null &&
+            if (!handleFormContent && contentType != null &&
                     (contentType.startsWith("application/x-www-form-urlencoded") ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
