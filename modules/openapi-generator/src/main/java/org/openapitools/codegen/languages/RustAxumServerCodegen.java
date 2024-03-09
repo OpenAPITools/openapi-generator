@@ -304,7 +304,6 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         } else {
             additionalProperties.put("allowBlockingResponseSerialize", allowBlockingResponseSerialize);
         }
-
     }
 
     private void setPackageName(String packageName) {

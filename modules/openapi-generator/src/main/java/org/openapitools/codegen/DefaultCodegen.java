@@ -4725,7 +4725,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         CodegenParameter bodyParam = null;
         RequestBody requestBody = operation.getRequestBody();
-
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
             if (contentType != null) {
