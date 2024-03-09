@@ -263,7 +263,7 @@ pet_t *pet_parseFromJSON(cJSON *petJSON){
         strdup(name->valuestring),
         photo_urlsList,
         tags ? tagsList : NULL,
-        status ? statusVariable : -1
+        status ? statusVariable : openapi_petstore_pet_STATUS_NULL
         );
 
     return pet_local_var;

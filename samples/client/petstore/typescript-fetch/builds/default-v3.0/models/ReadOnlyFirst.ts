@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -45,22 +45,19 @@ export function ReadOnlyFirstFromJSON(json: any): ReadOnlyFirst {
 }
 
 export function ReadOnlyFirstFromJSONTyped(json: any, ignoreDiscriminator: boolean): ReadOnlyFirst {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'bar': !exists(json, 'bar') ? undefined : json['bar'],
-        'baz': !exists(json, 'baz') ? undefined : json['baz'],
+        'bar': json['bar'] == null ? undefined : json['bar'],
+        'baz': json['baz'] == null ? undefined : json['baz'],
     };
 }
 
 export function ReadOnlyFirstToJSON(value?: ReadOnlyFirst | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

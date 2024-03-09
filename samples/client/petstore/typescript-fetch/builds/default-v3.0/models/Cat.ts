@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Animal } from './Animal';
 import {
     AnimalFromJSON,
@@ -46,21 +46,18 @@ export function CatFromJSON(json: any): Cat {
 }
 
 export function CatFromJSONTyped(json: any, ignoreDiscriminator: boolean): Cat {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         ...AnimalFromJSONTyped(json, ignoreDiscriminator),
-        'declawed': !exists(json, 'declawed') ? undefined : json['declawed'],
+        'declawed': json['declawed'] == null ? undefined : json['declawed'],
     };
 }
 
 export function CatToJSON(value?: Cat | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         ...AnimalToJSON(value),

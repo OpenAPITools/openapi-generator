@@ -17,7 +17,7 @@ export function {{classname}}FromJSON(json: any): {{classname}} {
 }
 
 export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boolean): {{classname}} {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
 {{#discriminator}}
@@ -36,11 +36,8 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
 }
 
 export function {{classname}}ToJSON(value?: {{classname}} | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
 {{#discriminator}}
     switch (value['{{discriminator.propertyName}}']) {

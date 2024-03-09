@@ -65,7 +65,7 @@ export class PetApi extends runtime.BaseAPI {
      * Add a new pet to the store
      */
     async addPetRaw(requestParameters: AddPetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (!runtime.exists(requestParameters, 'body')) {
+        if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
                 'Required parameter "body" was null or undefined when calling addPet().'
@@ -105,7 +105,7 @@ export class PetApi extends runtime.BaseAPI {
      * Deletes a pet
      */
     async deletePetRaw(requestParameters: DeletePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (!runtime.exists(requestParameters, 'petId')) {
+        if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
                 'Required parameter "petId" was null or undefined when calling deletePet().'
@@ -116,7 +116,7 @@ export class PetApi extends runtime.BaseAPI {
 
         const headerParameters: runtime.HTTPHeaders = {};
 
-        if (runtime.exists(requestParameters, 'apiKey')) {
+        if (requestParameters['apiKey'] != null) {
             headerParameters['api_key'] = String(requestParameters['apiKey']);
         }
 
@@ -147,7 +147,7 @@ export class PetApi extends runtime.BaseAPI {
      * Finds Pets by status
      */
     async findPetsByStatusRaw(requestParameters: FindPetsByStatusRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
-        if (!runtime.exists(requestParameters, 'status')) {
+        if (requestParameters['status'] == null) {
             throw new runtime.RequiredError(
                 'status',
                 'Required parameter "status" was null or undefined when calling findPetsByStatus().'
@@ -156,7 +156,7 @@ export class PetApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (runtime.exists(requestParameters, 'status')) {
+        if (requestParameters['status'] != null) {
             queryParameters['status'] = requestParameters['status']!.join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
@@ -192,7 +192,7 @@ export class PetApi extends runtime.BaseAPI {
      * @deprecated
      */
     async findPetsByTagsRaw(requestParameters: FindPetsByTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Pet>>> {
-        if (!runtime.exists(requestParameters, 'tags')) {
+        if (requestParameters['tags'] == null) {
             throw new runtime.RequiredError(
                 'tags',
                 'Required parameter "tags" was null or undefined when calling findPetsByTags().'
@@ -201,7 +201,7 @@ export class PetApi extends runtime.BaseAPI {
 
         const queryParameters: any = {};
 
-        if (runtime.exists(requestParameters, 'tags')) {
+        if (requestParameters['tags'] != null) {
             queryParameters['tags'] = requestParameters['tags']!.join(runtime.COLLECTION_FORMATS["csv"]);
         }
 
@@ -237,7 +237,7 @@ export class PetApi extends runtime.BaseAPI {
      * Find pet by ID
      */
     async getPetByIdRaw(requestParameters: GetPetByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Pet>> {
-        if (!runtime.exists(requestParameters, 'petId')) {
+        if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
                 'Required parameter "petId" was null or undefined when calling getPetById().'
@@ -275,7 +275,7 @@ export class PetApi extends runtime.BaseAPI {
      * Update an existing pet
      */
     async updatePetRaw(requestParameters: UpdatePetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (!runtime.exists(requestParameters, 'body')) {
+        if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
                 'Required parameter "body" was null or undefined when calling updatePet().'
@@ -315,7 +315,7 @@ export class PetApi extends runtime.BaseAPI {
      * Updates a pet in the store with form data
      */
     async updatePetWithFormRaw(requestParameters: UpdatePetWithFormRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (!runtime.exists(requestParameters, 'petId')) {
+        if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
                 'Required parameter "petId" was null or undefined when calling updatePetWithForm().'
@@ -345,11 +345,11 @@ export class PetApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (runtime.exists(requestParameters, 'name')) {
+        if (requestParameters['name'] != null) {
             formParams.append('name', requestParameters['name'] as any);
         }
 
-        if (runtime.exists(requestParameters, 'status')) {
+        if (requestParameters['status'] != null) {
             formParams.append('status', requestParameters['status'] as any);
         }
 
@@ -375,7 +375,7 @@ export class PetApi extends runtime.BaseAPI {
      * uploads an image
      */
     async uploadFileRaw(requestParameters: UploadFileRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ModelApiResponse>> {
-        if (!runtime.exists(requestParameters, 'petId')) {
+        if (requestParameters['petId'] == null) {
             throw new runtime.RequiredError(
                 'petId',
                 'Required parameter "petId" was null or undefined when calling uploadFile().'
@@ -407,11 +407,11 @@ export class PetApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (runtime.exists(requestParameters, 'additionalMetadata')) {
+        if (requestParameters['additionalMetadata'] != null) {
             formParams.append('additionalMetadata', requestParameters['additionalMetadata'] as any);
         }
 
-        if (runtime.exists(requestParameters, 'file')) {
+        if (requestParameters['file'] != null) {
             formParams.append('file', requestParameters['file'] as any);
         }
 
