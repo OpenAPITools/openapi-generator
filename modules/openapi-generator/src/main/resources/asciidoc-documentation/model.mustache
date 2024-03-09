@@ -9,20 +9,38 @@
 
 {{unescapedDescription}}
 
+
+{{^allowableValues}}
 [.fields-{{classname}}]
-[cols="2,1,2,4,1"]
+[cols="2,1,1,2,4,1"]
 |===
-| Field Name| Required| Type| Description| Format
+| Field Name| Required| Nullable | Type| Description | Format
 
 {{#vars}}
 | {{baseName}}
 | {{#required}}X{{/required}}
-| {{dataType}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}}
+| {{#isNullable}}X{{/isNullable}}
+| {{#isModel}}<<{{ dataType }}>>{{/isModel}} {{^container}}{{^allowableValues}} {{^isModel}}{{ dataType }}{{/isModel}}{{/allowableValues}}{{#allowableValues}}{{^allowableValues.empty}}<<{{ dataType }}>>{{/allowableValues.empty}}{{/allowableValues}} {{/container}} {{#isContainer}} of <<{{complexType}}>>{{/isContainer}}
 | {{description}}
-| {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}}
+| {{{dataFormat}}} {{#isEnum}}_Enum:_ {{#_enum}}{{this}}, {{/_enum}}{{/isEnum}} {{^isEnum}}{{^container}}{{^allowableValues.empty}} {{#allowableValues.values}}{{this}}, {{/allowableValues.values}} {{/allowableValues.empty}}{{/container}}{{/isEnum}}
 
 {{/vars}}
 |===
+{{/allowableValues}}
+
+{{#allowableValues}}
+
+[.fields-{{classname}}]
+[cols="1"]
+|===
+| Enum Values
+
+{{#allowableValues.values}}
+| {{this}}
+{{/allowableValues.values}}
+
+|===
+{{/allowableValues}}
 
     {{/model}}
 {{/models}}
