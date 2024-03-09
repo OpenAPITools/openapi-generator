@@ -34,7 +34,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async listRaw(requestParameters: ListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Club>> {
-        if (!runtime.exists(requestParameters, 'personId')) {
+        if (requestParameters['personId'] == null) {
             throw new runtime.RequiredError(
                 'personId',
                 'Required parameter "personId" was null or undefined when calling list().'
