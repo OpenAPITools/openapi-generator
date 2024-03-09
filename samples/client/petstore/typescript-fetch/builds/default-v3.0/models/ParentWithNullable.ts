@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import {
      ChildWithNullableFromJSONTyped
 } from './index';
@@ -59,7 +59,7 @@ export function ParentWithNullableFromJSON(json: any): ParentWithNullable {
 }
 
 export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: boolean): ParentWithNullable {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     if (!ignoreDiscriminator) {
@@ -69,17 +69,14 @@ export function ParentWithNullableFromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'nullableProperty': !exists(json, 'nullableProperty') ? undefined : json['nullableProperty'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'nullableProperty': json['nullableProperty'] == null ? undefined : json['nullableProperty'],
     };
 }
 
 export function ParentWithNullableToJSON(value?: ParentWithNullable | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

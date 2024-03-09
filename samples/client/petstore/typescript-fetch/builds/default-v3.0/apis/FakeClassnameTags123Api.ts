@@ -36,7 +36,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      */
     async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (!runtime.exists(requestParameters, 'client')) {
+        if (requestParameters['client'] == null) {
             throw new runtime.RequiredError(
                 'client',
                 'Required parameter "client" was null or undefined when calling testClassname().'

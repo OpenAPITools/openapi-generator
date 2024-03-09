@@ -1,0 +1,36 @@
+## SearchApi
+
+### Search code
+## Search code
+GET https://api.github.com/search/code
+Accept: application/json
+
+### Search commits
+## Search commits
+GET https://api.github.com/search/commits
+Accept: application/json
+
+### Search issues and pull requests
+## Search issues and pull requests
+GET https://api.github.com/search/issues
+Accept: application/json
+
+### Search labels
+## Search labels
+GET https://api.github.com/search/labels
+Accept: application/json
+
+### Search repositories
+## Search repositories
+GET https://api.github.com/search/repositories
+Accept: application/json
+
+### Search topics
+## Search topics
+GET https://api.github.com/search/topics
+Accept: application/json
+
+### Search users
+## Search users
+GET https://api.github.com/search/users
+Accept: application/json

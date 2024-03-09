@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Part } from './Part';
 import {
     PartFromJSON,
@@ -54,7 +54,7 @@ export function MatchingPartsFromJSON(json: any): MatchingParts {
 }
 
 export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boolean): MatchingParts {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -65,11 +65,8 @@ export function MatchingPartsFromJSONTyped(json: any, ignoreDiscriminator: boole
 }
 
 export function MatchingPartsToJSON(value?: MatchingParts | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
