@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Describes the result of uploading an image resource
  * @export
@@ -51,23 +51,20 @@ export function ModelApiResponseFromJSON(json: any): ModelApiResponse {
 }
 
 export function ModelApiResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): ModelApiResponse {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'code': !exists(json, 'code') ? undefined : json['code'],
-        'type': !exists(json, 'type') ? undefined : json['type'],
-        'message': !exists(json, 'message') ? undefined : json['message'],
+        'code': json['code'] == null ? undefined : json['code'],
+        'type': json['type'] == null ? undefined : json['type'],
+        'message': json['message'] == null ? undefined : json['message'],
     };
 }
 
 export function ModelApiResponseToJSON(value?: ModelApiResponse | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

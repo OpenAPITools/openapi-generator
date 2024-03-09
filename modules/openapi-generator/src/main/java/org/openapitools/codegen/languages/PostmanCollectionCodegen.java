@@ -162,7 +162,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-
         if(additionalProperties().containsKey(FOLDER_STRATEGY)) {
             folderStrategy = additionalProperties().get(FOLDER_STRATEGY).toString();
         }

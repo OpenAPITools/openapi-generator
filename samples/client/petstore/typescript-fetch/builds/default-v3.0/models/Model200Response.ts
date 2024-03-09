@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Model for testing model name starting with number
  * @export
@@ -45,22 +45,19 @@ export function Model200ResponseFromJSON(json: any): Model200Response {
 }
 
 export function Model200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): Model200Response {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'name': !exists(json, 'name') ? undefined : json['name'],
-        '_class': !exists(json, 'class') ? undefined : json['class'],
+        'name': json['name'] == null ? undefined : json['name'],
+        '_class': json['class'] == null ? undefined : json['class'],
     };
 }
 
 export function Model200ResponseToJSON(value?: Model200Response | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

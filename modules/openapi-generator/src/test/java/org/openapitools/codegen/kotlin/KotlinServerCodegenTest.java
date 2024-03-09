@@ -42,13 +42,13 @@ public class KotlinServerCodegenTest {
                 petApi,
                 "import jakarta.ws.rs.*",
                 "import jakarta.ws.rs.core.Response",
-                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
         assertFileContains(
                 petApi,
                 "import javax.ws.rs.*",
                 "import javax.ws.rs.core.Response",
-                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
     }
 
@@ -73,13 +73,13 @@ public class KotlinServerCodegenTest {
                 petApi,
                 "import jakarta.ws.rs.*",
                 "import jakarta.ws.rs.core.Response",
-                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
         assertFileNotContains(
                 petApi,
                 "import javax.ws.rs.*",
                 "import javax.ws.rs.core.Response",
-                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
     }
 

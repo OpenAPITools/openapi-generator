@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -45,22 +45,19 @@ export function FakeBigDecimalMap200ResponseFromJSON(json: any): FakeBigDecimalM
 }
 
 export function FakeBigDecimalMap200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeBigDecimalMap200Response {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'someId': !exists(json, 'someId') ? undefined : json['someId'],
-        'someMap': !exists(json, 'someMap') ? undefined : json['someMap'],
+        'someId': json['someId'] == null ? undefined : json['someId'],
+        'someMap': json['someMap'] == null ? undefined : json['someMap'],
     };
 }
 
 export function FakeBigDecimalMap200ResponseToJSON(value?: FakeBigDecimalMap200Response | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

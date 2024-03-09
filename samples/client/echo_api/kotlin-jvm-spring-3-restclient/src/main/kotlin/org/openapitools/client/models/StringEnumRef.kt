@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * Values: success,failure,unclassified,unknownDefaultOpenApi
+ * Values: success,failure,unclassified,unknown_default_open_api
  */
 
 enum class StringEnumRef(val value: kotlin.String) {
@@ -36,7 +36,7 @@ enum class StringEnumRef(val value: kotlin.String) {
     unclassified("unclassified"),
 
     @JsonProperty(value = "unknown_default_open_api")
-    unknownDefaultOpenApi("unknown_default_open_api");
+    unknown_default_open_api("unknown_default_open_api");
 
     /**
      * Override [toString()] to avoid using the enum variable name as the value, and instead use

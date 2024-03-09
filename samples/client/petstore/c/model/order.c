@@ -182,7 +182,7 @@ order_t *order_parseFromJSON(cJSON *orderJSON){
         pet_id ? pet_id->valuedouble : 0,
         quantity ? quantity->valuedouble : 0,
         ship_date && !cJSON_IsNull(ship_date) ? strdup(ship_date->valuestring) : NULL,
-        status ? statusVariable : -1,
+        status ? statusVariable : openapi_petstore_order_STATUS_NULL,
         complete ? complete->valueint : 0
         );
 

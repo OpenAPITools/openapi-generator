@@ -1,0 +1,6 @@
+## HeroStatsApi
+
+### GET /heroStats
+## GET /heroStats
+GET https://api.opendota.com/api/heroStats
+Accept: application/json; charset=utf-8

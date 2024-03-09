@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -95,24 +95,21 @@ export function FakeEnumRequestGetInline200ResponseFromJSON(json: any): FakeEnum
 }
 
 export function FakeEnumRequestGetInline200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): FakeEnumRequestGetInline200Response {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'stringEnum': !exists(json, 'string-enum') ? undefined : json['string-enum'],
-        'nullableStringEnum': !exists(json, 'nullable-string-enum') ? undefined : json['nullable-string-enum'],
-        'numberEnum': !exists(json, 'number-enum') ? undefined : json['number-enum'],
-        'nullableNumberEnum': !exists(json, 'nullable-number-enum') ? undefined : json['nullable-number-enum'],
+        'stringEnum': json['string-enum'] == null ? undefined : json['string-enum'],
+        'nullableStringEnum': json['nullable-string-enum'] == null ? undefined : json['nullable-string-enum'],
+        'numberEnum': json['number-enum'] == null ? undefined : json['number-enum'],
+        'nullableNumberEnum': json['nullable-number-enum'] == null ? undefined : json['nullable-number-enum'],
     };
 }
 
 export function FakeEnumRequestGetInline200ResponseToJSON(value?: FakeEnumRequestGetInline200Response | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

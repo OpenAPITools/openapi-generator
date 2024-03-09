@@ -605,6 +605,12 @@ namespace {{packageName}}.{{apiPackage}}
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
+            {{#constantParams}}
+            {{#isPathParam}}
+            // Set client side default value of Path Param "{{baseName}}".
+            localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant path parameter
+            {{/isPathParam}}
+            {{/constantParams}}
             {{#pathParams}}
             {{#required}}
             localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
@@ -616,6 +622,12 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/required}}
             {{/pathParams}}
+            {{#constantParams}}
+            {{#isQueryParam}}
+            // Set client side default value of Query Param "{{baseName}}".
+            localVarRequestOptions.QueryParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant query parameter
+            {{/isQueryParam}}
+            {{/constantParams}}            
             {{#queryParams}}
             {{#required}}
             localVarRequestOptions.QueryParameters.Add({{packageName}}.Client.ClientUtils.ParameterToMultiMap("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
@@ -627,6 +639,12 @@ namespace {{packageName}}.{{apiPackage}}
             }
             {{/required}}
             {{/queryParams}}
+            {{#constantParams}}
+            {{#isHeaderParam}}
+            // Set client side default value of Header Param "{{baseName}}".
+            localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+            {{/isHeaderParam}}
+            {{/constantParams}}
             {{#headerParams}}
             {{#required}}
             localVarRequestOptions.HeaderParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // header parameter
