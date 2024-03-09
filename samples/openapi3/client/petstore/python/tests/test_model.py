@@ -411,7 +411,7 @@ class ModelTests(unittest.TestCase):
         class LoginTest(BaseModel):
             username: StrictStr = Field(min_length=2, strict=True, max_length=64)
             password: SecretStr
-            
+        
         l = LoginTest(username="admin", password=SecretStr("testing09876"))
         self.assertEqual(petstore_api.ApiClient().sanitize_for_serialization(l), {'username': "admin", 'password': "testing09876"})
 
