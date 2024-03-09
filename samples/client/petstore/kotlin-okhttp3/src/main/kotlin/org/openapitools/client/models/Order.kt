@@ -16,7 +16,8 @@
 package org.openapitools.client.models
 
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
 /**
  * An order for a pets from the pet store
@@ -32,23 +33,23 @@ import com.google.gson.annotations.SerializedName
 
 data class Order (
 
-    @SerializedName("id")
+    @Json(name = "id")
     val id: kotlin.Long? = null,
 
-    @SerializedName("petId")
+    @Json(name = "petId")
     val petId: kotlin.Long? = null,
 
-    @SerializedName("quantity")
+    @Json(name = "quantity")
     val quantity: kotlin.Int? = null,
 
-    @SerializedName("shipDate")
+    @Json(name = "shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
-    @SerializedName("status")
+    @Json(name = "status")
     val status: Order.Status? = null,
 
-    @SerializedName("complete")
+    @Json(name = "complete")
     val complete: kotlin.Boolean? = false
 
 ) {
@@ -58,11 +59,12 @@ data class Order (
      *
      * Values: placed,approved,delivered,unknown_default_open_api
      */
+    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
-        @SerializedName(value = "placed") placed("placed"),
-        @SerializedName(value = "approved") approved("approved"),
-        @SerializedName(value = "delivered") delivered("delivered"),
-        @SerializedName(value = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
+        @Json(name = "placed") placed("placed"),
+        @Json(name = "approved") approved("approved"),
+        @Json(name = "delivered") delivered("delivered"),
+        @Json(name = "unknown_default_open_api") unknown_default_open_api("unknown_default_open_api");
     }
 }
 
