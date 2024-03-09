@@ -34,7 +34,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import javax.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0-SNAPSHOT")
 @Validated
 @Tag(name = "user", description = "Operations about user")
 public interface UserApi {
