@@ -1,0 +1,6 @@
+## FindMatchesApi
+
+### GET /
+## GET /
+GET https://api.opendota.com/api/findMatches
+Accept: application/json; charset=utf-8

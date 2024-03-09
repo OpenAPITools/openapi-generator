@@ -1,0 +1,69 @@
+## PaymentsApi
+
+### Get payment method by id
+## Get payment method by id
+GET https://checkout-test.adyen.com/v71/paymentMethods/{{id}}
+Accept: application/json
+
+### Get payment methods
+## Get payment methods
+GET https://checkout-test.adyen.com/v71/paymentMethods
+Accept: application/json
+
+### Make a payment
+## ApplePay request
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "paymentMethod" : {
+    "name" : "applepay"
+  },
+  "amount" : {
+    "currency" : "EUR",
+    "value" : 1000
+  },
+  "merchantAccount" : "YOUR_MERCHANT_ACCOUNT",
+  "reference" : "YOUR_REFERENCE",
+  "channel" : "iOS"
+}
+
+### Make a payment
+## GooglePay request
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "paymentMethod" : {
+    "name" : "googlepay"
+  },
+  "amount" : {
+    "currency" : "EUR",
+    "value" : 1000
+  },
+  "merchantAccount" : "YOUR_MERCHANT_ACCOUNT",
+  "reference" : "YOUR_REFERENCE",
+  "channel" : "Android"
+}
+
+### Make a payment
+## Example with a merchant account that doesn&#39;t exist
+POST https://checkout-test.adyen.com/v71/payments
+Content-Type: application/json
+Accept: application/json
+
+{
+  "paymentMethod" : {
+    "name" : "googlepay"
+  },
+  "amount" : {
+    "currency" : "EUR",
+    "value" : 1000
+  },
+  "merchantAccount" : "INVALID MERCHANT ACCOUNT",
+  "reference" : "YOUR_REFERENCE",
+  "channel" : "Android"
+}
+
