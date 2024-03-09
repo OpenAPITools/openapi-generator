@@ -435,6 +435,48 @@ public class KotlinSpringServerCodegenTest {
         );
     }
 
+    @Test(description = "test cookie parameter generation on interface apis")
+    public void cookieParameterGenerationApis() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-fake-endpoints-for-testing-with-cookie.yaml"))
+                .config(codegen))
+            .generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/FakeApi.kt"),
+            "@CookieValue"
+        );
+    }
+
+    @Test(description = "test cookie parameter generation on controllers")
+    public void cookieParameterGenerationControllers() throws Exception {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/petstore-with-fake-endpoints-for-testing-with-cookie.yaml"))
+                .config(codegen))
+            .generate();
+
+        assertFileContains(
+            Paths.get(outputPath + "/src/main/kotlin/org/openapitools/api/FakeApiController.kt"),
+            "@CookieValue"
+        );
+    }
+
     @Test(description = "use Spring boot 3 & jakarta extension")
     public void useSpringBoot3() throws Exception {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
