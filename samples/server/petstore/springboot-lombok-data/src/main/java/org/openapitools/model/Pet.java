@@ -36,10 +36,8 @@ public class Pet {
 
   private Category category;
 
-  @lombok.NonNull
   private String name;
 
-  @lombok.NonNull
   @Valid
   private List<String> photoUrls = new ArrayList<>();
 
