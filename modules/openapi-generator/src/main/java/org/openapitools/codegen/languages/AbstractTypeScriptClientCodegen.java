@@ -934,10 +934,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        if (enumNameMapping.containsKey(property.name)) {
-            return enumNameMapping.get(property.name);
-        }
-
         String enumName = property.name;
         enumName = addSuffix(enumName, enumSuffix);
         return toTypescriptTypeName(enumName, "_");
