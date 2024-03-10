@@ -371,7 +371,6 @@ class ApiClient:
             # Convert attribute name to json key in
             # model definition for request.
             if hasattr(obj, 'to_dict') and callable(getattr(obj, 'to_dict')):
-
                 obj_dict = obj.to_dict()
             else:
                 obj_dict = obj.__dict__
