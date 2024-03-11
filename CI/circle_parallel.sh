@@ -97,6 +97,7 @@ elif [ "$NODE_INDEX" = "4" ]; then
   echo "Running node $NODE_INDEX ..."
 
   sudo apt install r-base r-base-dev -y
+  sudo apt-get install r-base-core libssl-dev libcurl4-openssl-dev -y # for httr
 
   (cd samples/client/petstore/R && mvn integration-test)
   (cd samples/client/petstore/R-httpr2 && mvn integration-test)
