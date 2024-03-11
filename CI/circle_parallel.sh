@@ -98,9 +98,9 @@ elif [ "$NODE_INDEX" = "4" ]; then
 
   sudo apt install r-base r-base-dev -y
 
-  (cd samples/openapi3/client/petstore/R && mvn integration-test)
-  (cd samples/openapi3/client/petstore/R-httpr2 && mvn integration-test)
-  (cd samples/openapi3/client/petstore/R-httpr2-wrapper && mvn integration-test)
+  (cd samples/client/petstore/R && mvn integration-test)
+  (cd samples/client/petstore/R-httpr2 && mvn integration-test)
+  (cd samples/client/petstore/R-httpr2-wrapper && mvn integration-test)
 
 else
   echo "Running node $NODE_INDEX ..."
