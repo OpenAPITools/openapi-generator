@@ -54,7 +54,7 @@ set(SRCS
     src/binary.c
     external/cJSON.c
     model/object.c
-    model/MappedModel.c
+    model/mapped_model.c
     model/api_response.c
     model/category.c
     model/model_with_set_propertes.c
@@ -75,7 +75,7 @@ set(HDRS
     include/keyValuePair.h
     external/cJSON.h
     model/object.h
-    model/MappedModel.h
+    model/mapped_model.h
     model/api_response.h
     model/category.h
     model/model_with_set_propertes.h
