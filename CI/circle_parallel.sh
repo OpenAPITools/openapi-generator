@@ -93,6 +93,15 @@ elif [ "$NODE_INDEX" = "3" ]; then
   (cd samples/client/petstore/javascript-es6 && mvn integration-test)
   (cd samples/client/petstore/javascript-promise-es6 && mvn integration-test)
 
+elif [ "$NODE_INDEX" = "4" ]; then
+  echo "Running node $NODE_INDEX ..."
+
+  sudo apt install r-base r-base-dev -y
+
+  (cd samples/openapi3/client/petstore/R && mvn integration-test)
+  (cd samples/openapi3/client/petstore/R-httpr2 && mvn integration-test)
+  (cd samples/openapi3/client/petstore/R-httpr2-wrapper && mvn integration-test)
+
 else
   echo "Running node $NODE_INDEX ..."
   java -version
