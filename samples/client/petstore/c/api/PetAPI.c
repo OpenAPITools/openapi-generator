@@ -81,7 +81,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t *body)
     {
         //string
         localVarSingleItemJSON_body = pet_convertToJSON(body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes
@@ -264,7 +264,7 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t *status)
         {
            // return 0;
         }
-        char *localVarJSONToChar = cJSON_PrintUnformatted(VarJSON);
+        char *localVarJSONToChar = cJSON_Print(VarJSON);
         list_addElement(elementToReturn , localVarJSONToChar);
     }
 
@@ -348,7 +348,7 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t *tags)
         {
            // return 0;
         }
-        char *localVarJSONToChar = cJSON_PrintUnformatted(VarJSON);
+        char *localVarJSONToChar = cJSON_Print(VarJSON);
         list_addElement(elementToReturn , localVarJSONToChar);
     }
 
@@ -486,7 +486,7 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t *body)
     {
         //string
         localVarSingleItemJSON_body = pet_convertToJSON(body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
     list_addElement(localVarContentType,"application/json"); //consumes
     list_addElement(localVarContentType,"application/xml"); //consumes

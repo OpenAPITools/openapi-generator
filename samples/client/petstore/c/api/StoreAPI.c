@@ -119,7 +119,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     cJSON *VarJSON;
     list_t *elementToReturn = list_createList();
     cJSON_ArrayForEach(VarJSON, localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup(VarJSON->string), cJSON_PrintUnformatted(VarJSON));
+        keyValuePair_t *keyPair = keyValuePair_create(strdup(VarJSON->string), cJSON_Print(VarJSON));
         list_addElement(elementToReturn, keyPair);
     }
     cJSON_Delete(localVarJSON);
@@ -255,7 +255,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t *body)
     {
         //string
         localVarSingleItemJSON_body = order_convertToJSON(body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
     list_addElement(localVarHeaderType,"application/xml"); //produces
     list_addElement(localVarHeaderType,"application/json"); //produces

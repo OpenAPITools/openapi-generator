@@ -40,7 +40,7 @@ UserAPI_createUser(apiClient_t *apiClient, user_t *body)
     {
         //string
         localVarSingleItemJSON_body = user_convertToJSON(body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -123,7 +123,7 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t *body)
             goto end;
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarItemJSON_body);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -214,7 +214,7 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t *body)
             goto end;
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_body, localVar_body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarItemJSON_body);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
@@ -678,7 +678,7 @@ UserAPI_updateUser(apiClient_t *apiClient, char *username, user_t *body)
     {
         //string
         localVarSingleItemJSON_body = user_convertToJSON(body);
-        localVarBodyParameters = cJSON_PrintUnformatted(localVarSingleItemJSON_body);
+        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_body);
     }
     apiClient_invoke(apiClient,
                     localVarPath,
