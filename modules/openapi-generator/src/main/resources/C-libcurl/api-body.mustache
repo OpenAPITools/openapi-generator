@@ -320,7 +320,7 @@ end:
             goto end;
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
-        localVarBodyParameters = cJSON_Print(localVarItemJSON_{{paramName}});
+        localVarBodyParameters = {{{cJSONPrint}}}(localVarItemJSON_{{paramName}});
     }
     {{/isArray}}
     {{^isArray}}
@@ -329,7 +329,7 @@ end:
     {
         //string
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{paramName}});
+        localVarBodyParameters = {{{cJSONPrint}}}(localVarSingleItemJSON_{{paramName}});
     }
     {{/isArray}}
     {{/bodyParam}}
@@ -368,7 +368,7 @@ end:
     cJSON *{{{paramName}}}VarJSON;
     list_t *elementToReturn = list_createList();
     cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
+        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), {{{cJSONPrint}}}({{{paramName}}}VarJSON));
         list_addElement(elementToReturn, keyPair);
     }
     cJSON_Delete({{paramName}}localVarJSON);
@@ -389,7 +389,7 @@ end:
         {
            // return 0;
         }
-        char *localVarJSONToChar = cJSON_Print({{{paramName}}}VarJSON);
+        char *localVarJSONToChar = {{{cJSONPrint}}}({{{paramName}}}VarJSON);
         list_addElement(elementToReturn , localVarJSONToChar);
     }
 

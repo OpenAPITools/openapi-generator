@@ -27,7 +27,7 @@ else()
     message (STATUS "OpenSSL Not found.")
 endif()
 
-set(pkgName "{{projectName}}")
+set(pkgName "openapi_petstore")
 
 # this default version can be overridden in PreTarget.cmake
 set(PROJECT_VERSION_MAJOR 0)
@@ -54,18 +54,17 @@ set(SRCS
     src/binary.c
     external/cJSON.c
     model/object.c
-{{#models}}
-{{#model}}
-    model/{{classFilename}}.c
-{{/model}}
-{{/models}}
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-    api/{{classFilename}}.c
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
+    model/mapped_model.c
+    model/api_response.c
+    model/category.c
+    model/model_with_set_propertes.c
+    model/order.c
+    model/pet.c
+    model/tag.c
+    model/user.c
+    api/PetAPI.c
+    api/StoreAPI.c
+    api/UserAPI.c
 
 )
 
@@ -76,18 +75,17 @@ set(HDRS
     include/keyValuePair.h
     external/cJSON.h
     model/object.h
-{{#models}}
-{{#model}}
-    model/{{classFilename}}.h
-{{/model}}
-{{/models}}
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-    api/{{classFilename}}.h
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
+    model/mapped_model.h
+    model/api_response.h
+    model/category.h
+    model/model_with_set_propertes.h
+    model/order.h
+    model/pet.h
+    model/tag.h
+    model/user.h
+    api/PetAPI.h
+    api/StoreAPI.h
+    api/UserAPI.h
 
 )
 
@@ -169,13 +167,9 @@ set(HDRS "")
 ## This section shows how to use the above compiled library to compile the source files
 ## set source files
 #set(SRCS
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-#    unit-tests/manual-{{classname}}.c
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
+#    unit-tests/manual-PetAPI.c
+#    unit-tests/manual-StoreAPI.c
+#    unit-tests/manual-UserAPI.c
 #)
 
 ##set header files
