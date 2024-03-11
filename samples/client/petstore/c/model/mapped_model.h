@@ -1,5 +1,5 @@
 /*
- * MappedModel.h
+ * mapped_model.h
  *
  * to test mapping features
  */

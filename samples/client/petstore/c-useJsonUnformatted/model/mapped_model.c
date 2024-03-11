@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "MappedModel.h"
+#include "mapped_model.h"
 
 
 
