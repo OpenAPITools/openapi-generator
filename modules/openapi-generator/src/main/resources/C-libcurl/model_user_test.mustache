@@ -22,7 +22,7 @@ PASSWORD, PHONE, USER_STATUS );
 
 cJSON *JSONNODE = user_convertToJSON(newuser);
 
-char *dataToPrint = cJSON_Print(JSONNODE);
+char *dataToPrint = cJSON_PrintUnformatted(JSONNODE);
 
 printf("Created User is: \n%s\n",dataToPrint);
 
@@ -30,7 +30,7 @@ user_t *parsedUser = user_parseFromJSON( dataToPrint);
 
 cJSON *fromJSON = user_convertToJSON(parsedUser);
 
-char *dataToPrintFromJSON = cJSON_Print(fromJSON);
+char *dataToPrintFromJSON = cJSON_PrintUnformatted(fromJSON);
 
 printf("Parsed User From JSON is: \n%s\n",dataToPrintFromJSON);
 

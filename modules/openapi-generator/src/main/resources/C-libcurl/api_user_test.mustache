@@ -54,7 +54,7 @@ int main() {
 
 	cJSON *JSONNODE = user_convertToJSON(returnUser);
 
-	char *dataToPrint = cJSON_Print(JSONNODE);
+	char *dataToPrint = cJSON_PrintUnformatted(JSONNODE);
 
 	printf("User is: \n%s\n", dataToPrint);
 	user_free(returnUser);
