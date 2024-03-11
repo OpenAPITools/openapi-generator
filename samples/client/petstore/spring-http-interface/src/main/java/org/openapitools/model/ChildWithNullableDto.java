@@ -26,7 +26,7 @@ import jakarta.annotation.Generated;
 
 
 @JsonTypeName("ChildWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.4.0-SNAPSHOT")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ChildWithNullableDto extends ParentWithNullableDto {
 
   private String otherProperty;
