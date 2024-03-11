@@ -200,8 +200,7 @@ public class {{classname}} {
     );
   }
 
-  {{/operation}}
-
+  {{#-last}}
   /**
    * Directly invoke the API for the given URL. Useful if the API returns direct links/URLs for subsequent requests.
    * @param url The URL for the request, either full URL or only the path.
@@ -320,5 +319,7 @@ public class {{classname}} {
         returnType
     );
   }
+  {{/-last}}
+  {{/operation}}
 }
 {{/operations}}
