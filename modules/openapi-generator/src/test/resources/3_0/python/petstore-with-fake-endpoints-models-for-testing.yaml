@@ -1412,6 +1412,19 @@ paths:
             plain/text:
               schema:
                 $ref: "#/components/schemas/EnumClass"
+  /fake/str_like_json:
+    get:
+      tags:
+        - fake
+      summary: test ref to enum str_like_json
+      operationId: fake_str_like_json
+      responses:
+        200:
+          description: OK
+          content:
+            plain/text:
+              schema:
+                type: string
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
