@@ -121,6 +121,7 @@ Class | Method | HTTP request | Description
  - [OneOfPrimitiveTypeTest](docs/OneOfPrimitiveTypeTest.md)
  - [Order](docs/Order.md)
  - [Pet](docs/Pet.md)
+ - [PetMap](docs/PetMap.md)
  - [Pig](docs/Pig.md)
  - [Special](docs/Special.md)
  - [Tag](docs/Tag.md)
