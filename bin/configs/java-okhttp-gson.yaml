@@ -17,3 +17,6 @@ additionalProperties:
 enumNameMappings:
   s: LOWER_CASE_S
   S: UPPER_CASE_S
+operationIdNameMappings:
+  getArrayOfEnums: getFakeArrayofenums
+  fakeHealthGet: getFakeHealth

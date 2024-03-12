@@ -18,8 +18,7 @@ class UploadFileRequest
      * file to upload
      */
     #[DTA\Data(field: "file", nullable: true)]
-    #[DTA\Strategy("Object", ["type" => \SplFileObject::class])]
-    #[DTA\Validator("TypeCompliant", ["type" => \SplFileObject::class])]
-    public \SplFileObject|null $file = null;
+    #[DTA\Validator("Scalar", ["type" => "string"])]
+    public string|null $file = null;
 
 }

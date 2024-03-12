@@ -21,6 +21,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**TestInlineFreeformAdditionalProperties**](FakeApi.md#testinlinefreeformadditionalproperties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**TestJsonFormData**](FakeApi.md#testjsonformdata) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**TestQueryParameterCollectionFormat**](FakeApi.md#testqueryparametercollectionformat) | **PUT** /fake/test-query-parameters |  |
+| [**TestStringMapReference**](FakeApi.md#teststringmapreference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 <a id="fakehealthget"></a>
 # **FakeHealthGet**
@@ -1569,6 +1570,91 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+
+<a id="teststringmapreference"></a>
+# **TestStringMapReference**
+> void TestStringMapReference (Dictionary<string, string> requestBody)
+
+test referenced string map
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestStringMapReferenceExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(config);
+            var requestBody = new Dictionary<string, string>(); // Dictionary<string, string> | request body
+
+            try
+            {
+                // test referenced string map
+                apiInstance.TestStringMapReference(requestBody);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling FakeApi.TestStringMapReference: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestStringMapReferenceWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // test referenced string map
+    apiInstance.TestStringMapReferenceWithHttpInfo(requestBody);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling FakeApi.TestStringMapReferenceWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **requestBody** | [**Dictionary&lt;string, string&gt;**](string.md) | request body |  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 

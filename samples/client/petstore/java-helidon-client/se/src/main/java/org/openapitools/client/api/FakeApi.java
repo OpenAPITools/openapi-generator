@@ -111,14 +111,14 @@ public interface FakeApi {
  /**
   * To test enum parameters
   * To test enum parameters
-  * @param enumHeaderStringArray Header parameter enum test (string array) (optional
+  * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
   * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-  * @param enumQueryStringArray Query parameter enum test (string array) (optional
+  * @param enumQueryStringArray Query parameter enum test (string array) (optional)
   * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
   * @param enumQueryInteger Query parameter enum test (double) (optional)
   * @param enumQueryDouble Query parameter enum test (double) (optional)
-  * @param enumQueryModelArray  (optional
-  * @param enumFormStringArray Form parameter enum test (string array) (optional
+  * @param enumQueryModelArray  (optional)
+  * @param enumFormStringArray Form parameter enum test (string array) (optional)
   * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
   * @return {@code ApiResponse<Void>}
   */
@@ -171,5 +171,13 @@ public interface FakeApi {
   ApiResponse<Void> testNullable(ChildWithNullable childWithNullable);
 
   ApiResponse<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, String allowEmpty, Map<String, String> language);
+
+ /**
+  * test referenced string map
+  * 
+  * @param requestBody request body (required)
+  * @return {@code ApiResponse<Void>}
+  */
+  ApiResponse<Void> testStringMapReference(Map<String, String> requestBody);
 
 }

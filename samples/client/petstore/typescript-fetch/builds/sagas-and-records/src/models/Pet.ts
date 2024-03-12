@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { Category } from './Category';
 import {
     CategoryFromJSON,
@@ -188,23 +188,21 @@ export type PetStatusEnum = typeof PetStatusEnum[keyof typeof PetStatusEnum];
  * Check if a given object implements the Pet interface.
  */
 export function instanceOfPet(value: object): boolean {
-    let isInstance = true;
-    isInstance = isInstance && "id" in value;
-    isInstance = isInstance && "otherFriendIds" in value;
-    isInstance = isInstance && "friendAge" in value;
-    isInstance = isInstance && "age" in value;
-    isInstance = isInstance && "isHappy" in value;
-    isInstance = isInstance && "isTall" in value;
-    isInstance = isInstance && "category" in value;
-    isInstance = isInstance && "name" in value;
-    isInstance = isInstance && "photoUrls" in value;
-    isInstance = isInstance && "warningStatus" in value;
-    isInstance = isInstance && "alternateStatus" in value;
-    isInstance = isInstance && "otherDepStatuses" in value;
-    isInstance = isInstance && "tags" in value;
-    isInstance = isInstance && "status" in value;
-
-    return isInstance;
+    if (!('id' in value)) return false;
+    if (!('otherFriendIds' in value)) return false;
+    if (!('friendAge' in value)) return false;
+    if (!('age' in value)) return false;
+    if (!('isHappy' in value)) return false;
+    if (!('isTall' in value)) return false;
+    if (!('category' in value)) return false;
+    if (!('name' in value)) return false;
+    if (!('photoUrls' in value)) return false;
+    if (!('warningStatus' in value)) return false;
+    if (!('alternateStatus' in value)) return false;
+    if (!('otherDepStatuses' in value)) return false;
+    if (!('tags' in value)) return false;
+    if (!('status' in value)) return false;
+    return true;
 }
 
 export function PetFromJSON(json: any): Pet {
@@ -212,65 +210,62 @@ export function PetFromJSON(json: any): Pet {
 }
 
 export function PetFromJSONTyped(json: any, ignoreDiscriminator: boolean): Pet {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
         'id': json['id'],
-        'friendId': !exists(json, 'friendId') ? undefined : json['friendId'],
+        'friendId': json['friendId'] == null ? undefined : json['friendId'],
         'otherFriendIds': json['otherFriendIds'],
         'friendAge': json['friendAge'],
         'age': json['age'],
         'isHappy': json['isHappy'],
         'isTall': json['isTall'],
         'category': CategoryFromJSON(json['category']),
-        'optionalCategory': !exists(json, 'optionalCategory') ? undefined : CategoryFromJSON(json['optionalCategory']),
+        'optionalCategory': json['optionalCategory'] == null ? undefined : CategoryFromJSON(json['optionalCategory']),
         'name': json['name'],
-        '_entries': !exists(json, 'entries') ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
-        'surname': !exists(json, 'surname') ? undefined : json['surname'],
+        '_entries': json['entries'] == null ? undefined : ((json['entries'] as Array<any>).map(CategoryFromJSON)),
+        'surname': json['surname'] == null ? undefined : json['surname'],
         'photoUrls': json['photoUrls'],
         'warningStatus': WarningCodeFromJSON(json['warningStatus']),
-        'depStatus': !exists(json, 'depStatus') ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
+        'depStatus': json['depStatus'] == null ? undefined : DeploymentRequestStatusFromJSON(json['depStatus']),
         'alternateStatus': DeploymentRequestStatusFromJSON(json['alternateStatus']),
         'otherDepStatuses': ((json['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusFromJSON)),
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
-        'optionalTags': !exists(json, 'optionalTags') ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
+        'optionalTags': json['optionalTags'] == null ? undefined : ((json['optionalTags'] as Array<any>).map(TagFromJSON)),
         'status': json['status'],
-        'regions': !exists(json, 'regions') ? undefined : json['regions'],
+        'regions': json['regions'] == null ? undefined : json['regions'],
     };
 }
 
 export function PetToJSON(value?: Pet | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'id': value.id,
-        'friendId': value.friendId,
-        'otherFriendIds': value.otherFriendIds,
-        'friendAge': value.friendAge,
-        'age': value.age,
-        'isHappy': value.isHappy,
-        'isTall': value.isTall,
-        'category': CategoryToJSON(value.category),
-        'optionalCategory': CategoryToJSON(value.optionalCategory),
-        'name': value.name,
-        'entries': value._entries === undefined ? undefined : ((value._entries as Array<any>).map(CategoryToJSON)),
-        'surname': value.surname,
-        'photoUrls': value.photoUrls,
-        'warningStatus': WarningCodeToJSON(value.warningStatus),
-        'depStatus': DeploymentRequestStatusToJSON(value.depStatus),
-        'alternateStatus': DeploymentRequestStatusToJSON(value.alternateStatus),
-        'otherDepStatuses': ((value.otherDepStatuses as Array<any>).map(DeploymentRequestStatusToJSON)),
-        'tags': ((value.tags as Array<any>).map(TagToJSON)),
-        'optionalTags': value.optionalTags === undefined ? undefined : ((value.optionalTags as Array<any>).map(TagToJSON)),
-        'status': value.status,
-        'regions': value.regions,
+        'id': value['id'],
+        'friendId': value['friendId'],
+        'otherFriendIds': value['otherFriendIds'],
+        'friendAge': value['friendAge'],
+        'age': value['age'],
+        'isHappy': value['isHappy'],
+        'isTall': value['isTall'],
+        'category': CategoryToJSON(value['category']),
+        'optionalCategory': CategoryToJSON(value['optionalCategory']),
+        'name': value['name'],
+        'entries': value['_entries'] == null ? undefined : ((value['_entries'] as Array<any>).map(CategoryToJSON)),
+        'surname': value['surname'],
+        'photoUrls': value['photoUrls'],
+        'warningStatus': WarningCodeToJSON(value['warningStatus']),
+        'depStatus': DeploymentRequestStatusToJSON(value['depStatus']),
+        'alternateStatus': DeploymentRequestStatusToJSON(value['alternateStatus']),
+        'otherDepStatuses': ((value['otherDepStatuses'] as Array<any>).map(DeploymentRequestStatusToJSON)),
+        'tags': ((value['tags'] as Array<any>).map(TagToJSON)),
+        'optionalTags': value['optionalTags'] == null ? undefined : ((value['optionalTags'] as Array<any>).map(TagToJSON)),
+        'status': value['status'],
+        'regions': value['regions'],
     };
 }
 

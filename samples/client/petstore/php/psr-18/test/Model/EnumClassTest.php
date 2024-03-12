@@ -76,6 +76,6 @@ class EnumClassTest extends TestCase
     public function testEnumClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

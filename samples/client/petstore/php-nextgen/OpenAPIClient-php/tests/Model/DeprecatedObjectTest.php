@@ -76,7 +76,7 @@ class DeprecatedObjectTest extends TestCase
     public function testDeprecatedObject()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class DeprecatedObjectTest extends TestCase
     public function testPropertyName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

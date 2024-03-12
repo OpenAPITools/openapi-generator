@@ -4,6 +4,8 @@ Echo Server API
 
 - API version: 0.1.0
 
+- Generator version: 7.5.0-SNAPSHOT
+
 Echo Server API
 
 
@@ -124,6 +126,8 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyPetWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetWithHttpInfo) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testEchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
 *BodyApi* | [**testEchoBodyPetResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyPetResponseStringWithHttpInfo) | **POST** /echo/body/Pet/response_string | Test empty response body
+*BodyApi* | [**testEchoBodyStringEnum**](docs/BodyApi.md#testEchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
+*BodyApi* | [**testEchoBodyStringEnumWithHttpInfo**](docs/BodyApi.md#testEchoBodyStringEnumWithHttpInfo) | **POST** /echo/body/string_enum | Test string enum response body
 *BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testEchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *BodyApi* | [**testEchoBodyTagResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyTagResponseStringWithHttpInfo) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)

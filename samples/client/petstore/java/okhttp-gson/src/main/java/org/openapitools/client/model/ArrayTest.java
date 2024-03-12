@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ArrayTest {
   public static final String SERIALIZED_NAME_ARRAY_OF_STRING = "array_of_string";
   @SerializedName(SERIALIZED_NAME_ARRAY_OF_STRING)
@@ -308,7 +308,12 @@ public class ArrayTest {
                  else if (entry.getValue() instanceof Character)
                    obj.addProperty(entry.getKey(), (Character) entry.getValue());
                  else {
-                   obj.add(entry.getKey(), gson.toJsonTree(entry.getValue()).getAsJsonObject());
+                   JsonElement jsonElement = gson.toJsonTree(entry.getValue());
+                   if (jsonElement.isJsonArray()) {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonArray());
+                   } else {
+                     obj.add(entry.getKey(), jsonElement.getAsJsonObject());
+                   }
                  }
                }
              }

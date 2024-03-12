@@ -261,11 +261,20 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{^useJakartaEe}}
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
+        {{/useJakartaEe}}
+        {{#useJakartaEe}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        {{/useJakartaEe}}
         {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -304,6 +313,23 @@
             <version>${jodatime-version}</version>
         </dependency>
         {{/joda}}
+      {{#useBeanValidation}}
+        <!-- Bean Validation API support -->
+        <dependency>
+          <groupId>jakarta.validation</groupId>
+          <artifactId>jakarta.validation-api</artifactId>
+          <version>${beanvalidation-version}</version>
+          <scope>provided</scope>
+        </dependency>
+      {{/useBeanValidation}}
+      {{#performBeanValidation}}
+        <!-- Bean Validation Impl. used to perform BeanValidation -->
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-validator</artifactId>
+          <version>${hibernate-validator-version}</version>
+        </dependency>
+      {{/performBeanValidation}}
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
@@ -328,10 +354,10 @@
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
         {{#useJakartaEe}}
-        <spring-web-version>6.0.3</spring-web-version>
+        <spring-web-version>6.0.17</spring-web-version>
         {{/useJakartaEe}}
         {{^useJakartaEe}}
-        <spring-web-version>5.3.24</spring-web-version>
+        <spring-web-version>5.3.32</spring-web-version>
         {{/useJakartaEe}}
         <jackson-version>2.15.2</jackson-version>
         <jackson-databind-version>2.15.2</jackson-databind-version>
@@ -347,6 +373,12 @@
         {{#joda}}
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
+        {{#useBeanValidation}}
+        <beanvalidation-version>2.0.2</beanvalidation-version>
+        {{/useBeanValidation}}
+        {{#performBeanValidation}}
+        <hibernate-validator-version>5.4.3.Final</hibernate-validator-version>
+        {{/performBeanValidation}}
         <junit-version>4.13.2</junit-version>
     </properties>
 </project>

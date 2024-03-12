@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ObjectToTestAdditionalProperties from a JSON string
 object_to_test_additional_properties_instance = ObjectToTestAdditionalProperties.from_json(json)
 # print the JSON string representation of the object
-print ObjectToTestAdditionalProperties.to_json()
+print(ObjectToTestAdditionalProperties.to_json())
 
 # convert the object into a dict
 object_to_test_additional_properties_dict = object_to_test_additional_properties_instance.to_dict()

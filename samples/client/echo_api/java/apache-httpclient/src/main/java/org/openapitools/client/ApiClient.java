@@ -81,7 +81,7 @@ import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ApiClient extends JavaTimeFormatter {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -771,8 +771,7 @@ public class ApiClient extends JavaTimeFormatter {
     if (mimeType == null || isJsonMime(mimeType)) {
       // Assume json if no mime type
       // convert input stream to string
-      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
-      String content = (String) (s.hasNext() ? s.next() : "");
+      String content = EntityUtils.toString(entity);
 
       if ("".equals(content)) { // returns null for empty body
         return null;
@@ -781,8 +780,7 @@ public class ApiClient extends JavaTimeFormatter {
       return objectMapper.readValue(content, valueType);
     } else if ("text/plain".equalsIgnoreCase(mimeType)) {
       // convert input stream to string
-      java.util.Scanner s = new java.util.Scanner(entity.getContent()).useDelimiter("\\A");
-      return (T) (s.hasNext() ? s.next() : "");
+      return (T) EntityUtils.toString(entity);
     } else {
       throw new ApiException(
           "Deserialization for content type '" + mimeType + "' not supported for type '" + valueType + "'",

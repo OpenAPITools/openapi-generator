@@ -390,6 +390,12 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
                     {{/-first}}
                     {{/servers}}
+                    {{#constantParams}}
+                    {{#isPathParam}}
+                    // Set client side default value of Path Param "{{baseName}}".
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString(ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}))); // Constant path parameter
+                    {{/isPathParam}}
+                    {{/constantParams}}
                     {{#pathParams}}
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));
                     {{#-last}}
@@ -423,6 +429,12 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/required}}
                     {{/queryParams}}
 
+                    {{#constantParams}}
+                    {{#isQueryParam}}
+                    // Set client side default value of Query Param "{{baseName}}".
+                    parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}); // Constant query parameter
+                    {{/isQueryParam}}
+                    {{/constantParams}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
@@ -434,6 +446,12 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
+                    {{#constantParams}}
+                    {{#isHeaderParam}}
+                    // Set client side default value of Header Param "{{baseName}}".
+                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    {{/isHeaderParam}}
+                    {{/constantParams}}
                     {{#headerParams}}
                     {{#required}}
                     httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));

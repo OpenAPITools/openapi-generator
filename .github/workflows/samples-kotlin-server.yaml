@@ -27,6 +27,7 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot
+          - samples/server/petstore/kotlin-springboot-bigdecimal-default
           - samples/server/petstore/kotlin-springboot-delegate
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive
@@ -58,7 +59,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v2
+        uses: eskatos/gradle-command-action@v3
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}

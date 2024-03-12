@@ -18,6 +18,7 @@ import base64
 import os
 
 import openapi_client
+from openapi_client import StringEnumRef
 from openapi_client.api.query_api import QueryApi # noqa: E501
 from openapi_client.rest import ApiException
 
@@ -118,6 +119,13 @@ class TestManual(unittest.TestCase):
         e = EchoServerResponseParser(api_response)
         self.assertEqual(e.path, "/query/datetime/date/string?datetime_query=2013-10-20T19%3A20%3A30.000000-0500&date_query=2013-10-20&string_query=string_query_example")
 
+    def testStringEnum(self):
+        api_instance = openapi_client.BodyApi()
+
+        # Test string enum response
+        api_response = api_instance.test_echo_body_string_enum(StringEnumRef.SUCCESS)
+        self.assertEqual(api_response, StringEnumRef.SUCCESS)
+
     def testBinaryGif(self):
         api_instance = openapi_client.BodyApi()
 
@@ -166,7 +174,7 @@ class TestManual(unittest.TestCase):
         n = openapi_client.Pet.from_dict({"name": "testing", "photoUrls": ["http://1", "http://2"]})
         api_instance = openapi_client.BodyApi()
         api_response = api_instance.test_echo_body_pet_response_string(n)
-        self.assertEqual(api_response, "{'name': 'testing', 'photoUrls': ['http://1', 'http://2']}")
+        self.assertEqual(api_response, '{"name": "testing", "photoUrls": ["http://1", "http://2"]}')
 
         t = openapi_client.Tag()
         api_response = api_instance.test_echo_body_tag_response_string(t)

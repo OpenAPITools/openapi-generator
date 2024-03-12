@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of Query from a JSON string
 query_instance = Query.from_json(json)
 # print the JSON string representation of the object
-print Query.to_json()
+print(Query.to_json())
 
 # convert the object into a dict
 query_dict = query_instance.to_dict()

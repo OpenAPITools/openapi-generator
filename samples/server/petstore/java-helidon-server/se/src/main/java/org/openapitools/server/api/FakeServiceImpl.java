@@ -115,4 +115,8 @@ public class FakeServiceImpl implements FakeService {
         response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
     }
 
+    public void testStringMapReference(ServerRequest request, ServerResponse response) {
+        response.status(HTTP_CODE_NOT_IMPLEMENTED).send();
+    }
+
 }

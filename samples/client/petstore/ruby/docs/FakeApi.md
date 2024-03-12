@@ -25,6 +25,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**test_inline_freeform_additional_properties**](FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties |
 | [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**test_query_parameter_collection_format**](FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters |  |
+| [**test_string_map_reference**](FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
 ## fake_big_decimal_map
@@ -1451,5 +1452,68 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: Not defined
+
+
+## test_string_map_reference
+
+> test_string_map_reference(request_body)
+
+test referenced string map
+
+
+
+### Examples
+
+```ruby
+require 'time'
+require 'petstore'
+
+api_instance = Petstore::FakeApi.new
+request_body = { key: 'inner_example'} # Hash<String, String> | request body
+
+begin
+  # test referenced string map
+  api_instance.test_string_map_reference(request_body)
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_string_map_reference: #{e}"
+end
+```
+
+#### Using the test_string_map_reference_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> test_string_map_reference_with_http_info(request_body)
+
+```ruby
+begin
+  # test referenced string map
+  data, status_code, headers = api_instance.test_string_map_reference_with_http_info(request_body)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue Petstore::ApiError => e
+  puts "Error when calling FakeApi->test_string_map_reference_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **request_body** | [**Hash&lt;String, String&gt;**](String.md) | request body |  |
+
+### Return type
+
+nil (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: Not defined
 

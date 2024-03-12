@@ -30,25 +30,25 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=true)]
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
         [DataMember(Name="petId", EmitDefaultValue=true)]
-        public long PetId { get; set; }
+        public long? PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
         [DataMember(Name="quantity", EmitDefaultValue=true)]
-        public int Quantity { get; set; }
+        public int? Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
         [DataMember(Name="shipDate", EmitDefaultValue=false)]
-        public DateTime ShipDate { get; set; }
+        public DateTime? ShipDate { get; set; }
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Complete
         /// </summary>
         [DataMember(Name="complete", EmitDefaultValue=true)]
-        public bool Complete { get; set; } = false;
+        public bool? Complete { get; set; } = false;
 
         /// <summary>
         /// Returns the string presentation of the object

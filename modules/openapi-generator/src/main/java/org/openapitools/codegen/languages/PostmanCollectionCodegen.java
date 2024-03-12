@@ -162,7 +162,6 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
     @Override
     public void processOpts() {
         super.processOpts();
-
         if(additionalProperties().containsKey(FOLDER_STRATEGY)) {
             folderStrategy = additionalProperties().get(FOLDER_STRATEGY).toString();
         }
@@ -715,6 +714,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             JsonNode actualObj = objectMapper.readTree(json);
             json = Json.pretty(actualObj);
             json = json.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+            json = json.replace("\r\n", JSON_ESCAPE_NEW_LINE);
+            json = json.replace("\r", JSON_ESCAPE_NEW_LINE);
             json = json.replace("\n", JSON_ESCAPE_NEW_LINE);
 
         } catch (JsonProcessingException e) {

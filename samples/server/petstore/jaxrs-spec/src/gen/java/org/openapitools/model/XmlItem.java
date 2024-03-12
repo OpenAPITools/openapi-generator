@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("XmlItem")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;

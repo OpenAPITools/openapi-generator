@@ -26,7 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -968,6 +968,45 @@ private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredString
     String localVarAccept = apiClient.selectHeaderAccept();
     String localVarContentType = apiClient.selectHeaderContentType();
     return apiClient.invokeAPI("FakeApi.testQueryParameterCollectionFormat", "/fake/test-query-parameters", "PUT", localVarQueryParams, null,
+                               new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
+                               null, null, false);
+  }
+  /**
+   * test referenced string map
+   * 
+   * @param requestBody request body (required)
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+   */
+  public void testStringMapReference(Map<String, String> requestBody) throws ApiException {
+    testStringMapReferenceWithHttpInfo(requestBody);
+  }
+
+  /**
+   * test referenced string map
+   * 
+   * @param requestBody request body (required)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<Void> testStringMapReferenceWithHttpInfo(Map<String, String> requestBody) throws ApiException {
+    // Check required parameters
+    if (requestBody == null) {
+      throw new ApiException(400, "Missing the required parameter 'requestBody' when calling testStringMapReference");
+    }
+
+    String localVarAccept = apiClient.selectHeaderAccept();
+    String localVarContentType = apiClient.selectHeaderContentType("application/json");
+    return apiClient.invokeAPI("FakeApi.testStringMapReference", "/fake/stringMap-reference", "POST", new ArrayList<>(), requestBody,
                                new LinkedHashMap<>(), new LinkedHashMap<>(), new LinkedHashMap<>(), localVarAccept, localVarContentType,
                                null, null, false);
   }

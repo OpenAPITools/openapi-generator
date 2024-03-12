@@ -885,6 +885,8 @@ components:
           description: test array in 3.1 spec
           items:
             type: string
+        ref_array_prefix_items:
+          $ref: '#/components/schemas/ArrayPrefixItems'
     HTTPValidationError:
       properties: {}
       type: object
@@ -897,3 +899,18 @@ components:
         - type: array
           items:
             type: integer
+    ArrayPrefixItems:
+      type: array
+      description: |
+        An item that was added to the queue.
+      minItems: 3
+      maxItems: 5
+      prefixItems:
+        - type: number
+          description: Queue priority.
+        - type: string
+          description: The hash id of the prompt object. This should be the the prompt ID.
+        - type: array
+          description: A list of "good output" node IDs in the prompt.
+          items:
+            type: string

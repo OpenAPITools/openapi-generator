@@ -1,0 +1,8 @@
+type: array
+items:
+  type: string
+  enum:
+    - A
+    - B
+    - C
+default: []

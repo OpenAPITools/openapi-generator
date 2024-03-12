@@ -34,7 +34,6 @@ jobs:
           - samples/client/petstore/kotlin-multiplatform-kotlinx-datetime
           - samples/client/petstore/kotlin-nonpublic
           - samples/client/petstore/kotlin-nullable
-          - samples/client/petstore/kotlin-okhttp3
           - samples/client/petstore/kotlin-retrofit2
           - samples/client/petstore/kotlin-retrofit2-kotlinx_serialization
           - samples/client/petstore/kotlin-retrofit2-jackson
@@ -43,12 +42,10 @@ jobs:
           - samples/client/petstore/kotlin-threetenbp
           - samples/client/petstore/kotlin-kotlinx-datetime
           - samples/client/petstore/kotlin-uppercase-enum
-          - samples/client/petstore/kotlin-default-values-jvm-okhttp3
           - samples/client/petstore/kotlin-default-values-jvm-okhttp4
           - samples/client/petstore/kotlin-default-values-jvm-retrofit2
           - samples/client/petstore/kotlin-default-values-jvm-volley
           - samples/client/petstore/kotlin-default-values-multiplatform
-          - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp3
           - samples/client/petstore/kotlin-array-simple-string-jvm-okhttp4
           - samples/client/petstore/kotlin-array-simple-string-jvm-volley
           - samples/client/petstore/kotlin-array-simple-string-multiplatform
@@ -64,6 +61,7 @@ jobs:
           - samples/client/petstore/kotlin-jvm-vertx-moshi
           - samples/client/petstore/kotlin-jvm-spring-2-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-webclient
+          - samples/client/echo_api/kotlin-jvm-spring-3-webclient
           - samples/client/petstore/kotlin-jvm-spring-3-restclient
           - samples/client/echo_api/kotlin-jvm-spring-3-restclient
           - samples/client/petstore/kotlin-spring-cloud
@@ -84,7 +82,7 @@ jobs:
             ~/.gradle
           key: ${{ runner.os }}-${{ github.job }}-${{ env.cache-name }}-${{ hashFiles('**/pom.xml') }}
       - name: Install Gradle wrapper
-        uses: eskatos/gradle-command-action@v2
+        uses: eskatos/gradle-command-action@v3
         with:
           gradle-version: ${{ env.GRADLE_VERSION }}
           build-root-directory: ${{ matrix.sample }}

@@ -25,6 +25,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data |
 | [**testNullable**](FakeApi.md#testNullable) | **POST** /fake/nullable | test nullable parent property |
 | [**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-parameters |  |
+| [**testStringMapReference**](FakeApi.md#testStringMapReference) | **POST** /fake/stringMap-reference | test referenced string map |
 
 
 
@@ -787,4 +788,39 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Success |  -  |
+
+
+## testStringMapReference
+
+> void testStringMapReference(requestBody)
+
+test referenced string map
+
+
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **requestBody** | [**Map&lt;String, String&gt;**](String.md)| request body | |
+
+### Return type
+
+[**void**](Void.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 

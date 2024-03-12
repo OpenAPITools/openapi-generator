@@ -183,5 +183,36 @@ namespace Org.OpenAPITools.Test
             enumTest.EnumInteger = EnumTest.EnumIntegerEnum.NUMBER_MINUS_1;
             Assert.Equal("{\"enum_string_required\":0,\"enum_integer\":-1,\"enum_integer_only\":2,\"outerEnum\":null}", JsonConvert.SerializeObject(enumTest));
         }
+
+        /// <summary>
+        /// Test AnyOf with different types
+        /// </summary>
+        [Theory]
+        [InlineData("{\"content\":\"Hello\"}")]
+        [InlineData("{\"content\":true}")]
+        [InlineData("{\"content\":0}")]
+        [InlineData("{\"content\":0.0}")]
+        [InlineData("{\"content\":{\"id\":\"id_1234\"}}")]
+        public void MixedAnyOfRoundTripSerializationTest(string jsonData)
+        {
+            var deserializedObj = JsonConvert.DeserializeObject<MixedAnyOf>(jsonData);
+            Assert.Equal(jsonData, JsonConvert.SerializeObject(deserializedObj));
+        }
+
+
+        /// <summary>
+        /// Test OneOf with different types
+        /// </summary>
+        [Theory]
+        [InlineData("{\"content\":\"Hello\"}")]
+        [InlineData("{\"content\":true}")]
+        [InlineData("{\"content\":0}")]
+        [InlineData("{\"content\":0.0}")]
+        [InlineData("{\"content\":{\"id\":\"id_1234\"}}")]
+        public void MixedOneOfRoundTripSerializationTest(string jsonData)
+        {
+            var deserializedObj = JsonConvert.DeserializeObject<MixedOneOf>(jsonData);
+            Assert.Equal(jsonData, JsonConvert.SerializeObject(deserializedObj));
+        }
     }
 }
