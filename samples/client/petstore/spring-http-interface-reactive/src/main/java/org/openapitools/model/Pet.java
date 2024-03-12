@@ -38,7 +38,7 @@ public class Pet {
   private Set<String> photoUrls = new LinkedHashSet<>();
 
   
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
   /**
    * pet status in the store
