@@ -43,7 +43,7 @@ No authorization required
 
 ## get_inventory
 
-> ::std::collections::HashMap<String, i32> get_inventory()
+> std::collections::HashMap<String, i32> get_inventory()
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
@@ -54,7 +54,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**::std::collections::HashMap<String, i32>**
+**std::collections::HashMap<String, i32>**
 
 ### Authorization
 
@@ -70,7 +70,7 @@ This endpoint does not need any parameter.
 
 ## get_order_by_id
 
-> crate::models::Order get_order_by_id(order_id)
+> models::Order get_order_by_id(order_id)
 Find purchase order by ID
 
 For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions
@@ -84,7 +84,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Order**](Order.md)
+[**models::Order**](Order.md)
 
 ### Authorization
 
@@ -100,7 +100,7 @@ No authorization required
 
 ## place_order
 
-> crate::models::Order place_order(order)
+> models::Order place_order(order)
 Place an order for a pet
 
 
@@ -114,7 +114,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**crate::models::Order**](Order.md)
+[**models::Order**](Order.md)
 
 ### Authorization
 

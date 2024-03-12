@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of AllOfWithSingleRef from a JSON string
 all_of_with_single_ref_instance = AllOfWithSingleRef.from_json(json)
 # print the JSON string representation of the object
-print AllOfWithSingleRef.to_json()
+print(AllOfWithSingleRef.to_json())
 
 # convert the object into a dict
 all_of_with_single_ref_dict = all_of_with_single_ref_instance.to_dict()

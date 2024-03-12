@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * PetUsingAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class PetUsingAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -161,7 +161,7 @@ public class PetUsingAllOf {
   }
 
    /**
-   * Get category
+   * multi line description 2nd line last line 
    * @return category
   **/
   @javax.annotation.Nullable

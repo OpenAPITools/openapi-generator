@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of Parent from a JSON string
 parent_instance = Parent.from_json(json)
 # print the JSON string representation of the object
-print Parent.to_json()
+print(Parent.to_json())
 
 # convert the object into a dict
 parent_dict = parent_instance.to_dict()

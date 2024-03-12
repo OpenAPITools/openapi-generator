@@ -74,7 +74,7 @@ export function *createUserSagaImp(_action_: Action<PayloadCreateUser>) {
 
         yield put(createUserRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUser'],
             userRecordUtils.toApi(body),
         );
 
@@ -116,7 +116,7 @@ export function *createUsersWithArrayInputSagaImp(_action_: Action<PayloadCreate
 
         yield put(createUsersWithArrayInputRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithArrayInput,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUsersWithArrayInput'],
             userRecordUtils.toApiArray(body),
         );
 
@@ -158,7 +158,7 @@ export function *createUsersWithListInputSagaImp(_action_: Action<PayloadCreateU
 
         yield put(createUsersWithListInputRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.createUsersWithListInput,
+        const response = yield apiCall(Api.userApi, Api.userApi['createUsersWithListInput'],
             userRecordUtils.toApiArray(body),
         );
 
@@ -200,7 +200,7 @@ export function *deleteUserSagaImp(_action_: Action<PayloadDeleteUser>) {
 
         yield put(deleteUserRequest(_action_.payload));
 
-        const response = yield apiCall(Api.userApi, Api.userApi.deleteUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['deleteUser'],
             username,
         );
 
@@ -244,7 +244,7 @@ export function *getUserByNameSagaImp(_action_: Action<PayloadGetUserByName>) {
 
         yield put(getUserByNameRequest(requestPayload));
 
-        const response: Required<User> = yield apiCall(Api.userApi, Api.userApi.getUserByName,
+        const response: Required<User> = yield apiCall(Api.userApi, Api.userApi['getUserByName'],
             username,
         );
 
@@ -297,7 +297,7 @@ export function *loginUserSagaImp(_action_: Action<PayloadLoginUser>) {
 
         yield put(loginUserRequest(_action_.payload));
 
-        const response: Required<string> = yield apiCall(Api.userApi, Api.userApi.loginUser,
+        const response: Required<string> = yield apiCall(Api.userApi, Api.userApi['loginUser'],
             username,
             password,
         );
@@ -335,7 +335,7 @@ export function *logoutUserSagaImp(_action_: Action<PayloadLogoutUser>) {
 
         yield put(logoutUserRequest());
 
-        const response = yield apiCall(Api.userApi, Api.userApi.logoutUser,
+        const response = yield apiCall(Api.userApi, Api.userApi['logoutUser'],
         );
 
             yield put(logoutUserSuccess());
@@ -378,7 +378,7 @@ export function *updateUserSagaImp(_action_: Action<PayloadUpdateUser>) {
 
         yield put(updateUserRequest(_action_.payload));
 
-        const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi.updateUser,
+        const response: Required<DefaultMetaOnlyResponse> = yield apiCall(Api.userApi, Api.userApi['updateUser'],
             username,
             userRecordUtils.toApi(body),
         );

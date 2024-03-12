@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of FileSchemaTestClass from a JSON string
 file_schema_test_class_instance = FileSchemaTestClass.from_json(json)
 # print the JSON string representation of the object
-print FileSchemaTestClass.to_json()
+print(FileSchemaTestClass.to_json())
 
 # convert the object into a dict
 file_schema_test_class_dict = file_schema_test_class_instance.to_dict()

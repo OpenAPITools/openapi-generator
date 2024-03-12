@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class QueryApi {
 
 
@@ -427,7 +427,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -439,7 +439,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call
@@ -497,7 +497,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @return String
    * @throws ApiException if fails to make API call
    */
@@ -509,7 +509,7 @@ public class QueryApi {
   /**
    * Test query parameter(s)
    * Test query parameter(s)
-   * @param queryObject  (optional
+   * @param queryObject  (optional)
    * @param additionalHeaders additionalHeaders for this call
    * @return String
    * @throws ApiException if fails to make API call

@@ -20,7 +20,7 @@ json = "{}"
 # create an instance of ObjectWithDeprecatedFields from a JSON string
 object_with_deprecated_fields_instance = ObjectWithDeprecatedFields.from_json(json)
 # print the JSON string representation of the object
-print ObjectWithDeprecatedFields.to_json()
+print(ObjectWithDeprecatedFields.to_json())
 
 # convert the object into a dict
 object_with_deprecated_fields_dict = object_with_deprecated_fields_instance.to_dict()

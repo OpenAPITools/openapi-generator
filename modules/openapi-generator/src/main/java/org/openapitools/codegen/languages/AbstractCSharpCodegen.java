@@ -1102,6 +1102,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
                     operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
+
+                    // Remove constant params from allParams list and add to constantParams
+                    handleConstantParams(operation);
                 }
             }
         }

@@ -87,6 +87,12 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.anyOf,
+                        SchemaSupportFeature.oneOf,
+                        SchemaSupportFeature.allOf
+
+                )
                 .excludeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism
                 )
@@ -96,6 +102,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
+                )
+                .includeDataTypeFeatures(
+                        DataTypeFeature.AnyType
                 )
         );
 
