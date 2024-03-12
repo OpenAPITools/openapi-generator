@@ -56,13 +56,13 @@ set(SRCS
     model/object.c
 {{#models}}
 {{#model}}
-    model/{{classname}}.c
+    model/{{classFilename}}.c
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-    api/{{classname}}.c
+    api/{{classFilename}}.c
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
@@ -78,13 +78,13 @@ set(HDRS
     model/object.h
 {{#models}}
 {{#model}}
-    model/{{classname}}.h
+    model/{{classFilename}}.h
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
-    api/{{classname}}.h
+    api/{{classFilename}}.h
 {{/operations}}
 {{/apis}}
 {{/apiInfo}}
