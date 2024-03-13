@@ -17,7 +17,7 @@ public class ClientPropertiesConfiguration {
         {{#isCode}}
         properties.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "authorization_code" );
         properties.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.redirect-uri", "set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-redirect-uri" );
-        properties.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri", {{{tokenUrl}}}" );
+        properties.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.token-uri", "{{{tokenUrl}}}" );
         properties.put("spring.security.oauth2.client.provider.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-uri", "{{{authorizationUrl}}}" );
         {{/isCode}}
         {{#isPassword}}
