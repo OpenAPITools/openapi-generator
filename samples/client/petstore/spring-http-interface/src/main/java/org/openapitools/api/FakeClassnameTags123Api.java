@@ -30,7 +30,7 @@ public interface FakeClassnameTags123Api {
     @HttpExchange(
         method = "PATCH",
         value = "/fake_classname_test",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<ClientDto> testClassname(
