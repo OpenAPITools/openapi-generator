@@ -21,22 +21,23 @@ import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.*;
+
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.parser.core.models.ParseOptions;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.util.*;
+
+import java.util.stream.Collectors;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.validation.constraints.AssertTrue;
 import java.io.File;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class AbstractJavaCodegenTest {
 
