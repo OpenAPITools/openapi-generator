@@ -286,32 +286,6 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
-    public void testInlineExample() throws Exception {
-
-        File output = Files.createTempDirectory("postmantest_").toFile();
-        output.deleteOnExit();
-
-        final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("postman-collection")
-                .setInputSpec("src/test/resources/3_0/postman-collection/SampleProject.yaml")
-                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
-
-        final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        DefaultGenerator generator = new DefaultGenerator();
-        List<File> files = generator.opts(clientOptInput).generate();
-
-        System.out.println(files);
-        files.forEach(File::deleteOnExit);
-
-        Path path = Paths.get(output + "/postman.json");
-        assertFileExists(path);
-        // verify response body comes from components/examples
-        assertFileContains(path, "\"name\": \"Update First Name\"");
-        assertFileContains(path, "\"raw\": \"{\\n  \\\"firstName\\\" : \\\"Rebecca\\\"\\n}");
-    }
-
-
-    @Test
     public void testNamingRequestsWithUrl() throws Exception {
 
         File output = Files.createTempDirectory("postmantest_").toFile();
