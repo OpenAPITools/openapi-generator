@@ -331,6 +331,15 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     @Override
+    public CodegenModel fromModel(String name, Schema schema) {
+        CodegenModel gotcm = super.fromModel(name, schema);
+        if(schema.getEnum() != null && !schema.getEnum().isEmpty()){
+            gotcm.dataType = schema.getType();
+        }
+        return gotcm;
+    }
+
+    @Override
     public String toApiFilename(String name) {
         final String apiName;
         // replace - with _ e.g. created-at => created_at
@@ -711,6 +720,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
+        List<String> addedbaseType = new ArrayList<String>();
         // remove model imports to avoid error
         List<Map<String, String>> imports = objs.getImports();
         final String prefix = modelPackage();
@@ -719,6 +729,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             String _import = iterator.next().get("import");
             if (_import.startsWith(prefix))
                 iterator.remove();
+            addedbaseType.add(_import);
         }
 
         for (ModelMap m : objs.getModels()) {
@@ -758,6 +769,14 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     imports.add(createMapping("import", "os"));
                     addedOSImport = true;
                 }
+
+                if(!languageSpecificPrimitives.contains(param.dataType)){
+                    String _import = param.dataType;
+                    if (importMapping.containsKey(_import) && !addedbaseType.contains(importMapping.get(_import))) {
+                        imports.add(createMapping("import", importMapping.get(_import)));
+                        addedbaseType.add(importMapping.get(_import));
+                    }
+                }
             }
             if (this instanceof GoClientCodegen && model.isEnum) {
                 imports.add(createMapping("import", "fmt"));
@@ -790,8 +809,9 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             String _import = listIterator.next().get("import");
             // if the import package happens to be found in the importMapping (key)
             // add the corresponding import package to the list
-            if (importMapping.containsKey(_import)) {
+            if (importMapping.containsKey(_import)  && !addedbaseType.contains(importMapping.get(_import)) ) {
                 listIterator.add(createMapping("import", importMapping.get(_import)));
+                addedbaseType.add(importMapping.get(_import));
             }
         }
 
