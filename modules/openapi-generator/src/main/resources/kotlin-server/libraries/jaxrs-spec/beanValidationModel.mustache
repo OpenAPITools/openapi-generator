@@ -1,3 +1,4 @@
+{{#isEmail}}    @field:Email{{! adds email validation}}{{/isEmail}}
 {{#pattern}} @field:Pattern(regexp="{{{.}}}"){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}} @field:Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
@@ -18,5 +19,3 @@ isLong set
 }}{{#isLong}}{{#minimum}} @field:Min({{.}}L){{/minimum}}{{#maximum}} @field:Max({{.}}L){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}} @field:DecimalMin({{#exclusiveMinimum}}value={{/exclusiveMinimum}}"{{minimum}}"{{#exclusiveMinimum}},inclusive=false{{/exclusiveMinimum}}){{/minimum}}{{#maximum}} @field:DecimalMax({{#exclusiveMaximum}}value={{/exclusiveMaximum}}"{{maximum}}"{{#exclusiveMaximum}},inclusive=false{{/exclusiveMaximum}}){{/maximum}}{{/isLong}}{{/isInteger}}
-{{#isEmail}} @field:Email{{! adds email validation}}
-{{/isEmail}}
