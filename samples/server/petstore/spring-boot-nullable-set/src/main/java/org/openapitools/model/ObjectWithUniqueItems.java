@@ -35,13 +35,13 @@ public class ObjectWithUniqueItems {
   private JsonNullable<Set<String>> nullSet = JsonNullable.<Set<String>>undefined();
 
   @Valid
-  private Set<String> notNullSet;
+  private Set<String> notNullSet = new LinkedHashSet<>();
 
   @Valid
   private JsonNullable<List<String>> nullList = JsonNullable.<List<String>>undefined();
 
   @Valid
-  private List<String> notNullList;
+  private List<String> notNullList = new ArrayList<>();
 
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime notNullDateField;

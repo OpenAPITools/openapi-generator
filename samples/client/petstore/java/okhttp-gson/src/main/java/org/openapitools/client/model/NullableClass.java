@@ -93,7 +93,7 @@ public class NullableClass {
 
   public static final String SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE = "array_items_nullable";
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEMS_NULLABLE)
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String SERIALIZED_NAME_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   @SerializedName(SERIALIZED_NAME_OBJECT_NULLABLE_PROP)
