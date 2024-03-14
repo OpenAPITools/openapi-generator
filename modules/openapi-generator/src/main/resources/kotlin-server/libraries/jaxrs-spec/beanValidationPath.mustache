@@ -18,3 +18,5 @@ isLong set
 }}{{#isLong}}{{#minimum}} @Min({{.}}L){{/minimum}}{{#maximum}} @Max({{.}}L){{/maximum}}{{/isLong}}{{!
 Not Integer, not Long => we have a decimal value!
 }}{{^isInteger}}{{^isLong}}{{#minimum}} @DecimalMin({{#exclusiveMinimum}}value={{/exclusiveMinimum}}"{{minimum}}"{{#exclusiveMinimum}},inclusive=false{{/exclusiveMinimum}}){{/minimum}}{{#maximum}} @DecimalMax({{#exclusiveMaximum}}value={{/exclusiveMaximum}}"{{maximum}}"{{#exclusiveMaximum}},inclusive=false{{/exclusiveMaximum}}){{/maximum}}{{/isLong}}{{/isInteger}}
+{{#isEmail}} @Email{{! adds email validation}}
+{{/isEmail}}
