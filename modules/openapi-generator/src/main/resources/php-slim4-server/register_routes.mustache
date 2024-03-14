@@ -179,25 +179,27 @@ class RegisterRoutes
                         {{#isBasicBasic}}
                     if ($authMethod['isBasic']) {
                         $route->add(new TokenAuthentication([
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new BasicAuthenticator,
                             'regex' => '/Basic\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                            'error' => BasicAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\BasicAuthenticator', 'handleUnauthorized'],
                         ]));
                     }
                         {{/isBasicBasic}}
                         {{#isApiKey}}
                     if ($authMethod['isApiKey']) {
                         $authenticatorConfig = [
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new ApiKeyAuthenticator,
                             'regex' => '/\s+(.*)$/i',
                             'argument' => null,
-                            'error' => ApiKeyAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\ApiKeyAuthenticator', 'handleUnauthorized'],
                         ];
                         if ($authMethod['isKeyInHeader']) {
                             $authenticatorConfig = [
@@ -224,28 +226,30 @@ class RegisterRoutes
                         {{#isBasicBearer}}
                     if ($authMethod['isBearer']) {
                         $route->add(new TokenAuthentication([
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new BearerAuthenticator,
                             'regex' => '/Bearer\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                            'error' => BearerAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\BearerAuthenticator', 'handleUnauthorized'],
                         ]));
                     }
                         {{/isBasicBearer}}
                         {{#isOAuth}}
                     if ($authMethod['isOAuth']) {
                         $route->add(new TokenAuthentication([
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new OAuthAuthenticator($authMethod['scopes']),
                             'regex' => '/Bearer\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                            'error' => OAuthAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['{{authPackage}}\OAuthAuthenticator', 'handleUnauthorized'],
                         ]));
                     }
                         {{/isOAuth}}

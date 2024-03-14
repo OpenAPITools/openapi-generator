@@ -59,22 +59,24 @@ abstract class AbstractAuthenticator
      * This method is called when an access token is either not provided, invalid, or expired.
      * It constructs a response that includes an error message, the status code, and any other relevant information.
      * 
-     * @param ServerRequestInterface $request   The HTTP request that led to the unauthorized access attempt.
-     * @param ResponseInterface      $response  The response object that will be modified to reflect the unauthorized status.
-     * @param TokenAuthentication    $tokenAuth The instance of TokenAuthentication that attempted to validate the token.
+     * @param ServerRequestInterface         $request The HTTP request that led to the unauthorized access attempt.
+     * @param ResponseInterface              $response The response object that will be modified to reflect the unauthorized status.
+     * @param UnauthorizedExceptionInterface $exception The exception triggered due to unauthorized access, containing details such as the error message.
      *
-     * @return ResponseInterface The modified response object with the unauthorized access error information.
+     * @return ResponseInterface The modified response object with the unauthorized access error information, including a 401 status code and a JSON body with the error message and token information.
      */
-    public function handleUnauthorized(ServerRequestInterface $request, ResponseInterface $response, TokenAuthentication $tokenAuth)
+    public static function handleUnauthorized(ServerRequestInterface $request, ResponseInterface $response, UnauthorizedExceptionInterface $exception)
     {
-        $output = [];
-        $output['error'] = [
-            'msg' => $tokenAuth->getResponseMessage(),
-            'token' => $tokenAuth->getResponseToken(),
-            'status' => 401,
-            'error' => true
+        $output = [
+            'message' => $exception->getMessage(),
+            'token' => $request->getAttribute('authorization_token'),
+            'success' => false
         ];
-        return $response->withJson($output, 401);
+    
+        $response->getBody()->write(json_encode($output));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(401);
     }
 
     /**

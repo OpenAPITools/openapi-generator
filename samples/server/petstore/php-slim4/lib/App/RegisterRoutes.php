@@ -889,23 +889,25 @@ class RegisterRoutes
                 foreach ($operation['authMethods'] as $authMethod) {
                     if ($authMethod['isOAuth']) {
                         $route->add(new TokenAuthentication([
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new OAuthAuthenticator($authMethod['scopes']),
                             'regex' => '/Bearer\s+(.*)$/i',
                             'header' => 'Authorization',
                             'parameter' => null,
                             'cookie' => null,
                             'argument' => null,
-                            'error' => OAuthAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['OpenAPIServer\Auth\OAuthAuthenticator', 'handleUnauthorized'],
                         ]));
                     }
                     if ($authMethod['isApiKey']) {
                         $authenticatorConfig = [
-                            'path' => $operation['path'],
+                            'path' => '/',
                             'authenticator' => new ApiKeyAuthenticator,
                             'regex' => '/\s+(.*)$/i',
                             'argument' => null,
-                            'error' => ApiKeyAuthenticator::handleUnauthorized,
+                            'attribute' => 'authorization_token',
+                            'error' => ['OpenAPIServer\Auth\ApiKeyAuthenticator', 'handleUnauthorized'],
                         ];
                         if ($authMethod['isKeyInHeader']) {
                             $authenticatorConfig = [
