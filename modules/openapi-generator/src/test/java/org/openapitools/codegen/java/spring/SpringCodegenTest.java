@@ -4548,4 +4548,46 @@ public class SpringCodegenTest {
                 .fileContains("private List<String> photoUrls = new ArrayList<>();");
 
     }
+
+    @Test
+    public void testCollectionTypesWithDefaults_issue_18102() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        OpenAPI openAPI = new OpenAPIParser()
+                .readLocation("src/test/resources/3_1/java/issue_18102.yaml", null, new ParseOptions()).getOpenAPI();
+        SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary(SPRING_CLOUD_LIBRARY);
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PACKAGE, "xyz.model");
+        codegen.additionalProperties().put(CodegenConstants.API_NAME_SUFFIX, "Controller");
+        codegen.additionalProperties().put(CodegenConstants.API_PACKAGE, "xyz.controller");
+        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Dto");
+        codegen.setContainerDefaultToNull(true);
+
+
+        ClientOptInput input = new ClientOptInput()
+                .openAPI(openAPI)
+                .config(codegen);
+
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(input).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("PetDto.java"))
+                .fileContains("private List<@Valid TagDto> tags")
+                .fileContains("private List<@Valid TagDto> tagsDefaultList = new ArrayList<>()")
+                .fileContains("private Set<@Valid TagDto> tagsUnique")
+                .fileContains("private Set<@Valid TagDto> tagsDefaultSet = new LinkedHashSet<>();")
+                .fileContains("private List<String> stringList")
+                .fileContains("private List<String> stringDefaultList = new ArrayList<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private List<String> stringEmptyDefaultList = new ArrayList<>();")
+                .fileContains("Set<String> stringSet")
+                .fileContains("private Set<String> stringDefaultSet = new LinkedHashSet<>(Arrays.asList(\"A\", \"B\"));")
+                .fileContains("private Set<String> stringEmptyDefaultSet = new LinkedHashSet<>();")
+                .fileDoesNotContains("private List<@Valid TagDto> tags = new ArrayList<>()")
+                .fileDoesNotContains("private Set<@Valid TagDto> tagsUnique = new LinkedHashSet<>()")
+                .fileDoesNotContains("private List<String> stringList = new ArrayList<>()")
+                .fileDoesNotContains("private Set<String> stringSet = new LinkedHashSet<>()");
+    }
 }
