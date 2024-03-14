@@ -6,6 +6,7 @@
 /pet PetR PUT POST
 /pet/findByStatus PetFindByStatusR GET
 /pet/findByTags PetFindByTagsR GET
+/pet/find PetFindR GET
 !/pet/#Int64 PetByInt64R GET POST DELETE
 /pet/#Int64/uploadImage PetByInt64UploadImageR POST
 /store/inventory StoreInventoryR GET

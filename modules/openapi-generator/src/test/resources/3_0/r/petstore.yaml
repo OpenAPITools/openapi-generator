@@ -958,6 +958,15 @@ components:
             - sold
       xml:
         name: Pet
+    PetMap:
+      title: a PetMap
+      description: A mock map of a pet and some properties
+      type: object
+      properties:
+        pet:
+          type: object
+          additionalProperties:
+            type: string
     ApiResponse:
       title: An uploaded response
       description: Describes the result of uploading an image resource
