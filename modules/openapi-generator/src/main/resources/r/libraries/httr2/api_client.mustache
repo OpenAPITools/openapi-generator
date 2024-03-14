@@ -344,7 +344,11 @@ ApiClient  <- R6::R6Class(
     #' @return Deserialized object.
     #' @export
     deserialize = function(raw_response, return_type, pkg_env) {
-      resp_obj <- jsonlite::fromJSON(raw_response)
+      if (jsonlite::validate(raw_response)) {
+        resp_obj <- jsonlite::fromJSON(raw_response)
+      } else {
+        resp_obj <- raw_response
+      }
       self$deserializeObj(resp_obj, return_type, pkg_env)
     },
     #' Deserialize the response from jsonlite object based on the given type.
