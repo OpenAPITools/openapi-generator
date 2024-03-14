@@ -5,6 +5,7 @@
 .travis.yml
 DESCRIPTION
 NAMESPACE
+README.md
 R/allof_tag_api_response.R
 R/animal.R
 R/any_of_pig.R
@@ -37,7 +38,6 @@ R/user.R
 R/user_api.R
 R/whale.R
 R/zebra.R
-README.md
 docs/AllofTagApiResponse.md
 docs/Animal.md
 docs/AnyOfPig.md
