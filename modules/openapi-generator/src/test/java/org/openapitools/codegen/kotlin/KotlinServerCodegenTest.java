@@ -183,10 +183,16 @@ public class KotlinServerCodegenTest {
                 .generate();
 
         String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
-        Path emailModel = Paths.get(outputPath + "/models/Email.kt");
+        Path emailModel = Paths.get(outputPath + "/models/EmailDefinition.kt");
         assertFileContains(
                 emailModel,
                 "field:Email"
+        );
+
+        Path emailApi = Paths.get(outputPath + "/apis/EmailApi.kt");
+        assertFileContains(
+                emailApi,
+                "@Email"
         );
     }
 

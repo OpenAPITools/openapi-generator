@@ -20,7 +20,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Email'
+              $ref: '#/components/schemas/EmailDefinition'
       responses:
         '204':
           description: Email was sent
@@ -48,12 +48,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Email'
+                  $ref: '#/components/schemas/EmailDefinition'
         '400':
           description: Invalid input
 components:
   schemas:
-    Email:
+    EmailDefinition:
       type: object
       properties:
         to:
