@@ -166,6 +166,30 @@ public class KotlinServerCodegenTest {
         );
     }
 
+    @Test
+    public void beanValidationWithEmail() throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        KotlinServerCodegen codegen = new KotlinServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(USE_JAKARTA_EE, true);
+        codegen.additionalProperties().put(LIBRARY, JAXRS_SPEC);
+        codegen.additionalProperties().put(USE_BEANVALIDATION, true);
+
+        new DefaultGenerator().opts(new ClientOptInput()
+                        .openAPI(TestUtils.parseSpec("src/test/resources/3_0/kotlin/api-email.yaml"))
+                        .config(codegen))
+                .generate();
+
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools/server";
+        Path emailModel = Paths.get(outputPath + "/models/Email.kt");
+        assertFileContains(
+                emailModel,
+                "field:Email"
+        );
+    }
+
     // to test attributes in the $ref (OpenAPI 3.1 spec)
     @Test
     public void attributesInRef() throws IOException {

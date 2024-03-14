@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  title: Email api
+  description: Email api
+  version: 1.0.0
+servers:
+  - url: 'https://email.mydomain.com'
+    description: 'Production server'
+tags:
+  - name: email
+    description: Operations about email
+paths:
+  /email:
+    post:
+      summary: Send an email
+      operationId: sendEmail
+      tags:
+        - email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Email'
+      responses:
+        '204':
+          description: Email was sent
+        '400':
+          description: Invalid input
+components:
+  schemas:
+    Email:
+      type: object
+      properties:
+        to:
+          type: string
+          format: email
+          description: The email address of the recipient
+          example: my@email.com
+        cc:
+          type: string
+          format: email
+          description: The email address of the cc
+          example: copy@email.com
+        subject:
+          type: string
+          description: The subject of the email
+          minLength: 1
+          maxLength: 256
+          example: Hello
+        body:
+          type: string
+          description: The body of the email
+          example: Hello, how are you?
+      required:
+        - to
+        - subject
+        - body
