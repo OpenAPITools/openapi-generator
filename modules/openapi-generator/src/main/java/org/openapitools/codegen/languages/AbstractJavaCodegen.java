@@ -1829,7 +1829,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     private static String[] getAccepts(OpenAPI openAPIArg, Operation operation) {
         final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            return new LinkedHashSet<>(producesInfo).toArray(new String[] {});
+            return producesInfo.toArray(new String[] {});
         }
         return new String[] { "application/json" }; // default media type
     }
