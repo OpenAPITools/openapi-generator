@@ -60,9 +60,14 @@ class ArrayOfArrayOfModel(BaseModel):
         if self.another_property:
             for _item in self.another_property:
                 if _item:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
-                    )
+                    _inner_items = []
+                    for _inner_item in _item:
+                        if _inner_item is not None:
+                            if hasattr(_inner_item, "to_dict") and callable(_inner_item.to_dict):
+                                _inner_items.append(_inner_item.to_dict())
+                            else:
+                                _inner_items.append(_inner_item)
+                    _items.append(_inner_items)
             _dict['another_property'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

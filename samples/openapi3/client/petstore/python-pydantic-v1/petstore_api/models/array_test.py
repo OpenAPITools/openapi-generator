@@ -63,9 +63,14 @@ class ArrayTest(BaseModel):
         if self.array_array_of_model:
             for _item in self.array_array_of_model:
                 if _item:
-                    _items.append(
-                         [_inner_item.to_dict() for _inner_item in _item if _inner_item is not None]
-                    )
+                    _inner_items = []
+                    for _inner_item in _item:
+                        if _inner_item is not None:
+                            if hasattr(_inner_item, "to_dict") and callable(_inner_item.to_dict):
+                                _inner_items.append(_inner_item.to_dict())
+                            else:
+                                _inner_items.append(_inner_item)
+                    _items.append(_inner_items)
             _dict['array_array_of_model'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

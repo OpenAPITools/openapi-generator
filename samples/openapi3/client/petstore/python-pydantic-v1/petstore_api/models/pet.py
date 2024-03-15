@@ -79,7 +79,10 @@ class Pet(BaseModel):
         if self.tags:
             for _item in self.tags:
                 if _item:
-                    _items.append(_item.to_dict())
+                     if hasattr(_item, "to_dict") and callable(_item.to_dict):
+                            _items.append(_item.to_dict())
+                        else:
+                            _items.append(_item)
             _dict['tags'] = _items
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:

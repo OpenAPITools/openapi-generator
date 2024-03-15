@@ -62,7 +62,10 @@ class FileSchemaTestClass(BaseModel):
         if self.files:
             for _item in self.files:
                 if _item:
-                    _items.append(_item.to_dict())
+                     if hasattr(_item, "to_dict") and callable(_item.to_dict):
+                            _items.append(_item.to_dict())
+                        else:
+                            _items.append(_item)
             _dict['files'] = _items
         return _dict
 

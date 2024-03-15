@@ -60,9 +60,13 @@ class MapOfArrayOfModel(BaseModel):
         if self.shop_id_to_org_online_lip_map:
             for _key in self.shop_id_to_org_online_lip_map:
                 if self.shop_id_to_org_online_lip_map[_key]:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.shop_id_to_org_online_lip_map[_key]
-                    ]
+                    _items = []
+                    for _item in self.shop_id_to_org_online_lip_map[_key]:
+                        if hasattr(_item, "to_dict") and callable(_item.to_dict):
+                            _items.append(_item.to_dict())
+                        else:
+                            _items.append(_item)
+                    _field_dict_of_array[_key] = _items
             _dict['shopIdToOrgOnlineLipMap'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
