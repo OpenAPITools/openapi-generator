@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="lengthCm">lengthCm</param>
         /// <param name="sweet">sweet</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public BananaReq(decimal lengthCm, Option<bool?> sweet = default)
         {
             LengthCm = lengthCm;
@@ -45,13 +47,18 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BananaReq" /> class to be used with object initializers.
+        /// </summary>
+        public BananaReq() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
         [JsonPropertyName("lengthCm")]
-        public decimal LengthCm { get; set; }
+        public required decimal LengthCm { get; set; }
 
         /// <summary>
         /// Used to track the state of Sweet

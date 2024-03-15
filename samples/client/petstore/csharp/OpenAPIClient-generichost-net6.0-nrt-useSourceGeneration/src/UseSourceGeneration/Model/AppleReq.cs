@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="cultivar">cultivar</param>
         /// <param name="mealy">mealy</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public AppleReq(string cultivar, Option<bool?> mealy = default)
         {
             Cultivar = cultivar;
@@ -45,13 +47,18 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppleReq" /> class to be used with object initializers.
+        /// </summary>
+        public AppleReq() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
         [JsonPropertyName("cultivar")]
-        public string Cultivar { get; set; }
+        public required string Cultivar { get; set; }
 
         /// <summary>
         /// Used to track the state of Mealy

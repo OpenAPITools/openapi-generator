@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -80,6 +81,7 @@ namespace UseSourceGeneration.Model
         /// <param name="notrequiredNullableStringProp">notrequiredNullableStringProp</param>
         /// <param name="notrequiredNullableUuid">notrequiredNullableUuid</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public RequiredClass(DateOnly requiredNotNullableDateProp, List<string> requiredNotnullableArrayOfString, bool requiredNotnullableBooleanProp, DateTime requiredNotnullableDatetimeProp, RequiredNotnullableEnumIntegerEnum requiredNotnullableEnumInteger, RequiredNotnullableEnumIntegerOnlyEnum requiredNotnullableEnumIntegerOnly, RequiredNotnullableEnumStringEnum requiredNotnullableEnumString, OuterEnumDefaultValue requiredNotnullableOuterEnumDefaultValue, string requiredNotnullableStringProp, Guid requiredNotnullableUuid, int requiredNotnullableintegerProp, List<string>? requiredNullableArrayOfString = default, bool? requiredNullableBooleanProp = default, DateOnly? requiredNullableDateProp = default, DateTime? requiredNullableDatetimeProp = default, RequiredNullableEnumIntegerEnum? requiredNullableEnumInteger = default, RequiredNullableEnumIntegerOnlyEnum? requiredNullableEnumIntegerOnly = default, RequiredNullableEnumStringEnum? requiredNullableEnumString = default, int? requiredNullableIntegerProp = default, OuterEnumDefaultValue? requiredNullableOuterEnumDefaultValue = default, string? requiredNullableStringProp = default, Guid? requiredNullableUuid = default, Option<DateOnly?> notRequiredNotnullableDateProp = default, Option<int?> notRequiredNotnullableintegerProp = default, Option<DateOnly?> notRequiredNullableDateProp = default, Option<int?> notRequiredNullableIntegerProp = default, Option<List<string>?> notrequiredNotnullableArrayOfString = default, Option<bool?> notrequiredNotnullableBooleanProp = default, Option<DateTime?> notrequiredNotnullableDatetimeProp = default, Option<NotrequiredNotnullableEnumIntegerEnum?> notrequiredNotnullableEnumInteger = default, Option<NotrequiredNotnullableEnumIntegerOnlyEnum?> notrequiredNotnullableEnumIntegerOnly = default, Option<NotrequiredNotnullableEnumStringEnum?> notrequiredNotnullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNotnullableOuterEnumDefaultValue = default, Option<string?> notrequiredNotnullableStringProp = default, Option<Guid?> notrequiredNotnullableUuid = default, Option<List<string>?> notrequiredNullableArrayOfString = default, Option<bool?> notrequiredNullableBooleanProp = default, Option<DateTime?> notrequiredNullableDatetimeProp = default, Option<NotrequiredNullableEnumIntegerEnum?> notrequiredNullableEnumInteger = default, Option<NotrequiredNullableEnumIntegerOnlyEnum?> notrequiredNullableEnumIntegerOnly = default, Option<NotrequiredNullableEnumStringEnum?> notrequiredNullableEnumString = default, Option<OuterEnumDefaultValue?> notrequiredNullableOuterEnumDefaultValue = default, Option<string?> notrequiredNullableStringProp = default, Option<Guid?> notrequiredNullableUuid = default)
         {
             RequiredNotNullableDateProp = requiredNotNullableDateProp;
@@ -128,6 +130,11 @@ namespace UseSourceGeneration.Model
             NotrequiredNullableUuidOption = notrequiredNullableUuid;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequiredClass" /> class to be used with object initializers.
+        /// </summary>
+        public RequiredClass() {}
 
         partial void OnCreated();
 
@@ -1365,87 +1372,87 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets RequiredNotNullableDateProp
         /// </summary>
         [JsonPropertyName("required_not_nullable_date_prop")]
-        public DateOnly RequiredNotNullableDateProp { get; set; }
+        public required DateOnly RequiredNotNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableArrayOfString
         /// </summary>
         [JsonPropertyName("required_notnullable_array_of_string")]
-        public List<string> RequiredNotnullableArrayOfString { get; set; }
+        public required List<string> RequiredNotnullableArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableBooleanProp
         /// </summary>
         [JsonPropertyName("required_notnullable_boolean_prop")]
-        public bool RequiredNotnullableBooleanProp { get; set; }
+        public required bool RequiredNotnullableBooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableDatetimeProp
         /// </summary>
         [JsonPropertyName("required_notnullable_datetime_prop")]
-        public DateTime RequiredNotnullableDatetimeProp { get; set; }
+        public required DateTime RequiredNotnullableDatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableStringProp
         /// </summary>
         [JsonPropertyName("required_notnullable_string_prop")]
-        public string RequiredNotnullableStringProp { get; set; }
+        public required string RequiredNotnullableStringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableUuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("required_notnullable_uuid")]
-        public Guid RequiredNotnullableUuid { get; set; }
+        public required Guid RequiredNotnullableUuid { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNotnullableintegerProp
         /// </summary>
         [JsonPropertyName("required_notnullableinteger_prop")]
-        public int RequiredNotnullableintegerProp { get; set; }
+        public required int RequiredNotnullableintegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableArrayOfString
         /// </summary>
         [JsonPropertyName("required_nullable_array_of_string")]
-        public List<string>? RequiredNullableArrayOfString { get; set; }
+        public required List<string>? RequiredNullableArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableBooleanProp
         /// </summary>
         [JsonPropertyName("required_nullable_boolean_prop")]
-        public bool? RequiredNullableBooleanProp { get; set; }
+        public required bool? RequiredNullableBooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableDateProp
         /// </summary>
         [JsonPropertyName("required_nullable_date_prop")]
-        public DateOnly? RequiredNullableDateProp { get; set; }
+        public required DateOnly? RequiredNullableDateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableDatetimeProp
         /// </summary>
         [JsonPropertyName("required_nullable_datetime_prop")]
-        public DateTime? RequiredNullableDatetimeProp { get; set; }
+        public required DateTime? RequiredNullableDatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableIntegerProp
         /// </summary>
         [JsonPropertyName("required_nullable_integer_prop")]
-        public int? RequiredNullableIntegerProp { get; set; }
+        public required int? RequiredNullableIntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableStringProp
         /// </summary>
         [JsonPropertyName("required_nullable_string_prop")]
-        public string? RequiredNullableStringProp { get; set; }
+        public required string? RequiredNullableStringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets RequiredNullableUuid
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("required_nullable_uuid")]
-        public Guid? RequiredNullableUuid { get; set; }
+        public required Guid? RequiredNullableUuid { get; set; }
 
         /// <summary>
         /// Used to track the state of NotRequiredNotnullableDateProp

@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -68,6 +69,11 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mammal" /> class to be used with object initializers.
+        /// </summary>
+        public Mammal() {}
+
         partial void OnCreated();
 
         /// <summary>
@@ -89,7 +95,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public required string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -37,6 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="quadrilateralType">quadrilateralType</param>
         /// <param name="shapeType">shapeType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public SimpleQuadrilateral(string quadrilateralType, string shapeType)
         {
             QuadrilateralType = quadrilateralType;
@@ -44,19 +46,24 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleQuadrilateral" /> class to be used with object initializers.
+        /// </summary>
+        public SimpleQuadrilateral() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets QuadrilateralType
         /// </summary>
         [JsonPropertyName("quadrilateralType")]
-        public string QuadrilateralType { get; set; }
+        public required string QuadrilateralType { get; set; }
 
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public required string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

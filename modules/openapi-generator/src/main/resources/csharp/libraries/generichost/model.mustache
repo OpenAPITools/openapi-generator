@@ -20,6 +20,9 @@ using System.Text.Json.Serialization;
 {{#validatable}}
 using System.ComponentModel.DataAnnotations;
 {{/validatable}}
+{{#net70OrLater}}
+using System.Diagnostics.CodeAnalysis;
+{{/net70OrLater}}
 {{#useCompareNetObjects}}
 using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}

@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,6 +39,7 @@ namespace UseSourceGeneration.Model
         /// <param name="aObjVariableobject">aObjVariableobject</param>
         /// <param name="pkiNotificationtestID">pkiNotificationtestID</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public NotificationtestGetElementsV1ResponseMPayload(List<Dictionary<string, Object>> aObjVariableobject, int pkiNotificationtestID)
         {
             AObjVariableobject = aObjVariableobject;
@@ -45,19 +47,24 @@ namespace UseSourceGeneration.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationtestGetElementsV1ResponseMPayload" /> class to be used with object initializers.
+        /// </summary>
+        public NotificationtestGetElementsV1ResponseMPayload() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets AObjVariableobject
         /// </summary>
         [JsonPropertyName("a_objVariableobject")]
-        public List<Dictionary<string, Object>> AObjVariableobject { get; set; }
+        public required List<Dictionary<string, Object>> AObjVariableobject { get; set; }
 
         /// <summary>
         /// Gets or Sets PkiNotificationtestID
         /// </summary>
         [JsonPropertyName("pkiNotificationtestID")]
-        public int PkiNotificationtestID { get; set; }
+        public required int PkiNotificationtestID { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

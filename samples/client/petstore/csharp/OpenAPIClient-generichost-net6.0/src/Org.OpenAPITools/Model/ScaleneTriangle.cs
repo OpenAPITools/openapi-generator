@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -35,6 +36,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="shapeType">shapeType</param>
         /// <param name="triangleType">triangleType</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public ScaleneTriangle(string shapeType, string triangleType)
         {
             ShapeType = shapeType;
@@ -42,19 +44,24 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScaleneTriangle" /> class to be used with object initializers.
+        /// </summary>
+        public ScaleneTriangle() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets ShapeType
         /// </summary>
         [JsonPropertyName("shapeType")]
-        public string ShapeType { get; set; }
+        public required string ShapeType { get; set; }
 
         /// <summary>
         /// Gets or Sets TriangleType
         /// </summary>
         [JsonPropertyName("triangleType")]
-        public string TriangleType { get; set; }
+        public required string TriangleType { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

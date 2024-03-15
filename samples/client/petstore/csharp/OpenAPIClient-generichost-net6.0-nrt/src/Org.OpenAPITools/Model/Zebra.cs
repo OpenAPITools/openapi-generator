@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -37,12 +38,18 @@ namespace Org.OpenAPITools.Model
         /// <param name="className">className</param>
         /// <param name="type">type</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Zebra(string className, Option<TypeEnum?> type = default)
         {
             ClassName = className;
             TypeOption = type;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Zebra" /> class to be used with object initializers.
+        /// </summary>
+        public Zebra() {}
 
         partial void OnCreated();
 
@@ -143,7 +150,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ClassName
         /// </summary>
         [JsonPropertyName("className")]
-        public string ClassName { get; set; }
+        public required string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

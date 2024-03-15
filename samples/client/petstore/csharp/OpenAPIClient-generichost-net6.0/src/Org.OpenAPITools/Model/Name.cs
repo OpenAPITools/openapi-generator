@@ -19,6 +19,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -37,6 +38,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="snakeCase">snakeCase</param>
         /// <param name="var123Number">var123Number</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public Name(int varName, Option<string> property = default, Option<int?> snakeCase = default, Option<int?> var123Number = default)
         {
             VarName = varName;
@@ -46,13 +48,18 @@ namespace Org.OpenAPITools.Model
             OnCreated();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Name" /> class to be used with object initializers.
+        /// </summary>
+        public Name() {}
+
         partial void OnCreated();
 
         /// <summary>
         /// Gets or Sets VarName
         /// </summary>
         [JsonPropertyName("name")]
-        public int VarName { get; set; }
+        public required int VarName { get; set; }
 
         /// <summary>
         /// Used to track the state of Property
@@ -78,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int? SnakeCase { get { return this. SnakeCaseOption; } }
+        public int? SnakeCase { get { return this. SnakeCaseOption; } init { this.SnakeCaseOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Var123Number
@@ -91,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int? Var123Number { get { return this. Var123NumberOption; } }
+        public int? Var123Number { get { return this. Var123NumberOption; } init { this.Var123NumberOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

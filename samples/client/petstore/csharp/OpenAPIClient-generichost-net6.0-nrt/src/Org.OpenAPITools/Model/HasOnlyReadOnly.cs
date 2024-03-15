@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 using Org.OpenAPITools.Client;
 
@@ -57,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } }
+        public string? Bar { get { return this. BarOption; } init { this.BarOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Foo
@@ -70,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string? Foo { get { return this. FooOption; } }
+        public string? Foo { get { return this. FooOption; } init { this.FooOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -21,6 +21,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using OpenAPIClientUtils = UseSourceGeneration.Client.ClientUtils;
 using System.Text.Json.Serialization.Metadata;
 using UseSourceGeneration.Client;
@@ -38,12 +39,18 @@ namespace UseSourceGeneration.Model
         /// <param name="name">name</param>
         /// <param name="petType">petType (default to PetTypeEnum.ChildCat)</param>
         [JsonConstructor]
+        [SetsRequiredMembers]
         public ChildCat(Option<string?> name = default, PetTypeEnum petType = PetTypeEnum.ChildCat) : base(ChildCat.PetTypeEnumToJsonValue(petType))
         {
             NameOption = name;
             PetType = petType;
             OnCreated();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChildCat" /> class to be used with object initializers.
+        /// </summary>
+        public ChildCat() {}
 
         partial void OnCreated();
 
