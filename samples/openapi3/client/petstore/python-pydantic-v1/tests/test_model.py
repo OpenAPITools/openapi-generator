@@ -534,3 +534,30 @@ class ModelTests(unittest.TestCase):
         a3.additional_properties = { "xyz": 45.6 }
         self.assertEqual(a3.to_dict(), {"xyz": 45.6})
         self.assertEqual(a3.to_json(), "{\"xyz\": 45.6}")
+
+class TestUnnamedDictWithAdditionalStringListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        a = petstore_api.UnnamedDictWithAdditionalStringListProperties(dict_property={"b": ["c"]})
+        assert a.to_dict() == {"dictProperty": {"b": ["c"]}}
+
+class TestUnnamedDictWithAdditionalModelListProperties:
+    def test_empty_dict(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={})
+        assert a.to_dict() == {"dictProperty": {}}
+
+    def test_empty_list(self):
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property={"b": []})
+        assert a.to_dict() == {"dictProperty": {"b": []}}
+
+    def test_single_string_item(self):
+        value = {"b": [petstore_api.CreatureInfo(name="creature_name")]}
+        a = petstore_api.UnnamedDictWithAdditionalModelListProperties(dict_property=value)
+        assert a.to_dict() == {"dictProperty": {"b": [{"name": "creature_name"}]}}
