@@ -475,4 +475,42 @@ public class OpenAPINormalizerTest {
         OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Collections.emptyMap());
         openAPINormalizer.normalize();
     }
+
+    @Test
+    public void testSetContainerToNullable() {
+        // test `array|map`
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("map_property")).getNullable(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_CONTAINER_TO_NULLABLE", "array|map");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema2.getProperties().get("array_property")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema2.getProperties().get("map_property")).getNullable(), true);
+
+        // test `set`
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema3 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema3.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("map_property")).getNullable(), null);
+
+        options.put("SET_CONTAINER_TO_NULLABLE", "set");
+        OpenAPINormalizer openAPINormalizer2 = new OpenAPINormalizer(openAPI2, options);
+        openAPINormalizer2.normalize();
+
+        Schema schema4 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema4.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("set_property")).getNullable(), true);
+        assertEquals(((Schema) schema4.getProperties().get("map_property")).getNullable(), null);
+    }
 }
