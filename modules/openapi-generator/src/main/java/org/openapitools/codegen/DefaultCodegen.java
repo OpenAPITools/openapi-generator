@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
@@ -1090,7 +1089,7 @@ public class DefaultCodegen implements CodegenConfig {
                         addOneOfNameExtension(s, n);
                     }
                 } else if (ModelUtils.isArraySchema(s)) {
-                    Schema items = ((ArraySchema) s).getItems();
+                    Schema items = s.getItems();
                     if (ModelUtils.isComposedSchema(items)) {
                         addOneOfNameExtension(items, nOneOf);
                         addOneOfInterfaceModel(items, nOneOf);
@@ -2059,8 +2058,7 @@ public class DefaultCodegen implements CodegenConfig {
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
         } else if (ModelUtils.isArraySchema(schema)) {
-            ArraySchema arraySchema = (ArraySchema) schema;
-            String inner = getSchemaType(getSchemaItems(arraySchema));
+            String inner = getSchemaType(getSchemaItems(schema));
             String parentType;
             if (ModelUtils.isSet(schema)) {
                 parentType = "set";
@@ -2366,8 +2364,13 @@ public class DefaultCodegen implements CodegenConfig {
 
     }
 
-    protected Schema<?> getSchemaItems(ArraySchema schema) {
-        Schema<?> items = schema.getItems();
+    protected Schema<?> getSchemaItems(Schema schema) {
+        Schema<?> items = null;
+        if (schema instanceof ArraySchema) {
+            items = ((ArraySchema) schema).getItems();
+        } else if (schema instanceof JsonSchema) {
+            items = ((JsonSchema) schema).getItems();
+        }
         if (items == null) {
             LOGGER.error("Undefined array inner type for `{}`. Default to String.", schema.getName());
             items = new StringSchema().description("TODO default missing array inner type to string");
@@ -2488,10 +2491,10 @@ public class DefaultCodegen implements CodegenConfig {
     private String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
-        } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
+        } else if (typeMapping.containsKey(ModelUtils.getSchemaType(schema) + "+" + schema.getFormat())) {
             // allows custom type_format mapping.
             // use {type}+{format}
-            return typeMapping.get(schema.getType() + "+" + schema.getFormat());
+            return typeMapping.get(ModelUtils.getSchemaType(schema) + "+" + schema.getFormat());
         } else if (ModelUtils.isNullType(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -2532,7 +2535,7 @@ public class DefaultCodegen implements CodegenConfig {
             } else if (ModelUtils.isShortSchema(schema)) {// int32
                 return "integer";
             } else {
-                return schema.getType(); // integer
+                return ModelUtils.getSchemaType(schema); // integer
             }
         } else if (ModelUtils.isMapSchema(schema)) {
             return "map";
@@ -2563,11 +2566,11 @@ public class DefaultCodegen implements CodegenConfig {
             return "object";
         } else if (ModelUtils.isAnyType(schema)) {
             return "AnyType";
-        } else if (StringUtils.isNotEmpty(schema.getType())) {
-            if (!schemaMapping.containsKey(schema.getType())) {
-                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", schema.getType());
+        } else if (StringUtils.isNotEmpty(ModelUtils.getSchemaType(schema))) {
+            if (!schemaMapping.containsKey(ModelUtils.getSchemaType(schema))) {
+                LOGGER.warn("Unknown type found in the schema: {}. To map it, please use the schema mapping option (e.g. --schema-mappings in CLI)", ModelUtils.getSchemaType(schema));
             }
-            return schema.getType();
+            return ModelUtils.getSchemaType(schema);
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
         // can be an arbitrary type, e.g. integer, string, object, array, number...
@@ -4007,11 +4010,12 @@ public class DefaultCodegen implements CodegenConfig {
 
         property.name = toVarName(name);
         property.baseName = name;
-        if (p.getType() == null) {
-            property.openApiType = getSchemaType(p);
-        } else {
-            property.openApiType = p.getType();
+
+        String propertyType = ModelUtils.getSchemaType(p);
+        if (propertyType == null) {
+            propertyType = getSchemaType(p);
         }
+        property.openApiType = propertyType;
         property.nameInCamelCase = camelize(property.name);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
         property.description = escapeText(p.getDescription());
@@ -4168,8 +4172,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // handle inner property
             String itemName = getItemsName(p, name);
-            ArraySchema arraySchema = (ArraySchema) p;
-            Schema innerSchema = unaliasSchema(getSchemaItems(arraySchema));
+            Schema innerSchema = unaliasSchema(getSchemaItems(p));
             CodegenProperty cp = fromProperty(itemName, innerSchema, false);
             updatePropertyForArray(property, cp);
         } else if (ModelUtils.isTypeObjectSchema(p)) {
@@ -4479,8 +4482,7 @@ public class DefaultCodegen implements CodegenConfig {
             CodegenProperty cm = fromProperty("response", responseSchema, false);
 
             if (ModelUtils.isArraySchema(responseSchema)) {
-                ArraySchema as = (ArraySchema) responseSchema;
-                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(as), false);
+                CodegenProperty innerProperty = fromProperty("response", getSchemaItems(responseSchema), false);
                 op.returnBaseType = innerProperty.baseType;
             } else if (ModelUtils.isMapSchema(responseSchema)) {
                 CodegenProperty innerProperty = fromProperty("response", ModelUtils.getAdditionalProperties(responseSchema), false);
@@ -5007,8 +5009,7 @@ public class DefaultCodegen implements CodegenConfig {
             r.isArray = true;
             r.containerType = cp.containerType;
             r.containerTypeMapped = typeMapping.get(cp.containerType);
-            ArraySchema as = (ArraySchema) responseSchema;
-            CodegenProperty items = fromProperty("response", getSchemaItems(as), false);
+            CodegenProperty items = fromProperty("response", getSchemaItems(responseSchema), false);
             r.setItems(items);
             CodegenProperty innerCp = items;
 
@@ -5384,8 +5385,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             addVarsRequiredVarsAdditionalProps(parameterSchema, codegenParameter);
         } else if (ModelUtils.isArraySchema(parameterSchema)) {
-            final ArraySchema arraySchema = (ArraySchema) parameterSchema;
-            Schema inner = getSchemaItems(arraySchema);
+            Schema inner = getSchemaItems(parameterSchema);
 
             collectionFormat = getCollectionFormat(parameter);
             // default to csv:
@@ -7113,7 +7113,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getSchemaType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);
@@ -7258,7 +7258,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isAnyType(ps)) {
             // any schema with no type set, composed schemas often do this
         } else if (ModelUtils.isArraySchema(ps)) {
-            Schema inner = getSchemaItems((ArraySchema) ps);
+            Schema inner = getSchemaItems(ps);
             CodegenProperty arrayInnerProperty = fromProperty("inner", inner, false);
             codegenParameter.items = arrayInnerProperty;
             codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
@@ -7539,11 +7539,10 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
         } else {
-            final ArraySchema arraySchema = (ArraySchema) schema;
-            Schema inner = getSchemaItems(arraySchema);
-            CodegenProperty codegenProperty = fromProperty("property", arraySchema, false);
+            Schema inner = getSchemaItems(schema);
+            CodegenProperty codegenProperty = fromProperty("property", schema, false);
             if (codegenProperty == null) {
-                throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + arraySchema);
+                throw new RuntimeException("CodegenProperty cannot be null. arraySchema for debugging: " + schema);
             }
 
             imports.add(codegenProperty.baseType);
@@ -7571,7 +7570,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-            codegenParameter.dataType = getTypeDeclaration(arraySchema);
+            codegenParameter.dataType = getTypeDeclaration(schema);
             codegenParameter.baseType = getSchemaType(inner);
             codegenParameter.isContainer = Boolean.TRUE;
             codegenParameter.isNullable = codegenProperty.isNullable;
@@ -7747,7 +7746,7 @@ public class DefaultCodegen implements CodegenConfig {
         Schema original = null;
         // check if it's allOf (only 1 sub schema) with or without default/nullable/etc set in the top level
         if (ModelUtils.isAllOf(schema) && schema.getAllOf().size() == 1 &&
-                schema.getType() == null && schema.getTypes() == null) {
+                ModelUtils.getSchemaType(schema) == null) {
             if (schema.getAllOf().get(0) instanceof Schema) {
                 original = schema;
                 schema = (Schema) schema.getAllOf().get(0);

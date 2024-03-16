@@ -210,7 +210,7 @@ public class InlineModelResolver {
         if (resolveInlineEnums && schema.getEnum() != null && schema.getEnum().size() > 0) {
             return true;
         }
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (ModelUtils.getSchemaType(schema) == null || ModelUtils.isTypeObjectSchema(schema)) {
             // object or undeclared type with properties
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 return true;
@@ -269,7 +269,7 @@ public class InlineModelResolver {
         if (schema.get$ref() != null) {
             // if ref already, no inline schemas should be present but check for
             // any to catch OpenAPI violations
-            if (isModelNeeded(schema) || "object".equals(schema.getType()) ||
+            if (isModelNeeded(schema) || ModelUtils.isTypeObjectSchema(schema) ||
                     schema.getProperties() != null || schema.getAdditionalProperties() != null ||
                     ModelUtils.isComposedSchema(schema)) {
                 LOGGER.error("Illegal schema found with $ref combined with other properties," +
@@ -280,7 +280,7 @@ public class InlineModelResolver {
         // Check object models / any type models / composed models for properties,
         // if the schema has a type defined that is not "object" it should not define
         // any properties
-        if (schema.getType() == null || "object".equals(schema.getType())) {
+        if (ModelUtils.getSchemaType(schema) == null || ModelUtils.isTypeObjectSchema(schema)) {
             // Check properties and recurse, each property could be its own inline model
             Map<String, Schema> props = schema.getProperties();
             if (props != null) {
@@ -300,8 +300,8 @@ public class InlineModelResolver {
                         props.put(propName, refSchema);
                     } else if (ModelUtils.isComposedSchema(prop)) {
                         if (prop.getAllOf() != null && prop.getAllOf().size() == 1 &&
-                                !(((Schema) prop.getAllOf().get(0)).getType() == null ||
-                                        "object".equals(((Schema) prop.getAllOf().get(0)).getType()))) {
+                                !(ModelUtils.getSchemaType((Schema) prop.getAllOf().get(0)) == null) ||
+                                        ModelUtils.isTypeObjectSchema((Schema) prop.getAllOf().get(0))) {
                             // allOf with only 1 type (non-model)
                             LOGGER.info("allOf schema used by the property `{}` replaced by its only item (a type)", propName);
                             props.put(propName, (Schema) prop.getAllOf().get(0));
@@ -338,10 +338,9 @@ public class InlineModelResolver {
             return;
         }
         // Check array items
-        if (schema instanceof ArraySchema) {
-            ArraySchema array = (ArraySchema) schema;
-            Schema items = array.getItems();
-            if (items == null && array.getPrefixItems() == null) {
+        if (ModelUtils.isArraySchema(schema)) {
+            Schema items = schema.getItems();
+            if (items == null && schema.getPrefixItems() == null) {
                 LOGGER.debug("Incorrect array schema with no items, prefixItems: {}", schema.toString());
                 return;
             }
@@ -357,7 +356,7 @@ public class InlineModelResolver {
 
             if (isModelNeeded(items)) {
                 // If this schema should be split into its own model, do so
-                array.setItems(this.makeSchemaInComponents(schemaName, items));
+                schema.setItems(this.makeSchemaInComponents(schemaName, items));
             }
         }
         // Check allOf, anyOf, oneOf for inline models
@@ -666,16 +665,12 @@ public class InlineModelResolver {
      * @param m Schema implementation
      */
     private void fixStringModel(Schema m) {
-        if (schemaIsOfType(m, "string") && schemaContainsExample(m)) {
+        if (ModelUtils.isStringSchema(m) && schemaContainsExample(m)) {
             String example = m.getExample().toString();
             if (example.startsWith("\"") && example.endsWith("\"")) {
                 m.setExample(example.substring(1, example.length() - 1));
             }
         }
-    }
-
-    private boolean schemaIsOfType(Schema m, String type) {
-        return m.getType() != null && m.getType().equals(type);
     }
 
     private boolean schemaContainsExample(Schema m) {
@@ -788,9 +783,8 @@ public class InlineModelResolver {
                     propsToUpdate.put(key, schema);
                     modelsToAdd.put(modelName, model);
                 }
-            } else if (property instanceof ArraySchema) {
-                ArraySchema ap = (ArraySchema) property;
-                Schema inner = ap.getItems();
+            } else if (ModelUtils.isArraySchema(property)) {
+                Schema inner = property.getItems();
                 if (inner instanceof ObjectSchema) {
                     ObjectSchema op = (ObjectSchema) inner;
                     if (op.getProperties() != null && op.getProperties().size() > 0) {
@@ -801,12 +795,12 @@ public class InlineModelResolver {
                         if (existing != null) {
                             Schema schema = new Schema().$ref(existing);
                             schema.setRequired(op.getRequired());
-                            ap.setItems(schema);
+                            property.setItems(schema);
                         } else {
                             modelName = addSchemas(modelName, innerModel);
                             Schema schema = new Schema().$ref(modelName);
                             schema.setRequired(op.getRequired());
-                            ap.setItems(schema);
+                            property.setItems(schema);
                         }
                     }
                 } else if (ModelUtils.isComposedSchema(inner)) {
@@ -815,7 +809,7 @@ public class InlineModelResolver {
                     innerModelName = addSchemas(innerModelName, inner);
                     Schema schema = new Schema().$ref(innerModelName);
                     schema.setRequired(inner.getRequired());
-                    ap.setItems(schema);
+                    property.setItems(schema);
                 } else {
                     LOGGER.debug("Schema not yet handled in model resolver: {}", inner);
                 }
@@ -892,7 +886,7 @@ public class InlineModelResolver {
         // NOTE:
         // No need to null check setters below. All defaults in the new'd Schema are null, so setting to null would just be a noop.
         Schema model = new Schema();
-        model.setType(object.getType());
+        model.setType(ModelUtils.getSchemaType(object));
 
         // Even though the `format` keyword typically applies to primitive types only,
         // the JSON schema specification states `format` can be used for any model type instance
@@ -908,7 +902,7 @@ public class InlineModelResolver {
         model.setRequired(object.getRequired());
         model.setNullable(object.getNullable());
         model.setEnum(object.getEnum());
-        model.setType(object.getType());
+        model.setType(ModelUtils.getSchemaType(object));
         model.setDiscriminator(object.getDiscriminator());
         model.setWriteOnly(object.getWriteOnly());
         model.setUniqueItems(object.getUniqueItems());

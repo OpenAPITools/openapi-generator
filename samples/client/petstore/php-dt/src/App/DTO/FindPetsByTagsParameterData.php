@@ -13,8 +13,8 @@ class FindPetsByTagsParameterData
     /**
      * Tags to filter by
      * @DTA\Data(subset="query", field="tags")
-     * @DTA\Strategy(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
-     * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
+     * @DTA\Strategy(subset="query", name="QueryStringScalarArray", options={"type":\App\DTO\Collection5::class, "format":"csv"})
+     * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":\App\DTO\Collection5::class, "format":"csv"})
      */
     public ?array $tags = null;
 

@@ -371,7 +371,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = getSchemaItems(schema);
             return getSchemaType(target) + "[" + getTypeDeclaration(items) + "]";
         } else if (ModelUtils.isMapSchema(target)) {
             Schema<?> inner = ModelUtils.getAdditionalProperties(target);
@@ -404,9 +404,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
-            return (ModelUtils.isSet(ap) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
+            String inner = getSchemaType(p.getItems());
+            return (ModelUtils.isSet(p) ? instantiationTypes.get("set") : instantiationTypes.get("array")) + "[" + inner + "]";
         } else {
             return null;
         }
@@ -433,10 +432,9 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
             return "new HashMap[String, " + inner + "]() ";
         } else if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            String inner = getSchemaType(ap.getItems());
+            String inner = getSchemaType(p.getItems());
             String genericType;
-            if (ModelUtils.isSet(ap)) {
+            if (ModelUtils.isSet(p)) {
                 genericType = instantiationTypes.get("set");
             } else {
                 genericType = instantiationTypes.get("array");
@@ -474,11 +472,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty prop = super.fromProperty(name, p, required);
-        if (ModelUtils.isArraySchema(p)) {
-            ArraySchema as = (ArraySchema) p;
-            if (ModelUtils.isSet(as)) {
-                prop.containerType = "set";
-            }
+        if (ModelUtils.isSet(p)) {
+            prop.containerType = "set";
         }
 
         return prop;

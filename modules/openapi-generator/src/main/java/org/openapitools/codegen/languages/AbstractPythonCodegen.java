@@ -489,8 +489,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
             }
-            ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentationString + toExampleValueRecursive(arrayschema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
+            example = "[\n" + indentationString + toExampleValueRecursive(schema.getItems(), includedSchemas, indentation + 1) + "\n" + indentationString + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 includedSchemas.add(schema);
@@ -691,8 +690,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         p = ModelUtils.unaliasSchema(openAPI, p);
 
         if (ModelUtils.isArraySchema(p)) {
-            ArraySchema ap = (ArraySchema) p;
-            Schema inner = ap.getItems();
+            Schema inner = p.getItems();
             return getSchemaType(p) + "[" + getCollectionItemTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);

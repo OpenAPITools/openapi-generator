@@ -271,11 +271,10 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
         Schema parameterSchema = ModelUtils.getReferencedSchema(openAPI, parameter.getSchema());
         // array
         if (ModelUtils.isArraySchema(parameterSchema)) {
-            Schema itemSchema = ((ArraySchema) parameterSchema).getItems();
             ArraySchema arraySchema = new ArraySchema();
             arraySchema.setMinItems(parameterSchema.getMinItems());
             arraySchema.setMaxItems(parameterSchema.getMaxItems());
-            arraySchema.setItems(itemSchema);
+            arraySchema.setItems(parameterSchema);
             String collectionFormat = getCollectionFormat(parameter);
             if (collectionFormat == null) {
                 collectionFormat = "csv";
@@ -419,7 +418,7 @@ public class PhpDataTransferClientCodegen extends AbstractPhpCodegen {
                 }
             } else if (ModelUtils.isArraySchema(schema)) {
                 //Recursively process schema of array items
-                generateContainerSchemas(openAPI, visitedSchemas, ((ArraySchema) schema).getItems());
+                generateContainerSchemas(openAPI, visitedSchemas, schema.getItems());
                 isContainer = Boolean.TRUE;
             } else if (ModelUtils.isMapSchema(schema)) {
                 //Recursively process schema of map items

@@ -361,7 +361,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         Schema<?> schema = unaliasSchema(p);
         Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
         if (ModelUtils.isArraySchema(target)) {
-            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            Schema<?> items = getSchemaItems(schema);
             return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
         } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
@@ -1106,7 +1106,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
 
             StringBuilder defaultContent = new StringBuilder();
-            Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
+            Schema<?> itemsSchema = getSchemaItems(schema);
             _default.elements().forEachRemaining((element) -> {
                 String defaultValue = element.asText();
                 if (defaultValue != null) {

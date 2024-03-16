@@ -13,8 +13,8 @@ class FindPetsByStatusParameterData
     /**
      * Status values that need to be considered for filter
      * @DTA\Data(subset="query", field="status")
-     * @DTA\Strategy(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
-     * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":"string", "format":"csv"})
+     * @DTA\Strategy(subset="query", name="QueryStringScalarArray", options={"type":\App\DTO\Collection2::class, "format":"csv"})
+     * @DTA\Validator(subset="query", name="QueryStringScalarArray", options={"type":\App\DTO\Collection2::class, "format":"csv"})
      */
     public ?array $status = null;
 

@@ -99,7 +99,6 @@ paths:
             - pending
             - sold
             type: string
-          type: array
         style: form
       responses:
         "200":
@@ -108,12 +107,10 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
-                type: array
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
-                type: array
           description: successful operation
         "400":
           description: Invalid status value
@@ -139,7 +136,6 @@ paths:
         schema:
           items:
             type: string
-          type: array
         style: form
       responses:
         "200":
@@ -148,12 +144,10 @@ paths:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
-                type: array
             application/json:
               schema:
                 items:
                   $ref: '#/components/schemas/Pet'
-                type: array
           description: successful operation
         "400":
           description: Invalid tag value
@@ -714,7 +708,6 @@ components:
           schema:
             items:
               $ref: '#/components/schemas/User'
-            type: array
       description: List of user object
       required: true
     Pet:
@@ -868,14 +861,12 @@ components:
         photoUrls:
           items:
             type: string
-          type: array
           xml:
             name: photoUrl
             wrapped: true
         tags:
           items:
             $ref: '#/components/schemas/Tag'
-          type: array
           xml:
             name: tag
             wrapped: true
@@ -908,12 +899,6 @@ components:
         message:
           type: string
       title: An uploaded response
-    StringOrInt:
-      anyOf:
-      - type: string
-      - format: int32
-        type: integer
-      description: string or int
     OneOfStringOrInt:
       description: string or int (onefOf)
       oneOf:
@@ -951,7 +936,6 @@ components:
           description: test array in 3.1 spec
           items:
             type: string
-          type: array
         ref_array_prefix_items:
           description: |
             An item that was added to the queue.
@@ -960,7 +944,6 @@ components:
             type: string
           maxItems: 5
           minItems: 3
-          type: array
     HTTPValidationError:
       properties: {}
       title: HTTPValidationError
@@ -979,7 +962,6 @@ components:
         type: string
       maxItems: 5
       minItems: 3
-      type: array
     updatePetWithForm_request:
       properties:
         name:
