@@ -10,3 +10,7 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   nullableReferenceTypes: true
   equatable: true
+#   skipFormModel: false
+# inlineSchemaOptions:
+#   RESOLVE_INLINE_ENUMS: true
+#   # REFACTOR_ALLOF_INLINE_SCHEMAS: true
