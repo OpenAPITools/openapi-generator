@@ -42,4 +42,4 @@ jobs:
         run: mvn clean package
       - name: Build with Gradle
         working-directory: ${{ matrix.sample }}
-        run: gradle clean build -X
+        run: gradle clean build -x test
