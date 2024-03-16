@@ -465,6 +465,7 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("kebabcase", new KebabCaseLambda())
                 .put("camelcase", new CamelCaseAndSanitizeLambda(true).generator(this))
                 .put("pascalcase", new CamelCaseAndSanitizeLambda(false).generator(this))
+                .put("uncamelize", new UncamelizeLambda())
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
