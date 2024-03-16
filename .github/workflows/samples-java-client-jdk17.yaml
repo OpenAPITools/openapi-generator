@@ -5,12 +5,10 @@ on:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/jersey3/**
   pull_request:
     paths:
       - samples/client/petstore/java/resttemplate-jakarta/**
       - samples/client/petstore/java/webclient-jakarta/**
-      - samples/client/petstore/java/jersey3/**
 jobs:
   build:
     name: Build Java Client JDK17
@@ -22,7 +20,6 @@ jobs:
           # clients
           - samples/client/petstore/java/resttemplate-jakarta
           - samples/client/petstore/java/webclient-jakarta
-          - samples/client/petstore/java/jersey3
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -42,4 +39,4 @@ jobs:
         run: mvn clean package
       - name: Build with Gradle
         working-directory: ${{ matrix.sample }}
-        run: gradle clean build -x test
+        run: gradle clean build
