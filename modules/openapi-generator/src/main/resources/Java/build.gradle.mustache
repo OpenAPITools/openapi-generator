@@ -120,6 +120,9 @@ ext {
     jackson_databind_nullable_version = "0.2.6"
     {{/openApiNullable}}
     jakarta_annotation_version = "1.3.5"
+    {[#useBeanValidation}}
+    bean_validation_version = "3.0.2"
+    {[/useBeanValidation}}
     jersey_version = "1.19.4"
     jodatime_version = "2.9.9"
     junit_version = "4.13.2"
@@ -142,5 +145,8 @@ dependencies {
     {{/joda}}
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     implementation "jakarta.annotation:jakarta.annotation-api:$jakarta_annotation_version"
+    {[#useBeanValidation}}
+    implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
+    {[/useBeanValidation}}
     testImplementation "junit:junit:$junit_version"
 }
