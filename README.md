@@ -1116,7 +1116,7 @@ Here is a list of template creators:
    * MySQL: [@ybelenko](https://github.com/ybelenko)
    * Postman Collection: @gcatanese
    * Protocol Buffer: @wing328
-
+   * WSDL @adessoDpd
 
 :heart: = Link to support the contributor directly
 
