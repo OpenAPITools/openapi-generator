@@ -441,7 +441,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         CopyLambda copyLambda = new CopyLambda();
 
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())

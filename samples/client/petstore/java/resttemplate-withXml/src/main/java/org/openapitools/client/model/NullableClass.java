@@ -105,7 +105,7 @@ public class NullableClass extends HashMap<String, Object> {
   // items.name=arrayItemsNullable items.baseName=arrayItemsNullable items.xmlName= items.xmlNamespace=
   // items.example= items.type=Object
   @XmlElement(name = "arrayItemsNullable")
-  private List<Object> arrayItemsNullable;
+  private List<Object> arrayItemsNullable = new ArrayList<>();
 
   public static final String JSON_PROPERTY_OBJECT_NULLABLE_PROP = "object_nullable_prop";
   // Is a container wrapped=false

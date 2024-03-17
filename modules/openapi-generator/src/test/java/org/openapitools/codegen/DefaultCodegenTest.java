@@ -2356,7 +2356,7 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
         assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
         assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
-        assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
+        assertTrue(lambdas.get("camelcase") instanceof CamelCaseAndSanitizeLambda, "Expecting CamelCaseAndSanitizeLambda class");
         assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");

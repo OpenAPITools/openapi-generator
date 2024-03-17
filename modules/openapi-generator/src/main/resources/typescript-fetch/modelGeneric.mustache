@@ -100,7 +100,7 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     {{/hasVars}}
 }
 
-export function {{classname}}ToJSON(value?: {{classname}} | null): any {
+export function {{classname}}ToJSON(value?: {{#hasReadOnly}}Omit<{{classname}}, {{#readOnlyVars}}'{{baseName}}'{{^-last}}|{{/-last}}{{/readOnlyVars}}>{{/hasReadOnly}}{{^hasReadOnly}}{{classname}}{{/hasReadOnly}} | null): any {
     {{#hasVars}}
     if (value == null) {
         return value;

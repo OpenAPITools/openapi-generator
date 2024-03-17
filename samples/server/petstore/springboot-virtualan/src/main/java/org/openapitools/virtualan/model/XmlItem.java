@@ -34,7 +34,7 @@ public class XmlItem {
   private Boolean attributeBoolean;
 
   @Valid
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   private String nameString;
 
@@ -45,10 +45,10 @@ public class XmlItem {
   private Boolean nameBoolean;
 
   @Valid
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   private String prefixString;
 
@@ -59,10 +59,10 @@ public class XmlItem {
   private Boolean prefixBoolean;
 
   @Valid
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   private String namespaceString;
 
@@ -73,10 +73,10 @@ public class XmlItem {
   private Boolean namespaceBoolean;
 
   @Valid
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   private String prefixNsString;
 
@@ -87,10 +87,10 @@ public class XmlItem {
   private Boolean prefixNsBoolean;
 
   @Valid
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @Valid
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   public XmlItem attributeString(String attributeString) {
     this.attributeString = attributeString;

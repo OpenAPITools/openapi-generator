@@ -30,7 +30,7 @@ public class Pet  implements Serializable {
   private @Valid Category category;
   private @Valid String name;
   private @Valid Set<String> photoUrls = new LinkedHashSet<>();
-  private @Valid List<@Valid Tag> tags;
+  private @Valid List<@Valid Tag> tags = new ArrayList<>();
   public enum StatusEnum {
 
     AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));
@@ -314,7 +314,7 @@ public class Pet  implements Serializable {
     private Category category;
     private String name;
     private Set<String> photoUrls = new LinkedHashSet<>();
-    private List<@Valid Tag> tags;
+    private List<@Valid Tag> tags = new ArrayList<>();
     private StatusEnum status;
     protected abstract B self();
 

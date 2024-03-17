@@ -22,6 +22,13 @@ class TestParameters(unittest.TestCase):
         path = self.json_data['item'][0]['item'][0]
         self.assertEqual(path['name'], '/users/:userId (DEPRECATED)')
 
+    def test_request_from_inline_examples(self):
+        # item
+        item = self.json_data['item'][0]['item'][0]['item'][0]
+        self.assertEqual(item['name'], 'Update First Name')
+        self.assertEqual(item['request']["method"], 'PATCH')
+        self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "Rebecca"\n}')
+
 
 if __name__ == '__main__':
     unittest.main()
