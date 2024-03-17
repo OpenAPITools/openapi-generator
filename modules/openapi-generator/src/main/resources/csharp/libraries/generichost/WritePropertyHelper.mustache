@@ -1,5 +1,5 @@
 {{#isNullable}}
-if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
+if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}{{^required}}Option.Value{{/required}} != null)
     {{#lambda.pasteLine}}{{/lambda.pasteLine}}
 else
     writer.WriteNull("{{baseName}}");
