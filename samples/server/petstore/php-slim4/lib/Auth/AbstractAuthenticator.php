@@ -24,7 +24,6 @@ namespace OpenAPIServer\Auth;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Dyorg\TokenAuthentication;
 use Dyorg\TokenAuthentication\TokenSearch;
 use Dyorg\TokenAuthentication\Exceptions\UnauthorizedExceptionInterface;
 
