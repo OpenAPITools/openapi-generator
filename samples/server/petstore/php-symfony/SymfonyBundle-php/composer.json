@@ -20,7 +20,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "symfony/validator": "^5.0|^6.0",
+        "symfony/validator": "^5.0|^6.0|^7.0",
         "jms/serializer-bundle": "^4.0",
         "symfony/framework-bundle": "^5.0|^6.0"
     },
