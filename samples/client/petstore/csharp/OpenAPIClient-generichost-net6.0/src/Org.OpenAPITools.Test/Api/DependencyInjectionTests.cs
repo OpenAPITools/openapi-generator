@@ -27,13 +27,13 @@ namespace Org.OpenAPITools.Test.Api
         private readonly IHost _hostUsingConfigureWithoutAClient =
             Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken1 = new($"<token>", "api_key", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
 
-                ApiKeyToken apiKeyToken2 = new($"<token>", "api_key_query", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken2 = new("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken2);
 
-                BearerToken bearerToken1 = new($"<token>", timeout: TimeSpan.FromSeconds(1));
+                BearerToken bearerToken1 = new("<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken1);
 
                 BasicToken basicToken1 = new("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
@@ -51,13 +51,13 @@ namespace Org.OpenAPITools.Test.Api
         private readonly IHost _hostUsingConfigureWithAClient =
             Host.CreateDefaultBuilder([]).ConfigureApi((context, services, options) =>
             {
-                ApiKeyToken apiKeyToken1 = new($"<token>", "api_key", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken1);
 
-                ApiKeyToken apiKeyToken2 = new($"<token>", "api_key_query", timeout: TimeSpan.FromSeconds(1));
+                ApiKeyToken apiKeyToken2 = new("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(apiKeyToken2);
 
-                BearerToken bearerToken1 = new($"<token>", timeout: TimeSpan.FromSeconds(1));
+                BearerToken bearerToken1 = new("<token>", timeout: TimeSpan.FromSeconds(1));
                 options.AddTokens(bearerToken1);
 
                 BasicToken basicToken1 = new("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
@@ -78,13 +78,13 @@ namespace Org.OpenAPITools.Test.Api
             {
                 services.AddApi(options =>
                 {
-                    ApiKeyToken apiKeyToken1 = new($"<token>", "api_key", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken1);
 
-                    ApiKeyToken apiKeyToken2 = new($"<token>", "api_key_query", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken2 = new("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken2);
 
-                    BearerToken bearerToken1 = new($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    BearerToken bearerToken1 = new("<token>", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(bearerToken1);
 
                     BasicToken basicToken1 = new("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));
@@ -105,13 +105,13 @@ namespace Org.OpenAPITools.Test.Api
             {
                 services.AddApi(options =>
                 {
-                    ApiKeyToken apiKeyToken1 = new($"<token>", "api_key", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken1 = new("<token>", ClientUtils.ApiKeyHeader.Api_key, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken1);
 
-                    ApiKeyToken apiKeyToken2 = new($"<token>", "api_key_query", timeout: TimeSpan.FromSeconds(1));
+                    ApiKeyToken apiKeyToken2 = new("<token>", ClientUtils.ApiKeyHeader.Api_key_query, timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(apiKeyToken2);
 
-                    BearerToken bearerToken1 = new($"<token>", timeout: TimeSpan.FromSeconds(1));
+                    BearerToken bearerToken1 = new("<token>", timeout: TimeSpan.FromSeconds(1));
                     options.AddTokens(bearerToken1);
 
                     BasicToken basicToken1 = new("<username>", "<password>", timeout: TimeSpan.FromSeconds(1));

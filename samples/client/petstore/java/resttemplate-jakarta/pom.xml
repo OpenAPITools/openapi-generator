@@ -235,8 +235,8 @@
             <version>${jackson-databind-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <groupId>com.fasterxml.jackson.jakarta.rs</groupId>
+            <artifactId>jackson-jakarta-rs-json-provider</artifactId>
             <version>${jackson-version}</version>
         </dependency>
         <dependency>
@@ -266,7 +266,7 @@
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-web-version>6.0.3</spring-web-version>
+        <spring-web-version>6.0.17</spring-web-version>
         <jackson-version>2.15.2</jackson-version>
         <jackson-databind-version>2.15.2</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.6</jackson-databind-nullable-version>

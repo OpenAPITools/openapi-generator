@@ -9,6 +9,8 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 | [**testQueryIntegerBooleanString()**](QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s) |
 | [**testQueryStyleDeepObjectExplodeTrueObject()**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** /query/style_deepObject/explode_true/object | Test query parameter(s) |
 | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf()**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** /query/style_deepObject/explode_true/object/allOf | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayInteger()**](QueryApi.md#testQueryStyleFormExplodeFalseArrayInteger) | **GET** /query/style_form/explode_false/array_integer | Test query parameter(s) |
+| [**testQueryStyleFormExplodeFalseArrayString()**](QueryApi.md#testQueryStyleFormExplodeFalseArrayString) | **GET** /query/style_form/explode_false/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueArrayString()**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** /query/style_form/explode_true/array_string | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObject()**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** /query/style_form/explode_true/object | Test query parameter(s) |
 | [**testQueryStyleFormExplodeTrueObjectAllOf()**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** /query/style_form/explode_true/object/allOf | Test query parameter(s) |
@@ -286,6 +288,118 @@ try {
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | **query_object** | [**TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](../Model/.md)|  | [optional] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testQueryStyleFormExplodeFalseArrayInteger()`
+
+```php
+testQueryStyleFormExplodeFalseArrayInteger($query_object): string
+```
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\QueryApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$query_object = array(56); // int[]
+
+try {
+    $result = $apiInstance->testQueryStyleFormExplodeFalseArrayInteger($query_object);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling QueryApi->testQueryStyleFormExplodeFalseArrayInteger: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **query_object** | [**int[]**](../Model/int.md)|  | [optional] |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testQueryStyleFormExplodeFalseArrayString()`
+
+```php
+testQueryStyleFormExplodeFalseArrayString($query_object): string
+```
+
+Test query parameter(s)
+
+Test query parameter(s)
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\QueryApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$query_object = array('query_object_example'); // string[]
+
+try {
+    $result = $apiInstance->testQueryStyleFormExplodeFalseArrayString($query_object);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling QueryApi->testQueryStyleFormExplodeFalseArrayString: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **query_object** | [**string[]**](../Model/string.md)|  | [optional] |
 
 ### Return type
 

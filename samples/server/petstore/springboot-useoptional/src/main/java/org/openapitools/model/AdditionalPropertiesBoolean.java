@@ -23,13 +23,13 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
  * AdditionalPropertiesBoolean
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AdditionalPropertiesBoolean {
 
-  private String name;
+  private Optional<String> name = Optional.empty();
 
   public AdditionalPropertiesBoolean name(String name) {
-    this.name = name;
+    this.name = Optional.of(name);
     return this;
   }
 
@@ -40,11 +40,11 @@ public class AdditionalPropertiesBoolean {
   
   @ApiModelProperty(value = "")
   @JsonProperty("name")
-  public String getName() {
+  public Optional<String> getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(Optional<String> name) {
     this.name = name;
   }
     /**

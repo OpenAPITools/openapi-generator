@@ -25,7 +25,7 @@ import javax.annotation.Generated;
  */
 
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class BigCat extends Cat {
 
   /**
@@ -67,7 +67,7 @@ public class BigCat extends Cat {
     }
   }
 
-  private KindEnum kind;
+  private Optional<KindEnum> kind = Optional.empty();
 
   public BigCat() {
     super();
@@ -81,7 +81,7 @@ public class BigCat extends Cat {
   }
 
   public BigCat kind(KindEnum kind) {
-    this.kind = kind;
+    this.kind = Optional.of(kind);
     return this;
   }
 
@@ -92,11 +92,11 @@ public class BigCat extends Cat {
   
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
-  public KindEnum getKind() {
+  public Optional<KindEnum> getKind() {
     return kind;
   }
 
-  public void setKind(KindEnum kind) {
+  public void setKind(Optional<KindEnum> kind) {
     this.kind = kind;
   }
 

@@ -64,7 +64,9 @@ import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
@@ -613,6 +615,34 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testJdkHttpClientWithUseBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, true);
+        properties.put(JavaClientCodegen.USE_JAKARTA_EE, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.NATIVE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_1/issue-17485.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/UserApi.java"),
+                "@Pattern", "import jakarta.validation.constraints.*");
+    }
+
+    @Test
     public void testJdkHttpClientWithAndWithoutDiscriminator() throws Exception {
         Map<String, Object> properties = new HashMap<>();
         properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
@@ -762,6 +792,79 @@ public class JavaClientCodegenTest {
 
         Assert.assertEquals(files.size(), 1);
         files.forEach(File::deleteOnExit);
+    }
+
+    @Test
+    public void testTypedAndNonTypedComposedSchemaGeneration_3_1() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTEASY)
+            .setValidateSpec(false)
+            .setInputSpec("src/test/resources/3_1/composed-schemas-with-and-without-type.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        Assert.assertEquals(files.size(), 9);
+        files.forEach(File::deleteOnExit);
+    }
+
+    @Test
+    public void testMultiPartSpecifiesFileName_Issue17367() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTEASY)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/issue-17367.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+        try {
+            validateJavaSourceFiles(files);
+            File apiClient = files.stream()
+                    .filter(f -> f.getName().equals("ApiClient.java"))
+                    .findFirst()
+                    .orElseThrow(() -> new AssertionFailedError(
+                            "ApiClient.java not found"));
+
+            Stream<String> contents = Arrays.stream(Files.readString(apiClient.toPath(),
+                    StandardCharsets.UTF_8).split("\n"));
+
+            // https://docs.jboss.org/resteasy/docs/6.2.5.Final/javadocs/org/jboss/resteasy/plugins/providers/multipart/MultipartFormDataOutput.html#addFormData(java.lang.String,java.lang.Object,jakarta.ws.rs.core.MediaType,java.lang.String)
+            assertTrue(contents.anyMatch(l -> l.matches(
+                    ".*multipart\\.addFormData\\(param.getKey\\(\\),\\s*" +
+                    "new\\s+FileInputStream\\(file\\),\\s*" +
+                    "MediaType\\.APPLICATION_OCTET_STREAM_TYPE,\\s*" +
+                    "file.getName\\(\\)\\);.*")));
+        } finally {
+            files.forEach(File::deleteOnExit);
+        }
     }
 
     @Test
@@ -2022,7 +2125,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 24);
+        Assert.assertEquals(files.size(), 27);
         validateJavaSourceFiles(files);
 
         TestUtils.assertFileContains(
@@ -2223,6 +2326,30 @@ public class JavaClientCodegenTest {
                                 + " objectParam.getSomeBoolean()));")
                 .bodyContainsLines(
                         "localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
+                                + " objectParam.getSomeInteger()));");
+    }
+
+    @Test
+    public void shouldProperlyExplodeWebClientQueryParameters() {
+        final Map<String, File> files = generateFromContract(
+                "src/test/resources/3_0/java/explode-query-parameter.yaml",
+                JavaClientCodegen.WEBCLIENT
+        );
+
+        JavaFileAssert.assertThat(files.get("DefaultApi.java"))
+                .printFileContent()
+                .assertMethod("searchRequestCreation")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"regular-param\","
+                                + " regularParam));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someString\","
+                                + " objectParam.getSomeString()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someBoolean\","
+                                + " objectParam.getSomeBoolean()));")
+                .bodyContainsLines(
+                        "queryParams.putAll(apiClient.parameterToMultiValueMap(null, \"someInteger\","
                                 + " objectParam.getSomeInteger()));");
     }
 
@@ -2436,6 +2563,47 @@ public class JavaClientCodegenTest {
         output.deleteOnExit();
     }
 
+    @Test
+    public void testDeprecatedPropertyJersey3() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.JERSEY3)
+                .setInputSpec("src/test/resources/3_0/deprecated-properties.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        validateJavaSourceFiles(files);
+
+        // deprecated builder method
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n" + " public BigDog declawed(Boolean declawed) {");
+
+        // deprecated getter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @jakarta.annotation.Nullable\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + "\n"
+                        + " public Boolean getDeclawed() {");
+        // deprecated setter
+        TestUtils.assertFileContains(
+                Paths.get(output + "/src/main/java/org/openapitools/client/model/BigDog.java"),
+                "@Deprecated\n"
+                        + " @JsonProperty(JSON_PROPERTY_DECLAWED)\n"
+                        + " @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)\n"
+                        + " public void setDeclawed(Boolean declawed) {");
+
+        output.deleteOnExit();
+    }
+
     @DataProvider(name = "shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684")
     public static Object[][] shouldNotAddAdditionalModelAnnotationsToAbstractOpenApiSchema_issue15684_dataProvider() {
         return new Object[][]{{"okhttp-gson"}, {"jersey2"}, {"jersey3"}, {"native"}};
@@ -2531,6 +2699,129 @@ public class JavaClientCodegenTest {
         Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PetApi.java");
         TestUtils.assertFileContains(petApi, "@Component");
     }
+
+    @Test
+    public void testRestTemplateWithUseBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileContains(pomFile, "<artifactId>jakarta.validation-api</artifactId>");
+
+        Path petModel = Paths.get(output + "/src/main/java/org/openapitools/client/model/Pet.java");
+        TestUtils.assertFileContains(petModel, "@Valid");
+    }
+
+    @Test
+    public void testRestTemplateWithUseBeanValidationDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_BEANVALIDATION, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileNotContains(pomFile, "<artifactId>jakarta.validation-api</artifactId>");
+
+        Path petModel = Paths.get(output + "/src/main/java/org/openapitools/client/model/Pet.java");
+        TestUtils.assertFileNotContains(petModel, "@Valid");
+    }
+
+    @Test
+    public void testRestTemplateWithPerformBeanValidationEnabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.PERFORM_BEANVALIDATION, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileContains(pomFile, "<artifactId>hibernate-validator</artifactId>");
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/BeanValidationException.java");
+        TestUtils.assertFileExists(petApi);
+    }
+
+    @Test
+    public void testRestTemplateWithPerformBeanValidationDisabled() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.PERFORM_BEANVALIDATION, false);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+            .setGeneratorName("java")
+            .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+            .setAdditionalProperties(properties)
+            .setInputSpec("src/test/resources/3_0/petstore.yaml")
+            .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+        Path pomFile = Paths.get(output + "/pom.xml");
+        TestUtils.assertFileNotContains(pomFile, "<artifactId>hibernate-validator</artifactId>");
+
+        Path petApi = Paths.get(output + "/src/main/java/org/openapitools/client/invoker/BeanValidationException.java");
+        TestUtils.assertFileNotExists(petApi);
+    }
+
 
     @Test
     public void testLogicToAvoidStackOverflow() throws IOException {
@@ -2745,5 +3036,114 @@ public class JavaClientCodegenTest {
         // make sure README.md and pom.xml are not generated
         assertEquals(files.get("README.md"), null);
         assertEquals(files.get("pom.xml"), null);
+    }
+
+    @Test
+    public void testRestTemplateHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.RESTTEMPLATE, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    @Test
+    public void testOkHttpGsonHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))",
+            "jsonWriter.value(enumeration.getValue().toASCIIString())",
+            "URI value =  URI.create(jsonReader.nextString())",
+            "URI value = URI.create(jsonElement.getAsString())"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))",
+            "jsonWriter.value(enumeration.getValue().toASCIIString())",
+            "URI value = URI.create(jsonReader.nextString())",
+            "URI value = URI.create(jsonElement.getAsString())"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.OKHTTP_GSON, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    @Test
+    public void testMicroprofileHandleURIEnum() throws IOException {
+        String[] expectedInnerEnumLines = new String[] {
+            "V1_SCHEMA_JSON(URI.create(\"https://example.com/v1/schema.json\"))",
+            "V2_SCHEMA_JSON(URI.create(\"https://example.com/v2/schema.json\"))",
+            "generator.write(obj.value.toASCIIString())"
+        };
+
+        String[] expectedEnumLines = new String[] {
+            "V1_METADATA_JSON(URI.create(\"https://example.com/v1/metadata.json\"))",
+            "V2_METADATA_JSON(URI.create(\"https://example.com/v2/metadata.json\"))"
+        };
+
+        testHandleURIEnum(JavaClientCodegen.MICROPROFILE, expectedInnerEnumLines, expectedEnumLines);
+    }
+
+    private void testHandleURIEnum(String library, String[] expectedInnerEnumLines, String[] expectedEnumLines) throws IOException {
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(library)
+                .setInputSpec("src/test/resources/3_0/enum-and-inner-enum-uri.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        final DefaultGenerator defaultGenerator = new DefaultGenerator();
+
+        defaultGenerator.opts(clientOptInput);
+
+        Map<String, File> files = defaultGenerator.generate().stream()
+                        .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        // enum
+        File modelFile = files.get("Metadata.java");
+        assertNotNull(modelFile);
+        JavaFileAssert.assertThat(modelFile).fileContains(expectedEnumLines);
+
+        // Inner enum
+        File apiFile = files.get("V1SchemasGetDefaultResponse.java");
+        assertNotNull(apiFile);
+        JavaFileAssert.assertThat(apiFile).fileContains(expectedInnerEnumLines);
+    }
+
+    @Test
+    public void testQueryParamsExploded_whenQueryParamIsNull() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/issue_17555.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+        validateJavaSourceFiles(files);
+
+
+        Path petApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/DepartmentApi.java");
+        TestUtils.assertFileContains(petApi, "if (filter != null) {");
     }
 }

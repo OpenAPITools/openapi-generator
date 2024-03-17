@@ -55,6 +55,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected boolean optionalProjectFileFlag = true;
     protected boolean optionalMethodArgumentFlag = true;
     protected boolean useDateTimeOffsetFlag = false;
+    protected boolean useDateTimeForDateFlag = false;
     protected boolean useCollection = false;
     protected boolean returnICollection = false;
     protected boolean netCoreProjectFileFlag = false;
@@ -186,6 +187,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         "DateTime",
                         "DateTimeOffset?",
                         "DateTimeOffset",
+                        "DateOnly?",
+                        "DateOnly",
                         "Boolean",
                         "Double",
                         "Decimal",
@@ -231,6 +234,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     public void useDateTimeOffset(boolean flag) {
         this.useDateTimeOffsetFlag = flag;
+        this.setTypeMapping();
+    }
+
+    public void useDateTimeForDate(boolean flag) {
+        this.useDateTimeForDateFlag = flag;
         this.setTypeMapping();
     }
 
@@ -354,6 +362,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             additionalProperties.put(CodegenConstants.USE_DATETIME_OFFSET, useDateTimeOffsetFlag);
         }
 
+        // {{useDateTimeForDate}}
+        if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_FOR_DATE)) {
+            useDateTimeForDate(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_FOR_DATE));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_DATETIME_FOR_DATE, useDateTimeForDateFlag);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.USE_COLLECTION)) {
             setUseCollection(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_COLLECTION));
         } else {
@@ -426,7 +441,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         CopyLambda copyLambda = new CopyLambda();
 
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
@@ -986,7 +1001,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                     postProcessResponseCode(response, "NetworkAuthenticationRequired", httpStatusesWithReturn);
                                     break;
                                 default:
-                                    throw new RuntimeException("Unhandled case: " + code);
+                                    postProcessResponseCode(response, "CustomHttpStatusCode" + code, httpStatusesWithReturn);
                             }
                         }
                     }
@@ -1087,6 +1102,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
                     operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
+
+                    // Remove constant params from allParams list and add to constantParams
+                    handleConstantParams(operation);
                 }
             }
         }
@@ -1756,6 +1774,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         return (this.getValueTypes().contains(var.dataType) || var.isEnum);
     }
 
+    protected boolean useNet60OrLater() { return false; }
+
+    protected boolean useDateOnly() {
+        return useNet60OrLater() && !useDateTimeForDateFlag;
+    }
+
     @Override
     public void setParameterExampleValue(CodegenParameter p) {
         String example;
@@ -1820,16 +1844,18 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
             example = "System.Text.Encoding.ASCII.GetBytes(\"" + escapeText(example) + "\")";
         } else if (p.isDate) {
+            String dateType = typeMapping.get("date");
             if (example == null) {
-                example = "DateTime.Parse(\"2013-10-20\")";
+                example = dateType + ".Parse(\"2013-10-20\")";
             } else {
-                example = "DateTime.Parse(\"" + example + "\")";
+                example = dateType + ".Parse(\"" + example + "\")";
             }
         } else if (p.isDateTime) {
+            String dateType = typeMapping.get("DateTime");
             if (example == null) {
-                example = "DateTime.Parse(\"2013-10-20T19:20:30+01:00\")";
+                example = dateType + ".Parse(\"2013-10-20T19:20:30+01:00\")";
             } else {
-                example = "DateTime.Parse(\"" + example + "\")";
+                example = dateType + ".Parse(\"" + example + "\")";
             }
         } else if (p.isDecimal) {
             if (example == null) {
@@ -1993,7 +2019,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     protected Set<String> getValueTypes() {
-        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateTimeOffset", "Guid"));
+        return new HashSet<>(Arrays.asList("decimal", "bool", "int", "uint", "long", "ulong", "float", "double", "DateTime", "DateOnly", "DateTimeOffset", "Guid"));
     }
 
     protected void setTypeMapping() {
@@ -2012,7 +2038,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         typeMapping.put("decimal", "decimal");
         typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", this.useDateTimeOffsetFlag ? "DateTimeOffset" : "DateTime");
-        typeMapping.put("date", "DateTime");
+        typeMapping.put("date", this.useDateOnly() ? "DateOnly" : "DateTime");
         typeMapping.put("file", "System.IO.Stream");
         typeMapping.put("array", "List");
         typeMapping.put("list", "List");

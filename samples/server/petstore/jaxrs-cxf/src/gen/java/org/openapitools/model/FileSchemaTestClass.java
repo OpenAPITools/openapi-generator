@@ -20,7 +20,7 @@ public class FileSchemaTestClass  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private List<ModelFile> files;
+  private List<@Valid ModelFile> files = new ArrayList<>();
  /**
    * Get _file
    * @return _file
@@ -44,15 +44,15 @@ public class FileSchemaTestClass  {
    * @return files
   **/
   @JsonProperty("files")
-  public List<ModelFile> getFiles() {
+  public List<@Valid ModelFile> getFiles() {
     return files;
   }
 
-  public void setFiles(List<ModelFile> files) {
+  public void setFiles(List<@Valid ModelFile> files) {
     this.files = files;
   }
 
-  public FileSchemaTestClass files(List<ModelFile> files) {
+  public FileSchemaTestClass files(List<@Valid ModelFile> files) {
     this.files = files;
     return this;
   }
@@ -71,8 +71,8 @@ public class FileSchemaTestClass  {
       return false;
     }
     FileSchemaTestClass fileSchemaTestClass = (FileSchemaTestClass) o;
-    return Objects.equals(_file, fileSchemaTestClass._file) &&
-        Objects.equals(files, fileSchemaTestClass.files);
+    return Objects.equals(this._file, fileSchemaTestClass._file) &&
+        Objects.equals(this.files, fileSchemaTestClass.files);
   }
 
   @Override

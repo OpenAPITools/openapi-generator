@@ -1,0 +1,6 @@
+## ProMatchesApi
+
+### GET /proMatches
+## GET /proMatches
+GET https://api.opendota.com/api/proMatches
+Accept: application/json; charset=utf-8

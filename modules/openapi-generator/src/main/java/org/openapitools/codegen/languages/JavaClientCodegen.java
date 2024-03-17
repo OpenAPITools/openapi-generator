@@ -139,6 +139,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean generateClientAsBean = false;
     protected boolean useEnumCaseInsensitive = false;
 
+    protected int maxAttemptsForRetry = 1;
+    protected long waitTimeMillis = 10l;
+
     private static class MpRestClientVersion {
         public final String rootPackage;
         public final String pomTemplate;
@@ -181,7 +184,8 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 .includeSecurityFeatures(SecurityFeature.OAuth2_AuthorizationCode,
                 SecurityFeature.OAuth2_ClientCredentials,
                 SecurityFeature.OAuth2_Password,
-                SecurityFeature.SignatureAuth)//jersey only
+                SecurityFeature.SignatureAuth,//jersey only
+                SecurityFeature.AWSV4Signature)//okhttp-gson only
         );
 
         outputFolder = "generated-code" + File.separator + "java";
@@ -465,6 +469,20 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(USE_ENUM_CASE_INSENSITIVE)) {
             this.setUseEnumCaseInsensitive(Boolean.parseBoolean(additionalProperties.get(USE_ENUM_CASE_INSENSITIVE).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY)) {
+            this.setMaxAttemptsForRetry(Integer.parseInt(additionalProperties.get(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY).toString()));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.MAX_ATTEMPTS_FOR_RETRY, maxAttemptsForRetry);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.WAIT_TIME_OF_THREAD)) {
+            this.setWaitTimeMillis(Long.parseLong((additionalProperties.get(CodegenConstants.WAIT_TIME_OF_THREAD).toString())));
+        }
+        else {
+            additionalProperties.put(CodegenConstants.WAIT_TIME_OF_THREAD, waitTimeMillis);
+        }
         writePropertyBack(USE_ENUM_CASE_INSENSITIVE, useEnumCaseInsensitive);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
@@ -588,8 +606,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (RETROFIT_2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-            forceSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
-            if (RETROFIT_2.equals(getLibrary()) && !usePlayWS) {
+            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("JSON_jackson.mustache", invokerFolder, "JSON.java"));
+            } else if (!usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {
@@ -1238,6 +1257,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseEnumCaseInsensitive(boolean useEnumCaseInsensitive) {
         this.useEnumCaseInsensitive = useEnumCaseInsensitive;
+    }
+
+    public void setMaxAttemptsForRetry(int maxAttemptsForRetry) {
+        this.maxAttemptsForRetry= maxAttemptsForRetry;
+    }
+
+    public void setWaitTimeMillis(long waitTimeMillis) {
+        this.waitTimeMillis= waitTimeMillis;
     }
 
     /**

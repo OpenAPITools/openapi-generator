@@ -3,9 +3,6 @@ openapi: 3.1.0
 info:
   title: double-option-hashmap
   version: 0.1.0
-  license:
-    name: MIT
-    identifier: MIT
 servers:
   - url: http://api.example.xyz/v1
 paths:

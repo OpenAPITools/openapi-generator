@@ -4,9 +4,9 @@ import org.springframework.core.ParameterizedTypeReference
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import org.springframework.web.util.UriUtils
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.http.ResponseEntity
+import org.springframework.util.LinkedMultiValueMap
 import reactor.core.publisher.Mono
 
 open class ApiClient(protected val client: WebClient) {
@@ -33,19 +33,15 @@ open class ApiClient(protected val client: WebClient) {
             }
         }
 
-    protected fun encodeURIComponent(uriComponent: kotlin.String) =
-        UriUtils.encodeFragment(uriComponent, Charsets.UTF_8)
-
     private fun <I> WebClient.method(requestConfig: RequestConfig<I>)=
         method(HttpMethod.valueOf(requestConfig.method.name))
 
     private fun <I> WebClient.RequestBodyUriSpec.uri(requestConfig: RequestConfig<I>) =
         uri { builder ->
-            builder.path(requestConfig.path).apply {
-                requestConfig.query.forEach { (name, value) ->
-                    queryParam(name, value)
-                }
-            }.build()
+            builder
+                .path(requestConfig.path)
+                .queryParams(LinkedMultiValueMap(requestConfig.query))
+                .build(requestConfig.params)
         }
 
     private fun <I> WebClient.RequestBodySpec.headers(requestConfig: RequestConfig<I>) =

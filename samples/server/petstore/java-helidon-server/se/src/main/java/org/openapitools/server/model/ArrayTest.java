@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.openapitools.server.model.ReadOnlyFirst;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 
 public class ArrayTest   {
 
-    private List<String> arrayOfString;
-    private List<List<Long>> arrayArrayOfInteger;
-    private List<List<ReadOnlyFirst>> arrayArrayOfModel;
+    private List<String> arrayOfString = new ArrayList<>();
+    private List<List<Long>> arrayArrayOfInteger = new ArrayList<>();
+    private List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -30,7 +32,7 @@ public class ArrayTest   {
     public ArrayTest(
         List<String> arrayOfString, 
         List<List<Long>> arrayArrayOfInteger, 
-        List<List<ReadOnlyFirst>> arrayArrayOfModel
+        List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel
     ) {
         this.arrayOfString = arrayOfString;
         this.arrayArrayOfInteger = arrayArrayOfInteger;
@@ -67,11 +69,11 @@ public class ArrayTest   {
      * Get arrayArrayOfModel
      * @return arrayArrayOfModel
      */
-    public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
+    public List<List<@Valid ReadOnlyFirst>> getArrayArrayOfModel() {
         return arrayArrayOfModel;
     }
 
-    public void setArrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
+    public void setArrayArrayOfModel(List<List<@Valid ReadOnlyFirst>> arrayArrayOfModel) {
         this.arrayArrayOfModel = arrayArrayOfModel;
     }
 

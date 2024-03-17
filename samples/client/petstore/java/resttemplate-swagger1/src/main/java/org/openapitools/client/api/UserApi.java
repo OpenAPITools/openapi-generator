@@ -26,7 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class UserApi {
     private ApiClient apiClient;
 
@@ -327,7 +327,7 @@ public class UserApi {
 
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "username", username));
         localVarQueryParams.putAll(apiClient.parameterToMultiValueMap(null, "password", password));
-
+        
 
         final String[] localVarAccepts = { 
             "application/xml", "application/json"

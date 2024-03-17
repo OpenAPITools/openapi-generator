@@ -55,10 +55,13 @@ namespace {{packageName}}.{{apiPackage}}
         /// </remarks>
         /// <exception cref="ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>&gt;</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
         Task<{{interfacePrefix}}{{operationId}}ApiResponse> {{operationId}}Async({{>OperationSignature}});
 
         /// <summary>
@@ -68,10 +71,13 @@ namespace {{packageName}}.{{apiPackage}}
         /// {{notes}}
         /// </remarks>
         {{#allParams}}
-        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
+        /// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}{{#isDeprecated}} (deprecated){{/isDeprecated}}</param>
         {{/allParams}}
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns><see cref="Task"/>&lt;<see cref="{{interfacePrefix}}{{operationId}}ApiResponse"/>{{nrt?}}&gt;</returns>
+        {{#isDeprecated}}
+        [Obsolete]
+        {{/isDeprecated}}
         Task<{{interfacePrefix}}{{operationId}}ApiResponse{{nrt?}}> {{operationId}}OrDefaultAsync({{>OperationSignature}});
         {{^-last}}
 
@@ -211,7 +217,7 @@ namespace {{packageName}}.{{apiPackage}}
         /// Initializes a new instance of the <see cref="{{classname}}"/> class.
         /// </summary>
         /// <returns></returns>
-        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}}{{#hasApiKeyMethods}},
+        public {{classname}}(ILogger<{{classname}}> logger, ILoggerFactory loggerFactory, HttpClient httpClient, JsonSerializerOptionsProvider jsonSerializerOptionsProvider, {{classname}}Events {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}}{{#hasApiKeyMethods}},
             TokenProvider<ApiKeyToken> apiKeyProvider{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}},
             TokenProvider<BearerToken> bearerTokenProvider{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}},
             TokenProvider<BasicToken> basicTokenProvider{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}},
@@ -223,7 +229,7 @@ namespace {{packageName}}.{{apiPackage}}
             LoggerFactory = loggerFactory;
             Logger = LoggerFactory.CreateLogger<{{classname}}>();
             HttpClient = httpClient;
-            Events = {{#lambda.camelcase_param}}{{classname}}Events{{/lambda.camelcase_param}};{{#hasApiKeyMethods}}
+            Events = {{#lambda.camelcase_sanitize_param}}{{classname}}Events{{/lambda.camelcase_sanitize_param}};{{#hasApiKeyMethods}}
             ApiKeyProvider = apiKeyProvider;{{/hasApiKeyMethods}}{{#hasHttpBearerMethods}}
             BearerTokenProvider = bearerTokenProvider;{{/hasHttpBearerMethods}}{{#hasHttpBasicMethods}}
             BasicTokenProvider = basicTokenProvider;{{/hasHttpBasicMethods}}{{#hasHttpSignatureMethods}}
@@ -384,18 +390,17 @@ namespace {{packageName}}.{{apiPackage}}
                     uriBuilderLocalVar.Path = urlLocalVar.AbsolutePath;
                     {{/-first}}
                     {{/servers}}
+                    {{#constantParams}}
+                    {{#isPathParam}}
+                    // Set client side default value of Path Param "{{baseName}}".
+                    uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString(ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}))); // Constant path parameter
+                    {{/isPathParam}}
+                    {{/constantParams}}
                     {{#pathParams}}
-                    {{#required}}
                     uriBuilderLocalVar.Path = uriBuilderLocalVar.Path.Replace("%7B{{baseName}}%7D", Uri.EscapeDataString({{paramName}}.ToString()));
-                    {{/required}}
-                    {{^required}}
-
-                    if ({{paramName}}.IsSet)
-                        uriBuilderLocalVar.Path = uriBuilderLocalVar.Path + $"/{ Uri.EscapeDataString({{paramName}}.Value).ToString()) }";
                     {{#-last}}
 
                     {{/-last}}
-                    {{/required}}
                     {{/pathParams}}
                     {{#queryParams}}
                     {{#-first}}
@@ -424,6 +429,12 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/required}}
                     {{/queryParams}}
 
+                    {{#constantParams}}
+                    {{#isQueryParam}}
+                    // Set client side default value of Query Param "{{baseName}}".
+                    parseQueryStringLocalVar["{{baseName}}"] = ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}}); // Constant query parameter
+                    {{/isQueryParam}}
+                    {{/constantParams}}
                     {{#queryParams}}
                     {{^required}}
                     if ({{paramName}}.IsSet)
@@ -435,6 +446,12 @@ namespace {{packageName}}.{{apiPackage}}
 
                     {{/-last}}
                     {{/queryParams}}
+                    {{#constantParams}}
+                    {{#isHeaderParam}}
+                    // Set client side default value of Header Param "{{baseName}}".
+                    httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{#_enum}}"{{{.}}}"{{/_enum}})); // Constant header parameter
+                    {{/isHeaderParam}}
+                    {{/constantParams}}
                     {{#headerParams}}
                     {{#required}}
                     httpRequestMessageLocalVar.Headers.Add("{{baseName}}", ClientUtils.ParameterToString({{paramName}}));
@@ -497,28 +514,26 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/-first}}
                     {{#isApiKey}}
                     {{^isKeyInCookie}}
-                    ApiKeyToken apiKeyTokenLocalVar{{-index}} = (ApiKeyToken) await ApiKeyProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    ApiKeyToken apiKeyTokenLocalVar{{-index}} = (ApiKeyToken) await ApiKeyProvider.GetAsync("{{keyParamName}}", cancellationToken).ConfigureAwait(false);
                     tokenBaseLocalVars.Add(apiKeyTokenLocalVar{{-index}});
                     {{#isKeyInHeader}}
-                    apiKeyTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar, "{{keyParamName}}");
+                    apiKeyTokenLocalVar{{-index}}.UseInHeader(httpRequestMessageLocalVar);
 
                     {{/isKeyInHeader}}
                     {{/isKeyInCookie}}
                     {{#isKeyInQuery}}
 
-                    apiKeyTokenLocalVar{{-index}}.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar, "{{keyParamName}}");
+                    apiKeyTokenLocalVar{{-index}}.UseInQuery(httpRequestMessageLocalVar, uriBuilderLocalVar, parseQueryStringLocalVar);
 
                     uriBuilderLocalVar.Query = parseQueryStringLocalVar.ToString();
                     {{/isKeyInQuery}}
                     {{/isApiKey}}
                     {{/authMethods}}
-
-                    {{! below line must be after any UseInQuery calls, but before using the HttpSignatureToken}}
                     httpRequestMessageLocalVar.RequestUri = uriBuilderLocalVar.Uri;
                     {{#authMethods}}
                     {{#isBasicBasic}}
 
-                    BasicToken basicTokenLocalVar{{-index}} = (BasicToken) await BasicTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BasicToken basicTokenLocalVar{{-index}} = (BasicToken) await BasicTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(basicTokenLocalVar{{-index}});
 
@@ -526,7 +541,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isBasicBasic}}
                     {{#isBasicBearer}}
 
-                    BearerToken bearerTokenLocalVar{{-index}} = (BearerToken) await BearerTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    BearerToken bearerTokenLocalVar{{-index}} = (BearerToken) await BearerTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(bearerTokenLocalVar{{-index}});
 
@@ -534,7 +549,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isBasicBearer}}
                     {{#isOAuth}}
 
-                    OAuthToken oauthTokenLocalVar{{-index}} = (OAuthToken) await OauthTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    OAuthToken oauthTokenLocalVar{{-index}} = (OAuthToken) await OauthTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(oauthTokenLocalVar{{-index}});
 
@@ -542,7 +557,7 @@ namespace {{packageName}}.{{apiPackage}}
                     {{/isOAuth}}
                     {{#isHttpSignature}}
 
-                    HttpSignatureToken httpSignatureTokenLocalVar{{-index}} = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellationToken).ConfigureAwait(false);
+                    HttpSignatureToken httpSignatureTokenLocalVar{{-index}} = (HttpSignatureToken) await HttpSignatureTokenProvider.GetAsync(cancellation: cancellationToken).ConfigureAwait(false);
 
                     tokenBaseLocalVars.Add(httpSignatureTokenLocalVar{{-index}});
 

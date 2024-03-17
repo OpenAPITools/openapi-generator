@@ -193,7 +193,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath, client: OkHttpClient = A
      enum class StatusFindPetsByStatus(val value: kotlin.String) {
          @JsonProperty(value = "available") AVAILABLE("available"),
          @JsonProperty(value = "pending") PENDING("pending"),
-         @JsonProperty(value = "sold") SOLD("sold")
+         @JsonProperty(value = "sold") SOLD("sold"),
      }
 
     /**

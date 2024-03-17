@@ -99,7 +99,7 @@ end:
 //
 {{/notes}}
 {{#returnType}}{{#returnTypeIsPrimitive}}{{#returnSimpleType}}{{{.}}}*{{/returnSimpleType}}{{^returnSimpleType}}{{#isArray}}{{{.}}}_t*{{/isArray}}{{#isMap}}{{{.}}}{{/isMap}}{{/returnSimpleType}}{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}{{{.}}}_t*{{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void{{/returnType}}
-{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}{{{dataType}}}{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}{{dataType}}{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}}{{/isMap}}{{/isContainer}} {{{paramName}}} {{/allParams}})
+{{{classname}}}_{{{operationId}}}(apiClient_t *apiClient{{#allParams}}, {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}} {{/isNumber}}{{#isLong}}{{{dataType}}} {{/isLong}}{{#isInteger}}{{{dataType}}} *{{/isInteger}}{{#isDouble}}{{{dataType}}} {{/isDouble}}{{#isFloat}}{{{dataType}}} {{/isFloat}}{{#isBoolean}}{{dataType}} *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e {{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}} {{/isDate}}{{#isDateTime}}{{{dataType}}} {{/isDateTime}}{{#isFile}}{{{dataType}}} {{/isFile}}{{#isFreeFormObject}}{{dataType}}_t *{{/isFreeFormObject}}{{/isPrimitiveType}}{{^isArray}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e {{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}} {{/isEmail}}{{/isPrimitiveType}}{{/isArray}}{{#isContainer}}{{#isArray}}{{dataType}}_t *{{/isArray}}{{#isMap}}{{dataType}} {{/isMap}}{{/isContainer}}{{{paramName}}}{{/allParams}})
 {
     list_t    *localVarQueryParameters = {{#hasQueryParams}}list_createList();{{/hasQueryParams}}{{^hasQueryParams}}NULL;{{/hasQueryParams}}
     list_t    *localVarHeaderParameters = {{#hasHeaderParams}}list_createList();{{/hasHeaderParams}}{{^hasHeaderParams}}NULL;{{/hasHeaderParams}}
@@ -138,7 +138,7 @@ end:
     snprintf(localVarToReplace_{{paramName}}, sizeOfPathParams_{{paramName}}, "{%s}", "{{baseName}}");
 
     char localVarBuff_{{paramName}}[256];
-    intToStr(localVarBuff_{{paramName}}, {{paramName}});
+    intToStr(localVarBuff_{{paramName}}, *{{paramName}});
 
     localVarPath = strReplace(localVarPath, localVarToReplace_{{paramName}}, localVarBuff_{{paramName}});
 
@@ -198,7 +198,19 @@ end:
     keyValuePair_t *keyPairHeader_{{paramName}} = 0;
     if ({{paramName}}) {
         keyHeader_{{{paramName}}} = strdup("{{{baseName}}}");
+        {{#isInteger}}
+        valueHeader_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueHeader_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        {{/isInteger}}
+        {{#isBoolean}}
+        valueHeader_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueHeader_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        {{/isBoolean}}
+        {{^isInteger}}
+        {{^isBoolean}}
         valueHeader_{{{paramName}}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
+        {{/isBoolean}}
+        {{/isInteger}}
         keyPairHeader_{{paramName}} = keyValuePair_create(keyHeader_{{{paramName}}}, {{#isEnum}}(void *){{/isEnum}}{{^isString}}&{{/isString}}valueHeader_{{{paramName}}});
         list_addElement(localVarHeaderParameters,keyPairHeader_{{paramName}});
     }
@@ -212,17 +224,7 @@ end:
     {{#isPrimitiveType}}{{#isNumber}}{{{dataType}}}{{/isNumber}}{{#isLong}}{{{dataType}}}{{/isLong}}{{#isInteger}}char *{{/isInteger}}{{#isDouble}}{{{dataType}}}{{/isDouble}}{{#isFloat}}{{{dataType}}}{{/isFloat}}{{#isBoolean}}char *{{/isBoolean}}{{#isEnum}}{{#isString}}{{projectName}}_{{operationId}}_{{baseName}}_e{{/isString}}{{/isEnum}}{{^isEnum}}{{#isString}}{{{dataType}}} *{{/isString}}{{/isEnum}}{{#isByteArray}}{{{dataType}}} *{{/isByteArray}}{{#isDate}}{{{dataType}}}{{/isDate}}{{#isDateTime}}{{{dataType}}}{{/isDateTime}}{{#isFile}}{{{dataType}}}{{/isFile}}{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{^isEnum}}{{{dataType}}}_t *{{/isEnum}}{{/isModel}}{{^isModel}}{{#isEnum}}{{datatypeWithEnum}}_e{{/isEnum}}{{/isModel}}{{#isUuid}}{{dataType}} *{{/isUuid}}{{#isEmail}}{{dataType}}{{/isEmail}}{{/isPrimitiveType}} valueQuery_{{{paramName}}} {{#isString}}{{^isEnum}}= NULL{{/isEnum}}{{/isString}}{{#isInteger}}= NULL{{/isInteger}}{{#isBoolean}}= NULL{{/isBoolean}};
     keyValuePair_t *keyPairQuery_{{paramName}} = 0;
     {{/isArray}}
-    {{#isInteger}}
-    if (1) // Always send integer parameters to the API server
-    {{/isInteger}}
-    {{#isBoolean}}
-    if (1) // Always send boolean parameters to the API server
-    {{/isBoolean}}
-    {{^isInteger}}
-    {{^isBoolean}}
     if ({{paramName}})
-    {{/isBoolean}}
-    {{/isInteger}}
     {
         {{#isArray}}
         list_addElement(localVarQueryParameters,{{paramName}});
@@ -231,11 +233,11 @@ end:
         keyQuery_{{{paramName}}} = strdup("{{{baseName}}}");
         {{#isInteger}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", {{{paramName}}});
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isInteger}}
         {{#isBoolean}}
         valueQuery_{{{paramName}}} = calloc(1,MAX_NUMBER_LENGTH);
-        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", {{{paramName}}});
+        snprintf(valueQuery_{{{paramName}}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
         {{/isBoolean}}
         {{^isInteger}}
         {{^isBoolean}}
@@ -243,7 +245,7 @@ end:
         {{/isBoolean}}
         {{/isInteger}}
         keyPairQuery_{{paramName}} = keyValuePair_create(keyQuery_{{{paramName}}}, {{#isEnum}}(void *)strdup({{{operationId}}}_{{enumName}}_ToString(
-		{{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
+        {{/isEnum}}{{^isString}}{{^isInteger}}{{^isBoolean}}&{{/isBoolean}}{{/isInteger}}{{/isString}}valueQuery_{{{paramName}}}{{#isEnum}})){{/isEnum}});
         list_addElement(localVarQueryParameters,keyPairQuery_{{paramName}});
         {{/isArray}}
     }
@@ -271,7 +273,19 @@ end:
         {{/isFile}}
         {{^isFile}}
         keyForm_{{paramName}} = strdup("{{{baseName}}}");
+        {{#isInteger}}
+        valueForm_{{paramName}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueForm_{{paramName}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        {{/isInteger}}
+        {{#isBoolean}}
+        valueForm_{{paramName}} = calloc(1,MAX_NUMBER_LENGTH);
+        snprintf(valueForm_{{paramName}}, MAX_NUMBER_LENGTH, "%d", *{{{paramName}}});
+        {{/isBoolean}}
+        {{^isInteger}}
+        {{^isBoolean}}
         valueForm_{{paramName}} = {{#isString}}{{^isEnum}}strdup({{/isEnum}}{{/isString}}({{{paramName}}}){{#isString}}{{^isEnum}}){{/isEnum}}{{/isString}};
+        {{/isBoolean}}
+        {{/isInteger}}
         keyPairForm_{{paramName}} = keyValuePair_create(keyForm_{{paramName}},{{#isString}}{{#isEnum}}(void *){{/isEnum}}{{/isString}}{{^isString}}&{{/isString}}valueForm_{{paramName}});
         list_addElement(localVarFormParameters,keyPairForm_{{paramName}});
         {{/isFile}}
@@ -306,7 +320,7 @@ end:
             goto end;
         }
         cJSON_AddItemToArray(localVarSingleItemJSON_{{paramName}}, localVar_{{paramName}});
-        localVarBodyParameters = cJSON_Print(localVarItemJSON_{{paramName}});
+        localVarBodyParameters = {{{cJSONPrint}}}(localVarItemJSON_{{paramName}});
     }
     {{/isArray}}
     {{^isArray}}
@@ -315,7 +329,7 @@ end:
     {
         //string
         localVarSingleItemJSON_{{paramName}} = {{dataType}}_convertToJSON({{paramName}});
-        localVarBodyParameters = cJSON_Print(localVarSingleItemJSON_{{paramName}});
+        localVarBodyParameters = {{{cJSONPrint}}}(localVarSingleItemJSON_{{paramName}});
     }
     {{/isArray}}
     {{/bodyParam}}
@@ -354,7 +368,7 @@ end:
     cJSON *{{{paramName}}}VarJSON;
     list_t *elementToReturn = list_createList();
     cJSON_ArrayForEach({{{paramName}}}VarJSON, {{paramName}}localVarJSON){
-        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), cJSON_Print({{{paramName}}}VarJSON));
+        keyValuePair_t *keyPair = keyValuePair_create(strdup({{{paramName}}}VarJSON->string), {{{cJSONPrint}}}({{{paramName}}}VarJSON));
         list_addElement(elementToReturn, keyPair);
     }
     cJSON_Delete({{paramName}}localVarJSON);
@@ -375,7 +389,7 @@ end:
         {
            // return 0;
         }
-        char *localVarJSONToChar = cJSON_Print({{{paramName}}}VarJSON);
+        char *localVarJSONToChar = {{{cJSONPrint}}}({{{paramName}}}VarJSON);
         list_addElement(elementToReturn , localVarJSONToChar);
     }
 

@@ -80,7 +80,7 @@ class UserApiTest extends TestCase
     public function testCreateUser()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -92,7 +92,7 @@ class UserApiTest extends TestCase
     public function testCreateUsersWithArrayInput()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -104,7 +104,7 @@ class UserApiTest extends TestCase
     public function testCreateUsersWithListInput()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -116,7 +116,7 @@ class UserApiTest extends TestCase
     public function testDeleteUser()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -128,7 +128,7 @@ class UserApiTest extends TestCase
     public function testGetUserByName()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -140,7 +140,7 @@ class UserApiTest extends TestCase
     public function testLoginUser()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -152,7 +152,7 @@ class UserApiTest extends TestCase
     public function testLogoutUser()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -164,6 +164,6 @@ class UserApiTest extends TestCase
     public function testUpdateUser()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

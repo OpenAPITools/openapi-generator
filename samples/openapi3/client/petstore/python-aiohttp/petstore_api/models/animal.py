@@ -17,14 +17,16 @@ import pprint
 import re  # noqa: F401
 import json
 
-
+from importlib import import_module
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
-from pydantic import BaseModel, StrictStr
-from pydantic import Field
-try:
-    from typing import Self
-except ImportError:
-    from typing_extensions import Self
+from typing import Optional, Set
+from typing_extensions import Self
+
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from petstore_api.models.cat import Cat
+    from petstore_api.models.dog import Dog
 
 class Animal(BaseModel):
     """
@@ -34,15 +36,15 @@ class Animal(BaseModel):
     color: Optional[StrictStr] = 'red'
     __properties: ClassVar[List[str]] = ["className", "color"]
 
-    model_config = {
-        "populate_by_name": True,
-        "validate_assignment": True,
-        "protected_namespaces": (),
-    }
+    model_config = ConfigDict(
+        populate_by_name=True,
+        validate_assignment=True,
+        protected_namespaces=(),
+    )
 
 
     # JSON field name that stores the object type
-    __discriminator_property_name: ClassVar[List[str]] = 'className'
+    __discriminator_property_name: ClassVar[str] = 'className'
 
     # discriminator mappings
     __discriminator_value_class_map: ClassVar[Dict[str, str]] = {
@@ -50,7 +52,7 @@ class Animal(BaseModel):
     }
 
     @classmethod
-    def get_discriminator_value(cls, obj: Dict) -> str:
+    def get_discriminator_value(cls, obj: Dict[str, Any]) -> Optional[str]:
         """Returns the discriminator value (object type) of the data"""
         discriminator_value = obj[cls.__discriminator_property_name]
         if discriminator_value:
@@ -68,7 +70,7 @@ class Animal(BaseModel):
         return json.dumps(self.to_dict())
 
     @classmethod
-    def from_json(cls, json_str: str) -> Union[Self, Self]:
+    def from_json(cls, json_str: str) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
@@ -82,29 +84,28 @@ class Animal(BaseModel):
           were set at model initialization. Other fields with value `None`
           are ignored.
         """
+        excluded_fields: Set[str] = set([
+        ])
+
         _dict = self.model_dump(
             by_alias=True,
-            exclude={
-            },
+            exclude=excluded_fields,
             exclude_none=True,
         )
         return _dict
 
     @classmethod
-    def from_dict(cls, obj: Dict) -> Union[Self, Self]:
+    def from_dict(cls, obj: Dict[str, Any]) -> Optional[Union[Cat, Dog]]:
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if object_type ==  'Cat':
+            return import_module("petstore_api.models.cat").Cat.from_dict(obj)
+        if object_type ==  'Dog':
+            return import_module("petstore_api.models.dog").Dog.from_dict(obj)
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-# TODO: Rewrite to not use raise_errors
-Animal.model_rebuild(raise_errors=False)
+        raise ValueError("Animal failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+
 

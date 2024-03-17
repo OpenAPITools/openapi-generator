@@ -30,6 +30,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.model.WebhooksMap;
 
 import java.io.File;
 import java.util.List;
@@ -157,6 +158,8 @@ public interface CodegenConfig {
 
     Map<String, String> enumNameMapping();
 
+    Map<String, String> operationIdNameMapping();
+
     Map<String, String> openapiNormalizer();
 
     Map<String, String> apiTemplateFiles();
@@ -217,9 +220,13 @@ public interface CodegenConfig {
 
     OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels);
 
+    WebhooksMap postProcessWebhooksWithModels(WebhooksMap objs, List<ModelMap> allModels);
+
     Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
+
+    void postProcessResponseWithProperty(CodegenResponse response, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
 

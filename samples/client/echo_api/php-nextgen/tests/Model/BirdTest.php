@@ -77,7 +77,7 @@ class BirdTest extends TestCase
     public function testBird()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -86,7 +86,7 @@ class BirdTest extends TestCase
     public function testPropertySize()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -95,6 +95,6 @@ class BirdTest extends TestCase
     public function testPropertyColor()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

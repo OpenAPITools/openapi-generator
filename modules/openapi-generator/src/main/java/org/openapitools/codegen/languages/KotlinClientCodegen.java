@@ -60,12 +60,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     protected static final String JVM_KTOR = "jvm-ktor";
     protected static final String JVM_OKHTTP = "jvm-okhttp";
     protected static final String JVM_OKHTTP4 = "jvm-okhttp4";
-    protected static final String JVM_OKHTTP3 = "jvm-okhttp3";
     protected static final String JVM_RETROFIT2 = "jvm-retrofit2";
     protected static final String MULTIPLATFORM = "multiplatform";
     protected static final String JVM_VOLLEY = "jvm-volley";
     protected static final String JVM_VERTX = "jvm-vertx";
+    protected static final String JVM_SPRING = "jvm-spring";
     protected static final String JVM_SPRING_WEBCLIENT = "jvm-spring-webclient";
+    protected static final String JVM_SPRING_RESTCLIENT = "jvm-spring-restclient";
 
     public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
@@ -191,6 +192,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             modelTemplateFiles.put("model_room.mustache", ".kt");
         }
         apiTemplateFiles.put("api.mustache", ".kt");
+        apiTestTemplateFiles.put("api_test.mustache", ".kt");
+        modelTestTemplateFiles.put("model_test.mustache", ".kt");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
         embeddedTemplateDir = templateDir = "kotlin-client";
@@ -219,8 +222,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         supportedLibraries.put(JVM_KTOR, "Platform: Java Virtual Machine. HTTP client: Ktor 1.6.7. JSON processing: Gson, Jackson (default).");
         supportedLibraries.put(JVM_OKHTTP4, "[DEFAULT] Platform: Java Virtual Machine. HTTP client: OkHttp 4.2.0 (Android 5.0+ and Java 8+). JSON processing: Moshi 1.8.0.");
-        supportedLibraries.put(JVM_OKHTTP3, "Platform: Java Virtual Machine. HTTP client: OkHttp 3.12.4 (Android 2.3+ and Java 7+). JSON processing: Moshi 1.8.0. (DEPRECATED: this option will be remove in 7.x release)");
         supportedLibraries.put(JVM_SPRING_WEBCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 5 (or 6 with useSpringBoot3 enabled) WebClient. JSON processing: Jackson.");
+        supportedLibraries.put(JVM_SPRING_RESTCLIENT, "Platform: Java Virtual Machine. HTTP: Spring 6 RestClient. JSON processing: Jackson.");
         supportedLibraries.put(JVM_RETROFIT2, "Platform: Java Virtual Machine. HTTP client: Retrofit 2.6.2.");
         supportedLibraries.put(MULTIPLATFORM, "Platform: Kotlin multiplatform. HTTP client: Ktor 1.6.7. JSON processing: Kotlinx Serialization: 1.2.1.");
         supportedLibraries.put(JVM_VOLLEY, "Platform: JVM for Android. HTTP client: Volley 1.2.1. JSON processing: gson 2.8.9");
@@ -446,7 +449,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             case JVM_KTOR:
                 processJVMKtorLibrary(infrastructureFolder);
                 break;
-            case JVM_OKHTTP3:
             case JVM_OKHTTP4:
                 processJVMOkHttpLibrary(infrastructureFolder);
                 break;
@@ -457,7 +459,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 processJVMRetrofit2Library(infrastructureFolder);
                 break;
             case JVM_SPRING_WEBCLIENT:
-                processJVMSpringWebClientLibrary(infrastructureFolder);
+                processJvmSpringWebClientLibrary(infrastructureFolder);
+                break;
+            case JVM_SPRING_RESTCLIENT:
+                processJvmSpringRestClientLibrary(infrastructureFolder);
                 break;
             case MULTIPLATFORM:
                 processMultiplatformLibrary(infrastructureFolder);
@@ -733,8 +738,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         if (JVM_OKHTTP4.equals(getLibrary())) {
             additionalProperties.put(JVM_OKHTTP4, true);
-        } else if (JVM_OKHTTP3.equals(getLibrary())) {
-            additionalProperties.put(JVM_OKHTTP3, true);
         }
 
         supportedLibraries.put(JVM_OKHTTP, "A workaround to use the same template folder for both 'jvm-okhttp3' and 'jvm-okhttp4'.");
@@ -746,7 +749,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/ApiResponse.kt.mustache", infrastructureFolder, "ApiResponse.kt"));
     }
 
-    private void processJVMSpringWebClientLibrary(final String infrastructureFolder) {
+    private void proccessJvmSpring(final String infrastructureFolder) {
         if (getSerializationLibrary() != SERIALIZATION_LIBRARY_TYPE.jackson) {
             throw new RuntimeException("This library currently only supports jackson serialization. Try adding '--additional-properties serializationLibrary=jackson' to your command.");
         }
@@ -754,8 +757,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         commonJvmMultiplatformSupportingFiles(infrastructureFolder);
         addSupportingSerializerAdapters(infrastructureFolder);
 
+        additionalProperties.put(JVM_SPRING, true);
         additionalProperties.put(JVM, true);
+    }
+
+    private void processJvmSpringWebClientLibrary(final String infrastructureFolder) {
+        proccessJvmSpring(infrastructureFolder);
         additionalProperties.put(JVM_SPRING_WEBCLIENT, true);
+    }
+
+    private void processJvmSpringRestClientLibrary(final String infrastructureFolder) {
+        if (additionalProperties.getOrDefault(USE_SPRING_BOOT3, false).equals(false)) {
+            throw new RuntimeException("This library must use Spring Boot 3. Try adding '--additional-properties useSpringBoot3=true' to your command.");
+        }
+
+        proccessJvmSpring(infrastructureFolder);
+        additionalProperties.put(JVM_SPRING_RESTCLIENT, true);
     }
 
     private void processMultiplatformLibrary(final String infrastructureFolder) {
@@ -895,7 +912,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     operation.path = operation.path.substring(1);
                 }
 
-                if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP3.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
+                if (JVM_OKHTTP.equals(getLibrary()) || JVM_OKHTTP4.equals(getLibrary())) {
                     // Ideally we would do content negotiation to choose the best mediatype, but that would be a next step.
                     // For now we take the first mediatype we can parse and send that.
                     Predicate<Map<String, String>> isSerializable = typeMapping -> {

@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.io.Serializable;
 import javax.validation.constraints.*;
@@ -19,37 +20,37 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("XmlItem")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class XmlItem  implements Serializable {
   private @Valid String attributeString;
   private @Valid BigDecimal attributeNumber;
   private @Valid Integer attributeInteger;
   private @Valid Boolean attributeBoolean;
-  private @Valid List<Integer> wrappedArray = null;
+  private @Valid List<Integer> wrappedArray = new ArrayList<>();
   private @Valid String nameString;
   private @Valid BigDecimal nameNumber;
   private @Valid Integer nameInteger;
   private @Valid Boolean nameBoolean;
-  private @Valid List<Integer> nameArray = null;
-  private @Valid List<Integer> nameWrappedArray = null;
+  private @Valid List<Integer> nameArray = new ArrayList<>();
+  private @Valid List<Integer> nameWrappedArray = new ArrayList<>();
   private @Valid String prefixString;
   private @Valid BigDecimal prefixNumber;
   private @Valid Integer prefixInteger;
   private @Valid Boolean prefixBoolean;
-  private @Valid List<Integer> prefixArray = null;
-  private @Valid List<Integer> prefixWrappedArray = null;
+  private @Valid List<Integer> prefixArray = new ArrayList<>();
+  private @Valid List<Integer> prefixWrappedArray = new ArrayList<>();
   private @Valid String namespaceString;
   private @Valid BigDecimal namespaceNumber;
   private @Valid Integer namespaceInteger;
   private @Valid Boolean namespaceBoolean;
-  private @Valid List<Integer> namespaceArray = null;
-  private @Valid List<Integer> namespaceWrappedArray = null;
+  private @Valid List<Integer> namespaceArray = new ArrayList<>();
+  private @Valid List<Integer> namespaceWrappedArray = new ArrayList<>();
   private @Valid String prefixNsString;
   private @Valid BigDecimal prefixNsNumber;
   private @Valid Integer prefixNsInteger;
   private @Valid Boolean prefixNsBoolean;
-  private @Valid List<Integer> prefixNsArray = null;
-  private @Valid List<Integer> prefixNsWrappedArray = null;
+  private @Valid List<Integer> prefixNsArray = new ArrayList<>();
+  private @Valid List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
   /**
    **/

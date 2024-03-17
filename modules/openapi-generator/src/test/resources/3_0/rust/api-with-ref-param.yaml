@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: Demo
+  version: 0.0.0
+paths:
+  /demo/{color}:
+    get:
+      parameters:
+        - name: color
+          required: true
+          in: path
+          schema:
+            $ref: "#/components/schemas/Color"
+      responses:
+        200:
+          description: OK
+components:
+  schemas:
+    Color:
+      type: string
+      enum:
+        - RED
+        - GREEN
+        - BLUE

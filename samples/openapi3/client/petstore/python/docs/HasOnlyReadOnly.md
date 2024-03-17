@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of HasOnlyReadOnly from a JSON string
 has_only_read_only_instance = HasOnlyReadOnly.from_json(json)
 # print the JSON string representation of the object
-print HasOnlyReadOnly.to_json()
+print(HasOnlyReadOnly.to_json())
 
 # convert the object into a dict
 has_only_read_only_dict = has_only_read_only_instance.to_dict()

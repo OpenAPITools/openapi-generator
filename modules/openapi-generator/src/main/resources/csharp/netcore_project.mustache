@@ -43,6 +43,9 @@
       {{#net80OrLater}}
     <PackageReference Include="Microsoft.Net.Http.Headers" Version="8.0.0" />
       {{/net80OrLater}}
+      {{#netStandard}}
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
+      {{/netStandard}}
       {{/useGenericHost}}
       {{^useGenericHost}}
       {{#supportsRetry}}

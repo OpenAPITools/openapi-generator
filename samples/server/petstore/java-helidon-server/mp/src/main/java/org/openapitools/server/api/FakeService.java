@@ -39,7 +39,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/fake")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public interface FakeService {
 
     @GET
@@ -86,6 +86,11 @@ public interface FakeService {
     @Consumes({ "application/json" })
     @Produces({ "*/*" })
     OuterObjectWithEnumProperty fakePropertyEnumIntegerSerialize(@Valid @NotNull OuterObjectWithEnumProperty outerObjectWithEnumProperty);
+
+    @POST
+    @Path("/additionalProperties-reference")
+    @Consumes({ "application/json" })
+    void testAdditionalPropertiesReference(@Valid @NotNull Map<String, Object> requestBody);
 
     @PUT
     @Path("/body-with-binary")
@@ -141,4 +146,9 @@ public interface FakeService {
     @PUT
     @Path("/test-query-parameters")
     void testQueryParameterCollectionFormat(@QueryParam("pipe") @NotNull List<String> pipe, @QueryParam("ioutil") @NotNull List<String> ioutil, @QueryParam("http") @NotNull List<String> http, @QueryParam("url") @NotNull List<String> url, @QueryParam("context") @NotNull List<String> context, @QueryParam("allowEmpty") @NotNull String allowEmpty, @QueryParam("language") Map<String, String> language);
+
+    @POST
+    @Path("/stringMap-reference")
+    @Consumes({ "application/json" })
+    void testStringMapReference(@Valid @NotNull Map<String, String> requestBody);
 }

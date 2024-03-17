@@ -9,12 +9,11 @@
  */
 
 using System;
-using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Threading.Channels;
 
-namespace Org.OpenAPITools.Client 
+namespace Org.OpenAPITools.Client
 {
     /// <summary>
     /// Provides a token to the api clients. Tokens will be rate limited based on the provided TimeSpan.
@@ -22,8 +21,7 @@ namespace Org.OpenAPITools.Client
     /// <typeparam name="TTokenBase"></typeparam>
     public class RateLimitProvider<TTokenBase> : TokenProvider<TTokenBase> where TTokenBase : TokenBase
     {
-        internal ConcurrentDictionary<TTokenBase, TTokenBase> AvailableTokens = new ConcurrentDictionary<TTokenBase, TTokenBase>();
-        private SemaphoreSlim _semaphore;
+        internal Dictionary<string, Channel<TTokenBase>> AvailableTokens { get; } = new Dictionary<string, Channel<TTokenBase>>();
 
         /// <summary>
         /// Instantiates a ThrottledTokenProvider. Your tokens will be rate limited based on the token's timeout.
@@ -31,48 +29,44 @@ namespace Org.OpenAPITools.Client
         /// <param name="container"></param>
         public RateLimitProvider(TokenContainer<TTokenBase> container) : base(container.Tokens)
         {
-            _semaphore = new SemaphoreSlim(1, 1);
-
             foreach(TTokenBase token in _tokens)
                 token.StartTimer(token.Timeout ?? TimeSpan.FromMilliseconds(40));
 
-            for (int i = 0; i < _tokens.Length; i++)
+            if (container is TokenContainer<ApiKeyToken> apiKeyTokenContainer)
             {
-                _tokens[i].TokenBecameAvailable += ((sender) =>
-                {
-                    TTokenBase token = (TTokenBase)sender;
+                string[] headers = apiKeyTokenContainer.Tokens.Select(t => ClientUtils.ApiKeyHeaderToString(t.Header)).Distinct().ToArray();
 
-                    AvailableTokens.TryAdd(token, token);
-                });
+                foreach (string header in headers)
+                {
+                    BoundedChannelOptions options = new BoundedChannelOptions(apiKeyTokenContainer.Tokens.Count(t => ClientUtils.ApiKeyHeaderToString(t.Header).Equals(header)))
+                    {
+                        FullMode = BoundedChannelFullMode.DropWrite
+                    };
+
+                    AvailableTokens.Add(header, Channel.CreateBounded<TTokenBase>(options));
+                }
             }
+            else
+            {
+                BoundedChannelOptions options = new BoundedChannelOptions(_tokens.Length)
+                {
+                    FullMode = BoundedChannelFullMode.DropWrite
+                };
+
+                AvailableTokens.Add(string.Empty, Channel.CreateBounded<TTokenBase>(options));
+            }
+
+            foreach(Channel<TTokenBase> tokens in AvailableTokens.Values)
+                for (int i = 0; i < _tokens.Length; i++)
+                    _tokens[i].TokenBecameAvailable += ((sender) => tokens.Writer.TryWrite((TTokenBase) sender));
         }
 
-        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(System.Threading.CancellationToken cancellation = default)
+        internal override async System.Threading.Tasks.ValueTask<TTokenBase> GetAsync(string header = "", System.Threading.CancellationToken cancellation = default)
         {
-            await _semaphore.WaitAsync().ConfigureAwait(false);
+            if (!AvailableTokens.TryGetValue(header, out Channel<TTokenBase> tokens))
+                throw new KeyNotFoundException($"Could not locate a token for header '{header}'.");
 
-            try
-            {
-                TTokenBase result = null;
-                
-                while (result == null)
-                {
-                    TTokenBase tokenToRemove = AvailableTokens.FirstOrDefault().Value;
-
-                    if (tokenToRemove != null && AvailableTokens.TryRemove(tokenToRemove, out result))
-                        return result;
-
-                    await Task.Delay(40).ConfigureAwait(false);
-
-                    tokenToRemove = AvailableTokens.FirstOrDefault().Value;
-                }
-
-                return result;
-            }
-            finally
-            {
-                _semaphore.Release();
-            }
+            return await tokens.Reader.ReadAsync(cancellation).ConfigureAwait(false);
         }
     }
 }

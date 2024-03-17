@@ -26,7 +26,7 @@ import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
 
 @Path("/user")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaHelidonServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class UserServiceImpl implements UserService {
 
     @POST
@@ -37,13 +37,13 @@ public class UserServiceImpl implements UserService {
     @POST
     @Path("/createWithArray")
     @Consumes({ "application/json" })
-    public void createUsersWithArrayInput(@Valid @NotNull List<User> user) {
+    public void createUsersWithArrayInput(@Valid @NotNull List<@Valid User> user) {
     }
 
     @POST
     @Path("/createWithList")
     @Consumes({ "application/json" })
-    public void createUsersWithListInput(@Valid @NotNull List<User> user) {
+    public void createUsersWithListInput(@Valid @NotNull List<@Valid User> user) {
     }
 
     @DELETE

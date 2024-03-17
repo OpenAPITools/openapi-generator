@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "{{classname}}.h"
+#include "{{classFilename}}.h"
 
 
 {{#isEnum}}
@@ -77,12 +77,12 @@ end:
     {{^isContainer}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+char* {{classname}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
     char* {{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}}];
+    return {{name}}Array[{{name}}];
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}){
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_{{name}}_FromString(char* {{name}}){
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -101,12 +101,12 @@ char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName
     {{#items}}
     {{^isModel}}
     {{#isEnum}}
-char* {{name}}{{classname}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
-	char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
-	return {{name}}Array[{{name}} - 1];
+char* {{classname}}_{{name}}_ToString({{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}) {
+    char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
+    return {{name}}Array[{{name}} - 1];
 }
 
-{{projectName}}_{{classVarName}}_{{enumName}}_e {{name}}{{classname}}_FromString(char* {{name}}) {
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}_{{name}}_FromString(char* {{name}}) {
     int stringToReturn = 0;
     char *{{name}}Array[] =  { "NULL"{{#allowableValues}}{{#values}}, "{{.}}"{{/values}}{{/allowableValues}} };
     size_t sizeofArray = sizeof({{name}}Array) / sizeof({{name}}Array[0]);
@@ -629,7 +629,7 @@ fail:
     {
     goto end; //Enum
     }
-    {{name}}Variable = {{name}}{{classname}}_FromString({{{name}}}->valuestring);
+    {{name}}Variable = {{classname}}_{{name}}_FromString({{{name}}}->valuestring);
     {{/isString}}
     {{/isEnum}}
     {{^isEnum}}
@@ -821,7 +821,7 @@ fail:
             }
             localMapKeyPair = keyValuePair_create(strdup(localMapObject->string),&localMapObject->valuedouble );
             {{/isNumeric}}
-		    {{/items}}
+            {{/items}}
             list_addElement({{{name}}}List , localMapKeyPair);
         }
     }
@@ -845,7 +845,7 @@ fail:
         {{^isPrimitiveType}}
         {{#isModel}}
         {{#isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : {{projectName}}_{{classVarName}}_{{enumName}}_NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{^isEnum}}
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
@@ -875,7 +875,7 @@ fail:
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : {{projectName}}_{{classVarName}}_{{enumName}}_NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}

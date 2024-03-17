@@ -713,6 +713,29 @@ petStatusL f Pet{..} = (\petStatus -> Pet { petStatus, ..} ) <$> f petStatus
 
 
 
+-- * PetFilter
+
+-- | 'petFilterTags' Lens
+petFilterTagsL :: Lens_' PetFilter (Maybe [Text])
+petFilterTagsL f PetFilter{..} = (\petFilterTags -> PetFilter { petFilterTags, ..} ) <$> f petFilterTags
+{-# INLINE petFilterTagsL #-}
+
+-- | 'petFilterStatus' Lens
+petFilterStatusL :: Lens_' PetFilter (Maybe [Text])
+petFilterStatusL f PetFilter{..} = (\petFilterStatus -> PetFilter { petFilterStatus, ..} ) <$> f petFilterStatus
+{-# INLINE petFilterStatusL #-}
+
+
+
+-- * PetOrder
+
+-- | 'petOrderName' Lens
+petOrderNameL :: Lens_' PetOrder (Maybe E'Name)
+petOrderNameL f PetOrder{..} = (\petOrderName -> PetOrder { petOrderName, ..} ) <$> f petOrderName
+{-# INLINE petOrderNameL #-}
+
+
+
 -- * ReadOnlyFirst
 
 -- | 'readOnlyFirstBar' Lens
@@ -724,15 +747,6 @@ readOnlyFirstBarL f ReadOnlyFirst{..} = (\readOnlyFirstBar -> ReadOnlyFirst { re
 readOnlyFirstBazL :: Lens_' ReadOnlyFirst (Maybe Text)
 readOnlyFirstBazL f ReadOnlyFirst{..} = (\readOnlyFirstBaz -> ReadOnlyFirst { readOnlyFirstBaz, ..} ) <$> f readOnlyFirstBaz
 {-# INLINE readOnlyFirstBazL #-}
-
-
-
--- * SpecialModelName
-
--- | 'specialModelNameSpecialPropertyName' Lens
-specialModelNameSpecialPropertyNameL :: Lens_' SpecialModelName (Maybe Integer)
-specialModelNameSpecialPropertyNameL f SpecialModelName{..} = (\specialModelNameSpecialPropertyName -> SpecialModelName { specialModelNameSpecialPropertyName, ..} ) <$> f specialModelNameSpecialPropertyName
-{-# INLINE specialModelNameSpecialPropertyNameL #-}
 
 
 

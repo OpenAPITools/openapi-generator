@@ -76,7 +76,7 @@ class FileSchemaTestClassTest extends TestCase
     public function testFileSchemaTestClass()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,7 +85,7 @@ class FileSchemaTestClassTest extends TestCase
     public function testPropertyFile()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -94,6 +94,6 @@ class FileSchemaTestClassTest extends TestCase
     public function testPropertyFiles()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

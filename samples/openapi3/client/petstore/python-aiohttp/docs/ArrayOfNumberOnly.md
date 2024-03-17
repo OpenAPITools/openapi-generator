@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of ArrayOfNumberOnly from a JSON string
 array_of_number_only_instance = ArrayOfNumberOnly.from_json(json)
 # print the JSON string representation of the object
-print ArrayOfNumberOnly.to_json()
+print(ArrayOfNumberOnly.to_json())
 
 # convert the object into a dict
 array_of_number_only_dict = array_of_number_only_instance.to_dict()

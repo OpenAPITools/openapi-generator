@@ -2,6 +2,7 @@
 
 OpenAPI Petstore
 - API version: 1.0.0
+  - Generator version: 7.5.0-SNAPSHOT
 
 This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
 
@@ -92,10 +93,10 @@ public class Example {
 
     FakeApi apiInstance = new FakeApi(defaultClient);
     try {
-      String result = apiInstance.responseNoRef();
+      Object result = apiInstance.op1();
       System.out.println(result);
     } catch (ApiException e) {
-      System.err.println("Exception when calling FakeApi#responseNoRef");
+      System.err.println("Exception when calling FakeApi#op1");
       System.err.println("Status code: " + e.getCode());
       System.err.println("Reason: " + e.getResponseBody());
       System.err.println("Response headers: " + e.getResponseHeaders());
@@ -112,6 +113,9 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*FakeApi* | [**op1**](docs/FakeApi.md#op1) | **POST** /fake/api/changeowner | op1
+*FakeApi* | [**op2**](docs/FakeApi.md#op2) | **POST** /fake/api/changename | op2
+*FakeApi* | [**refToRefParameter**](docs/FakeApi.md#refToRefParameter) | **GET** /ref/ref_to_parameter | 
 *FakeApi* | [**responseNoRef**](docs/FakeApi.md#responseNoRef) | **GET** /no_ref | 
 *FakeApi* | [**responseRefToNoRef**](docs/FakeApi.md#responseRefToNoRef) | **GET** /ref/no_ref | 
 *FakeApi* | [**responseRefToRef**](docs/FakeApi.md#responseRefToRef) | **GET** /ref/ref | 
@@ -140,6 +144,8 @@ Class | Method | HTTP request | Description
 ## Documentation for Models
 
  - [Animal](docs/Animal.md)
+ - [AnyOfArray](docs/AnyOfArray.md)
+ - [AnyTypeTest](docs/AnyTypeTest.md)
  - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [Dog](docs/Dog.md)

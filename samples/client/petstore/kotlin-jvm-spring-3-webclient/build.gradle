@@ -8,7 +8,7 @@ wrapper {
 
 buildscript {
     ext.kotlin_version = '1.8.10'
-    ext.spring_boot_version = "3.1.0"
+    ext.spring_boot_version = "3.2.0"
     ext.reactor_version = "3.5.6"
     ext.spotless_version = "6.13.0"
 

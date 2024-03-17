@@ -21,13 +21,22 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
+import com.samskivert.mustache.Mustache;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.parameters.Parameter;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.tags.Tag;
 import java.io.File;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.CliOption;
@@ -59,27 +68,14 @@ import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.templating.mustache.SplitStringLambda;
 import org.openapitools.codegen.templating.mustache.SpringHttpStatusLambda;
 import org.openapitools.codegen.templating.mustache.TrimWhitespaceLambda;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.samskivert.mustache.Mustache;
-
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.tags.Tag;
-
 public class SpringCodegen extends AbstractJavaCodegen
         implements BeanValidationFeatures, PerformBeanValidationFeatures, OptionalFeatures, SwaggerUIFeatures {
     private final Logger LOGGER = LoggerFactory.getLogger(SpringCodegen.class);
-
-
     public static final String TITLE = "title";
     public static final String SERVER_PORT = "serverPort";
     public static final String CONFIG_PACKAGE = "configPackage";
@@ -599,16 +595,16 @@ public class SpringCodegen extends AbstractJavaCodegen
                       (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                       "ApiKeyRequestInterceptor.java"));
 
-                supportingFiles.add(new SupportingFile("oauth2ClientProperties.mustache",
-                      resourceFolder, "oauth2-client.properties"));
-
-                supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
-                      (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
-                      "ClientPropertiesConfiguration.java"));
+                if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                    supportingFiles.add(new SupportingFile("clientPropertiesConfiguration.mustache",
+                            (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
+                            "ClientPropertiesConfiguration.java"));
+                }
 
                 supportingFiles.add(new SupportingFile("clientConfiguration.mustache",
                         (sourceFolder + File.separator + configPackage).replace(".", java.io.File.separator),
                         "ClientConfiguration.java"));
+
                 apiTemplateFiles.put("apiClient.mustache", "Client.java");
                 if (!additionalProperties.containsKey(SINGLE_CONTENT_TYPES)) {
                     additionalProperties.put(SINGLE_CONTENT_TYPES, "true");
@@ -673,7 +669,12 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
         }
         if (reactive) {
-            additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+            // The response wrapper when Reactive is enabled must depend on the return type:
+            // Flux<X> when X is an array
+            // Mono<X> otherwise
+            // But there are corner cases when also using response entity.
+            // When reactive is enabled, all this is managed in the mustache templates.
+            additionalProperties.put(RESPONSE_WRAPPER, "");
         }
 
         // Some well-known Spring or Spring-Cloud response wrappers
@@ -1425,67 +1426,11 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.requestMappingMode = requestMappingMode;
     }
 
-    @Override
-    public CodegenParameter fromParameter( final Parameter parameter, final Set<String> imports ) {
-        CodegenParameter codegenParameter = super.fromParameter( parameter, imports );
-        if(!isListOrSet(codegenParameter)){
-            return codegenParameter;
-        }
-        codegenParameter.datatypeWithEnum = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.datatypeWithEnum  );
-        codegenParameter.dataType = replaceBeanValidationCollectionType(codegenParameter.items, codegenParameter.dataType  );
-        return codegenParameter;
-    }
-    @Override
-    public CodegenProperty fromProperty( String name, Schema p, boolean required, boolean schemaIsFromAdditionalProperties ) {
-        CodegenProperty codegenProperty = super.fromProperty( name, p, required, schemaIsFromAdditionalProperties );
-        if(!isListOrSet(codegenProperty)){
-            return codegenProperty;
-        }
-        codegenProperty.datatypeWithEnum = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.datatypeWithEnum );
-        codegenProperty.dataType = replaceBeanValidationCollectionType(codegenProperty.items, codegenProperty.dataType  );
-        return codegenProperty;
-    }
-
-    // The default validation applied for non-container and non-map types is sufficient for the SpringCodegen.
-    // Maps are very complex for bean validation, so it's currently not supported.
-    private static boolean isListOrSet(CodegenProperty codegenProperty) {
-        return codegenProperty.isContainer && !codegenProperty.isMap;
-    }
-
-    // The default validation applied for non-container and non-map types is sufficient for the SpringCodegen.
-    // Maps are very complex for bean validation, so it's currently not supported.
-    private static boolean isListOrSet(CodegenParameter codegenParameter) {
-        return codegenParameter.isContainer && !codegenParameter.isMap;
-    }
-
-    private String replaceBeanValidationCollectionType(CodegenProperty codegenProperty, String dataType) {
-        if (!useBeanValidation() || !codegenProperty.isModel || isResponseType(codegenProperty)) {
-            return dataType;
-        }
-
-        if (StringUtils.isEmpty( dataType ) || dataType.contains( "@Valid" )) {
-            return dataType;
-        }
-        return dataType.replace( "<", "<@Valid " );
-    }
-
     public void setResourceFolder( String resourceFolder ) {
         this.resourceFolder = resourceFolder;
     }
 
     public String getResourceFolder() {
         return resourceFolder;
-    }
-
-
-    // This should prevent, that the response data types not contains a @Valid annotation.
-    // However, the side effect is that attributes with response as name are also affected.
-    private static boolean isResponseType(CodegenProperty codegenProperty) {
-        return codegenProperty.baseName.toLowerCase(Locale.ROOT).contains("response");
-    }
-
-    // SPRING_HTTP_INTERFACE does not support bean validation.
-    public boolean useBeanValidation() {
-        return useBeanValidation && !SPRING_HTTP_INTERFACE.equals(library);
     }
 }

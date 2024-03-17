@@ -517,12 +517,12 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.Serialize(status)); // form parameter
             if (marker != null)
             {
-                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
+                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
-                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.ParameterToString(statusArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartMixed";
@@ -607,15 +607,15 @@ namespace Org.OpenAPITools.Api
                 localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             }
 
-            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.ParameterToString(status)); // form parameter
+            localVarRequestOptions.FormParameters.Add("status", Org.OpenAPITools.Client.ClientUtils.Serialize(status)); // form parameter
             if (marker != null)
             {
-                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.ParameterToString(marker)); // form parameter
+                localVarRequestOptions.FormParameters.Add("marker", Org.OpenAPITools.Client.ClientUtils.Serialize(marker)); // form parameter
             }
             localVarRequestOptions.FileParameters.Add("file", file);
             if (statusArray != null)
             {
-                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.ParameterToString(statusArray)); // form parameter
+                localVarRequestOptions.FormParameters.Add("statusArray", Org.OpenAPITools.Client.ClientUtils.Serialize(statusArray)); // form parameter
             }
 
             localVarRequestOptions.Operation = "MultipartApi.MultipartMixed";

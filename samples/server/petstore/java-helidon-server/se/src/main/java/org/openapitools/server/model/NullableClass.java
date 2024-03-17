@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.openapitools.jackson.nullable.JsonNullable;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 
 
@@ -22,7 +24,7 @@ public class NullableClass extends HashMap<String, Object>  {
     private OffsetDateTime datetimeProp;
     private List<Object> arrayNullableProp;
     private List<Object> arrayAndItemsNullableProp;
-    private List<Object> arrayItemsNullable;
+    private List<Object> arrayItemsNullable = new ArrayList<>();
     private Map<String, Object> objectNullableProp;
     private Map<String, Object> objectAndItemsNullableProp;
     private Map<String, Object> objectItemsNullable = new HashMap<>();

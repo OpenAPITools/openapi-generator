@@ -68,7 +68,7 @@ kotlin {
             }
         }
 
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 api("io.ktor:ktor-client-js:$ktor_version")
             }

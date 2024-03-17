@@ -25,7 +25,7 @@ json = "{}"
 # create an instance of EnumTest from a JSON string
 enum_test_instance = EnumTest.from_json(json)
 # print the JSON string representation of the object
-print EnumTest.to_json()
+print(EnumTest.to_json())
 
 # convert the object into a dict
 enum_test_dict = enum_test_instance.to_dict()

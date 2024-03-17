@@ -1,0 +1,33 @@
+name: Python FastAPI Server
+
+on:
+  push:
+    paths:
+      - samples/server/petstore/python-fastapi/**
+  pull_request:
+    paths:
+      - samples/server/petstore/python-fastapi/**
+jobs:
+  build:
+    name: Test Python FastAPI server
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sample:
+          # servers
+          - samples/server/petstore/python-fastapi/
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        working-directory: ${{ matrix.sample }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+      - name: Test
+        working-directory: ${{ matrix.sample }}
+        run: PYTHONPATH=src pytest

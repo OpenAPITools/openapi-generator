@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="objectNullableProp">objectNullableProp</param>
         /// <param name="stringProp">stringProp</param>
         [JsonConstructor]
-        public NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateTime?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default)
+        public NullableClass(Option<List<Object>?> arrayAndItemsNullableProp = default, Option<List<Object>?> arrayItemsNullable = default, Option<List<Object>?> arrayNullableProp = default, Option<bool?> booleanProp = default, Option<DateOnly?> dateProp = default, Option<DateTime?> datetimeProp = default, Option<int?> integerProp = default, Option<decimal?> numberProp = default, Option<Dictionary<string, Object>?> objectAndItemsNullableProp = default, Option<Dictionary<string, Object>?> objectItemsNullable = default, Option<Dictionary<string, Object>?> objectNullableProp = default, Option<string?> stringProp = default)
         {
             ArrayAndItemsNullablePropOption = arrayAndItemsNullableProp;
             ArrayItemsNullableOption = arrayItemsNullable;
@@ -123,13 +123,13 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<DateTime?> DatePropOption { get; private set; }
+        public Option<DateOnly?> DatePropOption { get; private set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
-        public DateTime? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new(value); } }
+        public DateOnly? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DatetimeProp
@@ -300,7 +300,7 @@ namespace Org.OpenAPITools.Model
             Option<List<Object>?> arrayItemsNullable = default;
             Option<List<Object>?> arrayNullableProp = default;
             Option<bool?> booleanProp = default;
-            Option<DateTime?> dateProp = default;
+            Option<DateOnly?> dateProp = default;
             Option<DateTime?> datetimeProp = default;
             Option<int?> integerProp = default;
             Option<decimal?> numberProp = default;
@@ -342,7 +342,7 @@ namespace Org.OpenAPITools.Model
                             break;
                         case "date_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)
-                                dateProp = new Option<DateTime?>(JsonSerializer.Deserialize<DateTime?>(ref utf8JsonReader, jsonSerializerOptions));
+                                dateProp = new Option<DateOnly?>(JsonSerializer.Deserialize<DateOnly?>(ref utf8JsonReader, jsonSerializerOptions));
                             break;
                         case "datetime_prop":
                             if (utf8JsonReader.TokenType != JsonTokenType.Null)

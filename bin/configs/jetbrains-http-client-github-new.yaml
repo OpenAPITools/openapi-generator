@@ -1,0 +1,6 @@
+generatorName: jetbrains-http-client
+outputDir: samples/client/github/jetbrains/http/client
+inputSpec: modules/openapi-generator/src/test/resources/3_0/jetbrains/github.json
+templateDir: modules/openapi-generator/src/main/resources/jetbrains-http-client
+additionalProperties:
+  hideGenerationTimestamp: "true"
