@@ -34,7 +34,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  *
  * Register:
  * <pre>
- * additionalProperties.put("camelcase", new CamelCaseLambda());
+ * additionalProperties.put("camelcase", new CamelCaseAndSanitizeLambda());
  * </pre>
  *
  * Use:
@@ -42,12 +42,12 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
  * {{#camelcase}}{{name}}{{/camelcase}}
  * </pre>
  */
-public class CamelCaseLambda implements Mustache.Lambda {
+public class CamelCaseAndSanitizeLambda implements Mustache.Lambda {
     private CodegenConfig generator = null;
     private Boolean escapeParam = false;
     private CamelizeOption option = LOWERCASE_FIRST_LETTER;
 
-    public CamelCaseLambda(boolean lowercaseFirstLetter) {
+    public CamelCaseAndSanitizeLambda(boolean lowercaseFirstLetter) {
         if (lowercaseFirstLetter) {
             option = LOWERCASE_FIRST_LETTER;
         } else {
@@ -55,14 +55,14 @@ public class CamelCaseLambda implements Mustache.Lambda {
         }
     }
 
-    public CamelCaseLambda() {}
+    public CamelCaseAndSanitizeLambda() {}
 
-    public CamelCaseLambda generator(final CodegenConfig generator) {
+    public CamelCaseAndSanitizeLambda generator(final CodegenConfig generator) {
         this.generator = generator;
         return this;
     }
 
-    public CamelCaseLambda escapeAsParamName(final Boolean escape) {
+    public CamelCaseAndSanitizeLambda escapeAsParamName(final Boolean escape) {
         this.escapeParam = escape;
         return this;
     }
