@@ -85,7 +85,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     protected String enumValueSuffix = "Enum";
 
     protected String sourceFolder = "src";
-    protected String invalidNamePrefix = "var";
+    protected static final String invalidParameterNamePrefix = "var";
+    protected static final String invalidPropertyNamePrefix = "Var";
     protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.PascalCase;
 
     // TODO: Add option for test folder output location. Nice to allow e.g. ./test instead of ./src.
@@ -441,7 +442,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         CopyLambda copyLambda = new CopyLambda();
 
         return super.addMustacheLambdas()
-                .put("camelcase_param", new CamelCaseLambda().generator(this).escapeAsParamName(true))
+                .put("camelcase_sanitize_param", new CamelCaseAndSanitizeLambda().generator(this).escapeAsParamName(true))
                 .put("required", new RequiredParameterLambda())
                 .put("optional", new OptionalParameterLambda().generator(this))
                 .put("joinWithComma", new JoinWithCommaLambda())
@@ -461,7 +462,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                 .put("pasteOnce", new PasteLambda(copyLambda, true, true, true, true))
                 .put("pasteLine", new PasteLambda(copyLambda, true, true, false, false))
                 .put("uniqueLines", new UniqueLambda("\n", false))
-                .put("unique", new UniqueLambda("\n", true));
+                .put("unique", new UniqueLambda("\n", true))
+                .put("camel_case", new CamelCaseLambda())
+                .put("escape_reserved_word", new EscapeKeywordLambda((val) -> this.escapeKeyword(val)));
     }
 
     @Override
@@ -664,18 +667,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     }
 
     private String patchPropertyName(CodegenModel model, String value) {
-        // the casing will be wrong if we just set the name to escapeReservedWord
-        // if we try to fix it with camelize, underscores get stripped out
-        // so test if the name was escaped and then replace var with Var
-        String tmpPropertyName = escapeReservedWord(model, value);
-        if (!value.equals(tmpPropertyName) || value.startsWith(this.invalidNamePrefix)) {
-            value = tmpPropertyName;
-            String firstCharacter = value.substring(0, 1);
-            value = value.substring(1);
-            value = firstCharacter.toUpperCase(Locale.ROOT) + value;
+        String name = escapeReservedWord(model, value);
+
+        if (name.startsWith(AbstractCSharpCodegen.invalidParameterNamePrefix)) {
+            name = AbstractCSharpCodegen.invalidPropertyNamePrefix + name.substring(AbstractCSharpCodegen.invalidParameterNamePrefix.length());
         }
 
-        return value;
+        return name;
     }
 
     private void patchPropertyVendorExtensions(CodegenProperty property) {
@@ -700,7 +698,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         patchPropertyVendorExtensions(property);
 
-        String tmpPropertyName = escapeReservedWord(model, property.name);
         property.name = patchPropertyName(model, property.name);
 
         String[] nestedTypes = { "List", "Collection", "ICollection", "Dictionary" };
@@ -1102,6 +1099,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
                     operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
+
+                    // Remove constant params from allParams list and add to constantParams
+                    handleConstantParams(operation);
                 }
             }
         }
@@ -1119,7 +1119,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * Returns the model related to the given parameter
      */
     private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
-        return parameter.isModel
+        return parameter.isModel || parameter.getIsEnumOrRef()
                 ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
                 : null;
     }
@@ -1305,21 +1305,22 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public String escapeReservedWord(CodegenModel model, String name) {
         name = this.escapeReservedWord(name);
 
-        return name.equalsIgnoreCase(model.getClassname())
-                ? this.invalidNamePrefix + camelize(name)
+        return name.equals(model.getClassname())
+                ? AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name)
                 : name;
     }
 
     @Override
     public String escapeReservedWord(String name) {
-        if (reservedWords().contains(name) ||
-                reservedWords().contains(name.toLowerCase(Locale.ROOT)) ||
-                reservedWords().contains(camelize(sanitizeName(name))) ||
-                isReservedWord(name) ||
+        if (isReservedWord(name) ||
                 name.matches("^\\d.*")) {
-            name = this.invalidNamePrefix + camelize(name);
+            name = AbstractCSharpCodegen.invalidParameterNamePrefix + camelize(name);
         }
         return name;
+    }
+
+    public String escapeKeyword(String value) {
+        return isReservedWord(value) ? "@" + value : value;
     }
 
     /**

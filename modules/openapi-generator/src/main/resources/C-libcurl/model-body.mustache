@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "{{classname}}.h"
+#include "{{classFilename}}.h"
 
 
 {{#isEnum}}
@@ -845,7 +845,7 @@ fail:
         {{^isPrimitiveType}}
         {{#isModel}}
         {{#isEnum}}
-        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim_enum{{^required}} : {{projectName}}_{{classVarName}}_{{enumName}}_NULL{{/required}}{{^-last}},{{/-last}}
         {{/isEnum}}
         {{^isEnum}}
         {{^required}}{{{name}}} ? {{/required}}{{{name}}}_local_nonprim{{^required}} : NULL{{/required}}{{^-last}},{{/-last}}
@@ -875,7 +875,7 @@ fail:
         {{/isBoolean}}
         {{#isEnum}}
         {{#isString}}
-        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : -1{{/required}}{{^-last}},{{/-last}}
+        {{^required}}{{{name}}} ? {{/required}}{{name}}Variable{{^required}} : {{projectName}}_{{classVarName}}_{{enumName}}_NULL{{/required}}{{^-last}},{{/-last}}
         {{/isString}}
         {{/isEnum}}
         {{^isEnum}}

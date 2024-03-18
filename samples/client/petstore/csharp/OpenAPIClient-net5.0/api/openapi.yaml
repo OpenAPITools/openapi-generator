@@ -1213,6 +1213,32 @@ paths:
       summary: Array of Enums
       tags:
       - fake
+  /fake/mixed/anyOf:
+    get:
+      operationId: getMixedAnyOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedAnyOf'
+          description: Got mixed anyOf
+      summary: Test mixed type anyOf deserialization
+      tags:
+      - fake
+  /fake/mixed/oneOf:
+    get:
+      operationId: getMixedOneOf
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MixedOneOf'
+          description: Got mixed oneOf
+      summary: Test mixed type oneOf deserialization
+      tags:
+      - fake
   /country:
     post:
       operationId: getCountry
@@ -2692,6 +2718,22 @@ components:
       - a_objVariableobject
       - pkiNotificationtestID
       type: object
+    MixedOneOf:
+      example:
+        content: MixedOneOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedOneOf_content'
+    MixedAnyOf:
+      example:
+        content: MixedAnyOf_content
+      properties:
+        content:
+          $ref: '#/components/schemas/MixedAnyOf_content'
+    MixedSubId:
+      properties:
+        id:
+          type: string
     _foo_get_default_response:
       example:
         string:
@@ -2856,6 +2898,26 @@ components:
         name:
           type: string
       type: object
+    MixedOneOf_content:
+      description: Mixed oneOf types for testing
+      oneOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+    MixedAnyOf_content:
+      anyOf:
+      - type: string
+      - type: boolean
+      - format: uint8
+        type: integer
+      - format: float32
+        type: number
+      - $ref: '#/components/schemas/MixedSubId'
+      description: Mixed anyOf types for testing
   securitySchemes:
     petstore_auth:
       flows:

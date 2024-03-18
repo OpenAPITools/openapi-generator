@@ -331,7 +331,7 @@ func (o *NullableClass) GetArrayNullablePropOk() ([]map[string]interface{}, bool
 
 // HasArrayNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayNullableProp() bool {
-	if o != nil && IsNil(o.ArrayNullableProp) {
+	if o != nil && !IsNil(o.ArrayNullableProp) {
 		return true
 	}
 
@@ -364,7 +364,7 @@ func (o *NullableClass) GetArrayAndItemsNullablePropOk() ([]*map[string]interfac
 
 // HasArrayAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasArrayAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ArrayAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ArrayAndItemsNullableProp) {
 		return true
 	}
 
@@ -429,7 +429,7 @@ func (o *NullableClass) GetObjectNullablePropOk() (map[string]map[string]interfa
 
 // HasObjectNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectNullableProp() bool {
-	if o != nil && IsNil(o.ObjectNullableProp) {
+	if o != nil && !IsNil(o.ObjectNullableProp) {
 		return true
 	}
 
@@ -462,7 +462,7 @@ func (o *NullableClass) GetObjectAndItemsNullablePropOk() (map[string]map[string
 
 // HasObjectAndItemsNullableProp returns a boolean if a field has been set.
 func (o *NullableClass) HasObjectAndItemsNullableProp() bool {
-	if o != nil && IsNil(o.ObjectAndItemsNullableProp) {
+	if o != nil && !IsNil(o.ObjectAndItemsNullableProp) {
 		return true
 	}
 

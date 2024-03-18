@@ -965,6 +965,7 @@ public class ElixirClientCodegen extends DefaultCodegen {
             this.isEnum = cm.isEnum;
             this.hasRequired = cm.hasRequired;
             this.hasOptional = cm.hasOptional;
+            this.hasReadOnly = cm.hasReadOnly;
             this.isArray = cm.isArray;
             this.hasChildren = cm.hasChildren;
             this.hasOnlyReadOnly = cm.hasOnlyReadOnly;

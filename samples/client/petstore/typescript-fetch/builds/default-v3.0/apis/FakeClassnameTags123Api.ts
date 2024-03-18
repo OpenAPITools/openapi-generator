@@ -36,8 +36,11 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
      * To test class name in snake case
      */
     async testClassnameRaw(requestParameters: TestClassnameRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (requestParameters.client === null || requestParameters.client === undefined) {
-            throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling testClassname.');
+        if (requestParameters['client'] == null) {
+            throw new runtime.RequiredError(
+                'client',
+                'Required parameter "client" was null or undefined when calling testClassname().'
+            );
         }
 
         const queryParameters: any = {};
@@ -55,7 +58,7 @@ export class FakeClassnameTags123Api extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.client),
+            body: ClientToJSON(requestParameters['client']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));

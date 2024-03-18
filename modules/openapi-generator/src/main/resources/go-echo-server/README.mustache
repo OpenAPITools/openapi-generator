@@ -14,8 +14,11 @@ To see how to make this your own, look here:
 
 [README](https://openapi-generator.tech)
 
-- API version: {{appVersion}}{{^hideGenerationTimestamp}}
-- Build date: {{generatedDate}}{{/hideGenerationTimestamp}}
+- API version: {{appVersion}}
+{{^hideGenerationTimestamp}}
+- Build date: {{generatedDate}}
+{{/hideGenerationTimestamp}}
+- Generator version: {{generatorVersion}}
 {{#infoUrl}}
 For more information, please visit [{{{infoUrl}}}]({{{infoUrl}}})
 {{/infoUrl}}

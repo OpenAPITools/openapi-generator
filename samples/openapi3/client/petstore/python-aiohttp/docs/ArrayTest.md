@@ -20,7 +20,7 @@ json = "{}"
 # create an instance of ArrayTest from a JSON string
 array_test_instance = ArrayTest.from_json(json)
 # print the JSON string representation of the object
-print ArrayTest.to_json()
+print(ArrayTest.to_json())
 
 # convert the object into a dict
 array_test_dict = array_test_instance.to_dict()

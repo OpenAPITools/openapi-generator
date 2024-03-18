@@ -27,6 +27,26 @@
     "name" : "user"
   } ],
   "paths" : {
+    "/test" : {
+      "get" : {
+        "parameters" : [ {
+          "explode" : true,
+          "in" : "query",
+          "name" : "testQuery",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/components/schemas/TestEnum"
+          },
+          "style" : "form"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "summary" : "Test API"
+      }
+    },
     "/pet" : {
       "post" : {
         "description" : "",
@@ -828,6 +848,10 @@
       }
     },
     "schemas" : {
+      "TestEnum" : {
+        "enum" : [ "A", "B" ],
+        "type" : "string"
+      },
       "Order" : {
         "description" : "An order for a pets from the pet store",
         "example" : {

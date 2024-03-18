@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private String uuid;
@@ -54,7 +54,7 @@ public class ObjectWithDeprecatedFields {
 
   public static final String JSON_PROPERTY_BARS = "bars";
   @Deprecated
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() { 
   }

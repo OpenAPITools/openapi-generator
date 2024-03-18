@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("EnumArrays")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumArrays  implements Serializable {
   public enum JustSymbolEnum {
 
@@ -116,7 +116,7 @@ public class EnumArrays  implements Serializable {
     }
 }
 
-  private @Valid List<ArrayEnumEnum> arrayEnum;
+  private @Valid List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
   /**
    **/

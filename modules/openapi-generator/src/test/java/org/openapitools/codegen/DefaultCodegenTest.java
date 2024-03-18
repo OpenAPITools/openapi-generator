@@ -1917,6 +1917,19 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testTitleProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/property-title.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        final Map testProperties = Collections.unmodifiableMap(openAPI.getComponents().getSchemas().get("ModelWithTitledProperties").getProperties());
+
+        Assert.assertEquals("Simple-Property-Title", codegen.fromProperty("simpleProperty", (Schema) testProperties.get("simpleProperty")).title);
+        Assert.assertEquals("Ref-Property-Title", codegen.fromProperty("refProperty", (Schema) testProperties.get("refProperty")).title);
+    }
+
+    @Test
     public void testDeprecatedRef() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/model-deprecated.yaml");
         new InlineModelResolver().flatten(openAPI);
@@ -2343,7 +2356,7 @@ public class DefaultCodegenTest {
         assertTrue(lambdas.get("lowercase") instanceof LowercaseLambda, "Expecting LowercaseLambda class");
         assertTrue(lambdas.get("uppercase") instanceof UppercaseLambda, "Expecting UppercaseLambda class");
         assertTrue(lambdas.get("titlecase") instanceof TitlecaseLambda, "Expecting TitlecaseLambda class");
-        assertTrue(lambdas.get("camelcase") instanceof CamelCaseLambda, "Expecting CamelCaseLambda class");
+        assertTrue(lambdas.get("camelcase") instanceof CamelCaseAndSanitizeLambda, "Expecting CamelCaseAndSanitizeLambda class");
         assertTrue(lambdas.get("indented") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_8") instanceof IndentedLambda, "Expecting IndentedLambda class");
         assertTrue(lambdas.get("indented_12") instanceof IndentedLambda, "Expecting IndentedLambda class");

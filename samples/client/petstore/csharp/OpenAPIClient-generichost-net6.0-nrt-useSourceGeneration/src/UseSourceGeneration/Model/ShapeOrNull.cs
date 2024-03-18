@@ -222,14 +222,14 @@ namespace UseSourceGeneration.Model
         {
             writer.WriteStartObject();
 
-            if (shapeOrNull.Quadrilateral != null) {
-                QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shapeOrNull.Quadrilateral.GetType()));
-                quadrilateralJsonConverter.WriteProperties(ref writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
-            }
-
             if (shapeOrNull.Triangle != null) {
                 TriangleJsonConverter triangleJsonConverter = (TriangleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shapeOrNull.Triangle.GetType()));
                 triangleJsonConverter.WriteProperties(ref writer, shapeOrNull.Triangle, jsonSerializerOptions);
+            }
+
+            if (shapeOrNull.Quadrilateral != null) {
+                QuadrilateralJsonConverter quadrilateralJsonConverter = (QuadrilateralJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(shapeOrNull.Quadrilateral.GetType()));
+                quadrilateralJsonConverter.WriteProperties(ref writer, shapeOrNull.Quadrilateral, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, shapeOrNull, jsonSerializerOptions);

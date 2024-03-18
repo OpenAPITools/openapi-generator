@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
             {
                 throw new ArgumentNullException("varByte is a required property for FormatTest and cannot be null");
             }
-            this.VarByte = varByte;
+            this.Byte = varByte;
             this.Date = date;
             // to ensure "password" is required (not null)
             if (password == null)
@@ -78,10 +78,10 @@ namespace Org.OpenAPITools.Model
             this.UnsignedInteger = unsignedInteger;
             this.Int64 = int64;
             this.UnsignedLong = unsignedLong;
-            this.VarFloat = varFloat;
-            this.VarDouble = varDouble;
-            this.VarDecimal = varDecimal;
-            this.VarString = varString;
+            this.Float = varFloat;
+            this.Double = varDouble;
+            this.Decimal = varDecimal;
+            this.String = varString;
             this.Binary = binary;
             this.DateTime = dateTime;
             this.Uuid = uuid;
@@ -127,34 +127,34 @@ namespace Org.OpenAPITools.Model
         public decimal Number { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarFloat
+        /// Gets or Sets Float
         /// </summary>
         [DataMember(Name = "float", EmitDefaultValue = false)]
-        public float VarFloat { get; set; }
+        public float Float { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarDouble
+        /// Gets or Sets Double
         /// </summary>
         [DataMember(Name = "double", EmitDefaultValue = false)]
-        public double VarDouble { get; set; }
+        public double Double { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarDecimal
+        /// Gets or Sets Decimal
         /// </summary>
         [DataMember(Name = "decimal", EmitDefaultValue = false)]
-        public decimal VarDecimal { get; set; }
+        public decimal Decimal { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarString
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public string VarString { get; set; }
+        public string String { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarByte
+        /// Gets or Sets Byte
         /// </summary>
         [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = true)]
-        public byte[] VarByte { get; set; }
+        public byte[] Byte { get; set; }
 
         /// <summary>
         /// Gets or Sets Binary
@@ -225,11 +225,11 @@ namespace Org.OpenAPITools.Model
             sb.Append("  Int64: ").Append(Int64).Append("\n");
             sb.Append("  UnsignedLong: ").Append(UnsignedLong).Append("\n");
             sb.Append("  Number: ").Append(Number).Append("\n");
-            sb.Append("  VarFloat: ").Append(VarFloat).Append("\n");
-            sb.Append("  VarDouble: ").Append(VarDouble).Append("\n");
-            sb.Append("  VarDecimal: ").Append(VarDecimal).Append("\n");
-            sb.Append("  VarString: ").Append(VarString).Append("\n");
-            sb.Append("  VarByte: ").Append(VarByte).Append("\n");
+            sb.Append("  Float: ").Append(Float).Append("\n");
+            sb.Append("  Double: ").Append(Double).Append("\n");
+            sb.Append("  Decimal: ").Append(Decimal).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
+            sb.Append("  Byte: ").Append(Byte).Append("\n");
             sb.Append("  Binary: ").Append(Binary).Append("\n");
             sb.Append("  Date: ").Append(Date).Append("\n");
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
@@ -298,26 +298,26 @@ namespace Org.OpenAPITools.Model
                     this.Number.Equals(input.Number)
                 ) && 
                 (
-                    this.VarFloat == input.VarFloat ||
-                    this.VarFloat.Equals(input.VarFloat)
+                    this.Float == input.Float ||
+                    this.Float.Equals(input.Float)
                 ) && 
                 (
-                    this.VarDouble == input.VarDouble ||
-                    this.VarDouble.Equals(input.VarDouble)
+                    this.Double == input.Double ||
+                    this.Double.Equals(input.Double)
                 ) && 
                 (
-                    this.VarDecimal == input.VarDecimal ||
-                    this.VarDecimal.Equals(input.VarDecimal)
+                    this.Decimal == input.Decimal ||
+                    this.Decimal.Equals(input.Decimal)
                 ) && 
                 (
-                    this.VarString == input.VarString ||
-                    (this.VarString != null &&
-                    this.VarString.Equals(input.VarString))
+                    this.String == input.String ||
+                    (this.String != null &&
+                    this.String.Equals(input.String))
                 ) && 
                 (
-                    this.VarByte == input.VarByte ||
-                    (this.VarByte != null &&
-                    this.VarByte.Equals(input.VarByte))
+                    this.Byte == input.Byte ||
+                    (this.Byte != null &&
+                    this.Byte.Equals(input.Byte))
                 ) && 
                 (
                     this.Binary == input.Binary ||
@@ -376,16 +376,16 @@ namespace Org.OpenAPITools.Model
                 hashCode = (hashCode * 59) + this.Int64.GetHashCode();
                 hashCode = (hashCode * 59) + this.UnsignedLong.GetHashCode();
                 hashCode = (hashCode * 59) + this.Number.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarFloat.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDouble.GetHashCode();
-                hashCode = (hashCode * 59) + this.VarDecimal.GetHashCode();
-                if (this.VarString != null)
+                hashCode = (hashCode * 59) + this.Float.GetHashCode();
+                hashCode = (hashCode * 59) + this.Double.GetHashCode();
+                hashCode = (hashCode * 59) + this.Decimal.GetHashCode();
+                if (this.String != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
                 }
-                if (this.VarByte != null)
+                if (this.Byte != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarByte.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Byte.GetHashCode();
                 }
                 if (this.Binary != null)
                 {

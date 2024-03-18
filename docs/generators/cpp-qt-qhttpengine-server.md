@@ -62,6 +62,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 ## RESERVED WORDS
 
 <ul class="column-ul">
+<li>NULL</li>
 <li>alignas</li>
 <li>alignof</li>
 <li>and</li>

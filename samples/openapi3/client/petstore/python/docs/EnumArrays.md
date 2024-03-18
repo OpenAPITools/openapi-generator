@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of EnumArrays from a JSON string
 enum_arrays_instance = EnumArrays.from_json(json)
 # print the JSON string representation of the object
-print EnumArrays.to_json()
+print(EnumArrays.to_json())
 
 # convert the object into a dict
 enum_arrays_dict = enum_arrays_instance.to_dict()

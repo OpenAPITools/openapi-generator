@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   GrandparentAnimal.JSON_PROPERTY_PET_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "pet_type", visible = true)
         @JsonSubTypes({
       @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),

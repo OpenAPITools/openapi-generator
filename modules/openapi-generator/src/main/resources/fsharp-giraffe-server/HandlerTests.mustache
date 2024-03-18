@@ -41,7 +41,7 @@ module {{classname}}HandlerTests =
 
       {{#hasConsumes}}
       // use an example requestBody provided by the spec
-      let examples = Map.empty{{#consumes}}.Add("{{mediaType}}", get{{operationId}}Example "{{mediaType}}"){{/consumes}}
+      let examples = Map.empty{{#consumes}}.Add("{{{mediaType}}}", get{{operationId}}Example "{{mediaType}}"){{/consumes}}
       // or pass a {{#bodyParams}}body of type {{dataType}}{{/bodyParams}}{{#formParams}}form{{/formParams}}
       let body = obj() {{#bodyParams}}:?> {{dataType}}{{/bodyParams}} |> Newtonsoft.Json.JsonConvert.SerializeObject |> Encoding.UTF8.GetBytes |> MemoryStream |> StreamContent
 

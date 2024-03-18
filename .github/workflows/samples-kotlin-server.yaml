@@ -27,6 +27,7 @@ jobs:
         sample:
           # server
           - samples/server/petstore/kotlin-springboot
+          - samples/server/petstore/kotlin-springboot-bigdecimal-default
           - samples/server/petstore/kotlin-springboot-delegate
           - samples/server/petstore/kotlin-springboot-modelMutable
           - samples/server/petstore/kotlin-springboot-reactive

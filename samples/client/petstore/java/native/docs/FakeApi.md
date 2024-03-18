@@ -16,6 +16,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterNumberSerializeWithHttpInfo**](FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
 | [**fakeOuterStringSerializeWithHttpInfo**](FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string |  |
+| [**getApplicationJsonUtf8**](FakeApi.md#getApplicationJsonUtf8) | **GET** /fake/application_json_utf8 | application/json UTF8 |
+| [**getApplicationJsonUtf8WithHttpInfo**](FakeApi.md#getApplicationJsonUtf8WithHttpInfo) | **GET** /fake/application_json_utf8 | application/json UTF8 |
 | [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums |
 | [**getArrayOfEnumsWithHttpInfo**](FakeApi.md#getArrayOfEnumsWithHttpInfo) | **GET** /fake/array-of-enums | Array of Enums |
 | [**testAdditionalPropertiesReference**](FakeApi.md#testAdditionalPropertiesReference) | **POST** /fake/additionalProperties-reference | test referenced additionalProperties |
@@ -827,6 +829,128 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
+
+
+## getApplicationJsonUtf8
+
+> List<OuterEnum> getApplicationJsonUtf8()
+
+application/json UTF8
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            List<OuterEnum> result = apiInstance.getApplicationJsonUtf8();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#getApplicationJsonUtf8");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;OuterEnum&gt;**](OuterEnum.md)
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json;charset=utf-8
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | test |  -  |
+
+## getApplicationJsonUtf8WithHttpInfo
+
+> ApiResponse<List<OuterEnum>> getApplicationJsonUtf8 getApplicationJsonUtf8WithHttpInfo()
+
+application/json UTF8
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            ApiResponse<List<OuterEnum>> response = apiInstance.getApplicationJsonUtf8WithHttpInfo();
+            System.out.println("Status code: " + response.getStatusCode());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#getApplicationJsonUtf8");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+ApiResponse<[**List&lt;OuterEnum&gt;**](OuterEnum.md)>
+
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json;charset=utf-8
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | test |  -  |
 
 
 ## getArrayOfEnums

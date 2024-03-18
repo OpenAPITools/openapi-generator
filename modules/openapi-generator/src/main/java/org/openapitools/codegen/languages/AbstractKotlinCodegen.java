@@ -76,7 +76,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     protected boolean nonPublicApi = false;
 
-    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.camelCase;
+    protected CodegenConstants.ENUM_PROPERTY_NAMING_TYPE enumPropertyNaming = CodegenConstants.ENUM_PROPERTY_NAMING_TYPE.original;
 
     // model classes cannot use the same property names defined in HashMap
     // ref: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/
@@ -282,6 +282,11 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String apiTestFileFolder() {
         return (outputFolder + File.separator + testFolder + File.separator + apiPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelTestFileFolder() {
+        return (outputFolder + File.separator + testFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar);
     }
 
     @Override
@@ -604,7 +609,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         }
 
         String modified;
-        if (value.length() == 0) {
+        if (value.isEmpty()) {
             modified = "EMPTY";
         } else {
             modified = value;
@@ -1039,55 +1044,39 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     }
 
     @Override
-    public String toDefaultValue(Schema schema) {
-        Schema<?> p = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
-                return p.getDefault().toString();
+    public String toDefaultValue(CodegenProperty cp, Schema schema) {
+        schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
+        if (ModelUtils.isBooleanSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return schema.getDefault().toString();
             }
-        } else if (ModelUtils.isDateSchema(p)) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             // TODO
             return null;
-        } else if (ModelUtils.isDateTimeSchema(p)) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             // TODO
             return null;
-        } else if (ModelUtils.isNumberSchema(p)) {
-            if (p.getDefault() != null) {
-                return fixNumberValue(p.getDefault().toString(), p);
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        } else if (ModelUtils.isIntegerSchema(p)) {
-            if (p.getDefault() != null) {
-                return fixNumberValue(p.getDefault().toString(), p);
+        }
+        else if (ModelUtils.isIntegerSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return fixNumberValue(schema.getDefault().toString(), schema);
             }
-        } else if (ModelUtils.isURISchema(p)) {
-            if (p.getDefault() != null) {
-                return importMapping.get("URI") + ".create(\"" + p.getDefault() + "\")";
+        }
+        else if (ModelUtils.isURISchema(schema)) {
+            if (schema.getDefault() != null) {
+                return importMapping.get("URI") + ".create(\"" + schema.getDefault() + "\")";
             }
-        } else if (ModelUtils.isArraySchema(p)) {
-            if (p.getDefault() != null) {
-                String arrInstantiationType = ModelUtils.isSet(p) ? "set" : "arrayList";
-
-                if (!(p.getDefault() instanceof ArrayNode)) {
-                    return null;
-                }
-                ArrayNode _default = (ArrayNode) p.getDefault();
-                if (_default.isEmpty()) {
-                    return arrInstantiationType + "Of()";
-                }
-
-                StringBuilder defaultContent = new StringBuilder();
-                Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
-                _default.elements().forEachRemaining((element) -> {
-                    itemsSchema.setDefault(element.asText());
-                    defaultContent.append(toDefaultValue(itemsSchema)).append(",");
-                });
-                defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
-                return arrInstantiationType + "Of(" + defaultContent + ")";
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                String _default = String.valueOf(p.getDefault());
-                if (p.getEnum() == null) {
+        }
+        else if (ModelUtils.isArraySchema(schema)) {
+            return toArrayDefaultValue(cp, schema);
+        } else if (ModelUtils.isStringSchema(schema)) {
+            if (schema.getDefault() != null) {
+                String _default = String.valueOf(schema.getDefault());
+                if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels
@@ -1095,8 +1084,52 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
                 }
             }
             return null;
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            if (schema.getDefault() != null) {
+                return super.toDefaultValue(schema);
+            }
+            return null;
         }
         return null;
+    }
+
+    private String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
+        if (schema.getDefault() != null) {
+            String arrInstantiationType = ModelUtils.isSet(schema) ? "set" : "arrayList";
+
+            if (!(schema.getDefault() instanceof ArrayNode)) {
+                return null;
+            }
+            ArrayNode _default = (ArrayNode) schema.getDefault();
+            if (_default.isEmpty()) {
+                return arrInstantiationType + "Of()";
+            }
+
+            StringBuilder defaultContent = new StringBuilder();
+            Schema<?> itemsSchema = getSchemaItems((ArraySchema) schema);
+            _default.elements().forEachRemaining((element) -> {
+                String defaultValue = element.asText();
+                if (defaultValue != null) {
+                    if (cp.items.getIsEnumOrRef()) {
+                        String className = cp.items.datatypeWithEnum;
+                        String enumVarName = toEnumVarName(defaultValue, cp.items.dataType);
+                        defaultContent.append(className).append(".").append(enumVarName).append(",");
+                    } else {
+                        itemsSchema.setDefault(defaultValue);
+                        defaultValue = toDefaultValue(cp, itemsSchema);
+                        defaultContent.append(defaultValue).append(",");
+                    }
+                }
+            });
+            defaultContent.deleteCharAt(defaultContent.length() - 1); // remove trailing comma
+            return arrInstantiationType + "Of(" + defaultContent + ")";
+        }
+        return null;
+    }
+
+    @Override
+    public String toDefaultParameterValue(CodegenProperty cp, Schema schema) {
+        return toDefaultValue(cp, schema);
     }
 
     @Override

@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of Bird from a JSON string
 bird_instance = Bird.from_json(json)
 # print the JSON string representation of the object
-print Bird.to_json()
+print(Bird.to_json())
 
 # convert the object into a dict
 bird_dict = bird_instance.to_dict()

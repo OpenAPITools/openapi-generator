@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Feeding from a JSON string
 feeding_instance = Feeding.from_json(json)
 # print the JSON string representation of the object
-print Feeding.to_json()
+print(Feeding.to_json())
 
 # convert the object into a dict
 feeding_dict = feeding_instance.to_dict()

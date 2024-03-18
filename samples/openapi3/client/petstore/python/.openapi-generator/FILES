@@ -30,6 +30,8 @@ docs/CreatureInfo.md
 docs/DanishPig.md
 docs/DefaultApi.md
 docs/DeprecatedObject.md
+docs/DiscriminatorAllOfSub.md
+docs/DiscriminatorAllOfSuper.md
 docs/Dog.md
 docs/DummyModel.md
 docs/EnumArrays.md
@@ -140,6 +142,8 @@ petstore_api/models/creature.py
 petstore_api/models/creature_info.py
 petstore_api/models/danish_pig.py
 petstore_api/models/deprecated_object.py
+petstore_api/models/discriminator_all_of_sub.py
+petstore_api/models/discriminator_all_of_super.py
 petstore_api/models/dog.py
 petstore_api/models/dummy_model.py
 petstore_api/models/enum_arrays.py

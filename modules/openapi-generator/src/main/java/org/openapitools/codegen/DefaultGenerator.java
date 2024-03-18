@@ -1864,7 +1864,7 @@ public class DefaultGenerator implements Generator {
         if (generateMetadata) {
             File versionMetadataFile = new File(versionMetadata);
             try {
-                File written = this.templateProcessor.writeToFile(versionMetadata, ImplementationVersion.read().getBytes(StandardCharsets.UTF_8));
+                File written = this.templateProcessor.writeToFile(versionMetadata, (ImplementationVersion.read() + "\n").getBytes(StandardCharsets.UTF_8));
                 if (written != null) {
                     files.add(versionMetadataFile);
                     if (config.isEnablePostProcessFile() && !dryRun) {
