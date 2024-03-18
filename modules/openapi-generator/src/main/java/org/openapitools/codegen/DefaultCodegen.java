@@ -5461,6 +5461,11 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCollectionFormatMulti = true;
         }
         codegenParameter.paramName = toParamName(parameter.getName());
+        codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+        codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+        codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+        codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
         // import
         if (codegenProperty.complexType != null) {
             imports.add(codegenProperty.complexType);
@@ -7188,6 +7193,11 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.dataType = codegenProperty.dataType;
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
+        codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+        codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+        codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+        codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         // non-array/map
         updateCodegenPropertyEnum(codegenProperty);
@@ -7572,6 +7582,11 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseName = bodyParameterName;
             }
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
+            codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+            codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+            codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+            codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);
