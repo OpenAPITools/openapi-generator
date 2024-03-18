@@ -34,12 +34,12 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
         /// </summary>
-        /// <param name="varClass">varClass</param>
+        /// <param name="class">class</param>
         /// <param name="name">name</param>
         [JsonConstructor]
-        public Model200Response(Option<string?> varClass = default, Option<int?> name = default)
+        public Model200Response(Option<string?> @class = default, Option<int?> name = default)
         {
-            VarClassOption = varClass;
+            ClassOption = @class;
             NameOption = name;
             OnCreated();
         }
@@ -47,17 +47,17 @@ namespace Org.OpenAPITools.Model
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of VarClass
+        /// Used to track the state of Class
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> VarClassOption { get; private set; }
+        public Option<string?> ClassOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets VarClass
+        /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("class")]
-        public string? VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } }
+        public string? Class { get { return this. ClassOption; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -86,7 +86,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
-            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
@@ -190,11 +190,11 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, Model200Response model200Response, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (model200Response.VarClassOption.IsSet && model200Response.VarClass == null)
-                throw new ArgumentNullException(nameof(model200Response.VarClass), "Property is required for class Model200Response.");
+            if (model200Response.ClassOption.IsSet && model200Response.Class == null)
+                throw new ArgumentNullException(nameof(model200Response.Class), "Property is required for class Model200Response.");
 
-            if (model200Response.VarClassOption.IsSet)
-                writer.WriteString("class", model200Response.VarClass);
+            if (model200Response.ClassOption.IsSet)
+                writer.WriteString("class", model200Response.Class);
 
             if (model200Response.NameOption.IsSet)
                 writer.WriteNumber("name", model200Response.NameOption.Value!.Value);

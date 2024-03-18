@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public Model200Response(int name = default(int), string varClass = default(string))
         {
             this.Name = name;
-            this.VarClass = varClass;
+            this.Class = varClass;
         }
 
         /// <summary>
@@ -48,10 +48,10 @@ namespace Org.OpenAPITools.Model
         public int Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarClass
+        /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "class", EmitDefaultValue = false)]
-        public string VarClass { get; set; }
+        public string Class { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Model200Response {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
-            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -103,9 +103,9 @@ namespace Org.OpenAPITools.Model
                     this.Name.Equals(input.Name)
                 ) && 
                 (
-                    this.VarClass == input.VarClass ||
-                    (this.VarClass != null &&
-                    this.VarClass.Equals(input.VarClass))
+                    this.Class == input.Class ||
+                    (this.Class != null &&
+                    this.Class.Equals(input.Class))
                 );
         }
 
@@ -119,9 +119,9 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.Name.GetHashCode();
-                if (this.VarClass != null)
+                if (this.Class != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
                 }
                 return hashCode;
             }

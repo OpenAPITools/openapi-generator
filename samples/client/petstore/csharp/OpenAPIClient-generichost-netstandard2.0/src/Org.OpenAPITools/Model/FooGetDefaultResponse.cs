@@ -32,28 +32,28 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FooGetDefaultResponse" /> class.
         /// </summary>
-        /// <param name="varString">varString</param>
+        /// <param name="string">string</param>
         [JsonConstructor]
-        public FooGetDefaultResponse(Option<Foo> varString = default)
+        public FooGetDefaultResponse(Option<Foo> @string = default)
         {
-            VarStringOption = varString;
+            StringOption = @string;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of VarString
+        /// Used to track the state of String
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<Foo> VarStringOption { get; private set; }
+        public Option<Foo> StringOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets VarString
+        /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public Foo VarString { get { return this. VarStringOption; } set { this.VarStringOption = new Option<Foo>(value); } }
+        public Foo String { get { return this. StringOption; } set { this.StringOption = new Option<Foo>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  VarString: ").Append(VarString).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -165,13 +165,13 @@ namespace Org.OpenAPITools.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, FooGetDefaultResponse fooGetDefaultResponse, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (fooGetDefaultResponse.VarStringOption.IsSet && fooGetDefaultResponse.VarString == null)
-                throw new ArgumentNullException(nameof(fooGetDefaultResponse.VarString), "Property is required for class FooGetDefaultResponse.");
+            if (fooGetDefaultResponse.StringOption.IsSet && fooGetDefaultResponse.String == null)
+                throw new ArgumentNullException(nameof(fooGetDefaultResponse.String), "Property is required for class FooGetDefaultResponse.");
 
-            if (fooGetDefaultResponse.VarStringOption.IsSet)
+            if (fooGetDefaultResponse.StringOption.IsSet)
             {
                 writer.WritePropertyName("string");
-                JsonSerializer.Serialize(writer, fooGetDefaultResponse.VarString, jsonSerializerOptions);
+                JsonSerializer.Serialize(writer, fooGetDefaultResponse.String, jsonSerializerOptions);
             }
         }
     }

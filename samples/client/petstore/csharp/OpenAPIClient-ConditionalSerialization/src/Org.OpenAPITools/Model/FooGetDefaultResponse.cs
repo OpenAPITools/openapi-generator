@@ -38,37 +38,37 @@ namespace Org.OpenAPITools.Model
         /// <param name="varString">varString.</param>
         public FooGetDefaultResponse(Foo varString = default(Foo))
         {
-            this._VarString = varString;
-            if (this.VarString != null)
+            this._String = varString;
+            if (this.String != null)
             {
-                this._flagVarString = true;
+                this._flagString = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets VarString
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo VarString
+        public Foo String
         {
-            get{ return _VarString;}
+            get{ return _String;}
             set
             {
-                _VarString = value;
-                _flagVarString = true;
+                _String = value;
+                _flagString = true;
             }
         }
-        private Foo _VarString;
-        private bool _flagVarString;
+        private Foo _String;
+        private bool _flagString;
 
         /// <summary>
-        /// Returns false as VarString should not be serialized given that it's read-only.
+        /// Returns false as String should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVarString()
+        public bool ShouldSerializeString()
         {
-            return _flagVarString;
+            return _flagString;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  VarString: ").Append(VarString).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.VarString != null)
+                if (this.String != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {
