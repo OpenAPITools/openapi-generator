@@ -1,6 +1,7 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
+import org.openapitools.client.BaseApi;
 
 import org.openapitools.client.model.Order;
 
@@ -26,23 +27,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
-public class StoreApi {
-    private ApiClient apiClient;
+public class StoreApi extends BaseApi {
 
     public StoreApi() {
-        this(new ApiClient());
+        super(new ApiClient());
     }
 
     public StoreApi(ApiClient apiClient) {
-        this.apiClient = apiClient;
-    }
-
-    public ApiClient getApiClient() {
-        return apiClient;
-    }
-
-    public void setApiClient(ApiClient apiClient) {
-        this.apiClient = apiClient;
+        super(apiClient);
     }
 
     /**
@@ -236,50 +228,7 @@ public class StoreApi {
         return apiClient.invokeAPI("/store/order", HttpMethod.POST, Collections.<String, Object>emptyMap(), localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localReturnType);
     }
 
-    /**
-     * Directly invoke the API for the given URL. Useful if the API returns direct links/URLs for subsequent requests.
-     * @param url The URL for the request, either full URL or only the path.
-     * @param method The HTTP method for the request.
-     * @return ResponseEntity&lt;Void&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Void> invokeAPI(String url, HttpMethod method) throws RestClientException {
-        return invokeAPI(url, method, null, new ParameterizedTypeReference<Void>() {});
-    }
-
-    /**
-     * Directly invoke the API for the given URL. Useful if the API returns direct links/URLs for subsequent requests.
-     * @param url The URL for the request, either full URL or only the path.
-     * @param method The HTTP method for the request.
-     * @param request The request object.
-     * @return ResponseEntity&lt;Void&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public ResponseEntity<Void> invokeAPI(String url, HttpMethod method, Object request) throws RestClientException {
-        return invokeAPI(url, method, request, new ParameterizedTypeReference<Void>() {});
-    }
-
-    /**
-     * Directly invoke the API for the given URL. Useful if the API returns direct links/URLs for subsequent requests.
-     * @param url The URL for the request, either full URL or only the path.
-     * @param method The HTTP method for the request.
-     * @param returnType The return type.
-     * @return ResponseEntity in the specified type.
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
-    public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, ParameterizedTypeReference<T> returnType) throws RestClientException {
-        return invokeAPI(url, method, null, returnType);
-    }
-
-    /**
-     * Directly invoke the API for the given URL. Useful if the API returns direct links/URLs for subsequent requests.
-     * @param url The URL for the request, either full URL or only the path.
-     * @param method The HTTP method for the request.
-     * @param request The request object.
-     * @param returnType The return type.
-     * @return ResponseEntity in the specified type.
-     * @throws RestClientException if an error occurs while attempting to invoke the API
-     */
+    @Override
     public <T> ResponseEntity<T> invokeAPI(String url, HttpMethod method, Object request, ParameterizedTypeReference<T> returnType) throws RestClientException {
         String localVarPath = url.replace(apiClient.getBasePath(), "");
         Object localVarPostBody = request;
