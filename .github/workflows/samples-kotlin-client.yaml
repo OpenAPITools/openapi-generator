@@ -25,6 +25,7 @@ jobs:
           - samples/client/petstore/kotlin
           - samples/client/petstore/kotlin-gson
           - samples/client/petstore/kotlin-jackson
+          - samples/client/petstore/kotlin-model-prefix-type-mappings
           # needs Android configured
           #- samples/client/petstore/kotlin-json-request-string
           - samples/client/petstore/kotlin-jvm-okhttp4-coroutines
