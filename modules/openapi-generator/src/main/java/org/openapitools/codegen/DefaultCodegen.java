@@ -4015,7 +4015,7 @@ public class DefaultCodegen implements CodegenConfig {
             property.openApiType = p.getType();
         }
         property.nameInPascalCase = camelize(property.name);
-        //property.nameInCamelCase = camelize(property.name, LOWERCASE_FIRST_LETTER);
+        property.nameInCamelCase = camelize(property.name, LOWERCASE_FIRST_LETTER);
         property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInPascalCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
