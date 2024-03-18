@@ -1,0 +1,9 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-model-prefix-type-mappings
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+typeMappings: 
+  java.io.File: RequestBody
+modelNamePrefix: Api
+additionalProperties:
+  artifactId: kotlin-client-prefix-mapping
