@@ -40,7 +40,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Delete purchase order by ID
      */
     async deleteOrderRaw(requestParameters: DeleteOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
-        if (!runtime.exists(requestParameters, 'orderId')) {
+        if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
                 'Required parameter "orderId" was null or undefined when calling deleteOrder().'
@@ -106,7 +106,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Find purchase order by ID
      */
     async getOrderByIdRaw(requestParameters: GetOrderByIdRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
-        if (!runtime.exists(requestParameters, 'orderId')) {
+        if (requestParameters['orderId'] == null) {
             throw new runtime.RequiredError(
                 'orderId',
                 'Required parameter "orderId" was null or undefined when calling getOrderById().'
@@ -140,7 +140,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Place an order for a pet
      */
     async placeOrderRaw(requestParameters: PlaceOrderRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Order>> {
-        if (!runtime.exists(requestParameters, 'body')) {
+        if (requestParameters['body'] == null) {
             throw new runtime.RequiredError(
                 'body',
                 'Required parameter "body" was null or undefined when calling placeOrder().'

@@ -137,11 +137,11 @@
         /// Writes the {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} to the json writer
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="{{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}"></param>
+        /// <param name="{{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}"></param>
         /// <param name="options"></param>
-        public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}} {{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions options)
         {
-            writer.WriteStringValue({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}.ToString());
+            writer.WriteStringValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}.ToString());
         }
     }
 
@@ -175,11 +175,11 @@
         /// Writes the DateTime to the json writer
         /// </summary>
         /// <param name="writer"></param>
-        /// <param name="{{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}"></param>
+        /// <param name="{{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}"></param>
         /// <param name="options"></param>
-        public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? {{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, {{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}? {{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}, JsonSerializerOptions options)
         {
-            writer.WriteStringValue({{#lambda.camelcase_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_param}}?.ToString() ?? "null");
+            writer.WriteStringValue({{#lambda.camelcase_sanitize_param}}{{datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}{{/lambda.camelcase_sanitize_param}}?.ToString() ?? "null");
         }
     }
     {{/useGenericHost}}

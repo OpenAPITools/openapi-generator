@@ -38,37 +38,37 @@ namespace Org.OpenAPITools.Model
         /// <param name="varClass">varClass.</param>
         public ClassModel(string varClass = default(string))
         {
-            this._VarClass = varClass;
-            if (this.VarClass != null)
+            this._Class = varClass;
+            if (this.Class != null)
             {
-                this._flagVarClass = true;
+                this._flagClass = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets VarClass
+        /// Gets or Sets Class
         /// </summary>
         [DataMember(Name = "_class", EmitDefaultValue = false)]
-        public string VarClass
+        public string Class
         {
-            get{ return _VarClass;}
+            get{ return _Class;}
             set
             {
-                _VarClass = value;
-                _flagVarClass = true;
+                _Class = value;
+                _flagClass = true;
             }
         }
-        private string _VarClass;
-        private bool _flagVarClass;
+        private string _Class;
+        private bool _flagClass;
 
         /// <summary>
-        /// Returns false as VarClass should not be serialized given that it's read-only.
+        /// Returns false as Class should not be serialized given that it's read-only.
         /// </summary>
         /// <returns>false (boolean)</returns>
-        public bool ShouldSerializeVarClass()
+        public bool ShouldSerializeClass()
         {
-            return _flagVarClass;
+            return _flagClass;
         }
         /// <summary>
         /// Gets or Sets additional properties
@@ -84,7 +84,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -128,9 +128,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.VarClass != null)
+                if (this.Class != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarClass.GetHashCode();
+                    hashCode = (hashCode * 59) + this.Class.GetHashCode();
                 }
                 if (this.AdditionalProperties != null)
                 {

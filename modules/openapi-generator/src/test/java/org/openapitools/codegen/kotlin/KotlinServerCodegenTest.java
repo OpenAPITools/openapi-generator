@@ -1,11 +1,11 @@
 package org.openapitools.codegen.kotlin;
 
-import org.junit.Test;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.KotlinServerCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
+import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,13 +42,13 @@ public class KotlinServerCodegenTest {
                 petApi,
                 "import jakarta.ws.rs.*",
                 "import jakarta.ws.rs.core.Response",
-                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
         assertFileContains(
                 petApi,
                 "import javax.ws.rs.*",
                 "import javax.ws.rs.core.Response",
-                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
     }
 
@@ -73,13 +73,13 @@ public class KotlinServerCodegenTest {
                 petApi,
                 "import jakarta.ws.rs.*",
                 "import jakarta.ws.rs.core.Response",
-                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@jakarta.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
         assertFileNotContains(
                 petApi,
                 "import javax.ws.rs.*",
                 "import javax.ws.rs.core.Response",
-                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\"))"
+                "@javax.annotation.Generated(value = arrayOf(\"org.openapitools.codegen.languages.KotlinServerCodegen\")"
         );
     }
 
@@ -180,7 +180,7 @@ public class KotlinServerCodegenTest {
                         .config(codegen))
                 .generate();
 
-        String outputPath = output.getAbsolutePath() + "src/main/kotlin/org/openapitools";
+        String outputPath = output.getAbsolutePath() + "/src/main/kotlin/org/openapitools";
         Path order = Paths.get(outputPath + "/model/Order.kt");
         assertFileContains(
                 order,

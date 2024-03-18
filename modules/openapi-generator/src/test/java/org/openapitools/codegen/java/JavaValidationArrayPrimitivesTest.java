@@ -113,6 +113,9 @@ public class JavaValidationArrayPrimitivesTest {
     private static Consumer<Map<String, File>> assertWithValidationWithJsonNullable() {
         return files -> JavaFileAssert.assertThat(files.get("Foo.java"))
                 .isNormalClass()
+                .hasProperty("category")
+                .withType("List<@Pattern(regexp = \"^[a-zA-Z0-9 .:!()-]$\") @Size(max = 50) String>")
+                .toType()
                 .hasProperty("stringPattern")
                 .withType("Set<@Pattern(regexp = \"[a-z]\") String>")
                 .toType()

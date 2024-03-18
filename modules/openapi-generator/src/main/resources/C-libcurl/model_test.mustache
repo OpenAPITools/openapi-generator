@@ -50,10 +50,10 @@ void test_{{classname}}(int include_optional) {
     {{classname}}_t* {{classname}}_1 = instantiate_{{classname}}(include_optional);
 
 	cJSON* json{{classname}}_1 = {{classname}}_convertToJSON({{classname}}_1);
-	printf("{{classname}} :\n%s\n", cJSON_Print(json{{classname}}_1));
+	printf("{{classname}} :\n%s\n", {{{cJSONPrint}}}(json{{classname}}_1));
 	{{classname}}_t* {{classname}}_2 = {{classname}}_parseFromJSON(json{{classname}}_1);
 	cJSON* json{{classname}}_2 = {{classname}}_convertToJSON({{classname}}_2);
-	printf("repeating {{classname}}:\n%s\n", cJSON_Print(json{{classname}}_2));
+	printf("repeating {{classname}}:\n%s\n", {{{cJSONPrint}}}(json{{classname}}_2));
 }
 
 int main() {

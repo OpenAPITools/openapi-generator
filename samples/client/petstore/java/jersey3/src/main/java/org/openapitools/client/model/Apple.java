@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   Apple.JSON_PROPERTY_ORIGIN
 })
 @JsonTypeName("apple")
-@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;

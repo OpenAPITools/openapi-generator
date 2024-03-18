@@ -102,7 +102,7 @@ interface {{classname}} {
             produces = [{{#produces}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/produces}}]{{/hasProduces}}{{#hasConsumes}},
             consumes = [{{#consumes}}"{{{mediaType}}}"{{^-last}}, {{/-last}}{{/consumes}}]{{/hasConsumes}}{{/singleContentTypes}}
     )
-    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
+    {{#reactive}}{{^isArray}}suspend {{/isArray}}{{/reactive}}fun {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>cookieParams}}{{>bodyParams}}{{>formParams}}{{>requesObject}}{{^-last}},{{/-last}}{{/allParams}}): ResponseEntity<{{>returnTypes}}>{{^skipDefaultInterface}} {
         {{^isDelegate}}
         return {{>returnValue}}
         {{/isDelegate}}

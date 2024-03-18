@@ -27,7 +27,7 @@ import javax.annotation.Generated;
 @XmlRootElement(name = "Category")
 @XmlAccessorType(XmlAccessType.FIELD)
 
-@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen")
+@Generated(value = "org.openapitools.codegen.languages.JavaCamelServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Category {
 
   private Long id;

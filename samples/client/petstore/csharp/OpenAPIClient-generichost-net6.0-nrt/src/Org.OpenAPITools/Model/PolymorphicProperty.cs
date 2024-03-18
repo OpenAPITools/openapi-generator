@@ -54,10 +54,10 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="PolymorphicProperty" /> class.
         /// </summary>
-        /// <param name="varObject"></param>
-        internal PolymorphicProperty(Object varObject)
+        /// <param name="object"></param>
+        internal PolymorphicProperty(Object @object)
         {
-            VarObject = varObject;
+            Object = @object;
             OnCreated();
         }
 
@@ -84,9 +84,9 @@ namespace Org.OpenAPITools.Model
         public string? VarString { get; set; }
 
         /// <summary>
-        /// Gets or Sets VarObject
+        /// Gets or Sets Object
         /// </summary>
-        public Object? VarObject { get; set; }
+        public Object? Object { get; set; }
 
         /// <summary>
         /// Gets or Sets List
@@ -167,8 +167,8 @@ namespace Org.OpenAPITools.Model
                     Utf8JsonReader utf8JsonReaderVarString = utf8JsonReader;
                     OpenAPIClientUtils.TryDeserialize<string?>(ref utf8JsonReaderVarString, jsonSerializerOptions, out varString);
 
-                    Utf8JsonReader utf8JsonReaderVarObject = utf8JsonReader;
-                    OpenAPIClientUtils.TryDeserialize<Object?>(ref utf8JsonReaderVarObject, jsonSerializerOptions, out varObject);
+                    Utf8JsonReader utf8JsonReaderObject = utf8JsonReader;
+                    OpenAPIClientUtils.TryDeserialize<Object?>(ref utf8JsonReaderObject, jsonSerializerOptions, out varObject);
 
                     Utf8JsonReader utf8JsonReaderList = utf8JsonReader;
                     OpenAPIClientUtils.TryDeserialize<List<string>?>(ref utf8JsonReaderList, jsonSerializerOptions, out list);

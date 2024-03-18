@@ -52,6 +52,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
+import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -462,8 +463,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
                 .put("kebabcase", new KebabCaseLambda())
-                .put("camelcase", new CamelCaseLambda(true).generator(this))
-                .put("pascalcase", new CamelCaseLambda(false).generator(this))
+                .put("camelcase", new CamelCaseAndSanitizeLambda(true).generator(this))
+                .put("pascalcase", new CamelCaseAndSanitizeLambda(false).generator(this))
+                .put("uncamelize", new UncamelizeLambda())
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
@@ -4729,7 +4731,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (contentType != null &&
+            if (!(this instanceof RustAxumServerCodegen) && contentType != null &&
                     (contentType.startsWith("application/x-www-form-urlencoded") ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters

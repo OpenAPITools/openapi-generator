@@ -110,6 +110,34 @@ instance HasOptionalParam DeletePet ApiKey where
 instance Produces DeletePet MimeNoContent
 
 
+-- *** findPets
+
+-- | @GET \/pet\/find@
+-- 
+-- Finds Pets
+-- 
+-- AuthMethod: 'AuthOAuthPetstoreAuth'
+-- 
+findPets
+  :: Accept accept -- ^ request accept ('MimeType')
+  -> OpenAPIPetstoreRequest FindPets MimeNoContent [Pet] accept
+findPets  _ =
+  _mkRequest "GET" ["/pet/find"]
+    `_hasAuthType` (P.Proxy :: P.Proxy AuthOAuthPetstoreAuth)
+
+data FindPets  
+instance HasOptionalParam FindPets Filter where
+  applyOptionalParam req (Filter xs) =
+    req `addQuery` toJsonQuery ("filter", Just xs)
+instance HasOptionalParam FindPets OrderBy where
+  applyOptionalParam req (OrderBy xs) =
+    req `addQuery` toJsonQueryColl CommaSeparated ("order_by", Just xs)
+-- | @application/xml@
+instance Produces FindPets MimeXML
+-- | @application/json@
+instance Produces FindPets MimeJSON
+
+
 -- *** findPetsByStatus
 
 -- | @GET \/pet\/findByStatus@

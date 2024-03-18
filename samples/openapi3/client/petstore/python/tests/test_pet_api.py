@@ -228,6 +228,13 @@ class PetApiTests(unittest.TestCase):
         except ApiException as e:
             self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
 
+        try:
+            with open(self.foo, 'rb') as binary_file:
+                data = binary_file.read()
+            self.pet_api.upload_file(pet_id=self.pet.id, file=data)
+        except ApiException as e:
+            self.fail("upload_file() raised {0} unexpectedly".format(type(e)))
+
     def test_delete_pet(self):
         self.pet_api.add_pet(self.pet)
         assert self.pet.id is not None
