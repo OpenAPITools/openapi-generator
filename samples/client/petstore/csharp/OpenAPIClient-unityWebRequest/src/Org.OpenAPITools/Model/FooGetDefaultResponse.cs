@@ -36,14 +36,14 @@ namespace Org.OpenAPITools.Model
         /// <param name="varString">varString.</param>
         public FooGetDefaultResponse(Foo varString = default(Foo))
         {
-            this.VarString = varString;
+            this.String = varString;
         }
 
         /// <summary>
-        /// Gets or Sets VarString
+        /// Gets or Sets String
         /// </summary>
         [DataMember(Name = "string", EmitDefaultValue = false)]
-        public Foo VarString { get; set; }
+        public Foo String { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class FooGetDefaultResponse {\n");
-            sb.Append("  VarString: ").Append(VarString).Append("\n");
+            sb.Append("  String: ").Append(String).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -90,9 +90,9 @@ namespace Org.OpenAPITools.Model
             }
             return 
                 (
-                    this.VarString == input.VarString ||
-                    (this.VarString != null &&
-                    this.VarString.Equals(input.VarString))
+                    this.String == input.String ||
+                    (this.String != null &&
+                    this.String.Equals(input.String))
                 );
         }
 
@@ -105,9 +105,9 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.VarString != null)
+                if (this.String != null)
                 {
-                    hashCode = (hashCode * 59) + this.VarString.GetHashCode();
+                    hashCode = (hashCode * 59) + this.String.GetHashCode();
                 }
                 return hashCode;
             }
