@@ -455,7 +455,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (isReservedWord(cc)) {
             cc = escapeReservedWord(cc);
         }
-        prop.nameInCamelCase = cc;
+        //prop.nameInCamelCase = cc;
         return prop;
     }
 

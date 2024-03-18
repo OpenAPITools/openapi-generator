@@ -552,7 +552,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
             }
 
             for (CodegenProperty header : rsp.headers) {
-                header.nameInCamelCase = toModelName(header.baseName);
+                header.nameInPascalCase = toModelName(header.baseName);
                 header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
@@ -562,7 +562,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         for (CodegenProperty header : op.responseHeaders) {
-            header.nameInCamelCase = toModelName(header.baseName);
+            header.nameInPascalCase = toModelName(header.baseName);
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
 
@@ -642,7 +642,7 @@ public class RustAxumServerCodegen extends AbstractRustCodegen implements Codege
         }
 
         for (CodegenProperty header : op.responseHeaders) {
-            header.nameInCamelCase = toModelName(header.baseName);
+            header.nameInPascalCase = toModelName(header.baseName);
             header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
         }
     }
