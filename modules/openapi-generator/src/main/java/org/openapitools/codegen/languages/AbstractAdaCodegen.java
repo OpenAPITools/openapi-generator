@@ -650,10 +650,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                     }
                 }
             }
-            for (CodegenProperty header : rsp.headers) {
-                header.nameInPascalCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
-            }
         }
 
         return op;
@@ -844,10 +840,6 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
                         }
                     }
                 }
-            }
-            for (CodegenProperty header : rsp.headers) {
-                header.nameInPascalCase = toModelName(header.baseName);
-                header.nameInLowerCase = header.baseName.toLowerCase(Locale.ROOT);
             }
         }
 
