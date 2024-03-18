@@ -1122,7 +1122,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * Returns the model related to the given parameter
      */
     private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
-        return parameter.isModel
+        return parameter.isModel || parameter.getIsEnumOrRef()
                 ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
                 : null;
     }
