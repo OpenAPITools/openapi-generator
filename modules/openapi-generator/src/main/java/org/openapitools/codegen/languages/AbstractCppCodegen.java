@@ -289,7 +289,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (isReservedWord(nameInCamelCase) || nameInCamelCase.matches("^\\d.*")) {
             nameInCamelCase = escapeReservedWord(nameInCamelCase);
         }
-        //property.nameInCamelCase = nameInCamelCase;
+        property.nameInCamelCase = nameInCamelCase;
         return property;
     }
 
