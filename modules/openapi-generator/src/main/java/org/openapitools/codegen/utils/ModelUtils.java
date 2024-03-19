@@ -383,9 +383,14 @@ public class ModelUtils {
             //throw new RuntimeException("Failed to get the schema: null");
             return null;
         } else if (ref.startsWith("#/components/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
+
+            ref = ref.substring("#/components/".length()) ;
+            // allow deep-linking, only remove first ref in components (schemas, pathitems, ...)
+            if (ref.contains("/")) {
+                ref = ref.substring(ref.indexOf('/') + 1 );
+            }
         } else if (ref.startsWith("#/definitions/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
+            ref = ref.substring("#/definitions/".length());
         } else {
             once(LOGGER).warn("Failed to get the schema name: {}", ref);
             //throw new RuntimeException("Failed to get the schema: " + ref);
