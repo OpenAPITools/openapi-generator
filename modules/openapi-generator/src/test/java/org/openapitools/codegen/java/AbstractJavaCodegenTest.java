@@ -56,6 +56,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void toEnumVarNameShouldNotResultInSingleUnderscore() throws Exception {
         Assert.assertEquals(fakeJavaCodegen.toEnumVarName(" ", "String"), "SPACE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("==", "String"), "u");
     }
 
     @Test
