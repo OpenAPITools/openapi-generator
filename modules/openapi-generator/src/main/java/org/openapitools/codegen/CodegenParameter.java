@@ -41,7 +41,7 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public String nameInLowerCase; // property name in lower case
     public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
     public String nameInPascalCase; // property name in pascal case (e.g. ModifiedDate)
-    public String nameInSnakeCase; // property name in upper snake case    public String example; // example value (x-example)
+    public String nameInSnakeCase; // property name in upper snake case
     public String example; // example value (x-example)
     public Map<String, Example> examples;
     public String jsonSchema;
