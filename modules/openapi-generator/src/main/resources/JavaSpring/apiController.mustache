@@ -138,7 +138,10 @@ public class {{classname}}Controller implements {{classname}} {
         {{/async}}
     {{/isDelegate}}
     {{#isDelegate}}
-        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return {{/reactive}}{{/useResponseEntity}}{{/isVoid}}delegate.{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}});
+        {{^isVoid}}return {{/isVoid}}{{#isVoid}}{{#useResponseEntity}}return
+        {{/useResponseEntity}}{{^useResponseEntity}}{{#reactive}}return
+        {{/reactive}}{{/useResponseEntity}}{{/isVoid}}delegate
+            .{{operationId}}({{#allParams}}{{paramName}}{{^-last}}, {{/-last}}{{/allParams}}{{#vendorExtensions.x-spring-paginated}}{{#hasParams}}, {{/hasParams}}{{^hasParams}}{{#reactive}}, {{/reactive}}{{/hasParams}}pageable{{/vendorExtensions.x-spring-paginated}}{{#vendorExtensions.x-spring-provide-args-delegate-call}}{{#hasParams}},{{/hasParams}}{{^hasParams}}{{#reactive}},{{/reactive}}{{/hasParams}} {{{.}}}{{^hasParams}}{{^-last}}{{^reactive}},{{/reactive}}{{/-last}}{{/hasParams}}{{/vendorExtensions.x-spring-provide-args-delegate-call}});
     {{/isDelegate}}
     }
 
