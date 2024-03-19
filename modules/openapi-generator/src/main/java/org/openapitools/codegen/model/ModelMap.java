@@ -24,11 +24,11 @@ public class ModelMap extends HashMap<String, Object> {
         return (CodegenModel) get("model");
     }
 
-    /*
+    /**
      * Convert a list of ModelMap to map of CodegenModel.
      *
-     * @allModels list of model map
-     * @return map of Codegen Model
+     * @param  allModels list of model map
+     * @return           map of Codegen Model
      */
     static public HashMap<String, CodegenModel> toCodegenModelMap(List<ModelMap> allModels) {
         HashMap<String, CodegenModel> modelMaps = new HashMap<>();
