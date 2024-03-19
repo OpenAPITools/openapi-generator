@@ -29,6 +29,16 @@ class TestParameters(unittest.TestCase):
         self.assertEqual(item['request']["method"], 'PATCH')
         self.assertEqual(item['request']["body"]["raw"], '{\n  "firstName" : "Rebecca"\n}')
 
+    def test_request_with_array_strings(self):
+        # item
+        item = self.json_data['item'][2]['item'][0]['item'][0]
+        self.assertEqual(item['request']["method"], 'POST')
+        data = json.loads(item['request']["body"]["raw"])
+        # check is list
+        self.assertTrue(isinstance(data.get("tags"), list))
+        # check values
+        self.assertTrue(set(data.get("tags")) == {"user", "admin", "guest"})
+
 
 if __name__ == '__main__':
     unittest.main()

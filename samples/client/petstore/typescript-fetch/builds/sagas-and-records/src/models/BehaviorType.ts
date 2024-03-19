@@ -25,6 +25,10 @@ export const BehaviorType = {
 export type BehaviorType = typeof BehaviorType[keyof typeof BehaviorType];
 
 
+export function instanceOfBehaviorType(value: any): boolean {
+    return Object.values(BehaviorType).includes(value);
+}
+
 export function BehaviorTypeFromJSON(json: any): BehaviorType {
     return BehaviorTypeFromJSONTyped(json, false);
 }

@@ -392,6 +392,13 @@ public class RustClientCodegen extends AbstractRustCodegen implements CodegenCon
                 // remove v or V
                 content = content.trim().replace("v", "");
                 content = content.replace("V", "");
+
+                // convert 5.2 to 5.2.0 for example
+                String[] contents = content.split("[.]");
+                if (contents.length == 2) {
+                    content += ".0";
+                }
+
                 writer.write(content);
             }
         });
