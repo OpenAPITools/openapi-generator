@@ -791,6 +791,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         additionalProperties.put("x-http-statuses-with-return", httpStatusesWithReturn);
 
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
+
         if (objs != null) {
             OperationMap operations = objs.getOperations();
             if (operations != null) {
@@ -1041,57 +1043,57 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
 
                     for (CodegenParameter parameter : operation.allParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.bodyParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.cookieParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.formParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.headerParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.implicitHeadersParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.optionalParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.pathParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.queryParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.notNullableParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
                     for (CodegenParameter parameter : operation.requiredParams) {
-                        CodegenModel model = getModelFromParameter(allModels, parameter);
+                        CodegenModel model = getModelFromParameter(modelMaps, parameter);
                         patchParameter(model, parameter);
                     }
 
@@ -1118,10 +1120,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Returns the model related to the given parameter
      */
-    private CodegenModel getModelFromParameter(List<ModelMap> allModels, CodegenParameter parameter) {
-        return parameter.isModel || parameter.getIsEnumOrRef()
-                ? allModels.stream().map(m -> m.getModel()).filter(m -> m.getClassname().equals(parameter.dataType)).findFirst().orElse(null)
-                : null;
+    private CodegenModel getModelFromParameter(HashMap<String, CodegenModel> allModels, CodegenParameter parameter) {
+        if (parameter.isModel || parameter.getIsEnumOrRef()) {
+            return allModels.getOrDefault(parameter.dataType, null);
+        } else {
+            return null;
+        }
     }
 
     /**
