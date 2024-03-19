@@ -15,6 +15,7 @@ docs/Order.md
 docs/Pet.md
 docs/PetApi.md
 docs/PropertyTest.md
+docs/Ref.md
 docs/Return.md
 docs/StoreApi.md
 docs/Tag.md
@@ -41,6 +42,7 @@ src/models/baz.rs
 src/models/category.rs
 src/models/enum_array_testing.rs
 src/models/mod.rs
+src/models/model_ref.rs
 src/models/model_return.rs
 src/models/nullable_array.rs
 src/models/optional_testing.rs
