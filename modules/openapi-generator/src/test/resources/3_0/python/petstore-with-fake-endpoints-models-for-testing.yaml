@@ -1140,6 +1140,27 @@ paths:
                 properties:
                   reason404:
                     type: string
+  /fake/object_for_multipart_requests: 
+    post:
+      tags:
+        - fake
+      operationId: testObjectForMultipartRequests
+      responses:
+        "200":
+          description: Success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
   /another-fake/dummy:
     patch:
       tags:
