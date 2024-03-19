@@ -453,7 +453,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         CodegenProperty prop = super.fromProperty(name, p, required);
         String cc = camelize(prop.name, LOWERCASE_FIRST_LETTER);
         if (isReservedWord(cc)) {
-            cc = escapeReservedWord(cc);
+            cc = escapeReservedWord(cc); // e.g. byte => byte_
         }
         prop.nameInCamelCase = cc;
         return prop;

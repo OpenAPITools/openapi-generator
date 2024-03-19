@@ -1,4 +1,4 @@
-{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder : Json.Decode.Decoder {{classname}}{{nameInCamelCase}}
+{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder : Json.Decode.Decoder {{classname}}{{nameInPascalCase}}
 {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}{{enumName}}Decoder =
     Json.Decode.{{#isString}}string{{/isString}}{{^isString}}int{{/isString}}
         |> Json.Decode.andThen

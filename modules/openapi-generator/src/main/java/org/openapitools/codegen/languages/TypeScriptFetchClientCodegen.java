@@ -1239,7 +1239,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             this.isInherited = cp.isInherited;
             this.discriminatorValue = cp.discriminatorValue;
             this.nameInLowerCase = cp.nameInLowerCase;
-            this.nameInCamelCase = cp.nameInCamelCase;
+            this.nameInPascalCase = cp.nameInPascalCase;
             this.nameInSnakeCase = cp.nameInSnakeCase;
             this.enumName = cp.enumName;
             this.maxItems = cp.maxItems;

@@ -112,7 +112,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
    * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
 {{/isReadOnly}}
    */
-  public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} add{{nameInPascalCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.add({{name}}Item);
     return this;
   }
@@ -125,7 +125,7 @@ public class {{classname}} {{#parent}}extends {{{.}}}{{/parent}}{{#vendorExtensi
    * <br><em>N.B. <code>{{name}}</code> is <b>read only</b>; client code should not call this method</em>.
 {{/isReadOnly}}
    */
-  public {{classname}} put{{nameInCamelCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
+  public {{classname}} put{{nameInPascalCase}}Item(String key, {{{items.datatypeWithEnum}}} {{name}}Item) {
     this.{{name}}.put(key, {{name}}Item);
     return this;
   }
