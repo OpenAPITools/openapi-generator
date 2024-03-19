@@ -1,0 +1,40 @@
+openapi: 3.0.3
+info:
+  title: Issue 10806 - json query params
+  description: "json query params"
+  version: "1.0.0"
+servers:
+  - url: localhost:8080
+paths:
+  /api:
+    get:
+      operationId: GetSomeValue
+      parameters:
+        - in: query
+          name: QueryObject
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryObject'
+      responses:
+        '200':
+          description: Some return value
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SomeReturnValue'
+components:
+  schemas:
+    QueryObject:
+      type: object
+      properties:
+        some-key:
+          type: string
+    SomeReturnValue:
+      type: object
+      required:
+        - someValue
+      properties:
+        someValue:
+          type: string

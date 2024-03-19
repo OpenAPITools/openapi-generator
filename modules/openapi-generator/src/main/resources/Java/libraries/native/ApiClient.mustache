@@ -58,13 +58,31 @@ public class ApiClient {
   private Duration connectTimeout;
 
   private static String valueToString(Object value) {
-    if (value == null) {
-      return "";
-    }
-    if (value instanceof OffsetDateTime) {
-      return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-    }
-    return value.toString();
+     if (value == null) {
+        return "";
+     }
+     if (value instanceof OffsetDateTime) {
+        return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+     }
+     return value.toString();
+  }
+
+  private String valueToStringWithObjectMapper(Object value) {
+      if (value == null) {
+          return "";
+      }
+      if (value instanceof OffsetDateTime) {
+          return ((OffsetDateTime) value).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+      }
+
+      if (!value.getClass().isPrimitive()) {
+          try {
+              return mapper.writeValueAsString(value);
+          } catch (Exception e) {
+              return e.toString();
+          }
+      }
+      return value.toString();
   }
 
   /**
@@ -95,6 +113,13 @@ public class ApiClient {
       return Collections.emptyList();
     }
     return Collections.singletonList(new Pair(urlEncode(name), urlEncode(valueToString(value))));
+  }
+
+  public List<Pair> parameterToPairsWithObjectMapper(String name, Object value) {
+      if (name == null || name.isEmpty() || value == null) {
+          return Collections.emptyList();
+      }
+      return Collections.singletonList(new Pair(urlEncode(name), urlEncode(valueToStringWithObjectMapper(value))));
   }
 
   /**
