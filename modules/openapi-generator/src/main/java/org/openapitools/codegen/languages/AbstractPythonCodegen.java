@@ -2062,7 +2062,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         values.add((String) enumVar.get("value"));
                     }
                 }
-                return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+                return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
             } else*/
 
             if (result == null) {
