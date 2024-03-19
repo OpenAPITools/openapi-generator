@@ -7,7 +7,13 @@
 package {{moduleName}}::Role;
 use utf8;
 
+{{#useMoo}}
+use Moo::Role;
+use Types::Standard qw( Str HashRef );
+{{/useMoo}}
+{{^useMoo}}
 use Moose::Role;
+{{/useMoo}}
 use namespace::autoclean;
 use Class::Inspector;
 use Log::Any qw($log);
