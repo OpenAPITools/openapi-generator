@@ -634,6 +634,46 @@ public class PostmanCollectionCodegenTest {
     }
 
     @Test
+    public void convertNestedArrayListToJson() {
+
+        final String EXPECTED =
+                "{\\n " +
+                        "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n " +
+                        "\\\"tags\\\": [\\\"ams\\\", \\\"adam\\\"]" +
+                        "\\n}";
+
+        LinkedHashMap<String, Object> city = new LinkedHashMap<>();
+        city.put("id", 1);
+        city.put("city", "Amsterdam");
+        ArrayList<String> tags = new ArrayList<>();
+        tags.add("ams");
+        tags.add("adam");
+        city.put("tags", tags);
+
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
+
+    }
+
+    @Test
+    public void convertNestedEmptyArrayListToJson() {
+
+        final String EXPECTED =
+                "{\\n " +
+                        "\\\"id\\\": 1,\\n \\\"city\\\": \\\"Amsterdam\\\",\\n " +
+                        "\\\"tags\\\": []" +
+                        "\\n}";
+
+        LinkedHashMap<String, Object> city = new LinkedHashMap<>();
+        city.put("id", 1);
+        city.put("city", "Amsterdam");
+        ArrayList<String> tags = new ArrayList<>();
+        city.put("tags", tags);
+
+        assertEquals(EXPECTED, new PostmanCollectionCodegen().convertToJson(city));
+
+    }
+
+    @Test
     public void testAddToList()  {
 
         PostmanCollectionCodegen postmanCollectionCodegen = new PostmanCollectionCodegen();

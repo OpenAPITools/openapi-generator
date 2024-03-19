@@ -473,12 +473,12 @@
                 {{#-first}}
                 {{#isString}}
                 if ({{#lambda.pasteLine}}{{/lambda.pasteLine}} != null){{! we cant use name here because enumVar also has a name property, so use the paste lambda instead }}
-                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{nameInCamelCase}}{{/lambda.camelcase_sanitize_param}}RawValue);
+                    writer.WriteString("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{nameInPascalCase}}{{/lambda.camelcase_sanitize_param}}RawValue);
                 else
                     writer.WriteNull("{{baseName}}");
                 {{/isString}}
                 {{^isString}}
-                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{nameInCamelCase}}{{/lambda.camelcase_sanitize_param}}RawValue);
+                writer.WriteNumber("{{baseName}}", {{#lambda.camelcase_sanitize_param}}{{nameInPascalCase}}{{/lambda.camelcase_sanitize_param}}RawValue);
                 {{/isString}}
                 {{/-first}}
                 {{/enumVars}}

@@ -756,6 +756,8 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
             } else if (value instanceof LinkedHashMap) {
                 String in = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": ";
                 ret = traverseMap(((LinkedHashMap<String, Object>) value),  in);
+            } else if (value instanceof ArrayList<?>) {
+                ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + key + JSON_ESCAPE_DOUBLE_QUOTE + ": " + getJsonArray((ArrayList<Object>) value);
             } else {
                 LOGGER.warn("Value type unrecognised: " + value.getClass());
             }
@@ -768,6 +770,38 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
         }
 
         ret = ret + JSON_ESCAPE_NEW_LINE + "}";
+
+        return ret;
+    }
+
+    String getJsonArray(ArrayList<Object> list) {
+        String ret = "";
+
+        for(Object element: list) {
+            if(element instanceof String) {
+                ret = ret + getStringArrayElement((String) element) + ", ";
+            } else if(element instanceof LinkedHashMap) {
+                ret = traverseMap((LinkedHashMap<String, Object>) element, ret) + ", ";
+            }
+        }
+
+        if(ret.endsWith(", ")) {
+            ret = ret.substring(0, ret.length() - 2);
+        }
+
+        return "[" + ret + "]";
+    }
+
+    String getStringArrayElement(String element) {
+        String ret = "";
+
+        if(element.startsWith("{")) {
+            // isJson (escape all double quotes)
+            ret = ret + element.replace("\"", JSON_ESCAPE_DOUBLE_QUOTE);
+        } else {
+            // string element (add escaped double quotes)
+            ret = ret + JSON_ESCAPE_DOUBLE_QUOTE + element + JSON_ESCAPE_DOUBLE_QUOTE;
+        }
 
         return ret;
     }

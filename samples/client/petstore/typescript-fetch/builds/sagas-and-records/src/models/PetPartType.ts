@@ -25,6 +25,10 @@ export const PetPartType = {
 export type PetPartType = typeof PetPartType[keyof typeof PetPartType];
 
 
+export function instanceOfPetPartType(value: any): boolean {
+    return Object.values(PetPartType).includes(value);
+}
+
 export function PetPartTypeFromJSON(json: any): PetPartType {
     return PetPartTypeFromJSONTyped(json, false);
 }
