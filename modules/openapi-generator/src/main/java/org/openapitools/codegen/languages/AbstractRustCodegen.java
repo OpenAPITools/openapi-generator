@@ -436,4 +436,12 @@ public abstract class AbstractRustCodegen extends DefaultCodegen implements Code
     public String addRegularExpressionDelimiter(String pattern) {
         return pattern;
     }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "r#"+ name;
+    }
 }
