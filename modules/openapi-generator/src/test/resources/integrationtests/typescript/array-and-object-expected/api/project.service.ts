@@ -117,9 +117,9 @@ export class ProjectService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity>;
-    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity>>;
-    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity>>;
+    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity|Error>;
+    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity|Error>>;
+    public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity|Error>>;
     public createProject(name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -185,7 +185,7 @@ export class ProjectService {
         }
 
         let localVarPath = `/projects`;
-        return this.httpClient.request<ProjectEntity>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectEntity|Error>('post', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
@@ -205,9 +205,9 @@ export class ProjectService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteProjectById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any>;
-    public deleteProjectById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<any>>;
-    public deleteProjectById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<any>>;
+    public deleteProjectById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Error>;
+    public deleteProjectById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Error>>;
+    public deleteProjectById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Error>>;
     public deleteProjectById(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling deleteProjectById.');
@@ -245,7 +245,7 @@ export class ProjectService {
         }
 
         let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
-        return this.httpClient.request<any>('delete', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Error>('delete', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -264,9 +264,9 @@ export class ProjectService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProjectById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity>;
-    public getProjectById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity>>;
-    public getProjectById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity>>;
+    public getProjectById(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity|Error>;
+    public getProjectById(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity|Error>>;
+    public getProjectById(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity|Error>>;
     public getProjectById(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling getProjectById.');
@@ -304,7 +304,7 @@ export class ProjectService {
         }
 
         let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
-        return this.httpClient.request<ProjectEntity>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectEntity|Error>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -330,9 +330,9 @@ export class ProjectService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectList>;
-    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectList>>;
-    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectList>>;
+    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectList|Error>;
+    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectList|Error>>;
+    public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectList|Error>>;
     public getProjectList(page?: number, perPage?: number, kind?: 'my_models' | 'published' | 'location', q?: string, filter?: string, latitude?: number, longitude?: number, scope?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -401,7 +401,7 @@ export class ProjectService {
         }
 
         let localVarPath = `/projects`;
-        return this.httpClient.request<ProjectList>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectList|Error>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -426,9 +426,9 @@ export class ProjectService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity>;
-    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity>>;
-    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity>>;
+    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<ProjectEntity|Error>;
+    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<ProjectEntity|Error>>;
+    public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<ProjectEntity|Error>>;
     public updateProject(id: number, name?: string, address?: string, longitude?: number, latitude?: number, meta?: string, thumbnail?: Blob, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling updateProject.');
@@ -503,7 +503,7 @@ export class ProjectService {
         }
 
         let localVarPath = `/projects/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
-        return this.httpClient.request<ProjectEntity>('put', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<ProjectEntity|Error>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: localVarConvertFormParamsToString ? localVarFormParams.toString() : localVarFormParams,
