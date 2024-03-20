@@ -4,7 +4,6 @@ docs/AuthApi.md
 docs/Bird.md
 docs/BodyApi.md
 docs/Category.md
-docs/DataQuery.md
 docs/DefaultValue.md
 docs/FormApi.md
 docs/HeaderApi.md
@@ -15,7 +14,6 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
-docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 gradle/wrapper/gradle-wrapper.jar
 gradle/wrapper/gradle-wrapper.properties
@@ -40,12 +38,10 @@ src/main/kotlin/org/openapitools/client/infrastructure/ResponseExt.kt
 src/main/kotlin/org/openapitools/client/infrastructure/Serializer.kt
 src/main/kotlin/org/openapitools/client/models/ApiBird.kt
 src/main/kotlin/org/openapitools/client/models/ApiCategory.kt
-src/main/kotlin/org/openapitools/client/models/ApiDataQuery.kt
 src/main/kotlin/org/openapitools/client/models/ApiDefaultValue.kt
 src/main/kotlin/org/openapitools/client/models/ApiNumberPropertiesOnly.kt
 src/main/kotlin/org/openapitools/client/models/ApiPet.kt
 src/main/kotlin/org/openapitools/client/models/ApiQuery.kt
 src/main/kotlin/org/openapitools/client/models/ApiStringEnumRef.kt
 src/main/kotlin/org/openapitools/client/models/ApiTag.kt
-src/main/kotlin/org/openapitools/client/models/ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.kt
 src/main/kotlin/org/openapitools/client/models/ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.kt

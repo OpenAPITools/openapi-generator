@@ -33,7 +33,7 @@ data class ApiQuery (
     val id: kotlin.Long? = null,
 
     @SerializedName("outcomes")
-    val outcomes: kotlin.collections.List<ApiQuery.Outcomes>? = arrayListOf(Outcomes.SUCCESS,Outcomes.FAILURE)
+    val outcomes: kotlin.collections.List<ApiQuery.Outcomes>? = null
 
 ) {
 

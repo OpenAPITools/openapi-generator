@@ -8,7 +8,6 @@ import okhttp3.ResponseBody
 import com.google.gson.annotations.SerializedName
 
 import org.openapitools.client.models.ApiPet
-import org.openapitools.client.models.ApiStringEnumRef
 import org.openapitools.client.models.ApiTag
 
 import okhttp3.MultipartBody
@@ -64,18 +63,6 @@ interface BodyApi {
     suspend fun testBodyMultipartFormdataSingleBinary(@Part myFile: MultipartBody.Part? = null): Response<kotlin.String>
 
     /**
-     * Test body parameter(s)
-     * Test body parameter(s)
-     * Responses:
-     *  - 200: Successful operation
-     *
-     * @param apiPet Pet object that needs to be added to the store (optional)
-     * @return [ApiPet]
-     */
-    @POST("echo/body/allOf/Pet")
-    suspend fun testEchoBodyAllOfPet(@Body apiPet: ApiPet? = null): Response<ApiPet>
-
-    /**
      * Test free form object
      * Test free form object
      * Responses:
@@ -110,18 +97,6 @@ interface BodyApi {
      */
     @POST("echo/body/Pet/response_string")
     suspend fun testEchoBodyPetResponseString(@Body apiPet: ApiPet? = null): Response<kotlin.String>
-
-    /**
-     * Test string enum response body
-     * Test string enum response body
-     * Responses:
-     *  - 200: Successful operation
-     *
-     * @param body String enum (optional)
-     * @return [ApiStringEnumRef]
-     */
-    @POST("echo/body/string_enum")
-    suspend fun testEchoBodyStringEnum(@Body body: kotlin.String? = null): Response<ApiStringEnumRef>
 
     /**
      * Test empty json (request body)

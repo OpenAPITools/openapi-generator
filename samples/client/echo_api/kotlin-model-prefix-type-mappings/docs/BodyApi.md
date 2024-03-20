@@ -8,11 +8,9 @@ Method | HTTP request | Description
 [**testBodyApplicationOctetstreamBinary**](BodyApi.md#testBodyApplicationOctetstreamBinary) | **POST** body/application/octetstream/binary | Test body parameter(s)
 [**testBodyMultipartFormdataArrayOfBinary**](BodyApi.md#testBodyMultipartFormdataArrayOfBinary) | **POST** body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 [**testBodyMultipartFormdataSingleBinary**](BodyApi.md#testBodyMultipartFormdataSingleBinary) | **POST** body/application/octetstream/single_binary | Test single binary in multipart mime
-[**testEchoBodyAllOfPet**](BodyApi.md#testEchoBodyAllOfPet) | **POST** echo/body/allOf/Pet | Test body parameter(s)
 [**testEchoBodyFreeFormObjectResponseString**](BodyApi.md#testEchoBodyFreeFormObjectResponseString) | **POST** echo/body/FreeFormObject/response_string | Test free form object
 [**testEchoBodyPet**](BodyApi.md#testEchoBodyPet) | **POST** echo/body/Pet | Test body parameter(s)
 [**testEchoBodyPetResponseString**](BodyApi.md#testEchoBodyPetResponseString) | **POST** echo/body/Pet/response_string | Test empty response body
-[**testEchoBodyStringEnum**](BodyApi.md#testEchoBodyStringEnum) | **POST** echo/body/string_enum | Test string enum response body
 [**testEchoBodyTagResponseString**](BodyApi.md#testEchoBodyTagResponseString) | **POST** echo/body/Tag/response_string | Test empty json (request body)
 
 
@@ -173,46 +171,6 @@ No authorization required
  - **Accept**: text/plain
 
 
-Test body parameter(s)
-
-Test body parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(BodyApi::class.java)
-val apiPet : ApiPet =  // ApiPet | Pet object that needs to be added to the store
-
-launch(Dispatchers.IO) {
-    val result : ApiPet = webService.testEchoBodyAllOfPet(apiPet)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apiPet** | [**ApiPet**](ApiPet.md)| Pet object that needs to be added to the store | [optional]
-
-### Return type
-
-[**ApiPet**](ApiPet.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
 Test free form object
 
 Test free form object
@@ -331,46 +289,6 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: text/plain
-
-
-Test string enum response body
-
-Test string enum response body
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(BodyApi::class.java)
-val body : kotlin.String =  // kotlin.String | String enum
-
-launch(Dispatchers.IO) {
-    val result : ApiStringEnumRef = webService.testEchoBodyStringEnum(body)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **kotlin.String**| String enum | [optional]
-
-### Return type
-
-[**ApiStringEnumRef**](ApiStringEnumRef.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
 
 
 Test empty json (request body)

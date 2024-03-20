@@ -36,10 +36,10 @@ import com.google.gson.annotations.SerializedName
 data class ApiDefaultValue (
 
     @SerializedName("array_string_enum_ref_default")
-    val arrayStringEnumRefDefault: kotlin.collections.List<ApiStringEnumRef>? = arrayListOf(ApiStringEnumRef.SUCCESS,ApiStringEnumRef.FAILURE),
+    val arrayStringEnumRefDefault: kotlin.collections.List<ApiStringEnumRef>? = null,
 
     @SerializedName("array_string_enum_default")
-    val arrayStringEnumDefault: kotlin.collections.List<ApiDefaultValue.ArrayStringEnumDefault>? = arrayListOf(ArrayStringEnumDefault.SUCCESS,ArrayStringEnumDefault.FAILURE),
+    val arrayStringEnumDefault: kotlin.collections.List<ApiDefaultValue.ArrayStringEnumDefault>? = null,
 
     @SerializedName("array_string_default")
     val arrayStringDefault: kotlin.collections.List<kotlin.String>? = arrayListOf("failure","skipped"),

@@ -51,11 +51,9 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testBodyApplicationOctetstreamBinary**](docs/BodyApi.md#testbodyapplicationoctetstreambinary) | **POST** body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**testBodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#testbodymultipartformdataarrayofbinary) | **POST** body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 *BodyApi* | [**testBodyMultipartFormdataSingleBinary**](docs/BodyApi.md#testbodymultipartformdatasinglebinary) | **POST** body/application/octetstream/single_binary | Test single binary in multipart mime
-*BodyApi* | [**testEchoBodyAllOfPet**](docs/BodyApi.md#testechobodyallofpet) | **POST** echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#testechobodyfreeformobjectresponsestring) | **POST** echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**testEchoBodyPet**](docs/BodyApi.md#testechobodypet) | **POST** echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**testEchoBodyPetResponseString**](docs/BodyApi.md#testechobodypetresponsestring) | **POST** echo/body/Pet/response_string | Test empty response body
-*BodyApi* | [**testEchoBodyStringEnum**](docs/BodyApi.md#testechobodystringenum) | **POST** echo/body/string_enum | Test string enum response body
 *BodyApi* | [**testEchoBodyTagResponseString**](docs/BodyApi.md#testechobodytagresponsestring) | **POST** echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testformintegerbooleanstring) | **POST** form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormOneof**](docs/FormApi.md#testformoneof) | **POST** form/oneof | Test form parameter(s) for oneOf schema
@@ -65,12 +63,8 @@ Class | Method | HTTP request | Description
 *QueryApi* | [**testQueryDatetimeDateString**](docs/QueryApi.md#testquerydatetimedatestring) | **GET** query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testqueryintegerbooleanstring) | **GET** query/integer/boolean/string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObject**](docs/QueryApi.md#testquerystyledeepobjectexplodetrueobject) | **GET** query/style_deepObject/explode_true/object | Test query parameter(s)
-*QueryApi* | [**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](docs/QueryApi.md#testquerystyledeepobjectexplodetrueobjectallof) | **GET** query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeFalseArrayInteger**](docs/QueryApi.md#testquerystyleformexplodefalsearrayinteger) | **GET** query/style_form/explode_false/array_integer | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeFalseArrayString**](docs/QueryApi.md#testquerystyleformexplodefalsearraystring) | **GET** query/style_form/explode_false/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueArrayString**](docs/QueryApi.md#testquerystyleformexplodetruearraystring) | **GET** query/style_form/explode_true/array_string | Test query parameter(s)
 *QueryApi* | [**testQueryStyleFormExplodeTrueObject**](docs/QueryApi.md#testquerystyleformexplodetrueobject) | **GET** query/style_form/explode_true/object | Test query parameter(s)
-*QueryApi* | [**testQueryStyleFormExplodeTrueObjectAllOf**](docs/QueryApi.md#testquerystyleformexplodetrueobjectallof) | **GET** query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 <a id="documentation-for-models"></a>
@@ -78,14 +72,12 @@ Class | Method | HTTP request | Description
 
  - [org.openapitools.client.models.ApiBird](docs/ApiBird.md)
  - [org.openapitools.client.models.ApiCategory](docs/ApiCategory.md)
- - [org.openapitools.client.models.ApiDataQuery](docs/ApiDataQuery.md)
  - [org.openapitools.client.models.ApiDefaultValue](docs/ApiDefaultValue.md)
  - [org.openapitools.client.models.ApiNumberPropertiesOnly](docs/ApiNumberPropertiesOnly.md)
  - [org.openapitools.client.models.ApiPet](docs/ApiPet.md)
  - [org.openapitools.client.models.ApiQuery](docs/ApiQuery.md)
  - [org.openapitools.client.models.ApiStringEnumRef](docs/ApiStringEnumRef.md)
  - [org.openapitools.client.models.ApiTag](docs/ApiTag.md)
- - [org.openapitools.client.models.ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [org.openapitools.client.models.ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 
 

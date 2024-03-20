@@ -8,12 +8,8 @@ Method | HTTP request | Description
 [**testQueryDatetimeDateString**](QueryApi.md#testQueryDatetimeDateString) | **GET** query/datetime/date/string | Test query parameter(s)
 [**testQueryIntegerBooleanString**](QueryApi.md#testQueryIntegerBooleanString) | **GET** query/integer/boolean/string | Test query parameter(s)
 [**testQueryStyleDeepObjectExplodeTrueObject**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObject) | **GET** query/style_deepObject/explode_true/object | Test query parameter(s)
-[**testQueryStyleDeepObjectExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleDeepObjectExplodeTrueObjectAllOf) | **GET** query/style_deepObject/explode_true/object/allOf | Test query parameter(s)
-[**testQueryStyleFormExplodeFalseArrayInteger**](QueryApi.md#testQueryStyleFormExplodeFalseArrayInteger) | **GET** query/style_form/explode_false/array_integer | Test query parameter(s)
-[**testQueryStyleFormExplodeFalseArrayString**](QueryApi.md#testQueryStyleFormExplodeFalseArrayString) | **GET** query/style_form/explode_false/array_string | Test query parameter(s)
 [**testQueryStyleFormExplodeTrueArrayString**](QueryApi.md#testQueryStyleFormExplodeTrueArrayString) | **GET** query/style_form/explode_true/array_string | Test query parameter(s)
 [**testQueryStyleFormExplodeTrueObject**](QueryApi.md#testQueryStyleFormExplodeTrueObject) | **GET** query/style_form/explode_true/object | Test query parameter(s)
-[**testQueryStyleFormExplodeTrueObjectAllOf**](QueryApi.md#testQueryStyleFormExplodeTrueObjectAllOf) | **GET** query/style_form/explode_true/object/allOf | Test query parameter(s)
 
 
 
@@ -200,126 +196,6 @@ Test query parameter(s)
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(QueryApi::class.java)
-val queryObject : ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter =  // ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
-
-launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter**](.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(QueryApi::class.java)
-val queryObject : kotlin.collections.List<kotlin.Int> =  // kotlin.collections.List<kotlin.Int> | 
-
-launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleFormExplodeFalseArrayInteger(queryObject)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**kotlin.collections.List&lt;kotlin.Int&gt;**](kotlin.Int.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(QueryApi::class.java)
-val queryObject : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
-
-launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleFormExplodeFalseArrayString(queryObject)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(QueryApi::class.java)
 val queryObject : ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter =  // ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter | 
 
 launch(Dispatchers.IO) {
@@ -372,46 +248,6 @@ launch(Dispatchers.IO) {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **queryObject** | [**ApiPet**](.md)|  | [optional]
-
-### Return type
-
-**kotlin.String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain
-
-
-Test query parameter(s)
-
-Test query parameter(s)
-
-### Example
-```kotlin
-// Import classes:
-//import org.openapitools.client.*
-//import org.openapitools.client.infrastructure.*
-//import org.openapitools.client.models.*
-
-val apiClient = ApiClient()
-val webService = apiClient.createWebservice(QueryApi::class.java)
-val queryObject : ApiDataQuery =  // ApiDataQuery | 
-
-launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testQueryStyleFormExplodeTrueObjectAllOf(queryObject)
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **queryObject** | [**ApiDataQuery**](.md)|  | [optional]
 
 ### Return type
 

@@ -1,6 +1,6 @@
 generatorName: kotlin
 outputDir: samples/client/echo_api/kotlin-model-prefix-type-mappings
-inputSpec: modules/openapi-generator/src/test/resources/3_0/echo_api.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/kotlin/echo_api.yaml
 templateDir: modules/openapi-generator/src/main/resources/kotlin-client
 typeMappings: 
   java.io.File: RequestBody

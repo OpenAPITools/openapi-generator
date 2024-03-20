@@ -6,10 +6,8 @@ import retrofit2.Response
 import okhttp3.RequestBody
 import com.google.gson.annotations.SerializedName
 
-import org.openapitools.client.models.ApiDataQuery
 import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiStringEnumRef
-import org.openapitools.client.models.ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 import org.openapitools.client.models.ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
 interface QueryApi {
@@ -82,42 +80,6 @@ interface QueryApi {
      * Responses:
      *  - 200: Successful operation
      *
-     * @param queryObject  (optional)
-     * @return [kotlin.String]
-     */
-    @GET("query/style_deepObject/explode_true/object/allOf")
-    suspend fun testQueryStyleDeepObjectExplodeTrueObjectAllOf(@Query("query_object") queryObject: ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter? = null): Response<kotlin.String>
-
-    /**
-     * Test query parameter(s)
-     * Test query parameter(s)
-     * Responses:
-     *  - 200: Successful operation
-     *
-     * @param queryObject  (optional)
-     * @return [kotlin.String]
-     */
-    @GET("query/style_form/explode_false/array_integer")
-    suspend fun testQueryStyleFormExplodeFalseArrayInteger(@Query("query_object") queryObject: CSVParams? = null): Response<kotlin.String>
-
-    /**
-     * Test query parameter(s)
-     * Test query parameter(s)
-     * Responses:
-     *  - 200: Successful operation
-     *
-     * @param queryObject  (optional)
-     * @return [kotlin.String]
-     */
-    @GET("query/style_form/explode_false/array_string")
-    suspend fun testQueryStyleFormExplodeFalseArrayString(@Query("query_object") queryObject: CSVParams? = null): Response<kotlin.String>
-
-    /**
-     * Test query parameter(s)
-     * Test query parameter(s)
-     * Responses:
-     *  - 200: Successful operation
-     *
      * @param values  (optional)
      * @return [kotlin.String]
      */
@@ -140,17 +102,5 @@ interface QueryApi {
      */
     @GET("query/style_form/explode_true/object")
     suspend fun testQueryStyleFormExplodeTrueObject(@Query("id") id: kotlin.Long? = null, @Query("name") name: kotlin.String, @Query("category") category: ApiCategory? = null, @Query("photoUrls") photoUrls: kotlin.collections.List<kotlin.String>, @Query("tags") tags: kotlin.collections.List<ApiTag>? = null, @Query("status") status: kotlin.String? = null): Response<kotlin.String>
-
-    /**
-     * Test query parameter(s)
-     * Test query parameter(s)
-     * Responses:
-     *  - 200: Successful operation
-     *
-     * @param queryObject  (optional)
-     * @return [kotlin.String]
-     */
-    @GET("query/style_form/explode_true/object/allOf")
-    suspend fun testQueryStyleFormExplodeTrueObjectAllOf(@Query("query_object") queryObject: ApiDataQuery? = null): Response<kotlin.String>
 
 }
