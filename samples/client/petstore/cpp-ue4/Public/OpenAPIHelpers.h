@@ -457,10 +457,11 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 template<typename T>
 inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, TOptional<T>& OptionalValue)
 {
-	if(JsonObject->HasField(Key))
+	const TSharedPtr<FJsonValue> JsonValue = JsonObject->TryGetField(Key);
+	if (JsonValue.IsValid() && !JsonValue->IsNull())
 	{
 		T Value;
-		if (TryGetJsonValue(JsonObject, Key, Value))
+		if (TryGetJsonValue(JsonValue, Value))
 		{
 			OptionalValue = Value;
 			return true;
@@ -468,7 +469,9 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FSt
 		else
 			return false;
 	}
-	return true; // Absence of optional value is not a parsing error
+	// Absence of optional value is not a parsing error.
+	// Nullable is handled like optional.
+	return true;
 }
 
 }

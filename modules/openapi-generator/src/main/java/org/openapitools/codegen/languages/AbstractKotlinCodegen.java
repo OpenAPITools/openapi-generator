@@ -648,7 +648,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toEnumName(CodegenProperty property) {
-        return property.nameInCamelCase;
+        return property.nameInPascalCase;
     }
 
     @Override

@@ -729,12 +729,7 @@ public class SwiftCombineClientCodegen extends DefaultCodegen implements Codegen
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         Map<String, Object> objectMap = (Map<String, Object>) objs.get("operations");
 
-        HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-        for (Object o : allModels) {
-            HashMap<String, Object> h = (HashMap<String, Object>) o;
-            CodegenModel m = (CodegenModel) h.get("model");
-            modelMaps.put(m.classname, m);
-        }
+        HashMap<String, CodegenModel> modelMaps = ModelMap.toCodegenModelMap(allModels);
 
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
