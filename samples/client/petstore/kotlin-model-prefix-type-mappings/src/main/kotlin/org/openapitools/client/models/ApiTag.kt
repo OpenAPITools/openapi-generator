@@ -16,8 +16,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * A tag for a pet
@@ -29,10 +28,10 @@ import com.squareup.moshi.JsonClass
 
 data class ApiTag (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String? = null
 
 )

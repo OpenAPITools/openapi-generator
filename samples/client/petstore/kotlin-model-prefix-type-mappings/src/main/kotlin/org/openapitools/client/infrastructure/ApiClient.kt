@@ -1,272 +1,223 @@
 package org.openapitools.client.infrastructure
 
-import okhttp3.OkHttpClient
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.FormBody
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import okhttp3.ResponseBody
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.Request
-import okhttp3.Headers
-import okhttp3.Headers.Companion.toHeaders
-import okhttp3.MultipartBody
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
+import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
+import org.openapitools.client.auth.OAuth
+import org.openapitools.client.auth.OAuth.AccessTokenListener
+import org.openapitools.client.auth.OAuthFlow
+import org.openapitools.client.auth.ApiKeyAuth
+
 import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
-import java.io.IOException
-import java.net.URLConnection
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.OffsetDateTime
-import java.time.OffsetTime
-import java.util.Locale
-import com.squareup.moshi.adapter
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
+import retrofit2.CallAdapter
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import retrofit2.converter.gson.GsonConverterFactory
 
- val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
-    companion object {
-        protected const val ContentType = "Content-Type"
-        protected const val Accept = "Accept"
-        protected const val Authorization = "Authorization"
-        protected const val JsonMediaType = "application/json"
-        protected const val FormDataMediaType = "multipart/form-data"
-        protected const val FormUrlEncMediaType = "application/x-www-form-urlencoded"
-        protected const val XmlMediaType = "application/xml"
-        protected const val OctetMediaType = "application/octet-stream"
+class ApiClient(
+    private var baseUrl: String = defaultBasePath,
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
+    private val serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
+    private val callFactory : Call.Factory? = null,
+    private val callAdapterFactories: List<CallAdapter.Factory> = listOf(
+    ),
+    private val converterFactories: List<Converter.Factory> = listOf(
+        ScalarsConverterFactory.create(),
+        GsonConverterFactory.create(serializerBuilder.create()),
+    )
+) {
+    private val apiAuthorizations = mutableMapOf<String, Interceptor>()
+    var logger: ((String) -> Unit)? = null
 
-        val apiKey: MutableMap<String, String> = mutableMapOf()
-        val apiKeyPrefix: MutableMap<String, String> = mutableMapOf()
-        var username: String? = null
-        var password: String? = null
-        var accessToken: String? = null
-        const val baseUrlKey = "org.openapitools.client.baseUrl"
+    private val retrofitBuilder: Retrofit.Builder by lazy {
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .apply {
+                callAdapterFactories.forEach {
+                    addCallAdapterFactory(it)
+                }
+            }
+            .apply {
+                converterFactories.forEach {
+                    addConverterFactory(it)
+                }
+            }
+    }
 
-        @JvmStatic
-        val defaultClient: OkHttpClient by lazy {
-            builder.build()
+    private val clientBuilder: OkHttpClient.Builder by lazy {
+        okHttpClientBuilder ?: defaultClientBuilder
+    }
+
+    private val defaultClientBuilder: OkHttpClient.Builder by lazy {
+        OkHttpClient()
+            .newBuilder()
+            .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
+                .apply { level = HttpLoggingInterceptor.Level.BODY }
+            )
+    }
+
+    init {
+        normalizeBaseUrl()
+    }
+
+    constructor(
+        baseUrl: String = defaultBasePath,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
+        authNames: Array<String>
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
+        authNames.forEach { authName ->
+            val auth: Interceptor? = when (authName) { 
+                "petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
+                
+                "api_key" -> ApiKeyAuth("header", "api_key")
+                
+                else -> throw RuntimeException("auth name $authName not found in available auth names")
+            }
+            if (auth != null) {
+                addAuthorization(authName, auth)
+            }
         }
+    }
 
-        @JvmStatic
-        val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    constructor(
+        baseUrl: String = defaultBasePath,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: GsonBuilder = Serializer.gsonBuilder,
+        authName: String,
+        clientId: String,
+        secret: String,
+        username: String,
+        password: String
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
+        getTokenEndPoint()
+            ?.setClientId(clientId)
+            ?.setClientSecret(secret)
+            ?.setUsername(username)
+            ?.setPassword(password)
     }
 
     /**
-     * Guess Content-Type header from the given file (defaults to "application/octet-stream").
-     *
-     * @param file The given file
-     * @return The guessed Content-Type
+    * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Token request builder
+    */
+    fun getTokenEndPoint(): TokenRequestBuilder? {
+        var result: TokenRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = tokenRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to configure authorization endpoint of the first oauth found in the apiAuthorizations (there should be only one)
+    * @return Authentication request builder
+    */
+    fun getAuthorizationEndPoint(): AuthenticationRequestBuilder? {
+        var result: AuthenticationRequestBuilder? = null
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            result = authenticationRequestBuilder
+        }
+        return result
+    }
+
+    /**
+    * Helper method to pre-set the oauth access token of the first oauth found in the apiAuthorizations (there should be only one)
+    * @param accessToken Access token
+    * @return ApiClient
+    */
+    fun setAccessToken(accessToken: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            setAccessToken(accessToken)
+        }
+        return this
+    }
+
+    /**
+    * Helper method to configure the oauth accessCode/implicit flow parameters
+    * @param clientId Client ID
+    * @param clientSecret Client secret
+    * @param redirectURI Redirect URI
+    * @return ApiClient
+    */
+    fun configureAuthorizationFlow(clientId: String, clientSecret: String, redirectURI: String): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            tokenRequestBuilder
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectURI(redirectURI)
+            authenticationRequestBuilder
+                ?.setClientId(clientId)
+                ?.setRedirectURI(redirectURI)
+        }
+        return this
+    }
+
+    /**
+    * Configures a listener which is notified when a new access token is received.
+    * @param accessTokenListener Access token listener
+    * @return ApiClient
+    */
+    fun registerAccessTokenListener(accessTokenListener: AccessTokenListener): ApiClient {
+        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
+            registerAccessTokenListener(accessTokenListener)
+        }
+        return this
+    }
+
+    /**
+     * Adds an authorization to be used by the client
+     * @param authName Authentication name
+     * @param authorization Authorization interceptor
+     * @return ApiClient
      */
-    protected fun guessContentTypeFromFile(file: File): String {
-        val contentType = URLConnection.guessContentTypeFromName(file.name)
-        return contentType ?: "application/octet-stream"
+    fun addAuthorization(authName: String, authorization: Interceptor): ApiClient {
+        if (apiAuthorizations.containsKey(authName)) {
+            throw RuntimeException("auth name $authName already in api authorizations")
+        }
+        apiAuthorizations[authName] = authorization
+        clientBuilder.addInterceptor(authorization)
+        return this
     }
 
-    protected inline fun <reified T> requestBody(content: T, mediaType: String?): RequestBody =
-        when {
-            content is File -> content.asRequestBody((mediaType ?: guessContentTypeFromFile(content)).toMediaTypeOrNull())
-            mediaType == FormDataMediaType ->
-                MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .apply {
-                        // content's type *must* be Map<String, PartConfig<*>>
-                        @Suppress("UNCHECKED_CAST")
-                        (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                            if (part.body is File) {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"; filename=\"${part.body.name}\"")
-                                val fileMediaType = guessContentTypeFromFile(part.body).toMediaTypeOrNull()
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    part.body.asRequestBody(fileMediaType)
-                                )
-                            } else {
-                                val partHeaders = part.headers.toMutableMap() +
-                                    ("Content-Disposition" to "form-data; name=\"$name\"")
-                                addPart(
-                                    partHeaders.toHeaders(),
-                                    parameterToString(part.body).toRequestBody(null)
-                                )
-                            }
-                        }
-                    }.build()
-            mediaType == FormUrlEncMediaType -> {
-                FormBody.Builder().apply {
-                    // content's type *must* be Map<String, PartConfig<*>>
-                    @Suppress("UNCHECKED_CAST")
-                    (content as Map<String, PartConfig<*>>).forEach { (name, part) ->
-                        add(name, parameterToString(part.body))
-                    }
-                }.build()
-            }
-            mediaType == null || mediaType.startsWith("application/") && mediaType.endsWith("json") ->
-                if (content == null) {
-                    EMPTY_REQUEST
-                } else {
-                    Serializer.moshi.adapter(T::class.java).toJson(content)
-                        .toRequestBody((mediaType ?: JsonMediaType).toMediaTypeOrNull())
-                }
-            mediaType == XmlMediaType -> throw UnsupportedOperationException("xml not currently supported.")
-            mediaType == OctetMediaType && content is ByteArray ->
-                content.toRequestBody(OctetMediaType.toMediaTypeOrNull())
-            // TODO: this should be extended with other serializers
-            else -> throw UnsupportedOperationException("requestBody currently only supports JSON body, byte body and File body.")
-        }
+    fun setLogger(logger: (String) -> Unit): ApiClient {
+        this.logger = logger
+        return this
+    }
 
-    @OptIn(ExperimentalStdlibApi::class)
-    protected inline fun <reified T: Any?> responseBody(body: ResponseBody?, mediaType: String? = JsonMediaType): T? {
-        if(body == null) {
-            return null
-        }
-        if (T::class.java == File::class.java) {
-            // return tempFile
-            // Attention: if you are developing an android app that supports API Level 25 and bellow, please check flag supportAndroidApiLevel25AndBelow in https://openapi-generator.tech/docs/generators/kotlin#config-options
-            val tempFile = java.nio.file.Files.createTempFile("tmp.org.openapitools.client", null).toFile()
-            tempFile.deleteOnExit()
-            body.byteStream().use { inputStream ->
-                tempFile.outputStream().use { tempFileOutputStream ->
-                    inputStream.copyTo(tempFileOutputStream)
-                }
-            }
-            return tempFile as T
-        }
+    fun <S> createService(serviceClass: Class<S>): S {
+        val usedCallFactory = this.callFactory ?: clientBuilder.build()
+        return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
+    }
 
-        return when {
-            mediaType == null || (mediaType.startsWith("application/") && mediaType.endsWith("json")) -> {
-                val bodyContent = body.string()
-                if (bodyContent.isEmpty()) {
-                    return null
-                }
-                Serializer.moshi.adapter<T>().fromJson(bodyContent)
-            }
-            mediaType == OctetMediaType -> body.bytes() as? T
-            else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
+    private fun normalizeBaseUrl() {
+        if (!baseUrl.endsWith("/")) {
+            baseUrl += "/"
         }
     }
 
-    protected fun <T> updateAuthParams(requestConfig: RequestConfig<T>) {
-        if (requestConfig.headers[Authorization].isNullOrEmpty()) {
-            accessToken?.let { accessToken ->
-                requestConfig.headers[Authorization] = "Bearer $accessToken "
-            }
-        }
-        if (requestConfig.headers["api_key"].isNullOrEmpty()) {
-            if (apiKey["api_key"] != null) {
-                if (apiKeyPrefix["api_key"] != null) {
-                    requestConfig.headers["api_key"] = apiKeyPrefix["api_key"]!! + " " + apiKey["api_key"]!!
-                } else {
-                    requestConfig.headers["api_key"] = apiKey["api_key"]!!
-                }
+    private inline fun <T, reified U> Iterable<T>.runOnFirst(callback: U.() -> Unit) {
+        for (element in this) {
+            if (element is U)  {
+                callback.invoke(element)
+                break
             }
         }
     }
 
-    protected inline fun <reified I, reified T: Any?> request(requestConfig: RequestConfig<I>): ApiResponse<T?> {
-        val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
+    companion object {
+        @JvmStatic
+        protected val baseUrlKey = "org.openapitools.client.baseUrl"
 
-        // take authMethod from operation
-        updateAuthParams(requestConfig)
-
-        val url = httpUrl.newBuilder()
-            .addEncodedPathSegments(requestConfig.path.trimStart('/'))
-            .apply {
-                requestConfig.query.forEach { query ->
-                    query.value.forEach { queryValue ->
-                        addQueryParameter(query.key, queryValue)
-                    }
-                }
-            }.build()
-
-        // take content-type/accept from spec or set to default (application/json) if not defined
-        if (requestConfig.body != null && requestConfig.headers[ContentType].isNullOrEmpty()) {
-            requestConfig.headers[ContentType] = JsonMediaType
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty(baseUrlKey, "http://petstore.swagger.io/v2")
         }
-        if (requestConfig.headers[Accept].isNullOrEmpty()) {
-            requestConfig.headers[Accept] = JsonMediaType
-        }
-        val headers = requestConfig.headers
-
-        if (headers[Accept].isNullOrEmpty()) {
-            throw kotlin.IllegalStateException("Missing Accept header. This is required.")
-        }
-
-        val contentType = if (headers[ContentType] != null) {
-            // TODO: support multiple contentType options here.
-            (headers[ContentType] as String).substringBefore(";").lowercase(Locale.US)
-        } else {
-            null
-        }
-
-        val request = when (requestConfig.method) {
-            RequestMethod.DELETE -> Request.Builder().url(url).delete(requestBody(requestConfig.body, contentType))
-            RequestMethod.GET -> Request.Builder().url(url)
-            RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(requestConfig.body, contentType))
-            RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(requestConfig.body, contentType))
-            RequestMethod.POST -> Request.Builder().url(url).post(requestBody(requestConfig.body, contentType))
-            RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)
-        }.apply {
-            headers.forEach { header -> addHeader(header.key, header.value) }
-        }.build()
-
-        val response = client.newCall(request).execute()
-
-        val accept = response.header(ContentType)?.substringBefore(";")?.lowercase(Locale.US)
-
-        // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
-        @Suppress("UNNECESSARY_SAFE_CALL")
-        return when {
-            response.isRedirect -> Redirection(
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isInformational -> Informational(
-                response.message,
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isSuccessful -> Success(
-                responseBody(response.body, accept),
-                response.code,
-                response.headers.toMultimap()
-            )
-            response.isClientError -> ClientError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
-            else -> ServerError(
-                response.message,
-                response.body?.string(),
-                response.code,
-                response.headers.toMultimap()
-            )
-        }
-    }
-
-    protected fun parameterToString(value: Any?): String = when (value) {
-        null -> ""
-        is Array<*> -> toMultiValue(value, "csv").toString()
-        is Iterable<*> -> toMultiValue(value, "csv").toString()
-        is OffsetDateTime, is OffsetTime, is LocalDateTime, is LocalDate, is LocalTime ->
-            parseDateToQueryString(value)
-        else -> value.toString()
-    }
-
-    protected inline fun <reified T: Any> parseDateToQueryString(value : T): String {
-        /*
-        .replace("\"", "") converts the json object string to an actual string for the query parameter.
-        The moshi or gson adapter allows a more generic solution instead of trying to use a native
-        formatter. It also easily allows to provide a simple way to define a custom date format pattern
-        inside a gson/moshi adapter.
-        */
-        return Serializer.moshi.adapter(T::class.java).toJson(value).replace("\"", "")
     }
 }

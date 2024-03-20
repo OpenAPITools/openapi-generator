@@ -4,19 +4,16 @@ All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createUser**](UserApi.md#createUser) | **POST** /user | Create user
-[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
-[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
-[**deleteUser**](UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
-[**getUserByName**](UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
-[**loginUser**](UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
-[**logoutUser**](UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
-[**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+[**createUser**](UserApi.md#createUser) | **POST** user | Create user
+[**createUsersWithArrayInput**](UserApi.md#createUsersWithArrayInput) | **POST** user/createWithArray | Creates list of users with given input array
+[**createUsersWithListInput**](UserApi.md#createUsersWithListInput) | **POST** user/createWithList | Creates list of users with given input array
+[**deleteUser**](UserApi.md#deleteUser) | **DELETE** user/{username} | Delete user
+[**getUserByName**](UserApi.md#getUserByName) | **GET** user/{username} | Get user by user name
+[**loginUser**](UserApi.md#loginUser) | **GET** user/login | Logs user into the system
+[**logoutUser**](UserApi.md#logoutUser) | **GET** user/logout | Logs out current logged in user session
+[**updateUser**](UserApi.md#updateUser) | **PUT** user/{username} | Updated user
 
 
-<a id="createUser"></a>
-# **createUser**
-> createUser(apiUser)
 
 Create user
 
@@ -25,19 +22,16 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val apiUser : ApiUser =  // ApiUser | Created user object
-try {
-    apiInstance.createUser(apiUser)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#createUser")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#createUser")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    webService.createUser(apiUser)
 }
 ```
 
@@ -54,18 +48,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a id="createUsersWithArrayInput"></a>
-# **createUsersWithArrayInput**
-> createUsersWithArrayInput(apiUser)
 
 Creates list of users with given input array
 
@@ -74,19 +62,16 @@ Creates list of users with given input array
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val apiUser : kotlin.collections.List<ApiUser> =  // kotlin.collections.List<ApiUser> | List of user object
-try {
-    apiInstance.createUsersWithArrayInput(apiUser)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#createUsersWithArrayInput")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#createUsersWithArrayInput")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    webService.createUsersWithArrayInput(apiUser)
 }
 ```
 
@@ -103,18 +88,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a id="createUsersWithListInput"></a>
-# **createUsersWithListInput**
-> createUsersWithListInput(apiUser)
 
 Creates list of users with given input array
 
@@ -123,19 +102,16 @@ Creates list of users with given input array
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val apiUser : kotlin.collections.List<ApiUser> =  // kotlin.collections.List<ApiUser> | List of user object
-try {
-    apiInstance.createUsersWithListInput(apiUser)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#createUsersWithListInput")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#createUsersWithListInput")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    webService.createUsersWithListInput(apiUser)
 }
 ```
 
@@ -152,18 +128,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
 
-<a id="deleteUser"></a>
-# **deleteUser**
-> deleteUser(username)
 
 Delete user
 
@@ -172,19 +142,16 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val username : kotlin.String = username_example // kotlin.String | The name that needs to be deleted
-try {
-    apiInstance.deleteUser(username)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#deleteUser")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#deleteUser")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    webService.deleteUser(username)
 }
 ```
 
@@ -201,18 +168,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a id="getUserByName"></a>
-# **getUserByName**
-> ApiUser getUserByName(username)
 
 Get user by user name
 
@@ -221,20 +182,16 @@ Get user by user name
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val username : kotlin.String = username_example // kotlin.String | The name that needs to be fetched. Use user1 for testing.
-try {
-    val result : ApiUser = apiInstance.getUserByName(username)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#getUserByName")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#getUserByName")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    val result : ApiUser = webService.getUserByName(username)
 }
 ```
 
@@ -255,11 +212,8 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
-<a id="loginUser"></a>
-# **loginUser**
-> kotlin.String loginUser(username, password)
 
 Logs user into the system
 
@@ -268,21 +222,17 @@ Logs user into the system
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val username : kotlin.String = username_example // kotlin.String | The user name for login
 val password : kotlin.String = password_example // kotlin.String | The password for login in clear text
-try {
-    val result : kotlin.String = apiInstance.loginUser(username, password)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#loginUser")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#loginUser")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    val result : kotlin.String = webService.loginUser(username, password)
 }
 ```
 
@@ -304,11 +254,8 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json
+ - **Accept**: application/xml, application/json
 
-<a id="logoutUser"></a>
-# **logoutUser**
-> logoutUser()
 
 Logs out current logged in user session
 
@@ -317,18 +264,15 @@ Logs out current logged in user session
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
-try {
-    apiInstance.logoutUser()
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#logoutUser")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#logoutUser")
-    e.printStackTrace()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
+
+launch(Dispatchers.IO) {
+    webService.logoutUser()
 }
 ```
 
@@ -342,18 +286,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a id="updateUser"></a>
-# **updateUser**
-> updateUser(username, apiUser)
 
 Updated user
 
@@ -362,20 +300,17 @@ This can only be done by the logged in user.
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = UserApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(UserApi::class.java)
 val username : kotlin.String = username_example // kotlin.String | name that need to be deleted
 val apiUser : ApiUser =  // ApiUser | Updated user object
-try {
-    apiInstance.updateUser(username, apiUser)
-} catch (e: ClientException) {
-    println("4xx response calling UserApi#updateUser")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling UserApi#updateUser")
-    e.printStackTrace()
+
+launch(Dispatchers.IO) {
+    webService.updateUser(username, apiUser)
 }
 ```
 
@@ -393,9 +328,6 @@ null (empty response body)
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 

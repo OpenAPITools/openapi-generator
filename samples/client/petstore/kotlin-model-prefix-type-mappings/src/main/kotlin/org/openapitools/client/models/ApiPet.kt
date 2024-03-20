@@ -18,8 +18,7 @@ package org.openapitools.client.models
 import org.openapitools.client.models.ApiCategory
 import org.openapitools.client.models.ApiTag
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * A pet for sale in the pet store
@@ -35,23 +34,23 @@ import com.squareup.moshi.JsonClass
 
 data class ApiPet (
 
-    @Json(name = "name")
+    @SerializedName("name")
     val name: kotlin.String,
 
-    @Json(name = "photoUrls")
+    @SerializedName("photoUrls")
     val photoUrls: kotlin.collections.List<kotlin.String>,
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "category")
+    @SerializedName("category")
     val category: ApiCategory? = null,
 
-    @Json(name = "tags")
+    @SerializedName("tags")
     val tags: kotlin.collections.List<ApiTag>? = null,
 
     /* pet status in the store */
-    @Json(name = "status")
+    @SerializedName("status")
     @Deprecated(message = "This property is deprecated.")
     val status: ApiPet.Status? = null
 
@@ -60,13 +59,12 @@ data class ApiPet (
     /**
      * pet status in the store
      *
-     * Values: available,pending,sold
+     * Values: AVAILABLE,PENDING,SOLD
      */
-    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
-        @Json(name = "available") available("available"),
-        @Json(name = "pending") pending("pending"),
-        @Json(name = "sold") sold("sold");
+        @SerializedName(value = "available") AVAILABLE("available"),
+        @SerializedName(value = "pending") PENDING("pending"),
+        @SerializedName(value = "sold") SOLD("sold");
     }
 }
 

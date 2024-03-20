@@ -16,8 +16,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * 
@@ -28,7 +27,7 @@ import com.squareup.moshi.JsonClass
 
 data class ApiAnnotation (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: java.util.UUID? = null
 
 )

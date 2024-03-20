@@ -16,8 +16,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * An order for a pets from the pet store
@@ -33,23 +32,23 @@ import com.squareup.moshi.JsonClass
 
 data class ApiOrder (
 
-    @Json(name = "id")
+    @SerializedName("id")
     val id: kotlin.Long? = null,
 
-    @Json(name = "petId")
+    @SerializedName("petId")
     val petId: kotlin.Long? = null,
 
-    @Json(name = "quantity")
+    @SerializedName("quantity")
     val quantity: kotlin.Int? = null,
 
-    @Json(name = "shipDate")
+    @SerializedName("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
 
     /* Order Status */
-    @Json(name = "status")
+    @SerializedName("status")
     val status: ApiOrder.Status? = null,
 
-    @Json(name = "complete")
+    @SerializedName("complete")
     val complete: kotlin.Boolean? = false
 
 ) {
@@ -57,13 +56,12 @@ data class ApiOrder (
     /**
      * Order Status
      *
-     * Values: placed,approved,delivered
+     * Values: PLACED,APPROVED,DELIVERED
      */
-    @JsonClass(generateAdapter = false)
     enum class Status(val value: kotlin.String) {
-        @Json(name = "placed") placed("placed"),
-        @Json(name = "approved") approved("approved"),
-        @Json(name = "delivered") delivered("delivered");
+        @SerializedName(value = "placed") PLACED("placed"),
+        @SerializedName(value = "approved") APPROVED("approved"),
+        @SerializedName(value = "delivered") DELIVERED("delivered");
     }
 }
 

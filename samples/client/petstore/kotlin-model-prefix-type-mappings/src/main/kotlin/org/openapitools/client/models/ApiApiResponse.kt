@@ -16,8 +16,7 @@
 package org.openapitools.client.models
 
 
-import com.squareup.moshi.Json
-import com.squareup.moshi.JsonClass
+import com.google.gson.annotations.SerializedName
 
 /**
  * Describes the result of uploading an image resource
@@ -30,13 +29,13 @@ import com.squareup.moshi.JsonClass
 
 data class ApiApiResponse (
 
-    @Json(name = "code")
+    @SerializedName("code")
     val code: kotlin.Int? = null,
 
-    @Json(name = "type")
+    @SerializedName("type")
     val type: kotlin.String? = null,
 
-    @Json(name = "message")
+    @SerializedName("message")
     val message: kotlin.String? = null
 
 )
