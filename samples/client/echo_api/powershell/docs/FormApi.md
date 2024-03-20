@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Test-FormIntegerBooleanString**](FormApi.md#Test-FormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
+[**Test-FormObjectMultipart**](FormApi.md#Test-FormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 [**Test-FormOneof**](FormApi.md#Test-FormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 
 
@@ -53,6 +54,49 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-FormObjectMultipart"></a>
+# **Test-FormObjectMultipart**
+> String Test-FormObjectMultipart<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Marker] <PSCustomObject><br>
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Example
+```powershell
+$TestFormObjectMultipartRequestMarker = Initialize-TestFormObjectMultipartRequestMarker -Name "MyName" # TestFormObjectMultipartRequestMarker | 
+
+# Test form parameter(s) for multipart schema
+try {
+    $Result = Test-FormObjectMultipart -Marker $Marker
+} catch {
+    Write-Host ("Exception occurred when calling Test-FormObjectMultipart: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **Marker** | [**TestFormObjectMultipartRequestMarker**](TestFormObjectMultipartRequestMarker.md)|  | 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

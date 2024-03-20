@@ -18,9 +18,11 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
+src/Org.OpenAPITools.Test/Model/TestFormObjectMultipartRequestMarkerTests.cs
 src/Org.OpenAPITools.Test/Org.OpenAPITools.Test.csproj
 src/Org.OpenAPITools/Api/AuthApi.cs
 src/Org.OpenAPITools/Api/BodyApi.cs
@@ -54,6 +56,7 @@ src/Org.OpenAPITools/Model/Pet.cs
 src/Org.OpenAPITools/Model/Query.cs
 src/Org.OpenAPITools/Model/StringEnumRef.cs
 src/Org.OpenAPITools/Model/Tag.cs
+src/Org.OpenAPITools/Model/TestFormObjectMultipartRequestMarker.cs
 src/Org.OpenAPITools/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.cs
 src/Org.OpenAPITools/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.cs
 src/Org.OpenAPITools/Org.OpenAPITools.csproj
