@@ -131,6 +131,33 @@ paths:
             text/plain:
               schema:
                 type: string
+  /form/object/multipart: 
+    post:
+      tags:
+        - form
+      summary: Test form parameter(s) for multipart schema
+      description: Test form parameter(s) for multipart schema
+      operationId: test/form/object/multipart
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                type: string
   # header parameter tests
   /header/integer/boolean/string/enums:
     get:
