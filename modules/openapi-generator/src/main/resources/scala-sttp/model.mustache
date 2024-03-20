@@ -1,60 +1,97 @@
-{{>licenseInfo}}
-package {{package}}
+package {{modelPackage}}
+
+import java.time._
+
+import io.circe.syntax._
+import io.circe.{ Decoder, Encoder }
+import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
 
 {{#imports}}
-import {{import}}
+import {{.}}
 {{/imports}}
 
 {{#models}}
 {{#model}}
-{{#description}}
-{{#javadocRenderer}}
-{{#title}}
-{{{.}}}
-{{/title}}
-{{{description}}}
-{{/javadocRenderer}}
-{{/description}}
-{{^isEnum}}
-case class {{classname}}(
-  {{#vars}}
-  {{#description}}
-  /* {{{.}}} */
-  {{/description}}
-  {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{^isArray}}{{classname}}Enums.{{datatypeWithEnum}}{{/isArray}}{{#isArray}}Seq[{{classname}}Enums.{{datatypeWithEnum}}]{{/isArray}}{{/isEnum}}{{^required}}] = None{{/required}}{{^-last}},{{/-last}}
-  {{/vars}}
-)
-{{/isEnum}}
+/**
+* {{{description}}}
+{{#vars}}
+* @param {{name}} {{{description}}}
+{{/vars}}
+*/
+{{#vendorExtensions.x-isSealedTrait}}
+sealed trait {{classname}}
+object {{classname}} {
+  import io.circe.{ Decoder, Encoder }
+  import io.circe.syntax._
+  import cats.syntax.functor._
 
-{{#isEnum}}
-object {{classname}} extends Enumeration {
-    type {{classname}} = {{classname}}.Value
-{{#allowableValues}}
-    {{#values}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
-    {{/values}}
-{{/allowableValues}}
-}
-{{/isEnum}}
-{{#hasEnums}}
-object {{classname}}Enums {
-
-  {{#vars}}
-  {{#isEnum}}
-  type {{datatypeWithEnum}} = {{datatypeWithEnum}}.Value
-  {{/isEnum}}
-  {{/vars}}
-  {{#vars}}
-  {{#isEnum}}
-  object {{datatypeWithEnum}} extends Enumeration {
-{{#_enum}}
-    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
-{{/_enum}}
+{{^vendorExtensions.x-use-discr}}
+// no discriminator
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson
+{{/oneOf}}
   }
 
-  {{/isEnum}}
-  {{/vars}}
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] =
+    List[Decoder[{{classname}}]](
+{{#oneOf}}
+      Decoder[{{.}}].widen,
+{{/oneOf}}
+  ).reduceLeft(_ or _)
+{{/vendorExtensions.x-use-discr}}
+{{#vendorExtensions.x-use-discr}}
+{{^vendorExtensions.x-use-discr-mapping}}
+// no discriminator mapping
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#oneOf}}
+    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{.}}".asJson) +: _)
+{{/oneOf}}
+  }
+
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+      {{#oneOf}}
+        case "{{.}}" =>
+          cursor.as[{{.}}]
+      {{/oneOf}}
+    }
+  }
+{{/vendorExtensions.x-use-discr-mapping}}
+{{#vendorExtensions.x-use-discr-mapping}}
+// use discriminator mapping
+{{#discriminator}}
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
+{{#mappedModels}}
+    case {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}: {{model.classname}} => {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+{{/mappedModels}}
+  }
+
+  implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
+    cursor.downField("{{propertyName}}").as[String].flatMap {
+    {{#mappedModels}}
+      case "{{mappingName}}" =>
+        cursor.as[{{model.classname}}]
+    {{/mappedModels}}
+    }
+  }
+{{/discriminator}}
+{{/vendorExtensions.x-use-discr-mapping}}
+{{/vendorExtensions.x-use-discr}}
 }
-{{/hasEnums}}
+{{/vendorExtensions.x-isSealedTrait}}
+
+{{^vendorExtensions.x-isSealedTrait}}
+case class {{classname}}(
+{{#vars}}
+  {{name}}: {{^required}}Option[{{{vendorExtensions.x-type}}}]{{/required}}{{#required}}{{{vendorExtensions.x-type}}}{{/required}}{{^-last}},{{/-last}}
+{{/vars}}
+){{#vendorExtensions.x-extends}} extends {{.}}{{/vendorExtensions.x-extends}}{{#vendorExtensions.x-extendsWith}} with {{.}}{{/vendorExtensions.x-extendsWith}}
+object {{classname}} {
+  implicit val encoder{{classname}}: Encoder[{{classname}}] = deriveEncoder[{{classname}}].mapJson(_.dropNullValues)
+  implicit val decoder{{classname}}: Decoder[{{classname}}] = deriveDecoder[{{classname}}]
+}
+{{/vendorExtensions.x-isSealedTrait}}
+
 {{/model}}
 {{/models}}

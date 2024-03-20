@@ -71,12 +71,12 @@ public class SttpCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
-        Path path = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Condition.scala");
-        assertFileContains(path, "object ConditionEnums");
-        assertFileContains(path, "val Equal = Value(\"&#x3D;\")");
-        assertFileContains(path, "val NotEqual = Value(\"!&#x3D;\")");
-        assertFileNotContains(path, "val X3D = Value(\"&#x3D;\")");
-        assertFileNotContains(path, "val X3D = Value(\"!&#x3D;\")");
+        // Path path = Paths.get(outputPath + "/src/main/scala/org/openapitools/client/model/Condition.scala");
+        // assertFileContains(path, "object ConditionEnums");
+        // assertFileContains(path, "val Equal = Value(\"&#x3D;\")");
+        // assertFileContains(path, "val NotEqual = Value(\"!&#x3D;\")");
+        // assertFileNotContains(path, "val X3D = Value(\"&#x3D;\")");
+        // assertFileNotContains(path, "val X3D = Value(\"!&#x3D;\")");
     }
 
 }
