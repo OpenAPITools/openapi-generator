@@ -1226,7 +1226,7 @@ public class SpringCodegenTest {
 
         Path filePath = Paths.get(output.getAbsolutePath(), "src/main/java/org/openapitools/configuration/ClientPropertiesConfiguration.java");
 
-        String content = new String(Files.readAllBytes(filePath));
+        String content = new String(Files.readAllBytes(filePath), "UTF-8");
         Assert.assertTrue(content.contains("properties.put(\"spring.security.oauth2.client.provider.oAuth2AccessCode.token-uri\", \"${tokenUrl}\" );"));
         Assert.assertTrue(content.contains("properties.put(\"spring.security.oauth2.client.provider.oAuth2AccessCode.authorization-uri\", \"${authorizationUrl}\" );"));
     }
