@@ -17,7 +17,7 @@ interface StuffApi {
     @GET
     @Path("/stuff")
     @Produces("application/json")
-    fun findStuff(): Stuff
+    fun findStuff(): kotlin.collections.List<Stuff>
 
     @GET
     @Path("/uniquestuff")
