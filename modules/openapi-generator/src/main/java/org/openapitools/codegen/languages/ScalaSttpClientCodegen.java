@@ -189,6 +189,8 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("additionalTypeSerializers.mustache", invokerFolder, "AdditionalTypeSerializers.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
+        final String modelFolder = (sourceFolder + File.separator + modelPackage()).replace('.', File.separatorChar);
+        supportingFiles.add(new SupportingFile("types.mustache", modelFolder, "types.scala"));
     }
 
     @Override
@@ -286,6 +288,9 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
                     cModel.imports.addAll(imports);
                 }
+
+                // filter out `type` field
+                cModel.vars.removeIf(p -> "`type`".equals(p.name));
             }
         }
 

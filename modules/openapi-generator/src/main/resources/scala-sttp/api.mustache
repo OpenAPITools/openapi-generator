@@ -5,7 +5,7 @@ package {{package}}
 import {{import}}
 {{/imports}}
 import {{invokerPackage}}.JsonSupport._
-import sttp.client3._
+import sttp.client3.{ basicRequest, ResponseException }
 import sttp.model.Method
 
 {{#operations}}
@@ -20,7 +20,8 @@ class {{classname}}(baseUrl: String) {
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): Request[{{#defaultReturnType}}Either[Either[String, String], Unit]{{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}{{/defaultReturnType}}, Any] =
+  def {{operationId}}({{>methodParameters}}): sttp.client3.Request[{{#defaultReturnType}}Either[Either[String, String], Unit]{{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}Either[ResponseException[String, Exception], {{>operationReturnType}}]{{/separateErrorChannel}}{{^separateErrorChannel}}{{>operationReturnType}}{{/separateErrorChannel}}{{/defaultReturnType}}, Any] = {
+    import sttp.client3._
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${ {{{paramName}}} }{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
@@ -37,7 +38,7 @@ class {{classname}}(baseUrl: String) {
       ).flatten){{/isMultipart}}{{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
       .response({{#defaultReturnType}}asEither(asString, ignore){{/defaultReturnType}}{{^defaultReturnType}}{{#separateErrorChannel}}asJson{{/separateErrorChannel}}{{^separateErrorChannel}}asJsonAlwaysUnsafe{{/separateErrorChannel}}[{{>operationReturnType}}]{{/defaultReturnType}})
-
+  }
 {{/operation}}
 }
 {{/operations}}
