@@ -5,6 +5,9 @@ import java.time._
 import io.circe.syntax._
 import io.circe.{ Decoder, Encoder }
 import io.circe.generic.semiauto.{ deriveDecoder, deriveEncoder }
+import {{invokerPackage}}.DateSerializers._
+import {{invokerPackage}}.AdditionalTypeSerializers._
+
 
 {{#imports}}
 import {{.}}

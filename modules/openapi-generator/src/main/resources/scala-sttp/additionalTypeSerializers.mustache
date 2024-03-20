@@ -42,4 +42,6 @@ trait AdditionalTypeSerializers {
       final def apply(a: URI): Json = Json.fromString(a.toString)
   }
 }
+
+object AdditionalTypeSerializers extends AdditionalTypeSerializers
 {{/circe}}

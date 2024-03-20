@@ -75,4 +75,6 @@ trait DateSerializers {
     implicit val localDateEncoder: Encoder[org.joda.time.LocalDate] = Encoder.encodeString.contramap(_.toString("yyyy-MM-dd"))
     {{/joda}}
 }
+
+object DateSerializers extends DateSerializers
 {{/circe}}

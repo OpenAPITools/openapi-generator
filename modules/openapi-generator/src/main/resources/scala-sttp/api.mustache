@@ -4,8 +4,8 @@ package {{package}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-import {{invokerPackage}}.JsonSupport._
 import sttp.client3.{ basicRequest, ResponseException }
+import sttp.client3.circe._
 import sttp.model.Method
 
 {{#operations}}
