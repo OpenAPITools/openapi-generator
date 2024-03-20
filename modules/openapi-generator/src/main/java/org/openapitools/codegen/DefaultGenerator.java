@@ -292,7 +292,9 @@ public class DefaultGenerator implements Generator {
         // set OpenAPI to make these available to all methods
         config.setOpenAPI(openAPI);
 
-        config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        if (!config.additionalProperties().containsKey("generatorVersion")) {
+            config.additionalProperties().put("generatorVersion", ImplementationVersion.read());
+        }
         config.additionalProperties().put("generatedDate", ZonedDateTime.now().toString());
         config.additionalProperties().put("generatedYear", String.valueOf(ZonedDateTime.now().getYear()));
         config.additionalProperties().put("generatorClass", config.getClass().getName());
