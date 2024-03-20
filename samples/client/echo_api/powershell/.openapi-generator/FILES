@@ -45,4 +45,3 @@ src/PSOpenAPITools/Private/HttpSignatureAuth.ps1
 src/PSOpenAPITools/Private/Out-DebugParameter.ps1
 src/PSOpenAPITools/Private/RSAEncryptionProvider.cs
 src/PSOpenAPITools/en-US/about_PSOpenAPITools.help.txt
-tests/Model/TestFormObjectMultipartRequestMarker.Tests.ps1

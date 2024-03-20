@@ -46,4 +46,3 @@ docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
 tests/testthat.R
-tests/testthat/test_test_form_object_multipart_request_marker.R

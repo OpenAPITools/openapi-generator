@@ -47,4 +47,3 @@ src/Model/TestFormObjectMultipartRequestMarker.php
 src/Model/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.php
 src/Model/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.php
 src/ObjectSerializer.php
-tests/Model/TestFormObjectMultipartRequestMarkerTest.php

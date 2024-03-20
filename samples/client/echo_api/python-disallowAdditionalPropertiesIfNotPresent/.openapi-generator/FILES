@@ -55,5 +55,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_test_form_object_multipart_request_marker.py
 tox.ini
