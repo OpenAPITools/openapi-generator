@@ -897,6 +897,50 @@ public class AbstractJavaCodegenTest {
         Assert.assertEquals(codegen.toDefaultParameterValue(schemas.get("inlineEnumWithDefaultEmpty")), "");
     }
 
+    @Test
+    public void ignoreBeanValidationAnnotationsTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36);
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "UUID");
+
+        schema = new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "URI");
+
+        schema = new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "byte[]");
+
+        schema = new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "File");
+    }
+
+    @Test
+    public void ignoreBeanValidationAnnotationsContainerTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.additionalProperties().put("useBeanValidation", true);
+
+        Schema<?> schema = new ArraySchema().items(new Schema<>().type("string").format("uuid").pattern("^[a-z]$").maxLength(36));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<UUID>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("uri").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<URI>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("byte").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<byte[]>");
+
+        schema = new ArraySchema().items(new Schema<>().type("string").format("binary").pattern("^[a-z]$").maxLength(36));
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<File>");
+    }
+
     private static Schema<?> createObjectSchemaWithMinItems() {
         return new ObjectSchema()
                 .addProperties("id", new IntegerSchema().format("int32"))
