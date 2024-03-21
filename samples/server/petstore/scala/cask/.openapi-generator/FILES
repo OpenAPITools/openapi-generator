@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .scalafmt.conf
 README.md
 README.md
