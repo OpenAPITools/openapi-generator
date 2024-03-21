@@ -10,6 +10,9 @@ import jakarta.ws.rs.core.GenericType;
 
 import org.openapitools.client.model.Client;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;

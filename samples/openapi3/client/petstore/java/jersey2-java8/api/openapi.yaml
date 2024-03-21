@@ -1240,6 +1240,24 @@ paths:
       summary: Array of Enums
       tags:
       - fake
+      - application/json
+    post:
+      operationId: postArrayOfString
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                pattern: "[A-Z0-9]+"
+                type: string
+              type: array
+      responses:
+        "200":
+          description: ok
+      summary: Array of string
+      tags:
+      - fake
+      x-content-type: application/json
       x-accepts:
       - application/json
 components:

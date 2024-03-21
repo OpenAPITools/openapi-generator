@@ -11,10 +11,10 @@
        {{/-last}}{{/vars}}
      }.
 
-encode(#{ {{#vars}}'{{name}}' := {{{nameInCamelCase}}}{{^-last}},
+encode(#{ {{#vars}}'{{name}}' := {{{nameInPascalCase}}}{{^-last}},
           {{/-last}}{{/vars}}
         }) ->
-    #{ {{#vars}}'{{baseName}}' => {{{nameInCamelCase}}}{{^-last}},
+    #{ {{#vars}}'{{baseName}}' => {{{nameInPascalCase}}}{{^-last}},
        {{/-last}}{{/vars}}
      }.
 {{/model}}

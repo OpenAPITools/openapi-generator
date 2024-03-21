@@ -63,7 +63,7 @@ public class ObjectWithDeprecatedFields {
   // items.name=bars items.baseName=bars items.xmlName= items.xmlNamespace=
   // items.example= items.type=String
   @XmlElement(name = "bars")
-  private List<String> bars;
+  private List<String> bars = new ArrayList<>();
 
   public ObjectWithDeprecatedFields() {
   }

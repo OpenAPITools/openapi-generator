@@ -29,7 +29,7 @@ import javax.annotation.Generated;
 public class ArrayOfNumberOnlyDto {
 
   @Valid
-  private List<BigDecimal> arrayNumber;
+  private List<BigDecimal> arrayNumber = new ArrayList<>();
 
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;

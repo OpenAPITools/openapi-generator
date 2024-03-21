@@ -35,13 +35,41 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
-        /// <param name="varReturn">varReturn.</param>
-        public Return(int varReturn = default(int))
+        [JsonConstructorAttribute]
+        protected Return()
         {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Return" /> class.
+        /// </summary>
+        /// <param name="varReturn">varReturn.</param>
+        /// <param name="varLock">varLock (required).</param>
+        /// <param name="varAbstract">varAbstract (required).</param>
+        /// <param name="varUnsafe">varUnsafe.</param>
+        public Return(int varReturn = default(int), string varLock = default(string), string varAbstract = default(string), string varUnsafe = default(string))
+        {
+            // to ensure "varLock" is required (not null)
+            if (varLock == null)
+            {
+                throw new ArgumentNullException("varLock is a required property for Return and cannot be null");
+            }
+            this._Lock = varLock;
+            // to ensure "varAbstract" is required (not null)
+            if (varAbstract == null)
+            {
+                throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
+            }
+            this._Abstract = varAbstract;
             this._VarReturn = varReturn;
             if (this.VarReturn != null)
             {
                 this._flagVarReturn = true;
+            }
+            this._Unsafe = varUnsafe;
+            if (this.Unsafe != null)
+            {
+                this._flagUnsafe = true;
             }
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -71,6 +99,78 @@ namespace Org.OpenAPITools.Model
             return _flagVarReturn;
         }
         /// <summary>
+        /// Gets or Sets Lock
+        /// </summary>
+        [DataMember(Name = "lock", IsRequired = true, EmitDefaultValue = true)]
+        public string Lock
+        {
+            get{ return _Lock;}
+            set
+            {
+                _Lock = value;
+                _flagLock = true;
+            }
+        }
+        private string _Lock;
+        private bool _flagLock;
+
+        /// <summary>
+        /// Returns false as Lock should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeLock()
+        {
+            return _flagLock;
+        }
+        /// <summary>
+        /// Gets or Sets Abstract
+        /// </summary>
+        [DataMember(Name = "abstract", IsRequired = true, EmitDefaultValue = true)]
+        public string Abstract
+        {
+            get{ return _Abstract;}
+            set
+            {
+                _Abstract = value;
+                _flagAbstract = true;
+            }
+        }
+        private string _Abstract;
+        private bool _flagAbstract;
+
+        /// <summary>
+        /// Returns false as Abstract should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeAbstract()
+        {
+            return _flagAbstract;
+        }
+        /// <summary>
+        /// Gets or Sets Unsafe
+        /// </summary>
+        [DataMember(Name = "unsafe", EmitDefaultValue = false)]
+        public string Unsafe
+        {
+            get{ return _Unsafe;}
+            set
+            {
+                _Unsafe = value;
+                _flagUnsafe = true;
+            }
+        }
+        private string _Unsafe;
+        private bool _flagUnsafe;
+
+        /// <summary>
+        /// Returns false as Unsafe should not be serialized given that it's read-only.
+        /// </summary>
+        /// <returns>false (boolean)</returns>
+        public bool ShouldSerializeUnsafe()
+        {
+            return _flagUnsafe;
+        }
+        /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
@@ -85,6 +185,9 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
             sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  Lock: ").Append(Lock).Append("\n");
+            sb.Append("  Abstract: ").Append(Abstract).Append("\n");
+            sb.Append("  Unsafe: ").Append(Unsafe).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -129,6 +232,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.Lock != null)
+                {
+                    hashCode = (hashCode * 59) + this.Lock.GetHashCode();
+                }
+                if (this.Abstract != null)
+                {
+                    hashCode = (hashCode * 59) + this.Abstract.GetHashCode();
+                }
+                if (this.Unsafe != null)
+                {
+                    hashCode = (hashCode * 59) + this.Unsafe.GetHashCode();
+                }
                 if (this.AdditionalProperties != null)
                 {
                     hashCode = (hashCode * 59) + this.AdditionalProperties.GetHashCode();
