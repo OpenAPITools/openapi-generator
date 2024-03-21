@@ -226,26 +226,27 @@ export class {{classname}} {
 {{/formParams}}
 
 {{/hasFormParams}}
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
-                {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
-                {
-    {{#hasQueryParams}}
-                    params: queryParameters,
-    {{/hasQueryParams}}
-    {{#isResponseFile}}
-                    responseType: "blob",
-    {{/isResponseFile}}
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.{{httpMethod}}{{^isResponseFile}}<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>{{/isResponseFile}}(`${this.basePath}{{{path}}}`,{{#isBodyAllowed}}
+                    {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}{{#hasFormParams}}convertFormParamsToString ? formParams!.toString() : formParams!{{/hasFormParams}}{{^hasFormParams}}null{{/hasFormParams}}{{/bodyParam}},{{/isBodyAllowed}}
+                    {
+        {{#hasQueryParams}}
+                        params: queryParameters,
+        {{/hasQueryParams}}
+        {{#isResponseFile}}
+                        responseType: "blob",
+        {{/isResponseFile}}
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
 {{/operation}}
 }

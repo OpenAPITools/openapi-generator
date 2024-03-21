@@ -86,20 +86,21 @@ export class PetService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.post<Pet>(`${this.basePath}/pet`,
-                pet,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.post<Pet>(`${this.basePath}/pet`,
+                    pet,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Deletes a pet
@@ -142,19 +143,20 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.delete<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Finds Pets by status
@@ -199,20 +201,21 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
-                {
-                    params: queryParameters,
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByStatus`,
+                    {
+                        params: queryParameters,
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Finds Pets by tags
@@ -257,20 +260,21 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
-                {
-                    params: queryParameters,
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.get<Array<Pet>>(`${this.basePath}/pet/findByTags`,
+                    {
+                        params: queryParameters,
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Find pet by ID
@@ -308,19 +312,20 @@ export class PetService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.get<Pet>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Update an existing pet
@@ -366,20 +371,21 @@ export class PetService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.put<Pet>(`${this.basePath}/pet`,
-                pet,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.put<Pet>(`${this.basePath}/pet`,
+                    pet,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Updates a pet in the store with form data
@@ -442,20 +448,21 @@ export class PetService {
             formParams!.append('status', <any>status);
         }
 
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
-                convertFormParamsToString ? formParams!.toString() : formParams!,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.post<any>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`,
+                    convertFormParamsToString ? formParams!.toString() : formParams!,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * uploads an image
@@ -523,19 +530,20 @@ export class PetService {
             formParams!.append('file', <any>file);
         }
 
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.post<ApiResponse>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
-                convertFormParamsToString ? formParams!.toString() : formParams!,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.post<ApiResponse>(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`,
+                    convertFormParamsToString ? formParams!.toString() : formParams!,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
 }

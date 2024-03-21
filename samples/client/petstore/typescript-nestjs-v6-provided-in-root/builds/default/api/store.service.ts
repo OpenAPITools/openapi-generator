@@ -69,19 +69,20 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.delete<any>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Returns pet inventories by status
@@ -113,19 +114,20 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.get<{ [key: string]: number; }>(`${this.basePath}/store/inventory`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Find purchase order by ID
@@ -158,19 +160,20 @@ export class StoreService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.get<Order>(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
     /**
      * Place an order for a pet
@@ -208,19 +211,20 @@ export class StoreService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return accessTokenObservable.pipe(map((accessToken) => {
-            if(accessToken) {
-                headers['Authorization'] = `Bearer ${accessToken}`;
-            }
-
-            return this.httpClient.post<Order>(`${this.basePath}/store/order`,
-                order,
-                {
-                    withCredentials: this.configuration.withCredentials,
-                    headers: headers
+        return accessTokenObservable.pipe(
+            map((accessToken) => {
+                if(accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
                 }
-            );
-        }));
 
+                return this.httpClient.post<Order>(`${this.basePath}/store/order`,
+                    order,
+                    {
+                        withCredentials: this.configuration.withCredentials,
+                        headers: headers
+                    }
+                );
+            })
+        );
     }
 }
