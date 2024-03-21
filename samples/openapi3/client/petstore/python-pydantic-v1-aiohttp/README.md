@@ -124,6 +124,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
+*ImportTestDatetimeApi* | [**import_test_return_datetime**](docs/ImportTestDatetimeApi.md#import_test_return_datetime) | **GET** /import_test/return_datetime | test date time
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
