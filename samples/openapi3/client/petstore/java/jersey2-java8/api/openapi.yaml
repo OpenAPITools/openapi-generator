@@ -1240,7 +1240,9 @@ paths:
       summary: Array of Enums
       tags:
       - fake
+      x-accepts:
       - application/json
+  /fake/request-array-string:
     post:
       operationId: postArrayOfString
       requestBody:

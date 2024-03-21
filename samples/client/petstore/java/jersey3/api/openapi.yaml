@@ -1262,6 +1262,7 @@ paths:
       x-content-type: application/json
       x-accepts:
       - application/json
+components:
   requestBodies:
     UserArray:
       content:
