@@ -20,7 +20,6 @@ import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.apis.BodyApi
 import org.openapitools.client.models.ApiPet
-import org.openapitools.client.models.ApiStringEnumRef
 import org.openapitools.client.models.ApiTag
 
 class BodyApiTest : ShouldSpec() {
@@ -59,14 +58,6 @@ class BodyApiTest : ShouldSpec() {
             //result shouldBe ("TODO")
         }
 
-        // to test testEchoBodyAllOfPet
-        should("test testEchoBodyAllOfPet") {
-            // uncomment below to test testEchoBodyAllOfPet
-            //val apiPet : ApiPet =  // ApiPet | Pet object that needs to be added to the store
-            //val result : ApiPet = apiInstance.testEchoBodyAllOfPet(apiPet)
-            //result shouldBe ("TODO")
-        }
-
         // to test testEchoBodyFreeFormObjectResponseString
         should("test testEchoBodyFreeFormObjectResponseString") {
             // uncomment below to test testEchoBodyFreeFormObjectResponseString
@@ -88,14 +79,6 @@ class BodyApiTest : ShouldSpec() {
             // uncomment below to test testEchoBodyPetResponseString
             //val apiPet : ApiPet =  // ApiPet | Pet object that needs to be added to the store
             //val result : kotlin.String = apiInstance.testEchoBodyPetResponseString(apiPet)
-            //result shouldBe ("TODO")
-        }
-
-        // to test testEchoBodyStringEnum
-        should("test testEchoBodyStringEnum") {
-            // uncomment below to test testEchoBodyStringEnum
-            //val body : kotlin.String =  // kotlin.String | String enum
-            //val result : ApiStringEnumRef = apiInstance.testEchoBodyStringEnum(body)
             //result shouldBe ("TODO")
         }
 

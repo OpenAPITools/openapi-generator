@@ -19,10 +19,8 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 
 import org.openapitools.client.apis.QueryApi
-import org.openapitools.client.models.ApiDataQuery
 import org.openapitools.client.models.ApiPet
 import org.openapitools.client.models.ApiStringEnumRef
-import org.openapitools.client.models.ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
 import org.openapitools.client.models.ApiTestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter
 
 class QueryApiTest : ShouldSpec() {
@@ -67,30 +65,6 @@ class QueryApiTest : ShouldSpec() {
             //result shouldBe ("TODO")
         }
 
-        // to test testQueryStyleDeepObjectExplodeTrueObjectAllOf
-        should("test testQueryStyleDeepObjectExplodeTrueObjectAllOf") {
-            // uncomment below to test testQueryStyleDeepObjectExplodeTrueObjectAllOf
-            //val queryObject : ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter =  // ApiTestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter | 
-            //val result : kotlin.String = apiInstance.testQueryStyleDeepObjectExplodeTrueObjectAllOf(queryObject)
-            //result shouldBe ("TODO")
-        }
-
-        // to test testQueryStyleFormExplodeFalseArrayInteger
-        should("test testQueryStyleFormExplodeFalseArrayInteger") {
-            // uncomment below to test testQueryStyleFormExplodeFalseArrayInteger
-            //val queryObject : kotlin.collections.List<kotlin.Int> =  // kotlin.collections.List<kotlin.Int> | 
-            //val result : kotlin.String = apiInstance.testQueryStyleFormExplodeFalseArrayInteger(queryObject)
-            //result shouldBe ("TODO")
-        }
-
-        // to test testQueryStyleFormExplodeFalseArrayString
-        should("test testQueryStyleFormExplodeFalseArrayString") {
-            // uncomment below to test testQueryStyleFormExplodeFalseArrayString
-            //val queryObject : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | 
-            //val result : kotlin.String = apiInstance.testQueryStyleFormExplodeFalseArrayString(queryObject)
-            //result shouldBe ("TODO")
-        }
-
         // to test testQueryStyleFormExplodeTrueArrayString
         should("test testQueryStyleFormExplodeTrueArrayString") {
             // uncomment below to test testQueryStyleFormExplodeTrueArrayString
@@ -104,14 +78,6 @@ class QueryApiTest : ShouldSpec() {
             // uncomment below to test testQueryStyleFormExplodeTrueObject
             //val queryObject : ApiPet =  // ApiPet | 
             //val result : kotlin.String = apiInstance.testQueryStyleFormExplodeTrueObject(queryObject)
-            //result shouldBe ("TODO")
-        }
-
-        // to test testQueryStyleFormExplodeTrueObjectAllOf
-        should("test testQueryStyleFormExplodeTrueObjectAllOf") {
-            // uncomment below to test testQueryStyleFormExplodeTrueObjectAllOf
-            //val queryObject : ApiDataQuery =  // ApiDataQuery | 
-            //val result : kotlin.String = apiInstance.testQueryStyleFormExplodeTrueObjectAllOf(queryObject)
             //result shouldBe ("TODO")
         }
 
