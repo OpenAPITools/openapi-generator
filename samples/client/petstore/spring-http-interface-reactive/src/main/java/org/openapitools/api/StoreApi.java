@@ -71,7 +71,6 @@ public interface StoreApi {
     @HttpExchange(
         method = "GET",
         value = "/store/order/{order_id}",
-        accept = { "application/json", "application/xml" },
         accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Order>> getOrderById(
@@ -90,7 +89,6 @@ public interface StoreApi {
     @HttpExchange(
         method = "POST",
         value = "/store/order",
-        accept = { "application/json", "application/xml" },
         accept = { "application/json", "application/xml" },
         contentType = "application/json"
     )

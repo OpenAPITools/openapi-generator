@@ -73,7 +73,6 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByStatus",
-        accept = { "application/json", "application/xml" },
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<List<PetDto>> findPetsByStatus(
@@ -94,7 +93,6 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByTags",
-        accept = { "application/json", "application/xml" },
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Set<PetDto>> findPetsByTags(
@@ -114,7 +112,6 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/{petId}",
-        accept = { "application/json", "application/xml" },
         accept = { "application/json", "application/xml" }
     )
     ResponseEntity<PetDto> getPetById(
