@@ -83,7 +83,10 @@ public class AbstractJavaCodegenTest {
         codegen.preprocessOpenAPI(openAPI);
 
         Assert.assertEquals(codegen.getArtifactVersion(), openAPI.getInfo().getVersion());
-        Assert.assertEquals(openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts"), "application/json,application/xml");
+
+        Object xAccepts = openAPI.getPaths().get("/pet").getPost().getExtensions().get("x-accepts");
+        Assert.assertTrue(xAccepts instanceof String[]);
+        Assert.assertTrue(List.of((String[]) xAccepts).containsAll(List.of("application/json", "application/xml")));
     }
 
     @Test

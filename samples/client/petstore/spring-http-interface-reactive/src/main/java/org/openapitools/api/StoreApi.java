@@ -36,7 +36,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "DELETE",
         value = "/store/order/{order_id}",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     Mono<ResponseEntity<Void>> deleteOrder(
          @PathVariable("order_id") String orderId
@@ -52,7 +52,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "GET",
         value = "/store/inventory",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     Mono<ResponseEntity<Map<String, Integer>>> getInventory(
         
@@ -71,7 +71,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "GET",
         value = "/store/order/{order_id}",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     Mono<ResponseEntity<Order>> getOrderById(
          @PathVariable("order_id") Long orderId
@@ -89,7 +89,7 @@ public interface StoreApi {
     @HttpExchange(
         method = "POST",
         value = "/store/order",
-        accept = "application/json,application/xml",
+        accept = { "application/json", "application/xml" },
         contentType = "application/json"
     )
     Mono<ResponseEntity<Order>> placeOrder(

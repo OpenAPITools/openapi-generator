@@ -31,7 +31,7 @@ public interface UserApi {
     @HttpExchange(
         method = "POST",
         value = "/user",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> createUser(
@@ -49,7 +49,7 @@ public interface UserApi {
     @HttpExchange(
         method = "POST",
         value = "/user/createWithArray",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> createUsersWithArrayInput(
@@ -67,7 +67,7 @@ public interface UserApi {
     @HttpExchange(
         method = "POST",
         value = "/user/createWithList",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> createUsersWithListInput(
@@ -86,7 +86,7 @@ public interface UserApi {
     @HttpExchange(
         method = "DELETE",
         value = "/user/{username}",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     ResponseEntity<Void> deleteUser(
          @PathVariable("username") String username
@@ -105,7 +105,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/{username}",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     ResponseEntity<UserDto> getUserByName(
          @PathVariable("username") String username
@@ -124,7 +124,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/login",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     ResponseEntity<String> loginUser(
          @RequestParam(value = "username", required = true) String username,
@@ -141,7 +141,7 @@ public interface UserApi {
     @HttpExchange(
         method = "GET",
         value = "/user/logout",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     ResponseEntity<Void> logoutUser(
         
@@ -160,7 +160,7 @@ public interface UserApi {
     @HttpExchange(
         method = "PUT",
         value = "/user/{username}",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> updateUser(

@@ -1784,7 +1784,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-content-type", contentType);
                     }
-                    String accepts = getAccepts(openAPI, operation);
+                    String[] accepts = getAccepts(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
                 }
             }
@@ -1835,19 +1835,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccepts(OpenAPI openAPIArg, Operation operation) {
+    private static String[] getAccepts(OpenAPI openAPIArg, Operation operation) {
         final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String produce : producesInfo) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(produce);
-            }
-            return sb.toString();
+            return producesInfo.toArray(new String[] {});
         }
-        return "application/json"; // default media type
+        return new String[] { "application/json" }; // default media type
     }
 
     @Override

@@ -61,7 +61,7 @@ public interface FakeClassnameTags123Api {
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake_classname_test",
-        produces = "application/json",
+        produces = { "application/json" },
         consumes = "application/json"
     )
     

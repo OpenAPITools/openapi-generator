@@ -94,7 +94,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/boolean",
-        produces = "*/*",
+        produces = { "*/*" },
         consumes = "application/json"
     )
     
@@ -123,7 +123,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/composite",
-        produces = "*/*",
+        produces = { "*/*" },
         consumes = "application/json"
     )
     
@@ -152,7 +152,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/number",
-        produces = "*/*",
+        produces = { "*/*" },
         consumes = "application/json"
     )
     
@@ -181,7 +181,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/fake/outer/string",
-        produces = "*/*",
+        produces = { "*/*" },
         consumes = "application/json"
     )
     
@@ -263,7 +263,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/fake",
-        produces = "application/json",
+        produces = { "application/json" },
         consumes = "application/json"
     )
     
@@ -542,7 +542,7 @@ public interface FakeApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/fake/response-with-example",
-        produces = "application/json"
+        produces = { "application/json" }
     )
     
     ResponseEntity<Integer> testWithResultExample(
