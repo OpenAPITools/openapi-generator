@@ -1,3 +1,5 @@
+{{#isEmail}} @Email{{! adds email validation}}
+{{/isEmail}}
 {{#pattern}} @Pattern(regexp="{{{.}}}"){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}} @Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!

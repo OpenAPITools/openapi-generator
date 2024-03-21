@@ -1,3 +1,4 @@
+{{#isEmail}}    @field:Email{{! adds email validation}}{{/isEmail}}
 {{#pattern}} @field:Pattern(regexp="{{{.}}}"){{/pattern}}{{!
 minLength && maxLength set
 }}{{#minLength}}{{#maxLength}} @field:Size(min={{minLength}},max={{maxLength}}){{/maxLength}}{{/minLength}}{{!
