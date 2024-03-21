@@ -1038,7 +1038,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String getStringBeanValidation(Schema<?> items) {
         String validations = "";
-        if (ModelUtils.isByteArraySchema(items) || ModelUtils.isBinarySchema(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
             return validations;
         }
 

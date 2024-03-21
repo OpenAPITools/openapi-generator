@@ -720,6 +720,31 @@ public class ModelUtils {
     }
 
     /**
+     * Returns true if the class defined by the schema cannot be used with bean validation annotations
+     * E.g. The UUID is defined in the schema as follows:
+     * <pre>{@code
+     *   type: string,
+     *   format: uuid,
+     *   pattern: "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+     *   maxLength: 36
+     * }</pre>
+     * (`pattern` and `maxLength` are required when using security tools like 42Crunch)
+     * If we wrap it into a container (e.g. array), the generator would create something like this:
+     * <pre>{@code List<@Pattern(regexp = "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$")@Size(max = 36)UUID>}</pre>
+     * This causes a compilation error because the @Pattern and @Size annotations cannot be used on UUID
+     *
+     * @param schema containing at least 'type' and optionally 'format'
+     * @return true if the class defined by the schema cannot be used with bean validation annotations
+     */
+    public static boolean shouldIgnoreBeanValidation(Schema schema) {
+        return ModelUtils.isByteArraySchema(schema) ||
+                ModelUtils.isBinarySchema(schema) ||
+                ModelUtils.isUUIDSchema(schema) ||
+                ModelUtils.isURISchema(schema);
+
+    }
+
+    /**
      * Check to see if the schema is a model
      *
      * @param schema potentially containing a '$ref'
