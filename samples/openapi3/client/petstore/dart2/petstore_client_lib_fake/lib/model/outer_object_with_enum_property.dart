@@ -13,26 +13,26 @@ part of openapi.api;
 class OuterObjectWithEnumProperty {
   /// Returns a new [OuterObjectWithEnumProperty] instance.
   OuterObjectWithEnumProperty({
-    required this.value,
+     required this.value_,
   });
 
-  OuterEnumInteger value;
+  OuterEnumInteger value_;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is OuterObjectWithEnumProperty &&
-    other.value == value;
+    other.value_ == value_;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
-    (value.hashCode);
+    (value_.hashCode);
 
   @override
-  String toString() => 'OuterObjectWithEnumProperty[value=$value]';
+  String toString() => 'OuterObjectWithEnumProperty[value_=$value_]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'value'] = this.value;
+      json[r'value'] = this.value_;
     return json;
   }
 
@@ -55,7 +55,7 @@ class OuterObjectWithEnumProperty {
       }());
 
       return OuterObjectWithEnumProperty(
-        value: OuterEnumInteger.fromJson(json[r'value'])!,
+        value_: OuterEnumInteger.fromJson(json[r'value'])!,
       );
     }
     return null;

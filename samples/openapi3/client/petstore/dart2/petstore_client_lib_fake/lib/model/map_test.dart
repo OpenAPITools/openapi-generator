@@ -13,10 +13,10 @@ part of openapi.api;
 class MapTest {
   /// Returns a new [MapTest] instance.
   MapTest({
-    this.mapMapOfString = const {},
-    this.mapOfEnumString = const {},
-    this.directMap = const {},
-    this.indirectMap = const {},
+     this.mapMapOfString = const {},
+     this.mapOfEnumString = const {},
+     this.directMap = const {},
+     this.indirectMap = const {},
   });
 
   Map<String, Map<String, String>> mapMapOfString;
@@ -163,6 +163,12 @@ class MapTestMapOfEnumStringEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is MapTestMapOfEnumStringEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [MapTestMapOfEnumStringEnum] to String,

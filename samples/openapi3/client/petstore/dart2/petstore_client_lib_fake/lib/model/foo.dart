@@ -13,7 +13,7 @@ part of openapi.api;
 class Foo {
   /// Returns a new [Foo] instance.
   Foo({
-    this.bar = 'bar',
+     this.bar = 'bar',
   });
 
   String bar;

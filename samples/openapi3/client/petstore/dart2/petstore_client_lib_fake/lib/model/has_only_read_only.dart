@@ -13,8 +13,8 @@ part of openapi.api;
 class HasOnlyReadOnly {
   /// Returns a new [HasOnlyReadOnly] instance.
   HasOnlyReadOnly({
-    this.bar,
-    this.foo,
+     this.bar,
+     this.foo,
   });
 
   ///

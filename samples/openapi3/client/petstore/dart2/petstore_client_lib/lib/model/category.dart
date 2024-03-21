@@ -13,8 +13,8 @@ part of openapi.api;
 class Category {
   /// Returns a new [Category] instance.
   Category({
-    this.id,
-    this.name,
+     this.id,
+     this.name,
   });
 
   ///

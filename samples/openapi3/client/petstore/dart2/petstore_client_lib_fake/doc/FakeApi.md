@@ -603,7 +603,7 @@ final int32 = 56; // int | None
 final int64 = 789; // int | None
 final float = 3.4; // double | None
 final string = string_example; // String | None
-final binary = BINARY_DATA_HERE; // MultipartFile | None
+final binary = BINARY_DATA_HERE; // Uint8List | None
 final date = 2013-10-20; // DateTime | None
 final dateTime = 2013-10-20T19:20:30+01:00; // DateTime | None
 final password = password_example; // String | None
@@ -629,7 +629,7 @@ Name | Type | Description  | Notes
  **int64** | **int**| None | [optional] 
  **float** | **double**| None | [optional] 
  **string** | **String**| None | [optional] 
- **binary** | **MultipartFile**| None | [optional] 
+ **binary** | **Uint8List**| None | [optional] 
  **date** | **DateTime**| None | [optional] 
  **dateTime** | **DateTime**| None | [optional] 
  **password** | **String**| None | [optional] 

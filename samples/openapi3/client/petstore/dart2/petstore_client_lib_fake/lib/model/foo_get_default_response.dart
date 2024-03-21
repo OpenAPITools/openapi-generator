@@ -13,7 +13,7 @@ part of openapi.api;
 class FooGetDefaultResponse {
   /// Returns a new [FooGetDefaultResponse] instance.
   FooGetDefaultResponse({
-    this.string,
+     this.string,
   });
 
   ///

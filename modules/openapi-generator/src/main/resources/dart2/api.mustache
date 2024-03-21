@@ -51,22 +51,22 @@ class {{{classname}}} {
   {{/allParams}}
   Future<Response> {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     // ignore: prefer_const_declarations
-    final path = r'{{{path}}}'{{#pathParams}}
+    final _path = r'{{{path}}}'{{#pathParams}}
       .replaceAll({{=<% %>=}}'{<% baseName %>}'<%={{ }}=%>, {{{paramName}}}{{^isString}}.toString(){{/isString}}){{/pathParams}};
 
     // ignore: prefer_final_locals
-    Object? postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
+    Object? _postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
-    final queryParams = <QueryParam>[];
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
+    final __queryParams = <QueryParam>[];
+    final _headerParams = <String, String>{};
+    final _formParams = <String, String>{};
     {{#hasQueryParams}}
 
       {{#queryParams}}
         {{^required}}
     if ({{{paramName}}} != null) {
           {{/required}}
-      queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
+      __queryParams.addAll(_queryParams('{{{collectionFormat}}}', '{{{baseName}}}', {{{paramName}}}));
           {{^required}}
     }
         {{/required}}
@@ -76,58 +76,58 @@ class {{{classname}}} {
 
       {{#headerParams}}
         {{#required}}
-    headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+    _headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
         {{/required}}
         {{^required}}
     if ({{{paramName}}} != null) {
-      headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+      _headerParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
         {{/required}}
       {{/headerParams}}
     {{/hasHeaderParams}}
 
-    const contentTypes = <String>[{{#prioritizedContentTypes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/prioritizedContentTypes}}];
+    const _contentTypes = <String>[{{#prioritizedContentTypes}}'{{{mediaType}}}'{{^-last}}, {{/-last}}{{/prioritizedContentTypes}}];
 
     {{#isMultipart}}
-    bool hasFields = false;
-    final mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(path));
+    bool _hasFields = false;
+    final _mp = MultipartRequest('{{{httpMethod}}}', Uri.parse(_path));
     {{#formParams}}
     {{^isFile}}
     if ({{{paramName}}} != null) {
-      hasFields = true;
-      mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+      _hasFields = true;
+      _mp.fields[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
     {{/isFile}}
     {{#isFile}}
     if ({{{paramName}}} != null) {
-      hasFields = true;
-      mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
-      mp.files.add({{{paramName}}});
+      _hasFields = true;
+      _mp.fields[r'{{{baseName}}}'] = {{{paramName}}}.field;
+      _mp.files.add({{{paramName}}});
     }
     {{/isFile}}
     {{/formParams}}
-    if (hasFields) {
-      postBody = mp;
+    if (_hasFields) {
+      _postBody = _mp;
     }
     {{/isMultipart}}
     {{^isMultipart}}
     {{#formParams}}
     {{^isFile}}
     if ({{{paramName}}} != null) {
-      formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
+      _formParams[r'{{{baseName}}}'] = parameterToString({{{paramName}}});
     }
     {{/isFile}}
     {{/formParams}}
     {{/isMultipart}}
 
     return apiClient.invokeAPI(
-      path,
+      _path,
       '{{{httpMethod}}}',
-      queryParams,
-      postBody,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes.first,
+      __queryParams,
+      _postBody,
+      _headerParams,
+      _formParams,
+      _contentTypes.isEmpty ? null : _contentTypes.first,
     );
   }
 
@@ -162,28 +162,28 @@ class {{{classname}}} {
     {{/-last}}
   {{/allParams}}
   Future<{{#returnType}}{{{.}}}?{{/returnType}}{{^returnType}}void{{/returnType}}> {{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}}? {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    final _response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}},{{^-last}} {{/-last}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
+    if (_response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(_response.statusCode, await _decodeBodyBytes(_response));
     }
     {{#returnType}}
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
-    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+    if (_response.bodyBytes.isNotEmpty && _response.statusCode != HttpStatus.noContent) {
     {{#native_serialization}}
     {{#isArray}}
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, '{{{returnType}}}') as List)
+      final _responseBody = await _decodeBodyBytes(_response);
+      return (await apiClient.deserializeAsync(_responseBody, '{{{returnType}}}') as List)
         .cast<{{{returnBaseType}}}>()
         .{{#uniqueItems}}toSet(){{/uniqueItems}}{{^uniqueItems}}toList(growable: false){{/uniqueItems}};
     {{/isArray}}
     {{^isArray}}
     {{#isMap}}
-      return {{{returnType}}}.from(await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}'),);
+      return {{{returnType}}}.from(await apiClient.deserializeAsync(await _decodeBodyBytes(_response), '{{{returnType}}}'),);
     {{/isMap}}
     {{^isMap}}
-      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), '{{{returnType}}}',) as {{{returnType}}};
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(_response), '{{{returnType}}}',) as {{{returnType}}};
     {{/isMap}}{{/isArray}}{{/native_serialization}}
     }
     return null;

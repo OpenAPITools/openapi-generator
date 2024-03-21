@@ -13,9 +13,9 @@ part of openapi.api;
 class ArrayTest {
   /// Returns a new [ArrayTest] instance.
   ArrayTest({
-    this.arrayOfString = const [],
-    this.arrayArrayOfInteger = const [],
-    this.arrayArrayOfModel = const [],
+     this.arrayOfString = const [],
+     this.arrayArrayOfInteger = const [],
+     this.arrayArrayOfModel = const [],
   });
 
   List<String> arrayOfString;

@@ -13,8 +13,8 @@ part of openapi.api;
 class EnumArrays {
   /// Returns a new [EnumArrays] instance.
   EnumArrays({
-    this.justSymbol,
-    this.arrayEnum = const [],
+     this.justSymbol,
+     this.arrayEnum = const [],
   });
 
   EnumArraysJustSymbolEnum? justSymbol;
@@ -153,6 +153,12 @@ class EnumArraysJustSymbolEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumArraysJustSymbolEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysJustSymbolEnum] to String,
@@ -227,6 +233,12 @@ class EnumArraysArrayEnumEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is EnumArraysArrayEnumEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [EnumArraysArrayEnumEnum] to String,

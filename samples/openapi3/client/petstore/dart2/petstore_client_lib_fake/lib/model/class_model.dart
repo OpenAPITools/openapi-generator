@@ -13,7 +13,7 @@ part of openapi.api;
 class ClassModel {
   /// Returns a new [ClassModel] instance.
   ClassModel({
-    this.class_,
+     this.class_,
   });
 
   ///

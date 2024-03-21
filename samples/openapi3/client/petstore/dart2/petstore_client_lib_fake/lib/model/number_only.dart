@@ -13,7 +13,7 @@ part of openapi.api;
 class NumberOnly {
   /// Returns a new [NumberOnly] instance.
   NumberOnly({
-    this.justNumber,
+     this.justNumber,
   });
 
   ///

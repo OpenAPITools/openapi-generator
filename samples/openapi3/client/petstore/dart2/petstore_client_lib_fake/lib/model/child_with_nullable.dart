@@ -13,9 +13,9 @@ part of openapi.api;
 class ChildWithNullable {
   /// Returns a new [ChildWithNullable] instance.
   ChildWithNullable({
-    this.type,
-    this.nullableProperty,
-    this.otherProperty,
+     this.type,
+     this.nullableProperty,
+     this.otherProperty,
   });
 
   ChildWithNullableTypeEnum? type;
@@ -172,6 +172,12 @@ class ChildWithNullableTypeEnum {
     }
     return result.toList(growable: growable);
   }
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is ChildWithNullableTypeEnum && other.value == value;
+
+  @override
+  int get hashCode => value.hashCode;
 }
 
 /// Transformation class that can [encode] an instance of [ChildWithNullableTypeEnum] to String,
