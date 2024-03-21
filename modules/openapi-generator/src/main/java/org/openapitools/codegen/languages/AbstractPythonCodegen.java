@@ -1056,8 +1056,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                                    Set<String> exampleImports,
                                    Set<String> postponedModelImports,
                                    Set<String> postponedExampleImports,
+                                   PythonImports moduleImports,
                                    String classname) {
-        PythonImports moduleImports = new PythonImports();
         PydanticType pt = new PydanticType(
             modelImports,
             exampleImports,
@@ -1250,6 +1250,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                     exampleImports,
                     postponedModelImports,
                     postponedExampleImports,
+                    moduleImports,
                     null
                 );
             }
@@ -2062,7 +2063,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         values.add((String) enumVar.get("value"));
                     }
                 }
-                return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+                return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
             } else*/
 
             if (result == null) {
@@ -2171,7 +2172,7 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
                         // TODO process the first one only at the moment
                         if (cmt != null)
                             // TODO: don't loop back to the deprecated getPydanticType method
-                            return getPydanticType(cmt.getSchema(), modelImports, exampleImports, postponedModelImports, postponedExampleImports, classname);
+                            return getPydanticType(cmt.getSchema(), modelImports, exampleImports, postponedModelImports, postponedExampleImports, moduleImports, classname);
                     }
                     throw new RuntimeException("Error! Failed to process getPydanticType when getting the content: " + cp);
                 } else {

@@ -1,5 +1,9 @@
 {{>modelEnumInterfaces}}
 
+export function instanceOf{{classname}}(value: any): boolean {
+    return Object.values({{classname}}).includes(value);
+}
+
 export function {{classname}}FromJSON(json: any): {{classname}} {
     return {{classname}}FromJSONTyped(json, false);
 }

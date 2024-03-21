@@ -34,7 +34,7 @@ namespace Example
             var pathString = "pathString_example";  // string | 
             var pathInteger = 56;  // int | 
             var enumNonrefStringPath = "success";  // string | 
-            var enumRefStringPath = new StringEnumRef(); // StringEnumRef | 
+            var enumRefStringPath = (StringEnumRef) "success";  // StringEnumRef | 
 
             try
             {
@@ -80,7 +80,7 @@ catch (ApiException e)
 | **pathString** | **string** |  |  |
 | **pathInteger** | **int** |  |  |
 | **enumNonrefStringPath** | **string** |  |  |
-| **enumRefStringPath** | [**StringEnumRef**](StringEnumRef.md) |  |  |
+| **enumRefStringPath** | **StringEnumRef** |  |  |
 
 ### Return type
 

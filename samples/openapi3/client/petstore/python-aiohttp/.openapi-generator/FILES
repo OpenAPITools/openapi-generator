@@ -50,6 +50,7 @@ docs/FooGetDefaultResponse.md
 docs/FormatTest.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
+docs/ImportTestDatetimeApi.md
 docs/InnerDictWithProperty.md
 docs/InputAllOf.md
 docs/IntOrString.md
@@ -109,6 +110,7 @@ petstore_api/api/another_fake_api.py
 petstore_api/api/default_api.py
 petstore_api/api/fake_api.py
 petstore_api/api/fake_classname_tags123_api.py
+petstore_api/api/import_test_datetime_api.py
 petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py

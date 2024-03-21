@@ -35,10 +35,31 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Return() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Return" /> class.
+        /// </summary>
         /// <param name="varReturn">varReturn.</param>
-        public Return(int varReturn = default(int))
+        /// <param name="varLock">varLock (required).</param>
+        /// <param name="varAbstract">varAbstract (required).</param>
+        /// <param name="varUnsafe">varUnsafe.</param>
+        public Return(int varReturn = default(int), string varLock = default(string), string varAbstract = default(string), string varUnsafe = default(string))
         {
+            // to ensure "varLock" is required (not null)
+            if (varLock == null)
+            {
+                throw new ArgumentNullException("varLock is a required property for Return and cannot be null");
+            }
+            this.Lock = varLock;
+            // to ensure "varAbstract" is required (not null)
+            if (varAbstract == null)
+            {
+                throw new ArgumentNullException("varAbstract is a required property for Return and cannot be null");
+            }
+            this.Abstract = varAbstract;
             this.VarReturn = varReturn;
+            this.Unsafe = varUnsafe;
         }
 
         /// <summary>
@@ -46,6 +67,24 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "return", EmitDefaultValue = false)]
         public int VarReturn { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Lock
+        /// </summary>
+        [DataMember(Name = "lock", IsRequired = true, EmitDefaultValue = true)]
+        public string Lock { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Abstract
+        /// </summary>
+        [DataMember(Name = "abstract", IsRequired = true, EmitDefaultValue = true)]
+        public string Abstract { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Unsafe
+        /// </summary>
+        [DataMember(Name = "unsafe", EmitDefaultValue = false)]
+        public string Unsafe { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +95,9 @@ namespace Org.OpenAPITools.Model
             StringBuilder sb = new StringBuilder();
             sb.Append("class Return {\n");
             sb.Append("  VarReturn: ").Append(VarReturn).Append("\n");
+            sb.Append("  Lock: ").Append(Lock).Append("\n");
+            sb.Append("  Abstract: ").Append(Abstract).Append("\n");
+            sb.Append("  Unsafe: ").Append(Unsafe).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +141,18 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = (hashCode * 59) + this.VarReturn.GetHashCode();
+                if (this.Lock != null)
+                {
+                    hashCode = (hashCode * 59) + this.Lock.GetHashCode();
+                }
+                if (this.Abstract != null)
+                {
+                    hashCode = (hashCode * 59) + this.Abstract.GetHashCode();
+                }
+                if (this.Unsafe != null)
+                {
+                    hashCode = (hashCode * 59) + this.Unsafe.GetHashCode();
+                }
                 return hashCode;
             }
         }

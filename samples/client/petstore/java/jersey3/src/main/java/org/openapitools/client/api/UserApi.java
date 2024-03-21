@@ -11,6 +11,9 @@ import jakarta.ws.rs.core.GenericType;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.User;
 
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -97,7 +100,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithArrayInput(List<User> user) throws ApiException {
+  public void createUsersWithArrayInput(List<@Valid User> user) throws ApiException {
     createUsersWithArrayInputWithHttpInfo(user);
   }
 
@@ -113,7 +116,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<@Valid User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithArrayInput");
@@ -136,7 +139,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public void createUsersWithListInput(List<User> user) throws ApiException {
+  public void createUsersWithListInput(List<@Valid User> user) throws ApiException {
     createUsersWithListInputWithHttpInfo(user);
   }
 
@@ -152,7 +155,7 @@ public class UserApi {
        <tr><td> 0 </td><td> successful operation </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> user) throws ApiException {
+  public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<@Valid User> user) throws ApiException {
     // Check required parameters
     if (user == null) {
       throw new ApiException(400, "Missing the required parameter 'user' when calling createUsersWithListInput");

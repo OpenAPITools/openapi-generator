@@ -54,15 +54,6 @@ class UnnamedDictWithAdditionalStringListProperties(BaseModel):
                             "additional_properties"
                           },
                           exclude_none=True)
-        # override the default output from pydantic by calling `to_dict()` of each value in dict_property (dict of array)
-        _field_dict_of_array = {}
-        if self.dict_property:
-            for _key in self.dict_property:
-                if self.dict_property[_key]:
-                    _field_dict_of_array[_key] = [
-                        _item.to_dict() for _item in self.dict_property[_key]
-                    ]
-            _dict['dictProperty'] = _field_dict_of_array
         # puts key-value pairs in additional_properties in the top level
         if self.additional_properties is not None:
             for _key, _value in self.additional_properties.items():
