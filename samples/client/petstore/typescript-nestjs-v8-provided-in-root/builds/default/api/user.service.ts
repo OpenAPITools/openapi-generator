@@ -14,9 +14,10 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Observable } from 'rxjs';
+import { Observable, from, of, map } from 'rxjs';
 import { User } from '../model/user';
 import { Configuration } from '../configuration';
+import { COLLECTION_FORMATS } from '../variables';
 
 
 @Injectable()
@@ -56,6 +57,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
@@ -77,13 +80,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.post<any>(`${this.basePath}/user`,
+                user,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Creates list of users with given input array
@@ -101,6 +111,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
@@ -122,13 +134,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.post<any>(`${this.basePath}/user/createWithArray`,
+                user,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Creates list of users with given input array
@@ -146,6 +165,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
@@ -167,13 +188,20 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.post<any>(`${this.basePath}/user/createWithList`,
+                user,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Delete user
@@ -191,6 +219,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
@@ -207,12 +237,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.delete<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Get user by user name
@@ -230,6 +267,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'application/xml',
@@ -243,12 +282,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.get<User>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Logs user into the system
@@ -279,6 +325,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // to determine the Accept header
         let httpHeaderAccepts: string[] = [
             'application/xml',
@@ -292,13 +340,20 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<string>(`${this.basePath}/user/login`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.get<string>(`${this.basePath}/user/login`,
+                {
+                    params: queryParameters,
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Logs out current logged in user session
@@ -310,6 +365,8 @@ export class UserService {
     public logoutUser(): Observable<any> {
 
         let headers = {...this.defaultHeaders};
+
+        let accessTokenObservable: Observable<any> = of(null);
 
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
@@ -327,12 +384,19 @@ export class UserService {
         // to determine the Content-Type header
         const consumes: string[] = [
         ];
-        return this.httpClient.get<any>(`${this.basePath}/user/logout`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.get<any>(`${this.basePath}/user/logout`,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
     /**
      * Updated user
@@ -355,6 +419,8 @@ export class UserService {
 
         let headers = {...this.defaultHeaders};
 
+        let accessTokenObservable: Observable<any> = of(null);
+
         // authentication (api_key) required
         if (this.configuration.apiKeys?.["api_key"]) {
             headers['api_key'] = this.configuration.apiKeys["api_key"];
@@ -376,12 +442,19 @@ export class UserService {
         if (httpContentTypeSelected != undefined) {
             headers['Content-Type'] = httpContentTypeSelected;
         }
-        return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
-            user,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers
+        return accessTokenObservable.pipe(map((accessToken) => {
+            if(accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
             }
-        );
+
+            return this.httpClient.put<any>(`${this.basePath}/user/${encodeURIComponent(String(username))}`,
+                user,
+                {
+                    withCredentials: this.configuration.withCredentials,
+                    headers: headers
+                }
+            );
+        }));
+
     }
 }
