@@ -852,8 +852,14 @@ public class OpenAPINormalizer {
             }
         }
 
-        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-            return true;
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+        } else { // 3.0.x or 2.x spec
+            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+                return true;
+            }
         }
 
         // convert referenced enum of null only to `nullable:true`
