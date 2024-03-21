@@ -12,6 +12,9 @@ import java.util.UUID
 import scala.reflect.ClassTag
 import scala.util.*
 
+// needed for BigDecimal params
+given cask.endpoints.QueryParamReader.SimpleParam[BigDecimal](BigDecimal.apply)
+
 // a parsed value from an HTTP request
 opaque type Parsed[A] = Either[String, A]
 
