@@ -71,7 +71,7 @@ public class UnitTest1
         public void Pig()
         {
             BasquePig basquePig = new("BasquePig");
-            Pig pig = new(basquePig, "BasquePig");
+            Pig pig = new(basquePig);
             string pigJson = JsonSerializer.Serialize(pig, _jsonSerializerOptions);
             Pig? pig2 = JsonSerializer.Deserialize<Pig>(pigJson, _jsonSerializerOptions);
             Assert.IsTrue(
@@ -128,7 +128,7 @@ public class UnitTest1
         public void Quadrilateral()
         {
             ComplexQuadrilateral complexQuadrilateral = new("ComplexQuadrilateral", "shapeType");
-            Quadrilateral quadrilateral = new(complexQuadrilateral, "ComplexQuadrilateral");
+            Quadrilateral quadrilateral = new(complexQuadrilateral);
             string quadrilateralJson = JsonSerializer.Serialize(quadrilateral, _jsonSerializerOptions);
             Quadrilateral? quadrilateral2 = JsonSerializer.Deserialize<Quadrilateral>(quadrilateralJson, _jsonSerializerOptions);
             Assert.IsTrue(

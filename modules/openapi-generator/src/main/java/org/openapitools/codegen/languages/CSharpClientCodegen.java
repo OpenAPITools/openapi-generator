@@ -18,12 +18,10 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.ComposedSchema;
-import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.servers.Server;
-import org.mozilla.javascript.optimizer.Codegen;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.model.ModelMap;
@@ -38,9 +36,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
@@ -1593,38 +1588,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     // https://github.com/OpenAPITools/openapi-generator/issues/15867
     @Override
-    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    protected void removePropertiesAlreadyDeclaredInSubModel(Map<String, ModelsMap> models, CodegenModel superModel) {
         if (!GENERICHOST.equals(getLibrary())) {
             return;
         }
 
-        String discriminatorName = model.discriminator == null
-                ? null
-                : model.discriminator.getPropertyName();
-
-        for (CodegenProperty oneOfProperty : composedProperties) {
-            String ref = oneOfProperty.getRef();
-            if (ref != null) {
-                for (Map.Entry<String, ModelsMap> composedEntry : objs.entrySet()) {
-                    CodegenModel composedModel = ModelUtils.getModelByName(composedEntry.getKey(), objs);
-                    if (ref.endsWith("/" + composedModel.name)) {
-                        for (CodegenProperty composedProperty : composedModel.allVars) {
-                            if (discriminatorName != null && composedProperty.name.equals(discriminatorName)) {
-                                continue;
-                            }
-                            model.vars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.allVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.readOnlyVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.nonNullableVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.optionalVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.parentRequiredVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.readWriteVars.removeIf(v -> v.name.equals(composedProperty.name));
-                            model.requiredVars.removeIf(v -> v.name.equals(composedProperty.name));
-                        }
-                    }
-                }
-            }
-        }
+        getSubModels(models, superModel)
+            .flatMap(subModel -> subModel.allVars.stream())
+            .map(subModelVar -> subModelVar.name)
+            .forEach(subModelVarName -> {
+                superModel.vars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.allVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.readOnlyVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.nonNullableVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.optionalVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.parentRequiredVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.readWriteVars.removeIf(v -> v.name.equals(subModelVarName));
+                superModel.requiredVars.removeIf(v -> v.name.equals(subModelVarName));
+            });
     }
 
     /**

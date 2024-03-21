@@ -18,10 +18,10 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap;
-import com.samskivert.mustache.Mustache.Lambda;
+import com.google.common.collect.Streams;
 import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Mustache.Lambda;
 import com.samskivert.mustache.Template;
-
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
@@ -41,8 +41,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
@@ -550,12 +551,12 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * Invoked by {@link DefaultGenerator} after all models have been post-processed, allowing for a last pass of codegen-specific model cleanup.
      *
-     * @param objs Current state of codegen object model.
+     * @param models Current state of codegen object model.
      * @return An in-place modified state of the codegen object model.
      */
     @Override
-    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
-        final Map<String, ModelsMap> processed = super.postProcessAllModels(objs);
+    public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> models) {
+        final Map<String, ModelsMap> processed = super.postProcessAllModels(models);
 
         Map<String, CodegenModel> enumRefs = new HashMap<>();
         for (Map.Entry<String, ModelsMap> entry : processed.entrySet()) {
@@ -576,8 +577,8 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             }
         }
 
-        for (Map.Entry<String, ModelsMap> entry : objs.entrySet()) {
-            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), objs);
+        for (Map.Entry<String, ModelsMap> entry : models.entrySet()) {
+            CodegenModel model = ModelUtils.getModelByName(entry.getKey(), models);
             model.vendorExtensions.put("x-model-is-mutatable", modelIsMutatable(model, null));
 
             CodegenComposedSchemas composedSchemas = model.getComposedSchemas();
@@ -590,9 +591,10 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
 
+                removePropertiesAlreadyDeclaredInSubModelHierarchy(models, model);
+
                 List<CodegenProperty> anyOf = composedSchemas.getAnyOf();
                 if (anyOf != null) {
-                    removePropertiesDeclaredInComposedTypes(objs, model, anyOf);
                     for (CodegenProperty property : anyOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -602,7 +604,6 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                 List<CodegenProperty> oneOf = composedSchemas.getOneOf();
                 if (oneOf != null) {
-                    removePropertiesDeclaredInComposedTypes(objs, model, oneOf);
                     for (CodegenProperty property : oneOf) {
                         property.name = patchPropertyName(model, property.baseType);
                         property.isNullable = true;
@@ -656,14 +657,47 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (!isMutatable && !processed.contains(model.classname) && model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
             processed.add(model.classname);
             for (CodegenDiscriminator.MappedModel mappedModel : model.getDiscriminator().getMappedModels()) {
-                isMutatable = modelIsMutatable(model, processed);
+                isMutatable = modelIsMutatable(mappedModel.getModel(), processed);
+                if (isMutatable) {
+                    break;
+                }
             }
         }
 
         return isMutatable;
     }
 
-    protected void removePropertiesDeclaredInComposedTypes(Map<String, ModelsMap> objs, CodegenModel model, List<CodegenProperty> composedProperties) {
+    protected final Stream<CodegenModel> getSubModels(Map<String, ModelsMap> models, CodegenModel model) {
+        Stream<CodegenProperty> anyOf = model.getComposedSchemas() != null && model.getComposedSchemas().getAnyOf() != null
+                ? model.getComposedSchemas().getAnyOf().stream()
+                : Stream.empty();
+        Stream<CodegenProperty> oneOf = model.getComposedSchemas() != null && model.getComposedSchemas().getOneOf() != null
+                ? model.getComposedSchemas().getOneOf().stream()
+                : Stream.empty();
+
+        return Streams.concat(anyOf, oneOf)
+                .map(CodegenProperty::getRef)
+                .filter(Objects::nonNull)
+                .map(reference -> ModelUtils.getModelByReference(reference, models));
+    }
+
+    private Stream<CodegenModel> getSuperModels(Map<String, ModelsMap> models, CodegenModel subject) {
+        // no backreference, so have to loop over models to find the ones pointing to me
+        return models.keySet().stream()
+                .map(name -> ModelUtils.getModelByName(name, models))
+                .filter(model -> getSubModels(models, model).anyMatch(subModel -> subModel == subject));
+    }
+
+    private void removePropertiesAlreadyDeclaredInSubModelHierarchy(Map<String, ModelsMap> models, CodegenModel model) {
+        // Start removing properties from the root, since the root doesn't know which properties to remove if an intermediate is already cleaned
+        // assumes no cyclic references
+        getSuperModels(models, model)
+            .forEach(superModel -> removePropertiesAlreadyDeclaredInSubModelHierarchy(models, superModel));
+
+        removePropertiesAlreadyDeclaredInSubModel(models, model);
+    }
+
+    protected void removePropertiesAlreadyDeclaredInSubModel(Map<String, ModelsMap> models, CodegenModel composedModel) {
     }
 
     private String patchPropertyName(CodegenModel model, String value) {
@@ -1097,7 +1131,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         patchParameter(model, parameter);
                     }
 
-                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(Collectors.toList());
+                    List<CodegenParameter> referenceTypes = operation.allParams.stream().filter(p -> p.vendorExtensions.get("x-is-value-type") == null && !p.isNullable).collect(toList());
                     operation.vendorExtensions.put("x-not-nullable-reference-types", referenceTypes);
                     operation.vendorExtensions.put("x-has-not-nullable-reference-types", referenceTypes.size() > 0);
                     processOperation(operation);
