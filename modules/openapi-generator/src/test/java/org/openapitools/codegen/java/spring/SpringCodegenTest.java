@@ -2701,8 +2701,8 @@ public class SpringCodegenTest {
         return generateFromContract(url, library, new HashMap<>());
     }
     private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
+        File output = //Files.createTempDirectory("test").toFile().getCanonicalFile();
+                new File("/temp/openapi");
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation(url, null, new ParseOptions()).getOpenAPI();
@@ -4446,7 +4446,63 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testMultiInheritanceParentRequiredParams_issue16797() throws IOException {
+    public void testAllArgsConstructor_inheritanceFirst() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
+                Map.of(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST, Boolean.TRUE,
+                        CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE));
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("String", "String", "Boolean", "Type1")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+        // all args constructor
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("String", "String", "Boolean", "OffsetDateTime", "Type1", "String")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("timestamp").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+                .hasParameter("data").toConstructor()
+        ;
+        JavaFileAssert.assertThat(output.get("Object3.java"))
+                .assertConstructor("String", "String", "Boolean", "OffsetDateTime", "Type1")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("timestamp").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+
+    }
+
+    @Test
+    public void testAllArgsConstructor() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE));
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("Type1", "String", "String", "Boolean")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+        ;
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("Type1", "String", "String", "Boolean", "String")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+                .hasParameter("data").toConstructor()
+        ;
+
+    }
+
+
+    @Test
+    public void testMultiInheritanceParentInherianceFirst() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
         // constructor should as
         //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {

@@ -143,6 +143,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean containerDefaultToNull = false;
 
     private Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
+    protected boolean generatedConstructorWithAllArgs;
 
     public AbstractJavaCodegen() {
         super();
@@ -354,6 +355,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
+            this.setGeneratedConstructorWithAllArgs(convertPropertyToBoolean(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+        }
+        writePropertyBack(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generatedConstructorWithAllArgs);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
@@ -668,6 +673,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
     }
 
+    private void setGeneratedConstructorWithAllArgs(boolean aValue) {
+        this.generatedConstructorWithAllArgs = aValue;
+    }
+
+    public boolean isGeneratedConstructorWithAllArgs() {
+        return generatedConstructorWithAllArgs;
+    }
+
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
@@ -694,7 +707,81 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+
+        for (ModelsMap modelsAttrs : objs.values()) {
+            for (ModelMap mo : modelsAttrs.getModels()) {
+                CodegenModel codegenModel = mo.getModel();
+                Set<String> inheritedImports = new HashSet<>();
+                Map<String, CodegenProperty> propertyHash = new HashMap<>(codegenModel.vars.size());
+                for (final CodegenProperty property : codegenModel.vars) {
+                    propertyHash.put(property.name, property);
+                }
+                List<CodegenModel> parentModelList = getParentModelList(codegenModel);
+                for (CodegenModel parentCodegenModel: parentModelList) {
+                    for (final CodegenProperty property : parentCodegenModel.vars) {
+                        // helper list of parentVars simplifies templating
+                        if (!propertyHash.containsKey(property.name)) {
+                            propertyHash.put(property.name, property);
+                            final CodegenProperty parentVar = property.clone();
+                            parentVar.isInherited = true;
+                            LOGGER.info("adding parent variable {}", property.name);
+                            codegenModel.parentVars.add(parentVar);
+                            Set<String> imports = parentVar.getImports(true, this.importBaseType, generatorMetadata.getFeatureSet()).stream().filter(Objects::nonNull).collect(Collectors.toSet());
+                            for (String imp : imports) {
+                                // Avoid dupes
+                                if (!codegenModel.getImports().contains(imp)) {
+                                    inheritedImports.add(imp);
+                                    codegenModel.getImports().add(imp);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (codegenModel.getParentModel() != null) {
+                    codegenModel.parentRequiredVars = new ArrayList<>(codegenModel.getParentModel().requiredVars);
+                }
+                // There must be a better way ...
+                for (String imp: inheritedImports) {
+                    String qimp = importMapping().get(imp);
+                    if (qimp != null) {
+                        Map<String,String> toAdd = new HashMap<>();
+                        toAdd.put("import", qimp);
+                        modelsAttrs.getImports().add(toAdd);
+                    }
+                }
+            }
+        }
+
+
+        if (isGeneratedConstructorWithAllArgs()) {
+            for (ModelsMap modelsAttrs : objs.values()) {
+                for (ModelMap mo : modelsAttrs.getModels()) {
+                    CodegenModel codegenModel = mo.getModel();
+                    handleGenerateConstructorWithAllArgs(codegenModel);
+                }
+            }
+        }
+
         return objs;
+    }
+
+    private List<CodegenModel> getParentModelList(CodegenModel codegenModel) {
+        CodegenModel parentCodegenModel = codegenModel.parentModel;
+        List<CodegenModel> parentModelList = new ArrayList<>();
+        while (parentCodegenModel != null) {
+            parentModelList.add(parentCodegenModel);
+            parentCodegenModel = parentCodegenModel.parentModel;
+        }
+        if (sortModelPropertiesByInheritanceFirst) {
+            Collections.reverse(parentModelList);
+        }
+        return parentModelList;
+    }
+
+    protected void handleGenerateConstructorWithAllArgs(CodegenModel codegenModel) {
+        if (!codegenModel.allVars.isEmpty()) {
+            codegenModel.vendorExtensions.put("generatedConstructorWithAllArgs", true);
+        }
     }
 
     private void sanitizeConfig() {

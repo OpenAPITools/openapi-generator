@@ -125,6 +125,25 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/hasRequired}}
   {{/generatedConstructorWithRequiredArgs}}
   {{/lombok.RequiredArgsConstructor}}
+  {{#vendorExtensions.generatedConstructorWithAllArgs}}
+  /**
+  * Constructor with all args parameters
+  */
+  public {{classname}}({{#allVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/allVars}}) {
+  {{#parent}}
+      super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
+  {{/parent}}
+  {{#vars}}
+  {{#openApiNullable}}
+      this.{{name}} = {{#isNullable}}JsonNullable.of({{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}Optional.ofNullable({{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}}{{name}}{{#isNullable}}){{/isNullable}}{{#useOptional}}{{^required}}{{^isNullable}}{{^isContainer}}){{/isContainer}}{{/isNullable}}{{/required}}{{/useOptional}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+      this.{{name}} = {{name}};
+  {{/openApiNullable}}
+  {{/vars}}
+  }
+
+  {{/vendorExtensions.generatedConstructorWithAllArgs}}
   {{/lombok.Data}}
   {{#vars}}
   {{^lombok.Data}}
