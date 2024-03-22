@@ -26,6 +26,11 @@ object Parsed {
     case Success(ok) => Right(ok)
   }
 
+  def fromTry[A](value : Try[A]) = value match {
+      case Failure(err) => Left(err.getMessage)
+      case Success(ok) => Right(ok)
+  }
+
   def fail[A](msg: String): Parsed[A] = Left(msg)
 
     def optionalValue(map: Map[String, collection.Seq[String]], key: String): Parsed[Option[String]] = {
@@ -56,20 +61,6 @@ object Parsed {
 }
 
 
-def asHttpResponse[A](serviceResponse: Either[String, ServiceResponse[A]]): cask.Response[String] = {
-    serviceResponse match {
-        case Right(ServiceResponse.Ok(value, headers)) => cask.Response(value.toString, 200, headers = headers.toSeq)
-        case Right(ServiceResponse.NotFound(headers)) => cask.Response("Not Found", statusCode = 404, headers = headers.toSeq)
-        case Right(ServiceResponse.Other(code, msg, headers)) =>
-            cask.Response(
-                msg.getOrElse(s"Service returned $code"),
-                statusCode = code,
-                headers = headers.toSeq
-            )
-        case Left(err) => cask.Response(s"Error: $err", statusCode = 500)
-    }
-}
-
 extension[A] (parsed: Parsed[A]) {
   def toEither: Either[String, A] = parsed
 
@@ -89,6 +80,11 @@ extension[A] (parsed: Parsed[A]) {
     }
   }
 
+
+  def mapError(f : String => String) : Parsed[A] = parsed match {
+    case Left(msg) => Left(f(msg))
+    case right => right
+  }
 
   def map[B](f: A => B): Parsed[B] = parsed match {
     case Right(value) => Right(f(value))

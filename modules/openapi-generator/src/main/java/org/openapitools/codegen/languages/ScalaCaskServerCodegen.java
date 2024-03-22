@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
@@ -8,9 +9,9 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationsMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -57,14 +58,17 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         super();
 
         outputFolder = "generated-code" + File.separator + "scala-cask";
-        modelTemplateFiles.put("model.mustache", ".scala");
+
         embeddedTemplateDir = templateDir = "scala-cask";
         apiPackage = "Apis";
         modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         outputFolder = "generated-code/cask";
+
+        modelTestTemplateFiles.put("modelTest.mustache", ".scala");
         modelTemplateFiles.put("model.mustache", ".scala");
+        modelTemplateFiles.put("modelData.mustache", "Data.scala");
 
         apiTemplateFiles.put("api.mustache", ".scala");
         apiTemplateFiles.put("apiRoutes.mustache", ".scala");
@@ -116,6 +120,25 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
+    public String toDefaultValue(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            return "Map[String, " + inner + "]() ";
+        }
+        return super.toDefaultValue(p);
+    }
+
+    @Override
+    public String testPackage() {
+        return "src/test/scala";
+    }
+
+    public String toModelTestFilename(String name) {
+        String n =  super.toModelTestFilename(name);
+        return (modelPackage + "." + n).replace('.', File.separatorChar);
+    }
+
+    @Override
     public void processOpts() {
         super.processOpts();
 
@@ -127,8 +150,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             artifactId = ((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         }
 
-        final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
-        final String modelPath = "src/main/scala/" + modelPackage.replace('.', '/');
+        final String apiPath = "src/main/scala/" + apiPackage.replace('.', File.separatorChar);
+        final String modelPath = "src/main/scala/" + modelPackage.replace('.', File.separatorChar);
         final List<String> appFullPath = Arrays.stream(modelPath.split("/")).collect(Collectors.toList());
         final String appFolder = String.join("/", appFullPath.subList(0, appFullPath.size() - 1));
 
@@ -154,6 +177,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "example", "Dockerfile"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+        supportingFiles.add(new SupportingFile("build.sc.mustache", "", "build.sc"));
         supportingFiles.add(new SupportingFile(".scalafmt.conf.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("appPackage.mustache", appFolder, "package.scala"));
@@ -165,7 +189,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("appRoutes.mustache", appFolder, "AppRoutes.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
-        supportingFiles.add(new SupportingFile("serviceResponse.mustache", apiPath, "ServiceResponse.scala"));
 
 
         instantiationTypes.put("array", "Seq");
@@ -321,7 +344,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     @Override
     public String toApiName(String name) {
-        if (name.length() == 0) {
+        if (name.isEmpty()) {
             return "DefaultApi";
         }
         name = sanitizeName(name);
@@ -486,7 +509,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                         final CodegenParameter copy = p.copy();
                         copy.vendorExtensions.put("x-default-value", defaultValue(p));
                         copy.required = false; // all our query params are optional for our work-around as it's a super-set of a few different routes
-                        copy.dataType = asScalaDataType(copy);
+                        copy.dataType = asScalaDataType(copy, false, true, true);
                         copy.defaultValue = defaultValue(copy);
                         return copy;
                     }
@@ -615,13 +638,13 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         objs.put("route-groups", createRouteGroups(operationList));
 
-        operationList.forEach((op) -> postProcessOperation(op));
+        operationList.forEach(ScalaCaskServerCodegen::postProcessOperation);
         return objs;
     }
 
     @Override
     public ModelsMap postProcessModels(ModelsMap objs) {
-        objs.getModels().stream().map(m -> m.getModel()).forEach(m -> postProcessModel(m));
+        objs.getModels().stream().map(ModelMap::getModel).forEach(this::postProcessModel);
         return objs;
     }
 
@@ -642,6 +665,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         model.getAllVars().forEach(this::setDefaultValueForCodegenProperty);
         model.getVars().forEach(this::setDefaultValueForCodegenProperty);
 
+        model.getVars().forEach(ScalaCaskServerCodegen::postProcessProperty);
+        model.getAllVars().forEach(ScalaCaskServerCodegen::postProcessProperty);
     }
 
     private static void postProcessOperation(CodegenOperation op) {
@@ -671,62 +696,63 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         op.allParams.forEach((p) -> p.vendorExtensions.put("x-container-type", containerType(p.dataType)));
         op.bodyParams.forEach((p) -> p.vendorExtensions.put("x-container-type", containerType(p.dataType)));
 
-        final String paramList = String.join(", ", op.allParams.stream().map((p) -> p.paramName).collect(Collectors.toList()));
+        final String paramList = op.allParams.stream().map((p) -> p.paramName).collect(Collectors.joining(", "));
         op.vendorExtensions.put("x-param-list", paramList);
 
-        final Stream<String> typed = op.allParams.stream().map((p) -> p.paramName + " : " + asScalaDataType(p));
-        final String typedParamList = String.join(", ", typed.collect(Collectors.toList()));
-        op.vendorExtensions.put("x-param-list-typed", typedParamList);
+        final Stream<String> typed = op.allParams.stream().map((p) -> p.paramName + " : " + asScalaDataType(p, p.required, false));
+        op.vendorExtensions.put("x-param-list-typed", String.join(", ", typed.collect(Collectors.toList())));
 
+        final Stream<String> typedJson = op.allParams.stream().map((p) -> p.paramName + " : " + asScalaDataType(p, p.required, true));
+        op.vendorExtensions.put("x-param-list-typed-json", String.join(", ", typedJson.collect(Collectors.toList())));
 
         // for the declaration site
         op.vendorExtensions.put("x-cask-path-typed", routeArgs(op));
         op.vendorExtensions.put("x-query-args", queryArgs(op));
 
-        op.vendorExtensions.put("x-response-type", enrichResponseType(op));
+        List<String> responses = op.responses.stream().map(r -> r.dataType).filter(Objects::nonNull).collect(Collectors.toList());
+        op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit": String.join(" | ", responses));
+
         String responseDebug = String.join("\n\n - - - - - - -\n\n", op.responses.stream().map(r -> inComment(pretty(r))).collect(Collectors.toList()));
         op.vendorExtensions.put("x-responses", responseDebug);
 
     }
 
-    /**
-     * The Service methods are decoupled from http Responses -- they return a typed 'ServiceResponse'.
-     * This method tries to fill int the ServiceResponse type parameter
-     * For example:
-     * {{{
-     * "200": {
-     * "description": "successful operation",
-     * "schema": {
-     * "type": "string"
-     * }
-     * },
-     * "400": {
-     * "description": "Invalid username/password supplied"
-     * }
-     * }}}
-     *
-     * @param op
-     * @return
-     */
-    private static String enrichResponseType(CodegenOperation op) {
-        if (op.returnType != null && !op.returnType.isEmpty()) {
-            return "ServiceResponse[" + op.returnType + "]";
-        }
-        Optional<CodegenResponse> successResponse = op.responses.stream().filter((r) -> r.code.startsWith("2")).findFirst();
-        if (successResponse.isPresent()) {
-            CodegenResponse r = successResponse.get();
+    private static void postProcessProperty(CodegenProperty p) {
+        p.vendorExtensions.put("x-datatype-model", asScalaDataType(p, p.required, false));
+        p.vendorExtensions.put("x-defaultValue-model", defaultValue(p, p.required, p.defaultValue));
+        String dataTypeData = asScalaDataType(p, p.required, true);
+        p.vendorExtensions.put("x-datatype-data", dataTypeData);
 
-            return "ServiceResponse[Unit] /**" +
-                    "containerType='" + r.containerType + "'\n" +
-                    "baseType='" + r.baseType + "'\n" +
-                    "dataType='" + r.dataType + "'\n" +
-                    "simpleType='" + r.simpleType + "'\n" +
-                    "jsonSchema='" + r.jsonSchema + "'\n" +
-                    "schema='" + r.schema + "'\n" +
-                    "*/";
-        } else {
-            return "ServiceResponse[Unit]";
+
+        p.vendorExtensions.put("x-containertype-data", containerType(dataTypeData));
+
+        p.vendorExtensions.put("x-defaultValue-data", defaultValueNonOption(p, p.defaultValue));
+
+        // the 'asModel' logic for modelData.mustache
+        //
+        // if it's optional (not required), then wrap the value in Option()
+        // ... unless it's a map or array, in which case it can just be empty
+        //
+        p.vendorExtensions.put("x-wrap-in-optional", !p.required && !p.isArray && !p.isMap);
+
+        // if it's an array or optional, we need to map it as a model -- unless it's a map,
+        // in which case we have to map the values
+        boolean hasItemModel = p.items != null && p.items.isModel;
+        boolean isObjectArray = p.isArray && hasItemModel;
+        boolean isOptionalObj = !p.required && p.isModel;
+        p.vendorExtensions.put("x-map-asModel", (isOptionalObj || isObjectArray) && !p.isMap);
+
+        // when deserialising map objects, the logic is tricky.
+        p.vendorExtensions.put("x-deserialize-asModelMap", p.isMap && hasItemModel);
+
+        // for some reason, an openapi spec with pattern field like this:
+        // pattern: '^[A-Za-z]+$'
+        // will result in the pattern property text of
+        // pattern: '/^[A-Za-z]+$/'
+        if (p.pattern != null && p.pattern.startsWith("/") && p.pattern.endsWith("/")) {
+            p.pattern = p.pattern.substring(1, p.pattern.length() - 1);
         }
+
     }
 
 
@@ -768,7 +794,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         final Stream<String> pathParamNames = Arrays.stream(op.path.split(File.separator, -1)).filter(p -> hasBrackets(p)).map(p -> {
             final CodegenParameter param = pathParamForName(op, chompBrackets(p));
             param.vendorExtensions.put("x-debug", inComment(pretty(param)));
-            return param.paramName + " : " + asScalaDataType(param);
+            return param.paramName + " : " + asScalaDataType(param, param.required, true);
         });
 
 
@@ -779,39 +805,49 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         final Stream<String> queryParams = op.queryParams.stream().map(p -> {
             p.vendorExtensions.put("x-default-value", defaultValue(p));
-            return p.paramName + " : " + asScalaDataType(p);
+            return p.paramName + " : " + asScalaDataType(p, p.required, true, true);
         });
         pathList.addAll(queryParams.collect(Collectors.toList()));
         return pathList.isEmpty() ? "" : (String.join(", ", pathList));
     }
 
     private static String defaultValue(CodegenParameter p) {
-        if (!p.required && !(p.isArray || p.isMap)) {
-            return "None";
-        }
-        return defaultValueNonOption(p);
+        return defaultValue(p, p.required, p.defaultValue);
     }
 
-    private static String defaultValueNonOption(CodegenParameter p) {
+    private static String defaultValue(IJsonSchemaValidationProperties p, boolean required, String fallbackDefaultValue) {
+        if (!required && !(p.getIsArray() || p.getIsMap())) {
+            return "None";
+        }
+        return defaultValueNonOption(p, fallbackDefaultValue);
+    }
+
+    private static String defaultValueNonOption(IJsonSchemaValidationProperties p, String fallbackDefaultValue) {
         if (p.getIsArray()) {
+            if (p.getUniqueItems()) {
+                return "Set.empty";
+            }
             return "Nil";
         }
         if (p.getIsMap()) {
             return "Map.empty";
         }
-        if (p.isNumber) {
+        if (p.getIsNumber()) {
             return "0";
         }
-        if (p.isString) {
-            return "\"\"";
+        if (p.getIsEnum()) {
+            return fallbackDefaultValue;
         }
-        if (p.isBoolean) {
+        if (p.getIsBoolean()) {
             return "false";
         }
-        if (p.isUuid) {
+        if (p.getIsUuid()) {
             return "java.util.UUID.randomUUID()";
         }
-        return p.defaultValue;
+        if (p.getIsString()) {
+            return "\"\"";
+        }
+        return fallbackDefaultValue;
     }
 
     private static String defaultValueNonOption(CodegenProperty p) {
@@ -823,9 +859,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         }
         if (p.isNumber || p.isNumeric) {
             return "0";
-        }
-        if (p.isString) {
-            return "\"\"";
         }
         if (p.isBoolean) {
             return "false";
@@ -839,7 +872,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         if (p.isDate || p.isDateTime) {
             return "null";
         }
-        return p.defaultValue + " /* " + p + " */";
+        if (p.isString) {
+            return "\"\"";
+        }
+        return p.defaultValue;
     }
 
     private static String queryArgs(final CodegenOperation op) {
@@ -848,13 +884,44 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return prefix + String.join(", ", list);
     }
 
-    private static String asScalaDataType(final CodegenParameter param) {
-        String ogDataType = param.dataType;
-        String dataType = param.dataType;
+    /**
+     * For our model classes, we have two variants:
+     *
+     * 1) a {model}.scala one which is a validated, model class
+     * 2) a {model}Data.scala one which is just our data-transfer-object (DTO) which is written primarily for e.g. json serialisation
+     *
+     * The data variant can have nulls and other non-scala things, but they know how to create validated model objects.
+     *
+     * This 'asScalaDataType' is used to ensure the type hierarchy is correct for both the model and data varients.
+     *
+     * e.g. consider this example:
+     * ```
+     * case class Foo(bar : Bar, bazz :List[Bazz])
+     * case class Bar(x : Option[String] = None)
+     * case class Bazz(y : Int)
+     *
+     * // vs
+     *
+     * case class FooData(bar : BarData, bazz :List[BazzData])
+     * case class BarData(x : String = "")
+     * case class BazzData(y : Int)
+     *```
+     *
+     */
+    private static String asScalaDataType(final IJsonSchemaValidationProperties param, boolean required, boolean useJason) {
+        return asScalaDataType(param, required, useJason, !useJason);
+    }
+    private static String asScalaDataType(final IJsonSchemaValidationProperties param, boolean required, boolean useJason, boolean allowOptional) {
+        String dataType = (param.getIsModel() && useJason) ? param.getDataType() + "Data" : param.getDataType();
+
+        final String dataSuffix = useJason && param.getItems() != null && param.getItems().getIsModel() ? "Data" : "";
         if (dataType.startsWith("List[")) {
             dataType = dataType.replace("List[", "Seq[");
-        } else if (!param.required) {
-            dataType = "Option[" + param.dataType + "]";
+            dataType = dataType.replace("]", dataSuffix + "]");
+        } else if (dataType.startsWith("Set[")) {
+            dataType = dataType.replace("]", dataSuffix + "]");
+        } else if (!required && allowOptional) {
+            dataType = "Option[" + dataType + "]";
         }
         return dataType;
     }
@@ -873,7 +940,9 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     static String containerType(String dataType) {
         String fixedForList = dataType.replaceAll(".*\\[(.*)\\]", "$1");
-        // do we have to fix map?
-        return fixedForList;
+
+        // if it is a map, we want the value type
+        final String[] parts = fixedForList.split(",");
+        return parts[parts.length - 1];
     }
 }

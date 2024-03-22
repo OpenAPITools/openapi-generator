@@ -6,11 +6,16 @@
 // this is generated from apiRoutes.mustache
 package {{apiPackage}}
 
+import {{modelPackage}}.*
+
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
 {{#imports}}import {{import}}
 {{/imports}}
 
 {{vendorExtensions.x-debug}}
-final case class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
+class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
 {{#route-groups}}
     // route group for {{methodName}}
@@ -20,7 +25,7 @@ final case class {{classname}}Routes(service : {{classname}}Service) extends cas
     {{#operations}}
             case Seq({{>pathExtractor}}) => {{operationId}}({{>pathExtractorParams}}request{{>queryParams}})
     {{/operations}}
-            case _          => asHttpResponse(Right(ServiceResponse.NotFound()))
+            case _          => cask.Response("Not Found", statusCode = 404)
         }
     }
 {{/route-groups}}
@@ -37,9 +42,23 @@ final case class {{classname}}Routes(service : {{classname}}Service) extends cas
             // auth method {{name}} : {{type}}, keyParamName: {{keyParamName}}
         {{/authMethods}}
 
-        val serviceResponse = {{>parseHttpParams}}
+        def failFast = request.queryParams.keySet.contains("failFast")
 
-        asHttpResponse(serviceResponse)
+        val result = {{>parseHttpParams}}
+
+        result match {
+          case Left(error) => cask.Response(error, 500)
+        {{#vendorExtensions.x-has-response-types}}
+            {{#responses}}
+                {{#dataType}}
+                    case Right(value : {{dataType}}) => cask.Response(data = write(value), {{code}}, headers = Seq("Content-Type" -> "application/json"))
+                {{/dataType}}
+            {{/responses}}
+        {{/vendorExtensions.x-has-response-types}}
+        {{^vendorExtensions.x-has-response-types}}
+            case Right(_) => cask.Response("", 200)
+        {{/vendorExtensions.x-has-response-types}}
+        }
       }
     {{/operation}}
 {{/operations}}
