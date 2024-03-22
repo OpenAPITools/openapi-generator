@@ -63,12 +63,14 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
 
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
+    private static final ForceSnakeCaseSerializationProperty FORCE_SNAKE_CASE_SERIALIZATION_PROPERTY = new ForceSnakeCaseSerializationProperty();
+
     public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
     private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
     private static final List<Property<?>> properties = Arrays.asList(
             STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
-            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
+            JSON4S_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY, FORCE_SNAKE_CASE_SERIALIZATION_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
 
@@ -114,7 +116,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         );
 
         outputFolder = "generated-code/scala-sttp";
-        modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp";
 
@@ -690,6 +691,12 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
                                 "or " + JSON4S);
                 throw exception;
             }
+        }
+    }
+
+    public static class ForceSnakeCaseSerializationProperty extends BooleanProperty {
+        public ForceSnakeCaseSerializationProperty() {
+            super("forceSnakeCaseSerialization", "Whether to encode Scala identifiers using snake case", false);
         }
     }
 

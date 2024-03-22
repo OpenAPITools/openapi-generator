@@ -44,10 +44,18 @@ trait AdditionalTypeSerializers {
       final def apply(a: URI): Json = Json.fromString(a.toString)
   }
 
+{{#forceSnakeCaseSerialization}}
   implicit val circeConfig: Configuration =
     Configuration.default.withSnakeCaseMemberNames.withSnakeCaseConstructorNames.withDiscriminator(
       "type",
     ).withDefaults
+{{/forceSnakeCaseSerialization}}
+{{^forceSnakeCaseSerialization}}
+  implicit val circeConfig: Configuration =
+    Configuration.default.withDiscriminator(
+      "type",
+    ).withDefaults
+{{/forceSnakeCaseSerialization}}
 }
 
 object AdditionalTypeSerializers extends AdditionalTypeSerializers
