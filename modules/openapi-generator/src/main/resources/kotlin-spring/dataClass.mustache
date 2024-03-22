@@ -5,6 +5,9 @@
 {{/vars}}
  */{{#discriminator}}
 {{>typeInfoAnnotation}}{{/discriminator}}
+{{#additionalModelTypeAnnotations}}
+    {{{.}}}
+{{/additionalModelTypeAnnotations}}
 {{#discriminator}}interface {{classname}}{{/discriminator}}{{^discriminator}}{{#hasVars}}data {{/hasVars}}class {{classname}}(
 {{#requiredVars}}
 {{>dataClassReqVar}}{{^-last}},
