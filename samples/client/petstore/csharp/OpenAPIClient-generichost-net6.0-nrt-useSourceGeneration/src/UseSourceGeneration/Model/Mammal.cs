@@ -248,11 +248,6 @@ namespace UseSourceGeneration.Model
         {
             writer.WriteStartObject();
 
-            if (mammal.Pig != null) {
-                PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
-                pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
-            }
-
             if (mammal.Whale != null) {
                 WhaleJsonConverter whaleJsonConverter = (WhaleJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Whale.GetType()));
                 whaleJsonConverter.WriteProperties(ref writer, mammal.Whale, jsonSerializerOptions);
@@ -261,6 +256,11 @@ namespace UseSourceGeneration.Model
             if (mammal.Zebra != null) {
                 ZebraJsonConverter zebraJsonConverter = (ZebraJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Zebra.GetType()));
                 zebraJsonConverter.WriteProperties(ref writer, mammal.Zebra, jsonSerializerOptions);
+            }
+
+            if (mammal.Pig != null) {
+                PigJsonConverter pigJsonConverter = (PigJsonConverter) jsonSerializerOptions.Converters.First(c => c.CanConvert(mammal.Pig.GetType()));
+                pigJsonConverter.WriteProperties(ref writer, mammal.Pig, jsonSerializerOptions);
             }
 
             WriteProperties(ref writer, mammal, jsonSerializerOptions);

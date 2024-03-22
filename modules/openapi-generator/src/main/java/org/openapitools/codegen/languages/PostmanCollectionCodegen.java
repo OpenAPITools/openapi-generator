@@ -374,19 +374,25 @@ public class PostmanCollectionCodegen extends DefaultCodegen implements CodegenC
                 items.add(new PostmanRequestItem(codegenOperation.summary, getJsonFromSchema(codegenOperation.bodyParam)));
             } else {
                 // get from examples
-                if (codegenOperation.bodyParam.example != null) {
+                if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
+                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
+                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
+                        if(entry.getValue().get$ref() != null) {
+                            // find in components/examples
+                            String exampleRef = entry.getValue().get$ref();
+                            Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
+                            String exampleAsString = getJsonFromExample(example);
+
+                            items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
+                        } else if (entry.getValue().getValue() != null && entry.getValue().getValue() instanceof ObjectNode) {
+                            // find inline
+                            String exampleAsString = convertToJson((ObjectNode) entry.getValue().getValue());
+                            items.add(new PostmanRequestItem(entry.getKey(), exampleAsString));
+                        }
+                    }
+                } else if (codegenOperation.bodyParam.example != null) {
                     // find in bodyParam example
                     items.add(new PostmanRequestItem(codegenOperation.summary, formatJson(codegenOperation.bodyParam.example)));
-                } else if (codegenOperation.bodyParam.getContent().get("application/json") != null &&
-                        codegenOperation.bodyParam.getContent().get("application/json").getExamples() != null) {
-                    // find in components/examples
-                    for (Map.Entry<String, Example> entry : codegenOperation.bodyParam.getContent().get("application/json").getExamples().entrySet()) {
-                        String exampleRef = entry.getValue().get$ref();
-                        Example example = this.openAPI.getComponents().getExamples().get(extractExampleByName(exampleRef));
-                        String exampleAsString = getJsonFromExample(example);
-
-                        items.add(new PostmanRequestItem(example.getSummary(), exampleAsString));
-                    }
                 } else if (codegenOperation.bodyParam.getSchema() != null) {
                     // find in schema example
                     String exampleAsString = formatJson(codegenOperation.bodyParam.getSchema().getExample());

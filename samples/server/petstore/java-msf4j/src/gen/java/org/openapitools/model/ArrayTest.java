@@ -31,7 +31,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayOfStringItem(String arrayOfStringItem) {
     if (this.arrayOfString == null) {
-      this.arrayOfString = ;
+      this.arrayOfString = new ArrayList<>();
     }
     this.arrayOfString.add(arrayOfStringItem);
     return this;
@@ -57,7 +57,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfIntegerItem(List<Long> arrayArrayOfIntegerItem) {
     if (this.arrayArrayOfInteger == null) {
-      this.arrayArrayOfInteger = ;
+      this.arrayArrayOfInteger = new ArrayList<>();
     }
     this.arrayArrayOfInteger.add(arrayArrayOfIntegerItem);
     return this;
@@ -83,7 +83,7 @@ public class ArrayTest   {
 
   public ArrayTest addArrayArrayOfModelItem(List<@Valid ReadOnlyFirst> arrayArrayOfModelItem) {
     if (this.arrayArrayOfModel == null) {
-      this.arrayArrayOfModel = ;
+      this.arrayArrayOfModel = new ArrayList<>();
     }
     this.arrayArrayOfModel.add(arrayArrayOfModelItem);
     return this;
