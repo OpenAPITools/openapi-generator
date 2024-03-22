@@ -55,7 +55,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "put" : {
         "operationId" : "updatePet",
@@ -96,7 +96,7 @@
         "tags" : [ "pet" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "application/json",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/pet/findByStatus" : {
@@ -151,7 +151,7 @@
         } ],
         "summary" : "Finds Pets by status",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/pet/findByTags" : {
@@ -205,7 +205,7 @@
         } ],
         "summary" : "Finds Pets by tags",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/pet/{petId}" : {
@@ -238,7 +238,7 @@
         } ],
         "summary" : "Deletes a pet",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "description" : "Returns a single pet",
@@ -283,7 +283,7 @@
         } ],
         "summary" : "Find pet by ID",
         "tags" : [ "pet" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       },
       "post" : {
         "operationId" : "updatePetWithForm",
@@ -318,7 +318,7 @@
         "summary" : "Updates a pet in the store with form data",
         "tags" : [ "pet" ],
         "x-content-type" : "application/x-www-form-urlencoded",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/pet/{petId}/uploadImage" : {
@@ -361,7 +361,7 @@
         "summary" : "uploads an image",
         "tags" : [ "pet" ],
         "x-content-type" : "multipart/form-data",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/store/inventory" : {
@@ -389,7 +389,7 @@
         } ],
         "summary" : "Returns pet inventories by status",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/store/order" : {
@@ -431,7 +431,7 @@
         "tags" : [ "store" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/store/order/{orderId}" : {
@@ -459,7 +459,7 @@
         },
         "summary" : "Delete purchase order by ID",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "description" : "For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions",
@@ -503,7 +503,7 @@
         },
         "summary" : "Find purchase order by ID",
         "tags" : [ "store" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/user" : {
@@ -531,7 +531,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/createWithArray" : {
@@ -561,7 +561,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/createWithList" : {
@@ -591,7 +591,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/login" : {
@@ -653,7 +653,7 @@
         },
         "summary" : "Logs user into the system",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       }
     },
     "/user/logout" : {
@@ -667,7 +667,7 @@
         },
         "summary" : "Logs out current logged in user session",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     },
     "/user/{username}" : {
@@ -695,7 +695,7 @@
         },
         "summary" : "Delete user",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       },
       "get" : {
         "operationId" : "getUserByName",
@@ -735,7 +735,7 @@
         },
         "summary" : "Get user by user name",
         "tags" : [ "user" ],
-        "x-accepts" : "application/json,application/xml"
+        "x-accepts" : [ "application/json", "application/xml" ]
       },
       "put" : {
         "description" : "This can only be done by the logged in user.",
@@ -774,7 +774,7 @@
         "tags" : [ "user" ],
         "x-codegen-request-body-name" : "body",
         "x-content-type" : "*/*",
-        "x-accepts" : "application/json"
+        "x-accepts" : [ "application/json" ]
       }
     }
   },

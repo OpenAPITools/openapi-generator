@@ -32,6 +32,8 @@ import java.util.Arrays;
 import org.openapitools.client.model.ComplexQuadrilateral;
 import org.openapitools.client.model.SimpleQuadrilateral;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;
