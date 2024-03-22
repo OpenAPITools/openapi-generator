@@ -48,12 +48,12 @@ object {{classname}} {
 // no discriminator mapping
   implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
 {{#oneOf}}
-    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson.mapObject(("{{discriminator.propertyName}}" -> "{{.}}".asJson) +: _)
+    case {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}} => {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}.asJson.mapObject(("{{discriminator.propertyBaseName}}" -> "{{.}}".asJson) +: _)
 {{/oneOf}}
   }
 
   implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{discriminator.propertyName}}").as[String].flatMap {
+    cursor.downField("{{discriminator.propertyBaseName}}").as[String].flatMap {
       {{#oneOf}}
         case "{{.}}" =>
           cursor.as[{{.}}]
@@ -66,12 +66,12 @@ object {{classname}} {
 {{#discriminator}}
   implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Encoder: Encoder[{{classname}}] = Encoder.instance {
 {{#mappedModels}}
-    case {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}: {{model.classname}} => {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}.asJson.mapObject(("{{propertyName}}" -> "{{mappingName}}".asJson) +: _)
+    case {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}: {{model.classname}} => {{#lambda.camelcase}}{{model.classname}}{{/lambda.camelcase}}.asJson.mapObject(("{{propertyBaseName}}" -> "{{mappingName}}".asJson) +: _)
 {{/mappedModels}}
   }
 
   implicit val {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}Decoder: Decoder[{{classname}}] = Decoder.instance { cursor =>
-    cursor.downField("{{propertyName}}").as[String].flatMap {
+    cursor.downField("{{propertyBaseName}}").as[String].flatMap {
     {{#mappedModels}}
       case "{{mappingName}}" =>
         cursor.as[{{model.classname}}]
