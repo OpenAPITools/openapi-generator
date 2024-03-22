@@ -25,9 +25,9 @@ class PropertyNameCollision(BaseModel):
     """
     PropertyNameCollision
     """
-    underscore_type: Optional[StrictStr] = Field(None, alias="_type")
+    underscore_type: Optional[StrictStr] = Field(default=None, alias="_type")
     type: Optional[StrictStr] = None
-    type_with_underscore: Optional[StrictStr] = Field(None, alias="type_")
+    type_with_underscore: Optional[StrictStr] = Field(default=None, alias="type_")
     additional_properties: Dict[str, Any] = {}
     __properties = ["_type", "type", "type_"]
 

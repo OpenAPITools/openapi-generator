@@ -25,7 +25,7 @@ class BasquePig(BaseModel):
     """
     BasquePig
     """
-    class_name: StrictStr = Field(..., alias="className")
+    class_name: StrictStr = Field(default=..., alias="className")
     color: StrictStr = Field(...)
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color"]
