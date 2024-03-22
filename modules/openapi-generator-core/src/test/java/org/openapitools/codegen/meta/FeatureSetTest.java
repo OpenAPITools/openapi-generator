@@ -9,13 +9,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static org.openapitools.codegen.meta.FeatureSet.UNSPECIFIED;
 import static org.testng.Assert.*;
 
 public class FeatureSetTest {
 
     @Test
     public void flattOnUnspecified() {
-        List<FeatureSet.FeatureSetFlattened> flattened = FeatureSet.UNSPECIFIED.flatten();
+        List<FeatureSet.FeatureSetFlattened> flattened = UNSPECIFIED.flatten();
         // There are 73 features at the time of writing this test. This makes sure we get a "Full" flat representation.
         int knownFeatureCount = 73;
         int checkedCount = 0;

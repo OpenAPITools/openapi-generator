@@ -20,6 +20,10 @@ public class BuildInfo {
     private static final String UNSET = "unset";
     private static final String UNKNOWN = "unknown";
 
+    private static final String GIT_REPO = "https://github.com/openapitools/openapi-generator";
+
+    private static final String SITE = "https://openapi-generator.tech/";
+
     private static final Properties properties = new Properties();
 
     static {
