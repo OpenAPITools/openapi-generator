@@ -105,7 +105,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{/lombok.NoArgsConstructor}}
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}
    */
   public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}
@@ -129,7 +129,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   /**
   * Constructor with all args parameters
   */
-  public {{classname}}({{#allVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/allVars}}) {
+  public {{classname}}({{#vendorExtensions.allArgsConstructorVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.allArgsConstructorVars}}) {
   {{#parent}}
       super({{#parentVars}}{{name}}{{^-last}}, {{/-last}}{{/parentVars}});
   {{/parent}}
@@ -142,7 +142,6 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
   {{/openApiNullable}}
   {{/vars}}
   }
-
   {{/vendorExtensions.generatedConstructorWithAllArgs}}
   {{/lombok.Data}}
   {{#vars}}

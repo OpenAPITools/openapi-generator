@@ -114,6 +114,7 @@ public class SortByInheritanceFirstBuilder {
     }
 
     public SortByInheritanceFirstBuilder validate(CodegenModel m) {
+        if (true) return this;
 //        List<String> properties = getProperties(m);
         List<String> notFound = m.allVars.stream()
                 .map(CodegenProperty::getBaseName).filter(p -> !properties.contains(p))

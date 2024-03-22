@@ -686,6 +686,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
+        Map<String, CodegenModel> allModels = getAllModels(objs);
+
         if (!additionalModelTypeAnnotations.isEmpty()) {
             for (String modelName : objs.keySet()) {
                 Map<String, Object> models = objs.get(modelName);
@@ -752,14 +754,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-
         if (isGeneratedConstructorWithAllArgs()) {
-            for (ModelsMap modelsAttrs : objs.values()) {
-                for (ModelMap mo : modelsAttrs.getModels()) {
-                    CodegenModel codegenModel = mo.getModel();
-                    handleGenerateConstructorWithAllArgs(codegenModel);
+            // helper for all args constructor generatation
+            // it should be equivalent to allVars. but with inheritanceSupport allVars does not match the specs.
+            for (CodegenModel cm : allModels.values()) {
+                List<Object> constructorArgs = new ArrayList<>();
+                cm.vendorExtensions.put("allArgsConstructorVars", constructorArgs);
+                if (sortModelPropertiesByInheritanceFirst) {
+                    constructorArgs.addAll(cm.parentVars);
+                    constructorArgs.addAll(cm.vars);
+                } else {
+                    constructorArgs.addAll(cm.vars);
+                    constructorArgs.addAll(cm.parentVars);
                 }
+                handleGenerateConstructorWithAllArgs(cm);
             }
+
+//
+//            for (ModelsMap modelsAttrs : objs.values()) {
+//                for (ModelMap mo : modelsAttrs.getModels()) {
+//                    CodegenModel codegenModel = mo.getModel();
+//                    handleGenerateConstructorWithAllArgs(codegenModel);
+//                }
+//            }
         }
 
         return objs;
@@ -2601,4 +2618,5 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             imports.add(importsItem);
         }
     }
+
 }

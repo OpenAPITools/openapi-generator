@@ -2043,16 +2043,6 @@ public class ModelUtils {
         return false;
     }
 
-    public static String getRefName(Schema schema) {
-        if (schema != null) {
-            if (schema.get$ref()!=null) {
-                return ModelUtils.getSimpleRef(schema.get$ref());
-            }
-            return schema.getName();
-        }
-        return null;
-    }
-
     @FunctionalInterface
     private interface OpenAPISchemaVisitor {
 

@@ -4456,9 +4456,8 @@ public class SpringCodegenTest {
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
                 .hasParameter("pageInfo").toConstructor()
-        ;
+                .toFileAssert()
         // all args constructor
-        JavaFileAssert.assertThat(output.get("Object4.java"))
                 .assertConstructor("String", "String", "Boolean", "OffsetDateTime", "Type1", "String")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
@@ -4479,7 +4478,7 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testAllArgsConstructor() throws IOException {
+    public void testAllArgsConstructor_inheritanceLast() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
                 Map.of(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE));
         JavaFileAssert.assertThat(output.get("Object4.java"))
@@ -4488,9 +4487,8 @@ public class SpringCodegenTest {
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
                 .hasParameter("pageInfo").toConstructor()
-        ;
-        JavaFileAssert.assertThat(output.get("Object4.java"))
-                .assertConstructor("Type1", "String", "String", "Boolean", "String")
+                .toFileAssert()
+                .assertConstructor("String", "OffsetDateTime", "Type1", "String", "String", "Boolean")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
@@ -4501,33 +4499,59 @@ public class SpringCodegenTest {
     }
 
 
-    @Test
-    public void testMultiInheritanceParentInherianceFirst() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT);
-        // constructor should as
-        //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
-        //            super(responseType, requestId, success, pageInfo);
-        //        }
-        JavaFileAssert.assertThat(output.get("Object4.java"))
-                .assertConstructor("Type1", "String", "String", "Boolean")
-                .hasParameter("responseType").toConstructor()
-                .hasParameter("requestId").toConstructor()
-                .hasParameter("success").toConstructor()
-                .hasParameter("pageInfo").toConstructor()
-        ;
-    }
 
     @Test
-    public void testMultiInheritanceParentRequiredParams_issue15796() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT);
-        // constructor should as this
+    public void testAllArgsConstructor_inheritanceFirst_15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE));
+        // constructors should as this
         //public Poodle(String race, String type) {
         //    super(race, type);
+        //}
+        // and
+        //public Poodle(String hairType, Integer tails, String race, String name, String type) {
+        //  super(tails, race, name, type);
+        //  this.hairType = hairType;
         //}
         JavaFileAssert.assertThat(output.get("Poodle.java"))
                 .assertConstructor("String", "String")
                 .hasParameter("type").toConstructor()
                 .hasParameter("race").toConstructor()
+                .toFileAssert()
+                .assertConstructor("String", "Integer", "String", "String", "String")
+                .hasParameter("tails").toConstructor()
+                .hasParameter("race").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor()
+                .hasParameter("hairType").toConstructor()
+        ;
+    }
+
+
+    @Test
+    public void testAllArgsConstructor_defaultOrder_15796() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_15796.yaml", SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.TRUE));
+        // constructors should as this
+        //public Poodle(String race, String type) {
+        //    super(race, type);
+        //}
+        // and
+        //public Poodle(String hairType, Integer tails, String race, String name, String type) {
+        //  super(tails, race, name, type);
+        //  this.hairType = hairType;
+        //}
+        JavaFileAssert.assertThat(output.get("Poodle.java"))
+                .assertConstructor("String", "String")
+                .hasParameter("type").toConstructor()
+                .hasParameter("race").toConstructor()
+                .toFileAssert()
+                .assertConstructor("String", "Integer", "String", "String", "String")
+                .hasParameter("tails").toConstructor()
+                .hasParameter("race").toConstructor()
+                .hasParameter("name").toConstructor()
+                .hasParameter("type").toConstructor()
+                .hasParameter("hairType").toConstructor()
         ;
     }
 
@@ -4647,3 +4671,4 @@ public class SpringCodegenTest {
                 .fileDoesNotContains("private Set<String> stringSet = new LinkedHashSet<>()");
     }
 }
+
