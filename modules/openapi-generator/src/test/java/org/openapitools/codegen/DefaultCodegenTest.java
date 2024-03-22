@@ -40,6 +40,8 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
+import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.SpringCodegen;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.templating.mustache.*;
@@ -4913,4 +4915,20 @@ public class DefaultCodegenTest {
         Assert.assertEquals(co.operationId, "newPetGet");
     }
 
+    @Test
+    public void testAllOf() throws IOException {
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/spring/issue_16797.yaml");
+        codegen.setOpenAPI(openAPI);
+
+        Schema object3 = openAPI.getComponents().getSchemas().get("Object3");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel model = codegen.fromModel("Object3", object3);
+        Assert.assertEquals(names(model.allVars), List.of("timestamp", "pageInfo", "responseType", "requestId", "success"));
+        System.out.println(names(model.allVars));
+    }
+
+    static List<String> names(List<CodegenProperty> vars) {
+        return vars.stream().map(CodegenProperty::getBaseName).collect(Collectors.toList());
+    }
 }
