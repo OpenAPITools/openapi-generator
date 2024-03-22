@@ -28,26 +28,32 @@
 {{/formParams}}
 {{#bodyParams}}
             {{vendorExtensions.x-debug}}
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
+
     {{#vendorExtensions.x-consumes-json}}
         {{#isArray}}
-            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.manyFromJsonString(request.bodyAsString))
+            {{paramName}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* array */
         {{/isArray}}
         {{^isArray}}
-            {{#isMap}}
-            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.mapFromJsonString(request.bodyAsString))
-            {{/isMap}}
-            {{^isMap}}
-            {{paramName}} <- Parsed.eval({{vendorExtensions.x-container-type}}.fromJsonString(request.bodyAsString))
-            {{/isMap}}
+          {{#isMap}}
+            {{#vendorExtensions.x-deserialize-asModelMap}}
+                {{paramName}} <- Parsed.eval(read[Map[String, {{vendorExtensions.x-container-type}}](request.bodyAsString)).mapError(e => s"Error parsing json as a string map of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}")  /* x-deserialize-asModelMap */
+            {{/vendorExtensions.x-deserialize-asModelMap}}
+            {{^vendorExtensions.x-deserialize-asModelMap}}
+                {{paramName}} <- Parsed.eval(read[Map[String, {{vendorExtensions.x-container-type}}]](request.bodyAsString)).mapError(e => s"Error parsing json as a string map of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}")  /* not x-deserialize-asModelMap */
+            {{/vendorExtensions.x-deserialize-asModelMap}}
+          {{/isMap}}
+          {{^isMap}}
+              {{paramName}}Data <- Parsed.eval({{vendorExtensions.x-container-type}}Data.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* not array or map */
+              {{paramName}} <- Parsed.fromTry({{paramName}}Data.validated(failFast))
+          {{/isMap}}
         {{/isArray}}
     {{/vendorExtensions.x-consumes-json}}
     {{^vendorExtensions.x-consumes-json}}
         {{#vendorExtensions.x-consumes-xml}}
-            {{paramName}} <- Parsed.fail("TODO - xml deserialisation")
+            {{paramName}} <- Parsed.fail("TODO - xml deserialisation not yet supported. see src/main/resources/scala-cask/parseHttpParams.mustache in https://github.com/OpenAPITools/openapi-generator")
         {{/vendorExtensions.x-consumes-xml}}
         {{^vendorExtensions.x-consumes-xml}}
-            {{paramName}} <- Parsed.fail("TODO - content deserialisation")
+            {{paramName}} <- Parsed.fail("TODO - content deserialisation. see src/main/resources/scala-cask/parseHttpParams.mustache in https://github.com/OpenAPITools/openapi-generator")
         {{/vendorExtensions.x-consumes-xml}}
     {{/vendorExtensions.x-consumes-json}}
 {{/bodyParams}}

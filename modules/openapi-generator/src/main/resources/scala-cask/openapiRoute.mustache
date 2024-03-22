@@ -32,13 +32,13 @@ object OpenApiRoutes {
 
 class OpenApiRoutes(localPort: Int, swaggerUrl: Option[String]) extends cask.Routes {
 
-  def openApiDir = "src/main/resources/ui"
+  def openApiDir = "ui"
 
   @cask.get("/")
   def index() = cask.Redirect("/ui/index.html")
 
   @cask.staticFiles("/ui")
-  def staticUI() = "src/main/resources/ui"
+  def staticUI() = openApiDir
 
   @cask.staticResources("/openapi.json")
   def staticOpenApi() = "openapi.json"

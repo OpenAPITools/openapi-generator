@@ -6,8 +6,15 @@ The server implementation is based on Li's excellent [cask](https://com-lihaoyi.
 
 # How to use this code
 
-By default, all services will return 'notImplemented'.
+This code was designed so that it can be packaged up and semantically-versioned alongside your open-api schema.
 
+That approach supports having separate "contract" repositories for microservice projects, where the pipeline for the
+contract repo might produce versioned jar artefacts which can then easily be brought in / referenced by a separate service project which simply
+implements the business logic.
+
+You can read more about this approach [here](https://github.com/kindservices/contract-first-rest)
+
+# How to implement your business logic
 There are a few options for using this code/applying your business logic for the services.
 
 ## Option 1 (preferred): Package and publish this boilerplate

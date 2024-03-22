@@ -16,19 +16,36 @@ case class {{classname}}(
   {{#description}}
 /* {{{description}}} */
   {{/description}}
-
-  {{name}}: {{#isEnum}}{{classname}}.{{datatypeWithEnum}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{^required}} = {{{defaultValue}}} {{/required}}{{^-last}},{{/-last}}
+  {{name}}: {{#isEnum}}{{^required}}Option[{{/required}}{{classname}}.{{datatypeWithEnum}}{{^required}}]{{/required}}{{/isEnum}}{{^isEnum}}{{{vendorExtensions.x-datatype-model}}}{{/isEnum}}{{^required}} = {{{vendorExtensions.x-defaultValue-model}}} {{/required}}{{^-last}},{{/-last}}
 
   {{/vars}}) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : {{classname}}Data = {
+    {{classname}}Data(
+        {{#vars}}
+            {{name}} = {{name}}{{#vendorExtensions.x-map-asModel}}.map(_.asData){{/vendorExtensions.x-map-asModel}}{{#vendorExtensions.x-wrap-in-optional}}.getOrElse({{{defaultValue}}}){{/vendorExtensions.x-wrap-in-optional}}{{^-last}},{{/-last}}
+        {{/vars}}
+    )
+  }
 
 }
 
 object {{classname}}{
 
+    given RW[{{classname}}] = {{classname}}Data.readWriter.bimap[{{classname}}](_.asData, _.asModel)
+
+    enum Fields(fieldName : String) extends Field(fieldName) {
+        {{#vars}}
+            case {{name}} extends Fields("{{name}}")
+        {{/vars}}
+    }
+
 {{#vars}}
     {{#isEnum}}
+        // baseName={{{baseName}}}
+        // nameInCamelCase = {{{nameInCamelCase}}}
         enum {{datatypeWithEnum}} derives ReadWriter {
         {{#_enum}}
             case {{.}}
@@ -36,26 +53,6 @@ object {{classname}}{
         }
     {{/isEnum}}
 {{/vars}}
-
-  given RW[{{classname}}] = macroRW
-
-  def fromJsonString(jason : String) : {{classname}} = try {
-        read[{{classname}}](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[{{classname}}] = try {
-        read[List[{{classname}}]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
-    }
-
-  def mapFromJsonString(jason : String) : Map[String, {{classname}}] = try {
-        read[Map[String, {{classname}}]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 
