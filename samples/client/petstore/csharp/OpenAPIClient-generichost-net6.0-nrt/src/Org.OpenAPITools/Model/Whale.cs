@@ -65,7 +65,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasBaleen
         /// </summary>
         [JsonPropertyName("hasBaleen")]
-        public bool? HasBaleen { get { return this. HasBaleenOption; } set { this.HasBaleenOption = new(value); } }
+        public bool? HasBaleen { get { return this.HasBaleenOption; } set { this.HasBaleenOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of HasTeeth
@@ -78,7 +78,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets HasTeeth
         /// </summary>
         [JsonPropertyName("hasTeeth")]
-        public bool? HasTeeth { get { return this. HasTeethOption; } set { this.HasTeethOption = new(value); } }
+        public bool? HasTeeth { get { return this.HasTeethOption; } set { this.HasTeethOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string Color { get { return this. ColorOption; } set { this.ColorOption = new Option<string>(value); } }
+        public string Color { get { return this.ColorOption; } set { this.ColorOption = new Option<string>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

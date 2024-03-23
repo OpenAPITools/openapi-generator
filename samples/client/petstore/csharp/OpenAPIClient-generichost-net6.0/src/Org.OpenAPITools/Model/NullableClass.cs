@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("array_and_items_nullable_prop")]
-        public List<Object> ArrayAndItemsNullableProp { get { return this. ArrayAndItemsNullablePropOption; } set { this.ArrayAndItemsNullablePropOption = new(value); } }
+        public List<Object> ArrayAndItemsNullableProp { get { return this.ArrayAndItemsNullablePropOption; } set { this.ArrayAndItemsNullablePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayItemsNullable
@@ -88,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
         [JsonPropertyName("array_items_nullable")]
-        public List<Object> ArrayItemsNullable { get { return this. ArrayItemsNullableOption; } set { this.ArrayItemsNullableOption = new(value); } }
+        public List<Object> ArrayItemsNullable { get { return this.ArrayItemsNullableOption; } set { this.ArrayItemsNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayNullableProp
@@ -101,7 +101,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayNullableProp
         /// </summary>
         [JsonPropertyName("array_nullable_prop")]
-        public List<Object> ArrayNullableProp { get { return this. ArrayNullablePropOption; } set { this.ArrayNullablePropOption = new(value); } }
+        public List<Object> ArrayNullableProp { get { return this.ArrayNullablePropOption; } set { this.ArrayNullablePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of BooleanProp
@@ -114,7 +114,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets BooleanProp
         /// </summary>
         [JsonPropertyName("boolean_prop")]
-        public bool? BooleanProp { get { return this. BooleanPropOption; } set { this.BooleanPropOption = new(value); } }
+        public bool? BooleanProp { get { return this.BooleanPropOption; } set { this.BooleanPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DateProp
@@ -127,7 +127,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DateProp
         /// </summary>
         [JsonPropertyName("date_prop")]
-        public DateOnly? DateProp { get { return this. DatePropOption; } set { this.DatePropOption = new(value); } }
+        public DateOnly? DateProp { get { return this.DatePropOption; } set { this.DatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DatetimeProp
@@ -140,7 +140,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DatetimeProp
         /// </summary>
         [JsonPropertyName("datetime_prop")]
-        public DateTime? DatetimeProp { get { return this. DatetimePropOption; } set { this.DatetimePropOption = new(value); } }
+        public DateTime? DatetimeProp { get { return this.DatetimePropOption; } set { this.DatetimePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IntegerProp
@@ -153,7 +153,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IntegerProp
         /// </summary>
         [JsonPropertyName("integer_prop")]
-        public int? IntegerProp { get { return this. IntegerPropOption; } set { this.IntegerPropOption = new(value); } }
+        public int? IntegerProp { get { return this.IntegerPropOption; } set { this.IntegerPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NumberProp
@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NumberProp
         /// </summary>
         [JsonPropertyName("number_prop")]
-        public decimal? NumberProp { get { return this. NumberPropOption; } set { this.NumberPropOption = new(value); } }
+        public decimal? NumberProp { get { return this.NumberPropOption; } set { this.NumberPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectAndItemsNullableProp
@@ -179,7 +179,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
         [JsonPropertyName("object_and_items_nullable_prop")]
-        public Dictionary<string, Object> ObjectAndItemsNullableProp { get { return this. ObjectAndItemsNullablePropOption; } set { this.ObjectAndItemsNullablePropOption = new(value); } }
+        public Dictionary<string, Object> ObjectAndItemsNullableProp { get { return this.ObjectAndItemsNullablePropOption; } set { this.ObjectAndItemsNullablePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectItemsNullable
@@ -192,7 +192,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
         [JsonPropertyName("object_items_nullable")]
-        public Dictionary<string, Object> ObjectItemsNullable { get { return this. ObjectItemsNullableOption; } set { this.ObjectItemsNullableOption = new(value); } }
+        public Dictionary<string, Object> ObjectItemsNullable { get { return this.ObjectItemsNullableOption; } set { this.ObjectItemsNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectNullableProp
@@ -205,7 +205,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ObjectNullableProp
         /// </summary>
         [JsonPropertyName("object_nullable_prop")]
-        public Dictionary<string, Object> ObjectNullableProp { get { return this. ObjectNullablePropOption; } set { this.ObjectNullablePropOption = new(value); } }
+        public Dictionary<string, Object> ObjectNullableProp { get { return this.ObjectNullablePropOption; } set { this.ObjectNullablePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of StringProp
@@ -218,7 +218,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets StringProp
         /// </summary>
         [JsonPropertyName("string_prop")]
-        public string StringProp { get { return this. StringPropOption; } set { this.StringPropOption = new(value); } }
+        public string StringProp { get { return this.StringPropOption; } set { this.StringPropOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

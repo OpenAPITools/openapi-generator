@@ -58,7 +58,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("class")]
-        public string? Class { get { return this. ClassOption; } set { this.ClassOption = new(value); } }
+        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -71,7 +71,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int? Name { get { return this. NameOption; } set { this.NameOption = new(value); } }
+        public int? Name { get { return this.NameOption; } set { this.NameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

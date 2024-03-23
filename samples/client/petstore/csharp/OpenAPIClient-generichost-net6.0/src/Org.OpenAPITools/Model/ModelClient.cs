@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarClient
         /// </summary>
         [JsonPropertyName("client")]
-        public string VarClient { get { return this. VarClientOption; } set { this.VarClientOption = new(value); } }
+        public string VarClient { get { return this.VarClientOption; } set { this.VarClientOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

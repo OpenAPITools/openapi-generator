@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Anytype1
         /// </summary>
         [JsonPropertyName("anytype_1")]
-        public Object? Anytype1 { get { return this. Anytype1Option; } set { this.Anytype1Option = new(value); } }
+        public Object? Anytype1 { get { return this.Anytype1Option; } set { this.Anytype1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of EmptyMap
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.</value>
         [JsonPropertyName("empty_map")]
-        public Object? EmptyMap { get { return this. EmptyMapOption; } set { this.EmptyMapOption = new(value); } }
+        public Object? EmptyMap { get { return this.EmptyMapOption; } set { this.EmptyMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfMapProperty
@@ -96,7 +96,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfMapProperty
         /// </summary>
         [JsonPropertyName("map_of_map_property")]
-        public Dictionary<string, Dictionary<string, string>>? MapOfMapProperty { get { return this. MapOfMapPropertyOption; } set { this.MapOfMapPropertyOption = new(value); } }
+        public Dictionary<string, Dictionary<string, string>>? MapOfMapProperty { get { return this.MapOfMapPropertyOption; } set { this.MapOfMapPropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapProperty
@@ -109,7 +109,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapProperty
         /// </summary>
         [JsonPropertyName("map_property")]
-        public Dictionary<string, string>? MapProperty { get { return this. MapPropertyOption; } set { this.MapPropertyOption = new(value); } }
+        public Dictionary<string, string>? MapProperty { get { return this.MapPropertyOption; } set { this.MapPropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype1
@@ -122,7 +122,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype1
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_1")]
-        public Object? MapWithUndeclaredPropertiesAnytype1 { get { return this. MapWithUndeclaredPropertiesAnytype1Option; } set { this.MapWithUndeclaredPropertiesAnytype1Option = new(value); } }
+        public Object? MapWithUndeclaredPropertiesAnytype1 { get { return this.MapWithUndeclaredPropertiesAnytype1Option; } set { this.MapWithUndeclaredPropertiesAnytype1Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype2
@@ -135,7 +135,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype2
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_2")]
-        public Object? MapWithUndeclaredPropertiesAnytype2 { get { return this. MapWithUndeclaredPropertiesAnytype2Option; } set { this.MapWithUndeclaredPropertiesAnytype2Option = new(value); } }
+        public Object? MapWithUndeclaredPropertiesAnytype2 { get { return this.MapWithUndeclaredPropertiesAnytype2Option; } set { this.MapWithUndeclaredPropertiesAnytype2Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesAnytype3
@@ -148,7 +148,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesAnytype3
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_anytype_3")]
-        public Dictionary<string, Object>? MapWithUndeclaredPropertiesAnytype3 { get { return this. MapWithUndeclaredPropertiesAnytype3Option; } set { this.MapWithUndeclaredPropertiesAnytype3Option = new(value); } }
+        public Dictionary<string, Object>? MapWithUndeclaredPropertiesAnytype3 { get { return this.MapWithUndeclaredPropertiesAnytype3Option; } set { this.MapWithUndeclaredPropertiesAnytype3Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapWithUndeclaredPropertiesString
@@ -161,7 +161,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapWithUndeclaredPropertiesString
         /// </summary>
         [JsonPropertyName("map_with_undeclared_properties_string")]
-        public Dictionary<string, string>? MapWithUndeclaredPropertiesString { get { return this. MapWithUndeclaredPropertiesStringOption; } set { this.MapWithUndeclaredPropertiesStringOption = new(value); } }
+        public Dictionary<string, string>? MapWithUndeclaredPropertiesString { get { return this.MapWithUndeclaredPropertiesStringOption; } set { this.MapWithUndeclaredPropertiesStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

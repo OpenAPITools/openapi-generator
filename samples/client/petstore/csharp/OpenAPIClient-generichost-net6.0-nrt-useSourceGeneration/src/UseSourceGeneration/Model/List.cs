@@ -56,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Var123List
         /// </summary>
         [JsonPropertyName("123-list")]
-        public string? Var123List { get { return this. Var123ListOption; } set { this.Var123ListOption = new(value); } }
+        public string? Var123List { get { return this.Var123ListOption; } set { this.Var123ListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

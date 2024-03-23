@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Complete
         /// </summary>
         [JsonPropertyName("complete")]
-        public bool? Complete { get { return this. CompleteOption; } set { this.CompleteOption = new Option<bool?>(value); } }
+        public bool? Complete { get { return this.CompleteOption; } set { this.CompleteOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of PetId
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets PetId
         /// </summary>
         [JsonPropertyName("petId")]
-        public long? PetId { get { return this. PetIdOption; } set { this.PetIdOption = new Option<long?>(value); } }
+        public long? PetId { get { return this.PetIdOption; } set { this.PetIdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Quantity
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Quantity
         /// </summary>
         [JsonPropertyName("quantity")]
-        public int? Quantity { get { return this. QuantityOption; } set { this.QuantityOption = new Option<int?>(value); } }
+        public int? Quantity { get { return this.QuantityOption; } set { this.QuantityOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of ShipDate
@@ -211,7 +211,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2020-02-02T20:20:20.000222Z</example>
         [JsonPropertyName("shipDate")]
-        public DateTime? ShipDate { get { return this. ShipDateOption; } set { this.ShipDateOption = new Option<DateTime?>(value); } }
+        public DateTime? ShipDate { get { return this.ShipDateOption; } set { this.ShipDateOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
