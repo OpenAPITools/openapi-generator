@@ -79,10 +79,8 @@ cJSON *pet_convertToJSON(pet_t *pet) {
     cJSON *item = cJSON_CreateObject();
 
     // pet->id
-    if(pet->id) {
     if(cJSON_AddNumberToObject(item, "id", pet->id) == NULL) {
     goto fail; //Numeric
-    }
     }
 
 
