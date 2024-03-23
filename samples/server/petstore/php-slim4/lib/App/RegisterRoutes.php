@@ -27,6 +27,9 @@ namespace OpenAPIServer\App;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotImplementedException;
+use Dyorg\TokenAuthentication;
+use OpenAPIServer\Auth\OAuthAuthenticator;
+use OpenAPIServer\Auth\ApiKeyAuthenticator;
 
 /**
  * RegisterRoutes Class Doc Comment
@@ -880,6 +883,55 @@ class RegisterRoutes
                 "{$operation['basePathWithoutHost']}{$operation['path']}",
                 $callback
             )->setName($operation['operationId']);
+
+            // Add authentication middleware based on the operation's authMethods
+            if ($operation['authMethods']) {
+                foreach ($operation['authMethods'] as $authMethod) {
+                    if ($authMethod['isOAuth']) {
+                        $route->add(new TokenAuthentication([
+                            'path' => '/',
+                            'authenticator' => new OAuthAuthenticator($authMethod['scopes']),
+                            'regex' => '/Bearer\s+(.*)$/i',
+                            'header' => 'Authorization',
+                            'parameter' => null,
+                            'cookie' => null,
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['OpenAPIServer\Auth\OAuthAuthenticator', 'handleUnauthorized'],
+                        ]));
+                    }
+                    if ($authMethod['isApiKey']) {
+                        $authenticatorConfig = [
+                            'path' => '/',
+                            'authenticator' => new ApiKeyAuthenticator,
+                            'regex' => '/\s+(.*)$/i',
+                            'argument' => null,
+                            'attribute' => 'authorization_token',
+                            'error' => ['OpenAPIServer\Auth\ApiKeyAuthenticator', 'handleUnauthorized'],
+                        ];
+                        if ($authMethod['isKeyInHeader']) {
+                            $authenticatorConfig = [
+                                'header' => $authMethod['keyParamName'],
+                                'parameter' => null,
+                                'cookie' => null,
+                            ]
+                        } else if ($authMethod['isKeyInQuery']) {
+                            $authenticatorConfig = [
+                                'header' => null,
+                                'parameter' => $authMethod['keyParamName'],
+                                'cookie' => null,
+                            ]
+                        } else if ($authMethod['isKeyInCookie']) {
+                            $authenticatorConfig = [
+                                'header' => null,
+                                'parameter' => null,
+                                'cookie' => $authMethod['keyParamName'],
+                            ]
+                        }
+                        $route->add(new TokenAuthentication($authenticatorConfig));
+                    }
+                }
+            }
 
             foreach ($middlewares as $middleware) {
                 $route->add($middleware);
