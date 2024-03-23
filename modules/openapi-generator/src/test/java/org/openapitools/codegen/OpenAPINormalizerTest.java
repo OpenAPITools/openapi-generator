@@ -513,4 +513,23 @@ public class OpenAPINormalizerTest {
         assertEquals(((Schema) schema4.getProperties().get("set_property")).getNullable(), true);
         assertEquals(((Schema) schema4.getProperties().get("map_property")).getNullable(), null);
     }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
+        // test spec contains anyOf with a ref to enum and another scheme type is null
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema.getProperties().get("my_enum")).getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAnyOf(), null);
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), "#/components/schemas/MyEnum");
+    }
 }
