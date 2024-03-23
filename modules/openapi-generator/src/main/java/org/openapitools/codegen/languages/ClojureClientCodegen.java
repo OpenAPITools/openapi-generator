@@ -171,10 +171,10 @@ public class ClojureClientCodegen extends DefaultCodegen implements CodegenConfi
 
             return "(s/coll-of " + getTypeDeclaration(inner) + ")";
         } else if (ModelUtils.isMapSchema(p)) {
-            Object additionalProperties = p.getAdditionalProperties();
+            Object ap = p.getAdditionalProperties();
             // additionalProperties is either a Schema or a Boolean
-            if (additionalProperties instanceof Schema) {
-                Schema inner = (Schema) additionalProperties;
+            if (ap instanceof Schema) {
+                Schema inner = (Schema) ap;
                 return "(s/map-of string? " + getTypeDeclaration(inner) + ")";
             }
             return "(s/map-of string? s/any?)";
