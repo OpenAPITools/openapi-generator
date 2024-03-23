@@ -125,7 +125,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool> DirectMap { get { return this. DirectMapOption; } set { this.DirectMapOption = new Option<Dictionary<string, bool>>(value); } }
+        public Dictionary<string, bool> DirectMap { get { return this.DirectMapOption; } set { this.DirectMapOption = new Option<Dictionary<string, bool>>(value); } }
 
         /// <summary>
         /// Used to track the state of IndirectMap
@@ -138,7 +138,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool> IndirectMap { get { return this. IndirectMapOption; } set { this.IndirectMapOption = new Option<Dictionary<string, bool>>(value); } }
+        public Dictionary<string, bool> IndirectMap { get { return this.IndirectMapOption; } set { this.IndirectMapOption = new Option<Dictionary<string, bool>>(value); } }
 
         /// <summary>
         /// Used to track the state of MapMapOfString
@@ -151,7 +151,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this. MapMapOfStringOption; } set { this.MapMapOfStringOption = new Option<Dictionary<string, Dictionary<string, string>>>(value); } }
+        public Dictionary<string, Dictionary<string, string>> MapMapOfString { get { return this.MapMapOfStringOption; } set { this.MapMapOfStringOption = new Option<Dictionary<string, Dictionary<string, string>>>(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfEnumString
@@ -164,7 +164,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get { return this. MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new Option<Dictionary<string, MapTest.InnerEnum>>(value); } }
+        public Dictionary<string, MapTest.InnerEnum> MapOfEnumString { get { return this.MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new Option<Dictionary<string, MapTest.InnerEnum>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

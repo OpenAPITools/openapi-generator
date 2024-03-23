@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets EscapedLiteralString
         /// </summary>
         [JsonPropertyName("escapedLiteralString")]
-        public string? EscapedLiteralString { get { return this. EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } }
+        public string? EscapedLiteralString { get { return this.EscapedLiteralStringOption; } set { this.EscapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnescapedLiteralString
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnescapedLiteralString
         /// </summary>
         [JsonPropertyName("unescapedLiteralString")]
-        public string? UnescapedLiteralString { get { return this. UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } }
+        public string? UnescapedLiteralString { get { return this.UnescapedLiteralStringOption; } set { this.UnescapedLiteralStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Now
         /// </summary>
         [JsonPropertyName("now")]
-        public DateTime? Now { get { return this. NowOption; } set { this.NowOption = new(value); } }
+        public DateTime? Now { get { return this.NowOption; } set { this.NowOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Today
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Today
         /// </summary>
         [JsonPropertyName("today")]
-        public DateTime? Today { get { return this. TodayOption; } set { this.TodayOption = new(value); } }
+        public DateTime? Today { get { return this.TodayOption; } set { this.TodayOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

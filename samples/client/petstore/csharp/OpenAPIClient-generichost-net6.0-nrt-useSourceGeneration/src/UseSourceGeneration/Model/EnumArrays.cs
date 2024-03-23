@@ -203,7 +203,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets ArrayEnum
         /// </summary>
         [JsonPropertyName("array_enum")]
-        public List<EnumArrays.ArrayEnumEnum>? ArrayEnum { get { return this. ArrayEnumOption; } set { this.ArrayEnumOption = new(value); } }
+        public List<EnumArrays.ArrayEnumEnum>? ArrayEnum { get { return this.ArrayEnumOption; } set { this.ArrayEnumOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

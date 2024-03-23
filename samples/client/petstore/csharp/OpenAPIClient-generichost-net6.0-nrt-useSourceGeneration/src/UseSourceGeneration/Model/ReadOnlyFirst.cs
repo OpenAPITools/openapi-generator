@@ -58,7 +58,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } }
+        public string? Bar { get { return this.BarOption; } }
 
         /// <summary>
         /// Used to track the state of Baz
@@ -71,7 +71,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Baz
         /// </summary>
         [JsonPropertyName("baz")]
-        public string? Baz { get { return this. BazOption; } set { this.BazOption = new(value); } }
+        public string? Baz { get { return this.BazOption; } set { this.BazOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

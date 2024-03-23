@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Binary
         /// </summary>
         [JsonPropertyName("binary")]
-        public System.IO.Stream? Binary { get { return this. BinaryOption; } set { this.BinaryOption = new(value); } }
+        public System.IO.Stream? Binary { get { return this.BinaryOption; } set { this.BinaryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DateTime
@@ -130,7 +130,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>2007-12-03T10:15:30+01:00</example>
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new(value); } }
+        public DateTime? DateTime { get { return this.DateTimeOption; } set { this.DateTimeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Decimal
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Decimal
         /// </summary>
         [JsonPropertyName("decimal")]
-        public decimal? Decimal { get { return this. DecimalOption; } set { this.DecimalOption = new(value); } }
+        public decimal? Decimal { get { return this.DecimalOption; } set { this.DecimalOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Double
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Double
         /// </summary>
         [JsonPropertyName("double")]
-        public double? Double { get { return this. DoubleOption; } set { this.DoubleOption = new(value); } }
+        public double? Double { get { return this.DoubleOption; } set { this.DoubleOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Float
@@ -169,7 +169,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Float
         /// </summary>
         [JsonPropertyName("float")]
-        public float? Float { get { return this. FloatOption; } set { this.FloatOption = new(value); } }
+        public float? Float { get { return this.FloatOption; } set { this.FloatOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int32
@@ -182,7 +182,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int32
         /// </summary>
         [JsonPropertyName("int32")]
-        public int? Int32 { get { return this. Int32Option; } set { this.Int32Option = new(value); } }
+        public int? Int32 { get { return this.Int32Option; } set { this.Int32Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of Int64
@@ -195,7 +195,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Int64
         /// </summary>
         [JsonPropertyName("int64")]
-        public long? Int64 { get { return this. Int64Option; } set { this.Int64Option = new(value); } }
+        public long? Int64 { get { return this.Int64Option; } set { this.Int64Option = new(value); } }
 
         /// <summary>
         /// Used to track the state of Integer
@@ -208,7 +208,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Integer
         /// </summary>
         [JsonPropertyName("integer")]
-        public int? Integer { get { return this. IntegerOption; } set { this.IntegerOption = new(value); } }
+        public int? Integer { get { return this.IntegerOption; } set { this.IntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithBackslash
@@ -222,7 +222,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>None</value>
         [JsonPropertyName("pattern_with_backslash")]
-        public string? PatternWithBackslash { get { return this. PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new(value); } }
+        public string? PatternWithBackslash { get { return this.PatternWithBackslashOption; } set { this.PatternWithBackslashOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigits
@@ -236,7 +236,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string that is a 10 digit number. Can have leading zeros.</value>
         [JsonPropertyName("pattern_with_digits")]
-        public string? PatternWithDigits { get { return this. PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new(value); } }
+        public string? PatternWithDigits { get { return this.PatternWithDigitsOption; } set { this.PatternWithDigitsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of PatternWithDigitsAndDelimiter
@@ -250,7 +250,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [JsonPropertyName("pattern_with_digits_and_delimiter")]
-        public string? PatternWithDigitsAndDelimiter { get { return this. PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new(value); } }
+        public string? PatternWithDigitsAndDelimiter { get { return this.PatternWithDigitsAndDelimiterOption; } set { this.PatternWithDigitsAndDelimiterOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of String
@@ -263,7 +263,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets String
         /// </summary>
         [JsonPropertyName("string")]
-        public string? String { get { return this. StringOption; } set { this.StringOption = new(value); } }
+        public string? String { get { return this.StringOption; } set { this.StringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedInteger
@@ -276,7 +276,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedInteger
         /// </summary>
         [JsonPropertyName("unsigned_integer")]
-        public uint? UnsignedInteger { get { return this. UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new(value); } }
+        public uint? UnsignedInteger { get { return this.UnsignedIntegerOption; } set { this.UnsignedIntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UnsignedLong
@@ -289,7 +289,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets UnsignedLong
         /// </summary>
         [JsonPropertyName("unsigned_long")]
-        public ulong? UnsignedLong { get { return this. UnsignedLongOption; } set { this.UnsignedLongOption = new(value); } }
+        public ulong? UnsignedLong { get { return this.UnsignedLongOption; } set { this.UnsignedLongOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -303,7 +303,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
+        public Guid? Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

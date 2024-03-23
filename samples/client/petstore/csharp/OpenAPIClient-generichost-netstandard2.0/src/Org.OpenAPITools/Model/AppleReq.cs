@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool? Mealy { get { return this. MealyOption; } set { this.MealyOption = new Option<bool?>(value); } }
+        public bool? Mealy { get { return this.MealyOption; } set { this.MealyOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object
