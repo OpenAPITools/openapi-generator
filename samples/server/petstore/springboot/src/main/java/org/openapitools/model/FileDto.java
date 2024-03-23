@@ -96,6 +96,11 @@ public class FileDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(FileDto value) { 
+      this.instance.setSourceURI(value.sourceURI);
+      return this;
+    }
+
     public FileDto.Builder sourceURI(String sourceURI) {
       this.instance.sourceURI(sourceURI);
       return this;
@@ -113,7 +118,7 @@ public class FileDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -122,7 +127,7 @@ public class FileDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static FileDto.Builder builder() {
     return new FileDto.Builder();
@@ -133,8 +138,7 @@ public class FileDto {
   */
   public FileDto.Builder toBuilder() {
     FileDto.Builder builder = new FileDto.Builder();
-    builder.instance.setSourceURI(sourceURI);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

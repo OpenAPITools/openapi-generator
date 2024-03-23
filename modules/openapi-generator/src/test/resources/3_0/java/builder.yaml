@@ -54,6 +54,8 @@ components:
           items:
             maxLength: 100
             type: string
+      additionalProperties:
+        type: integer
     Pet:
       type: object
       required:
@@ -71,6 +73,8 @@ components:
           nullable: true
       discriminator:
         propertyName: petType
+      additionalProperties:
+        type: number
     Cat:
       allOf:
         - $ref: '#/components/schemas/Pet'

@@ -119,6 +119,12 @@ public class ReadOnlyFirstDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ReadOnlyFirstDto value) { 
+      this.instance.setBar(value.bar);
+      this.instance.setBaz(value.baz);
+      return this;
+    }
+
     public ReadOnlyFirstDto.Builder bar(String bar) {
       this.instance.bar(bar);
       return this;
@@ -141,7 +147,7 @@ public class ReadOnlyFirstDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -150,7 +156,7 @@ public class ReadOnlyFirstDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ReadOnlyFirstDto.Builder builder() {
     return new ReadOnlyFirstDto.Builder();
@@ -161,9 +167,7 @@ public class ReadOnlyFirstDto {
   */
   public ReadOnlyFirstDto.Builder toBuilder() {
     ReadOnlyFirstDto.Builder builder = new ReadOnlyFirstDto.Builder();
-    builder.instance.setBar(bar);
-    builder.instance.setBaz(baz);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

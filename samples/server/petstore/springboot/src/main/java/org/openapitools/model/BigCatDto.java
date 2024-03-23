@@ -165,8 +165,14 @@ public class BigCatDto extends CatDto {
     }
 
     protected Builder(BigCatDto instance) {
-      super(instance);
+      super(instance); // the parent builder shares the same instance
       this.instance = instance;
+    }
+
+    protected Builder copyOf(BigCatDto value) { 
+      super.copyOf(instance);
+      this.instance.setKind(value.kind);
+      return this;
     }
 
     public BigCatDto.Builder kind(KindEnum kind) {
@@ -174,21 +180,18 @@ public class BigCatDto extends CatDto {
       return this;
     }
     
-
     @Override
     public BigCatDto.Builder declawed(Boolean declawed) {
       this.instance.declawed(declawed);
       return this;
     }
     
-
     @Override
     public BigCatDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
     
-
     @Override
     public BigCatDto.Builder color(String color) {
       this.instance.color(color);
@@ -208,7 +211,7 @@ public class BigCatDto extends CatDto {
         super.build();
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -217,7 +220,7 @@ public class BigCatDto extends CatDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static BigCatDto.Builder builder() {
     return new BigCatDto.Builder();
@@ -228,11 +231,7 @@ public class BigCatDto extends CatDto {
   */
   public BigCatDto.Builder toBuilder() {
     BigCatDto.Builder builder = new BigCatDto.Builder();
-    builder.instance.setKind(kind);
-    builder.instance.setDeclawed(getDeclawed());
-    builder.instance.setClassName(getClassName());
-    builder.instance.setColor(getColor());
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

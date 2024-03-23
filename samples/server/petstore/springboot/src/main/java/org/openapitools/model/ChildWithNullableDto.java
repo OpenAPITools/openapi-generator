@@ -123,8 +123,14 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
     }
 
     protected Builder(ChildWithNullableDto instance) {
-      super(instance);
+      super(instance); // the parent builder shares the same instance
       this.instance = instance;
+    }
+
+    protected Builder copyOf(ChildWithNullableDto value) { 
+      super.copyOf(instance);
+      this.instance.setOtherProperty(value.otherProperty);
+      return this;
     }
 
     public ChildWithNullableDto.Builder otherProperty(String otherProperty) {
@@ -132,14 +138,12 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
       return this;
     }
     
-
     @Override
     public ChildWithNullableDto.Builder type(TypeEnum type) {
       this.instance.type(type);
       return this;
     }
     
-
     @Override
     public ChildWithNullableDto.Builder nullableProperty(String nullableProperty) {
       this.instance.nullableProperty(nullableProperty);
@@ -164,7 +168,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
         super.build();
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -173,7 +177,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ChildWithNullableDto.Builder builder() {
     return new ChildWithNullableDto.Builder();
@@ -184,10 +188,7 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
   */
   public ChildWithNullableDto.Builder toBuilder() {
     ChildWithNullableDto.Builder builder = new ChildWithNullableDto.Builder();
-    builder.instance.setOtherProperty(otherProperty);
-    builder.instance.setType(getType());
-    builder.instance.setNullableProperty(getNullableProperty());
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

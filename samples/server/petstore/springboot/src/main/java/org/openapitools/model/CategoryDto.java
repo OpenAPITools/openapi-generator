@@ -130,6 +130,12 @@ public class CategoryDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(CategoryDto value) { 
+      this.instance.setId(value.id);
+      this.instance.setName(value.name);
+      return this;
+    }
+
     public CategoryDto.Builder id(Long id) {
       this.instance.id(id);
       return this;
@@ -152,7 +158,7 @@ public class CategoryDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -161,7 +167,7 @@ public class CategoryDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static CategoryDto.Builder builder() {
     return new CategoryDto.Builder();
@@ -172,9 +178,7 @@ public class CategoryDto {
   */
   public CategoryDto.Builder toBuilder() {
     CategoryDto.Builder builder = new CategoryDto.Builder();
-    builder.instance.setId(id);
-    builder.instance.setName(name);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

@@ -159,6 +159,13 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(MixedPropertiesAndAdditionalPropertiesClassDto value) { 
+      this.instance.setUuid(value.uuid);
+      this.instance.setDateTime(value.dateTime);
+      this.instance.setMap(value.map);
+      return this;
+    }
+
     public MixedPropertiesAndAdditionalPropertiesClassDto.Builder uuid(UUID uuid) {
       this.instance.uuid(uuid);
       return this;
@@ -186,7 +193,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -195,7 +202,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static MixedPropertiesAndAdditionalPropertiesClassDto.Builder builder() {
     return new MixedPropertiesAndAdditionalPropertiesClassDto.Builder();
@@ -206,10 +213,7 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   */
   public MixedPropertiesAndAdditionalPropertiesClassDto.Builder toBuilder() {
     MixedPropertiesAndAdditionalPropertiesClassDto.Builder builder = new MixedPropertiesAndAdditionalPropertiesClassDto.Builder();
-    builder.instance.setUuid(uuid);
-    builder.instance.setDateTime(dateTime);
-    builder.instance.setMap(map);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

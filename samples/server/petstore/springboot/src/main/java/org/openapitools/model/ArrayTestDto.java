@@ -174,6 +174,13 @@ public class ArrayTestDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ArrayTestDto value) { 
+      this.instance.setArrayOfString(value.arrayOfString);
+      this.instance.setArrayArrayOfInteger(value.arrayArrayOfInteger);
+      this.instance.setArrayArrayOfModel(value.arrayArrayOfModel);
+      return this;
+    }
+
     public ArrayTestDto.Builder arrayOfString(List<String> arrayOfString) {
       this.instance.arrayOfString(arrayOfString);
       return this;
@@ -201,7 +208,7 @@ public class ArrayTestDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -210,7 +217,7 @@ public class ArrayTestDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ArrayTestDto.Builder builder() {
     return new ArrayTestDto.Builder();
@@ -221,10 +228,7 @@ public class ArrayTestDto {
   */
   public ArrayTestDto.Builder toBuilder() {
     ArrayTestDto.Builder builder = new ArrayTestDto.Builder();
-    builder.instance.setArrayOfString(arrayOfString);
-    builder.instance.setArrayArrayOfInteger(arrayArrayOfInteger);
-    builder.instance.setArrayArrayOfModel(arrayArrayOfModel);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

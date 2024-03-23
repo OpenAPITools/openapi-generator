@@ -127,8 +127,14 @@ public class CatDto extends AnimalDto {
     }
 
     protected Builder(CatDto instance) {
-      super(instance);
+      super(instance); // the parent builder shares the same instance
       this.instance = instance;
+    }
+
+    protected Builder copyOf(CatDto value) { 
+      super.copyOf(instance);
+      this.instance.setDeclawed(value.declawed);
+      return this;
     }
 
     public CatDto.Builder declawed(Boolean declawed) {
@@ -136,14 +142,12 @@ public class CatDto extends AnimalDto {
       return this;
     }
     
-
     @Override
     public CatDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
     
-
     @Override
     public CatDto.Builder color(String color) {
       this.instance.color(color);
@@ -163,7 +167,7 @@ public class CatDto extends AnimalDto {
         super.build();
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -172,7 +176,7 @@ public class CatDto extends AnimalDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static CatDto.Builder builder() {
     return new CatDto.Builder();
@@ -183,10 +187,7 @@ public class CatDto extends AnimalDto {
   */
   public CatDto.Builder toBuilder() {
     CatDto.Builder builder = new CatDto.Builder();
-    builder.instance.setDeclawed(declawed);
-    builder.instance.setClassName(getClassName());
-    builder.instance.setColor(getColor());
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

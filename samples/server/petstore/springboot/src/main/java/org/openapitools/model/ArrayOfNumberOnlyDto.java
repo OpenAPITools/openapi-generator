@@ -108,6 +108,11 @@ public class ArrayOfNumberOnlyDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ArrayOfNumberOnlyDto value) { 
+      this.instance.setArrayNumber(value.arrayNumber);
+      return this;
+    }
+
     public ArrayOfNumberOnlyDto.Builder arrayNumber(List<BigDecimal> arrayNumber) {
       this.instance.arrayNumber(arrayNumber);
       return this;
@@ -125,7 +130,7 @@ public class ArrayOfNumberOnlyDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -134,7 +139,7 @@ public class ArrayOfNumberOnlyDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ArrayOfNumberOnlyDto.Builder builder() {
     return new ArrayOfNumberOnlyDto.Builder();
@@ -145,8 +150,7 @@ public class ArrayOfNumberOnlyDto {
   */
   public ArrayOfNumberOnlyDto.Builder toBuilder() {
     ArrayOfNumberOnlyDto.Builder builder = new ArrayOfNumberOnlyDto.Builder();
-    builder.instance.setArrayNumber(arrayNumber);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

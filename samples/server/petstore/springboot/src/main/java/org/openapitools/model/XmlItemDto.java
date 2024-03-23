@@ -852,6 +852,39 @@ public class XmlItemDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(XmlItemDto value) { 
+      this.instance.setAttributeString(value.attributeString);
+      this.instance.setAttributeNumber(value.attributeNumber);
+      this.instance.setAttributeInteger(value.attributeInteger);
+      this.instance.setAttributeBoolean(value.attributeBoolean);
+      this.instance.setWrappedArray(value.wrappedArray);
+      this.instance.setNameString(value.nameString);
+      this.instance.setNameNumber(value.nameNumber);
+      this.instance.setNameInteger(value.nameInteger);
+      this.instance.setNameBoolean(value.nameBoolean);
+      this.instance.setNameArray(value.nameArray);
+      this.instance.setNameWrappedArray(value.nameWrappedArray);
+      this.instance.setPrefixString(value.prefixString);
+      this.instance.setPrefixNumber(value.prefixNumber);
+      this.instance.setPrefixInteger(value.prefixInteger);
+      this.instance.setPrefixBoolean(value.prefixBoolean);
+      this.instance.setPrefixArray(value.prefixArray);
+      this.instance.setPrefixWrappedArray(value.prefixWrappedArray);
+      this.instance.setNamespaceString(value.namespaceString);
+      this.instance.setNamespaceNumber(value.namespaceNumber);
+      this.instance.setNamespaceInteger(value.namespaceInteger);
+      this.instance.setNamespaceBoolean(value.namespaceBoolean);
+      this.instance.setNamespaceArray(value.namespaceArray);
+      this.instance.setNamespaceWrappedArray(value.namespaceWrappedArray);
+      this.instance.setPrefixNsString(value.prefixNsString);
+      this.instance.setPrefixNsNumber(value.prefixNsNumber);
+      this.instance.setPrefixNsInteger(value.prefixNsInteger);
+      this.instance.setPrefixNsBoolean(value.prefixNsBoolean);
+      this.instance.setPrefixNsArray(value.prefixNsArray);
+      this.instance.setPrefixNsWrappedArray(value.prefixNsWrappedArray);
+      return this;
+    }
+
     public XmlItemDto.Builder attributeString(String attributeString) {
       this.instance.attributeString(attributeString);
       return this;
@@ -1009,7 +1042,7 @@ public class XmlItemDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -1018,7 +1051,7 @@ public class XmlItemDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static XmlItemDto.Builder builder() {
     return new XmlItemDto.Builder();
@@ -1029,36 +1062,7 @@ public class XmlItemDto {
   */
   public XmlItemDto.Builder toBuilder() {
     XmlItemDto.Builder builder = new XmlItemDto.Builder();
-    builder.instance.setAttributeString(attributeString);
-    builder.instance.setAttributeNumber(attributeNumber);
-    builder.instance.setAttributeInteger(attributeInteger);
-    builder.instance.setAttributeBoolean(attributeBoolean);
-    builder.instance.setWrappedArray(wrappedArray);
-    builder.instance.setNameString(nameString);
-    builder.instance.setNameNumber(nameNumber);
-    builder.instance.setNameInteger(nameInteger);
-    builder.instance.setNameBoolean(nameBoolean);
-    builder.instance.setNameArray(nameArray);
-    builder.instance.setNameWrappedArray(nameWrappedArray);
-    builder.instance.setPrefixString(prefixString);
-    builder.instance.setPrefixNumber(prefixNumber);
-    builder.instance.setPrefixInteger(prefixInteger);
-    builder.instance.setPrefixBoolean(prefixBoolean);
-    builder.instance.setPrefixArray(prefixArray);
-    builder.instance.setPrefixWrappedArray(prefixWrappedArray);
-    builder.instance.setNamespaceString(namespaceString);
-    builder.instance.setNamespaceNumber(namespaceNumber);
-    builder.instance.setNamespaceInteger(namespaceInteger);
-    builder.instance.setNamespaceBoolean(namespaceBoolean);
-    builder.instance.setNamespaceArray(namespaceArray);
-    builder.instance.setNamespaceWrappedArray(namespaceWrappedArray);
-    builder.instance.setPrefixNsString(prefixNsString);
-    builder.instance.setPrefixNsNumber(prefixNsNumber);
-    builder.instance.setPrefixNsInteger(prefixNsInteger);
-    builder.instance.setPrefixNsBoolean(prefixNsBoolean);
-    builder.instance.setPrefixNsArray(prefixNsArray);
-    builder.instance.setPrefixNsWrappedArray(prefixNsWrappedArray);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

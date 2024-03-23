@@ -299,6 +299,16 @@ public class PetDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(PetDto value) { 
+      this.instance.setId(value.id);
+      this.instance.setCategory(value.category);
+      this.instance.setName(value.name);
+      this.instance.setPhotoUrls(value.photoUrls);
+      this.instance.setTags(value.tags);
+      this.instance.setStatus(value.status);
+      return this;
+    }
+
     public PetDto.Builder id(Long id) {
       this.instance.id(id);
       return this;
@@ -324,10 +334,12 @@ public class PetDto {
       return this;
     }
     
+    @Deprecated
     public PetDto.Builder status(StatusEnum status) {
       this.instance.status(status);
       return this;
     }
+    @Deprecated
     
     /**
     * returns a built PetDto instance.
@@ -341,7 +353,7 @@ public class PetDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -350,7 +362,7 @@ public class PetDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static PetDto.Builder builder() {
     return new PetDto.Builder();
@@ -361,13 +373,7 @@ public class PetDto {
   */
   public PetDto.Builder toBuilder() {
     PetDto.Builder builder = new PetDto.Builder();
-    builder.instance.setId(id);
-    builder.instance.setCategory(category);
-    builder.instance.setName(name);
-    builder.instance.setPhotoUrls(photoUrls);
-    builder.instance.setTags(tags);
-    builder.instance.setStatus(status);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

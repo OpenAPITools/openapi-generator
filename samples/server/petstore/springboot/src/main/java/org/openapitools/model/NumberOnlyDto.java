@@ -96,6 +96,11 @@ public class NumberOnlyDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(NumberOnlyDto value) { 
+      this.instance.setJustNumber(value.justNumber);
+      return this;
+    }
+
     public NumberOnlyDto.Builder justNumber(BigDecimal justNumber) {
       this.instance.justNumber(justNumber);
       return this;
@@ -113,7 +118,7 @@ public class NumberOnlyDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -122,7 +127,7 @@ public class NumberOnlyDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static NumberOnlyDto.Builder builder() {
     return new NumberOnlyDto.Builder();
@@ -133,8 +138,7 @@ public class NumberOnlyDto {
   */
   public NumberOnlyDto.Builder toBuilder() {
     NumberOnlyDto.Builder builder = new NumberOnlyDto.Builder();
-    builder.instance.setJustNumber(justNumber);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

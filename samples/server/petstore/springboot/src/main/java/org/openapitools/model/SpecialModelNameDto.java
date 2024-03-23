@@ -95,6 +95,11 @@ public class SpecialModelNameDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(SpecialModelNameDto value) { 
+      this.instance.set$SpecialPropertyName(value.$SpecialPropertyName);
+      return this;
+    }
+
     public SpecialModelNameDto.Builder $SpecialPropertyName(Long $SpecialPropertyName) {
       this.instance.$SpecialPropertyName($SpecialPropertyName);
       return this;
@@ -112,7 +117,7 @@ public class SpecialModelNameDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -121,7 +126,7 @@ public class SpecialModelNameDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static SpecialModelNameDto.Builder builder() {
     return new SpecialModelNameDto.Builder();
@@ -132,8 +137,7 @@ public class SpecialModelNameDto {
   */
   public SpecialModelNameDto.Builder toBuilder() {
     SpecialModelNameDto.Builder builder = new SpecialModelNameDto.Builder();
-    builder.instance.set$SpecialPropertyName($SpecialPropertyName);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

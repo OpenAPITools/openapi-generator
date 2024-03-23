@@ -96,6 +96,11 @@ public class ClassModelDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ClassModelDto value) { 
+      this.instance.setPropertyClass(value.propertyClass);
+      return this;
+    }
+
     public ClassModelDto.Builder propertyClass(String propertyClass) {
       this.instance.propertyClass(propertyClass);
       return this;
@@ -113,7 +118,7 @@ public class ClassModelDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -122,7 +127,7 @@ public class ClassModelDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ClassModelDto.Builder builder() {
     return new ClassModelDto.Builder();
@@ -133,8 +138,7 @@ public class ClassModelDto {
   */
   public ClassModelDto.Builder toBuilder() {
     ClassModelDto.Builder builder = new ClassModelDto.Builder();
-    builder.instance.setPropertyClass(propertyClass);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

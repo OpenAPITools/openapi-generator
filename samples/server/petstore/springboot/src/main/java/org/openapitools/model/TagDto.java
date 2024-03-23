@@ -119,6 +119,12 @@ public class TagDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(TagDto value) { 
+      this.instance.setId(value.id);
+      this.instance.setName(value.name);
+      return this;
+    }
+
     public TagDto.Builder id(Long id) {
       this.instance.id(id);
       return this;
@@ -141,7 +147,7 @@ public class TagDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -150,7 +156,7 @@ public class TagDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static TagDto.Builder builder() {
     return new TagDto.Builder();
@@ -161,9 +167,7 @@ public class TagDto {
   */
   public TagDto.Builder toBuilder() {
     TagDto.Builder builder = new TagDto.Builder();
-    builder.instance.setId(id);
-    builder.instance.setName(name);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

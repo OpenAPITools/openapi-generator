@@ -231,6 +231,14 @@ public class ContainerDefaultValueDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ContainerDefaultValueDto value) { 
+      this.instance.setNullableArray(value.nullableArray);
+      this.instance.setNullableRequiredArray(value.nullableRequiredArray);
+      this.instance.setRequiredArray(value.requiredArray);
+      this.instance.setNullableArrayWithDefault(value.nullableArrayWithDefault);
+      return this;
+    }
+
     public ContainerDefaultValueDto.Builder nullableArray(List<String> nullableArray) {
       this.instance.nullableArray(nullableArray);
       return this;
@@ -278,7 +286,7 @@ public class ContainerDefaultValueDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -287,7 +295,7 @@ public class ContainerDefaultValueDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ContainerDefaultValueDto.Builder builder() {
     return new ContainerDefaultValueDto.Builder();
@@ -298,11 +306,7 @@ public class ContainerDefaultValueDto {
   */
   public ContainerDefaultValueDto.Builder toBuilder() {
     ContainerDefaultValueDto.Builder builder = new ContainerDefaultValueDto.Builder();
-    builder.instance.setNullableArray(nullableArray);
-    builder.instance.setNullableRequiredArray(nullableRequiredArray);
-    builder.instance.setRequiredArray(requiredArray);
-    builder.instance.setNullableArrayWithDefault(nullableArrayWithDefault);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

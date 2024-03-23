@@ -143,6 +143,12 @@ public class AnimalDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(AnimalDto value) { 
+      this.instance.setClassName(value.className);
+      this.instance.setColor(value.color);
+      return this;
+    }
+
     public AnimalDto.Builder className(String className) {
       this.instance.className(className);
       return this;
@@ -165,7 +171,7 @@ public class AnimalDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -174,7 +180,7 @@ public class AnimalDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static AnimalDto.Builder builder() {
     return new AnimalDto.Builder();
@@ -185,9 +191,7 @@ public class AnimalDto {
   */
   public AnimalDto.Builder toBuilder() {
     AnimalDto.Builder builder = new AnimalDto.Builder();
-    builder.instance.setClassName(className);
-    builder.instance.setColor(color);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

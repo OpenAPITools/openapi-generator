@@ -132,6 +132,12 @@ public class FileSchemaTestClassDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(FileSchemaTestClassDto value) { 
+      this.instance.setFile(value.file);
+      this.instance.setFiles(value.files);
+      return this;
+    }
+
     public FileSchemaTestClassDto.Builder file(FileDto file) {
       this.instance.file(file);
       return this;
@@ -154,7 +160,7 @@ public class FileSchemaTestClassDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -163,7 +169,7 @@ public class FileSchemaTestClassDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static FileSchemaTestClassDto.Builder builder() {
     return new FileSchemaTestClassDto.Builder();
@@ -174,9 +180,7 @@ public class FileSchemaTestClassDto {
   */
   public FileSchemaTestClassDto.Builder toBuilder() {
     FileSchemaTestClassDto.Builder builder = new FileSchemaTestClassDto.Builder();
-    builder.instance.setFile(file);
-    builder.instance.setFiles(files);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

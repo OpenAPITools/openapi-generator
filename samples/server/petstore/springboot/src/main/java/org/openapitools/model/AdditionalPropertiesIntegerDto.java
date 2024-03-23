@@ -139,11 +139,21 @@ public class AdditionalPropertiesIntegerDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(AdditionalPropertiesIntegerDto value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
     public AdditionalPropertiesIntegerDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
     
+    public AdditionalPropertiesIntegerDto.Builder additionalProperties(Map<String, Integer> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built AdditionalPropertiesIntegerDto instance.
     *
@@ -156,7 +166,7 @@ public class AdditionalPropertiesIntegerDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -165,7 +175,7 @@ public class AdditionalPropertiesIntegerDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static AdditionalPropertiesIntegerDto.Builder builder() {
     return new AdditionalPropertiesIntegerDto.Builder();
@@ -176,8 +186,7 @@ public class AdditionalPropertiesIntegerDto {
   */
   public AdditionalPropertiesIntegerDto.Builder toBuilder() {
     AdditionalPropertiesIntegerDto.Builder builder = new AdditionalPropertiesIntegerDto.Builder();
-    builder.instance.setName(name);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

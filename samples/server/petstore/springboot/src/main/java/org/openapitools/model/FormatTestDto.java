@@ -439,6 +439,24 @@ public class FormatTestDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(FormatTestDto value) { 
+      this.instance.setInteger(value.integer);
+      this.instance.setInt32(value.int32);
+      this.instance.setInt64(value.int64);
+      this.instance.setNumber(value.number);
+      this.instance.setFloat(value._float);
+      this.instance.setDouble(value._double);
+      this.instance.setString(value.string);
+      this.instance.setByte(value._byte);
+      this.instance.setBinary(value.binary);
+      this.instance.setDate(value.date);
+      this.instance.setDateTime(value.dateTime);
+      this.instance.setUuid(value.uuid);
+      this.instance.setPassword(value.password);
+      this.instance.setBigDecimal(value.bigDecimal);
+      return this;
+    }
+
     public FormatTestDto.Builder integer(Integer integer) {
       this.instance.integer(integer);
       return this;
@@ -521,7 +539,7 @@ public class FormatTestDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -530,7 +548,7 @@ public class FormatTestDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static FormatTestDto.Builder builder() {
     return new FormatTestDto.Builder();
@@ -541,21 +559,7 @@ public class FormatTestDto {
   */
   public FormatTestDto.Builder toBuilder() {
     FormatTestDto.Builder builder = new FormatTestDto.Builder();
-    builder.instance.setInteger(integer);
-    builder.instance.setInt32(int32);
-    builder.instance.setInt64(int64);
-    builder.instance.setNumber(number);
-    builder.instance.setFloat(_float);
-    builder.instance.setDouble(_double);
-    builder.instance.setString(string);
-    builder.instance.setByte(_byte);
-    builder.instance.setBinary(binary);
-    builder.instance.setDate(date);
-    builder.instance.setDateTime(dateTime);
-    builder.instance.setUuid(uuid);
-    builder.instance.setPassword(password);
-    builder.instance.setBigDecimal(bigDecimal);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

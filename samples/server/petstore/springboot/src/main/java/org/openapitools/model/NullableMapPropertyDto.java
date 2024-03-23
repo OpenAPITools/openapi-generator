@@ -120,6 +120,11 @@ public class NullableMapPropertyDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(NullableMapPropertyDto value) { 
+      this.instance.setLanguageValues(value.languageValues);
+      return this;
+    }
+
     public NullableMapPropertyDto.Builder languageValues(Map<String, String> languageValues) {
       this.instance.languageValues(languageValues);
       return this;
@@ -142,7 +147,7 @@ public class NullableMapPropertyDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -151,7 +156,7 @@ public class NullableMapPropertyDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static NullableMapPropertyDto.Builder builder() {
     return new NullableMapPropertyDto.Builder();
@@ -162,8 +167,7 @@ public class NullableMapPropertyDto {
   */
   public NullableMapPropertyDto.Builder toBuilder() {
     NullableMapPropertyDto.Builder builder = new NullableMapPropertyDto.Builder();
-    builder.instance.setLanguageValues(languageValues);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

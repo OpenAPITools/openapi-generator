@@ -215,6 +215,16 @@ public class CapitalizationDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(CapitalizationDto value) { 
+      this.instance.setSmallCamel(value.smallCamel);
+      this.instance.setCapitalCamel(value.capitalCamel);
+      this.instance.setSmallSnake(value.smallSnake);
+      this.instance.setCapitalSnake(value.capitalSnake);
+      this.instance.setScAETHFlowPoints(value.scAETHFlowPoints);
+      this.instance.setATTNAME(value.ATT_NAME);
+      return this;
+    }
+
     public CapitalizationDto.Builder smallCamel(String smallCamel) {
       this.instance.smallCamel(smallCamel);
       return this;
@@ -257,7 +267,7 @@ public class CapitalizationDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -266,7 +276,7 @@ public class CapitalizationDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static CapitalizationDto.Builder builder() {
     return new CapitalizationDto.Builder();
@@ -277,13 +287,7 @@ public class CapitalizationDto {
   */
   public CapitalizationDto.Builder toBuilder() {
     CapitalizationDto.Builder builder = new CapitalizationDto.Builder();
-    builder.instance.setSmallCamel(smallCamel);
-    builder.instance.setCapitalCamel(capitalCamel);
-    builder.instance.setSmallSnake(smallSnake);
-    builder.instance.setCapitalSnake(capitalSnake);
-    builder.instance.setScAETHFlowPoints(scAETHFlowPoints);
-    builder.instance.setATTNAME(ATT_NAME);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

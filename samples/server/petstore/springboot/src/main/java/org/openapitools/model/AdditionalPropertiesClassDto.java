@@ -425,6 +425,21 @@ public class AdditionalPropertiesClassDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(AdditionalPropertiesClassDto value) { 
+      this.instance.setMapString(value.mapString);
+      this.instance.setMapNumber(value.mapNumber);
+      this.instance.setMapInteger(value.mapInteger);
+      this.instance.setMapBoolean(value.mapBoolean);
+      this.instance.setMapArrayInteger(value.mapArrayInteger);
+      this.instance.setMapArrayAnytype(value.mapArrayAnytype);
+      this.instance.setMapMapString(value.mapMapString);
+      this.instance.setMapMapAnytype(value.mapMapAnytype);
+      this.instance.setAnytype1(value.anytype1);
+      this.instance.setAnytype2(value.anytype2);
+      this.instance.setAnytype3(value.anytype3);
+      return this;
+    }
+
     public AdditionalPropertiesClassDto.Builder mapString(Map<String, String> mapString) {
       this.instance.mapString(mapString);
       return this;
@@ -497,7 +512,7 @@ public class AdditionalPropertiesClassDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -506,7 +521,7 @@ public class AdditionalPropertiesClassDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static AdditionalPropertiesClassDto.Builder builder() {
     return new AdditionalPropertiesClassDto.Builder();
@@ -517,18 +532,7 @@ public class AdditionalPropertiesClassDto {
   */
   public AdditionalPropertiesClassDto.Builder toBuilder() {
     AdditionalPropertiesClassDto.Builder builder = new AdditionalPropertiesClassDto.Builder();
-    builder.instance.setMapString(mapString);
-    builder.instance.setMapNumber(mapNumber);
-    builder.instance.setMapInteger(mapInteger);
-    builder.instance.setMapBoolean(mapBoolean);
-    builder.instance.setMapArrayInteger(mapArrayInteger);
-    builder.instance.setMapArrayAnytype(mapArrayAnytype);
-    builder.instance.setMapMapString(mapMapString);
-    builder.instance.setMapMapAnytype(mapMapAnytype);
-    builder.instance.setAnytype1(anytype1);
-    builder.instance.setAnytype2(anytype2);
-    builder.instance.setAnytype3(anytype3);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

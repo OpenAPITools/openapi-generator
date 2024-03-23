@@ -119,6 +119,12 @@ public class HasOnlyReadOnlyDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(HasOnlyReadOnlyDto value) { 
+      this.instance.setBar(value.bar);
+      this.instance.setFoo(value.foo);
+      return this;
+    }
+
     public HasOnlyReadOnlyDto.Builder bar(String bar) {
       this.instance.bar(bar);
       return this;
@@ -141,7 +147,7 @@ public class HasOnlyReadOnlyDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -150,7 +156,7 @@ public class HasOnlyReadOnlyDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static HasOnlyReadOnlyDto.Builder builder() {
     return new HasOnlyReadOnlyDto.Builder();
@@ -161,9 +167,7 @@ public class HasOnlyReadOnlyDto {
   */
   public HasOnlyReadOnlyDto.Builder toBuilder() {
     HasOnlyReadOnlyDto.Builder builder = new HasOnlyReadOnlyDto.Builder();
-    builder.instance.setBar(bar);
-    builder.instance.setFoo(foo);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

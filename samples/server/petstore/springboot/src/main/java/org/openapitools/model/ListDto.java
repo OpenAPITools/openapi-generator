@@ -95,6 +95,11 @@ public class ListDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ListDto value) { 
+      this.instance.set123List(value._123List);
+      return this;
+    }
+
     public ListDto.Builder _123List(String _123List) {
       this.instance._123List(_123List);
       return this;
@@ -112,7 +117,7 @@ public class ListDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -121,7 +126,7 @@ public class ListDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ListDto.Builder builder() {
     return new ListDto.Builder();
@@ -132,8 +137,7 @@ public class ListDto {
   */
   public ListDto.Builder toBuilder() {
     ListDto.Builder builder = new ListDto.Builder();
-    builder.instance.set123List(_123List);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

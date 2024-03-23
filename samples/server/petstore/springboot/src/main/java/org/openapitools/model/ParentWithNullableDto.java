@@ -178,6 +178,12 @@ public class ParentWithNullableDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ParentWithNullableDto value) { 
+      this.instance.setType(value.type);
+      this.instance.setNullableProperty(value.nullableProperty);
+      return this;
+    }
+
     public ParentWithNullableDto.Builder type(TypeEnum type) {
       this.instance.type(type);
       return this;
@@ -205,7 +211,7 @@ public class ParentWithNullableDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -214,7 +220,7 @@ public class ParentWithNullableDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ParentWithNullableDto.Builder builder() {
     return new ParentWithNullableDto.Builder();
@@ -225,9 +231,7 @@ public class ParentWithNullableDto {
   */
   public ParentWithNullableDto.Builder toBuilder() {
     ParentWithNullableDto.Builder builder = new ParentWithNullableDto.Builder();
-    builder.instance.setType(type);
-    builder.instance.setNullableProperty(nullableProperty);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

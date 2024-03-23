@@ -263,6 +263,18 @@ public class UserDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(UserDto value) { 
+      this.instance.setId(value.id);
+      this.instance.setUsername(value.username);
+      this.instance.setFirstName(value.firstName);
+      this.instance.setLastName(value.lastName);
+      this.instance.setEmail(value.email);
+      this.instance.setPassword(value.password);
+      this.instance.setPhone(value.phone);
+      this.instance.setUserStatus(value.userStatus);
+      return this;
+    }
+
     public UserDto.Builder id(Long id) {
       this.instance.id(id);
       return this;
@@ -315,7 +327,7 @@ public class UserDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -324,7 +336,7 @@ public class UserDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static UserDto.Builder builder() {
     return new UserDto.Builder();
@@ -335,15 +347,7 @@ public class UserDto {
   */
   public UserDto.Builder toBuilder() {
     UserDto.Builder builder = new UserDto.Builder();
-    builder.instance.setId(id);
-    builder.instance.setUsername(username);
-    builder.instance.setFirstName(firstName);
-    builder.instance.setLastName(lastName);
-    builder.instance.setEmail(email);
-    builder.instance.setPassword(password);
-    builder.instance.setPhone(phone);
-    builder.instance.setUserStatus(userStatus);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

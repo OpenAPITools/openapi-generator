@@ -120,8 +120,14 @@ public class DogDto extends AnimalDto {
     }
 
     protected Builder(DogDto instance) {
-      super(instance);
+      super(instance); // the parent builder shares the same instance
       this.instance = instance;
+    }
+
+    protected Builder copyOf(DogDto value) { 
+      super.copyOf(instance);
+      this.instance.setBreed(value.breed);
+      return this;
     }
 
     public DogDto.Builder breed(String breed) {
@@ -129,14 +135,12 @@ public class DogDto extends AnimalDto {
       return this;
     }
     
-
     @Override
     public DogDto.Builder className(String className) {
       this.instance.className(className);
       return this;
     }
     
-
     @Override
     public DogDto.Builder color(String color) {
       this.instance.color(color);
@@ -156,7 +160,7 @@ public class DogDto extends AnimalDto {
         super.build();
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -165,7 +169,7 @@ public class DogDto extends AnimalDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static DogDto.Builder builder() {
     return new DogDto.Builder();
@@ -176,10 +180,7 @@ public class DogDto extends AnimalDto {
   */
   public DogDto.Builder toBuilder() {
     DogDto.Builder builder = new DogDto.Builder();
-    builder.instance.setBreed(breed);
-    builder.instance.setClassName(getClassName());
-    builder.instance.setColor(getColor());
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

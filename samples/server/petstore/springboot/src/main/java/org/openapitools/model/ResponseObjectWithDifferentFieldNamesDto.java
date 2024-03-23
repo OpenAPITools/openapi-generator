@@ -167,6 +167,14 @@ public class ResponseObjectWithDifferentFieldNamesDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ResponseObjectWithDifferentFieldNamesDto value) { 
+      this.instance.setNormalPropertyName(value.normalPropertyName);
+      this.instance.setUPPERCASEPROPERTYSNAKE(value.UPPER_CASE_PROPERTY_SNAKE);
+      this.instance.setLowerCasePropertyDashes(value.lowerCasePropertyDashes);
+      this.instance.setPropertyNameWithSpaces(value.propertyNameWithSpaces);
+      return this;
+    }
+
     public ResponseObjectWithDifferentFieldNamesDto.Builder normalPropertyName(String normalPropertyName) {
       this.instance.normalPropertyName(normalPropertyName);
       return this;
@@ -199,7 +207,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -208,7 +216,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ResponseObjectWithDifferentFieldNamesDto.Builder builder() {
     return new ResponseObjectWithDifferentFieldNamesDto.Builder();
@@ -219,11 +227,7 @@ public class ResponseObjectWithDifferentFieldNamesDto {
   */
   public ResponseObjectWithDifferentFieldNamesDto.Builder toBuilder() {
     ResponseObjectWithDifferentFieldNamesDto.Builder builder = new ResponseObjectWithDifferentFieldNamesDto.Builder();
-    builder.instance.setNormalPropertyName(normalPropertyName);
-    builder.instance.setUPPERCASEPROPERTYSNAKE(UPPER_CASE_PROPERTY_SNAKE);
-    builder.instance.setLowerCasePropertyDashes(lowerCasePropertyDashes);
-    builder.instance.setPropertyNameWithSpaces(propertyNameWithSpaces);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

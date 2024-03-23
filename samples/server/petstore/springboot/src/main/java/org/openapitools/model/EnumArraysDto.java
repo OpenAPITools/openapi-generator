@@ -202,6 +202,12 @@ public class EnumArraysDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(EnumArraysDto value) { 
+      this.instance.setJustSymbol(value.justSymbol);
+      this.instance.setArrayEnum(value.arrayEnum);
+      return this;
+    }
+
     public EnumArraysDto.Builder justSymbol(JustSymbolEnum justSymbol) {
       this.instance.justSymbol(justSymbol);
       return this;
@@ -224,7 +230,7 @@ public class EnumArraysDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -233,7 +239,7 @@ public class EnumArraysDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static EnumArraysDto.Builder builder() {
     return new EnumArraysDto.Builder();
@@ -244,9 +250,7 @@ public class EnumArraysDto {
   */
   public EnumArraysDto.Builder toBuilder() {
     EnumArraysDto.Builder builder = new EnumArraysDto.Builder();
-    builder.instance.setJustSymbol(justSymbol);
-    builder.instance.setArrayEnum(arrayEnum);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

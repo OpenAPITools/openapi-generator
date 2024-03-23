@@ -7,20 +7,16 @@ info:
 servers:
   - url: http://api.example.xyz/v1
 paths:
-  /person/display/:
+  /person/display/{personId}:
     get:
       parameters:
-
-        - name: BigObject3
-          explode: true
-          style: form
-          in: query
-          description: filter to search on
+        - name: personId
+          in: path
           required: true
+          description: The id of the person to retrieve
           schema:
-            $ref: "#/components/schemas/BiggerObject3"
+            type: string
       operationId: list
-
       responses:
         '200':
           description: OK
@@ -86,58 +82,3 @@ components:
         name:
           type: string
           example: Tom
-
-    BaseObject:
-      type: object
-      required:
-        -  id
-      properties:
-        id:
-          type: string
-          description: Object ID
-        name:
-          type: string
-          description: Optional name
-    BigObject:
-      allOf:
-        - $ref: "#/components/schemas/BaseObject"
-        - type: object
-          required:
-            - value
-          properties:
-            value:
-              type: string
-    BiggerObject:
-      allOf:
-        - $ref: "#/components/schemas/BigObject"
-        - type: object
-          properties:
-            weight:
-              type: integer
-            children:
-              type: array
-              items:
-                type: string
-
-
-    BigObject3:
-      allOf:
-        -  $ref: "#/components/schemas/BaseObject"
-      type: object
-      required:
-        - value
-      properties:
-        value:
-          type: string
-
-    BiggerObject3:
-      allOf:
-        - $ref: "#/components/schemas/BigObject3"
-      type: object
-      properties:
-        weight:
-          type: integer
-        children:
-          type: array
-          items:
-            type: string

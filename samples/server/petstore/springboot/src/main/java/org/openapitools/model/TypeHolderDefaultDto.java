@@ -219,6 +219,15 @@ public class TypeHolderDefaultDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(TypeHolderDefaultDto value) { 
+      this.instance.setStringItem(value.stringItem);
+      this.instance.setNumberItem(value.numberItem);
+      this.instance.setIntegerItem(value.integerItem);
+      this.instance.setBoolItem(value.boolItem);
+      this.instance.setArrayItem(value.arrayItem);
+      return this;
+    }
+
     public TypeHolderDefaultDto.Builder stringItem(String stringItem) {
       this.instance.stringItem(stringItem);
       return this;
@@ -256,7 +265,7 @@ public class TypeHolderDefaultDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -265,7 +274,7 @@ public class TypeHolderDefaultDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static TypeHolderDefaultDto.Builder builder() {
     return new TypeHolderDefaultDto.Builder();
@@ -276,12 +285,7 @@ public class TypeHolderDefaultDto {
   */
   public TypeHolderDefaultDto.Builder toBuilder() {
     TypeHolderDefaultDto.Builder builder = new TypeHolderDefaultDto.Builder();
-    builder.instance.setStringItem(stringItem);
-    builder.instance.setNumberItem(numberItem);
-    builder.instance.setIntegerItem(integerItem);
-    builder.instance.setBoolItem(boolItem);
-    builder.instance.setArrayItem(arrayItem);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

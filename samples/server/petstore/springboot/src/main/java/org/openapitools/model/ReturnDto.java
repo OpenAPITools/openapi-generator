@@ -96,6 +96,11 @@ public class ReturnDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ReturnDto value) { 
+      this.instance.setReturn(value._return);
+      return this;
+    }
+
     public ReturnDto.Builder _return(Integer _return) {
       this.instance._return(_return);
       return this;
@@ -113,7 +118,7 @@ public class ReturnDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -122,7 +127,7 @@ public class ReturnDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ReturnDto.Builder builder() {
     return new ReturnDto.Builder();
@@ -133,8 +138,7 @@ public class ReturnDto {
   */
   public ReturnDto.Builder toBuilder() {
     ReturnDto.Builder builder = new ReturnDto.Builder();
-    builder.instance.setReturn(_return);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

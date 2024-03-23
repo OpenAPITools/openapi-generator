@@ -143,6 +143,13 @@ public class ApiResponseDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ApiResponseDto value) { 
+      this.instance.setCode(value.code);
+      this.instance.setType(value.type);
+      this.instance.setMessage(value.message);
+      return this;
+    }
+
     public ApiResponseDto.Builder code(Integer code) {
       this.instance.code(code);
       return this;
@@ -170,7 +177,7 @@ public class ApiResponseDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -179,7 +186,7 @@ public class ApiResponseDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ApiResponseDto.Builder builder() {
     return new ApiResponseDto.Builder();
@@ -190,10 +197,7 @@ public class ApiResponseDto {
   */
   public ApiResponseDto.Builder toBuilder() {
     ApiResponseDto.Builder builder = new ApiResponseDto.Builder();
-    builder.instance.setCode(code);
-    builder.instance.setType(type);
-    builder.instance.setMessage(message);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

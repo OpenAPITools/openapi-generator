@@ -256,6 +256,16 @@ public class OrderDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(OrderDto value) { 
+      this.instance.setId(value.id);
+      this.instance.setPetId(value.petId);
+      this.instance.setQuantity(value.quantity);
+      this.instance.setShipDate(value.shipDate);
+      this.instance.setStatus(value.status);
+      this.instance.setComplete(value.complete);
+      return this;
+    }
+
     public OrderDto.Builder id(Long id) {
       this.instance.id(id);
       return this;
@@ -298,7 +308,7 @@ public class OrderDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -307,7 +317,7 @@ public class OrderDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static OrderDto.Builder builder() {
     return new OrderDto.Builder();
@@ -318,13 +328,7 @@ public class OrderDto {
   */
   public OrderDto.Builder toBuilder() {
     OrderDto.Builder builder = new OrderDto.Builder();
-    builder.instance.setId(id);
-    builder.instance.setPetId(petId);
-    builder.instance.setQuantity(quantity);
-    builder.instance.setShipDate(shipDate);
-    builder.instance.setStatus(status);
-    builder.instance.setComplete(complete);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

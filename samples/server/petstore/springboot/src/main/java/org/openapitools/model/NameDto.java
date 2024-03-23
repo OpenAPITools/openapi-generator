@@ -179,6 +179,14 @@ public class NameDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(NameDto value) { 
+      this.instance.setName(value.name);
+      this.instance.setSnakeCase(value.snakeCase);
+      this.instance.setProperty(value.property);
+      this.instance.set123Number(value._123Number);
+      return this;
+    }
+
     public NameDto.Builder name(Integer name) {
       this.instance.name(name);
       return this;
@@ -211,7 +219,7 @@ public class NameDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -220,7 +228,7 @@ public class NameDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static NameDto.Builder builder() {
     return new NameDto.Builder();
@@ -231,11 +239,7 @@ public class NameDto {
   */
   public NameDto.Builder toBuilder() {
     NameDto.Builder builder = new NameDto.Builder();
-    builder.instance.setName(name);
-    builder.instance.setSnakeCase(snakeCase);
-    builder.instance.setProperty(property);
-    builder.instance.set123Number(_123Number);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

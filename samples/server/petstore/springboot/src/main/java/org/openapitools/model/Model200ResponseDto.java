@@ -120,6 +120,12 @@ public class Model200ResponseDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(Model200ResponseDto value) { 
+      this.instance.setName(value.name);
+      this.instance.setPropertyClass(value.propertyClass);
+      return this;
+    }
+
     public Model200ResponseDto.Builder name(Integer name) {
       this.instance.name(name);
       return this;
@@ -142,7 +148,7 @@ public class Model200ResponseDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -151,7 +157,7 @@ public class Model200ResponseDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static Model200ResponseDto.Builder builder() {
     return new Model200ResponseDto.Builder();
@@ -162,9 +168,7 @@ public class Model200ResponseDto {
   */
   public Model200ResponseDto.Builder toBuilder() {
     Model200ResponseDto.Builder builder = new Model200ResponseDto.Builder();
-    builder.instance.setName(name);
-    builder.instance.setPropertyClass(propertyClass);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

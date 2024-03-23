@@ -144,6 +144,13 @@ public class OuterCompositeDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(OuterCompositeDto value) { 
+      this.instance.setMyNumber(value.myNumber);
+      this.instance.setMyString(value.myString);
+      this.instance.setMyBoolean(value.myBoolean);
+      return this;
+    }
+
     public OuterCompositeDto.Builder myNumber(BigDecimal myNumber) {
       this.instance.myNumber(myNumber);
       return this;
@@ -171,7 +178,7 @@ public class OuterCompositeDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -180,7 +187,7 @@ public class OuterCompositeDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static OuterCompositeDto.Builder builder() {
     return new OuterCompositeDto.Builder();
@@ -191,10 +198,7 @@ public class OuterCompositeDto {
   */
   public OuterCompositeDto.Builder toBuilder() {
     OuterCompositeDto.Builder builder = new OuterCompositeDto.Builder();
-    builder.instance.setMyNumber(myNumber);
-    builder.instance.setMyString(myString);
-    builder.instance.setMyBoolean(myBoolean);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

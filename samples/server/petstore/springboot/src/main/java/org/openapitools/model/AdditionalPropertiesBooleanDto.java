@@ -139,11 +139,21 @@ public class AdditionalPropertiesBooleanDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(AdditionalPropertiesBooleanDto value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
     public AdditionalPropertiesBooleanDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
     
+    public AdditionalPropertiesBooleanDto.Builder additionalProperties(Map<String, Boolean> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built AdditionalPropertiesBooleanDto instance.
     *
@@ -156,7 +166,7 @@ public class AdditionalPropertiesBooleanDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -165,7 +175,7 @@ public class AdditionalPropertiesBooleanDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static AdditionalPropertiesBooleanDto.Builder builder() {
     return new AdditionalPropertiesBooleanDto.Builder();
@@ -176,8 +186,7 @@ public class AdditionalPropertiesBooleanDto {
   */
   public AdditionalPropertiesBooleanDto.Builder toBuilder() {
     AdditionalPropertiesBooleanDto.Builder builder = new AdditionalPropertiesBooleanDto.Builder();
-    builder.instance.setName(name);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

@@ -348,6 +348,15 @@ public class EnumTestDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(EnumTestDto value) { 
+      this.instance.setEnumString(value.enumString);
+      this.instance.setEnumStringRequired(value.enumStringRequired);
+      this.instance.setEnumInteger(value.enumInteger);
+      this.instance.setEnumNumber(value.enumNumber);
+      this.instance.setOuterEnum(value.outerEnum);
+      return this;
+    }
+
     public EnumTestDto.Builder enumString(EnumStringEnum enumString) {
       this.instance.enumString(enumString);
       return this;
@@ -385,7 +394,7 @@ public class EnumTestDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -394,7 +403,7 @@ public class EnumTestDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static EnumTestDto.Builder builder() {
     return new EnumTestDto.Builder();
@@ -405,12 +414,7 @@ public class EnumTestDto {
   */
   public EnumTestDto.Builder toBuilder() {
     EnumTestDto.Builder builder = new EnumTestDto.Builder();
-    builder.instance.setEnumString(enumString);
-    builder.instance.setEnumStringRequired(enumStringRequired);
-    builder.instance.setEnumInteger(enumInteger);
-    builder.instance.setEnumNumber(enumNumber);
-    builder.instance.setOuterEnum(outerEnum);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

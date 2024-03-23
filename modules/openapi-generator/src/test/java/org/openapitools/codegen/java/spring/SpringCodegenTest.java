@@ -2743,7 +2743,9 @@ public class SpringCodegenTest {
         return generateFromContract(url, library, new HashMap<>());
     }
     private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        File output =
+                new File("/temp/openapi");
+                //Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
@@ -4563,37 +4565,21 @@ public class SpringCodegenTest {
 
     @Test
     void testBuilderJavaSpring() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-        String outputPath = output.getAbsolutePath().replace('\\', '/');
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
+                Map.of(GENERATE_BUILDERS, true, USE_OPTIONAL, false));
 
-        final OpenAPI openAPI =
-        TestUtils.parseFlattenSpec("src/test/resources/3_0/java/builder.yaml");
-
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.additionalProperties().put(GENERATE_BUILDERS, true);
-
-        codegen.additionalProperties().put(USE_OPTIONAL, false);
-        codegen.setOutputDir(outputPath);
-        ClientOptInput input = new ClientOptInput();
-
-        input.openAPI(openAPI);
-        input.config(codegen);
-        DefaultGenerator generator = new DefaultGenerator();
-        generator.opts(input).generate();
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Pet.java"))
+        JavaFileAssert.assertThat(files.get("Pet.java"))
                 .fileContains("toBuilder()",
                         "builder()",
                         "public static class Builder {");
-        JavaFileAssert.assertThat(Paths.get(outputPath + "/src/main/java/org/openapitools/model/Snake.java"))
+        JavaFileAssert.assertThat(files.get("Snake.java"))
                 .fileContains("toBuilder()",
                         "builder()",
                         "public static class Builder extends Reptile.Builder {",
-                        "builder.instance.setPetType(getPetType());",
-                        "builder.instance.setHasLegs(hasLegs);",
-                        "builder.instance.setName(getName());");
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {");
     }
-
 
     @Test
     public void optionalListShouldBeEmpty() throws IOException {

@@ -95,6 +95,11 @@ public class ClientDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(ClientDto value) { 
+      this.instance.setClient(value.client);
+      return this;
+    }
+
     public ClientDto.Builder client(String client) {
       this.instance.client(client);
       return this;
@@ -112,7 +117,7 @@ public class ClientDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -121,7 +126,7 @@ public class ClientDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static ClientDto.Builder builder() {
     return new ClientDto.Builder();
@@ -132,8 +137,7 @@ public class ClientDto {
   */
   public ClientDto.Builder toBuilder() {
     ClientDto.Builder builder = new ClientDto.Builder();
-    builder.instance.setClient(client);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

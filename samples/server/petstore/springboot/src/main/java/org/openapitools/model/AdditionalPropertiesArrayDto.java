@@ -140,11 +140,21 @@ public class AdditionalPropertiesArrayDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(AdditionalPropertiesArrayDto value) { 
+      this.instance.setName(value.name);
+      return this;
+    }
+
     public AdditionalPropertiesArrayDto.Builder name(String name) {
       this.instance.name(name);
       return this;
     }
     
+    public AdditionalPropertiesArrayDto.Builder additionalProperties(Map<String, List> additionalProperties) {
+      this.instance.additionalProperties = additionalProperties;
+      return this;
+    }
+
     /**
     * returns a built AdditionalPropertiesArrayDto instance.
     *
@@ -157,7 +167,7 @@ public class AdditionalPropertiesArrayDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -166,7 +176,7 @@ public class AdditionalPropertiesArrayDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static AdditionalPropertiesArrayDto.Builder builder() {
     return new AdditionalPropertiesArrayDto.Builder();
@@ -177,8 +187,7 @@ public class AdditionalPropertiesArrayDto {
   */
   public AdditionalPropertiesArrayDto.Builder toBuilder() {
     AdditionalPropertiesArrayDto.Builder builder = new AdditionalPropertiesArrayDto.Builder();
-    builder.instance.setName(name);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }

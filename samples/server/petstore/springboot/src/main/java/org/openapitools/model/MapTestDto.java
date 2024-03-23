@@ -241,6 +241,14 @@ public class MapTestDto {
       this.instance = instance;
     }
 
+    protected Builder copyOf(MapTestDto value) { 
+      this.instance.setMapMapOfString(value.mapMapOfString);
+      this.instance.setMapOfEnumString(value.mapOfEnumString);
+      this.instance.setDirectMap(value.directMap);
+      this.instance.setIndirectMap(value.indirectMap);
+      return this;
+    }
+
     public MapTestDto.Builder mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
       this.instance.mapMapOfString(mapMapOfString);
       return this;
@@ -273,7 +281,7 @@ public class MapTestDto {
         // ensure that this.instance is not reused
         this.instance = null;
       }
-  }
+    }
 
     @Override
     public String toString() {
@@ -282,7 +290,7 @@ public class MapTestDto {
   }
 
   /**
-  * Create a builder with no initialized field.
+  * Create a builder with no initialized field (except for the default values).
   */
   public static MapTestDto.Builder builder() {
     return new MapTestDto.Builder();
@@ -293,11 +301,7 @@ public class MapTestDto {
   */
   public MapTestDto.Builder toBuilder() {
     MapTestDto.Builder builder = new MapTestDto.Builder();
-    builder.instance.setMapMapOfString(mapMapOfString);
-    builder.instance.setMapOfEnumString(mapOfEnumString);
-    builder.instance.setDirectMap(directMap);
-    builder.instance.setIndirectMap(indirectMap);
-    return builder;
+    return builder.copyOf(this);
   }
 
 }
