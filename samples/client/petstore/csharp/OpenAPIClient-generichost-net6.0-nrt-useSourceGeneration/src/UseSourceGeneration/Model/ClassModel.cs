@@ -56,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("_class")]
-        public string? Class { get { return this. ClassOption; } set { this.ClassOption = new(value); } }
+        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

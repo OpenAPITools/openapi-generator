@@ -59,7 +59,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
         [JsonPropertyName("array_array_of_integer")]
-        public List<List<long>>? ArrayArrayOfInteger { get { return this. ArrayArrayOfIntegerOption; } set { this.ArrayArrayOfIntegerOption = new(value); } }
+        public List<List<long>>? ArrayArrayOfInteger { get { return this.ArrayArrayOfIntegerOption; } set { this.ArrayArrayOfIntegerOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayArrayOfModel
@@ -72,7 +72,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
         [JsonPropertyName("array_array_of_model")]
-        public List<List<ReadOnlyFirst>>? ArrayArrayOfModel { get { return this. ArrayArrayOfModelOption; } set { this.ArrayArrayOfModelOption = new(value); } }
+        public List<List<ReadOnlyFirst>>? ArrayArrayOfModel { get { return this.ArrayArrayOfModelOption; } set { this.ArrayArrayOfModelOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ArrayOfString
@@ -85,7 +85,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ArrayOfString
         /// </summary>
         [JsonPropertyName("array_of_string")]
-        public List<string>? ArrayOfString { get { return this. ArrayOfStringOption; } set { this.ArrayOfStringOption = new(value); } }
+        public List<string>? ArrayOfString { get { return this.ArrayOfStringOption; } set { this.ArrayOfStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -19,7 +19,8 @@ paths:
           description: Successful operation
       tags:
       - resource
-      x-accepts: application/octet-stream
+      x-accepts:
+      - application/octet-stream
 components:
   schemas: {}
 

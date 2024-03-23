@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [JsonPropertyName("declawed")]
-        public bool? Declawed { get { return this. DeclawedOption; } set { this.DeclawedOption = new Option<bool?>(value); } }
+        public bool? Declawed { get { return this.DeclawedOption; } set { this.DeclawedOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

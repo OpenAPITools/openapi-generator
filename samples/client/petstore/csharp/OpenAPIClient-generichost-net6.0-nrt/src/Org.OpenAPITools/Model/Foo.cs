@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string? Bar { get { return this. BarOption; } set { this.BarOption = new(value); } }
+        public string? Bar { get { return this.BarOption; } set { this.BarOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

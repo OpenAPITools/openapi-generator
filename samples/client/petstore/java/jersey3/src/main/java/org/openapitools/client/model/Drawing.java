@@ -37,6 +37,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 
@@ -76,6 +78,8 @@ public class Drawing {
    * @return mainShape
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_MAIN_SHAPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -101,6 +105,8 @@ public class Drawing {
    * @return shapeOrNull
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public ShapeOrNull getShapeOrNull() {
@@ -134,6 +140,8 @@ public class Drawing {
    * @return nullableShape
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonIgnore
 
   public NullableShape getNullableShape() {
@@ -175,6 +183,8 @@ public class Drawing {
    * @return shapes
   **/
   @jakarta.annotation.Nullable
+  @Valid
+
   @JsonProperty(JSON_PROPERTY_SHAPES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

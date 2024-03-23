@@ -90,7 +90,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/inventory",
-        produces = "application/json"
+        produces = { "application/json" }
     )
     
     CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory(
@@ -124,7 +124,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/store/order/{orderId}",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     CompletableFuture<ResponseEntity<Order>> getOrderById(
@@ -156,7 +156,7 @@ public interface StoreApi {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/store/order",
-        produces = "application/json,application/xml",
+        produces = { "application/json", "application/xml" },
         consumes = "application/json"
     )
     

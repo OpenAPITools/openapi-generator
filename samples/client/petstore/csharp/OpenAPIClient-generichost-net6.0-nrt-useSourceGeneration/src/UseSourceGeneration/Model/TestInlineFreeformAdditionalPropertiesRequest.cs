@@ -56,7 +56,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets SomeProperty
         /// </summary>
         [JsonPropertyName("someProperty")]
-        public string? SomeProperty { get { return this. SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
+        public string? SomeProperty { get { return this.SomePropertyOption; } set { this.SomePropertyOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

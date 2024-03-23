@@ -64,7 +64,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Mealy
         /// </summary>
         [JsonPropertyName("mealy")]
-        public bool? Mealy { get { return this. MealyOption; } set { this.MealyOption = new(value); } }
+        public bool? Mealy { get { return this.MealyOption; } set { this.MealyOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

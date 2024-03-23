@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets JustNumber
         /// </summary>
         [JsonPropertyName("JustNumber")]
-        public decimal? JustNumber { get { return this. JustNumberOption; } set { this.JustNumberOption = new Option<decimal?>(value); } }
+        public decimal? JustNumber { get { return this.JustNumberOption; } set { this.JustNumberOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

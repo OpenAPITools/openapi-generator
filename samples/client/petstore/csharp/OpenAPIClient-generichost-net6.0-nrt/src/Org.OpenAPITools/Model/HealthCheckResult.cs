@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableMessage
         /// </summary>
         [JsonPropertyName("NullableMessage")]
-        public string? NullableMessage { get { return this. NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
+        public string? NullableMessage { get { return this.NullableMessageOption; } set { this.NullableMessageOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

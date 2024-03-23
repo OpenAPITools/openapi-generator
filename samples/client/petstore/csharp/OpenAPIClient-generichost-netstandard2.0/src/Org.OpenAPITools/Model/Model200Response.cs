@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("class")]
-        public string Class { get { return this. ClassOption; } set { this.ClassOption = new Option<string>(value); } }
+        public string Class { get { return this.ClassOption; } set { this.ClassOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Name
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Name
         /// </summary>
         [JsonPropertyName("name")]
-        public int? Name { get { return this. NameOption; } set { this.NameOption = new Option<int?>(value); } }
+        public int? Name { get { return this.NameOption; } set { this.NameOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -58,7 +58,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string? VarSpecialModelName { get { return this. VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } }
+        public string? VarSpecialModelName { get { return this.VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SpecialPropertyName
@@ -71,7 +71,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long? SpecialPropertyName { get { return this. SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
+        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

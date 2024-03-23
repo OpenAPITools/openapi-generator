@@ -76,7 +76,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389</value>
         [JsonPropertyName("anyTypeProp")]
-        public Object AnyTypeProp { get { return this. AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } }
+        public Object AnyTypeProp { get { return this.AnyTypePropOption; } set { this.AnyTypePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of AnyTypePropNullable
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.</value>
         [JsonPropertyName("anyTypePropNullable")]
-        public Object AnyTypePropNullable { get { return this. AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } }
+        public Object AnyTypePropNullable { get { return this.AnyTypePropNullableOption; } set { this.AnyTypePropNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Email
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Email
         /// </summary>
         [JsonPropertyName("email")]
-        public string Email { get { return this. EmailOption; } set { this.EmailOption = new(value); } }
+        public string Email { get { return this.EmailOption; } set { this.EmailOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of FirstName
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets FirstName
         /// </summary>
         [JsonPropertyName("firstName")]
-        public string FirstName { get { return this. FirstNameOption; } set { this.FirstNameOption = new(value); } }
+        public string FirstName { get { return this.FirstNameOption; } set { this.FirstNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
+        public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of LastName
@@ -142,7 +142,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets LastName
         /// </summary>
         [JsonPropertyName("lastName")]
-        public string LastName { get { return this. LastNameOption; } set { this.LastNameOption = new(value); } }
+        public string LastName { get { return this.LastNameOption; } set { this.LastNameOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredProps
@@ -156,7 +156,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredProps")]
-        public Object ObjectWithNoDeclaredProps { get { return this. ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new(value); } }
+        public Object ObjectWithNoDeclaredProps { get { return this.ObjectWithNoDeclaredPropsOption; } set { this.ObjectWithNoDeclaredPropsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ObjectWithNoDeclaredPropsNullable
@@ -170,7 +170,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.</value>
         [JsonPropertyName("objectWithNoDeclaredPropsNullable")]
-        public Object ObjectWithNoDeclaredPropsNullable { get { return this. ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } }
+        public Object ObjectWithNoDeclaredPropsNullable { get { return this.ObjectWithNoDeclaredPropsNullableOption; } set { this.ObjectWithNoDeclaredPropsNullableOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Password
@@ -183,7 +183,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Password
         /// </summary>
         [JsonPropertyName("password")]
-        public string Password { get { return this. PasswordOption; } set { this.PasswordOption = new(value); } }
+        public string Password { get { return this.PasswordOption; } set { this.PasswordOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Phone
@@ -196,7 +196,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Phone
         /// </summary>
         [JsonPropertyName("phone")]
-        public string Phone { get { return this. PhoneOption; } set { this.PhoneOption = new(value); } }
+        public string Phone { get { return this.PhoneOption; } set { this.PhoneOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UserStatus
@@ -210,7 +210,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>User Status</value>
         [JsonPropertyName("userStatus")]
-        public int? UserStatus { get { return this. UserStatusOption; } set { this.UserStatusOption = new(value); } }
+        public int? UserStatus { get { return this.UserStatusOption; } set { this.UserStatusOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Username
@@ -223,7 +223,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Username
         /// </summary>
         [JsonPropertyName("username")]
-        public string Username { get { return this. UsernameOption; } set { this.UsernameOption = new(value); } }
+        public string Username { get { return this.UsernameOption; } set { this.UsernameOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
