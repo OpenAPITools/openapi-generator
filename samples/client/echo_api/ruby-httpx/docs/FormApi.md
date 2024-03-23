@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
 | [**test_form_integer_boolean_string**](FormApi.md#test_form_integer_boolean_string) | **POST** /form/integer/boolean/string | Test form parameter(s) |
+| [**test_form_object_multipart**](FormApi.md#test_form_object_multipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema |
 | [**test_form_oneof**](FormApi.md#test_form_oneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 
 
@@ -75,6 +76,70 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: text/plain
+
+
+## test_form_object_multipart
+
+> String test_form_object_multipart(marker)
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Examples
+
+```ruby
+require 'time'
+require 'openapi_client'
+
+api_instance = OpenapiClient::FormApi.new
+marker = OpenapiClient::TestFormObjectMultipartRequestMarker.new # TestFormObjectMultipartRequestMarker | 
+
+begin
+  # Test form parameter(s) for multipart schema
+  result = api_instance.test_form_object_multipart(marker)
+  p result
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling FormApi->test_form_object_multipart: #{e}"
+end
+```
+
+#### Using the test_form_object_multipart_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(String, Integer, Hash)> test_form_object_multipart_with_http_info(marker)
+
+```ruby
+begin
+  # Test form parameter(s) for multipart schema
+  data, status_code, headers = api_instance.test_form_object_multipart_with_http_info(marker)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => String
+rescue OpenapiClient::ApiError => e
+  puts "Error when calling FormApi->test_form_object_multipart_with_http_info: #{e}"
+end
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **marker** | [**TestFormObjectMultipartRequestMarker**](TestFormObjectMultipartRequestMarker.md) |  |  |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: text/plain
 
 

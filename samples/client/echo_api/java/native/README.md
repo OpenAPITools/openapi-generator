@@ -132,6 +132,8 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**testEchoBodyTagResponseStringWithHttpInfo**](docs/BodyApi.md#testEchoBodyTagResponseStringWithHttpInfo) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 *FormApi* | [**testFormIntegerBooleanString**](docs/FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**testFormIntegerBooleanStringWithHttpInfo**](docs/FormApi.md#testFormIntegerBooleanStringWithHttpInfo) | **POST** /form/integer/boolean/string | Test form parameter(s)
+*FormApi* | [**testFormObjectMultipart**](docs/FormApi.md#testFormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
+*FormApi* | [**testFormObjectMultipartWithHttpInfo**](docs/FormApi.md#testFormObjectMultipartWithHttpInfo) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 *FormApi* | [**testFormOneof**](docs/FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *FormApi* | [**testFormOneofWithHttpInfo**](docs/FormApi.md#testFormOneofWithHttpInfo) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**testHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
@@ -171,6 +173,7 @@ Class | Method | HTTP request | Description
  - [Query](docs/Query.md)
  - [StringEnumRef](docs/StringEnumRef.md)
  - [Tag](docs/Tag.md)
+ - [TestFormObjectMultipartRequestMarker](docs/TestFormObjectMultipartRequestMarker.md)
  - [TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter](docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md)
  - [TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter](docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md)
 

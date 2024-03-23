@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**testFormIntegerBooleanString**](FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s) |
+| [**testFormObjectMultipart**](FormApi.md#testFormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema |
 | [**testFormOneof**](FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 
 
@@ -70,6 +71,72 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+
+## testFormObjectMultipart
+
+> String testFormObjectMultipart(marker)
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FormApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://localhost:3000");
+
+        FormApi apiInstance = new FormApi(defaultClient);
+        TestFormObjectMultipartRequestMarker marker = new TestFormObjectMultipartRequestMarker(); // TestFormObjectMultipartRequestMarker | 
+        try {
+            String result = apiInstance.testFormObjectMultipart(marker);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FormApi#testFormObjectMultipart");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **marker** | [**TestFormObjectMultipartRequestMarker**](TestFormObjectMultipartRequestMarker.md)|  | |
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: text/plain
 
 

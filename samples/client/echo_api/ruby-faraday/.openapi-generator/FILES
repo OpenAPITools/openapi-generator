@@ -21,6 +21,7 @@ docs/Query.md
 docs/QueryApi.md
 docs/StringEnumRef.md
 docs/Tag.md
+docs/TestFormObjectMultipartRequestMarker.md
 docs/TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter.md
 docs/TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter.md
 git_push.sh
@@ -43,6 +44,7 @@ lib/openapi_client/models/pet.rb
 lib/openapi_client/models/query.rb
 lib/openapi_client/models/string_enum_ref.rb
 lib/openapi_client/models/tag.rb
+lib/openapi_client/models/test_form_object_multipart_request_marker.rb
 lib/openapi_client/models/test_query_style_deep_object_explode_true_object_all_of_query_object_parameter.rb
 lib/openapi_client/models/test_query_style_form_explode_true_array_string_query_object_parameter.rb
 lib/openapi_client/version.rb

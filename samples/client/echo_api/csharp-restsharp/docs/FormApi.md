@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
 | [**TestFormIntegerBooleanString**](FormApi.md#testformintegerbooleanstring) | **POST** /form/integer/boolean/string | Test form parameter(s) |
+| [**TestFormObjectMultipart**](FormApi.md#testformobjectmultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema |
 | [**TestFormOneof**](FormApi.md#testformoneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 
 <a id="testformintegerbooleanstring"></a>
@@ -92,6 +93,97 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: text/plain
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful operation |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="testformobjectmultipart"></a>
+# **TestFormObjectMultipart**
+> string TestFormObjectMultipart (TestFormObjectMultipartRequestMarker marker)
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class TestFormObjectMultipartExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://localhost:3000";
+            var apiInstance = new FormApi(config);
+            var marker = new TestFormObjectMultipartRequestMarker(); // TestFormObjectMultipartRequestMarker | 
+
+            try
+            {
+                // Test form parameter(s) for multipart schema
+                string result = apiInstance.TestFormObjectMultipart(marker);
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling FormApi.TestFormObjectMultipart: " + e.Message);
+                Debug.Print("Status Code: " + e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+#### Using the TestFormObjectMultipartWithHttpInfo variant
+This returns an ApiResponse object which contains the response data, status code and headers.
+
+```csharp
+try
+{
+    // Test form parameter(s) for multipart schema
+    ApiResponse<string> response = apiInstance.TestFormObjectMultipartWithHttpInfo(marker);
+    Debug.Write("Status Code: " + response.StatusCode);
+    Debug.Write("Response Headers: " + response.Headers);
+    Debug.Write("Response Body: " + response.Data);
+}
+catch (ApiException e)
+{
+    Debug.Print("Exception when calling FormApi.TestFormObjectMultipartWithHttpInfo: " + e.Message);
+    Debug.Print("Status Code: " + e.ErrorCode);
+    Debug.Print(e.StackTrace);
+}
+```
+
+### Parameters
+
+| Name | Type | Description | Notes |
+|------|------|-------------|-------|
+| **marker** | [**TestFormObjectMultipartRequestMarker**](TestFormObjectMultipartRequestMarker.md) |  |  |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
  - **Accept**: text/plain
 
 
