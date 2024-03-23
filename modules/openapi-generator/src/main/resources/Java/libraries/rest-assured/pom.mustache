@@ -65,12 +65,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <reuseForks>false</reuseForks>
                     <forkCount>1C</forkCount>
                 </configuration>
