@@ -27,19 +27,17 @@ import org.openapitools.codegen.utils.ModelUtils;
 import org.openrewrite.maven.internal.RawPom;
 import org.testng.Assert;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+import javax.tools.JavaCompiler;
+import javax.tools.StandardJavaFileManager;
+import javax.tools.StandardLocation;
+import javax.tools.ToolProvider;
 import com.google.common.collect.ImmutableMap;
 
 public class TestUtils {
@@ -363,4 +361,103 @@ public class TestUtils {
         objs.setModels(modelMaps);
         return objs;
     }
+
+    /**
+     * Adds a given file to a JAR
+     * @param target The JAR stream to add to
+     * @param rootPath The root output path for the file. Used to extrapolate the entry's path in the JAR
+     * @param pathOfFileToAdd The path of the file to be added
+     * @throws IOException Could not open, read or write to the output
+     */
+    private static void addFileToJar(JarOutputStream target, File rootPath, String pathOfFileToAdd) throws IOException {
+        JarEntry entry = createJarEntryFromFile(rootPath, pathOfFileToAdd);
+        target.putNextEntry(entry);
+
+        BufferedInputStream in = new BufferedInputStream(new FileInputStream(pathOfFileToAdd));
+        byte[] buffer = new byte[1024];
+        while (true) {
+            int count = in.read(buffer);
+            if (count == -1) {
+                break;
+            }
+            target.write(buffer, 0, count);
+        }
+        target.closeEntry();
+        in.close();
+    }
+
+    /**
+     * Creates a new JarEntry from the given file
+     * @param rootPath The root output path for the file. Used to extrapolate the entry's path in the JAR
+     * @param pathOfFileToAdd The file to create an entry from
+     * @return A new JarEntry from the given file
+     */
+    private static JarEntry createJarEntryFromFile(File rootPath, String pathOfFileToAdd) {
+        String baseOutputPath = rootPath.getAbsolutePath();
+
+        // A bit of code to determine the class's path inside the JAR.
+        String classPath;
+        if (baseOutputPath.endsWith(File.separator)) {
+            classPath = pathOfFileToAdd.substring(baseOutputPath.length());
+        } else {
+            classPath = pathOfFileToAdd.substring(baseOutputPath.length() + 1);
+        }
+
+        String name = classPath.replace("\\", "/");
+        JarEntry entry = new JarEntry(name);
+        entry.setTime(new File(pathOfFileToAdd).lastModified());
+        return entry;
+    }
+
+    /**
+     * Compiles the given JAVA file
+     * @param fileToCompile The JAVA file to compile
+     * @param outputDir The directory to output the compiled file to.
+     *                  Note that this affects only CLASS_OUTPUT
+     * @return True if compilation was successful, false otherwise
+     * @throws IOException outputDir is not a directory
+     */
+    public static boolean compileJavaFile(File fileToCompile, File outputDir) throws IOException {
+        if (!outputDir.isDirectory()) {
+            throw new IOException("Output path must point to a directory");
+        }
+
+        Iterable<File> files = List.of(outputDir);
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        try (StandardJavaFileManager fileManager = compiler.getStandardFileManager(null, null, null)) {
+            fileManager.setLocation(StandardLocation.CLASS_OUTPUT, files);
+            Iterable<? extends javax.tools.JavaFileObject> compilationUnit = fileManager.getJavaFileObjects(fileToCompile);
+            return compiler.getTask(null, fileManager, null, null, null, compilationUnit).call();
+        }
+    }
+
+    /**
+     * Compiles the given class files into a JAR
+     *
+     * @param classFiles The class files to compile
+     * @param outputDir The base output path for the method. Used for creating .class files & JARs
+     * @param outputFileName The full, absolute name of the file that'll be created
+     * @return True if the operation was successful, false otherwise
+     * @throws IOException A class file could not be processed
+     */
+    public static boolean compileFilesToJar(Iterable<File> classFiles, File outputDir, String outputFileName) throws IOException {
+        try (JarOutputStream jarStream = new JarOutputStream(new FileOutputStream(outputFileName))) {
+            for (File classFile : classFiles) {
+                if (!compileJavaFile(classFile, outputDir)) {
+                    return false;
+                }
+
+                String[] splitPath = classFile.toURI().getPath().split("[/\\\\]src[/\\\\]test[/\\\\]java[/\\\\]");
+                if (!(splitPath.length == 2)) {
+                    throw new IOException("Could not split path/find output class file");
+                }
+
+                String classFilePath = Path.of(outputDir.getAbsolutePath(), splitPath[1].replace(".java", ".class")).toString();
+                addFileToJar(jarStream, outputDir, classFilePath);
+            }
+        }
+        return true;
+    }
+
 }
