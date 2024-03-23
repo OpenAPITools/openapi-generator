@@ -33,8 +33,8 @@ impl ANullableContainer {
 /// Converts the ANullableContainer value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ANullableContainer {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ANullableContainer {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.nullable_thing.as_ref().map(|nullable_thing| {
                 [
@@ -53,7 +53,11 @@ impl std::string::ToString for ANullableContainer {
             ),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -197,10 +201,10 @@ impl std::ops::DerefMut for AdditionalPropertiesObject {
 /// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl ::std::string::ToString for AdditionalPropertiesObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AdditionalPropertiesObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // Skipping additionalProperties in query parameter serialization
-        "".to_string()
+        write!(f, "")
     }
 }
 
@@ -242,8 +246,8 @@ impl AllOfObject {
 /// Converts the AllOfObject value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for AllOfObject {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for AllOfObject {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             self.sample_property.as_ref().map(|sample_property| {
                 ["sampleProperty".to_string(), sample_property.to_string()].join(",")
@@ -259,7 +263,11 @@ impl std::string::ToString for AllOfObject {
                 }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -390,8 +398,8 @@ impl BaseAllOf {
 /// Converts the BaseAllOf value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for BaseAllOf {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for BaseAllOf {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> =
             vec![self
                 .sample_base_property
@@ -404,7 +412,11 @@ impl std::string::ToString for BaseAllOf {
                     .join(",")
                 })];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -530,8 +542,8 @@ impl DummyPutRequest {
 /// Converts the DummyPutRequest value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for DummyPutRequest {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for DummyPutRequest {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("id".to_string()),
             Some(self.id.to_string()),
@@ -540,7 +552,11 @@ impl std::string::ToString for DummyPutRequest {
                 .map(|password| ["password".to_string(), password.to_string()].join(",")),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -676,14 +692,18 @@ impl GetYamlResponse {
 /// Converts the GetYamlResponse value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for GetYamlResponse {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for GetYamlResponse {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![self
             .value
             .as_ref()
             .map(|value| ["value".to_string(), value.to_string()].join(","))];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -808,14 +828,18 @@ impl ObjectOfObjects {
 /// Converts the ObjectOfObjects value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectOfObjects {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectOfObjects {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             // Skipping inner in query parameter serialization
 
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 
@@ -945,8 +969,8 @@ impl ObjectOfObjectsInner {
 /// Converts the ObjectOfObjectsInner value to the Query Parameters representation (style=form, explode=false)
 /// specified in https://swagger.io/docs/specification/serialization/
 /// Should be implemented in a serde serializer
-impl std::string::ToString for ObjectOfObjectsInner {
-    fn to_string(&self) -> String {
+impl std::fmt::Display for ObjectOfObjectsInner {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let params: Vec<Option<String>> = vec![
             Some("required_thing".to_string()),
             Some(self.required_thing.to_string()),
@@ -955,7 +979,11 @@ impl std::string::ToString for ObjectOfObjectsInner {
             }),
         ];
 
-        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        write!(
+            f,
+            "{}",
+            params.into_iter().flatten().collect::<Vec<_>>().join(",")
+        )
     }
 }
 

@@ -1458,7 +1458,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotRequiredNotnullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_notnullable_date_prop")]
-        public DateOnly? NotRequiredNotnullableDateProp { get { return this. NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new(value); } }
+        public DateOnly? NotRequiredNotnullableDateProp { get { return this.NotRequiredNotnullableDatePropOption; } set { this.NotRequiredNotnullableDatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNotnullableintegerProp
@@ -1471,7 +1471,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotRequiredNotnullableintegerProp
         /// </summary>
         [JsonPropertyName("not_required_notnullableinteger_prop")]
-        public int? NotRequiredNotnullableintegerProp { get { return this. NotRequiredNotnullableintegerPropOption; } set { this.NotRequiredNotnullableintegerPropOption = new(value); } }
+        public int? NotRequiredNotnullableintegerProp { get { return this.NotRequiredNotnullableintegerPropOption; } set { this.NotRequiredNotnullableintegerPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNullableDateProp
@@ -1484,7 +1484,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotRequiredNullableDateProp
         /// </summary>
         [JsonPropertyName("not_required_nullable_date_prop")]
-        public DateOnly? NotRequiredNullableDateProp { get { return this. NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
+        public DateOnly? NotRequiredNullableDateProp { get { return this.NotRequiredNullableDatePropOption; } set { this.NotRequiredNullableDatePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotRequiredNullableIntegerProp
@@ -1497,7 +1497,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotRequiredNullableIntegerProp
         /// </summary>
         [JsonPropertyName("not_required_nullable_integer_prop")]
-        public int? NotRequiredNullableIntegerProp { get { return this. NotRequiredNullableIntegerPropOption; } set { this.NotRequiredNullableIntegerPropOption = new(value); } }
+        public int? NotRequiredNullableIntegerProp { get { return this.NotRequiredNullableIntegerPropOption; } set { this.NotRequiredNullableIntegerPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableArrayOfString
@@ -1510,7 +1510,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNotnullableArrayOfString
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_array_of_string")]
-        public List<string>? NotrequiredNotnullableArrayOfString { get { return this. NotrequiredNotnullableArrayOfStringOption; } set { this.NotrequiredNotnullableArrayOfStringOption = new(value); } }
+        public List<string>? NotrequiredNotnullableArrayOfString { get { return this.NotrequiredNotnullableArrayOfStringOption; } set { this.NotrequiredNotnullableArrayOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableBooleanProp
@@ -1523,7 +1523,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNotnullableBooleanProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_boolean_prop")]
-        public bool? NotrequiredNotnullableBooleanProp { get { return this. NotrequiredNotnullableBooleanPropOption; } set { this.NotrequiredNotnullableBooleanPropOption = new(value); } }
+        public bool? NotrequiredNotnullableBooleanProp { get { return this.NotrequiredNotnullableBooleanPropOption; } set { this.NotrequiredNotnullableBooleanPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableDatetimeProp
@@ -1536,7 +1536,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNotnullableDatetimeProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_datetime_prop")]
-        public DateTime? NotrequiredNotnullableDatetimeProp { get { return this. NotrequiredNotnullableDatetimePropOption; } set { this.NotrequiredNotnullableDatetimePropOption = new(value); } }
+        public DateTime? NotrequiredNotnullableDatetimeProp { get { return this.NotrequiredNotnullableDatetimePropOption; } set { this.NotrequiredNotnullableDatetimePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableStringProp
@@ -1549,7 +1549,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNotnullableStringProp
         /// </summary>
         [JsonPropertyName("notrequired_notnullable_string_prop")]
-        public string? NotrequiredNotnullableStringProp { get { return this. NotrequiredNotnullableStringPropOption; } set { this.NotrequiredNotnullableStringPropOption = new(value); } }
+        public string? NotrequiredNotnullableStringProp { get { return this.NotrequiredNotnullableStringPropOption; } set { this.NotrequiredNotnullableStringPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNotnullableUuid
@@ -1563,7 +1563,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("notrequired_notnullable_uuid")]
-        public Guid? NotrequiredNotnullableUuid { get { return this. NotrequiredNotnullableUuidOption; } set { this.NotrequiredNotnullableUuidOption = new(value); } }
+        public Guid? NotrequiredNotnullableUuid { get { return this.NotrequiredNotnullableUuidOption; } set { this.NotrequiredNotnullableUuidOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableArrayOfString
@@ -1576,7 +1576,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNullableArrayOfString
         /// </summary>
         [JsonPropertyName("notrequired_nullable_array_of_string")]
-        public List<string>? NotrequiredNullableArrayOfString { get { return this. NotrequiredNullableArrayOfStringOption; } set { this.NotrequiredNullableArrayOfStringOption = new(value); } }
+        public List<string>? NotrequiredNullableArrayOfString { get { return this.NotrequiredNullableArrayOfStringOption; } set { this.NotrequiredNullableArrayOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableBooleanProp
@@ -1589,7 +1589,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNullableBooleanProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_boolean_prop")]
-        public bool? NotrequiredNullableBooleanProp { get { return this. NotrequiredNullableBooleanPropOption; } set { this.NotrequiredNullableBooleanPropOption = new(value); } }
+        public bool? NotrequiredNullableBooleanProp { get { return this.NotrequiredNullableBooleanPropOption; } set { this.NotrequiredNullableBooleanPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableDatetimeProp
@@ -1602,7 +1602,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNullableDatetimeProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_datetime_prop")]
-        public DateTime? NotrequiredNullableDatetimeProp { get { return this. NotrequiredNullableDatetimePropOption; } set { this.NotrequiredNullableDatetimePropOption = new(value); } }
+        public DateTime? NotrequiredNullableDatetimeProp { get { return this.NotrequiredNullableDatetimePropOption; } set { this.NotrequiredNullableDatetimePropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableStringProp
@@ -1615,7 +1615,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets NotrequiredNullableStringProp
         /// </summary>
         [JsonPropertyName("notrequired_nullable_string_prop")]
-        public string? NotrequiredNullableStringProp { get { return this. NotrequiredNullableStringPropOption; } set { this.NotrequiredNullableStringPropOption = new(value); } }
+        public string? NotrequiredNullableStringProp { get { return this.NotrequiredNullableStringPropOption; } set { this.NotrequiredNullableStringPropOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NotrequiredNullableUuid
@@ -1629,7 +1629,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         /// <example>72f98069-206d-4f12-9f12-3d1e525a8e84</example>
         [JsonPropertyName("notrequired_nullable_uuid")]
-        public Guid? NotrequiredNullableUuid { get { return this. NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new(value); } }
+        public Guid? NotrequiredNullableUuid { get { return this.NotrequiredNullableUuidOption; } set { this.NotrequiredNullableUuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -25,6 +25,10 @@ export const NumberEnum = {
 export type NumberEnum = typeof NumberEnum[keyof typeof NumberEnum];
 
 
+export function instanceOfNumberEnum(value: any): boolean {
+    return Object.values(NumberEnum).includes(value);
+}
+
 export function NumberEnumFromJSON(json: any): NumberEnum {
     return NumberEnumFromJSONTyped(json, false);
 }

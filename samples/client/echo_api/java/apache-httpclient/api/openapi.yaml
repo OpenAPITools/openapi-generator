@@ -58,7 +58,8 @@ paths:
       summary: Test path parameter(s)
       tags:
       - path
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /form/integer/boolean/string:
     post:
       description: Test form parameter(s)
@@ -79,7 +80,8 @@ paths:
       tags:
       - form
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /form/oneof:
     post:
       description: Test form parameter(s) for oneOf schema
@@ -100,7 +102,8 @@ paths:
       tags:
       - form
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /header/integer/boolean/string/enums:
     get:
       description: Test header parameter(s)
@@ -155,7 +158,8 @@ paths:
       summary: Test header parameter(s)
       tags:
       - header
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/enum_ref_string:
     get:
       description: Test query parameter(s)
@@ -189,7 +193,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/datetime/date/string:
     get:
       description: Test query parameter(s)
@@ -228,7 +233,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/integer/boolean/string:
     get:
       description: Test query parameter(s)
@@ -265,7 +271,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/array_string:
     get:
       description: Test query parameter(s)
@@ -288,7 +295,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_false/array_integer:
     get:
       description: Test query parameter(s)
@@ -313,7 +321,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_false/array_string:
     get:
       description: Test query parameter(s)
@@ -338,7 +347,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -361,7 +371,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_form/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -384,7 +395,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_deepObject/explode_true/object:
     get:
       description: Test query parameter(s)
@@ -407,7 +419,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /query/style_deepObject/explode_true/object/allOf:
     get:
       description: Test query parameter(s)
@@ -430,7 +443,8 @@ paths:
       summary: Test query parameter(s)
       tags:
       - query
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /body/application/octetstream/binary:
     post:
       description: Test body parameter(s)
@@ -452,7 +466,8 @@ paths:
       tags:
       - body
       x-content-type: application/octet-stream
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/Pet:
     post:
       description: Test body parameter(s)
@@ -470,7 +485,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /echo/body/allOf/Pet:
     post:
       description: Test body parameter(s)
@@ -488,7 +504,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /echo/body/Pet/response_string:
     post:
       description: Test empty response body
@@ -506,7 +523,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/Tag/response_string:
     post:
       description: Test empty json (request body)
@@ -524,7 +542,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/FreeFormObject/response_string:
     post:
       description: Test free form object
@@ -546,7 +565,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /echo/body/string_enum:
     post:
       description: Test string enum response body
@@ -568,7 +588,8 @@ paths:
       tags:
       - body
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /binary/gif:
     post:
       description: Test binary (gif) response body
@@ -584,7 +605,8 @@ paths:
       summary: Test binary (gif) response body
       tags:
       - body
-      x-accepts: image/gif
+      x-accepts:
+      - image/gif
   /body/application/octetstream/single_binary:
     post:
       description: Test single binary in multipart mime
@@ -605,7 +627,8 @@ paths:
       tags:
       - body
       x-content-type: multipart/form-data
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /body/application/octetstream/array_of_binary:
     post:
       description: Test array of binary in multipart mime
@@ -626,7 +649,8 @@ paths:
       tags:
       - body
       x-content-type: multipart/form-data
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /auth/http/basic:
     post:
       description: To test HTTP basic authentication
@@ -643,7 +667,8 @@ paths:
       summary: To test HTTP basic authentication
       tags:
       - auth
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
   /auth/http/bearer:
     post:
       description: To test HTTP bearer authentication
@@ -660,7 +685,8 @@ paths:
       summary: To test HTTP bearer authentication
       tags:
       - auth
-      x-accepts: text/plain
+      x-accepts:
+      - text/plain
 components:
   requestBodies:
     Pet:

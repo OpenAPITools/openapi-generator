@@ -58,7 +58,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Children
         /// </summary>
         [JsonPropertyName("children")]
-        public List<Child>? Children { get { return this. ChildrenOption; } set { this.ChildrenOption = new(value); } }
+        public List<Child>? Children { get { return this.ChildrenOption; } set { this.ChildrenOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -25,6 +25,10 @@ export const OuterEnumDefaultValue = {
 export type OuterEnumDefaultValue = typeof OuterEnumDefaultValue[keyof typeof OuterEnumDefaultValue];
 
 
+export function instanceOfOuterEnumDefaultValue(value: any): boolean {
+    return Object.values(OuterEnumDefaultValue).includes(value);
+}
+
 export function OuterEnumDefaultValueFromJSON(json: any): OuterEnumDefaultValue {
     return OuterEnumDefaultValueFromJSONTyped(json, false);
 }

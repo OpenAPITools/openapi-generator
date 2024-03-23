@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Bar
         /// </summary>
         [JsonPropertyName("bar")]
-        public string Bar { get { return this. BarOption; } }
+        public string Bar { get { return this.BarOption; } }
 
         /// <summary>
         /// Used to track the state of Foo
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Foo
         /// </summary>
         [JsonPropertyName("foo")]
-        public string Foo { get { return this. FooOption; } }
+        public string Foo { get { return this.FooOption; } }
 
         /// <summary>
         /// Gets or Sets additional properties

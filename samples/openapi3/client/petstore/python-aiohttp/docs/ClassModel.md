@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of ClassModel from a JSON string
 class_model_instance = ClassModel.from_json(json)
 # print the JSON string representation of the object
-print ClassModel.to_json()
+print(ClassModel.to_json())
 
 # convert the object into a dict
 class_model_dict = class_model_instance.to_dict()

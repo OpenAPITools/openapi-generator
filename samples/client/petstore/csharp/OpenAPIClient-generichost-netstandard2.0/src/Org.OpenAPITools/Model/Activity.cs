@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ActivityOutputs
         /// </summary>
         [JsonPropertyName("activity_outputs")]
-        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get { return this. ActivityOutputsOption; } set { this.ActivityOutputsOption = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(value); } }
+        public Dictionary<string, List<ActivityOutputElementRepresentation>> ActivityOutputs { get { return this.ActivityOutputsOption; } set { this.ActivityOutputsOption = new Option<Dictionary<string, List<ActivityOutputElementRepresentation>>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

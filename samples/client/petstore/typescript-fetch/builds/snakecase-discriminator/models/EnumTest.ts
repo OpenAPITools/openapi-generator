@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 import type { OuterEnum } from './OuterEnum';
 import {
     OuterEnumFromJSON,
@@ -147,28 +147,25 @@ export function EnumTestFromJSON(json: any): EnumTest {
 }
 
 export function EnumTestFromJSONTyped(json: any, ignoreDiscriminator: boolean): EnumTest {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'enumString': !exists(json, 'enum_string') ? undefined : json['enum_string'],
+        'enumString': json['enum_string'] == null ? undefined : json['enum_string'],
         'enumStringRequired': json['enum_string_required'],
-        'enumInteger': !exists(json, 'enum_integer') ? undefined : json['enum_integer'],
-        'enumNumber': !exists(json, 'enum_number') ? undefined : json['enum_number'],
-        'outerEnum': !exists(json, 'outerEnum') ? undefined : OuterEnumFromJSON(json['outerEnum']),
-        'outerEnumInteger': !exists(json, 'outerEnumInteger') ? undefined : OuterEnumIntegerFromJSON(json['outerEnumInteger']),
-        'outerEnumDefaultValue': !exists(json, 'outerEnumDefaultValue') ? undefined : OuterEnumDefaultValueFromJSON(json['outerEnumDefaultValue']),
-        'outerEnumIntegerDefaultValue': !exists(json, 'outerEnumIntegerDefaultValue') ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),
+        'enumInteger': json['enum_integer'] == null ? undefined : json['enum_integer'],
+        'enumNumber': json['enum_number'] == null ? undefined : json['enum_number'],
+        'outerEnum': json['outerEnum'] == null ? undefined : OuterEnumFromJSON(json['outerEnum']),
+        'outerEnumInteger': json['outerEnumInteger'] == null ? undefined : OuterEnumIntegerFromJSON(json['outerEnumInteger']),
+        'outerEnumDefaultValue': json['outerEnumDefaultValue'] == null ? undefined : OuterEnumDefaultValueFromJSON(json['outerEnumDefaultValue']),
+        'outerEnumIntegerDefaultValue': json['outerEnumIntegerDefaultValue'] == null ? undefined : OuterEnumIntegerDefaultValueFromJSON(json['outerEnumIntegerDefaultValue']),
     };
 }
 
 export function EnumTestToJSON(value?: EnumTest | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

@@ -171,7 +171,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category Category { get { return this. CategoryOption; } set { this.CategoryOption = new Option<Category>(value); } }
+        public Category Category { get { return this.CategoryOption; } set { this.CategoryOption = new Option<Category>(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -184,7 +184,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new Option<long?>(value); } }
+        public long? Id { get { return this.IdOption; } set { this.IdOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Used to track the state of Tags
@@ -197,7 +197,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag> Tags { get { return this. TagsOption; } set { this.TagsOption = new Option<List<Tag>>(value); } }
+        public List<Tag> Tags { get { return this.TagsOption; } set { this.TagsOption = new Option<List<Tag>>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

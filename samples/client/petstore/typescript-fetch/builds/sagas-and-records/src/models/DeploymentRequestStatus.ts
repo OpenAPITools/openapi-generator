@@ -34,6 +34,10 @@ export const DeploymentRequestStatus = {
 export type DeploymentRequestStatus = typeof DeploymentRequestStatus[keyof typeof DeploymentRequestStatus];
 
 
+export function instanceOfDeploymentRequestStatus(value: any): boolean {
+    return Object.values(DeploymentRequestStatus).includes(value);
+}
+
 export function DeploymentRequestStatusFromJSON(json: any): DeploymentRequestStatus {
     return DeploymentRequestStatusFromJSONTyped(json, false);
 }

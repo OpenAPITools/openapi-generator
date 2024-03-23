@@ -21,7 +21,8 @@ paths:
                 type: array
           description: ""
       summary: ""
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   schemas:
     ByteArrayObject:

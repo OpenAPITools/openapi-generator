@@ -52,6 +52,7 @@ import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.languages.PhpNextgenClientCodegen;
+import org.openapitools.codegen.languages.RustAxumServerCodegen;
 import org.openapitools.codegen.languages.RustServerCodegen;
 import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -64,6 +65,7 @@ import org.openapitools.codegen.model.WebhooksMap;
 import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
+import org.openapitools.codegen.utils.CamelizeOption;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
 import org.slf4j.Logger;
@@ -81,6 +83,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.openapitools.codegen.CodegenConstants.UNSUPPORTED_V310_SPEC_MSG;
+import static org.openapitools.codegen.utils.CamelizeOption.LOWERCASE_FIRST_LETTER;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -462,8 +465,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("snakecase", new SnakecaseLambda())
                 .put("titlecase", new TitlecaseLambda())
                 .put("kebabcase", new KebabCaseLambda())
-                .put("camelcase", new CamelCaseLambda(true).generator(this))
-                .put("pascalcase", new CamelCaseLambda(false).generator(this))
+                .put("camelcase", new CamelCaseAndSanitizeLambda(true).generator(this))
+                .put("pascalcase", new CamelCaseAndSanitizeLambda(false).generator(this))
+                .put("uncamelize", new UncamelizeLambda())
                 .put("forwardslash", new ForwardSlashLambda())
                 .put("backslash", new BackSlashLambda())
                 .put("doublequote", new DoubleQuoteLambda())
@@ -2055,7 +2059,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isMapSchema(schema)) {
             Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
-            return instantiationTypes.get("map") + "<String, " + inner + ">";
+            String mapInstantion = instantiationTypes.get("map");
+            if (mapInstantion != null) {
+                return mapInstantion + "<String, " + inner + ">";
+            }
+            return inner;
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(getSchemaItems(arraySchema));
@@ -4010,8 +4018,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.openApiType = p.getType();
         }
-        property.nameInCamelCase = camelize(property.name);
-        property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInCamelCase);
+        property.nameInPascalCase = camelize(property.name);
+        property.nameInCamelCase = camelize(property.name, LOWERCASE_FIRST_LETTER);
+        property.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, property.nameInPascalCase);
         property.description = escapeText(p.getDescription());
         property.unescapedDescription = p.getDescription();
         property.title = p.getTitle();
@@ -4729,7 +4738,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (contentType != null) {
                 contentType = contentType.toLowerCase(Locale.ROOT);
             }
-            if (contentType != null &&
+            if (!(this instanceof RustAxumServerCodegen) && contentType != null &&
                     (contentType.startsWith("application/x-www-form-urlencoded") ||
                             contentType.startsWith("multipart"))) {
                 // process form parameters
@@ -5456,6 +5465,11 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.isCollectionFormatMulti = true;
         }
         codegenParameter.paramName = toParamName(parameter.getName());
+        codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+        codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+        codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+        codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
         // import
         if (codegenProperty.complexType != null) {
             imports.add(codegenProperty.complexType);
@@ -7183,6 +7197,11 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.dataType = codegenProperty.dataType;
         codegenParameter.baseName = codegenProperty.baseName;
         codegenParameter.paramName = toParamName(codegenParameter.baseName);
+        codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+        codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+        codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+        codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         // non-array/map
         updateCodegenPropertyEnum(codegenProperty);
@@ -7526,7 +7545,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isObjectSchema(schema)) {
+        } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema)) {
             // object type schema or composed schema with properties defined
             this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, false);
         }
@@ -7567,6 +7586,11 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseName = bodyParameterName;
             }
             codegenParameter.paramName = toArrayModelParamName(codegenParameter.baseName);
+            codegenParameter.nameInCamelCase = camelize(codegenParameter.paramName, LOWERCASE_FIRST_LETTER);
+            codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
+            codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
+            codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
+
             codegenParameter.items = codegenProperty.items;
             codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
             codegenParameter.dataType = getTypeDeclaration(arraySchema);

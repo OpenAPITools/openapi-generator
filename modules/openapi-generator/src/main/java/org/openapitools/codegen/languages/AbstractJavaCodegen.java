@@ -936,6 +936,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toModelName(final String name) {
+        // obtain the name from modelNameMapping directly if provided
+        if (modelNameMapping.containsKey(name)) {
+            return modelNameMapping.get(name);
+        }
+
         // We need to check if schema-mapping has a different model for this class, so we use it
         // instead of the auto-generated one.
         if (schemaMapping.containsKey(name)) {
@@ -1032,7 +1037,15 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         if (items.get$ref() != null) {
-            return "@Valid ";
+            Map<String, Schema>  shemas = this.openAPI.getComponents().getSchemas();
+            String ref = ModelUtils.getSimpleRef(items.get$ref());
+            if (ref != null) {
+                Schema<?> schema = shemas.get(ref);
+                if (schema == null || ModelUtils.isObjectSchema(schema)) {
+                    return "@Valid ";
+                }
+                items = schema;
+            }
         }
 
         if (ModelUtils.isStringSchema(items)) {
@@ -1091,7 +1104,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     private String getStringBeanValidation(Schema<?> items) {
         String validations = "";
-        if (ModelUtils.isByteArraySchema(items) || ModelUtils.isBinarySchema(items)) {
+        if (ModelUtils.shouldIgnoreBeanValidation(items)) {
             return validations;
         }
 
@@ -1156,13 +1169,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
      */
     public String toArrayDefaultValue(CodegenProperty cp, Schema schema) {
         if (schema.getDefault() != null) { // has default value
-            if (cp.isArray && !cp.getUniqueItems()) { // array
+            if (cp.isArray) {
                 List<String> _values = new ArrayList<>();
 
                 if (schema.getDefault() instanceof ArrayNode) { // array of default values
                     ArrayNode _default = (ArrayNode) schema.getDefault();
                     if (_default.isEmpty()) { // e.g. default: []
-                        return "new ArrayList<>()";
+                        return getDefaultCollectionType(schema);
                     }
 
                     List<String> final_values = _values;
@@ -1208,14 +1221,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         defaultValue = StringUtils.join(_values, ", ");
                     }
                 } else {
-                    return "new ArrayList<>()";
+                    return getDefaultCollectionType(schema);
                 }
 
-                return String.format(Locale.ROOT, "new ArrayList<>(Arrays.asList(%s))", defaultValue);
-            } else if (cp.isArray && cp.getUniqueItems()) { // set
-                // TODO
-                return null;
-            } else if (cp.isMap) { // map
+                return getDefaultCollectionType(schema, defaultValue);
+            }
+            if (cp.isMap) { // map
                 // TODO
                 return null;
             } else {
@@ -1231,21 +1242,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
         if (ModelUtils.isArraySchema(schema)) {
             if (schema.getDefault() == null) {
-                // nullable, optional or containerDefaultToNull set to true
-                if (cp.isNullable || !cp.required || containerDefaultToNull) {
+                // nullable or containerDefaultToNull set to true
+                if (cp.isNullable || containerDefaultToNull) {
                     return null;
-                } else {
-                    if (ModelUtils.isSet(schema)) {
-                        return String.format(Locale.ROOT, "new %s<>()",
-                                instantiationTypes().getOrDefault("set", "LinkedHashSet"));
-                    } else {
-                        return String.format(Locale.ROOT, "new %s<>()",
-                                instantiationTypes().getOrDefault("array", "ArrayList"));
-                    }
                 }
-            } else { // has default value
-                return toArrayDefaultValue(cp, schema);
+                return getDefaultCollectionType(schema);
             }
+            return toArrayDefaultValue(cp, schema);
         } else if (ModelUtils.isMapSchema(schema) && !(ModelUtils.isComposedSchema(schema))) {
             if (schema.getProperties() != null && schema.getProperties().size() > 0) {
                 // object is complex object with free-form additional properties
@@ -1255,7 +1258,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 return null;
             }
 
-            if (cp.isNullable || containerDefaultToNull) { // nullable or containerDefaultToNull set to true
+            // nullable or containerDefaultToNull set to true
+            if (cp.isNullable || containerDefaultToNull) {
                 return null;
             }
 
@@ -1341,6 +1345,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         return super.toDefaultValue(schema);
+    }
+
+    private String getDefaultCollectionType(Schema schema) {
+        return getDefaultCollectionType(schema, null);
+    }
+
+    private String getDefaultCollectionType(Schema schema, String defaultValues) {
+        String arrayFormat = "new %s<>(Arrays.asList(%s))";
+        if(defaultValues == null || defaultValues.isEmpty()){
+            defaultValues = "";
+            arrayFormat = "new %s<>()";
+        }
+
+        if (ModelUtils.isSet(schema)) {
+            return String.format(Locale.ROOT, arrayFormat,
+                    instantiationTypes().getOrDefault("set", "LinkedHashSet"),defaultValues);
+        }
+        return String.format(Locale.ROOT, arrayFormat, instantiationTypes().getOrDefault("array", "ArrayList"),defaultValues);
     }
 
     @Override
@@ -1717,11 +1739,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         // the response data types should not contains a bean validation annotation.
         if (property.dataType.contains("@")) {
-            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+            property.dataType = property.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
         // the response data types should not contains a bean validation annotation.
         if (response.dataType.contains("@")) {
-            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+\\s*)*+", "");
+            response.dataType = response.dataType.replaceAll("(?:(?i)@[a-z0-9]*+([(].*[)]|\\s*))*+", "");
         }
     }
 
@@ -1828,7 +1850,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         String contentType = consumes.isEmpty() ? defaultContentType : consumes.get(0);
                         operation.addExtension("x-content-type", contentType);
                     }
-                    String accepts = getAccepts(openAPI, operation);
+                    String[] accepts = getAccepts(openAPI, operation);
                     operation.addExtension("x-accepts", accepts);
                 }
             }
@@ -1879,19 +1901,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
     }
 
-    private static String getAccepts(OpenAPI openAPIArg, Operation operation) {
+    private static String[] getAccepts(OpenAPI openAPIArg, Operation operation) {
         final Set<String> producesInfo = getProducesInfo(openAPIArg, operation);
         if (producesInfo != null && !producesInfo.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String produce : producesInfo) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(produce);
-            }
-            return sb.toString();
+            return producesInfo.toArray(new String[] {});
         }
-        return "application/json"; // default media type
+        return new String[] { "application/json" }; // default media type
     }
 
     @Override

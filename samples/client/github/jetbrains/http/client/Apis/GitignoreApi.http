@@ -1,0 +1,11 @@
+## GitignoreApi
+
+### Get all gitignore templates
+## Get all gitignore templates
+GET https://api.github.com/gitignore/templates
+Accept: application/json
+
+### Get a gitignore template
+## Get a gitignore template
+GET https://api.github.com/gitignore/templates/{{name}}
+Accept: application/json

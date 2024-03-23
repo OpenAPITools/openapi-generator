@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of DataQuery from a JSON string
 data_query_instance = DataQuery.from_json(json)
 # print the JSON string representation of the object
-print DataQuery.to_json()
+print(DataQuery.to_json())
 
 # convert the object into a dict
 data_query_dict = data_query_instance.to_dict()

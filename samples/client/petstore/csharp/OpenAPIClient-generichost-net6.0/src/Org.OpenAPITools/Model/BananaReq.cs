@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Sweet
         /// </summary>
         [JsonPropertyName("sweet")]
-        public bool? Sweet { get { return this. SweetOption; } set { this.SweetOption = new(value); } }
+        public bool? Sweet { get { return this.SweetOption; } set { this.SweetOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

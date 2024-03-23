@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Kind
         /// </summary>
         [JsonPropertyName("kind")]
-        public string? Kind { get { return this. KindOption; } set { this.KindOption = new(value); } }
+        public string? Kind { get { return this.KindOption; } set { this.KindOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

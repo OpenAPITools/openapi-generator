@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of PoopCleaning from a JSON string
 poop_cleaning_instance = PoopCleaning.from_json(json)
 # print the JSON string representation of the object
-print PoopCleaning.to_json()
+print(PoopCleaning.to_json())
 
 # convert the object into a dict
 poop_cleaning_dict = poop_cleaning_instance.to_dict()

@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MainShape
         /// </summary>
         [JsonPropertyName("mainShape")]
-        public Shape? MainShape { get { return this. MainShapeOption; } set { this.MainShapeOption = new(value); } }
+        public Shape? MainShape { get { return this.MainShapeOption; } set { this.MainShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of NullableShape
@@ -74,7 +74,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets NullableShape
         /// </summary>
         [JsonPropertyName("nullableShape")]
-        public NullableShape? NullableShape { get { return this. NullableShapeOption; } set { this.NullableShapeOption = new(value); } }
+        public NullableShape? NullableShape { get { return this.NullableShapeOption; } set { this.NullableShapeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of ShapeOrNull
@@ -87,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets ShapeOrNull
         /// </summary>
         [JsonPropertyName("shapeOrNull")]
-        public ShapeOrNull? ShapeOrNull { get { return this. ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } }
+        public ShapeOrNull? ShapeOrNull { get { return this.ShapeOrNullOption; } set { this.ShapeOrNullOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Shapes
@@ -100,7 +100,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Shapes
         /// </summary>
         [JsonPropertyName("shapes")]
-        public List<Shape>? Shapes { get { return this. ShapesOption; } set { this.ShapesOption = new(value); } }
+        public List<Shape>? Shapes { get { return this.ShapesOption; } set { this.ShapesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

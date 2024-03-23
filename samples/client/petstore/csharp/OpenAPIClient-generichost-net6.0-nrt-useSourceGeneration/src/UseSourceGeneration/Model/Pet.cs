@@ -174,7 +174,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Category
         /// </summary>
         [JsonPropertyName("category")]
-        public Category? Category { get { return this. CategoryOption; } set { this.CategoryOption = new(value); } }
+        public Category? Category { get { return this.CategoryOption; } set { this.CategoryOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -187,7 +187,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
+        public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Tags
@@ -200,7 +200,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Tags
         /// </summary>
         [JsonPropertyName("tags")]
-        public List<Tag>? Tags { get { return this. TagsOption; } set { this.TagsOption = new(value); } }
+        public List<Tag>? Tags { get { return this.TagsOption; } set { this.TagsOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

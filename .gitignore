@@ -8,6 +8,7 @@ out/
 *.gpg
 classpath.txt
 version.properties
+modules/openapi-generator-maven-plugin/src/test/resources/default/_merged_spec.yaml
 modules/openapi-generator-gradle-plugin/bin/
 !modules/openapi-generator-cli/src/main/resources/version.properties
 .project
@@ -179,7 +180,7 @@ samples/client/petstore/python/swagger_client.egg-info/SOURCES.txt
 samples/client/petstore/python/.coverage
 samples/client/petstore/python/.projectile
 samples/client/petstore/python-asyncio/.pytest_cache/
-
+**/poetry.lock
 
 # PHP
 samples/client/petstore/php/OpenAPIClient-php/composer.lock
@@ -282,3 +283,6 @@ samples/openapi3/client/petstore/go/privatekey.pem
 
 ## OCaml
 samples/client/petstore/ocaml/_build/
+
+# jetbrain http client
+samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json

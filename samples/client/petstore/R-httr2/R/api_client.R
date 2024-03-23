@@ -312,7 +312,11 @@ ApiClient  <- R6::R6Class(
         api_response <- ApiResponse$new()
         api_response$status_code <- resp %>% resp_status()
         api_response$status_code_desc <- resp %>% resp_status_desc()
-        api_response$response <- resp %>% resp_body_raw()
+        if (length(resp$body) == 0) {
+          api_response$response <- NULL
+        } else {
+          api_response$response <- resp %>% resp_body_raw()
+        }
         api_response$headers <- resp %>% resp_headers()
 
         api_response

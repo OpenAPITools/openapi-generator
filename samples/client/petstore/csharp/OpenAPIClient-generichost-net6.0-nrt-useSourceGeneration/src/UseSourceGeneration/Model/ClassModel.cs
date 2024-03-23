@@ -35,28 +35,28 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="ClassModel" /> class.
         /// </summary>
-        /// <param name="varClass">varClass</param>
+        /// <param name="class">class</param>
         [JsonConstructor]
-        public ClassModel(Option<string?> varClass = default)
+        public ClassModel(Option<string?> @class = default)
         {
-            VarClassOption = varClass;
+            ClassOption = @class;
             OnCreated();
         }
 
         partial void OnCreated();
 
         /// <summary>
-        /// Used to track the state of VarClass
+        /// Used to track the state of Class
         /// </summary>
         [JsonIgnore]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public Option<string?> VarClassOption { get; private set; }
+        public Option<string?> ClassOption { get; private set; }
 
         /// <summary>
-        /// Gets or Sets VarClass
+        /// Gets or Sets Class
         /// </summary>
         [JsonPropertyName("_class")]
-        public string? VarClass { get { return this. VarClassOption; } set { this.VarClassOption = new(value); } }
+        public string? Class { get { return this.ClassOption; } set { this.ClassOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,7 +72,7 @@ namespace UseSourceGeneration.Model
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("class ClassModel {\n");
-            sb.Append("  VarClass: ").Append(VarClass).Append("\n");
+            sb.Append("  Class: ").Append(Class).Append("\n");
             sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
@@ -167,11 +167,11 @@ namespace UseSourceGeneration.Model
         /// <exception cref="NotImplementedException"></exception>
         public void WriteProperties(ref Utf8JsonWriter writer, ClassModel classModel, JsonSerializerOptions jsonSerializerOptions)
         {
-            if (classModel.VarClassOption.IsSet && classModel.VarClass == null)
-                throw new ArgumentNullException(nameof(classModel.VarClass), "Property is required for class ClassModel.");
+            if (classModel.ClassOption.IsSet && classModel.Class == null)
+                throw new ArgumentNullException(nameof(classModel.Class), "Property is required for class ClassModel.");
 
-            if (classModel.VarClassOption.IsSet)
-                writer.WriteString("_class", classModel.VarClass);
+            if (classModel.ClassOption.IsSet)
+                writer.WriteString("_class", classModel.Class);
         }
     }
 

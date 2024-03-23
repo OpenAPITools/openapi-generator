@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of DiscriminatorAllOfSuper from a JSON string
 discriminator_all_of_super_instance = DiscriminatorAllOfSuper.from_json(json)
 # print the JSON string representation of the object
-print DiscriminatorAllOfSuper.to_json()
+print(DiscriminatorAllOfSuper.to_json())
 
 # convert the object into a dict
 discriminator_all_of_super_dict = discriminator_all_of_super_instance.to_dict()

@@ -1351,7 +1351,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     values.add((String) enumVar.get("value"));
                 }
             }
-            return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+            return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
         } else*/
         if (cp.isArray) {
             String constraints = "";

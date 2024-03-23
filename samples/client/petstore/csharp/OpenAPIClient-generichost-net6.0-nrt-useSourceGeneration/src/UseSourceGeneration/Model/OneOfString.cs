@@ -127,9 +127,6 @@ namespace UseSourceGeneration.Model
             if (varString != null)
                 return new OneOfString(varString);
 
-            if (varString != null)
-                return new OneOfString(varString);
-
             throw new JsonException();
         }
 
