@@ -44,6 +44,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |withNodeImports|Setting this property to true adds imports for NodeJS| |false|
 |withSeparateModelsAndApi|Put the model and api in separate folders and in separate classes. This requires in addition a value for 'apiPackage' and 'modelPackage'| |false|
 |withoutPrefixEnums|Don't prefix enum names with class names| |false|
+|withAWSV4Signature|whether to include AWS v4 signature support| |false|
 
 ## IMPORT MAPPING
 
@@ -265,7 +266,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 |OAuth2_ClientCredentials|✗|OAS2,OAS3
 |OAuth2_AuthorizationCode|✗|OAS2,OAS3
 |SignatureAuth|✗|OAS3
-|AWSV4Signature|✗|ToolingExtension
+|AWSV4Signature|✓|ToolingExtension
 
 ### Wire Format Feature
 | Name | Supported | Defined By |
