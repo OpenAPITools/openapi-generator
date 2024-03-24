@@ -3,13 +3,13 @@ name: Samples C# .Net 8 Clients
 on:
   push:
     paths:
-      - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**
+      - samples/client/petstore/csharp/generichost/net8/OpenAPIClient-generichost-manual-tests/**
       - samples/client/petstore/csharp/*net6.0*/**
       - samples/client/petstore/csharp/*net7.0*/**
       - samples/client/petstore/csharp/OpenAPIClient-*latest*/**
   pull_request:
     paths:
-      - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**
+      - samples/client/petstore/csharp/generichost/net8/OpenAPIClient-generichost-manual-tests/**
       - samples/client/petstore/csharp/*net6.0*/**
       - samples/client/petstore/csharp/*net7.0*/**
       - samples/client/petstore/csharp/OpenAPIClient-*latest*/**
@@ -22,7 +22,7 @@ jobs:
       matrix:
         sample:
           # clients
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests
+          - samples/client/petstore/csharp/generichost/net8/OpenAPIClient-generichost-manual-tests
           - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0
           - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0-nrt
           - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0-nrt-useSourceGeneration
