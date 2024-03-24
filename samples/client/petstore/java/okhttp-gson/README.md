@@ -234,6 +234,7 @@ Class | Method | HTTP request | Description
  - [OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
+ - [PetComposition](docs/PetComposition.md)
  - [PetUsingAllOf](docs/PetUsingAllOf.md)
  - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)

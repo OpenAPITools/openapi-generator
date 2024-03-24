@@ -19,6 +19,7 @@ package org.openapitools.codegen.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -2066,6 +2067,26 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns a clone of the schema.
+     *
+     * @param schema the schema.
+     * @param specVersionGreaterThanOrEqualTo310 true if spec version is 3.1.0 or later.
+     * @return a clone of the schema.
+     */
+    public static Schema cloneSchema(Schema schema, boolean specVersionGreaterThanOrEqualTo310) {
+        Schema clone = AnnotationsUtils.clone(schema, specVersionGreaterThanOrEqualTo310);
+
+        // check to see if type is set and clone it if needed
+        // in openapi-generator, we also store type in `type` for 3.1 schema
+        // to make it backward compatible with the rest of the code base.
+        if (schema.getType() != null) {
+            clone.setType(schema.getType());
+        }
+
+        return clone;
     }
 
     @FunctionalInterface

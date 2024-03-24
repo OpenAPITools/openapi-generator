@@ -2950,7 +2950,7 @@ public class DefaultCodegen implements CodegenConfig {
             newProperties.forEach((key, value) ->
                     existingProperties.put(
                             key,
-                            AnnotationsUtils.clone(value, specVersionGreaterThanOrEqualTo310(openAPI))
+                            ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI))
                     ));
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {

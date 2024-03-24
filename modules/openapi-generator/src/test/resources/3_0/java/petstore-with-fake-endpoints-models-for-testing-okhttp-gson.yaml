@@ -2652,3 +2652,6 @@ components:
             - available
             - pending
             - sold
+    PetComposition:
+      allOf:
+        - $ref: '#/components/schemas/Pet'

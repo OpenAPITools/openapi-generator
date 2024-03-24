@@ -2688,6 +2688,9 @@ components:
       - name
       - photoUrls
       type: object
+    PetComposition:
+      allOf:
+      - $ref: '#/components/schemas/Pet'
     _foo_get_default_response:
       example:
         string:
