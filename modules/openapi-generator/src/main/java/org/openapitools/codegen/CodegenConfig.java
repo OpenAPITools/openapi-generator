@@ -360,4 +360,6 @@ public interface CodegenConfig {
 
     Set<String> getOpenAPIGeneratorIgnoreList();
 
+    void setApplyCamelizeFix(boolean applyCamelizeFix);
+
 }

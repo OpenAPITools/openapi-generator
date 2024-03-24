@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -255,6 +256,13 @@ public class DefaultGenerator implements Generator {
             // We fall to this block only if debugOpenAPI is null. No need to dump this twice.
             LOGGER.info("Please use system property 'debugOpenAPI' instead of 'debugSwagger'.");
             System.out.println(SerializerUtils.toJsonString(openAPI));
+        }
+
+        // check to see if we need to apply camelize fix
+        if (config.additionalProperties().containsKey("applyCamelizeFix")) {
+            org.openapitools.codegen.utils.StringUtils.applyCamelizeFix =
+                    Boolean.parseBoolean(String.valueOf(config.additionalProperties().get("applyCamelizeFix")));
+            config.setApplyCamelizeFix(true);
         }
 
         config.processOpts();

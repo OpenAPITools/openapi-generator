@@ -29,6 +29,9 @@ public class StringUtils {
      */
     public static final String NAME_CACHE_EXPIRY_PROPERTY = "org.openapitools.codegen.utils.namecache.expireafter.seconds";
 
+    // if set true, enable the camelize fix
+    public static boolean applyCamelizeFix = false;
+
     // A cache of camelized words. The camelize() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
     private static Cache<Pair<String, CamelizeOption>, String> camelizedWordsCache;
@@ -38,6 +41,8 @@ public class StringUtils {
 
     // A cache of escaped words, used to optimize the performance of the escape() method.
     private static Cache<EscapedNameOptions, String> escapedWordsCache;
+
+
 
     static {
         int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
@@ -59,6 +64,7 @@ public class StringUtils {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
+
     }
 
     private static Pattern capitalLetterPattern = Pattern.compile("([A-Z]+)([A-Z][a-z][a-z]+)");
@@ -137,9 +143,9 @@ public class StringUtils {
             String word = pair.getKey();
             CamelizeOption option = pair.getValue();
 
-            // Lowercase acronyms at start of word if not UPPERCASE_FIRST_CHAR
             Matcher m;
-            if (Boolean.parseBoolean(System.getProperty("openapi.generator.fix.camelize"))) {
+            // Lowercase acronyms at start of word if not UPPERCASE_FIRST_CHAR
+            if (applyCamelizeFix) {
                 m = camelizeUppercaseStartPattern.matcher(word);
                 if (camelizeOption != UPPERCASE_FIRST_CHAR && m.find()) {
                     word = m.group(1).toLowerCase(Locale.ROOT) + m.group(2);

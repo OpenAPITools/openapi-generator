@@ -317,6 +317,9 @@ public class DefaultCodegen implements CodegenConfig {
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     protected boolean autosetConstants = false;
 
+    // when set to true, apply camelization fix
+    protected boolean applyCamelizeFix = false;
+
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
     }
@@ -6182,7 +6185,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
         if (Boolean.parseBoolean(System.getProperty("openapi.generator.fix.camelize"))) {
-            // new bebahviour with fix
+            // new behaviour with fix
             String[] splitString = name.split(nonNameElementPattern);
 
             if (splitString.length > 0) {
@@ -8518,6 +8521,8 @@ public class DefaultCodegen implements CodegenConfig {
     public void setAutosetConstants(boolean autosetConstants) {
         this.autosetConstants = autosetConstants;
     }
+
+    public void setApplyCamelizeFix(boolean applyCamelizeFix) { this.applyCamelizeFix = applyCamelizeFix; }
 
     /**
      * This method removes all constant Query, Header and Cookie Params from allParams and sets them as constantParams in the CodegenOperation.
