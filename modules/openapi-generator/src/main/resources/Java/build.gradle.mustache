@@ -149,8 +149,8 @@ dependencies {
     implementation "jakarta.validation:jakarta.validation-api:$bean_validation_version"
     {{/useBeanValidation}}
     testImplementation "junit:junit:$junit_version"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:$junit_version'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:$junit_version'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit_version"
 }
 
 test {
