@@ -59,6 +59,10 @@ import kotlinx.serialization.*
 {{/imports}}
 
 {{#operations}}
+{{#x-koltin-import-models}}
+import {{{packageName}}}.models.*
+
+{{/x-koltin-import-models}}
 {{#x-kotlin-multipart-import}}
 {{^isMultipart}}
 import okhttp3.MultipartBody

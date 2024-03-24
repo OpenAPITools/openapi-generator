@@ -62,7 +62,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets DateTime
         /// </summary>
         [JsonPropertyName("dateTime")]
-        public DateTime? DateTime { get { return this. DateTimeOption; } set { this.DateTimeOption = new(value); } }
+        public DateTime? DateTime { get { return this.DateTimeOption; } set { this.DateTimeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Map
@@ -75,7 +75,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Map
         /// </summary>
         [JsonPropertyName("map")]
-        public Dictionary<string, Animal>? Map { get { return this. MapOption; } set { this.MapOption = new(value); } }
+        public Dictionary<string, Animal>? Map { get { return this.MapOption; } set { this.MapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -88,7 +88,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public Guid? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
+        public Guid? Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of UuidWithPattern
@@ -101,7 +101,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets UuidWithPattern
         /// </summary>
         [JsonPropertyName("uuid_with_pattern")]
-        public Guid? UuidWithPattern { get { return this. UuidWithPatternOption; } set { this.UuidWithPatternOption = new(value); } }
+        public Guid? UuidWithPattern { get { return this.UuidWithPatternOption; } set { this.UuidWithPatternOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

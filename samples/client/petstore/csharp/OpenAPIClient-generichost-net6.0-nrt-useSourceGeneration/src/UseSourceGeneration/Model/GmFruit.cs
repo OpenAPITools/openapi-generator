@@ -83,7 +83,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Color
         /// </summary>
         [JsonPropertyName("color")]
-        public string? Color { get { return this. ColorOption; } set { this.ColorOption = new(value); } }
+        public string? Color { get { return this.ColorOption; } set { this.ColorOption = new(value); } }
 
         /// <summary>
         /// Returns the string presentation of the object

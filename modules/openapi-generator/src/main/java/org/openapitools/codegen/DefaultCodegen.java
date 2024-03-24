@@ -2059,7 +2059,11 @@ public class DefaultCodegen implements CodegenConfig {
         if (ModelUtils.isMapSchema(schema)) {
             Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
-            return instantiationTypes.get("map") + "<String, " + inner + ">";
+            String mapInstantion = instantiationTypes.get("map");
+            if (mapInstantion != null) {
+                return mapInstantion + "<String, " + inner + ">";
+            }
+            return inner;
         } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(getSchemaItems(arraySchema));
@@ -2946,7 +2950,7 @@ public class DefaultCodegen implements CodegenConfig {
             newProperties.forEach((key, value) ->
                     existingProperties.put(
                             key,
-                            AnnotationsUtils.clone(value, specVersionGreaterThanOrEqualTo310(openAPI))
+                            ModelUtils.cloneSchema(value, specVersionGreaterThanOrEqualTo310(openAPI))
                     ));
             if (null != existingType && null != newType && null != newType.getEnum() && !newType.getEnum().isEmpty()) {
                 for (Object e : newType.getEnum()) {
@@ -4728,7 +4732,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> notNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
-        RequestBody requestBody = operation.getRequestBody();
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
             if (contentType != null) {
@@ -4752,8 +4756,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
-
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");

@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets File
         /// </summary>
         [JsonPropertyName("file")]
-        public File? File { get { return this. FileOption; } set { this.FileOption = new(value); } }
+        public File? File { get { return this.FileOption; } set { this.FileOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Files
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Files
         /// </summary>
         [JsonPropertyName("files")]
-        public List<File>? Files { get { return this. FilesOption; } set { this.FilesOption = new(value); } }
+        public List<File>? Files { get { return this.FilesOption; } set { this.FilesOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

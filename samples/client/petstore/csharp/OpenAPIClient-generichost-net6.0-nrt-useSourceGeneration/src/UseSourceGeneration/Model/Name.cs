@@ -68,7 +68,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Property
         /// </summary>
         [JsonPropertyName("property")]
-        public string? Property { get { return this. PropertyOption; } set { this.PropertyOption = new(value); } }
+        public string? Property { get { return this.PropertyOption; } set { this.PropertyOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SnakeCase
@@ -81,7 +81,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets SnakeCase
         /// </summary>
         [JsonPropertyName("snake_case")]
-        public int? SnakeCase { get { return this. SnakeCaseOption; } }
+        public int? SnakeCase { get { return this.SnakeCaseOption; } }
 
         /// <summary>
         /// Used to track the state of Var123Number
@@ -94,7 +94,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Var123Number
         /// </summary>
         [JsonPropertyName("123Number")]
-        public int? Var123Number { get { return this. Var123NumberOption; } }
+        public int? Var123Number { get { return this.Var123NumberOption; } }
 
         /// <summary>
         /// Gets or Sets additional properties

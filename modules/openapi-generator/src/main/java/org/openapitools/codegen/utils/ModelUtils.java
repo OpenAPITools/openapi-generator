@@ -19,6 +19,7 @@ package org.openapitools.codegen.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -717,6 +718,31 @@ public class ModelUtils {
         // format: number
         return SchemaTypeUtil.STRING_TYPE.equals(schema.getType()) // type: string
                 && "number".equals(schema.getFormat());
+    }
+
+    /**
+     * Returns true if the class defined by the schema cannot be used with bean validation annotations
+     * E.g. The UUID is defined in the schema as follows:
+     * <pre>{@code
+     *   type: string,
+     *   format: uuid,
+     *   pattern: "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$"
+     *   maxLength: 36
+     * }</pre>
+     * (`pattern` and `maxLength` are required when using security tools like 42Crunch)
+     * If we wrap it into a container (e.g. array), the generator would create something like this:
+     * <pre>{@code List<@Pattern(regexp = "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$")@Size(max = 36)UUID>}</pre>
+     * This causes a compilation error because the @Pattern and @Size annotations cannot be used on UUID
+     *
+     * @param schema containing at least 'type' and optionally 'format'
+     * @return true if the class defined by the schema cannot be used with bean validation annotations
+     */
+    public static boolean shouldIgnoreBeanValidation(Schema schema) {
+        return ModelUtils.isByteArraySchema(schema) ||
+                ModelUtils.isBinarySchema(schema) ||
+                ModelUtils.isUUIDSchema(schema) ||
+                ModelUtils.isURISchema(schema);
+
     }
 
     /**
@@ -2041,6 +2067,26 @@ public class ModelUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Returns a clone of the schema.
+     *
+     * @param schema the schema.
+     * @param specVersionGreaterThanOrEqualTo310 true if spec version is 3.1.0 or later.
+     * @return a clone of the schema.
+     */
+    public static Schema cloneSchema(Schema schema, boolean specVersionGreaterThanOrEqualTo310) {
+        Schema clone = AnnotationsUtils.clone(schema, specVersionGreaterThanOrEqualTo310);
+
+        // check to see if type is set and clone it if needed
+        // in openapi-generator, we also store type in `type` for 3.1 schema
+        // to make it backward compatible with the rest of the code base.
+        if (schema.getType() != null) {
+            clone.setType(schema.getType());
+        }
+
+        return clone;
     }
 
     @FunctionalInterface

@@ -1121,11 +1121,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      * Returns the model related to the given parameter
      */
     private CodegenModel getModelFromParameter(HashMap<String, CodegenModel> allModels, CodegenParameter parameter) {
-        if (parameter.isModel || parameter.getIsEnumOrRef()) {
-            return allModels.getOrDefault(parameter.dataType, null);
-        } else {
-            return null;
-        }
+        return allModels.getOrDefault(parameter.dataType, null);
     }
 
     /**

@@ -128,7 +128,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets DirectMap
         /// </summary>
         [JsonPropertyName("direct_map")]
-        public Dictionary<string, bool>? DirectMap { get { return this. DirectMapOption; } set { this.DirectMapOption = new(value); } }
+        public Dictionary<string, bool>? DirectMap { get { return this.DirectMapOption; } set { this.DirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of IndirectMap
@@ -141,7 +141,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets IndirectMap
         /// </summary>
         [JsonPropertyName("indirect_map")]
-        public Dictionary<string, bool>? IndirectMap { get { return this. IndirectMapOption; } set { this.IndirectMapOption = new(value); } }
+        public Dictionary<string, bool>? IndirectMap { get { return this.IndirectMapOption; } set { this.IndirectMapOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapMapOfString
@@ -154,7 +154,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets MapMapOfString
         /// </summary>
         [JsonPropertyName("map_map_of_string")]
-        public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get { return this. MapMapOfStringOption; } set { this.MapMapOfStringOption = new(value); } }
+        public Dictionary<string, Dictionary<string, string>>? MapMapOfString { get { return this.MapMapOfStringOption; } set { this.MapMapOfStringOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of MapOfEnumString
@@ -167,7 +167,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets MapOfEnumString
         /// </summary>
         [JsonPropertyName("map_of_enum_string")]
-        public Dictionary<string, MapTest.InnerEnum>? MapOfEnumString { get { return this. MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new(value); } }
+        public Dictionary<string, MapTest.InnerEnum>? MapOfEnumString { get { return this.MapOfEnumStringOption; } set { this.MapOfEnumStringOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

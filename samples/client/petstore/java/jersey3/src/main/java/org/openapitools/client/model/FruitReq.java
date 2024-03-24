@@ -26,6 +26,8 @@ import java.util.Arrays;
 import org.openapitools.client.model.AppleReq;
 import org.openapitools.client.model.BananaReq;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.type.TypeReference;

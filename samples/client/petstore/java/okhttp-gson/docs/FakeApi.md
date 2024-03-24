@@ -8,6 +8,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 | [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite |  |
 | [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number |  |
 | [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string |  |
+| [**fakeUploadRefRequestBodies**](FakeApi.md#fakeUploadRefRequestBodies) | **POST** /fake/pet/{petId}/uploadImage | fake uploads an image with ref request bodies |
 | [**getFakeArrayofenums**](FakeApi.md#getFakeArrayofenums) | **GET** /fake/array-of-enums | Array of Enums |
 | [**getFakeHealth**](FakeApi.md#getFakeHealth) | **GET** /fake/health | Health check endpoint |
 | [**getParameterNameMapping**](FakeApi.md#getParameterNameMapping) | **GET** /fake/parameter-name-mapping | parameter name mapping test |
@@ -272,6 +273,77 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
+
+<a id="fakeUploadRefRequestBodies"></a>
+# **fakeUploadRefRequestBodies**
+> ModelApiResponse fakeUploadRefRequestBodies(petId, additionalMetadata, _file)
+
+fake uploads an image with ref request bodies
+
+
+
+### Example
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    
+    // Configure OAuth2 access token for authorization: petstore_auth
+    OAuth petstore_auth = (OAuth) defaultClient.getAuthentication("petstore_auth");
+    petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
+
+    FakeApi apiInstance = new FakeApi(defaultClient);
+    Long petId = 56L; // Long | ID of pet to update
+    String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
+    File _file = new File("/path/to/file"); // File | file to upload
+    try {
+      ModelApiResponse result = apiInstance.fakeUploadRefRequestBodies(petId, additionalMetadata, _file);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling FakeApi#fakeUploadRefRequestBodies");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **petId** | **Long**| ID of pet to update | |
+| **additionalMetadata** | **String**| Additional data to pass to server | [optional] |
+| **_file** | **File**| file to upload | [optional] |
+
+### Return type
+
+[**ModelApiResponse**](ModelApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 <a id="getFakeArrayofenums"></a>
 # **getFakeArrayofenums**

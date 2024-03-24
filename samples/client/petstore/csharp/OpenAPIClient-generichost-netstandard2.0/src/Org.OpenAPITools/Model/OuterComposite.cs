@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyBoolean
         /// </summary>
         [JsonPropertyName("my_boolean")]
-        public bool? MyBoolean { get { return this. MyBooleanOption; } set { this.MyBooleanOption = new Option<bool?>(value); } }
+        public bool? MyBoolean { get { return this.MyBooleanOption; } set { this.MyBooleanOption = new Option<bool?>(value); } }
 
         /// <summary>
         /// Used to track the state of MyNumber
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyNumber
         /// </summary>
         [JsonPropertyName("my_number")]
-        public decimal? MyNumber { get { return this. MyNumberOption; } set { this.MyNumberOption = new Option<decimal?>(value); } }
+        public decimal? MyNumber { get { return this.MyNumberOption; } set { this.MyNumberOption = new Option<decimal?>(value); } }
 
         /// <summary>
         /// Used to track the state of MyString
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MyString
         /// </summary>
         [JsonPropertyName("my_string")]
-        public string MyString { get { return this. MyStringOption; } set { this.MyStringOption = new Option<string>(value); } }
+        public string MyString { get { return this.MyStringOption; } set { this.MyStringOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Id
         /// </summary>
         [JsonPropertyName("id")]
-        public long? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
+        public long? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets Name

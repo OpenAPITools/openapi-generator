@@ -57,7 +57,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Code
         /// </summary>
         [JsonPropertyName("code")]
-        public int? Code { get { return this. CodeOption; } set { this.CodeOption = new Option<int?>(value); } }
+        public int? Code { get { return this.CodeOption; } set { this.CodeOption = new Option<int?>(value); } }
 
         /// <summary>
         /// Used to track the state of Message
@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Message
         /// </summary>
         [JsonPropertyName("message")]
-        public string Message { get { return this. MessageOption; } set { this.MessageOption = new Option<string>(value); } }
+        public string Message { get { return this.MessageOption; } set { this.MessageOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of Type
@@ -83,7 +83,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Type
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get { return this. TypeOption; } set { this.TypeOption = new Option<string>(value); } }
+        public string Type { get { return this.TypeOption; } set { this.TypeOption = new Option<string>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

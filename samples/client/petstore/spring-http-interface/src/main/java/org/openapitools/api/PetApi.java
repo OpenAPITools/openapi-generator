@@ -34,7 +34,7 @@ public interface PetApi {
     @HttpExchange(
         method = "POST",
         value = "/pet",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> addPet(
@@ -54,7 +54,7 @@ public interface PetApi {
     @HttpExchange(
         method = "DELETE",
         value = "/pet/{petId}",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     ResponseEntity<Void> deletePet(
          @PathVariable("petId") Long petId,
@@ -73,7 +73,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByStatus",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     ResponseEntity<List<PetDto>> findPetsByStatus(
          @RequestParam(value = "status", required = true) List<String> status
@@ -93,7 +93,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/findByTags",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     ResponseEntity<Set<PetDto>> findPetsByTags(
          @RequestParam(value = "tags", required = true) Set<String> tags
@@ -112,7 +112,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/pet/{petId}",
-        accept = "application/json,application/xml"
+        accept = { "application/json", "application/xml" }
     )
     ResponseEntity<PetDto> getPetById(
          @PathVariable("petId") Long petId
@@ -128,7 +128,7 @@ public interface PetApi {
     @HttpExchange(
         method = "GET",
         value = "/fake/{petId}/response-object-different-names",
-        accept = "application/json"
+        accept = { "application/json" }
     )
     ResponseEntity<ResponseObjectWithDifferentFieldNamesDto> responseObjectDifferentNames(
          @PathVariable("petId") Long petId
@@ -148,7 +148,7 @@ public interface PetApi {
     @HttpExchange(
         method = "PUT",
         value = "/pet",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/json"
     )
     ResponseEntity<Void> updatePet(
@@ -168,7 +168,7 @@ public interface PetApi {
     @HttpExchange(
         method = "POST",
         value = "/pet/{petId}",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "application/x-www-form-urlencoded"
     )
     ResponseEntity<Void> updatePetWithForm(
@@ -190,7 +190,7 @@ public interface PetApi {
     @HttpExchange(
         method = "POST",
         value = "/pet/{petId}/uploadImage",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "multipart/form-data"
     )
     ResponseEntity<ApiResponseDto> uploadFile(
@@ -212,7 +212,7 @@ public interface PetApi {
     @HttpExchange(
         method = "POST",
         value = "/fake/{petId}/uploadImageWithRequiredFile",
-        accept = "application/json",
+        accept = { "application/json" },
         contentType = "multipart/form-data"
     )
     ResponseEntity<ApiResponseDto> uploadFileWithRequiredFile(

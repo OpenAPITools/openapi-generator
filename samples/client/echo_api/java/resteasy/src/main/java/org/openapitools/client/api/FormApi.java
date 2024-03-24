@@ -7,6 +7,7 @@ import org.openapitools.client.Pair;
 
 import javax.ws.rs.core.GenericType;
 
+import org.openapitools.client.model.TestFormObjectMultipartRequestMarker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,6 +72,51 @@ if (stringForm != null)
 
     final String[] localVarContentTypes = {
       "application/x-www-form-urlencoded"
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<String> localVarReturnType = new GenericType<String>() {};
+    return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+      }
+  /**
+   * Test form parameter(s) for multipart schema
+   * Test form parameter(s) for multipart schema
+   * @param marker  (required)
+   * @return a {@code String}
+   * @throws ApiException if fails to make API call
+   */
+  public String testFormObjectMultipart(TestFormObjectMultipartRequestMarker marker) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'marker' is set
+    if (marker == null) {
+      throw new ApiException(400, "Missing the required parameter 'marker' when calling testFormObjectMultipart");
+    }
+    
+    // create path and map variables
+    String localVarPath = "/form/object/multipart".replaceAll("\\{format\\}","json");
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    if (marker != null)
+      localVarFormParams.put("marker", marker);
+
+    final String[] localVarAccepts = {
+      "text/plain"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      "multipart/form-data"
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 

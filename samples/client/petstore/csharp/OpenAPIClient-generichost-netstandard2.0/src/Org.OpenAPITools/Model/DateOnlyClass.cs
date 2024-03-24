@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <example>Fri Jul 21 00:00:00 UTC 2017</example>
         [JsonPropertyName("dateOnlyProperty")]
-        public DateTime? DateOnlyProperty { get { return this. DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new Option<DateTime?>(value); } }
+        public DateTime? DateOnlyProperty { get { return this.DateOnlyPropertyOption; } set { this.DateOnlyPropertyOption = new Option<DateTime?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

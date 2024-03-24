@@ -64,7 +64,7 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         /// <value>Name of the pet </value>
         [JsonPropertyName("ATT_NAME")]
-        public string ATT_NAME { get { return this. ATT_NAMEOption; } set { this.ATT_NAMEOption = new(value); } }
+        public string ATT_NAME { get { return this.ATT_NAMEOption; } set { this.ATT_NAMEOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of CapitalCamel
@@ -77,7 +77,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalCamel
         /// </summary>
         [JsonPropertyName("CapitalCamel")]
-        public string CapitalCamel { get { return this. CapitalCamelOption; } set { this.CapitalCamelOption = new(value); } }
+        public string CapitalCamel { get { return this.CapitalCamelOption; } set { this.CapitalCamelOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of CapitalSnake
@@ -90,7 +90,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets CapitalSnake
         /// </summary>
         [JsonPropertyName("Capital_Snake")]
-        public string CapitalSnake { get { return this. CapitalSnakeOption; } set { this.CapitalSnakeOption = new(value); } }
+        public string CapitalSnake { get { return this.CapitalSnakeOption; } set { this.CapitalSnakeOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SCAETHFlowPoints
@@ -103,7 +103,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
         [JsonPropertyName("SCA_ETH_Flow_Points")]
-        public string SCAETHFlowPoints { get { return this. SCAETHFlowPointsOption; } set { this.SCAETHFlowPointsOption = new(value); } }
+        public string SCAETHFlowPoints { get { return this.SCAETHFlowPointsOption; } set { this.SCAETHFlowPointsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SmallCamel
@@ -116,7 +116,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallCamel
         /// </summary>
         [JsonPropertyName("smallCamel")]
-        public string SmallCamel { get { return this. SmallCamelOption; } set { this.SmallCamelOption = new(value); } }
+        public string SmallCamel { get { return this.SmallCamelOption; } set { this.SmallCamelOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of SmallSnake
@@ -129,7 +129,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SmallSnake
         /// </summary>
         [JsonPropertyName("small_Snake")]
-        public string SmallSnake { get { return this. SmallSnakeOption; } set { this.SmallSnakeOption = new(value); } }
+        public string SmallSnake { get { return this.SmallSnakeOption; } set { this.SmallSnakeOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

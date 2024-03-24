@@ -58,7 +58,7 @@ public interface AnotherFakeApi {
     @RequestMapping(
         method = RequestMethod.PATCH,
         value = "/another-fake/dummy",
-        produces = "application/json",
+        produces = { "application/json" },
         consumes = "application/json"
     )
     

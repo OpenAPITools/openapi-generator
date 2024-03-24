@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets VarSpecialModelName
         /// </summary>
         [JsonPropertyName("_special_model.name_")]
-        public string VarSpecialModelName { get { return this. VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new Option<string>(value); } }
+        public string VarSpecialModelName { get { return this.VarSpecialModelNameOption; } set { this.VarSpecialModelNameOption = new Option<string>(value); } }
 
         /// <summary>
         /// Used to track the state of SpecialPropertyName
@@ -68,7 +68,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets SpecialPropertyName
         /// </summary>
         [JsonPropertyName("$special[property.name]")]
-        public long? SpecialPropertyName { get { return this. SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new Option<long?>(value); } }
+        public long? SpecialPropertyName { get { return this.SpecialPropertyNameOption; } set { this.SpecialPropertyNameOption = new Option<long?>(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -63,7 +63,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("bars")]
         [Obsolete]
-        public List<string>? Bars { get { return this. BarsOption; } set { this.BarsOption = new(value); } }
+        public List<string>? Bars { get { return this.BarsOption; } set { this.BarsOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of DeprecatedRef
@@ -77,7 +77,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("deprecatedRef")]
         [Obsolete]
-        public DeprecatedObject? DeprecatedRef { get { return this. DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } }
+        public DeprecatedObject? DeprecatedRef { get { return this.DeprecatedRefOption; } set { this.DeprecatedRefOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Id
@@ -91,7 +91,7 @@ namespace UseSourceGeneration.Model
         /// </summary>
         [JsonPropertyName("id")]
         [Obsolete]
-        public decimal? Id { get { return this. IdOption; } set { this.IdOption = new(value); } }
+        public decimal? Id { get { return this.IdOption; } set { this.IdOption = new(value); } }
 
         /// <summary>
         /// Used to track the state of Uuid
@@ -104,7 +104,7 @@ namespace UseSourceGeneration.Model
         /// Gets or Sets Uuid
         /// </summary>
         [JsonPropertyName("uuid")]
-        public string? Uuid { get { return this. UuidOption; } set { this.UuidOption = new(value); } }
+        public string? Uuid { get { return this.UuidOption; } set { this.UuidOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets TestCollectionEndingWithWordList
         /// </summary>
         [JsonPropertyName("TestCollectionEndingWithWordList")]
-        public List<TestCollectionEndingWithWordList>? TestCollectionEndingWithWordList { get { return this. TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new(value); } }
+        public List<TestCollectionEndingWithWordList>? TestCollectionEndingWithWordList { get { return this.TestCollectionEndingWithWordListOption; } set { this.TestCollectionEndingWithWordListOption = new(value); } }
 
         /// <summary>
         /// Gets or Sets additional properties

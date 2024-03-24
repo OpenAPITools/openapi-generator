@@ -65,12 +65,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <forkMode>pertest</forkMode>
@@ -374,7 +374,7 @@
         <jodatime-version>2.9.9</jodatime-version>
         {{/joda}}
         {{#useBeanValidation}}
-        <beanvalidation-version>2.0.2</beanvalidation-version>
+        <beanvalidation-version>3.0.2</beanvalidation-version>
         {{/useBeanValidation}}
         {{#performBeanValidation}}
         <hibernate-validator-version>5.4.3.Final</hibernate-validator-version>
