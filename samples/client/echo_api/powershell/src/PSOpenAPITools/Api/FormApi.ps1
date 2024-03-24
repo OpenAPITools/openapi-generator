@@ -155,7 +155,7 @@ function Test-FormObjectMultipart {
         $LocalVarUri = '/form/object/multipart'
 
         if (!$Marker) {
-            throw "Error! The required parameter `Marker` missing when calling testFormObjectMultipart."
+            throw "Error! The required parameter `Marker` missing when calling test_form_object_multipart."
         }
         $LocalVarFormParameters['marker'] = $Marker
 

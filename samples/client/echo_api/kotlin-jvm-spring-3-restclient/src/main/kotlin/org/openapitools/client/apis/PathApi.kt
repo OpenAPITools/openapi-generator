@@ -39,7 +39,7 @@ class PathApi(client: RestClient) : ApiClient(client) {
     /**
      * enum for parameter enumNonrefStringPath
      */
-    enum class EnumNonrefStringPathTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: kotlin.String) {
+    enum class EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(val value: kotlin.String) {
         @JsonProperty(value = "success") success("success"),
         @JsonProperty(value = "failure") failure("failure"),
         @JsonProperty(value = "unclassified") unclassified("unclassified"),
@@ -47,20 +47,20 @@ class PathApi(client: RestClient) : ApiClient(client) {
 
 
     @Throws(RestClientResponseException::class)
-    fun testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): kotlin.String {
-        val result = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
+    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): kotlin.String {
+        val result = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
         return result.body!!
     }
 
     @Throws(RestClientResponseException::class)
-    fun testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): ResponseEntity<kotlin.String> {
-        val localVariableConfig = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
+    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef): ResponseEntity<kotlin.String> {
+        val localVariableConfig = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString = pathString, pathInteger = pathInteger, enumNonrefStringPath = enumNonrefStringPath, enumRefStringPath = enumRefStringPath)
         return request<Unit, kotlin.String>(
             localVariableConfig
         )
     }
 
-    fun testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef) : RequestConfig<Unit> {
+    fun testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestConfig(pathString: kotlin.String, pathInteger: kotlin.Int, enumNonrefStringPath: EnumNonrefStringPathTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath, enumRefStringPath: StringEnumRef) : RequestConfig<Unit> {
         val localVariableBody = null
         val localVariableQuery = mutableMapOf<kotlin.String, kotlin.collections.List<kotlin.String>>()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

@@ -97,8 +97,8 @@ public class PathApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-    ApiResponse<String> localVarResponse = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+    ApiResponse<String> localVarResponse = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
     return localVarResponse.getData();
   }
 
@@ -112,8 +112,8 @@ public class PathApi {
    * @return ApiResponse&lt;String&gt;
    * @throws ApiException if fails to make API call
    */
-  public ApiResponse<String> testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-    HttpRequest.Builder localVarRequestBuilder = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+  public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
           localVarRequestBuilder.build(),
@@ -123,7 +123,7 @@ public class PathApi {
       }
       try {
         if (localVarResponse.statusCode()/ 100 != 2) {
-          throw getApiException("testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", localVarResponse);
+          throw getApiException("testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath", localVarResponse);
         }
         // for plain text response
         if (localVarResponse.headers().map().containsKey("Content-Type") &&
@@ -149,22 +149,22 @@ public class PathApi {
     }
   }
 
-  private HttpRequest.Builder testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+  private HttpRequest.Builder testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequestBuilder(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'enumNonrefStringPath' is set
     if (enumNonrefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     // verify the required parameter 'enumRefStringPath' is set
     if (enumRefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();

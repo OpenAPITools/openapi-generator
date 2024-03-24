@@ -44,14 +44,14 @@ class PathApi:
         self.api_client = api_client
 
     @validate_arguments
-    def tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> str:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> str:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
+        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
@@ -75,19 +75,19 @@ class PathApi:
         """
         kwargs['_return_http_data_only'] = True
         if '_preload_content' in kwargs:
-            message = "Error! Please call the tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
+            message = "Error! Please call the tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info method with `_preload_content` instead and obtain raw data from ApiResponse.raw_data"  # noqa: E501
             raise ValueError(message)
-        return self.tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, **kwargs)  # noqa: E501
+        return self.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, **kwargs)  # noqa: E501
 
     @validate_arguments
-    def tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> ApiResponse:  # noqa: E501
+    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(self, path_string : StrictStr, path_integer : StrictInt, enum_nonref_string_path : StrictStr, enum_ref_string_path : StringEnumRef, **kwargs) -> ApiResponse:  # noqa: E501
         """Test path parameter(s)  # noqa: E501
 
         Test path parameter(s)  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
 
-        >>> thread = api.tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
+        >>> thread = api.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, async_req=True)
         >>> result = thread.get()
 
         :param path_string: (required)
@@ -148,7 +148,7 @@ class PathApi:
             if _key not in _all_params:
                 raise ApiTypeError(
                     "Got an unexpected keyword argument '%s'"
-                    " to method tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path" % _key
+                    " to method tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path" % _key
                 )
             _params[_key] = _val
         del _params['kwargs']

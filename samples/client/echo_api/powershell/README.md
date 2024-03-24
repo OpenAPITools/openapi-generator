@@ -58,17 +58,17 @@ Class | Method | HTTP request | Description
 *BodyApi* | [**Test-BodyApplicationOctetstreamBinary**](docs/BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 *BodyApi* | [**Test-BodyMultipartFormdataArrayOfBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 *BodyApi* | [**Test-BodyMultipartFormdataSingleBinary**](docs/BodyApi.md#Test-BodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
-*BodyApi* | [**Test-EchoBodyAllOfPet**](docs/BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 *BodyApi* | [**Test-EchoBodyFreeFormObjectResponseString**](docs/BodyApi.md#Test-EchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 *BodyApi* | [**Test-EchoBodyPet**](docs/BodyApi.md#Test-EchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 *BodyApi* | [**Test-EchoBodyPetResponseString**](docs/BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
-*BodyApi* | [**Test-EchoBodyStringEnum**](docs/BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *BodyApi* | [**Test-EchoBodyTagResponseString**](docs/BodyApi.md#Test-EchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
+*BodyApi* | [**Test-EchoBodyAllOfPet**](docs/BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
+*BodyApi* | [**Test-EchoBodyStringEnum**](docs/BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
 *FormApi* | [**Test-FormIntegerBooleanString**](docs/FormApi.md#Test-FormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s)
 *FormApi* | [**Test-FormObjectMultipart**](docs/FormApi.md#Test-FormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 *FormApi* | [**Test-FormOneof**](docs/FormApi.md#Test-FormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**Test-HeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#Test-HeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
-*PathApi* | [**Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+*PathApi* | [**Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryApi* | [**Test-EnumRefString**](docs/QueryApi.md#Test-EnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**Test-QueryDatetimeDateString**](docs/QueryApi.md#Test-QueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**Test-QueryIntegerBooleanString**](docs/QueryApi.md#Test-QueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)

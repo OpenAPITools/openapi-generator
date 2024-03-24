@@ -128,7 +128,7 @@ Class | Method | HTTP request | Description
 *FormApi* | [**testFormObjectMultipart**](docs/FormApi.md#testFormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema
 *FormApi* | [**testFormOneof**](docs/FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema
 *HeaderApi* | [**testHeaderIntegerBooleanStringEnums**](docs/HeaderApi.md#testHeaderIntegerBooleanStringEnums) | **GET** /header/integer/boolean/string/enums | Test header parameter(s)
-*PathApi* | [**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+*PathApi* | [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](docs/PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 *QueryApi* | [**testEnumRefString**](docs/QueryApi.md#testEnumRefString) | **GET** /query/enum_ref_string | Test query parameter(s)
 *QueryApi* | [**testQueryDatetimeDateString**](docs/QueryApi.md#testQueryDatetimeDateString) | **GET** /query/datetime/date/string | Test query parameter(s)
 *QueryApi* | [**testQueryIntegerBooleanString**](docs/QueryApi.md#testQueryIntegerBooleanString) | **GET** /query/integer/boolean/string | Test query parameter(s)

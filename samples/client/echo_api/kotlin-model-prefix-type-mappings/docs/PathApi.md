@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+[**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 
 
 
@@ -27,7 +27,7 @@ val enumNonrefStringPath : kotlin.String = enumNonrefStringPath_example // kotli
 val enumRefStringPath : ApiStringEnumRef =  // ApiStringEnumRef | 
 
 launch(Dispatchers.IO) {
-    val result : kotlin.String = webService.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+    val result : kotlin.String = webService.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 }
 ```
 

@@ -196,7 +196,7 @@ function Test-BodyMultipartFormdataArrayOfBinary {
         $LocalVarUri = '/body/application/octetstream/array_of_binary'
 
         if (!$Files) {
-            throw "Error! The required parameter `Files` missing when calling testBodyMultipartFormdataArrayOfBinary."
+            throw "Error! The required parameter `Files` missing when calling test_body_multipart_formdata_arrayOfBinary."
         }
         $LocalVarFormParameters['files'] = $Files
 
@@ -286,80 +286,6 @@ function Test-BodyMultipartFormdataSingleBinary {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "String" `
-                                -IsBodyNullable $false
-
-        if ($WithHttpInfo.IsPresent) {
-            return $LocalVarResult
-        } else {
-            return $LocalVarResult["Response"]
-        }
-    }
-}
-
-<#
-.SYNOPSIS
-
-Test body parameter(s)
-
-.DESCRIPTION
-
-No description available.
-
-.PARAMETER Pet
-Pet object that needs to be added to the store
-
-.PARAMETER WithHttpInfo
-
-A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
-
-.OUTPUTS
-
-Pet
-#>
-function Test-EchoBodyAllOfPet {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [PSCustomObject]
-        ${Pet},
-        [Switch]
-        $WithHttpInfo
-    )
-
-    Process {
-        'Calling method: Test-EchoBodyAllOfPet' | Write-Debug
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
-
-        $LocalVarAccepts = @()
-        $LocalVarContentTypes = @()
-        $LocalVarQueryParameters = @{}
-        $LocalVarHeaderParameters = @{}
-        $LocalVarFormParameters = @{}
-        $LocalVarPathParameters = @{}
-        $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter = $null
-
-        $Configuration = Get-Configuration
-        # HTTP header 'Accept' (if needed)
-        $LocalVarAccepts = @('application/json')
-
-        # HTTP header 'Content-Type'
-        $LocalVarContentTypes = @('application/json')
-
-        $LocalVarUri = '/echo/body/allOf/Pet'
-
-        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
-
-        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
-                                -Uri $LocalVarUri `
-                                -Accepts $LocalVarAccepts `
-                                -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameter `
-                                -HeaderParameters $LocalVarHeaderParameters `
-                                -QueryParameters $LocalVarQueryParameters `
-                                -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "Pet" `
                                 -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
@@ -595,80 +521,6 @@ function Test-EchoBodyPetResponseString {
 <#
 .SYNOPSIS
 
-Test string enum response body
-
-.DESCRIPTION
-
-No description available.
-
-.PARAMETER Body
-String enum
-
-.PARAMETER WithHttpInfo
-
-A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
-
-.OUTPUTS
-
-StringEnumRef
-#>
-function Test-EchoBodyStringEnum {
-    [CmdletBinding()]
-    Param (
-        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
-        [System.Nullable[String]]
-        ${Body},
-        [Switch]
-        $WithHttpInfo
-    )
-
-    Process {
-        'Calling method: Test-EchoBodyStringEnum' | Write-Debug
-        $PSBoundParameters | Out-DebugParameter | Write-Debug
-
-        $LocalVarAccepts = @()
-        $LocalVarContentTypes = @()
-        $LocalVarQueryParameters = @{}
-        $LocalVarHeaderParameters = @{}
-        $LocalVarFormParameters = @{}
-        $LocalVarPathParameters = @{}
-        $LocalVarCookieParameters = @{}
-        $LocalVarBodyParameter = $null
-
-        $Configuration = Get-Configuration
-        # HTTP header 'Accept' (if needed)
-        $LocalVarAccepts = @('application/json')
-
-        # HTTP header 'Content-Type'
-        $LocalVarContentTypes = @('application/json')
-
-        $LocalVarUri = '/echo/body/string_enum'
-
-        $LocalVarBodyParameter = $Body | ConvertTo-Json -Depth 100
-
-        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
-                                -Uri $LocalVarUri `
-                                -Accepts $LocalVarAccepts `
-                                -ContentTypes $LocalVarContentTypes `
-                                -Body $LocalVarBodyParameter `
-                                -HeaderParameters $LocalVarHeaderParameters `
-                                -QueryParameters $LocalVarQueryParameters `
-                                -FormParameters $LocalVarFormParameters `
-                                -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "StringEnumRef" `
-                                -IsBodyNullable $false
-
-        if ($WithHttpInfo.IsPresent) {
-            return $LocalVarResult
-        } else {
-            return $LocalVarResult["Response"]
-        }
-    }
-}
-
-<#
-.SYNOPSIS
-
 Test empty json (request body)
 
 .DESCRIPTION
@@ -730,6 +582,154 @@ function Test-EchoBodyTagResponseString {
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
                                 -ReturnType "String" `
+                                -IsBodyNullable $false
+
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
+    }
+}
+
+<#
+.SYNOPSIS
+
+Test body parameter(s)
+
+.DESCRIPTION
+
+No description available.
+
+.PARAMETER Pet
+Pet object that needs to be added to the store
+
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
+.OUTPUTS
+
+Pet
+#>
+function Test-EchoBodyAllOfPet {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [PSCustomObject]
+        ${Pet},
+        [Switch]
+        $WithHttpInfo
+    )
+
+    Process {
+        'Calling method: Test-EchoBodyAllOfPet' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter = $null
+
+        $Configuration = Get-Configuration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
+
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
+        $LocalVarUri = '/echo/body/allOf/Pet'
+
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
+
+        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "Pet" `
+                                -IsBodyNullable $false
+
+        if ($WithHttpInfo.IsPresent) {
+            return $LocalVarResult
+        } else {
+            return $LocalVarResult["Response"]
+        }
+    }
+}
+
+<#
+.SYNOPSIS
+
+Test string enum response body
+
+.DESCRIPTION
+
+No description available.
+
+.PARAMETER Body
+String enum
+
+.PARAMETER WithHttpInfo
+
+A switch when turned on will return a hash table of Response, StatusCode and Headers instead of just the Response
+
+.OUTPUTS
+
+StringEnumRef
+#>
+function Test-EchoBodyStringEnum {
+    [CmdletBinding()]
+    Param (
+        [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
+        [System.Nullable[String]]
+        ${Body},
+        [Switch]
+        $WithHttpInfo
+    )
+
+    Process {
+        'Calling method: Test-EchoBodyStringEnum' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $LocalVarAccepts = @()
+        $LocalVarContentTypes = @()
+        $LocalVarQueryParameters = @{}
+        $LocalVarHeaderParameters = @{}
+        $LocalVarFormParameters = @{}
+        $LocalVarPathParameters = @{}
+        $LocalVarCookieParameters = @{}
+        $LocalVarBodyParameter = $null
+
+        $Configuration = Get-Configuration
+        # HTTP header 'Accept' (if needed)
+        $LocalVarAccepts = @('application/json')
+
+        # HTTP header 'Content-Type'
+        $LocalVarContentTypes = @('application/json')
+
+        $LocalVarUri = '/echo/body/string_enum'
+
+        $LocalVarBodyParameter = $Body | ConvertTo-Json -Depth 100
+
+        $LocalVarResult = Invoke-ApiClient -Method 'POST' `
+                                -Uri $LocalVarUri `
+                                -Accepts $LocalVarAccepts `
+                                -ContentTypes $LocalVarContentTypes `
+                                -Body $LocalVarBodyParameter `
+                                -HeaderParameters $LocalVarHeaderParameters `
+                                -QueryParameters $LocalVarQueryParameters `
+                                -FormParameters $LocalVarFormParameters `
+                                -CookieParameters $LocalVarCookieParameters `
+                                -ReturnType "StringEnumRef" `
                                 -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {

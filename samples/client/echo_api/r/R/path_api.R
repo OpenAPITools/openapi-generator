@@ -14,7 +14,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#' \strong{ TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath } \emph{ Test path parameter(s) }
+#' \strong{ TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath } \emph{ Test path parameter(s) }
 #' Test path parameter(s)
 #'
 #' \itemize{
@@ -38,7 +38,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' ####################  TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath  ####################
+#' ####################  TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath  ####################
 #'
 #' library(openapi)
 #' var_path_string <- "path_string_example" # character | 
@@ -50,8 +50,8 @@
 #' api_instance <- PathApi$new()
 #'
 #' # to save the result into a file, simply add the optional `data_file` parameter, e.g.
-#' # result <- api_instance$TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(var_path_string, var_path_integer, var_enum_nonref_string_path, var_enum_ref_string_pathdata_file = "result.txt")
-#' result <- api_instance$TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(var_path_string, var_path_integer, var_enum_nonref_string_path, var_enum_ref_string_path)
+#' # result <- api_instance$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(var_path_string, var_path_integer, var_enum_nonref_string_path, var_enum_ref_string_pathdata_file = "result.txt")
+#' result <- api_instance$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(var_path_string, var_path_integer, var_enum_nonref_string_path, var_enum_ref_string_path)
 #' dput(result)
 #'
 #'
@@ -90,8 +90,8 @@ PathApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #' @return character
     #' @export
-    TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
-      local_var_response <- self$TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ...)
+    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
+      local_var_response <- self$TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = data_file, ...)
       if (local_var_response$status_code >= 200 && local_var_response$status_code <= 299) {
         local_var_response$content
       } else if (local_var_response$status_code >= 300 && local_var_response$status_code <= 399) {
@@ -115,7 +115,7 @@ PathApi <- R6::R6Class(
     #' @param ... Other optional arguments
     #' @return API response (character) with additional information such as HTTP status code, headers
     #' @export
-    TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
+    TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo = function(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path, data_file = NULL, ...) {
       args <- list(...)
       query_params <- list()
       header_params <- c()

@@ -35,7 +35,7 @@ A switch when turned on will return a hash table of Response, StatusCode and Hea
 
 String
 #>
-function Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath {
+function Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath {
     [CmdletBinding()]
     Param (
         [Parameter(Position = 0, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true, Mandatory = $false)]
@@ -56,7 +56,7 @@ function Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRef
     )
 
     Process {
-        'Calling method: Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath' | Write-Debug
+        'Calling method: Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $LocalVarAccepts = @()
@@ -74,19 +74,19 @@ function Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRef
 
         $LocalVarUri = '/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}'
         if (!$PathString) {
-            throw "Error! The required parameter `PathString` missing when calling testsPathStringpathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
+            throw "Error! The required parameter `PathString` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
         $LocalVarUri = $LocalVarUri.replace('{path_string}', [System.Web.HTTPUtility]::UrlEncode($PathString))
         if (!$PathInteger) {
-            throw "Error! The required parameter `PathInteger` missing when calling testsPathStringpathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
+            throw "Error! The required parameter `PathInteger` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
         $LocalVarUri = $LocalVarUri.replace('{path_integer}', [System.Web.HTTPUtility]::UrlEncode($PathInteger))
         if (!$EnumNonrefStringPath) {
-            throw "Error! The required parameter `EnumNonrefStringPath` missing when calling testsPathStringpathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
+            throw "Error! The required parameter `EnumNonrefStringPath` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
         $LocalVarUri = $LocalVarUri.replace('{enum_nonref_string_path}', [System.Web.HTTPUtility]::UrlEncode($EnumNonrefStringPath))
         if (!$EnumRefStringPath) {
-            throw "Error! The required parameter `EnumRefStringPath` missing when calling testsPathStringpathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
+            throw "Error! The required parameter `EnumRefStringPath` missing when calling tests_path_string_pathString_integer_pathInteger_enumNonrefStringPath_enumRefStringPath."
         }
         $LocalVarUri = $LocalVarUri.replace('{enum_ref_string_path}', [System.Web.HTTPUtility]::UrlEncode($EnumRefStringPath))
 

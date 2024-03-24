@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathAPI.md#TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **Get** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+[**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathAPI.md#TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **Get** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 
 
 
-## TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
+## TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
 
-> string TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx, pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
+> string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx, pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
 
 Test path parameter(s)
 
@@ -36,13 +36,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PathAPI.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(context.Background(), pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
+	resp, r, err := apiClient.PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(context.Background(), pathString, pathInteger, enumNonrefStringPath, enumRefStringPath).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PathAPI.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: string
-	fmt.Fprintf(os.Stdout, "Response from `PathAPI.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: %v\n", resp)
+	// response from `TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: string
+	fmt.Fprintf(os.Stdout, "Response from `PathAPI.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath`: %v\n", resp)
 }
 ```
 
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

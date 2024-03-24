@@ -51,8 +51,8 @@ public class PathApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-    return this.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, Collections.emptyMap());
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+    return this.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, Collections.emptyMap());
   }
 
 
@@ -67,27 +67,27 @@ public class PathApi extends BaseApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, Map<String, String> additionalHeaders) throws ApiException {
+  public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'pathString' is set
     if (pathString == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // verify the required parameter 'pathInteger' is set
     if (pathInteger == null) {
-      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // verify the required parameter 'enumNonrefStringPath' is set
     if (enumNonrefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // verify the required parameter 'enumRefStringPath' is set
     if (enumRefStringPath == null) {
-      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+      throw new ApiException(400, "Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
     }
     
     // create path and map variables

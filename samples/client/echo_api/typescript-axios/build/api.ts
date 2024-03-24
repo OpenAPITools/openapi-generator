@@ -1742,20 +1742,20 @@ export const PathApiAxiosParamCreator = function (configuration?: Configuration)
          * @summary Test path parameter(s)
          * @param {string} pathString 
          * @param {number} pathInteger 
-         * @param {TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
+         * @param {TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
          * @param {StringEnumRef} enumRefStringPath 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: async (pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: async (pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'pathString' is not null or undefined
-            assertParamExists('testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'pathString', pathString)
+            assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'pathString', pathString)
             // verify required parameter 'pathInteger' is not null or undefined
-            assertParamExists('testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'pathInteger', pathInteger)
+            assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'pathInteger', pathInteger)
             // verify required parameter 'enumNonrefStringPath' is not null or undefined
-            assertParamExists('testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumNonrefStringPath', enumNonrefStringPath)
+            assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumNonrefStringPath', enumNonrefStringPath)
             // verify required parameter 'enumRefStringPath' is not null or undefined
-            assertParamExists('testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumRefStringPath', enumRefStringPath)
+            assertParamExists('testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath', 'enumRefStringPath', enumRefStringPath)
             const localVarPath = `/path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path}`
                 .replace(`{${"path_string"}}`, encodeURIComponent(String(pathString)))
                 .replace(`{${"path_integer"}}`, encodeURIComponent(String(pathInteger)))
@@ -1798,15 +1798,15 @@ export const PathApiFp = function(configuration?: Configuration) {
          * @summary Test path parameter(s)
          * @param {string} pathString 
          * @param {number} pathInteger 
-         * @param {TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
+         * @param {TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
          * @param {StringEnumRef} enumRefStringPath 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options);
+        async testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PathApi.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PathApi.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -1824,13 +1824,13 @@ export const PathApiFactory = function (configuration?: Configuration, basePath?
          * @summary Test path parameter(s)
          * @param {string} pathString 
          * @param {number} pathInteger 
-         * @param {TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
+         * @param {TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
          * @param {StringEnumRef} enumRefStringPath 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: any): AxiosPromise<string> {
-            return localVarFp.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options).then((request) => request(axios, basePath));
+        testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: any): AxiosPromise<string> {
+            return localVarFp.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1847,26 +1847,26 @@ export class PathApi extends BaseAPI {
      * @summary Test path parameter(s)
      * @param {string} pathString 
      * @param {number} pathInteger 
-     * @param {TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
+     * @param {TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum} enumNonrefStringPath 
      * @param {StringEnumRef} enumRefStringPath 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof PathApi
      */
-    public testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: RawAxiosRequestConfig) {
-        return PathApiFp(this.configuration).testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options).then((request) => request(this.axios, this.basePath));
+    public testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString: string, pathInteger: number, enumNonrefStringPath: TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum, enumRefStringPath: StringEnumRef, options?: RawAxiosRequestConfig) {
+        return PathApiFp(this.configuration).testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
 /**
  * @export
  */
-export const TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = {
+export const TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = {
     Success: 'success',
     Failure: 'failure',
     Unclassified: 'unclassified'
 } as const;
-export type TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = typeof TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum[keyof typeof TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum];
+export type TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum = typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum[keyof typeof TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathEnumNonrefStringPathEnum];
 
 
 /**

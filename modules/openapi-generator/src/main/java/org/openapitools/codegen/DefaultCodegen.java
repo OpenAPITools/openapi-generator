@@ -6181,19 +6181,30 @@ public class DefaultCodegen implements CodegenConfig {
      * @return camelized string
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
-        String[] splitString = name.split(nonNameElementPattern);
+        if (Boolean.parseBoolean(System.getProperty("openapi.generator.fix.camelize"))) {
+            // new bebahviour with fix
+            String[] splitString = name.split(nonNameElementPattern);
 
-        if (splitString.length > 0) {
-            splitString[0] = camelize(splitString[0], CamelizeOption.LOWERCASE_FIRST_CHAR);
-        }
+            if (splitString.length > 0) {
+                splitString[0] = camelize(splitString[0], CamelizeOption.LOWERCASE_FIRST_CHAR);
+            }
 
-        String result = Arrays.stream(splitString)
-                .map(StringUtils::capitalize)
-                .collect(Collectors.joining(""));
-        if (result.length() > 0) {
-            result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
+            String result = Arrays.stream(splitString)
+                    .map(StringUtils::capitalize)
+                    .collect(Collectors.joining(""));
+            if (result.length() > 0) {
+                result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
+            }
+            return result;
+        } else { // old behaviour with bug
+            String result = Arrays.stream(name.split(nonNameElementPattern))
+                    .map(StringUtils::capitalize)
+                    .collect(Collectors.joining(""));
+            if (result.length() > 0) {
+                result = result.substring(0, 1).toLowerCase(Locale.ROOT) + result.substring(1);
+            }
+            return result;
         }
-        return result;
     }
 
     @Override

@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 | ------ | ------------ | ----------- |
-| [**tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path**](PathApi.md#tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
+| [**tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path**](PathApi.md#tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
-## tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path
+## tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path
 
-> String tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
+> String tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
 
 Test path parameter(s)
 
@@ -29,28 +29,28 @@ enum_ref_string_path = OpenapiClient::StringEnumRef::SUCCESS # StringEnumRef |
 
 begin
   # Test path parameter(s)
-  result = api_instance.tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
+  result = api_instance.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
   p result
 rescue OpenapiClient::ApiError => e
-  puts "Error when calling PathApi->tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path: #{e}"
+  puts "Error when calling PathApi->tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path: #{e}"
 end
 ```
 
-#### Using the tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info variant
+#### Using the tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info variant
 
 This returns an Array which contains the response data, status code and headers.
 
-> <Array(String, Integer, Hash)> tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
+> <Array(String, Integer, Hash)> tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
 
 ```ruby
 begin
   # Test path parameter(s)
-  data, status_code, headers = api_instance.tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
+  data, status_code, headers = api_instance.tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(path_string, path_integer, enum_nonref_string_path, enum_ref_string_path)
   p status_code # => 2xx
   p headers # => { ... }
   p data # => String
 rescue OpenapiClient::ApiError => e
-  puts "Error when calling PathApi->tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info: #{e}"
+  puts "Error when calling PathApi->tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info: #{e}"
 end
 ```
 

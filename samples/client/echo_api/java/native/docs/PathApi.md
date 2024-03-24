@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
-| [**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo**](PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
+| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
+| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
 
-## testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
+## testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
 
-> String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+> String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 
@@ -38,10 +38,10 @@ public class Example {
         String enumNonrefStringPath = "success"; // String | 
         StringEnumRef enumRefStringPath = StringEnumRef.fromValue("success"); // StringEnumRef | 
         try {
-            String result = apiInstance.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+            String result = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling PathApi#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -80,9 +80,9 @@ No authorization required
 |-------------|-------------|------------------|
 | **200** | Successful operation |  -  |
 
-## testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo
+## testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo
 
-> ApiResponse<String> testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+> ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 
@@ -110,12 +110,12 @@ public class Example {
         String enumNonrefStringPath = "success"; // String | 
         StringEnumRef enumRefStringPath = StringEnumRef.fromValue("success"); // StringEnumRef | 
         try {
-            ApiResponse<String> response = apiInstance.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+            ApiResponse<String> response = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
             System.out.println("Status code: " + response.getStatusCode());
             System.out.println("Response headers: " + response.getHeaders());
             System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
-            System.err.println("Exception when calling PathApi#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
+            System.err.println("Exception when calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Response headers: " + e.getResponseHeaders());
             System.err.println("Reason: " + e.getResponseBody());

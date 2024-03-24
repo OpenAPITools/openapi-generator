@@ -73,7 +73,7 @@ public class PathApi {
     }
 
     /**
-     * Build call for testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
+     * Build call for testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath
      * @param pathString  (required)
      * @param pathInteger  (required)
      * @param enumNonrefStringPath  (required)
@@ -87,7 +87,7 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathCall(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback _callback) throws ApiException {
+    public okhttp3.Call testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathCall(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback _callback) throws ApiException {
         String basePath = null;
         // Operation Servers
         String[] localBasePaths = new String[] {  };
@@ -136,28 +136,28 @@ public class PathApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private okhttp3.Call testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback _callback) throws ApiException {
+    private okhttp3.Call testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback _callback) throws ApiException {
         // verify the required parameter 'pathString' is set
         if (pathString == null) {
-            throw new ApiException("Missing the required parameter 'pathString' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
+            throw new ApiException("Missing the required parameter 'pathString' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
         }
 
         // verify the required parameter 'pathInteger' is set
         if (pathInteger == null) {
-            throw new ApiException("Missing the required parameter 'pathInteger' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
+            throw new ApiException("Missing the required parameter 'pathInteger' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
         }
 
         // verify the required parameter 'enumNonrefStringPath' is set
         if (enumNonrefStringPath == null) {
-            throw new ApiException("Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
+            throw new ApiException("Missing the required parameter 'enumNonrefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
         }
 
         // verify the required parameter 'enumRefStringPath' is set
         if (enumRefStringPath == null) {
-            throw new ApiException("Missing the required parameter 'enumRefStringPath' when calling testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
+            throw new ApiException("Missing the required parameter 'enumRefStringPath' when calling testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(Async)");
         }
 
-        return testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, _callback);
+        return testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, _callback);
 
     }
 
@@ -176,8 +176,8 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-        ApiResponse<String> localVarResp = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+    public String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+        ApiResponse<String> localVarResp = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
         return localVarResp.getData();
     }
 
@@ -196,8 +196,8 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public ApiResponse<String> testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
-        okhttp3.Call localVarCall = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
+    public ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath) throws ApiException {
+        okhttp3.Call localVarCall = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, null);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         return localVarApiClient.execute(localVarCall, localVarReturnType);
     }
@@ -218,9 +218,9 @@ public class PathApi {
         <tr><td> 200 </td><td> Successful operation </td><td>  -  </td></tr>
      </table>
      */
-    public okhttp3.Call testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback<String> _callback) throws ApiException {
+    public okhttp3.Call testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathAsync(String pathString, Integer pathInteger, String enumNonrefStringPath, StringEnumRef enumRefStringPath, final ApiCallback<String> _callback) throws ApiException {
 
-        okhttp3.Call localVarCall = testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, _callback);
+        okhttp3.Call localVarCall = testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathValidateBeforeCall(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;

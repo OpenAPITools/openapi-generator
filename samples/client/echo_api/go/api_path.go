@@ -24,7 +24,7 @@ import (
 // PathAPIService PathAPI service
 type PathAPIService service
 
-type ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest struct {
+type ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest struct {
 	ctx context.Context
 	ApiService *PathAPIService
 	pathString string
@@ -33,12 +33,12 @@ type ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefSt
 	enumRefStringPath StringEnumRef
 }
 
-func (r ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r)
+func (r ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r)
 }
 
 /*
-TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath Test path parameter(s)
+TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath Test path parameter(s)
 
 Test path parameter(s)
 
@@ -47,10 +47,10 @@ Test path parameter(s)
  @param pathInteger
  @param enumNonrefStringPath
  @param enumRefStringPath
- @return ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest
+ @return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest
 */
-func (a *PathAPIService) TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx context.Context, pathString string, pathInteger int32, enumNonrefStringPath string, enumRefStringPath StringEnumRef) ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest {
-	return ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest{
+func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(ctx context.Context, pathString string, pathInteger int32, enumNonrefStringPath string, enumRefStringPath StringEnumRef) ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest {
+	return ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest{
 		ApiService: a,
 		ctx: ctx,
 		pathString: pathString,
@@ -62,7 +62,7 @@ func (a *PathAPIService) TestsPathStringpathStringIntegerPathIntegerEnumNonrefSt
 
 // Execute executes the request
 //  @return string
-func (a *PathAPIService) TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r ApiTestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) (string, *http.Response, error) {
+func (a *PathAPIService) TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExecute(r ApiTestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -70,7 +70,7 @@ func (a *PathAPIService) TestsPathStringpathStringIntegerPathIntegerEnumNonrefSt
 		localVarReturnValue  string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PathAPIService.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PathAPIService.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
