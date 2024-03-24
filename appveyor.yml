@@ -44,22 +44,22 @@ build_script:
 
 test_script:
   # test c# API client (multiple frameworks)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net4.7\OpenAPIClientCoreAndNet47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (httpclient)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\httpclient\standard2.0\OpenAPIClient-httpclient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (generichost)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\standard2.0\OpenAPIClient-generichost-netstandard2.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client (netcore)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net7\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   #- dotnet test samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.7)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net4.7\OpenAPIClient-net47\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net framework 4.8)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net4.8\OpenAPIClient-net48\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API client (.net 5.0)
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\net7\OpenAPIClient-net5.0\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test C# API Client using conditional-serialization
-  - dotnet test samples\client\petstore\csharp\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\restsharp\standard2.0\OpenAPIClient-ConditionalSerialization\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 
 ### TODO: Execute all generators via powershell or other
   # generate all petstore clients
