@@ -17,7 +17,7 @@ class Capitalization {
     this.capitalCamel,
     this.smallSnake,
     this.capitalSnake,
-    this.scaETHFlowPoints,
+    this.sCAETHFlowPoints,
     this.ATT_NAME,
   });
 
@@ -59,7 +59,7 @@ class Capitalization {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  String? scaETHFlowPoints;
+  String? sCAETHFlowPoints;
 
   /// Name of the pet 
   ///
@@ -76,7 +76,7 @@ class Capitalization {
     other.capitalCamel == capitalCamel &&
     other.smallSnake == smallSnake &&
     other.capitalSnake == capitalSnake &&
-    other.scaETHFlowPoints == scaETHFlowPoints &&
+    other.sCAETHFlowPoints == sCAETHFlowPoints &&
     other.ATT_NAME == ATT_NAME;
 
   @override
@@ -86,11 +86,11 @@ class Capitalization {
     (capitalCamel == null ? 0 : capitalCamel!.hashCode) +
     (smallSnake == null ? 0 : smallSnake!.hashCode) +
     (capitalSnake == null ? 0 : capitalSnake!.hashCode) +
-    (scaETHFlowPoints == null ? 0 : scaETHFlowPoints!.hashCode) +
+    (sCAETHFlowPoints == null ? 0 : sCAETHFlowPoints!.hashCode) +
     (ATT_NAME == null ? 0 : ATT_NAME!.hashCode);
 
   @override
-  String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, scaETHFlowPoints=$scaETHFlowPoints, ATT_NAME=$ATT_NAME]';
+  String toString() => 'Capitalization[smallCamel=$smallCamel, capitalCamel=$capitalCamel, smallSnake=$smallSnake, capitalSnake=$capitalSnake, sCAETHFlowPoints=$sCAETHFlowPoints, ATT_NAME=$ATT_NAME]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -114,8 +114,8 @@ class Capitalization {
     } else {
       json[r'Capital_Snake'] = null;
     }
-    if (this.scaETHFlowPoints != null) {
-      json[r'SCA_ETH_Flow_Points'] = this.scaETHFlowPoints;
+    if (this.sCAETHFlowPoints != null) {
+      json[r'SCA_ETH_Flow_Points'] = this.sCAETHFlowPoints;
     } else {
       json[r'SCA_ETH_Flow_Points'] = null;
     }
@@ -150,7 +150,7 @@ class Capitalization {
         capitalCamel: mapValueOfType<String>(json, r'CapitalCamel'),
         smallSnake: mapValueOfType<String>(json, r'small_Snake'),
         capitalSnake: mapValueOfType<String>(json, r'Capital_Snake'),
-        scaETHFlowPoints: mapValueOfType<String>(json, r'SCA_ETH_Flow_Points'),
+        sCAETHFlowPoints: mapValueOfType<String>(json, r'SCA_ETH_Flow_Points'),
         ATT_NAME: mapValueOfType<String>(json, r'ATT_NAME'),
       );
     }

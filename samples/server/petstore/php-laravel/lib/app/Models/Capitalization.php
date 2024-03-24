@@ -21,10 +21,10 @@ class Capitalization {
     /** @var string $capitalSnake */
     public $capitalSnake = "";
 
-    /** @var string $scaETHFlowPoints */
-    public $scaETHFlowPoints = "";
+    /** @var string $sCAETHFlowPoints */
+    public $sCAETHFlowPoints = "";
 
-    /** @var string $attNAME Name of the pet*/
-    public $attNAME = "";
+    /** @var string $aTTNAME Name of the pet*/
+    public $aTTNAME = "";
 
 }

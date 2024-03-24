@@ -138,9 +138,12 @@ public class StringUtils {
             CamelizeOption option = pair.getValue();
 
             // Lowercase acronyms at start of word if not UPPERCASE_FIRST_CHAR
-            Matcher m = camelizeUppercaseStartPattern.matcher(word);
-            if (camelizeOption != UPPERCASE_FIRST_CHAR && m.find()) {
-                word = m.group(1).toLowerCase(Locale.ROOT) + m.group(2);
+            Matcher m;
+            if (Boolean.parseBoolean(System.getProperty("openapi.generator.fix.camelize"))) {
+                m = camelizeUppercaseStartPattern.matcher(word);
+                if (camelizeOption != UPPERCASE_FIRST_CHAR && m.find()) {
+                    word = m.group(1).toLowerCase(Locale.ROOT) + m.group(2);
+                }
             }
 
             // Replace all slashes with dots (package separator)

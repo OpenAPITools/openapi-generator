@@ -15,7 +15,7 @@ part 'capitalization.g.dart';
 /// * [capitalCamel] 
 /// * [smallSnake] 
 /// * [capitalSnake] 
-/// * [scaETHFlowPoints] 
+/// * [sCAETHFlowPoints] 
 /// * [ATT_NAME] - Name of the pet 
 @BuiltValue()
 abstract class Capitalization implements Built<Capitalization, CapitalizationBuilder> {
@@ -32,7 +32,7 @@ abstract class Capitalization implements Built<Capitalization, CapitalizationBui
   String? get capitalSnake;
 
   @BuiltValueField(wireName: r'SCA_ETH_Flow_Points')
-  String? get scaETHFlowPoints;
+  String? get sCAETHFlowPoints;
 
   /// Name of the pet 
   @BuiltValueField(wireName: r'ATT_NAME')
@@ -89,10 +89,10 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
         specifiedType: const FullType(String),
       );
     }
-    if (object.scaETHFlowPoints != null) {
+    if (object.sCAETHFlowPoints != null) {
       yield r'SCA_ETH_Flow_Points';
       yield serializers.serialize(
-        object.scaETHFlowPoints,
+        object.sCAETHFlowPoints,
         specifiedType: const FullType(String),
       );
     }
@@ -159,7 +159,7 @@ class _$CapitalizationSerializer implements PrimitiveSerializer<Capitalization> 
             value,
             specifiedType: const FullType(String),
           ) as String;
-          result.scaETHFlowPoints = valueDes;
+          result.sCAETHFlowPoints = valueDes;
           break;
         case r'ATT_NAME':
           final valueDes = serializers.deserialize(
