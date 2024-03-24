@@ -59,6 +59,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import static org.openapitools.codegen.CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS;
 import static org.openapitools.codegen.utils.CamelizeOption.*;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -282,6 +283,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -355,10 +357,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             additionalProperties.put(ANNOTATION_LIBRARY, AnnotationLibrary.NONE);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
-            this.setGeneratedConstructorWithAllArgs(convertPropertyToBoolean(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
+        if (additionalProperties.containsKey(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS)) {
+            this.setGeneratedConstructorWithAllArgs(convertPropertyToBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS));
         }
-        writePropertyBack(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generatedConstructorWithAllArgs);
+        writePropertyBack(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, generatedConstructorWithAllArgs);
 
         if (StringUtils.isEmpty(System.getenv("JAVA_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable JAVA_POST_PROCESS_FILE not defined so the Java code may not be properly formatted. To define it, try 'export JAVA_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
