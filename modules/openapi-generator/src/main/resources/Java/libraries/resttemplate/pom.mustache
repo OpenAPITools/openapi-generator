@@ -76,6 +76,14 @@
                     <forkMode>pertest</forkMode>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                 </configuration>
+                <dependencies>
+                    <!--Custom provider and engine for Junit 5 to surefire-->
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -339,9 +347,15 @@
 
         <!-- test dependencies -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junit-platform-runner.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -379,6 +393,7 @@
         {{#performBeanValidation}}
         <hibernate-validator-version>5.4.3.Final</hibernate-validator-version>
         {{/performBeanValidation}}
-        <junit-version>4.13.2</junit-version>
+        <junit-version>5.10.2</junit-version>
+        <junit-platform-runner.version>1.10.0</junit-platform-runner.version>
     </properties>
 </project>
