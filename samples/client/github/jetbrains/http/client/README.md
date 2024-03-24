@@ -14,223 +14,223 @@ There may be multiple requests for a single endpoint, one for each example descr
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ActionsApi* | [**actions/addCustomLabelsToSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/addcustomlabelstoselfhostedrunnerfororg) | **POST** /orgs/{org}/actions/runners/{runner_id}/labels | Add custom labels to a self-hosted runner for an organization
-*ActionsApi* | [**actions/addCustomLabelsToSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/addcustomlabelstoselfhostedrunnerforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Add custom labels to a self-hosted runner for a repository
-*ActionsApi* | [**actions/addSelectedRepoToOrgSecret**](Apis/ActionsApi.http#actions/addselectedrepotoorgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
-*ActionsApi* | [**actions/addSelectedRepoToOrgVariable**](Apis/ActionsApi.http#actions/addselectedrepotoorgvariable) | **PUT** /orgs/{org}/actions/variables/{name}/repositories/{repository_id} | Add selected repository to an organization variable
-*ActionsApi* | [**actions/approveWorkflowRun**](Apis/ActionsApi.http#actions/approveworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/approve | Approve a workflow run for a fork pull request
-*ActionsApi* | [**actions/cancelWorkflowRun**](Apis/ActionsApi.http#actions/cancelworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/cancel | Cancel a workflow run
-*ActionsApi* | [**actions/createEnvironmentVariable**](Apis/ActionsApi.http#actions/createenvironmentvariable) | **POST** /repositories/{repository_id}/environments/{environment_name}/variables | Create an environment variable
-*ActionsApi* | [**actions/createOrUpdateEnvironmentSecret**](Apis/ActionsApi.http#actions/createorupdateenvironmentsecret) | **PUT** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Create or update an environment secret
-*ActionsApi* | [**actions/createOrUpdateOrgSecret**](Apis/ActionsApi.http#actions/createorupdateorgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name} | Create or update an organization secret
-*ActionsApi* | [**actions/createOrUpdateRepoSecret**](Apis/ActionsApi.http#actions/createorupdatereposecret) | **PUT** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Create or update a repository secret
-*ActionsApi* | [**actions/createOrgVariable**](Apis/ActionsApi.http#actions/createorgvariable) | **POST** /orgs/{org}/actions/variables | Create an organization variable
-*ActionsApi* | [**actions/createRegistrationTokenForOrg**](Apis/ActionsApi.http#actions/createregistrationtokenfororg) | **POST** /orgs/{org}/actions/runners/registration-token | Create a registration token for an organization
-*ActionsApi* | [**actions/createRegistrationTokenForRepo**](Apis/ActionsApi.http#actions/createregistrationtokenforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/registration-token | Create a registration token for a repository
-*ActionsApi* | [**actions/createRemoveTokenForOrg**](Apis/ActionsApi.http#actions/createremovetokenfororg) | **POST** /orgs/{org}/actions/runners/remove-token | Create a remove token for an organization
-*ActionsApi* | [**actions/createRemoveTokenForRepo**](Apis/ActionsApi.http#actions/createremovetokenforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/remove-token | Create a remove token for a repository
-*ActionsApi* | [**actions/createRepoVariable**](Apis/ActionsApi.http#actions/createrepovariable) | **POST** /repos/{owner}/{repo}/actions/variables | Create a repository variable
-*ActionsApi* | [**actions/createWorkflowDispatch**](Apis/ActionsApi.http#actions/createworkflowdispatch) | **POST** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches | Create a workflow dispatch event
-*ActionsApi* | [**actions/deleteActionsCacheById**](Apis/ActionsApi.http#actions/deleteactionscachebyid) | **DELETE** /repos/{owner}/{repo}/actions/caches/{cache_id} | Delete a GitHub Actions cache for a repository (using a cache ID)
-*ActionsApi* | [**actions/deleteActionsCacheByKey**](Apis/ActionsApi.http#actions/deleteactionscachebykey) | **DELETE** /repos/{owner}/{repo}/actions/caches | Delete GitHub Actions caches for a repository (using a cache key)
-*ActionsApi* | [**actions/deleteArtifact**](Apis/ActionsApi.http#actions/deleteartifact) | **DELETE** /repos/{owner}/{repo}/actions/artifacts/{artifact_id} | Delete an artifact
-*ActionsApi* | [**actions/deleteEnvironmentSecret**](Apis/ActionsApi.http#actions/deleteenvironmentsecret) | **DELETE** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Delete an environment secret
-*ActionsApi* | [**actions/deleteEnvironmentVariable**](Apis/ActionsApi.http#actions/deleteenvironmentvariable) | **DELETE** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Delete an environment variable
-*ActionsApi* | [**actions/deleteOrgSecret**](Apis/ActionsApi.http#actions/deleteorgsecret) | **DELETE** /orgs/{org}/actions/secrets/{secret_name} | Delete an organization secret
-*ActionsApi* | [**actions/deleteOrgVariable**](Apis/ActionsApi.http#actions/deleteorgvariable) | **DELETE** /orgs/{org}/actions/variables/{name} | Delete an organization variable
-*ActionsApi* | [**actions/deleteRepoSecret**](Apis/ActionsApi.http#actions/deletereposecret) | **DELETE** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Delete a repository secret
-*ActionsApi* | [**actions/deleteRepoVariable**](Apis/ActionsApi.http#actions/deleterepovariable) | **DELETE** /repos/{owner}/{repo}/actions/variables/{name} | Delete a repository variable
-*ActionsApi* | [**actions/deleteSelfHostedRunnerFromOrg**](Apis/ActionsApi.http#actions/deleteselfhostedrunnerfromorg) | **DELETE** /orgs/{org}/actions/runners/{runner_id} | Delete a self-hosted runner from an organization
-*ActionsApi* | [**actions/deleteSelfHostedRunnerFromRepo**](Apis/ActionsApi.http#actions/deleteselfhostedrunnerfromrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id} | Delete a self-hosted runner from a repository
-*ActionsApi* | [**actions/deleteWorkflowRun**](Apis/ActionsApi.http#actions/deleteworkflowrun) | **DELETE** /repos/{owner}/{repo}/actions/runs/{run_id} | Delete a workflow run
-*ActionsApi* | [**actions/deleteWorkflowRunLogs**](Apis/ActionsApi.http#actions/deleteworkflowrunlogs) | **DELETE** /repos/{owner}/{repo}/actions/runs/{run_id}/logs | Delete workflow run logs
-*ActionsApi* | [**actions/disableSelectedRepositoryGithubActionsOrganization**](Apis/ActionsApi.http#actions/disableselectedrepositorygithubactionsorganization) | **DELETE** /orgs/{org}/actions/permissions/repositories/{repository_id} | Disable a selected repository for GitHub Actions in an organization
-*ActionsApi* | [**actions/disableWorkflow**](Apis/ActionsApi.http#actions/disableworkflow) | **PUT** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable | Disable a workflow
-*ActionsApi* | [**actions/downloadArtifact**](Apis/ActionsApi.http#actions/downloadartifact) | **GET** /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format} | Download an artifact
-*ActionsApi* | [**actions/downloadJobLogsForWorkflowRun**](Apis/ActionsApi.http#actions/downloadjoblogsforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/jobs/{job_id}/logs | Download job logs for a workflow run
-*ActionsApi* | [**actions/downloadWorkflowRunAttemptLogs**](Apis/ActionsApi.http#actions/downloadworkflowrunattemptlogs) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/logs | Download workflow run attempt logs
-*ActionsApi* | [**actions/downloadWorkflowRunLogs**](Apis/ActionsApi.http#actions/downloadworkflowrunlogs) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/logs | Download workflow run logs
-*ActionsApi* | [**actions/enableSelectedRepositoryGithubActionsOrganization**](Apis/ActionsApi.http#actions/enableselectedrepositorygithubactionsorganization) | **PUT** /orgs/{org}/actions/permissions/repositories/{repository_id} | Enable a selected repository for GitHub Actions in an organization
-*ActionsApi* | [**actions/enableWorkflow**](Apis/ActionsApi.http#actions/enableworkflow) | **PUT** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable | Enable a workflow
-*ActionsApi* | [**actions/forceCancelWorkflowRun**](Apis/ActionsApi.http#actions/forcecancelworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel | Force cancel a workflow run
-*ActionsApi* | [**actions/generateRunnerJitconfigForOrg**](Apis/ActionsApi.http#actions/generaterunnerjitconfigfororg) | **POST** /orgs/{org}/actions/runners/generate-jitconfig | Create configuration for a just-in-time runner for an organization
-*ActionsApi* | [**actions/generateRunnerJitconfigForRepo**](Apis/ActionsApi.http#actions/generaterunnerjitconfigforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/generate-jitconfig | Create configuration for a just-in-time runner for a repository
-*ActionsApi* | [**actions/getActionsCacheList**](Apis/ActionsApi.http#actions/getactionscachelist) | **GET** /repos/{owner}/{repo}/actions/caches | List GitHub Actions caches for a repository
-*ActionsApi* | [**actions/getActionsCacheUsage**](Apis/ActionsApi.http#actions/getactionscacheusage) | **GET** /repos/{owner}/{repo}/actions/cache/usage | Get GitHub Actions cache usage for a repository
-*ActionsApi* | [**actions/getActionsCacheUsageByRepoForOrg**](Apis/ActionsApi.http#actions/getactionscacheusagebyrepofororg) | **GET** /orgs/{org}/actions/cache/usage-by-repository | List repositories with GitHub Actions cache usage for an organization
-*ActionsApi* | [**actions/getActionsCacheUsageForOrg**](Apis/ActionsApi.http#actions/getactionscacheusagefororg) | **GET** /orgs/{org}/actions/cache/usage | Get GitHub Actions cache usage for an organization
-*ActionsApi* | [**actions/getAllowedActionsOrganization**](Apis/ActionsApi.http#actions/getallowedactionsorganization) | **GET** /orgs/{org}/actions/permissions/selected-actions | Get allowed actions and reusable workflows for an organization
-*ActionsApi* | [**actions/getAllowedActionsRepository**](Apis/ActionsApi.http#actions/getallowedactionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions/selected-actions | Get allowed actions and reusable workflows for a repository
-*ActionsApi* | [**actions/getArtifact**](Apis/ActionsApi.http#actions/getartifact) | **GET** /repos/{owner}/{repo}/actions/artifacts/{artifact_id} | Get an artifact
-*ActionsApi* | [**actions/getCustomOidcSubClaimForRepo**](Apis/ActionsApi.http#actions/getcustomoidcsubclaimforrepo) | **GET** /repos/{owner}/{repo}/actions/oidc/customization/sub | Get the customization template for an OIDC subject claim for a repository
-*ActionsApi* | [**actions/getEnvironmentPublicKey**](Apis/ActionsApi.http#actions/getenvironmentpublickey) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets/public-key | Get an environment public key
-*ActionsApi* | [**actions/getEnvironmentSecret**](Apis/ActionsApi.http#actions/getenvironmentsecret) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Get an environment secret
-*ActionsApi* | [**actions/getEnvironmentVariable**](Apis/ActionsApi.http#actions/getenvironmentvariable) | **GET** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Get an environment variable
-*ActionsApi* | [**actions/getGithubActionsDefaultWorkflowPermissionsOrganization**](Apis/ActionsApi.http#actions/getgithubactionsdefaultworkflowpermissionsorganization) | **GET** /orgs/{org}/actions/permissions/workflow | Get default workflow permissions for an organization
-*ActionsApi* | [**actions/getGithubActionsDefaultWorkflowPermissionsRepository**](Apis/ActionsApi.http#actions/getgithubactionsdefaultworkflowpermissionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions/workflow | Get default workflow permissions for a repository
-*ActionsApi* | [**actions/getGithubActionsPermissionsOrganization**](Apis/ActionsApi.http#actions/getgithubactionspermissionsorganization) | **GET** /orgs/{org}/actions/permissions | Get GitHub Actions permissions for an organization
-*ActionsApi* | [**actions/getGithubActionsPermissionsRepository**](Apis/ActionsApi.http#actions/getgithubactionspermissionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions | Get GitHub Actions permissions for a repository
-*ActionsApi* | [**actions/getJobForWorkflowRun**](Apis/ActionsApi.http#actions/getjobforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/jobs/{job_id} | Get a job for a workflow run
-*ActionsApi* | [**actions/getOrgPublicKey**](Apis/ActionsApi.http#actions/getorgpublickey) | **GET** /orgs/{org}/actions/secrets/public-key | Get an organization public key
-*ActionsApi* | [**actions/getOrgSecret**](Apis/ActionsApi.http#actions/getorgsecret) | **GET** /orgs/{org}/actions/secrets/{secret_name} | Get an organization secret
-*ActionsApi* | [**actions/getOrgVariable**](Apis/ActionsApi.http#actions/getorgvariable) | **GET** /orgs/{org}/actions/variables/{name} | Get an organization variable
-*ActionsApi* | [**actions/getPendingDeploymentsForRun**](Apis/ActionsApi.http#actions/getpendingdeploymentsforrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments | Get pending deployments for a workflow run
-*ActionsApi* | [**actions/getRepoPublicKey**](Apis/ActionsApi.http#actions/getrepopublickey) | **GET** /repos/{owner}/{repo}/actions/secrets/public-key | Get a repository public key
-*ActionsApi* | [**actions/getRepoSecret**](Apis/ActionsApi.http#actions/getreposecret) | **GET** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Get a repository secret
-*ActionsApi* | [**actions/getRepoVariable**](Apis/ActionsApi.http#actions/getrepovariable) | **GET** /repos/{owner}/{repo}/actions/variables/{name} | Get a repository variable
-*ActionsApi* | [**actions/getReviewsForRun**](Apis/ActionsApi.http#actions/getreviewsforrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/approvals | Get the review history for a workflow run
-*ActionsApi* | [**actions/getSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/getselfhostedrunnerfororg) | **GET** /orgs/{org}/actions/runners/{runner_id} | Get a self-hosted runner for an organization
-*ActionsApi* | [**actions/getSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/getselfhostedrunnerforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/{runner_id} | Get a self-hosted runner for a repository
-*ActionsApi* | [**actions/getWorkflow**](Apis/ActionsApi.http#actions/getworkflow) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id} | Get a workflow
-*ActionsApi* | [**actions/getWorkflowAccessToRepository**](Apis/ActionsApi.http#actions/getworkflowaccesstorepository) | **GET** /repos/{owner}/{repo}/actions/permissions/access | Get the level of access for workflows outside of the repository
-*ActionsApi* | [**actions/getWorkflowRun**](Apis/ActionsApi.http#actions/getworkflowrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id} | Get a workflow run
-*ActionsApi* | [**actions/getWorkflowRunAttempt**](Apis/ActionsApi.http#actions/getworkflowrunattempt) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number} | Get a workflow run attempt
-*ActionsApi* | [**actions/getWorkflowRunUsage**](Apis/ActionsApi.http#actions/getworkflowrunusage) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/timing | Get workflow run usage
-*ActionsApi* | [**actions/getWorkflowUsage**](Apis/ActionsApi.http#actions/getworkflowusage) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing | Get workflow usage
-*ActionsApi* | [**actions/listArtifactsForRepo**](Apis/ActionsApi.http#actions/listartifactsforrepo) | **GET** /repos/{owner}/{repo}/actions/artifacts | List artifacts for a repository
-*ActionsApi* | [**actions/listEnvironmentSecrets**](Apis/ActionsApi.http#actions/listenvironmentsecrets) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets | List environment secrets
-*ActionsApi* | [**actions/listEnvironmentVariables**](Apis/ActionsApi.http#actions/listenvironmentvariables) | **GET** /repositories/{repository_id}/environments/{environment_name}/variables | List environment variables
-*ActionsApi* | [**actions/listJobsForWorkflowRun**](Apis/ActionsApi.http#actions/listjobsforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/jobs | List jobs for a workflow run
-*ActionsApi* | [**actions/listJobsForWorkflowRunAttempt**](Apis/ActionsApi.http#actions/listjobsforworkflowrunattempt) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs | List jobs for a workflow run attempt
-*ActionsApi* | [**actions/listLabelsForSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/listlabelsforselfhostedrunnerfororg) | **GET** /orgs/{org}/actions/runners/{runner_id}/labels | List labels for a self-hosted runner for an organization
-*ActionsApi* | [**actions/listLabelsForSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/listlabelsforselfhostedrunnerforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | List labels for a self-hosted runner for a repository
-*ActionsApi* | [**actions/listOrgSecrets**](Apis/ActionsApi.http#actions/listorgsecrets) | **GET** /orgs/{org}/actions/secrets | List organization secrets
-*ActionsApi* | [**actions/listOrgVariables**](Apis/ActionsApi.http#actions/listorgvariables) | **GET** /orgs/{org}/actions/variables | List organization variables
-*ActionsApi* | [**actions/listRepoOrganizationSecrets**](Apis/ActionsApi.http#actions/listrepoorganizationsecrets) | **GET** /repos/{owner}/{repo}/actions/organization-secrets | List repository organization secrets
-*ActionsApi* | [**actions/listRepoOrganizationVariables**](Apis/ActionsApi.http#actions/listrepoorganizationvariables) | **GET** /repos/{owner}/{repo}/actions/organization-variables | List repository organization variables
-*ActionsApi* | [**actions/listRepoSecrets**](Apis/ActionsApi.http#actions/listreposecrets) | **GET** /repos/{owner}/{repo}/actions/secrets | List repository secrets
-*ActionsApi* | [**actions/listRepoVariables**](Apis/ActionsApi.http#actions/listrepovariables) | **GET** /repos/{owner}/{repo}/actions/variables | List repository variables
-*ActionsApi* | [**actions/listRepoWorkflows**](Apis/ActionsApi.http#actions/listrepoworkflows) | **GET** /repos/{owner}/{repo}/actions/workflows | List repository workflows
-*ActionsApi* | [**actions/listRunnerApplicationsForOrg**](Apis/ActionsApi.http#actions/listrunnerapplicationsfororg) | **GET** /orgs/{org}/actions/runners/downloads | List runner applications for an organization
-*ActionsApi* | [**actions/listRunnerApplicationsForRepo**](Apis/ActionsApi.http#actions/listrunnerapplicationsforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/downloads | List runner applications for a repository
-*ActionsApi* | [**actions/listSelectedReposForOrgSecret**](Apis/ActionsApi.http#actions/listselectedreposfororgsecret) | **GET** /orgs/{org}/actions/secrets/{secret_name}/repositories | List selected repositories for an organization secret
-*ActionsApi* | [**actions/listSelectedReposForOrgVariable**](Apis/ActionsApi.http#actions/listselectedreposfororgvariable) | **GET** /orgs/{org}/actions/variables/{name}/repositories | List selected repositories for an organization variable
-*ActionsApi* | [**actions/listSelectedRepositoriesEnabledGithubActionsOrganization**](Apis/ActionsApi.http#actions/listselectedrepositoriesenabledgithubactionsorganization) | **GET** /orgs/{org}/actions/permissions/repositories | List selected repositories enabled for GitHub Actions in an organization
-*ActionsApi* | [**actions/listSelfHostedRunnersForOrg**](Apis/ActionsApi.http#actions/listselfhostedrunnersfororg) | **GET** /orgs/{org}/actions/runners | List self-hosted runners for an organization
-*ActionsApi* | [**actions/listSelfHostedRunnersForRepo**](Apis/ActionsApi.http#actions/listselfhostedrunnersforrepo) | **GET** /repos/{owner}/{repo}/actions/runners | List self-hosted runners for a repository
-*ActionsApi* | [**actions/listWorkflowRunArtifacts**](Apis/ActionsApi.http#actions/listworkflowrunartifacts) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts | List workflow run artifacts
-*ActionsApi* | [**actions/listWorkflowRuns**](Apis/ActionsApi.http#actions/listworkflowruns) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs | List workflow runs for a workflow
-*ActionsApi* | [**actions/listWorkflowRunsForRepo**](Apis/ActionsApi.http#actions/listworkflowrunsforrepo) | **GET** /repos/{owner}/{repo}/actions/runs | List workflow runs for a repository
-*ActionsApi* | [**actions/reRunJobForWorkflowRun**](Apis/ActionsApi.http#actions/rerunjobforworkflowrun) | **POST** /repos/{owner}/{repo}/actions/jobs/{job_id}/rerun | Re-run a job from a workflow run
-*ActionsApi* | [**actions/reRunWorkflow**](Apis/ActionsApi.http#actions/rerunworkflow) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/rerun | Re-run a workflow
-*ActionsApi* | [**actions/reRunWorkflowFailedJobs**](Apis/ActionsApi.http#actions/rerunworkflowfailedjobs) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs | Re-run failed jobs from a workflow run
-*ActionsApi* | [**actions/removeAllCustomLabelsFromSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/removeallcustomlabelsfromselfhostedrunnerfororg) | **DELETE** /orgs/{org}/actions/runners/{runner_id}/labels | Remove all custom labels from a self-hosted runner for an organization
-*ActionsApi* | [**actions/removeAllCustomLabelsFromSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/removeallcustomlabelsfromselfhostedrunnerforrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Remove all custom labels from a self-hosted runner for a repository
-*ActionsApi* | [**actions/removeCustomLabelFromSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/removecustomlabelfromselfhostedrunnerfororg) | **DELETE** /orgs/{org}/actions/runners/{runner_id}/labels/{name} | Remove a custom label from a self-hosted runner for an organization
-*ActionsApi* | [**actions/removeCustomLabelFromSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/removecustomlabelfromselfhostedrunnerforrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels/{name} | Remove a custom label from a self-hosted runner for a repository
-*ActionsApi* | [**actions/removeSelectedRepoFromOrgSecret**](Apis/ActionsApi.http#actions/removeselectedrepofromorgsecret) | **DELETE** /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
-*ActionsApi* | [**actions/removeSelectedRepoFromOrgVariable**](Apis/ActionsApi.http#actions/removeselectedrepofromorgvariable) | **DELETE** /orgs/{org}/actions/variables/{name}/repositories/{repository_id} | Remove selected repository from an organization variable
-*ActionsApi* | [**actions/reviewCustomGatesForRun**](Apis/ActionsApi.http#actions/reviewcustomgatesforrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/deployment_protection_rule | Review custom deployment protection rules for a workflow run
-*ActionsApi* | [**actions/reviewPendingDeploymentsForRun**](Apis/ActionsApi.http#actions/reviewpendingdeploymentsforrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments | Review pending deployments for a workflow run
-*ActionsApi* | [**actions/setAllowedActionsOrganization**](Apis/ActionsApi.http#actions/setallowedactionsorganization) | **PUT** /orgs/{org}/actions/permissions/selected-actions | Set allowed actions and reusable workflows for an organization
-*ActionsApi* | [**actions/setAllowedActionsRepository**](Apis/ActionsApi.http#actions/setallowedactionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/selected-actions | Set allowed actions and reusable workflows for a repository
-*ActionsApi* | [**actions/setCustomLabelsForSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actions/setcustomlabelsforselfhostedrunnerfororg) | **PUT** /orgs/{org}/actions/runners/{runner_id}/labels | Set custom labels for a self-hosted runner for an organization
-*ActionsApi* | [**actions/setCustomLabelsForSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actions/setcustomlabelsforselfhostedrunnerforrepo) | **PUT** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Set custom labels for a self-hosted runner for a repository
-*ActionsApi* | [**actions/setCustomOidcSubClaimForRepo**](Apis/ActionsApi.http#actions/setcustomoidcsubclaimforrepo) | **PUT** /repos/{owner}/{repo}/actions/oidc/customization/sub | Set the customization template for an OIDC subject claim for a repository
-*ActionsApi* | [**actions/setGithubActionsDefaultWorkflowPermissionsOrganization**](Apis/ActionsApi.http#actions/setgithubactionsdefaultworkflowpermissionsorganization) | **PUT** /orgs/{org}/actions/permissions/workflow | Set default workflow permissions for an organization
-*ActionsApi* | [**actions/setGithubActionsDefaultWorkflowPermissionsRepository**](Apis/ActionsApi.http#actions/setgithubactionsdefaultworkflowpermissionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/workflow | Set default workflow permissions for a repository
-*ActionsApi* | [**actions/setGithubActionsPermissionsOrganization**](Apis/ActionsApi.http#actions/setgithubactionspermissionsorganization) | **PUT** /orgs/{org}/actions/permissions | Set GitHub Actions permissions for an organization
-*ActionsApi* | [**actions/setGithubActionsPermissionsRepository**](Apis/ActionsApi.http#actions/setgithubactionspermissionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions | Set GitHub Actions permissions for a repository
-*ActionsApi* | [**actions/setSelectedReposForOrgSecret**](Apis/ActionsApi.http#actions/setselectedreposfororgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
-*ActionsApi* | [**actions/setSelectedReposForOrgVariable**](Apis/ActionsApi.http#actions/setselectedreposfororgvariable) | **PUT** /orgs/{org}/actions/variables/{name}/repositories | Set selected repositories for an organization variable
-*ActionsApi* | [**actions/setSelectedRepositoriesEnabledGithubActionsOrganization**](Apis/ActionsApi.http#actions/setselectedrepositoriesenabledgithubactionsorganization) | **PUT** /orgs/{org}/actions/permissions/repositories | Set selected repositories enabled for GitHub Actions in an organization
-*ActionsApi* | [**actions/setWorkflowAccessToRepository**](Apis/ActionsApi.http#actions/setworkflowaccesstorepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/access | Set the level of access for workflows outside of the repository
-*ActionsApi* | [**actions/updateEnvironmentVariable**](Apis/ActionsApi.http#actions/updateenvironmentvariable) | **PATCH** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Update an environment variable
-*ActionsApi* | [**actions/updateOrgVariable**](Apis/ActionsApi.http#actions/updateorgvariable) | **PATCH** /orgs/{org}/actions/variables/{name} | Update an organization variable
-*ActionsApi* | [**actions/updateRepoVariable**](Apis/ActionsApi.http#actions/updaterepovariable) | **PATCH** /repos/{owner}/{repo}/actions/variables/{name} | Update a repository variable
-*ActivityApi* | [**activity/checkRepoIsStarredByAuthenticatedUser**](Apis/ActivityApi.http#activity/checkrepoisstarredbyauthenticateduser) | **GET** /user/starred/{owner}/{repo} | Check if a repository is starred by the authenticated user
-*ActivityApi* | [**activity/deleteRepoSubscription**](Apis/ActivityApi.http#activity/deletereposubscription) | **DELETE** /repos/{owner}/{repo}/subscription | Delete a repository subscription
-*ActivityApi* | [**activity/deleteThreadSubscription**](Apis/ActivityApi.http#activity/deletethreadsubscription) | **DELETE** /notifications/threads/{thread_id}/subscription | Delete a thread subscription
-*ActivityApi* | [**activity/getFeeds**](Apis/ActivityApi.http#activity/getfeeds) | **GET** /feeds | Get feeds
-*ActivityApi* | [**activity/getRepoSubscription**](Apis/ActivityApi.http#activity/getreposubscription) | **GET** /repos/{owner}/{repo}/subscription | Get a repository subscription
-*ActivityApi* | [**activity/getThread**](Apis/ActivityApi.http#activity/getthread) | **GET** /notifications/threads/{thread_id} | Get a thread
-*ActivityApi* | [**activity/getThreadSubscriptionForAuthenticatedUser**](Apis/ActivityApi.http#activity/getthreadsubscriptionforauthenticateduser) | **GET** /notifications/threads/{thread_id}/subscription | Get a thread subscription for the authenticated user
-*ActivityApi* | [**activity/listEventsForAuthenticatedUser**](Apis/ActivityApi.http#activity/listeventsforauthenticateduser) | **GET** /users/{username}/events | List events for the authenticated user
-*ActivityApi* | [**activity/listNotificationsForAuthenticatedUser**](Apis/ActivityApi.http#activity/listnotificationsforauthenticateduser) | **GET** /notifications | List notifications for the authenticated user
-*ActivityApi* | [**activity/listOrgEventsForAuthenticatedUser**](Apis/ActivityApi.http#activity/listorgeventsforauthenticateduser) | **GET** /users/{username}/events/orgs/{org} | List organization events for the authenticated user
-*ActivityApi* | [**activity/listPublicEvents**](Apis/ActivityApi.http#activity/listpublicevents) | **GET** /events | List public events
-*ActivityApi* | [**activity/listPublicEventsForRepoNetwork**](Apis/ActivityApi.http#activity/listpubliceventsforreponetwork) | **GET** /networks/{owner}/{repo}/events | List public events for a network of repositories
-*ActivityApi* | [**activity/listPublicEventsForUser**](Apis/ActivityApi.http#activity/listpubliceventsforuser) | **GET** /users/{username}/events/public | List public events for a user
-*ActivityApi* | [**activity/listPublicOrgEvents**](Apis/ActivityApi.http#activity/listpublicorgevents) | **GET** /orgs/{org}/events | List public organization events
-*ActivityApi* | [**activity/listReceivedEventsForUser**](Apis/ActivityApi.http#activity/listreceivedeventsforuser) | **GET** /users/{username}/received_events | List events received by the authenticated user
-*ActivityApi* | [**activity/listReceivedPublicEventsForUser**](Apis/ActivityApi.http#activity/listreceivedpubliceventsforuser) | **GET** /users/{username}/received_events/public | List public events received by a user
-*ActivityApi* | [**activity/listRepoEvents**](Apis/ActivityApi.http#activity/listrepoevents) | **GET** /repos/{owner}/{repo}/events | List repository events
-*ActivityApi* | [**activity/listRepoNotificationsForAuthenticatedUser**](Apis/ActivityApi.http#activity/listreponotificationsforauthenticateduser) | **GET** /repos/{owner}/{repo}/notifications | List repository notifications for the authenticated user
-*ActivityApi* | [**activity/listReposStarredByAuthenticatedUser**](Apis/ActivityApi.http#activity/listreposstarredbyauthenticateduser) | **GET** /user/starred | List repositories starred by the authenticated user
-*ActivityApi* | [**activity/listReposStarredByUser**](Apis/ActivityApi.http#activity/listreposstarredbyuser) | **GET** /users/{username}/starred | List repositories starred by a user
-*ActivityApi* | [**activity/listReposWatchedByUser**](Apis/ActivityApi.http#activity/listreposwatchedbyuser) | **GET** /users/{username}/subscriptions | List repositories watched by a user
-*ActivityApi* | [**activity/listStargazersForRepo**](Apis/ActivityApi.http#activity/liststargazersforrepo) | **GET** /repos/{owner}/{repo}/stargazers | List stargazers
-*ActivityApi* | [**activity/listWatchedReposForAuthenticatedUser**](Apis/ActivityApi.http#activity/listwatchedreposforauthenticateduser) | **GET** /user/subscriptions | List repositories watched by the authenticated user
-*ActivityApi* | [**activity/listWatchersForRepo**](Apis/ActivityApi.http#activity/listwatchersforrepo) | **GET** /repos/{owner}/{repo}/subscribers | List watchers
-*ActivityApi* | [**activity/markNotificationsAsRead**](Apis/ActivityApi.http#activity/marknotificationsasread) | **PUT** /notifications | Mark notifications as read
-*ActivityApi* | [**activity/markRepoNotificationsAsRead**](Apis/ActivityApi.http#activity/markreponotificationsasread) | **PUT** /repos/{owner}/{repo}/notifications | Mark repository notifications as read
-*ActivityApi* | [**activity/markThreadAsDone**](Apis/ActivityApi.http#activity/markthreadasdone) | **DELETE** /notifications/threads/{thread_id} | Mark a thread as done
-*ActivityApi* | [**activity/markThreadAsRead**](Apis/ActivityApi.http#activity/markthreadasread) | **PATCH** /notifications/threads/{thread_id} | Mark a thread as read
-*ActivityApi* | [**activity/setRepoSubscription**](Apis/ActivityApi.http#activity/setreposubscription) | **PUT** /repos/{owner}/{repo}/subscription | Set a repository subscription
-*ActivityApi* | [**activity/setThreadSubscription**](Apis/ActivityApi.http#activity/setthreadsubscription) | **PUT** /notifications/threads/{thread_id}/subscription | Set a thread subscription
-*ActivityApi* | [**activity/starRepoForAuthenticatedUser**](Apis/ActivityApi.http#activity/starrepoforauthenticateduser) | **PUT** /user/starred/{owner}/{repo} | Star a repository for the authenticated user
-*ActivityApi* | [**activity/unstarRepoForAuthenticatedUser**](Apis/ActivityApi.http#activity/unstarrepoforauthenticateduser) | **DELETE** /user/starred/{owner}/{repo} | Unstar a repository for the authenticated user
-*AppsApi* | [**apps/addRepoToInstallationForAuthenticatedUser**](Apis/AppsApi.http#apps/addrepotoinstallationforauthenticateduser) | **PUT** /user/installations/{installation_id}/repositories/{repository_id} | Add a repository to an app installation
-*AppsApi* | [**apps/checkToken**](Apis/AppsApi.http#apps/checktoken) | **POST** /applications/{client_id}/token | Check a token
-*AppsApi* | [**apps/createFromManifest**](Apis/AppsApi.http#apps/createfrommanifest) | **POST** /app-manifests/{code}/conversions | Create a GitHub App from a manifest
-*AppsApi* | [**apps/createInstallationAccessToken**](Apis/AppsApi.http#apps/createinstallationaccesstoken) | **POST** /app/installations/{installation_id}/access_tokens | Create an installation access token for an app
-*AppsApi* | [**apps/deleteAuthorization**](Apis/AppsApi.http#apps/deleteauthorization) | **DELETE** /applications/{client_id}/grant | Delete an app authorization
-*AppsApi* | [**apps/deleteInstallation**](Apis/AppsApi.http#apps/deleteinstallation) | **DELETE** /app/installations/{installation_id} | Delete an installation for the authenticated app
-*AppsApi* | [**apps/deleteToken**](Apis/AppsApi.http#apps/deletetoken) | **DELETE** /applications/{client_id}/token | Delete an app token
-*AppsApi* | [**apps/getAuthenticated**](Apis/AppsApi.http#apps/getauthenticated) | **GET** /app | Get the authenticated app
-*AppsApi* | [**apps/getBySlug**](Apis/AppsApi.http#apps/getbyslug) | **GET** /apps/{app_slug} | Get an app
-*AppsApi* | [**apps/getInstallation**](Apis/AppsApi.http#apps/getinstallation) | **GET** /app/installations/{installation_id} | Get an installation for the authenticated app
-*AppsApi* | [**apps/getOrgInstallation**](Apis/AppsApi.http#apps/getorginstallation) | **GET** /orgs/{org}/installation | Get an organization installation for the authenticated app
-*AppsApi* | [**apps/getRepoInstallation**](Apis/AppsApi.http#apps/getrepoinstallation) | **GET** /repos/{owner}/{repo}/installation | Get a repository installation for the authenticated app
-*AppsApi* | [**apps/getSubscriptionPlanForAccount**](Apis/AppsApi.http#apps/getsubscriptionplanforaccount) | **GET** /marketplace_listing/accounts/{account_id} | Get a subscription plan for an account
-*AppsApi* | [**apps/getSubscriptionPlanForAccountStubbed**](Apis/AppsApi.http#apps/getsubscriptionplanforaccountstubbed) | **GET** /marketplace_listing/stubbed/accounts/{account_id} | Get a subscription plan for an account (stubbed)
-*AppsApi* | [**apps/getUserInstallation**](Apis/AppsApi.http#apps/getuserinstallation) | **GET** /users/{username}/installation | Get a user installation for the authenticated app
-*AppsApi* | [**apps/getWebhookConfigForApp**](Apis/AppsApi.http#apps/getwebhookconfigforapp) | **GET** /app/hook/config | Get a webhook configuration for an app
-*AppsApi* | [**apps/getWebhookDelivery**](Apis/AppsApi.http#apps/getwebhookdelivery) | **GET** /app/hook/deliveries/{delivery_id} | Get a delivery for an app webhook
-*AppsApi* | [**apps/listAccountsForPlan**](Apis/AppsApi.http#apps/listaccountsforplan) | **GET** /marketplace_listing/plans/{plan_id}/accounts | List accounts for a plan
-*AppsApi* | [**apps/listAccountsForPlanStubbed**](Apis/AppsApi.http#apps/listaccountsforplanstubbed) | **GET** /marketplace_listing/stubbed/plans/{plan_id}/accounts | List accounts for a plan (stubbed)
-*AppsApi* | [**apps/listInstallationReposForAuthenticatedUser**](Apis/AppsApi.http#apps/listinstallationreposforauthenticateduser) | **GET** /user/installations/{installation_id}/repositories | List repositories accessible to the user access token
-*AppsApi* | [**apps/listInstallationRequestsForAuthenticatedApp**](Apis/AppsApi.http#apps/listinstallationrequestsforauthenticatedapp) | **GET** /app/installation-requests | List installation requests for the authenticated app
-*AppsApi* | [**apps/listInstallations**](Apis/AppsApi.http#apps/listinstallations) | **GET** /app/installations | List installations for the authenticated app
-*AppsApi* | [**apps/listInstallationsForAuthenticatedUser**](Apis/AppsApi.http#apps/listinstallationsforauthenticateduser) | **GET** /user/installations | List app installations accessible to the user access token
-*AppsApi* | [**apps/listPlans**](Apis/AppsApi.http#apps/listplans) | **GET** /marketplace_listing/plans | List plans
-*AppsApi* | [**apps/listPlansStubbed**](Apis/AppsApi.http#apps/listplansstubbed) | **GET** /marketplace_listing/stubbed/plans | List plans (stubbed)
-*AppsApi* | [**apps/listReposAccessibleToInstallation**](Apis/AppsApi.http#apps/listreposaccessibletoinstallation) | **GET** /installation/repositories | List repositories accessible to the app installation
-*AppsApi* | [**apps/listSubscriptionsForAuthenticatedUser**](Apis/AppsApi.http#apps/listsubscriptionsforauthenticateduser) | **GET** /user/marketplace_purchases | List subscriptions for the authenticated user
-*AppsApi* | [**apps/listSubscriptionsForAuthenticatedUserStubbed**](Apis/AppsApi.http#apps/listsubscriptionsforauthenticateduserstubbed) | **GET** /user/marketplace_purchases/stubbed | List subscriptions for the authenticated user (stubbed)
-*AppsApi* | [**apps/listWebhookDeliveries**](Apis/AppsApi.http#apps/listwebhookdeliveries) | **GET** /app/hook/deliveries | List deliveries for an app webhook
-*AppsApi* | [**apps/redeliverWebhookDelivery**](Apis/AppsApi.http#apps/redeliverwebhookdelivery) | **POST** /app/hook/deliveries/{delivery_id}/attempts | Redeliver a delivery for an app webhook
-*AppsApi* | [**apps/removeRepoFromInstallationForAuthenticatedUser**](Apis/AppsApi.http#apps/removerepofrominstallationforauthenticateduser) | **DELETE** /user/installations/{installation_id}/repositories/{repository_id} | Remove a repository from an app installation
-*AppsApi* | [**apps/resetToken**](Apis/AppsApi.http#apps/resettoken) | **PATCH** /applications/{client_id}/token | Reset a token
-*AppsApi* | [**apps/revokeInstallationAccessToken**](Apis/AppsApi.http#apps/revokeinstallationaccesstoken) | **DELETE** /installation/token | Revoke an installation access token
-*AppsApi* | [**apps/scopeToken**](Apis/AppsApi.http#apps/scopetoken) | **POST** /applications/{client_id}/token/scoped | Create a scoped access token
-*AppsApi* | [**apps/suspendInstallation**](Apis/AppsApi.http#apps/suspendinstallation) | **PUT** /app/installations/{installation_id}/suspended | Suspend an app installation
-*AppsApi* | [**apps/unsuspendInstallation**](Apis/AppsApi.http#apps/unsuspendinstallation) | **DELETE** /app/installations/{installation_id}/suspended | Unsuspend an app installation
-*AppsApi* | [**apps/updateWebhookConfigForApp**](Apis/AppsApi.http#apps/updatewebhookconfigforapp) | **PATCH** /app/hook/config | Update a webhook configuration for an app
-*BillingApi* | [**billing/getGithubActionsBillingOrg**](Apis/BillingApi.http#billing/getgithubactionsbillingorg) | **GET** /orgs/{org}/settings/billing/actions | Get GitHub Actions billing for an organization
-*BillingApi* | [**billing/getGithubActionsBillingUser**](Apis/BillingApi.http#billing/getgithubactionsbillinguser) | **GET** /users/{username}/settings/billing/actions | Get GitHub Actions billing for a user
-*BillingApi* | [**billing/getGithubPackagesBillingOrg**](Apis/BillingApi.http#billing/getgithubpackagesbillingorg) | **GET** /orgs/{org}/settings/billing/packages | Get GitHub Packages billing for an organization
-*BillingApi* | [**billing/getGithubPackagesBillingUser**](Apis/BillingApi.http#billing/getgithubpackagesbillinguser) | **GET** /users/{username}/settings/billing/packages | Get GitHub Packages billing for a user
-*BillingApi* | [**billing/getSharedStorageBillingOrg**](Apis/BillingApi.http#billing/getsharedstoragebillingorg) | **GET** /orgs/{org}/settings/billing/shared-storage | Get shared storage billing for an organization
-*BillingApi* | [**billing/getSharedStorageBillingUser**](Apis/BillingApi.http#billing/getsharedstoragebillinguser) | **GET** /users/{username}/settings/billing/shared-storage | Get shared storage billing for a user
-*ChecksApi* | [**checks/create**](Apis/ChecksApi.http#checks/create) | **POST** /repos/{owner}/{repo}/check-runs | Create a check run
-*ChecksApi* | [**checks/createSuite**](Apis/ChecksApi.http#checks/createsuite) | **POST** /repos/{owner}/{repo}/check-suites | Create a check suite
-*ChecksApi* | [**checks/get**](Apis/ChecksApi.http#checks/get) | **GET** /repos/{owner}/{repo}/check-runs/{check_run_id} | Get a check run
-*ChecksApi* | [**checks/getSuite**](Apis/ChecksApi.http#checks/getsuite) | **GET** /repos/{owner}/{repo}/check-suites/{check_suite_id} | Get a check suite
-*ChecksApi* | [**checks/listAnnotations**](Apis/ChecksApi.http#checks/listannotations) | **GET** /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations | List check run annotations
-*ChecksApi* | [**checks/listForRef**](Apis/ChecksApi.http#checks/listforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/check-runs | List check runs for a Git reference
-*ChecksApi* | [**checks/listForSuite**](Apis/ChecksApi.http#checks/listforsuite) | **GET** /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs | List check runs in a check suite
-*ChecksApi* | [**checks/listSuitesForRef**](Apis/ChecksApi.http#checks/listsuitesforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/check-suites | List check suites for a Git reference
-*ChecksApi* | [**checks/rerequestRun**](Apis/ChecksApi.http#checks/rerequestrun) | **POST** /repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest | Rerequest a check run
-*ChecksApi* | [**checks/rerequestSuite**](Apis/ChecksApi.http#checks/rerequestsuite) | **POST** /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest | Rerequest a check suite
-*ChecksApi* | [**checks/setSuitesPreferences**](Apis/ChecksApi.http#checks/setsuitespreferences) | **PATCH** /repos/{owner}/{repo}/check-suites/preferences | Update repository preferences for check suites
-*ChecksApi* | [**checks/update**](Apis/ChecksApi.http#checks/update) | **PATCH** /repos/{owner}/{repo}/check-runs/{check_run_id} | Update a check run
-*ClassroomApi* | [**classroom/getAClassroom**](Apis/ClassroomApi.http#classroom/getaclassroom) | **GET** /classrooms/{classroom_id} | Get a classroom
-*ClassroomApi* | [**classroom/getAnAssignment**](Apis/ClassroomApi.http#classroom/getanassignment) | **GET** /assignments/{assignment_id} | Get an assignment
-*ClassroomApi* | [**classroom/getAssignmentGrades**](Apis/ClassroomApi.http#classroom/getassignmentgrades) | **GET** /assignments/{assignment_id}/grades | Get assignment grades
-*ClassroomApi* | [**classroom/listAcceptedAssigmentsForAnAssignment**](Apis/ClassroomApi.http#classroom/listacceptedassigmentsforanassignment) | **GET** /assignments/{assignment_id}/accepted_assignments | List accepted assignments for an assignment
-*ClassroomApi* | [**classroom/listAssignmentsForAClassroom**](Apis/ClassroomApi.http#classroom/listassignmentsforaclassroom) | **GET** /classrooms/{classroom_id}/assignments | List assignments for a classroom
-*ClassroomApi* | [**classroom/listClassrooms**](Apis/ClassroomApi.http#classroom/listclassrooms) | **GET** /classrooms | List classrooms
+*ActionsApi* | [**actionsAddCustomLabelsToSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionsaddcustomlabelstoselfhostedrunnerfororg) | **POST** /orgs/{org}/actions/runners/{runner_id}/labels | Add custom labels to a self-hosted runner for an organization
+*ActionsApi* | [**actionsAddCustomLabelsToSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionsaddcustomlabelstoselfhostedrunnerforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Add custom labels to a self-hosted runner for a repository
+*ActionsApi* | [**actionsAddSelectedRepoToOrgSecret**](Apis/ActionsApi.http#actionsaddselectedrepotoorgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
+*ActionsApi* | [**actionsAddSelectedRepoToOrgVariable**](Apis/ActionsApi.http#actionsaddselectedrepotoorgvariable) | **PUT** /orgs/{org}/actions/variables/{name}/repositories/{repository_id} | Add selected repository to an organization variable
+*ActionsApi* | [**actionsApproveWorkflowRun**](Apis/ActionsApi.http#actionsapproveworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/approve | Approve a workflow run for a fork pull request
+*ActionsApi* | [**actionsCancelWorkflowRun**](Apis/ActionsApi.http#actionscancelworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/cancel | Cancel a workflow run
+*ActionsApi* | [**actionsCreateEnvironmentVariable**](Apis/ActionsApi.http#actionscreateenvironmentvariable) | **POST** /repositories/{repository_id}/environments/{environment_name}/variables | Create an environment variable
+*ActionsApi* | [**actionsCreateOrUpdateEnvironmentSecret**](Apis/ActionsApi.http#actionscreateorupdateenvironmentsecret) | **PUT** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Create or update an environment secret
+*ActionsApi* | [**actionsCreateOrUpdateOrgSecret**](Apis/ActionsApi.http#actionscreateorupdateorgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name} | Create or update an organization secret
+*ActionsApi* | [**actionsCreateOrUpdateRepoSecret**](Apis/ActionsApi.http#actionscreateorupdatereposecret) | **PUT** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Create or update a repository secret
+*ActionsApi* | [**actionsCreateOrgVariable**](Apis/ActionsApi.http#actionscreateorgvariable) | **POST** /orgs/{org}/actions/variables | Create an organization variable
+*ActionsApi* | [**actionsCreateRegistrationTokenForOrg**](Apis/ActionsApi.http#actionscreateregistrationtokenfororg) | **POST** /orgs/{org}/actions/runners/registration-token | Create a registration token for an organization
+*ActionsApi* | [**actionsCreateRegistrationTokenForRepo**](Apis/ActionsApi.http#actionscreateregistrationtokenforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/registration-token | Create a registration token for a repository
+*ActionsApi* | [**actionsCreateRemoveTokenForOrg**](Apis/ActionsApi.http#actionscreateremovetokenfororg) | **POST** /orgs/{org}/actions/runners/remove-token | Create a remove token for an organization
+*ActionsApi* | [**actionsCreateRemoveTokenForRepo**](Apis/ActionsApi.http#actionscreateremovetokenforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/remove-token | Create a remove token for a repository
+*ActionsApi* | [**actionsCreateRepoVariable**](Apis/ActionsApi.http#actionscreaterepovariable) | **POST** /repos/{owner}/{repo}/actions/variables | Create a repository variable
+*ActionsApi* | [**actionsCreateWorkflowDispatch**](Apis/ActionsApi.http#actionscreateworkflowdispatch) | **POST** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches | Create a workflow dispatch event
+*ActionsApi* | [**actionsDeleteActionsCacheById**](Apis/ActionsApi.http#actionsdeleteactionscachebyid) | **DELETE** /repos/{owner}/{repo}/actions/caches/{cache_id} | Delete a GitHub Actions cache for a repository (using a cache ID)
+*ActionsApi* | [**actionsDeleteActionsCacheByKey**](Apis/ActionsApi.http#actionsdeleteactionscachebykey) | **DELETE** /repos/{owner}/{repo}/actions/caches | Delete GitHub Actions caches for a repository (using a cache key)
+*ActionsApi* | [**actionsDeleteArtifact**](Apis/ActionsApi.http#actionsdeleteartifact) | **DELETE** /repos/{owner}/{repo}/actions/artifacts/{artifact_id} | Delete an artifact
+*ActionsApi* | [**actionsDeleteEnvironmentSecret**](Apis/ActionsApi.http#actionsdeleteenvironmentsecret) | **DELETE** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Delete an environment secret
+*ActionsApi* | [**actionsDeleteEnvironmentVariable**](Apis/ActionsApi.http#actionsdeleteenvironmentvariable) | **DELETE** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Delete an environment variable
+*ActionsApi* | [**actionsDeleteOrgSecret**](Apis/ActionsApi.http#actionsdeleteorgsecret) | **DELETE** /orgs/{org}/actions/secrets/{secret_name} | Delete an organization secret
+*ActionsApi* | [**actionsDeleteOrgVariable**](Apis/ActionsApi.http#actionsdeleteorgvariable) | **DELETE** /orgs/{org}/actions/variables/{name} | Delete an organization variable
+*ActionsApi* | [**actionsDeleteRepoSecret**](Apis/ActionsApi.http#actionsdeletereposecret) | **DELETE** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Delete a repository secret
+*ActionsApi* | [**actionsDeleteRepoVariable**](Apis/ActionsApi.http#actionsdeleterepovariable) | **DELETE** /repos/{owner}/{repo}/actions/variables/{name} | Delete a repository variable
+*ActionsApi* | [**actionsDeleteSelfHostedRunnerFromOrg**](Apis/ActionsApi.http#actionsdeleteselfhostedrunnerfromorg) | **DELETE** /orgs/{org}/actions/runners/{runner_id} | Delete a self-hosted runner from an organization
+*ActionsApi* | [**actionsDeleteSelfHostedRunnerFromRepo**](Apis/ActionsApi.http#actionsdeleteselfhostedrunnerfromrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id} | Delete a self-hosted runner from a repository
+*ActionsApi* | [**actionsDeleteWorkflowRun**](Apis/ActionsApi.http#actionsdeleteworkflowrun) | **DELETE** /repos/{owner}/{repo}/actions/runs/{run_id} | Delete a workflow run
+*ActionsApi* | [**actionsDeleteWorkflowRunLogs**](Apis/ActionsApi.http#actionsdeleteworkflowrunlogs) | **DELETE** /repos/{owner}/{repo}/actions/runs/{run_id}/logs | Delete workflow run logs
+*ActionsApi* | [**actionsDisableSelectedRepositoryGithubActionsOrganization**](Apis/ActionsApi.http#actionsdisableselectedrepositorygithubactionsorganization) | **DELETE** /orgs/{org}/actions/permissions/repositories/{repository_id} | Disable a selected repository for GitHub Actions in an organization
+*ActionsApi* | [**actionsDisableWorkflow**](Apis/ActionsApi.http#actionsdisableworkflow) | **PUT** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/disable | Disable a workflow
+*ActionsApi* | [**actionsDownloadArtifact**](Apis/ActionsApi.http#actionsdownloadartifact) | **GET** /repos/{owner}/{repo}/actions/artifacts/{artifact_id}/{archive_format} | Download an artifact
+*ActionsApi* | [**actionsDownloadJobLogsForWorkflowRun**](Apis/ActionsApi.http#actionsdownloadjoblogsforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/jobs/{job_id}/logs | Download job logs for a workflow run
+*ActionsApi* | [**actionsDownloadWorkflowRunAttemptLogs**](Apis/ActionsApi.http#actionsdownloadworkflowrunattemptlogs) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/logs | Download workflow run attempt logs
+*ActionsApi* | [**actionsDownloadWorkflowRunLogs**](Apis/ActionsApi.http#actionsdownloadworkflowrunlogs) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/logs | Download workflow run logs
+*ActionsApi* | [**actionsEnableSelectedRepositoryGithubActionsOrganization**](Apis/ActionsApi.http#actionsenableselectedrepositorygithubactionsorganization) | **PUT** /orgs/{org}/actions/permissions/repositories/{repository_id} | Enable a selected repository for GitHub Actions in an organization
+*ActionsApi* | [**actionsEnableWorkflow**](Apis/ActionsApi.http#actionsenableworkflow) | **PUT** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/enable | Enable a workflow
+*ActionsApi* | [**actionsForceCancelWorkflowRun**](Apis/ActionsApi.http#actionsforcecancelworkflowrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/force-cancel | Force cancel a workflow run
+*ActionsApi* | [**actionsGenerateRunnerJitconfigForOrg**](Apis/ActionsApi.http#actionsgeneraterunnerjitconfigfororg) | **POST** /orgs/{org}/actions/runners/generate-jitconfig | Create configuration for a just-in-time runner for an organization
+*ActionsApi* | [**actionsGenerateRunnerJitconfigForRepo**](Apis/ActionsApi.http#actionsgeneraterunnerjitconfigforrepo) | **POST** /repos/{owner}/{repo}/actions/runners/generate-jitconfig | Create configuration for a just-in-time runner for a repository
+*ActionsApi* | [**actionsGetActionsCacheList**](Apis/ActionsApi.http#actionsgetactionscachelist) | **GET** /repos/{owner}/{repo}/actions/caches | List GitHub Actions caches for a repository
+*ActionsApi* | [**actionsGetActionsCacheUsage**](Apis/ActionsApi.http#actionsgetactionscacheusage) | **GET** /repos/{owner}/{repo}/actions/cache/usage | Get GitHub Actions cache usage for a repository
+*ActionsApi* | [**actionsGetActionsCacheUsageByRepoForOrg**](Apis/ActionsApi.http#actionsgetactionscacheusagebyrepofororg) | **GET** /orgs/{org}/actions/cache/usage-by-repository | List repositories with GitHub Actions cache usage for an organization
+*ActionsApi* | [**actionsGetActionsCacheUsageForOrg**](Apis/ActionsApi.http#actionsgetactionscacheusagefororg) | **GET** /orgs/{org}/actions/cache/usage | Get GitHub Actions cache usage for an organization
+*ActionsApi* | [**actionsGetAllowedActionsOrganization**](Apis/ActionsApi.http#actionsgetallowedactionsorganization) | **GET** /orgs/{org}/actions/permissions/selected-actions | Get allowed actions and reusable workflows for an organization
+*ActionsApi* | [**actionsGetAllowedActionsRepository**](Apis/ActionsApi.http#actionsgetallowedactionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions/selected-actions | Get allowed actions and reusable workflows for a repository
+*ActionsApi* | [**actionsGetArtifact**](Apis/ActionsApi.http#actionsgetartifact) | **GET** /repos/{owner}/{repo}/actions/artifacts/{artifact_id} | Get an artifact
+*ActionsApi* | [**actionsGetCustomOidcSubClaimForRepo**](Apis/ActionsApi.http#actionsgetcustomoidcsubclaimforrepo) | **GET** /repos/{owner}/{repo}/actions/oidc/customization/sub | Get the customization template for an OIDC subject claim for a repository
+*ActionsApi* | [**actionsGetEnvironmentPublicKey**](Apis/ActionsApi.http#actionsgetenvironmentpublickey) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets/public-key | Get an environment public key
+*ActionsApi* | [**actionsGetEnvironmentSecret**](Apis/ActionsApi.http#actionsgetenvironmentsecret) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets/{secret_name} | Get an environment secret
+*ActionsApi* | [**actionsGetEnvironmentVariable**](Apis/ActionsApi.http#actionsgetenvironmentvariable) | **GET** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Get an environment variable
+*ActionsApi* | [**actionsGetGithubActionsDefaultWorkflowPermissionsOrganization**](Apis/ActionsApi.http#actionsgetgithubactionsdefaultworkflowpermissionsorganization) | **GET** /orgs/{org}/actions/permissions/workflow | Get default workflow permissions for an organization
+*ActionsApi* | [**actionsGetGithubActionsDefaultWorkflowPermissionsRepository**](Apis/ActionsApi.http#actionsgetgithubactionsdefaultworkflowpermissionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions/workflow | Get default workflow permissions for a repository
+*ActionsApi* | [**actionsGetGithubActionsPermissionsOrganization**](Apis/ActionsApi.http#actionsgetgithubactionspermissionsorganization) | **GET** /orgs/{org}/actions/permissions | Get GitHub Actions permissions for an organization
+*ActionsApi* | [**actionsGetGithubActionsPermissionsRepository**](Apis/ActionsApi.http#actionsgetgithubactionspermissionsrepository) | **GET** /repos/{owner}/{repo}/actions/permissions | Get GitHub Actions permissions for a repository
+*ActionsApi* | [**actionsGetJobForWorkflowRun**](Apis/ActionsApi.http#actionsgetjobforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/jobs/{job_id} | Get a job for a workflow run
+*ActionsApi* | [**actionsGetOrgPublicKey**](Apis/ActionsApi.http#actionsgetorgpublickey) | **GET** /orgs/{org}/actions/secrets/public-key | Get an organization public key
+*ActionsApi* | [**actionsGetOrgSecret**](Apis/ActionsApi.http#actionsgetorgsecret) | **GET** /orgs/{org}/actions/secrets/{secret_name} | Get an organization secret
+*ActionsApi* | [**actionsGetOrgVariable**](Apis/ActionsApi.http#actionsgetorgvariable) | **GET** /orgs/{org}/actions/variables/{name} | Get an organization variable
+*ActionsApi* | [**actionsGetPendingDeploymentsForRun**](Apis/ActionsApi.http#actionsgetpendingdeploymentsforrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments | Get pending deployments for a workflow run
+*ActionsApi* | [**actionsGetRepoPublicKey**](Apis/ActionsApi.http#actionsgetrepopublickey) | **GET** /repos/{owner}/{repo}/actions/secrets/public-key | Get a repository public key
+*ActionsApi* | [**actionsGetRepoSecret**](Apis/ActionsApi.http#actionsgetreposecret) | **GET** /repos/{owner}/{repo}/actions/secrets/{secret_name} | Get a repository secret
+*ActionsApi* | [**actionsGetRepoVariable**](Apis/ActionsApi.http#actionsgetrepovariable) | **GET** /repos/{owner}/{repo}/actions/variables/{name} | Get a repository variable
+*ActionsApi* | [**actionsGetReviewsForRun**](Apis/ActionsApi.http#actionsgetreviewsforrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/approvals | Get the review history for a workflow run
+*ActionsApi* | [**actionsGetSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionsgetselfhostedrunnerfororg) | **GET** /orgs/{org}/actions/runners/{runner_id} | Get a self-hosted runner for an organization
+*ActionsApi* | [**actionsGetSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionsgetselfhostedrunnerforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/{runner_id} | Get a self-hosted runner for a repository
+*ActionsApi* | [**actionsGetWorkflow**](Apis/ActionsApi.http#actionsgetworkflow) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id} | Get a workflow
+*ActionsApi* | [**actionsGetWorkflowAccessToRepository**](Apis/ActionsApi.http#actionsgetworkflowaccesstorepository) | **GET** /repos/{owner}/{repo}/actions/permissions/access | Get the level of access for workflows outside of the repository
+*ActionsApi* | [**actionsGetWorkflowRun**](Apis/ActionsApi.http#actionsgetworkflowrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id} | Get a workflow run
+*ActionsApi* | [**actionsGetWorkflowRunAttempt**](Apis/ActionsApi.http#actionsgetworkflowrunattempt) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number} | Get a workflow run attempt
+*ActionsApi* | [**actionsGetWorkflowRunUsage**](Apis/ActionsApi.http#actionsgetworkflowrunusage) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/timing | Get workflow run usage
+*ActionsApi* | [**actionsGetWorkflowUsage**](Apis/ActionsApi.http#actionsgetworkflowusage) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/timing | Get workflow usage
+*ActionsApi* | [**actionsListArtifactsForRepo**](Apis/ActionsApi.http#actionslistartifactsforrepo) | **GET** /repos/{owner}/{repo}/actions/artifacts | List artifacts for a repository
+*ActionsApi* | [**actionsListEnvironmentSecrets**](Apis/ActionsApi.http#actionslistenvironmentsecrets) | **GET** /repositories/{repository_id}/environments/{environment_name}/secrets | List environment secrets
+*ActionsApi* | [**actionsListEnvironmentVariables**](Apis/ActionsApi.http#actionslistenvironmentvariables) | **GET** /repositories/{repository_id}/environments/{environment_name}/variables | List environment variables
+*ActionsApi* | [**actionsListJobsForWorkflowRun**](Apis/ActionsApi.http#actionslistjobsforworkflowrun) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/jobs | List jobs for a workflow run
+*ActionsApi* | [**actionsListJobsForWorkflowRunAttempt**](Apis/ActionsApi.http#actionslistjobsforworkflowrunattempt) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs | List jobs for a workflow run attempt
+*ActionsApi* | [**actionsListLabelsForSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionslistlabelsforselfhostedrunnerfororg) | **GET** /orgs/{org}/actions/runners/{runner_id}/labels | List labels for a self-hosted runner for an organization
+*ActionsApi* | [**actionsListLabelsForSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionslistlabelsforselfhostedrunnerforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | List labels for a self-hosted runner for a repository
+*ActionsApi* | [**actionsListOrgSecrets**](Apis/ActionsApi.http#actionslistorgsecrets) | **GET** /orgs/{org}/actions/secrets | List organization secrets
+*ActionsApi* | [**actionsListOrgVariables**](Apis/ActionsApi.http#actionslistorgvariables) | **GET** /orgs/{org}/actions/variables | List organization variables
+*ActionsApi* | [**actionsListRepoOrganizationSecrets**](Apis/ActionsApi.http#actionslistrepoorganizationsecrets) | **GET** /repos/{owner}/{repo}/actions/organization-secrets | List repository organization secrets
+*ActionsApi* | [**actionsListRepoOrganizationVariables**](Apis/ActionsApi.http#actionslistrepoorganizationvariables) | **GET** /repos/{owner}/{repo}/actions/organization-variables | List repository organization variables
+*ActionsApi* | [**actionsListRepoSecrets**](Apis/ActionsApi.http#actionslistreposecrets) | **GET** /repos/{owner}/{repo}/actions/secrets | List repository secrets
+*ActionsApi* | [**actionsListRepoVariables**](Apis/ActionsApi.http#actionslistrepovariables) | **GET** /repos/{owner}/{repo}/actions/variables | List repository variables
+*ActionsApi* | [**actionsListRepoWorkflows**](Apis/ActionsApi.http#actionslistrepoworkflows) | **GET** /repos/{owner}/{repo}/actions/workflows | List repository workflows
+*ActionsApi* | [**actionsListRunnerApplicationsForOrg**](Apis/ActionsApi.http#actionslistrunnerapplicationsfororg) | **GET** /orgs/{org}/actions/runners/downloads | List runner applications for an organization
+*ActionsApi* | [**actionsListRunnerApplicationsForRepo**](Apis/ActionsApi.http#actionslistrunnerapplicationsforrepo) | **GET** /repos/{owner}/{repo}/actions/runners/downloads | List runner applications for a repository
+*ActionsApi* | [**actionsListSelectedReposForOrgSecret**](Apis/ActionsApi.http#actionslistselectedreposfororgsecret) | **GET** /orgs/{org}/actions/secrets/{secret_name}/repositories | List selected repositories for an organization secret
+*ActionsApi* | [**actionsListSelectedReposForOrgVariable**](Apis/ActionsApi.http#actionslistselectedreposfororgvariable) | **GET** /orgs/{org}/actions/variables/{name}/repositories | List selected repositories for an organization variable
+*ActionsApi* | [**actionsListSelectedRepositoriesEnabledGithubActionsOrganization**](Apis/ActionsApi.http#actionslistselectedrepositoriesenabledgithubactionsorganization) | **GET** /orgs/{org}/actions/permissions/repositories | List selected repositories enabled for GitHub Actions in an organization
+*ActionsApi* | [**actionsListSelfHostedRunnersForOrg**](Apis/ActionsApi.http#actionslistselfhostedrunnersfororg) | **GET** /orgs/{org}/actions/runners | List self-hosted runners for an organization
+*ActionsApi* | [**actionsListSelfHostedRunnersForRepo**](Apis/ActionsApi.http#actionslistselfhostedrunnersforrepo) | **GET** /repos/{owner}/{repo}/actions/runners | List self-hosted runners for a repository
+*ActionsApi* | [**actionsListWorkflowRunArtifacts**](Apis/ActionsApi.http#actionslistworkflowrunartifacts) | **GET** /repos/{owner}/{repo}/actions/runs/{run_id}/artifacts | List workflow run artifacts
+*ActionsApi* | [**actionsListWorkflowRuns**](Apis/ActionsApi.http#actionslistworkflowruns) | **GET** /repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs | List workflow runs for a workflow
+*ActionsApi* | [**actionsListWorkflowRunsForRepo**](Apis/ActionsApi.http#actionslistworkflowrunsforrepo) | **GET** /repos/{owner}/{repo}/actions/runs | List workflow runs for a repository
+*ActionsApi* | [**actionsReRunJobForWorkflowRun**](Apis/ActionsApi.http#actionsrerunjobforworkflowrun) | **POST** /repos/{owner}/{repo}/actions/jobs/{job_id}/rerun | Re-run a job from a workflow run
+*ActionsApi* | [**actionsReRunWorkflow**](Apis/ActionsApi.http#actionsrerunworkflow) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/rerun | Re-run a workflow
+*ActionsApi* | [**actionsReRunWorkflowFailedJobs**](Apis/ActionsApi.http#actionsrerunworkflowfailedjobs) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/rerun-failed-jobs | Re-run failed jobs from a workflow run
+*ActionsApi* | [**actionsRemoveAllCustomLabelsFromSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionsremoveallcustomlabelsfromselfhostedrunnerfororg) | **DELETE** /orgs/{org}/actions/runners/{runner_id}/labels | Remove all custom labels from a self-hosted runner for an organization
+*ActionsApi* | [**actionsRemoveAllCustomLabelsFromSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionsremoveallcustomlabelsfromselfhostedrunnerforrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Remove all custom labels from a self-hosted runner for a repository
+*ActionsApi* | [**actionsRemoveCustomLabelFromSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionsremovecustomlabelfromselfhostedrunnerfororg) | **DELETE** /orgs/{org}/actions/runners/{runner_id}/labels/{name} | Remove a custom label from a self-hosted runner for an organization
+*ActionsApi* | [**actionsRemoveCustomLabelFromSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionsremovecustomlabelfromselfhostedrunnerforrepo) | **DELETE** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels/{name} | Remove a custom label from a self-hosted runner for a repository
+*ActionsApi* | [**actionsRemoveSelectedRepoFromOrgSecret**](Apis/ActionsApi.http#actionsremoveselectedrepofromorgsecret) | **DELETE** /orgs/{org}/actions/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
+*ActionsApi* | [**actionsRemoveSelectedRepoFromOrgVariable**](Apis/ActionsApi.http#actionsremoveselectedrepofromorgvariable) | **DELETE** /orgs/{org}/actions/variables/{name}/repositories/{repository_id} | Remove selected repository from an organization variable
+*ActionsApi* | [**actionsReviewCustomGatesForRun**](Apis/ActionsApi.http#actionsreviewcustomgatesforrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/deployment_protection_rule | Review custom deployment protection rules for a workflow run
+*ActionsApi* | [**actionsReviewPendingDeploymentsForRun**](Apis/ActionsApi.http#actionsreviewpendingdeploymentsforrun) | **POST** /repos/{owner}/{repo}/actions/runs/{run_id}/pending_deployments | Review pending deployments for a workflow run
+*ActionsApi* | [**actionsSetAllowedActionsOrganization**](Apis/ActionsApi.http#actionssetallowedactionsorganization) | **PUT** /orgs/{org}/actions/permissions/selected-actions | Set allowed actions and reusable workflows for an organization
+*ActionsApi* | [**actionsSetAllowedActionsRepository**](Apis/ActionsApi.http#actionssetallowedactionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/selected-actions | Set allowed actions and reusable workflows for a repository
+*ActionsApi* | [**actionsSetCustomLabelsForSelfHostedRunnerForOrg**](Apis/ActionsApi.http#actionssetcustomlabelsforselfhostedrunnerfororg) | **PUT** /orgs/{org}/actions/runners/{runner_id}/labels | Set custom labels for a self-hosted runner for an organization
+*ActionsApi* | [**actionsSetCustomLabelsForSelfHostedRunnerForRepo**](Apis/ActionsApi.http#actionssetcustomlabelsforselfhostedrunnerforrepo) | **PUT** /repos/{owner}/{repo}/actions/runners/{runner_id}/labels | Set custom labels for a self-hosted runner for a repository
+*ActionsApi* | [**actionsSetCustomOidcSubClaimForRepo**](Apis/ActionsApi.http#actionssetcustomoidcsubclaimforrepo) | **PUT** /repos/{owner}/{repo}/actions/oidc/customization/sub | Set the customization template for an OIDC subject claim for a repository
+*ActionsApi* | [**actionsSetGithubActionsDefaultWorkflowPermissionsOrganization**](Apis/ActionsApi.http#actionssetgithubactionsdefaultworkflowpermissionsorganization) | **PUT** /orgs/{org}/actions/permissions/workflow | Set default workflow permissions for an organization
+*ActionsApi* | [**actionsSetGithubActionsDefaultWorkflowPermissionsRepository**](Apis/ActionsApi.http#actionssetgithubactionsdefaultworkflowpermissionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/workflow | Set default workflow permissions for a repository
+*ActionsApi* | [**actionsSetGithubActionsPermissionsOrganization**](Apis/ActionsApi.http#actionssetgithubactionspermissionsorganization) | **PUT** /orgs/{org}/actions/permissions | Set GitHub Actions permissions for an organization
+*ActionsApi* | [**actionsSetGithubActionsPermissionsRepository**](Apis/ActionsApi.http#actionssetgithubactionspermissionsrepository) | **PUT** /repos/{owner}/{repo}/actions/permissions | Set GitHub Actions permissions for a repository
+*ActionsApi* | [**actionsSetSelectedReposForOrgSecret**](Apis/ActionsApi.http#actionssetselectedreposfororgsecret) | **PUT** /orgs/{org}/actions/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
+*ActionsApi* | [**actionsSetSelectedReposForOrgVariable**](Apis/ActionsApi.http#actionssetselectedreposfororgvariable) | **PUT** /orgs/{org}/actions/variables/{name}/repositories | Set selected repositories for an organization variable
+*ActionsApi* | [**actionsSetSelectedRepositoriesEnabledGithubActionsOrganization**](Apis/ActionsApi.http#actionssetselectedrepositoriesenabledgithubactionsorganization) | **PUT** /orgs/{org}/actions/permissions/repositories | Set selected repositories enabled for GitHub Actions in an organization
+*ActionsApi* | [**actionsSetWorkflowAccessToRepository**](Apis/ActionsApi.http#actionssetworkflowaccesstorepository) | **PUT** /repos/{owner}/{repo}/actions/permissions/access | Set the level of access for workflows outside of the repository
+*ActionsApi* | [**actionsUpdateEnvironmentVariable**](Apis/ActionsApi.http#actionsupdateenvironmentvariable) | **PATCH** /repositories/{repository_id}/environments/{environment_name}/variables/{name} | Update an environment variable
+*ActionsApi* | [**actionsUpdateOrgVariable**](Apis/ActionsApi.http#actionsupdateorgvariable) | **PATCH** /orgs/{org}/actions/variables/{name} | Update an organization variable
+*ActionsApi* | [**actionsUpdateRepoVariable**](Apis/ActionsApi.http#actionsupdaterepovariable) | **PATCH** /repos/{owner}/{repo}/actions/variables/{name} | Update a repository variable
+*ActivityApi* | [**activityCheckRepoIsStarredByAuthenticatedUser**](Apis/ActivityApi.http#activitycheckrepoisstarredbyauthenticateduser) | **GET** /user/starred/{owner}/{repo} | Check if a repository is starred by the authenticated user
+*ActivityApi* | [**activityDeleteRepoSubscription**](Apis/ActivityApi.http#activitydeletereposubscription) | **DELETE** /repos/{owner}/{repo}/subscription | Delete a repository subscription
+*ActivityApi* | [**activityDeleteThreadSubscription**](Apis/ActivityApi.http#activitydeletethreadsubscription) | **DELETE** /notifications/threads/{thread_id}/subscription | Delete a thread subscription
+*ActivityApi* | [**activityGetFeeds**](Apis/ActivityApi.http#activitygetfeeds) | **GET** /feeds | Get feeds
+*ActivityApi* | [**activityGetRepoSubscription**](Apis/ActivityApi.http#activitygetreposubscription) | **GET** /repos/{owner}/{repo}/subscription | Get a repository subscription
+*ActivityApi* | [**activityGetThread**](Apis/ActivityApi.http#activitygetthread) | **GET** /notifications/threads/{thread_id} | Get a thread
+*ActivityApi* | [**activityGetThreadSubscriptionForAuthenticatedUser**](Apis/ActivityApi.http#activitygetthreadsubscriptionforauthenticateduser) | **GET** /notifications/threads/{thread_id}/subscription | Get a thread subscription for the authenticated user
+*ActivityApi* | [**activityListEventsForAuthenticatedUser**](Apis/ActivityApi.http#activitylisteventsforauthenticateduser) | **GET** /users/{username}/events | List events for the authenticated user
+*ActivityApi* | [**activityListNotificationsForAuthenticatedUser**](Apis/ActivityApi.http#activitylistnotificationsforauthenticateduser) | **GET** /notifications | List notifications for the authenticated user
+*ActivityApi* | [**activityListOrgEventsForAuthenticatedUser**](Apis/ActivityApi.http#activitylistorgeventsforauthenticateduser) | **GET** /users/{username}/events/orgs/{org} | List organization events for the authenticated user
+*ActivityApi* | [**activityListPublicEvents**](Apis/ActivityApi.http#activitylistpublicevents) | **GET** /events | List public events
+*ActivityApi* | [**activityListPublicEventsForRepoNetwork**](Apis/ActivityApi.http#activitylistpubliceventsforreponetwork) | **GET** /networks/{owner}/{repo}/events | List public events for a network of repositories
+*ActivityApi* | [**activityListPublicEventsForUser**](Apis/ActivityApi.http#activitylistpubliceventsforuser) | **GET** /users/{username}/events/public | List public events for a user
+*ActivityApi* | [**activityListPublicOrgEvents**](Apis/ActivityApi.http#activitylistpublicorgevents) | **GET** /orgs/{org}/events | List public organization events
+*ActivityApi* | [**activityListReceivedEventsForUser**](Apis/ActivityApi.http#activitylistreceivedeventsforuser) | **GET** /users/{username}/received_events | List events received by the authenticated user
+*ActivityApi* | [**activityListReceivedPublicEventsForUser**](Apis/ActivityApi.http#activitylistreceivedpubliceventsforuser) | **GET** /users/{username}/received_events/public | List public events received by a user
+*ActivityApi* | [**activityListRepoEvents**](Apis/ActivityApi.http#activitylistrepoevents) | **GET** /repos/{owner}/{repo}/events | List repository events
+*ActivityApi* | [**activityListRepoNotificationsForAuthenticatedUser**](Apis/ActivityApi.http#activitylistreponotificationsforauthenticateduser) | **GET** /repos/{owner}/{repo}/notifications | List repository notifications for the authenticated user
+*ActivityApi* | [**activityListReposStarredByAuthenticatedUser**](Apis/ActivityApi.http#activitylistreposstarredbyauthenticateduser) | **GET** /user/starred | List repositories starred by the authenticated user
+*ActivityApi* | [**activityListReposStarredByUser**](Apis/ActivityApi.http#activitylistreposstarredbyuser) | **GET** /users/{username}/starred | List repositories starred by a user
+*ActivityApi* | [**activityListReposWatchedByUser**](Apis/ActivityApi.http#activitylistreposwatchedbyuser) | **GET** /users/{username}/subscriptions | List repositories watched by a user
+*ActivityApi* | [**activityListStargazersForRepo**](Apis/ActivityApi.http#activityliststargazersforrepo) | **GET** /repos/{owner}/{repo}/stargazers | List stargazers
+*ActivityApi* | [**activityListWatchedReposForAuthenticatedUser**](Apis/ActivityApi.http#activitylistwatchedreposforauthenticateduser) | **GET** /user/subscriptions | List repositories watched by the authenticated user
+*ActivityApi* | [**activityListWatchersForRepo**](Apis/ActivityApi.http#activitylistwatchersforrepo) | **GET** /repos/{owner}/{repo}/subscribers | List watchers
+*ActivityApi* | [**activityMarkNotificationsAsRead**](Apis/ActivityApi.http#activitymarknotificationsasread) | **PUT** /notifications | Mark notifications as read
+*ActivityApi* | [**activityMarkRepoNotificationsAsRead**](Apis/ActivityApi.http#activitymarkreponotificationsasread) | **PUT** /repos/{owner}/{repo}/notifications | Mark repository notifications as read
+*ActivityApi* | [**activityMarkThreadAsDone**](Apis/ActivityApi.http#activitymarkthreadasdone) | **DELETE** /notifications/threads/{thread_id} | Mark a thread as done
+*ActivityApi* | [**activityMarkThreadAsRead**](Apis/ActivityApi.http#activitymarkthreadasread) | **PATCH** /notifications/threads/{thread_id} | Mark a thread as read
+*ActivityApi* | [**activitySetRepoSubscription**](Apis/ActivityApi.http#activitysetreposubscription) | **PUT** /repos/{owner}/{repo}/subscription | Set a repository subscription
+*ActivityApi* | [**activitySetThreadSubscription**](Apis/ActivityApi.http#activitysetthreadsubscription) | **PUT** /notifications/threads/{thread_id}/subscription | Set a thread subscription
+*ActivityApi* | [**activityStarRepoForAuthenticatedUser**](Apis/ActivityApi.http#activitystarrepoforauthenticateduser) | **PUT** /user/starred/{owner}/{repo} | Star a repository for the authenticated user
+*ActivityApi* | [**activityUnstarRepoForAuthenticatedUser**](Apis/ActivityApi.http#activityunstarrepoforauthenticateduser) | **DELETE** /user/starred/{owner}/{repo} | Unstar a repository for the authenticated user
+*AppsApi* | [**appsAddRepoToInstallationForAuthenticatedUser**](Apis/AppsApi.http#appsaddrepotoinstallationforauthenticateduser) | **PUT** /user/installations/{installation_id}/repositories/{repository_id} | Add a repository to an app installation
+*AppsApi* | [**appsCheckToken**](Apis/AppsApi.http#appschecktoken) | **POST** /applications/{client_id}/token | Check a token
+*AppsApi* | [**appsCreateFromManifest**](Apis/AppsApi.http#appscreatefrommanifest) | **POST** /app-manifests/{code}/conversions | Create a GitHub App from a manifest
+*AppsApi* | [**appsCreateInstallationAccessToken**](Apis/AppsApi.http#appscreateinstallationaccesstoken) | **POST** /app/installations/{installation_id}/access_tokens | Create an installation access token for an app
+*AppsApi* | [**appsDeleteAuthorization**](Apis/AppsApi.http#appsdeleteauthorization) | **DELETE** /applications/{client_id}/grant | Delete an app authorization
+*AppsApi* | [**appsDeleteInstallation**](Apis/AppsApi.http#appsdeleteinstallation) | **DELETE** /app/installations/{installation_id} | Delete an installation for the authenticated app
+*AppsApi* | [**appsDeleteToken**](Apis/AppsApi.http#appsdeletetoken) | **DELETE** /applications/{client_id}/token | Delete an app token
+*AppsApi* | [**appsGetAuthenticated**](Apis/AppsApi.http#appsgetauthenticated) | **GET** /app | Get the authenticated app
+*AppsApi* | [**appsGetBySlug**](Apis/AppsApi.http#appsgetbyslug) | **GET** /apps/{app_slug} | Get an app
+*AppsApi* | [**appsGetInstallation**](Apis/AppsApi.http#appsgetinstallation) | **GET** /app/installations/{installation_id} | Get an installation for the authenticated app
+*AppsApi* | [**appsGetOrgInstallation**](Apis/AppsApi.http#appsgetorginstallation) | **GET** /orgs/{org}/installation | Get an organization installation for the authenticated app
+*AppsApi* | [**appsGetRepoInstallation**](Apis/AppsApi.http#appsgetrepoinstallation) | **GET** /repos/{owner}/{repo}/installation | Get a repository installation for the authenticated app
+*AppsApi* | [**appsGetSubscriptionPlanForAccount**](Apis/AppsApi.http#appsgetsubscriptionplanforaccount) | **GET** /marketplace_listing/accounts/{account_id} | Get a subscription plan for an account
+*AppsApi* | [**appsGetSubscriptionPlanForAccountStubbed**](Apis/AppsApi.http#appsgetsubscriptionplanforaccountstubbed) | **GET** /marketplace_listing/stubbed/accounts/{account_id} | Get a subscription plan for an account (stubbed)
+*AppsApi* | [**appsGetUserInstallation**](Apis/AppsApi.http#appsgetuserinstallation) | **GET** /users/{username}/installation | Get a user installation for the authenticated app
+*AppsApi* | [**appsGetWebhookConfigForApp**](Apis/AppsApi.http#appsgetwebhookconfigforapp) | **GET** /app/hook/config | Get a webhook configuration for an app
+*AppsApi* | [**appsGetWebhookDelivery**](Apis/AppsApi.http#appsgetwebhookdelivery) | **GET** /app/hook/deliveries/{delivery_id} | Get a delivery for an app webhook
+*AppsApi* | [**appsListAccountsForPlan**](Apis/AppsApi.http#appslistaccountsforplan) | **GET** /marketplace_listing/plans/{plan_id}/accounts | List accounts for a plan
+*AppsApi* | [**appsListAccountsForPlanStubbed**](Apis/AppsApi.http#appslistaccountsforplanstubbed) | **GET** /marketplace_listing/stubbed/plans/{plan_id}/accounts | List accounts for a plan (stubbed)
+*AppsApi* | [**appsListInstallationReposForAuthenticatedUser**](Apis/AppsApi.http#appslistinstallationreposforauthenticateduser) | **GET** /user/installations/{installation_id}/repositories | List repositories accessible to the user access token
+*AppsApi* | [**appsListInstallationRequestsForAuthenticatedApp**](Apis/AppsApi.http#appslistinstallationrequestsforauthenticatedapp) | **GET** /app/installation-requests | List installation requests for the authenticated app
+*AppsApi* | [**appsListInstallations**](Apis/AppsApi.http#appslistinstallations) | **GET** /app/installations | List installations for the authenticated app
+*AppsApi* | [**appsListInstallationsForAuthenticatedUser**](Apis/AppsApi.http#appslistinstallationsforauthenticateduser) | **GET** /user/installations | List app installations accessible to the user access token
+*AppsApi* | [**appsListPlans**](Apis/AppsApi.http#appslistplans) | **GET** /marketplace_listing/plans | List plans
+*AppsApi* | [**appsListPlansStubbed**](Apis/AppsApi.http#appslistplansstubbed) | **GET** /marketplace_listing/stubbed/plans | List plans (stubbed)
+*AppsApi* | [**appsListReposAccessibleToInstallation**](Apis/AppsApi.http#appslistreposaccessibletoinstallation) | **GET** /installation/repositories | List repositories accessible to the app installation
+*AppsApi* | [**appsListSubscriptionsForAuthenticatedUser**](Apis/AppsApi.http#appslistsubscriptionsforauthenticateduser) | **GET** /user/marketplace_purchases | List subscriptions for the authenticated user
+*AppsApi* | [**appsListSubscriptionsForAuthenticatedUserStubbed**](Apis/AppsApi.http#appslistsubscriptionsforauthenticateduserstubbed) | **GET** /user/marketplace_purchases/stubbed | List subscriptions for the authenticated user (stubbed)
+*AppsApi* | [**appsListWebhookDeliveries**](Apis/AppsApi.http#appslistwebhookdeliveries) | **GET** /app/hook/deliveries | List deliveries for an app webhook
+*AppsApi* | [**appsRedeliverWebhookDelivery**](Apis/AppsApi.http#appsredeliverwebhookdelivery) | **POST** /app/hook/deliveries/{delivery_id}/attempts | Redeliver a delivery for an app webhook
+*AppsApi* | [**appsRemoveRepoFromInstallationForAuthenticatedUser**](Apis/AppsApi.http#appsremoverepofrominstallationforauthenticateduser) | **DELETE** /user/installations/{installation_id}/repositories/{repository_id} | Remove a repository from an app installation
+*AppsApi* | [**appsResetToken**](Apis/AppsApi.http#appsresettoken) | **PATCH** /applications/{client_id}/token | Reset a token
+*AppsApi* | [**appsRevokeInstallationAccessToken**](Apis/AppsApi.http#appsrevokeinstallationaccesstoken) | **DELETE** /installation/token | Revoke an installation access token
+*AppsApi* | [**appsScopeToken**](Apis/AppsApi.http#appsscopetoken) | **POST** /applications/{client_id}/token/scoped | Create a scoped access token
+*AppsApi* | [**appsSuspendInstallation**](Apis/AppsApi.http#appssuspendinstallation) | **PUT** /app/installations/{installation_id}/suspended | Suspend an app installation
+*AppsApi* | [**appsUnsuspendInstallation**](Apis/AppsApi.http#appsunsuspendinstallation) | **DELETE** /app/installations/{installation_id}/suspended | Unsuspend an app installation
+*AppsApi* | [**appsUpdateWebhookConfigForApp**](Apis/AppsApi.http#appsupdatewebhookconfigforapp) | **PATCH** /app/hook/config | Update a webhook configuration for an app
+*BillingApi* | [**billingGetGithubActionsBillingOrg**](Apis/BillingApi.http#billinggetgithubactionsbillingorg) | **GET** /orgs/{org}/settings/billing/actions | Get GitHub Actions billing for an organization
+*BillingApi* | [**billingGetGithubActionsBillingUser**](Apis/BillingApi.http#billinggetgithubactionsbillinguser) | **GET** /users/{username}/settings/billing/actions | Get GitHub Actions billing for a user
+*BillingApi* | [**billingGetGithubPackagesBillingOrg**](Apis/BillingApi.http#billinggetgithubpackagesbillingorg) | **GET** /orgs/{org}/settings/billing/packages | Get GitHub Packages billing for an organization
+*BillingApi* | [**billingGetGithubPackagesBillingUser**](Apis/BillingApi.http#billinggetgithubpackagesbillinguser) | **GET** /users/{username}/settings/billing/packages | Get GitHub Packages billing for a user
+*BillingApi* | [**billingGetSharedStorageBillingOrg**](Apis/BillingApi.http#billinggetsharedstoragebillingorg) | **GET** /orgs/{org}/settings/billing/shared-storage | Get shared storage billing for an organization
+*BillingApi* | [**billingGetSharedStorageBillingUser**](Apis/BillingApi.http#billinggetsharedstoragebillinguser) | **GET** /users/{username}/settings/billing/shared-storage | Get shared storage billing for a user
+*ChecksApi* | [**checksCreate**](Apis/ChecksApi.http#checkscreate) | **POST** /repos/{owner}/{repo}/check-runs | Create a check run
+*ChecksApi* | [**checksCreateSuite**](Apis/ChecksApi.http#checkscreatesuite) | **POST** /repos/{owner}/{repo}/check-suites | Create a check suite
+*ChecksApi* | [**checksGet**](Apis/ChecksApi.http#checksget) | **GET** /repos/{owner}/{repo}/check-runs/{check_run_id} | Get a check run
+*ChecksApi* | [**checksGetSuite**](Apis/ChecksApi.http#checksgetsuite) | **GET** /repos/{owner}/{repo}/check-suites/{check_suite_id} | Get a check suite
+*ChecksApi* | [**checksListAnnotations**](Apis/ChecksApi.http#checkslistannotations) | **GET** /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations | List check run annotations
+*ChecksApi* | [**checksListForRef**](Apis/ChecksApi.http#checkslistforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/check-runs | List check runs for a Git reference
+*ChecksApi* | [**checksListForSuite**](Apis/ChecksApi.http#checkslistforsuite) | **GET** /repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs | List check runs in a check suite
+*ChecksApi* | [**checksListSuitesForRef**](Apis/ChecksApi.http#checkslistsuitesforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/check-suites | List check suites for a Git reference
+*ChecksApi* | [**checksRerequestRun**](Apis/ChecksApi.http#checksrerequestrun) | **POST** /repos/{owner}/{repo}/check-runs/{check_run_id}/rerequest | Rerequest a check run
+*ChecksApi* | [**checksRerequestSuite**](Apis/ChecksApi.http#checksrerequestsuite) | **POST** /repos/{owner}/{repo}/check-suites/{check_suite_id}/rerequest | Rerequest a check suite
+*ChecksApi* | [**checksSetSuitesPreferences**](Apis/ChecksApi.http#checkssetsuitespreferences) | **PATCH** /repos/{owner}/{repo}/check-suites/preferences | Update repository preferences for check suites
+*ChecksApi* | [**checksUpdate**](Apis/ChecksApi.http#checksupdate) | **PATCH** /repos/{owner}/{repo}/check-runs/{check_run_id} | Update a check run
+*ClassroomApi* | [**classroomGetAClassroom**](Apis/ClassroomApi.http#classroomgetaclassroom) | **GET** /classrooms/{classroom_id} | Get a classroom
+*ClassroomApi* | [**classroomGetAnAssignment**](Apis/ClassroomApi.http#classroomgetanassignment) | **GET** /assignments/{assignment_id} | Get an assignment
+*ClassroomApi* | [**classroomGetAssignmentGrades**](Apis/ClassroomApi.http#classroomgetassignmentgrades) | **GET** /assignments/{assignment_id}/grades | Get assignment grades
+*ClassroomApi* | [**classroomListAcceptedAssigmentsForAnAssignment**](Apis/ClassroomApi.http#classroomlistacceptedassigmentsforanassignment) | **GET** /assignments/{assignment_id}/accepted_assignments | List accepted assignments for an assignment
+*ClassroomApi* | [**classroomListAssignmentsForAClassroom**](Apis/ClassroomApi.http#classroomlistassignmentsforaclassroom) | **GET** /classrooms/{classroom_id}/assignments | List assignments for a classroom
+*ClassroomApi* | [**classroomListClassrooms**](Apis/ClassroomApi.http#classroomlistclassrooms) | **GET** /classrooms | List classrooms
 *CodeScanningApi* | [**codeScanning/deleteAnalysis**](Apis/CodeScanningApi.http#codescanning/deleteanalysis) | **DELETE** /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id} | Delete a code scanning analysis from a repository
 *CodeScanningApi* | [**codeScanning/getAlert**](Apis/CodeScanningApi.http#codescanning/getalert) | **GET** /repos/{owner}/{repo}/code-scanning/alerts/{alert_number} | Get a code scanning alert
 *CodeScanningApi* | [**codeScanning/getAnalysis**](Apis/CodeScanningApi.http#codescanning/getanalysis) | **GET** /repos/{owner}/{repo}/code-scanning/analyses/{analysis_id} | Get a code scanning analysis for a repository
@@ -247,586 +247,586 @@ Class | Method | HTTP request | Description
 *CodeScanningApi* | [**codeScanning/uploadSarif**](Apis/CodeScanningApi.http#codescanning/uploadsarif) | **POST** /repos/{owner}/{repo}/code-scanning/sarifs | Upload an analysis as SARIF data
 *CodesOfConductApi* | [**codesOfConduct/getAllCodesOfConduct**](Apis/CodesOfConductApi.http#codesofconduct/getallcodesofconduct) | **GET** /codes_of_conduct | Get all codes of conduct
 *CodesOfConductApi* | [**codesOfConduct/getConductCode**](Apis/CodesOfConductApi.http#codesofconduct/getconductcode) | **GET** /codes_of_conduct/{key} | Get a code of conduct
-*CodespacesApi* | [**codespaces/addRepositoryForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/addrepositoryforsecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name}/repositories/{repository_id} | Add a selected repository to a user secret
-*CodespacesApi* | [**codespaces/addSelectedRepoToOrgSecret**](Apis/CodespacesApi.http#codespaces/addselectedrepotoorgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
-*CodespacesApi* | [**codespaces/checkPermissionsForDevcontainer**](Apis/CodespacesApi.http#codespaces/checkpermissionsfordevcontainer) | **GET** /repos/{owner}/{repo}/codespaces/permissions_check | Check if permissions defined by a devcontainer have been accepted by the authenticated user
-*CodespacesApi* | [**codespaces/codespaceMachinesForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/codespacemachinesforauthenticateduser) | **GET** /user/codespaces/{codespace_name}/machines | List machine types for a codespace
-*CodespacesApi* | [**codespaces/createForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/createforauthenticateduser) | **POST** /user/codespaces | Create a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/createOrUpdateOrgSecret**](Apis/CodespacesApi.http#codespaces/createorupdateorgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name} | Create or update an organization secret
-*CodespacesApi* | [**codespaces/createOrUpdateRepoSecret**](Apis/CodespacesApi.http#codespaces/createorupdatereposecret) | **PUT** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Create or update a repository secret
-*CodespacesApi* | [**codespaces/createOrUpdateSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/createorupdatesecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name} | Create or update a secret for the authenticated user
-*CodespacesApi* | [**codespaces/createWithPrForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/createwithprforauthenticateduser) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/codespaces | Create a codespace from a pull request
-*CodespacesApi* | [**codespaces/createWithRepoForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/createwithrepoforauthenticateduser) | **POST** /repos/{owner}/{repo}/codespaces | Create a codespace in a repository
-*CodespacesApi* | [**codespaces/deleteCodespacesAccessUsers**](Apis/CodespacesApi.http#codespaces/deletecodespacesaccessusers) | **DELETE** /orgs/{org}/codespaces/access/selected_users | Remove users from Codespaces access for an organization
-*CodespacesApi* | [**codespaces/deleteForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/deleteforauthenticateduser) | **DELETE** /user/codespaces/{codespace_name} | Delete a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/deleteFromOrganization**](Apis/CodespacesApi.http#codespaces/deletefromorganization) | **DELETE** /orgs/{org}/members/{username}/codespaces/{codespace_name} | Delete a codespace from the organization
-*CodespacesApi* | [**codespaces/deleteOrgSecret**](Apis/CodespacesApi.http#codespaces/deleteorgsecret) | **DELETE** /orgs/{org}/codespaces/secrets/{secret_name} | Delete an organization secret
-*CodespacesApi* | [**codespaces/deleteRepoSecret**](Apis/CodespacesApi.http#codespaces/deletereposecret) | **DELETE** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Delete a repository secret
-*CodespacesApi* | [**codespaces/deleteSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/deletesecretforauthenticateduser) | **DELETE** /user/codespaces/secrets/{secret_name} | Delete a secret for the authenticated user
-*CodespacesApi* | [**codespaces/exportForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/exportforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/exports | Export a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/getCodespacesForUserInOrg**](Apis/CodespacesApi.http#codespaces/getcodespacesforuserinorg) | **GET** /orgs/{org}/members/{username}/codespaces | List codespaces for a user in organization
-*CodespacesApi* | [**codespaces/getExportDetailsForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/getexportdetailsforauthenticateduser) | **GET** /user/codespaces/{codespace_name}/exports/{export_id} | Get details about a codespace export
-*CodespacesApi* | [**codespaces/getForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/getforauthenticateduser) | **GET** /user/codespaces/{codespace_name} | Get a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/getOrgPublicKey**](Apis/CodespacesApi.http#codespaces/getorgpublickey) | **GET** /orgs/{org}/codespaces/secrets/public-key | Get an organization public key
-*CodespacesApi* | [**codespaces/getOrgSecret**](Apis/CodespacesApi.http#codespaces/getorgsecret) | **GET** /orgs/{org}/codespaces/secrets/{secret_name} | Get an organization secret
-*CodespacesApi* | [**codespaces/getPublicKeyForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/getpublickeyforauthenticateduser) | **GET** /user/codespaces/secrets/public-key | Get public key for the authenticated user
-*CodespacesApi* | [**codespaces/getRepoPublicKey**](Apis/CodespacesApi.http#codespaces/getrepopublickey) | **GET** /repos/{owner}/{repo}/codespaces/secrets/public-key | Get a repository public key
-*CodespacesApi* | [**codespaces/getRepoSecret**](Apis/CodespacesApi.http#codespaces/getreposecret) | **GET** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Get a repository secret
-*CodespacesApi* | [**codespaces/getSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/getsecretforauthenticateduser) | **GET** /user/codespaces/secrets/{secret_name} | Get a secret for the authenticated user
-*CodespacesApi* | [**codespaces/listDevcontainersInRepositoryForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/listdevcontainersinrepositoryforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/devcontainers | List devcontainer configurations in a repository for the authenticated user
-*CodespacesApi* | [**codespaces/listForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/listforauthenticateduser) | **GET** /user/codespaces | List codespaces for the authenticated user
-*CodespacesApi* | [**codespaces/listInOrganization**](Apis/CodespacesApi.http#codespaces/listinorganization) | **GET** /orgs/{org}/codespaces | List codespaces for the organization
-*CodespacesApi* | [**codespaces/listInRepositoryForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/listinrepositoryforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces | List codespaces in a repository for the authenticated user
-*CodespacesApi* | [**codespaces/listOrgSecrets**](Apis/CodespacesApi.http#codespaces/listorgsecrets) | **GET** /orgs/{org}/codespaces/secrets | List organization secrets
-*CodespacesApi* | [**codespaces/listRepoSecrets**](Apis/CodespacesApi.http#codespaces/listreposecrets) | **GET** /repos/{owner}/{repo}/codespaces/secrets | List repository secrets
-*CodespacesApi* | [**codespaces/listRepositoriesForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/listrepositoriesforsecretforauthenticateduser) | **GET** /user/codespaces/secrets/{secret_name}/repositories | List selected repositories for a user secret
-*CodespacesApi* | [**codespaces/listSecretsForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/listsecretsforauthenticateduser) | **GET** /user/codespaces/secrets | List secrets for the authenticated user
-*CodespacesApi* | [**codespaces/listSelectedReposForOrgSecret**](Apis/CodespacesApi.http#codespaces/listselectedreposfororgsecret) | **GET** /orgs/{org}/codespaces/secrets/{secret_name}/repositories | List selected repositories for an organization secret
-*CodespacesApi* | [**codespaces/preFlightWithRepoForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/preflightwithrepoforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/new | Get default attributes for a codespace
-*CodespacesApi* | [**codespaces/publishForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/publishforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/publish | Create a repository from an unpublished codespace
-*CodespacesApi* | [**codespaces/removeRepositoryForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/removerepositoryforsecretforauthenticateduser) | **DELETE** /user/codespaces/secrets/{secret_name}/repositories/{repository_id} | Remove a selected repository from a user secret
-*CodespacesApi* | [**codespaces/removeSelectedRepoFromOrgSecret**](Apis/CodespacesApi.http#codespaces/removeselectedrepofromorgsecret) | **DELETE** /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
-*CodespacesApi* | [**codespaces/repoMachinesForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/repomachinesforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/machines | List available machine types for a repository
-*CodespacesApi* | [**codespaces/setCodespacesAccess**](Apis/CodespacesApi.http#codespaces/setcodespacesaccess) | **PUT** /orgs/{org}/codespaces/access | Manage access control for organization codespaces
-*CodespacesApi* | [**codespaces/setCodespacesAccessUsers**](Apis/CodespacesApi.http#codespaces/setcodespacesaccessusers) | **POST** /orgs/{org}/codespaces/access/selected_users | Add users to Codespaces access for an organization
-*CodespacesApi* | [**codespaces/setRepositoriesForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/setrepositoriesforsecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name}/repositories | Set selected repositories for a user secret
-*CodespacesApi* | [**codespaces/setSelectedReposForOrgSecret**](Apis/CodespacesApi.http#codespaces/setselectedreposfororgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
-*CodespacesApi* | [**codespaces/startForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/startforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/start | Start a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/stopForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/stopforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/stop | Stop a codespace for the authenticated user
-*CodespacesApi* | [**codespaces/stopInOrganization**](Apis/CodespacesApi.http#codespaces/stopinorganization) | **POST** /orgs/{org}/members/{username}/codespaces/{codespace_name}/stop | Stop a codespace for an organization user
-*CodespacesApi* | [**codespaces/updateForAuthenticatedUser**](Apis/CodespacesApi.http#codespaces/updateforauthenticateduser) | **PATCH** /user/codespaces/{codespace_name} | Update a codespace for the authenticated user
-*CopilotApi* | [**copilot/addCopilotSeatsForTeams**](Apis/CopilotApi.http#copilot/addcopilotseatsforteams) | **POST** /orgs/{org}/copilot/billing/selected_teams | Add teams to the Copilot subscription for an organization
-*CopilotApi* | [**copilot/addCopilotSeatsForUsers**](Apis/CopilotApi.http#copilot/addcopilotseatsforusers) | **POST** /orgs/{org}/copilot/billing/selected_users | Add users to the Copilot subscription for an organization
-*CopilotApi* | [**copilot/cancelCopilotSeatAssignmentForTeams**](Apis/CopilotApi.http#copilot/cancelcopilotseatassignmentforteams) | **DELETE** /orgs/{org}/copilot/billing/selected_teams | Remove teams from the Copilot subscription for an organization
-*CopilotApi* | [**copilot/cancelCopilotSeatAssignmentForUsers**](Apis/CopilotApi.http#copilot/cancelcopilotseatassignmentforusers) | **DELETE** /orgs/{org}/copilot/billing/selected_users | Remove users from the Copilot subscription for an organization
-*CopilotApi* | [**copilot/getCopilotOrganizationDetails**](Apis/CopilotApi.http#copilot/getcopilotorganizationdetails) | **GET** /orgs/{org}/copilot/billing | Get Copilot seat information and settings for an organization
-*CopilotApi* | [**copilot/getCopilotSeatDetailsForUser**](Apis/CopilotApi.http#copilot/getcopilotseatdetailsforuser) | **GET** /orgs/{org}/members/{username}/copilot | Get Copilot seat assignment details for a user
-*CopilotApi* | [**copilot/listCopilotSeats**](Apis/CopilotApi.http#copilot/listcopilotseats) | **GET** /orgs/{org}/copilot/billing/seats | List all Copilot seat assignments for an organization
-*DependabotApi* | [**dependabot/addSelectedRepoToOrgSecret**](Apis/DependabotApi.http#dependabot/addselectedrepotoorgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
-*DependabotApi* | [**dependabot/createOrUpdateOrgSecret**](Apis/DependabotApi.http#dependabot/createorupdateorgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name} | Create or update an organization secret
-*DependabotApi* | [**dependabot/createOrUpdateRepoSecret**](Apis/DependabotApi.http#dependabot/createorupdatereposecret) | **PUT** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Create or update a repository secret
-*DependabotApi* | [**dependabot/deleteOrgSecret**](Apis/DependabotApi.http#dependabot/deleteorgsecret) | **DELETE** /orgs/{org}/dependabot/secrets/{secret_name} | Delete an organization secret
-*DependabotApi* | [**dependabot/deleteRepoSecret**](Apis/DependabotApi.http#dependabot/deletereposecret) | **DELETE** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Delete a repository secret
-*DependabotApi* | [**dependabot/getAlert**](Apis/DependabotApi.http#dependabot/getalert) | **GET** /repos/{owner}/{repo}/dependabot/alerts/{alert_number} | Get a Dependabot alert
-*DependabotApi* | [**dependabot/getOrgPublicKey**](Apis/DependabotApi.http#dependabot/getorgpublickey) | **GET** /orgs/{org}/dependabot/secrets/public-key | Get an organization public key
-*DependabotApi* | [**dependabot/getOrgSecret**](Apis/DependabotApi.http#dependabot/getorgsecret) | **GET** /orgs/{org}/dependabot/secrets/{secret_name} | Get an organization secret
-*DependabotApi* | [**dependabot/getRepoPublicKey**](Apis/DependabotApi.http#dependabot/getrepopublickey) | **GET** /repos/{owner}/{repo}/dependabot/secrets/public-key | Get a repository public key
-*DependabotApi* | [**dependabot/getRepoSecret**](Apis/DependabotApi.http#dependabot/getreposecret) | **GET** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Get a repository secret
-*DependabotApi* | [**dependabot/listAlertsForEnterprise**](Apis/DependabotApi.http#dependabot/listalertsforenterprise) | **GET** /enterprises/{enterprise}/dependabot/alerts | List Dependabot alerts for an enterprise
-*DependabotApi* | [**dependabot/listAlertsForOrg**](Apis/DependabotApi.http#dependabot/listalertsfororg) | **GET** /orgs/{org}/dependabot/alerts | List Dependabot alerts for an organization
-*DependabotApi* | [**dependabot/listAlertsForRepo**](Apis/DependabotApi.http#dependabot/listalertsforrepo) | **GET** /repos/{owner}/{repo}/dependabot/alerts | List Dependabot alerts for a repository
-*DependabotApi* | [**dependabot/listOrgSecrets**](Apis/DependabotApi.http#dependabot/listorgsecrets) | **GET** /orgs/{org}/dependabot/secrets | List organization secrets
-*DependabotApi* | [**dependabot/listRepoSecrets**](Apis/DependabotApi.http#dependabot/listreposecrets) | **GET** /repos/{owner}/{repo}/dependabot/secrets | List repository secrets
-*DependabotApi* | [**dependabot/listSelectedReposForOrgSecret**](Apis/DependabotApi.http#dependabot/listselectedreposfororgsecret) | **GET** /orgs/{org}/dependabot/secrets/{secret_name}/repositories | List selected repositories for an organization secret
-*DependabotApi* | [**dependabot/removeSelectedRepoFromOrgSecret**](Apis/DependabotApi.http#dependabot/removeselectedrepofromorgsecret) | **DELETE** /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
-*DependabotApi* | [**dependabot/setSelectedReposForOrgSecret**](Apis/DependabotApi.http#dependabot/setselectedreposfororgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
-*DependabotApi* | [**dependabot/updateAlert**](Apis/DependabotApi.http#dependabot/updatealert) | **PATCH** /repos/{owner}/{repo}/dependabot/alerts/{alert_number} | Update a Dependabot alert
+*CodespacesApi* | [**codespacesAddRepositoryForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesaddrepositoryforsecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name}/repositories/{repository_id} | Add a selected repository to a user secret
+*CodespacesApi* | [**codespacesAddSelectedRepoToOrgSecret**](Apis/CodespacesApi.http#codespacesaddselectedrepotoorgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
+*CodespacesApi* | [**codespacesCheckPermissionsForDevcontainer**](Apis/CodespacesApi.http#codespacescheckpermissionsfordevcontainer) | **GET** /repos/{owner}/{repo}/codespaces/permissions_check | Check if permissions defined by a devcontainer have been accepted by the authenticated user
+*CodespacesApi* | [**codespacesCodespaceMachinesForAuthenticatedUser**](Apis/CodespacesApi.http#codespacescodespacemachinesforauthenticateduser) | **GET** /user/codespaces/{codespace_name}/machines | List machine types for a codespace
+*CodespacesApi* | [**codespacesCreateForAuthenticatedUser**](Apis/CodespacesApi.http#codespacescreateforauthenticateduser) | **POST** /user/codespaces | Create a codespace for the authenticated user
+*CodespacesApi* | [**codespacesCreateOrUpdateOrgSecret**](Apis/CodespacesApi.http#codespacescreateorupdateorgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name} | Create or update an organization secret
+*CodespacesApi* | [**codespacesCreateOrUpdateRepoSecret**](Apis/CodespacesApi.http#codespacescreateorupdatereposecret) | **PUT** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Create or update a repository secret
+*CodespacesApi* | [**codespacesCreateOrUpdateSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacescreateorupdatesecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name} | Create or update a secret for the authenticated user
+*CodespacesApi* | [**codespacesCreateWithPrForAuthenticatedUser**](Apis/CodespacesApi.http#codespacescreatewithprforauthenticateduser) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/codespaces | Create a codespace from a pull request
+*CodespacesApi* | [**codespacesCreateWithRepoForAuthenticatedUser**](Apis/CodespacesApi.http#codespacescreatewithrepoforauthenticateduser) | **POST** /repos/{owner}/{repo}/codespaces | Create a codespace in a repository
+*CodespacesApi* | [**codespacesDeleteCodespacesAccessUsers**](Apis/CodespacesApi.http#codespacesdeletecodespacesaccessusers) | **DELETE** /orgs/{org}/codespaces/access/selected_users | Remove users from Codespaces access for an organization
+*CodespacesApi* | [**codespacesDeleteForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesdeleteforauthenticateduser) | **DELETE** /user/codespaces/{codespace_name} | Delete a codespace for the authenticated user
+*CodespacesApi* | [**codespacesDeleteFromOrganization**](Apis/CodespacesApi.http#codespacesdeletefromorganization) | **DELETE** /orgs/{org}/members/{username}/codespaces/{codespace_name} | Delete a codespace from the organization
+*CodespacesApi* | [**codespacesDeleteOrgSecret**](Apis/CodespacesApi.http#codespacesdeleteorgsecret) | **DELETE** /orgs/{org}/codespaces/secrets/{secret_name} | Delete an organization secret
+*CodespacesApi* | [**codespacesDeleteRepoSecret**](Apis/CodespacesApi.http#codespacesdeletereposecret) | **DELETE** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Delete a repository secret
+*CodespacesApi* | [**codespacesDeleteSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesdeletesecretforauthenticateduser) | **DELETE** /user/codespaces/secrets/{secret_name} | Delete a secret for the authenticated user
+*CodespacesApi* | [**codespacesExportForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesexportforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/exports | Export a codespace for the authenticated user
+*CodespacesApi* | [**codespacesGetCodespacesForUserInOrg**](Apis/CodespacesApi.http#codespacesgetcodespacesforuserinorg) | **GET** /orgs/{org}/members/{username}/codespaces | List codespaces for a user in organization
+*CodespacesApi* | [**codespacesGetExportDetailsForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesgetexportdetailsforauthenticateduser) | **GET** /user/codespaces/{codespace_name}/exports/{export_id} | Get details about a codespace export
+*CodespacesApi* | [**codespacesGetForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesgetforauthenticateduser) | **GET** /user/codespaces/{codespace_name} | Get a codespace for the authenticated user
+*CodespacesApi* | [**codespacesGetOrgPublicKey**](Apis/CodespacesApi.http#codespacesgetorgpublickey) | **GET** /orgs/{org}/codespaces/secrets/public-key | Get an organization public key
+*CodespacesApi* | [**codespacesGetOrgSecret**](Apis/CodespacesApi.http#codespacesgetorgsecret) | **GET** /orgs/{org}/codespaces/secrets/{secret_name} | Get an organization secret
+*CodespacesApi* | [**codespacesGetPublicKeyForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesgetpublickeyforauthenticateduser) | **GET** /user/codespaces/secrets/public-key | Get public key for the authenticated user
+*CodespacesApi* | [**codespacesGetRepoPublicKey**](Apis/CodespacesApi.http#codespacesgetrepopublickey) | **GET** /repos/{owner}/{repo}/codespaces/secrets/public-key | Get a repository public key
+*CodespacesApi* | [**codespacesGetRepoSecret**](Apis/CodespacesApi.http#codespacesgetreposecret) | **GET** /repos/{owner}/{repo}/codespaces/secrets/{secret_name} | Get a repository secret
+*CodespacesApi* | [**codespacesGetSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesgetsecretforauthenticateduser) | **GET** /user/codespaces/secrets/{secret_name} | Get a secret for the authenticated user
+*CodespacesApi* | [**codespacesListDevcontainersInRepositoryForAuthenticatedUser**](Apis/CodespacesApi.http#codespaceslistdevcontainersinrepositoryforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/devcontainers | List devcontainer configurations in a repository for the authenticated user
+*CodespacesApi* | [**codespacesListForAuthenticatedUser**](Apis/CodespacesApi.http#codespaceslistforauthenticateduser) | **GET** /user/codespaces | List codespaces for the authenticated user
+*CodespacesApi* | [**codespacesListInOrganization**](Apis/CodespacesApi.http#codespaceslistinorganization) | **GET** /orgs/{org}/codespaces | List codespaces for the organization
+*CodespacesApi* | [**codespacesListInRepositoryForAuthenticatedUser**](Apis/CodespacesApi.http#codespaceslistinrepositoryforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces | List codespaces in a repository for the authenticated user
+*CodespacesApi* | [**codespacesListOrgSecrets**](Apis/CodespacesApi.http#codespaceslistorgsecrets) | **GET** /orgs/{org}/codespaces/secrets | List organization secrets
+*CodespacesApi* | [**codespacesListRepoSecrets**](Apis/CodespacesApi.http#codespaceslistreposecrets) | **GET** /repos/{owner}/{repo}/codespaces/secrets | List repository secrets
+*CodespacesApi* | [**codespacesListRepositoriesForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespaceslistrepositoriesforsecretforauthenticateduser) | **GET** /user/codespaces/secrets/{secret_name}/repositories | List selected repositories for a user secret
+*CodespacesApi* | [**codespacesListSecretsForAuthenticatedUser**](Apis/CodespacesApi.http#codespaceslistsecretsforauthenticateduser) | **GET** /user/codespaces/secrets | List secrets for the authenticated user
+*CodespacesApi* | [**codespacesListSelectedReposForOrgSecret**](Apis/CodespacesApi.http#codespaceslistselectedreposfororgsecret) | **GET** /orgs/{org}/codespaces/secrets/{secret_name}/repositories | List selected repositories for an organization secret
+*CodespacesApi* | [**codespacesPreFlightWithRepoForAuthenticatedUser**](Apis/CodespacesApi.http#codespacespreflightwithrepoforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/new | Get default attributes for a codespace
+*CodespacesApi* | [**codespacesPublishForAuthenticatedUser**](Apis/CodespacesApi.http#codespacespublishforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/publish | Create a repository from an unpublished codespace
+*CodespacesApi* | [**codespacesRemoveRepositoryForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesremoverepositoryforsecretforauthenticateduser) | **DELETE** /user/codespaces/secrets/{secret_name}/repositories/{repository_id} | Remove a selected repository from a user secret
+*CodespacesApi* | [**codespacesRemoveSelectedRepoFromOrgSecret**](Apis/CodespacesApi.http#codespacesremoveselectedrepofromorgsecret) | **DELETE** /orgs/{org}/codespaces/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
+*CodespacesApi* | [**codespacesRepoMachinesForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesrepomachinesforauthenticateduser) | **GET** /repos/{owner}/{repo}/codespaces/machines | List available machine types for a repository
+*CodespacesApi* | [**codespacesSetCodespacesAccess**](Apis/CodespacesApi.http#codespacessetcodespacesaccess) | **PUT** /orgs/{org}/codespaces/access | Manage access control for organization codespaces
+*CodespacesApi* | [**codespacesSetCodespacesAccessUsers**](Apis/CodespacesApi.http#codespacessetcodespacesaccessusers) | **POST** /orgs/{org}/codespaces/access/selected_users | Add users to Codespaces access for an organization
+*CodespacesApi* | [**codespacesSetRepositoriesForSecretForAuthenticatedUser**](Apis/CodespacesApi.http#codespacessetrepositoriesforsecretforauthenticateduser) | **PUT** /user/codespaces/secrets/{secret_name}/repositories | Set selected repositories for a user secret
+*CodespacesApi* | [**codespacesSetSelectedReposForOrgSecret**](Apis/CodespacesApi.http#codespacessetselectedreposfororgsecret) | **PUT** /orgs/{org}/codespaces/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
+*CodespacesApi* | [**codespacesStartForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesstartforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/start | Start a codespace for the authenticated user
+*CodespacesApi* | [**codespacesStopForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesstopforauthenticateduser) | **POST** /user/codespaces/{codespace_name}/stop | Stop a codespace for the authenticated user
+*CodespacesApi* | [**codespacesStopInOrganization**](Apis/CodespacesApi.http#codespacesstopinorganization) | **POST** /orgs/{org}/members/{username}/codespaces/{codespace_name}/stop | Stop a codespace for an organization user
+*CodespacesApi* | [**codespacesUpdateForAuthenticatedUser**](Apis/CodespacesApi.http#codespacesupdateforauthenticateduser) | **PATCH** /user/codespaces/{codespace_name} | Update a codespace for the authenticated user
+*CopilotApi* | [**copilotAddCopilotSeatsForTeams**](Apis/CopilotApi.http#copilotaddcopilotseatsforteams) | **POST** /orgs/{org}/copilot/billing/selected_teams | Add teams to the Copilot subscription for an organization
+*CopilotApi* | [**copilotAddCopilotSeatsForUsers**](Apis/CopilotApi.http#copilotaddcopilotseatsforusers) | **POST** /orgs/{org}/copilot/billing/selected_users | Add users to the Copilot subscription for an organization
+*CopilotApi* | [**copilotCancelCopilotSeatAssignmentForTeams**](Apis/CopilotApi.http#copilotcancelcopilotseatassignmentforteams) | **DELETE** /orgs/{org}/copilot/billing/selected_teams | Remove teams from the Copilot subscription for an organization
+*CopilotApi* | [**copilotCancelCopilotSeatAssignmentForUsers**](Apis/CopilotApi.http#copilotcancelcopilotseatassignmentforusers) | **DELETE** /orgs/{org}/copilot/billing/selected_users | Remove users from the Copilot subscription for an organization
+*CopilotApi* | [**copilotGetCopilotOrganizationDetails**](Apis/CopilotApi.http#copilotgetcopilotorganizationdetails) | **GET** /orgs/{org}/copilot/billing | Get Copilot seat information and settings for an organization
+*CopilotApi* | [**copilotGetCopilotSeatDetailsForUser**](Apis/CopilotApi.http#copilotgetcopilotseatdetailsforuser) | **GET** /orgs/{org}/members/{username}/copilot | Get Copilot seat assignment details for a user
+*CopilotApi* | [**copilotListCopilotSeats**](Apis/CopilotApi.http#copilotlistcopilotseats) | **GET** /orgs/{org}/copilot/billing/seats | List all Copilot seat assignments for an organization
+*DependabotApi* | [**dependabotAddSelectedRepoToOrgSecret**](Apis/DependabotApi.http#dependabotaddselectedrepotoorgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id} | Add selected repository to an organization secret
+*DependabotApi* | [**dependabotCreateOrUpdateOrgSecret**](Apis/DependabotApi.http#dependabotcreateorupdateorgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name} | Create or update an organization secret
+*DependabotApi* | [**dependabotCreateOrUpdateRepoSecret**](Apis/DependabotApi.http#dependabotcreateorupdatereposecret) | **PUT** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Create or update a repository secret
+*DependabotApi* | [**dependabotDeleteOrgSecret**](Apis/DependabotApi.http#dependabotdeleteorgsecret) | **DELETE** /orgs/{org}/dependabot/secrets/{secret_name} | Delete an organization secret
+*DependabotApi* | [**dependabotDeleteRepoSecret**](Apis/DependabotApi.http#dependabotdeletereposecret) | **DELETE** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Delete a repository secret
+*DependabotApi* | [**dependabotGetAlert**](Apis/DependabotApi.http#dependabotgetalert) | **GET** /repos/{owner}/{repo}/dependabot/alerts/{alert_number} | Get a Dependabot alert
+*DependabotApi* | [**dependabotGetOrgPublicKey**](Apis/DependabotApi.http#dependabotgetorgpublickey) | **GET** /orgs/{org}/dependabot/secrets/public-key | Get an organization public key
+*DependabotApi* | [**dependabotGetOrgSecret**](Apis/DependabotApi.http#dependabotgetorgsecret) | **GET** /orgs/{org}/dependabot/secrets/{secret_name} | Get an organization secret
+*DependabotApi* | [**dependabotGetRepoPublicKey**](Apis/DependabotApi.http#dependabotgetrepopublickey) | **GET** /repos/{owner}/{repo}/dependabot/secrets/public-key | Get a repository public key
+*DependabotApi* | [**dependabotGetRepoSecret**](Apis/DependabotApi.http#dependabotgetreposecret) | **GET** /repos/{owner}/{repo}/dependabot/secrets/{secret_name} | Get a repository secret
+*DependabotApi* | [**dependabotListAlertsForEnterprise**](Apis/DependabotApi.http#dependabotlistalertsforenterprise) | **GET** /enterprises/{enterprise}/dependabot/alerts | List Dependabot alerts for an enterprise
+*DependabotApi* | [**dependabotListAlertsForOrg**](Apis/DependabotApi.http#dependabotlistalertsfororg) | **GET** /orgs/{org}/dependabot/alerts | List Dependabot alerts for an organization
+*DependabotApi* | [**dependabotListAlertsForRepo**](Apis/DependabotApi.http#dependabotlistalertsforrepo) | **GET** /repos/{owner}/{repo}/dependabot/alerts | List Dependabot alerts for a repository
+*DependabotApi* | [**dependabotListOrgSecrets**](Apis/DependabotApi.http#dependabotlistorgsecrets) | **GET** /orgs/{org}/dependabot/secrets | List organization secrets
+*DependabotApi* | [**dependabotListRepoSecrets**](Apis/DependabotApi.http#dependabotlistreposecrets) | **GET** /repos/{owner}/{repo}/dependabot/secrets | List repository secrets
+*DependabotApi* | [**dependabotListSelectedReposForOrgSecret**](Apis/DependabotApi.http#dependabotlistselectedreposfororgsecret) | **GET** /orgs/{org}/dependabot/secrets/{secret_name}/repositories | List selected repositories for an organization secret
+*DependabotApi* | [**dependabotRemoveSelectedRepoFromOrgSecret**](Apis/DependabotApi.http#dependabotremoveselectedrepofromorgsecret) | **DELETE** /orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id} | Remove selected repository from an organization secret
+*DependabotApi* | [**dependabotSetSelectedReposForOrgSecret**](Apis/DependabotApi.http#dependabotsetselectedreposfororgsecret) | **PUT** /orgs/{org}/dependabot/secrets/{secret_name}/repositories | Set selected repositories for an organization secret
+*DependabotApi* | [**dependabotUpdateAlert**](Apis/DependabotApi.http#dependabotupdatealert) | **PATCH** /repos/{owner}/{repo}/dependabot/alerts/{alert_number} | Update a Dependabot alert
 *DependencyGraphApi* | [**dependencyGraph/createRepositorySnapshot**](Apis/DependencyGraphApi.http#dependencygraph/createrepositorysnapshot) | **POST** /repos/{owner}/{repo}/dependency-graph/snapshots | Create a snapshot of dependencies for a repository
 *DependencyGraphApi* | [**dependencyGraph/diffRange**](Apis/DependencyGraphApi.http#dependencygraph/diffrange) | **GET** /repos/{owner}/{repo}/dependency-graph/compare/{basehead} | Get a diff of the dependencies between commits
 *DependencyGraphApi* | [**dependencyGraph/exportSbom**](Apis/DependencyGraphApi.http#dependencygraph/exportsbom) | **GET** /repos/{owner}/{repo}/dependency-graph/sbom | Export a software bill of materials (SBOM) for a repository.
-*EmojisApi* | [**emojis/get**](Apis/EmojisApi.http#emojis/get) | **GET** /emojis | Get emojis
-*GistsApi* | [**gists/checkIsStarred**](Apis/GistsApi.http#gists/checkisstarred) | **GET** /gists/{gist_id}/star | Check if a gist is starred
-*GistsApi* | [**gists/create**](Apis/GistsApi.http#gists/create) | **POST** /gists | Create a gist
-*GistsApi* | [**gists/createComment**](Apis/GistsApi.http#gists/createcomment) | **POST** /gists/{gist_id}/comments | Create a gist comment
-*GistsApi* | [**gists/delete**](Apis/GistsApi.http#gists/delete) | **DELETE** /gists/{gist_id} | Delete a gist
-*GistsApi* | [**gists/deleteComment**](Apis/GistsApi.http#gists/deletecomment) | **DELETE** /gists/{gist_id}/comments/{comment_id} | Delete a gist comment
-*GistsApi* | [**gists/fork**](Apis/GistsApi.http#gists/fork) | **POST** /gists/{gist_id}/forks | Fork a gist
-*GistsApi* | [**gists/get**](Apis/GistsApi.http#gists/get) | **GET** /gists/{gist_id} | Get a gist
-*GistsApi* | [**gists/getComment**](Apis/GistsApi.http#gists/getcomment) | **GET** /gists/{gist_id}/comments/{comment_id} | Get a gist comment
-*GistsApi* | [**gists/getRevision**](Apis/GistsApi.http#gists/getrevision) | **GET** /gists/{gist_id}/{sha} | Get a gist revision
-*GistsApi* | [**gists/list**](Apis/GistsApi.http#gists/list) | **GET** /gists | List gists for the authenticated user
-*GistsApi* | [**gists/listComments**](Apis/GistsApi.http#gists/listcomments) | **GET** /gists/{gist_id}/comments | List gist comments
-*GistsApi* | [**gists/listCommits**](Apis/GistsApi.http#gists/listcommits) | **GET** /gists/{gist_id}/commits | List gist commits
-*GistsApi* | [**gists/listForUser**](Apis/GistsApi.http#gists/listforuser) | **GET** /users/{username}/gists | List gists for a user
-*GistsApi* | [**gists/listForks**](Apis/GistsApi.http#gists/listforks) | **GET** /gists/{gist_id}/forks | List gist forks
-*GistsApi* | [**gists/listPublic**](Apis/GistsApi.http#gists/listpublic) | **GET** /gists/public | List public gists
-*GistsApi* | [**gists/listStarred**](Apis/GistsApi.http#gists/liststarred) | **GET** /gists/starred | List starred gists
-*GistsApi* | [**gists/star**](Apis/GistsApi.http#gists/star) | **PUT** /gists/{gist_id}/star | Star a gist
-*GistsApi* | [**gists/unstar**](Apis/GistsApi.http#gists/unstar) | **DELETE** /gists/{gist_id}/star | Unstar a gist
-*GistsApi* | [**gists/update**](Apis/GistsApi.http#gists/update) | **PATCH** /gists/{gist_id} | Update a gist
-*GistsApi* | [**gists/updateComment**](Apis/GistsApi.http#gists/updatecomment) | **PATCH** /gists/{gist_id}/comments/{comment_id} | Update a gist comment
-*GitApi* | [**git/createBlob**](Apis/GitApi.http#git/createblob) | **POST** /repos/{owner}/{repo}/git/blobs | Create a blob
-*GitApi* | [**git/createCommit**](Apis/GitApi.http#git/createcommit) | **POST** /repos/{owner}/{repo}/git/commits | Create a commit
-*GitApi* | [**git/createRef**](Apis/GitApi.http#git/createref) | **POST** /repos/{owner}/{repo}/git/refs | Create a reference
-*GitApi* | [**git/createTag**](Apis/GitApi.http#git/createtag) | **POST** /repos/{owner}/{repo}/git/tags | Create a tag object
-*GitApi* | [**git/createTree**](Apis/GitApi.http#git/createtree) | **POST** /repos/{owner}/{repo}/git/trees | Create a tree
-*GitApi* | [**git/deleteRef**](Apis/GitApi.http#git/deleteref) | **DELETE** /repos/{owner}/{repo}/git/refs/{ref} | Delete a reference
-*GitApi* | [**git/getBlob**](Apis/GitApi.http#git/getblob) | **GET** /repos/{owner}/{repo}/git/blobs/{file_sha} | Get a blob
-*GitApi* | [**git/getCommit**](Apis/GitApi.http#git/getcommit) | **GET** /repos/{owner}/{repo}/git/commits/{commit_sha} | Get a commit object
-*GitApi* | [**git/getRef**](Apis/GitApi.http#git/getref) | **GET** /repos/{owner}/{repo}/git/ref/{ref} | Get a reference
-*GitApi* | [**git/getTag**](Apis/GitApi.http#git/gettag) | **GET** /repos/{owner}/{repo}/git/tags/{tag_sha} | Get a tag
-*GitApi* | [**git/getTree**](Apis/GitApi.http#git/gettree) | **GET** /repos/{owner}/{repo}/git/trees/{tree_sha} | Get a tree
-*GitApi* | [**git/listMatchingRefs**](Apis/GitApi.http#git/listmatchingrefs) | **GET** /repos/{owner}/{repo}/git/matching-refs/{ref} | List matching references
-*GitApi* | [**git/updateRef**](Apis/GitApi.http#git/updateref) | **PATCH** /repos/{owner}/{repo}/git/refs/{ref} | Update a reference
-*GitignoreApi* | [**gitignore/getAllTemplates**](Apis/GitignoreApi.http#gitignore/getalltemplates) | **GET** /gitignore/templates | Get all gitignore templates
-*GitignoreApi* | [**gitignore/getTemplate**](Apis/GitignoreApi.http#gitignore/gettemplate) | **GET** /gitignore/templates/{name} | Get a gitignore template
-*InteractionsApi* | [**interactions/getRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactions/getrestrictionsforauthenticateduser) | **GET** /user/interaction-limits | Get interaction restrictions for your public repositories
-*InteractionsApi* | [**interactions/getRestrictionsForOrg**](Apis/InteractionsApi.http#interactions/getrestrictionsfororg) | **GET** /orgs/{org}/interaction-limits | Get interaction restrictions for an organization
-*InteractionsApi* | [**interactions/getRestrictionsForRepo**](Apis/InteractionsApi.http#interactions/getrestrictionsforrepo) | **GET** /repos/{owner}/{repo}/interaction-limits | Get interaction restrictions for a repository
-*InteractionsApi* | [**interactions/removeRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactions/removerestrictionsforauthenticateduser) | **DELETE** /user/interaction-limits | Remove interaction restrictions from your public repositories
-*InteractionsApi* | [**interactions/removeRestrictionsForOrg**](Apis/InteractionsApi.http#interactions/removerestrictionsfororg) | **DELETE** /orgs/{org}/interaction-limits | Remove interaction restrictions for an organization
-*InteractionsApi* | [**interactions/removeRestrictionsForRepo**](Apis/InteractionsApi.http#interactions/removerestrictionsforrepo) | **DELETE** /repos/{owner}/{repo}/interaction-limits | Remove interaction restrictions for a repository
-*InteractionsApi* | [**interactions/setRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactions/setrestrictionsforauthenticateduser) | **PUT** /user/interaction-limits | Set interaction restrictions for your public repositories
-*InteractionsApi* | [**interactions/setRestrictionsForOrg**](Apis/InteractionsApi.http#interactions/setrestrictionsfororg) | **PUT** /orgs/{org}/interaction-limits | Set interaction restrictions for an organization
-*InteractionsApi* | [**interactions/setRestrictionsForRepo**](Apis/InteractionsApi.http#interactions/setrestrictionsforrepo) | **PUT** /repos/{owner}/{repo}/interaction-limits | Set interaction restrictions for a repository
-*IssuesApi* | [**issues/addAssignees**](Apis/IssuesApi.http#issues/addassignees) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/assignees | Add assignees to an issue
-*IssuesApi* | [**issues/addLabels**](Apis/IssuesApi.http#issues/addlabels) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/labels | Add labels to an issue
-*IssuesApi* | [**issues/checkUserCanBeAssigned**](Apis/IssuesApi.http#issues/checkusercanbeassigned) | **GET** /repos/{owner}/{repo}/assignees/{assignee} | Check if a user can be assigned
-*IssuesApi* | [**issues/checkUserCanBeAssignedToIssue**](Apis/IssuesApi.http#issues/checkusercanbeassignedtoissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/assignees/{assignee} | Check if a user can be assigned to a issue
-*IssuesApi* | [**issues/create**](Apis/IssuesApi.http#issues/create) | **POST** /repos/{owner}/{repo}/issues | Create an issue
-*IssuesApi* | [**issues/createComment**](Apis/IssuesApi.http#issues/createcomment) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/comments | Create an issue comment
-*IssuesApi* | [**issues/createLabel**](Apis/IssuesApi.http#issues/createlabel) | **POST** /repos/{owner}/{repo}/labels | Create a label
-*IssuesApi* | [**issues/createMilestone**](Apis/IssuesApi.http#issues/createmilestone) | **POST** /repos/{owner}/{repo}/milestones | Create a milestone
-*IssuesApi* | [**issues/deleteComment**](Apis/IssuesApi.http#issues/deletecomment) | **DELETE** /repos/{owner}/{repo}/issues/comments/{comment_id} | Delete an issue comment
-*IssuesApi* | [**issues/deleteLabel**](Apis/IssuesApi.http#issues/deletelabel) | **DELETE** /repos/{owner}/{repo}/labels/{name} | Delete a label
-*IssuesApi* | [**issues/deleteMilestone**](Apis/IssuesApi.http#issues/deletemilestone) | **DELETE** /repos/{owner}/{repo}/milestones/{milestone_number} | Delete a milestone
-*IssuesApi* | [**issues/get**](Apis/IssuesApi.http#issues/get) | **GET** /repos/{owner}/{repo}/issues/{issue_number} | Get an issue
-*IssuesApi* | [**issues/getComment**](Apis/IssuesApi.http#issues/getcomment) | **GET** /repos/{owner}/{repo}/issues/comments/{comment_id} | Get an issue comment
-*IssuesApi* | [**issues/getEvent**](Apis/IssuesApi.http#issues/getevent) | **GET** /repos/{owner}/{repo}/issues/events/{event_id} | Get an issue event
-*IssuesApi* | [**issues/getLabel**](Apis/IssuesApi.http#issues/getlabel) | **GET** /repos/{owner}/{repo}/labels/{name} | Get a label
-*IssuesApi* | [**issues/getMilestone**](Apis/IssuesApi.http#issues/getmilestone) | **GET** /repos/{owner}/{repo}/milestones/{milestone_number} | Get a milestone
-*IssuesApi* | [**issues/list**](Apis/IssuesApi.http#issues/list) | **GET** /issues | List issues assigned to the authenticated user
-*IssuesApi* | [**issues/listAssignees**](Apis/IssuesApi.http#issues/listassignees) | **GET** /repos/{owner}/{repo}/assignees | List assignees
-*IssuesApi* | [**issues/listComments**](Apis/IssuesApi.http#issues/listcomments) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/comments | List issue comments
-*IssuesApi* | [**issues/listCommentsForRepo**](Apis/IssuesApi.http#issues/listcommentsforrepo) | **GET** /repos/{owner}/{repo}/issues/comments | List issue comments for a repository
-*IssuesApi* | [**issues/listEvents**](Apis/IssuesApi.http#issues/listevents) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/events | List issue events
-*IssuesApi* | [**issues/listEventsForRepo**](Apis/IssuesApi.http#issues/listeventsforrepo) | **GET** /repos/{owner}/{repo}/issues/events | List issue events for a repository
-*IssuesApi* | [**issues/listEventsForTimeline**](Apis/IssuesApi.http#issues/listeventsfortimeline) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/timeline | List timeline events for an issue
-*IssuesApi* | [**issues/listForAuthenticatedUser**](Apis/IssuesApi.http#issues/listforauthenticateduser) | **GET** /user/issues | List user account issues assigned to the authenticated user
-*IssuesApi* | [**issues/listForOrg**](Apis/IssuesApi.http#issues/listfororg) | **GET** /orgs/{org}/issues | List organization issues assigned to the authenticated user
-*IssuesApi* | [**issues/listForRepo**](Apis/IssuesApi.http#issues/listforrepo) | **GET** /repos/{owner}/{repo}/issues | List repository issues
-*IssuesApi* | [**issues/listLabelsForMilestone**](Apis/IssuesApi.http#issues/listlabelsformilestone) | **GET** /repos/{owner}/{repo}/milestones/{milestone_number}/labels | List labels for issues in a milestone
-*IssuesApi* | [**issues/listLabelsForRepo**](Apis/IssuesApi.http#issues/listlabelsforrepo) | **GET** /repos/{owner}/{repo}/labels | List labels for a repository
-*IssuesApi* | [**issues/listLabelsOnIssue**](Apis/IssuesApi.http#issues/listlabelsonissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/labels | List labels for an issue
-*IssuesApi* | [**issues/listMilestones**](Apis/IssuesApi.http#issues/listmilestones) | **GET** /repos/{owner}/{repo}/milestones | List milestones
-*IssuesApi* | [**issues/lock**](Apis/IssuesApi.http#issues/lock) | **PUT** /repos/{owner}/{repo}/issues/{issue_number}/lock | Lock an issue
-*IssuesApi* | [**issues/removeAllLabels**](Apis/IssuesApi.http#issues/removealllabels) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/labels | Remove all labels from an issue
-*IssuesApi* | [**issues/removeAssignees**](Apis/IssuesApi.http#issues/removeassignees) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/assignees | Remove assignees from an issue
-*IssuesApi* | [**issues/removeLabel**](Apis/IssuesApi.http#issues/removelabel) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/labels/{name} | Remove a label from an issue
-*IssuesApi* | [**issues/setLabels**](Apis/IssuesApi.http#issues/setlabels) | **PUT** /repos/{owner}/{repo}/issues/{issue_number}/labels | Set labels for an issue
-*IssuesApi* | [**issues/unlock**](Apis/IssuesApi.http#issues/unlock) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/lock | Unlock an issue
-*IssuesApi* | [**issues/update**](Apis/IssuesApi.http#issues/update) | **PATCH** /repos/{owner}/{repo}/issues/{issue_number} | Update an issue
-*IssuesApi* | [**issues/updateComment**](Apis/IssuesApi.http#issues/updatecomment) | **PATCH** /repos/{owner}/{repo}/issues/comments/{comment_id} | Update an issue comment
-*IssuesApi* | [**issues/updateLabel**](Apis/IssuesApi.http#issues/updatelabel) | **PATCH** /repos/{owner}/{repo}/labels/{name} | Update a label
-*IssuesApi* | [**issues/updateMilestone**](Apis/IssuesApi.http#issues/updatemilestone) | **PATCH** /repos/{owner}/{repo}/milestones/{milestone_number} | Update a milestone
-*LicensesApi* | [**licenses/get**](Apis/LicensesApi.http#licenses/get) | **GET** /licenses/{license} | Get a license
-*LicensesApi* | [**licenses/getAllCommonlyUsed**](Apis/LicensesApi.http#licenses/getallcommonlyused) | **GET** /licenses | Get all commonly used licenses
-*LicensesApi* | [**licenses/getForRepo**](Apis/LicensesApi.http#licenses/getforrepo) | **GET** /repos/{owner}/{repo}/license | Get the license for a repository
-*MarkdownApi* | [**markdown/render**](Apis/MarkdownApi.http#markdown/render) | **POST** /markdown | Render a Markdown document
-*MarkdownApi* | [**markdown/renderRaw**](Apis/MarkdownApi.http#markdown/renderraw) | **POST** /markdown/raw | Render a Markdown document in raw mode
-*MetaApi* | [**meta/get**](Apis/MetaApi.http#meta/get) | **GET** /meta | Get GitHub meta information
-*MetaApi* | [**meta/getAllVersions**](Apis/MetaApi.http#meta/getallversions) | **GET** /versions | Get all API versions
-*MetaApi* | [**meta/getOctocat**](Apis/MetaApi.http#meta/getoctocat) | **GET** /octocat | Get Octocat
-*MetaApi* | [**meta/getZen**](Apis/MetaApi.http#meta/getzen) | **GET** /zen | Get the Zen of GitHub
-*MetaApi* | [**meta/root**](Apis/MetaApi.http#meta/root) | **GET** / | GitHub API Root
-*MigrationsApi* | [**migrations/cancelImport**](Apis/MigrationsApi.http#migrations/cancelimport) | **DELETE** /repos/{owner}/{repo}/import | Cancel an import
-*MigrationsApi* | [**migrations/deleteArchiveForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/deletearchiveforauthenticateduser) | **DELETE** /user/migrations/{migration_id}/archive | Delete a user migration archive
-*MigrationsApi* | [**migrations/deleteArchiveForOrg**](Apis/MigrationsApi.http#migrations/deletearchivefororg) | **DELETE** /orgs/{org}/migrations/{migration_id}/archive | Delete an organization migration archive
-*MigrationsApi* | [**migrations/downloadArchiveForOrg**](Apis/MigrationsApi.http#migrations/downloadarchivefororg) | **GET** /orgs/{org}/migrations/{migration_id}/archive | Download an organization migration archive
-*MigrationsApi* | [**migrations/getArchiveForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/getarchiveforauthenticateduser) | **GET** /user/migrations/{migration_id}/archive | Download a user migration archive
-*MigrationsApi* | [**migrations/getCommitAuthors**](Apis/MigrationsApi.http#migrations/getcommitauthors) | **GET** /repos/{owner}/{repo}/import/authors | Get commit authors
-*MigrationsApi* | [**migrations/getImportStatus**](Apis/MigrationsApi.http#migrations/getimportstatus) | **GET** /repos/{owner}/{repo}/import | Get an import status
-*MigrationsApi* | [**migrations/getLargeFiles**](Apis/MigrationsApi.http#migrations/getlargefiles) | **GET** /repos/{owner}/{repo}/import/large_files | Get large files
-*MigrationsApi* | [**migrations/getStatusForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/getstatusforauthenticateduser) | **GET** /user/migrations/{migration_id} | Get a user migration status
-*MigrationsApi* | [**migrations/getStatusForOrg**](Apis/MigrationsApi.http#migrations/getstatusfororg) | **GET** /orgs/{org}/migrations/{migration_id} | Get an organization migration status
-*MigrationsApi* | [**migrations/listForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/listforauthenticateduser) | **GET** /user/migrations | List user migrations
-*MigrationsApi* | [**migrations/listForOrg**](Apis/MigrationsApi.http#migrations/listfororg) | **GET** /orgs/{org}/migrations | List organization migrations
-*MigrationsApi* | [**migrations/listReposForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/listreposforauthenticateduser) | **GET** /user/migrations/{migration_id}/repositories | List repositories for a user migration
-*MigrationsApi* | [**migrations/listReposForOrg**](Apis/MigrationsApi.http#migrations/listreposfororg) | **GET** /orgs/{org}/migrations/{migration_id}/repositories | List repositories in an organization migration
-*MigrationsApi* | [**migrations/mapCommitAuthor**](Apis/MigrationsApi.http#migrations/mapcommitauthor) | **PATCH** /repos/{owner}/{repo}/import/authors/{author_id} | Map a commit author
-*MigrationsApi* | [**migrations/setLfsPreference**](Apis/MigrationsApi.http#migrations/setlfspreference) | **PATCH** /repos/{owner}/{repo}/import/lfs | Update Git LFS preference
-*MigrationsApi* | [**migrations/startForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/startforauthenticateduser) | **POST** /user/migrations | Start a user migration
-*MigrationsApi* | [**migrations/startForOrg**](Apis/MigrationsApi.http#migrations/startfororg) | **POST** /orgs/{org}/migrations | Start an organization migration
-*MigrationsApi* | [**migrations/startImport**](Apis/MigrationsApi.http#migrations/startimport) | **PUT** /repos/{owner}/{repo}/import | Start an import
-*MigrationsApi* | [**migrations/unlockRepoForAuthenticatedUser**](Apis/MigrationsApi.http#migrations/unlockrepoforauthenticateduser) | **DELETE** /user/migrations/{migration_id}/repos/{repo_name}/lock | Unlock a user repository
-*MigrationsApi* | [**migrations/unlockRepoForOrg**](Apis/MigrationsApi.http#migrations/unlockrepofororg) | **DELETE** /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock | Unlock an organization repository
-*MigrationsApi* | [**migrations/updateImport**](Apis/MigrationsApi.http#migrations/updateimport) | **PATCH** /repos/{owner}/{repo}/import | Update an import
-*OidcApi* | [**oidc/getOidcCustomSubTemplateForOrg**](Apis/OidcApi.http#oidc/getoidccustomsubtemplatefororg) | **GET** /orgs/{org}/actions/oidc/customization/sub | Get the customization template for an OIDC subject claim for an organization
-*OidcApi* | [**oidc/updateOidcCustomSubTemplateForOrg**](Apis/OidcApi.http#oidc/updateoidccustomsubtemplatefororg) | **PUT** /orgs/{org}/actions/oidc/customization/sub | Set the customization template for an OIDC subject claim for an organization
-*OrgsApi* | [**orgs/addSecurityManagerTeam**](Apis/OrgsApi.http#orgs/addsecuritymanagerteam) | **PUT** /orgs/{org}/security-managers/teams/{team_slug} | Add a security manager team
-*OrgsApi* | [**orgs/assignTeamToOrgRole**](Apis/OrgsApi.http#orgs/assignteamtoorgrole) | **PUT** /orgs/{org}/organization-roles/teams/{team_slug}/{role_id} | Assign an organization role to a team
-*OrgsApi* | [**orgs/assignUserToOrgRole**](Apis/OrgsApi.http#orgs/assignusertoorgrole) | **PUT** /orgs/{org}/organization-roles/users/{username}/{role_id} | Assign an organization role to a user
-*OrgsApi* | [**orgs/blockUser**](Apis/OrgsApi.http#orgs/blockuser) | **PUT** /orgs/{org}/blocks/{username} | Block a user from an organization
-*OrgsApi* | [**orgs/cancelInvitation**](Apis/OrgsApi.http#orgs/cancelinvitation) | **DELETE** /orgs/{org}/invitations/{invitation_id} | Cancel an organization invitation
-*OrgsApi* | [**orgs/checkBlockedUser**](Apis/OrgsApi.http#orgs/checkblockeduser) | **GET** /orgs/{org}/blocks/{username} | Check if a user is blocked by an organization
-*OrgsApi* | [**orgs/checkMembershipForUser**](Apis/OrgsApi.http#orgs/checkmembershipforuser) | **GET** /orgs/{org}/members/{username} | Check organization membership for a user
-*OrgsApi* | [**orgs/checkPublicMembershipForUser**](Apis/OrgsApi.http#orgs/checkpublicmembershipforuser) | **GET** /orgs/{org}/public_members/{username} | Check public organization membership for a user
-*OrgsApi* | [**orgs/convertMemberToOutsideCollaborator**](Apis/OrgsApi.http#orgs/convertmembertooutsidecollaborator) | **PUT** /orgs/{org}/outside_collaborators/{username} | Convert an organization member to outside collaborator
-*OrgsApi* | [**orgs/createCustomOrganizationRole**](Apis/OrgsApi.http#orgs/createcustomorganizationrole) | **POST** /orgs/{org}/organization-roles | Create a custom organization role
-*OrgsApi* | [**orgs/createInvitation**](Apis/OrgsApi.http#orgs/createinvitation) | **POST** /orgs/{org}/invitations | Create an organization invitation
-*OrgsApi* | [**orgs/createOrUpdateCustomProperties**](Apis/OrgsApi.http#orgs/createorupdatecustomproperties) | **PATCH** /orgs/{org}/properties/schema | Create or update custom properties for an organization
-*OrgsApi* | [**orgs/createOrUpdateCustomPropertiesValuesForRepos**](Apis/OrgsApi.http#orgs/createorupdatecustompropertiesvaluesforrepos) | **PATCH** /orgs/{org}/properties/values | Create or update custom property values for organization repositories
-*OrgsApi* | [**orgs/createOrUpdateCustomProperty**](Apis/OrgsApi.http#orgs/createorupdatecustomproperty) | **PUT** /orgs/{org}/properties/schema/{custom_property_name} | Create or update a custom property for an organization
-*OrgsApi* | [**orgs/createWebhook**](Apis/OrgsApi.http#orgs/createwebhook) | **POST** /orgs/{org}/hooks | Create an organization webhook
-*OrgsApi* | [**orgs/delete**](Apis/OrgsApi.http#orgs/delete) | **DELETE** /orgs/{org} | Delete an organization
-*OrgsApi* | [**orgs/deleteCustomOrganizationRole**](Apis/OrgsApi.http#orgs/deletecustomorganizationrole) | **DELETE** /orgs/{org}/organization-roles/{role_id} | Delete a custom organization role.
-*OrgsApi* | [**orgs/deleteWebhook**](Apis/OrgsApi.http#orgs/deletewebhook) | **DELETE** /orgs/{org}/hooks/{hook_id} | Delete an organization webhook
-*OrgsApi* | [**orgs/enableOrDisableSecurityProductOnAllOrgRepos**](Apis/OrgsApi.http#orgs/enableordisablesecurityproductonallorgrepos) | **POST** /orgs/{org}/{security_product}/{enablement} | Enable or disable a security feature for an organization
-*OrgsApi* | [**orgs/get**](Apis/OrgsApi.http#orgs/get) | **GET** /orgs/{org} | Get an organization
-*OrgsApi* | [**orgs/getAllCustomProperties**](Apis/OrgsApi.http#orgs/getallcustomproperties) | **GET** /orgs/{org}/properties/schema | Get all custom properties for an organization
-*OrgsApi* | [**orgs/getCustomProperty**](Apis/OrgsApi.http#orgs/getcustomproperty) | **GET** /orgs/{org}/properties/schema/{custom_property_name} | Get a custom property for an organization
-*OrgsApi* | [**orgs/getMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgs/getmembershipforauthenticateduser) | **GET** /user/memberships/orgs/{org} | Get an organization membership for the authenticated user
-*OrgsApi* | [**orgs/getMembershipForUser**](Apis/OrgsApi.http#orgs/getmembershipforuser) | **GET** /orgs/{org}/memberships/{username} | Get organization membership for a user
-*OrgsApi* | [**orgs/getOrgRole**](Apis/OrgsApi.http#orgs/getorgrole) | **GET** /orgs/{org}/organization-roles/{role_id} | Get an organization role
-*OrgsApi* | [**orgs/getWebhook**](Apis/OrgsApi.http#orgs/getwebhook) | **GET** /orgs/{org}/hooks/{hook_id} | Get an organization webhook
-*OrgsApi* | [**orgs/getWebhookConfigForOrg**](Apis/OrgsApi.http#orgs/getwebhookconfigfororg) | **GET** /orgs/{org}/hooks/{hook_id}/config | Get a webhook configuration for an organization
-*OrgsApi* | [**orgs/getWebhookDelivery**](Apis/OrgsApi.http#orgs/getwebhookdelivery) | **GET** /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id} | Get a webhook delivery for an organization webhook
-*OrgsApi* | [**orgs/list**](Apis/OrgsApi.http#orgs/list) | **GET** /organizations | List organizations
-*OrgsApi* | [**orgs/listAppInstallations**](Apis/OrgsApi.http#orgs/listappinstallations) | **GET** /orgs/{org}/installations | List app installations for an organization
-*OrgsApi* | [**orgs/listBlockedUsers**](Apis/OrgsApi.http#orgs/listblockedusers) | **GET** /orgs/{org}/blocks | List users blocked by an organization
-*OrgsApi* | [**orgs/listCustomPropertiesValuesForRepos**](Apis/OrgsApi.http#orgs/listcustompropertiesvaluesforrepos) | **GET** /orgs/{org}/properties/values | List custom property values for organization repositories
-*OrgsApi* | [**orgs/listFailedInvitations**](Apis/OrgsApi.http#orgs/listfailedinvitations) | **GET** /orgs/{org}/failed_invitations | List failed organization invitations
-*OrgsApi* | [**orgs/listForAuthenticatedUser**](Apis/OrgsApi.http#orgs/listforauthenticateduser) | **GET** /user/orgs | List organizations for the authenticated user
-*OrgsApi* | [**orgs/listForUser**](Apis/OrgsApi.http#orgs/listforuser) | **GET** /users/{username}/orgs | List organizations for a user
-*OrgsApi* | [**orgs/listInvitationTeams**](Apis/OrgsApi.http#orgs/listinvitationteams) | **GET** /orgs/{org}/invitations/{invitation_id}/teams | List organization invitation teams
-*OrgsApi* | [**orgs/listMembers**](Apis/OrgsApi.http#orgs/listmembers) | **GET** /orgs/{org}/members | List organization members
-*OrgsApi* | [**orgs/listMembershipsForAuthenticatedUser**](Apis/OrgsApi.http#orgs/listmembershipsforauthenticateduser) | **GET** /user/memberships/orgs | List organization memberships for the authenticated user
-*OrgsApi* | [**orgs/listOrgRoleTeams**](Apis/OrgsApi.http#orgs/listorgroleteams) | **GET** /orgs/{org}/organization-roles/{role_id}/teams | List teams that are assigned to an organization role
-*OrgsApi* | [**orgs/listOrgRoleUsers**](Apis/OrgsApi.http#orgs/listorgroleusers) | **GET** /orgs/{org}/organization-roles/{role_id}/users | List users that are assigned to an organization role
-*OrgsApi* | [**orgs/listOrgRoles**](Apis/OrgsApi.http#orgs/listorgroles) | **GET** /orgs/{org}/organization-roles | Get all organization roles for an organization
-*OrgsApi* | [**orgs/listOrganizationFineGrainedPermissions**](Apis/OrgsApi.http#orgs/listorganizationfinegrainedpermissions) | **GET** /orgs/{org}/organization-fine-grained-permissions | List organization fine-grained permissions for an organization
-*OrgsApi* | [**orgs/listOutsideCollaborators**](Apis/OrgsApi.http#orgs/listoutsidecollaborators) | **GET** /orgs/{org}/outside_collaborators | List outside collaborators for an organization
-*OrgsApi* | [**orgs/listPatGrantRepositories**](Apis/OrgsApi.http#orgs/listpatgrantrepositories) | **GET** /orgs/{org}/personal-access-tokens/{pat_id}/repositories | List repositories a fine-grained personal access token has access to
-*OrgsApi* | [**orgs/listPatGrantRequestRepositories**](Apis/OrgsApi.http#orgs/listpatgrantrequestrepositories) | **GET** /orgs/{org}/personal-access-token-requests/{pat_request_id}/repositories | List repositories requested to be accessed by a fine-grained personal access token
-*OrgsApi* | [**orgs/listPatGrantRequests**](Apis/OrgsApi.http#orgs/listpatgrantrequests) | **GET** /orgs/{org}/personal-access-token-requests | List requests to access organization resources with fine-grained personal access tokens
-*OrgsApi* | [**orgs/listPatGrants**](Apis/OrgsApi.http#orgs/listpatgrants) | **GET** /orgs/{org}/personal-access-tokens | List fine-grained personal access tokens with access to organization resources
-*OrgsApi* | [**orgs/listPendingInvitations**](Apis/OrgsApi.http#orgs/listpendinginvitations) | **GET** /orgs/{org}/invitations | List pending organization invitations
-*OrgsApi* | [**orgs/listPublicMembers**](Apis/OrgsApi.http#orgs/listpublicmembers) | **GET** /orgs/{org}/public_members | List public organization members
-*OrgsApi* | [**orgs/listSecurityManagerTeams**](Apis/OrgsApi.http#orgs/listsecuritymanagerteams) | **GET** /orgs/{org}/security-managers | List security manager teams
-*OrgsApi* | [**orgs/listWebhookDeliveries**](Apis/OrgsApi.http#orgs/listwebhookdeliveries) | **GET** /orgs/{org}/hooks/{hook_id}/deliveries | List deliveries for an organization webhook
-*OrgsApi* | [**orgs/listWebhooks**](Apis/OrgsApi.http#orgs/listwebhooks) | **GET** /orgs/{org}/hooks | List organization webhooks
-*OrgsApi* | [**orgs/patchCustomOrganizationRole**](Apis/OrgsApi.http#orgs/patchcustomorganizationrole) | **PATCH** /orgs/{org}/organization-roles/{role_id} | Update a custom organization role
-*OrgsApi* | [**orgs/pingWebhook**](Apis/OrgsApi.http#orgs/pingwebhook) | **POST** /orgs/{org}/hooks/{hook_id}/pings | Ping an organization webhook
-*OrgsApi* | [**orgs/redeliverWebhookDelivery**](Apis/OrgsApi.http#orgs/redeliverwebhookdelivery) | **POST** /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts | Redeliver a delivery for an organization webhook
-*OrgsApi* | [**orgs/removeCustomProperty**](Apis/OrgsApi.http#orgs/removecustomproperty) | **DELETE** /orgs/{org}/properties/schema/{custom_property_name} | Remove a custom property for an organization
-*OrgsApi* | [**orgs/removeMember**](Apis/OrgsApi.http#orgs/removemember) | **DELETE** /orgs/{org}/members/{username} | Remove an organization member
-*OrgsApi* | [**orgs/removeMembershipForUser**](Apis/OrgsApi.http#orgs/removemembershipforuser) | **DELETE** /orgs/{org}/memberships/{username} | Remove organization membership for a user
-*OrgsApi* | [**orgs/removeOutsideCollaborator**](Apis/OrgsApi.http#orgs/removeoutsidecollaborator) | **DELETE** /orgs/{org}/outside_collaborators/{username} | Remove outside collaborator from an organization
-*OrgsApi* | [**orgs/removePublicMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgs/removepublicmembershipforauthenticateduser) | **DELETE** /orgs/{org}/public_members/{username} | Remove public organization membership for the authenticated user
-*OrgsApi* | [**orgs/removeSecurityManagerTeam**](Apis/OrgsApi.http#orgs/removesecuritymanagerteam) | **DELETE** /orgs/{org}/security-managers/teams/{team_slug} | Remove a security manager team
-*OrgsApi* | [**orgs/reviewPatGrantRequest**](Apis/OrgsApi.http#orgs/reviewpatgrantrequest) | **POST** /orgs/{org}/personal-access-token-requests/{pat_request_id} | Review a request to access organization resources with a fine-grained personal access token
-*OrgsApi* | [**orgs/reviewPatGrantRequestsInBulk**](Apis/OrgsApi.http#orgs/reviewpatgrantrequestsinbulk) | **POST** /orgs/{org}/personal-access-token-requests | Review requests to access organization resources with fine-grained personal access tokens
-*OrgsApi* | [**orgs/revokeAllOrgRolesTeam**](Apis/OrgsApi.http#orgs/revokeallorgrolesteam) | **DELETE** /orgs/{org}/organization-roles/teams/{team_slug} | Remove all organization roles for a team
-*OrgsApi* | [**orgs/revokeAllOrgRolesUser**](Apis/OrgsApi.http#orgs/revokeallorgrolesuser) | **DELETE** /orgs/{org}/organization-roles/users/{username} | Remove all organization roles for a user
-*OrgsApi* | [**orgs/revokeOrgRoleTeam**](Apis/OrgsApi.http#orgs/revokeorgroleteam) | **DELETE** /orgs/{org}/organization-roles/teams/{team_slug}/{role_id} | Remove an organization role from a team
-*OrgsApi* | [**orgs/revokeOrgRoleUser**](Apis/OrgsApi.http#orgs/revokeorgroleuser) | **DELETE** /orgs/{org}/organization-roles/users/{username}/{role_id} | Remove an organization role from a user
-*OrgsApi* | [**orgs/setMembershipForUser**](Apis/OrgsApi.http#orgs/setmembershipforuser) | **PUT** /orgs/{org}/memberships/{username} | Set organization membership for a user
-*OrgsApi* | [**orgs/setPublicMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgs/setpublicmembershipforauthenticateduser) | **PUT** /orgs/{org}/public_members/{username} | Set public organization membership for the authenticated user
-*OrgsApi* | [**orgs/unblockUser**](Apis/OrgsApi.http#orgs/unblockuser) | **DELETE** /orgs/{org}/blocks/{username} | Unblock a user from an organization
-*OrgsApi* | [**orgs/update**](Apis/OrgsApi.http#orgs/update) | **PATCH** /orgs/{org} | Update an organization
-*OrgsApi* | [**orgs/updateMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgs/updatemembershipforauthenticateduser) | **PATCH** /user/memberships/orgs/{org} | Update an organization membership for the authenticated user
-*OrgsApi* | [**orgs/updatePatAccess**](Apis/OrgsApi.http#orgs/updatepataccess) | **POST** /orgs/{org}/personal-access-tokens/{pat_id} | Update the access a fine-grained personal access token has to organization resources
-*OrgsApi* | [**orgs/updatePatAccesses**](Apis/OrgsApi.http#orgs/updatepataccesses) | **POST** /orgs/{org}/personal-access-tokens | Update the access to organization resources via fine-grained personal access tokens
-*OrgsApi* | [**orgs/updateWebhook**](Apis/OrgsApi.http#orgs/updatewebhook) | **PATCH** /orgs/{org}/hooks/{hook_id} | Update an organization webhook
-*OrgsApi* | [**orgs/updateWebhookConfigForOrg**](Apis/OrgsApi.http#orgs/updatewebhookconfigfororg) | **PATCH** /orgs/{org}/hooks/{hook_id}/config | Update a webhook configuration for an organization
-*PackagesApi* | [**packages/deletePackageForAuthenticatedUser**](Apis/PackagesApi.http#packages/deletepackageforauthenticateduser) | **DELETE** /user/packages/{package_type}/{package_name} | Delete a package for the authenticated user
-*PackagesApi* | [**packages/deletePackageForOrg**](Apis/PackagesApi.http#packages/deletepackagefororg) | **DELETE** /orgs/{org}/packages/{package_type}/{package_name} | Delete a package for an organization
-*PackagesApi* | [**packages/deletePackageForUser**](Apis/PackagesApi.http#packages/deletepackageforuser) | **DELETE** /users/{username}/packages/{package_type}/{package_name} | Delete a package for a user
-*PackagesApi* | [**packages/deletePackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packages/deletepackageversionforauthenticateduser) | **DELETE** /user/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete a package version for the authenticated user
-*PackagesApi* | [**packages/deletePackageVersionForOrg**](Apis/PackagesApi.http#packages/deletepackageversionfororg) | **DELETE** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete package version for an organization
-*PackagesApi* | [**packages/deletePackageVersionForUser**](Apis/PackagesApi.http#packages/deletepackageversionforuser) | **DELETE** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete package version for a user
-*PackagesApi* | [**packages/getAllPackageVersionsForPackageOwnedByAuthenticatedUser**](Apis/PackagesApi.http#packages/getallpackageversionsforpackageownedbyauthenticateduser) | **GET** /user/packages/{package_type}/{package_name}/versions | List package versions for a package owned by the authenticated user
-*PackagesApi* | [**packages/getAllPackageVersionsForPackageOwnedByOrg**](Apis/PackagesApi.http#packages/getallpackageversionsforpackageownedbyorg) | **GET** /orgs/{org}/packages/{package_type}/{package_name}/versions | List package versions for a package owned by an organization
-*PackagesApi* | [**packages/getAllPackageVersionsForPackageOwnedByUser**](Apis/PackagesApi.http#packages/getallpackageversionsforpackageownedbyuser) | **GET** /users/{username}/packages/{package_type}/{package_name}/versions | List package versions for a package owned by a user
-*PackagesApi* | [**packages/getPackageForAuthenticatedUser**](Apis/PackagesApi.http#packages/getpackageforauthenticateduser) | **GET** /user/packages/{package_type}/{package_name} | Get a package for the authenticated user
-*PackagesApi* | [**packages/getPackageForOrganization**](Apis/PackagesApi.http#packages/getpackagefororganization) | **GET** /orgs/{org}/packages/{package_type}/{package_name} | Get a package for an organization
-*PackagesApi* | [**packages/getPackageForUser**](Apis/PackagesApi.http#packages/getpackageforuser) | **GET** /users/{username}/packages/{package_type}/{package_name} | Get a package for a user
-*PackagesApi* | [**packages/getPackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packages/getpackageversionforauthenticateduser) | **GET** /user/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for the authenticated user
-*PackagesApi* | [**packages/getPackageVersionForOrganization**](Apis/PackagesApi.http#packages/getpackageversionfororganization) | **GET** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for an organization
-*PackagesApi* | [**packages/getPackageVersionForUser**](Apis/PackagesApi.http#packages/getpackageversionforuser) | **GET** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for a user
-*PackagesApi* | [**packages/listDockerMigrationConflictingPackagesForAuthenticatedUser**](Apis/PackagesApi.http#packages/listdockermigrationconflictingpackagesforauthenticateduser) | **GET** /user/docker/conflicts | Get list of conflicting packages during Docker migration for authenticated-user
-*PackagesApi* | [**packages/listDockerMigrationConflictingPackagesForOrganization**](Apis/PackagesApi.http#packages/listdockermigrationconflictingpackagesfororganization) | **GET** /orgs/{org}/docker/conflicts | Get list of conflicting packages during Docker migration for organization
-*PackagesApi* | [**packages/listDockerMigrationConflictingPackagesForUser**](Apis/PackagesApi.http#packages/listdockermigrationconflictingpackagesforuser) | **GET** /users/{username}/docker/conflicts | Get list of conflicting packages during Docker migration for user
-*PackagesApi* | [**packages/listPackagesForAuthenticatedUser**](Apis/PackagesApi.http#packages/listpackagesforauthenticateduser) | **GET** /user/packages | List packages for the authenticated user's namespace
-*PackagesApi* | [**packages/listPackagesForOrganization**](Apis/PackagesApi.http#packages/listpackagesfororganization) | **GET** /orgs/{org}/packages | List packages for an organization
-*PackagesApi* | [**packages/listPackagesForUser**](Apis/PackagesApi.http#packages/listpackagesforuser) | **GET** /users/{username}/packages | List packages for a user
-*PackagesApi* | [**packages/restorePackageForAuthenticatedUser**](Apis/PackagesApi.http#packages/restorepackageforauthenticateduser) | **POST** /user/packages/{package_type}/{package_name}/restore | Restore a package for the authenticated user
-*PackagesApi* | [**packages/restorePackageForOrg**](Apis/PackagesApi.http#packages/restorepackagefororg) | **POST** /orgs/{org}/packages/{package_type}/{package_name}/restore | Restore a package for an organization
-*PackagesApi* | [**packages/restorePackageForUser**](Apis/PackagesApi.http#packages/restorepackageforuser) | **POST** /users/{username}/packages/{package_type}/{package_name}/restore | Restore a package for a user
-*PackagesApi* | [**packages/restorePackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packages/restorepackageversionforauthenticateduser) | **POST** /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore a package version for the authenticated user
-*PackagesApi* | [**packages/restorePackageVersionForOrg**](Apis/PackagesApi.http#packages/restorepackageversionfororg) | **POST** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore package version for an organization
-*PackagesApi* | [**packages/restorePackageVersionForUser**](Apis/PackagesApi.http#packages/restorepackageversionforuser) | **POST** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore package version for a user
-*ProjectsApi* | [**projects/addCollaborator**](Apis/ProjectsApi.http#projects/addcollaborator) | **PUT** /projects/{project_id}/collaborators/{username} | Add project collaborator
-*ProjectsApi* | [**projects/createCard**](Apis/ProjectsApi.http#projects/createcard) | **POST** /projects/columns/{column_id}/cards | Create a project card
-*ProjectsApi* | [**projects/createColumn**](Apis/ProjectsApi.http#projects/createcolumn) | **POST** /projects/{project_id}/columns | Create a project column
-*ProjectsApi* | [**projects/createForAuthenticatedUser**](Apis/ProjectsApi.http#projects/createforauthenticateduser) | **POST** /user/projects | Create a user project
-*ProjectsApi* | [**projects/createForOrg**](Apis/ProjectsApi.http#projects/createfororg) | **POST** /orgs/{org}/projects | Create an organization project
-*ProjectsApi* | [**projects/createForRepo**](Apis/ProjectsApi.http#projects/createforrepo) | **POST** /repos/{owner}/{repo}/projects | Create a repository project
-*ProjectsApi* | [**projects/delete**](Apis/ProjectsApi.http#projects/delete) | **DELETE** /projects/{project_id} | Delete a project
-*ProjectsApi* | [**projects/deleteCard**](Apis/ProjectsApi.http#projects/deletecard) | **DELETE** /projects/columns/cards/{card_id} | Delete a project card
-*ProjectsApi* | [**projects/deleteColumn**](Apis/ProjectsApi.http#projects/deletecolumn) | **DELETE** /projects/columns/{column_id} | Delete a project column
-*ProjectsApi* | [**projects/get**](Apis/ProjectsApi.http#projects/get) | **GET** /projects/{project_id} | Get a project
-*ProjectsApi* | [**projects/getCard**](Apis/ProjectsApi.http#projects/getcard) | **GET** /projects/columns/cards/{card_id} | Get a project card
-*ProjectsApi* | [**projects/getColumn**](Apis/ProjectsApi.http#projects/getcolumn) | **GET** /projects/columns/{column_id} | Get a project column
-*ProjectsApi* | [**projects/getPermissionForUser**](Apis/ProjectsApi.http#projects/getpermissionforuser) | **GET** /projects/{project_id}/collaborators/{username}/permission | Get project permission for a user
-*ProjectsApi* | [**projects/listCards**](Apis/ProjectsApi.http#projects/listcards) | **GET** /projects/columns/{column_id}/cards | List project cards
-*ProjectsApi* | [**projects/listCollaborators**](Apis/ProjectsApi.http#projects/listcollaborators) | **GET** /projects/{project_id}/collaborators | List project collaborators
-*ProjectsApi* | [**projects/listColumns**](Apis/ProjectsApi.http#projects/listcolumns) | **GET** /projects/{project_id}/columns | List project columns
-*ProjectsApi* | [**projects/listForOrg**](Apis/ProjectsApi.http#projects/listfororg) | **GET** /orgs/{org}/projects | List organization projects
-*ProjectsApi* | [**projects/listForRepo**](Apis/ProjectsApi.http#projects/listforrepo) | **GET** /repos/{owner}/{repo}/projects | List repository projects
-*ProjectsApi* | [**projects/listForUser**](Apis/ProjectsApi.http#projects/listforuser) | **GET** /users/{username}/projects | List user projects
-*ProjectsApi* | [**projects/moveCard**](Apis/ProjectsApi.http#projects/movecard) | **POST** /projects/columns/cards/{card_id}/moves | Move a project card
-*ProjectsApi* | [**projects/moveColumn**](Apis/ProjectsApi.http#projects/movecolumn) | **POST** /projects/columns/{column_id}/moves | Move a project column
-*ProjectsApi* | [**projects/removeCollaborator**](Apis/ProjectsApi.http#projects/removecollaborator) | **DELETE** /projects/{project_id}/collaborators/{username} | Remove user as a collaborator
-*ProjectsApi* | [**projects/update**](Apis/ProjectsApi.http#projects/update) | **PATCH** /projects/{project_id} | Update a project
-*ProjectsApi* | [**projects/updateCard**](Apis/ProjectsApi.http#projects/updatecard) | **PATCH** /projects/columns/cards/{card_id} | Update an existing project card
-*ProjectsApi* | [**projects/updateColumn**](Apis/ProjectsApi.http#projects/updatecolumn) | **PATCH** /projects/columns/{column_id} | Update an existing project column
-*PullsApi* | [**pulls/checkIfMerged**](Apis/PullsApi.http#pulls/checkifmerged) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/merge | Check if a pull request has been merged
-*PullsApi* | [**pulls/create**](Apis/PullsApi.http#pulls/create) | **POST** /repos/{owner}/{repo}/pulls | Create a pull request
-*PullsApi* | [**pulls/createReplyForReviewComment**](Apis/PullsApi.http#pulls/createreplyforreviewcomment) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies | Create a reply for a review comment
-*PullsApi* | [**pulls/createReview**](Apis/PullsApi.http#pulls/createreview) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/reviews | Create a review for a pull request
-*PullsApi* | [**pulls/createReviewComment**](Apis/PullsApi.http#pulls/createreviewcomment) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/comments | Create a review comment for a pull request
-*PullsApi* | [**pulls/deletePendingReview**](Apis/PullsApi.http#pulls/deletependingreview) | **DELETE** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Delete a pending review for a pull request
-*PullsApi* | [**pulls/deleteReviewComment**](Apis/PullsApi.http#pulls/deletereviewcomment) | **DELETE** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Delete a review comment for a pull request
-*PullsApi* | [**pulls/dismissReview**](Apis/PullsApi.http#pulls/dismissreview) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals | Dismiss a review for a pull request
-*PullsApi* | [**pulls/get**](Apis/PullsApi.http#pulls/get) | **GET** /repos/{owner}/{repo}/pulls/{pull_number} | Get a pull request
-*PullsApi* | [**pulls/getReview**](Apis/PullsApi.http#pulls/getreview) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Get a review for a pull request
-*PullsApi* | [**pulls/getReviewComment**](Apis/PullsApi.http#pulls/getreviewcomment) | **GET** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Get a review comment for a pull request
-*PullsApi* | [**pulls/list**](Apis/PullsApi.http#pulls/list) | **GET** /repos/{owner}/{repo}/pulls | List pull requests
-*PullsApi* | [**pulls/listCommentsForReview**](Apis/PullsApi.http#pulls/listcommentsforreview) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments | List comments for a pull request review
-*PullsApi* | [**pulls/listCommits**](Apis/PullsApi.http#pulls/listcommits) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/commits | List commits on a pull request
-*PullsApi* | [**pulls/listFiles**](Apis/PullsApi.http#pulls/listfiles) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/files | List pull requests files
-*PullsApi* | [**pulls/listRequestedReviewers**](Apis/PullsApi.http#pulls/listrequestedreviewers) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Get all requested reviewers for a pull request
-*PullsApi* | [**pulls/listReviewComments**](Apis/PullsApi.http#pulls/listreviewcomments) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/comments | List review comments on a pull request
-*PullsApi* | [**pulls/listReviewCommentsForRepo**](Apis/PullsApi.http#pulls/listreviewcommentsforrepo) | **GET** /repos/{owner}/{repo}/pulls/comments | List review comments in a repository
-*PullsApi* | [**pulls/listReviews**](Apis/PullsApi.http#pulls/listreviews) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews | List reviews for a pull request
-*PullsApi* | [**pulls/merge**](Apis/PullsApi.http#pulls/merge) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/merge | Merge a pull request
-*PullsApi* | [**pulls/removeRequestedReviewers**](Apis/PullsApi.http#pulls/removerequestedreviewers) | **DELETE** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Remove requested reviewers from a pull request
-*PullsApi* | [**pulls/requestReviewers**](Apis/PullsApi.http#pulls/requestreviewers) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Request reviewers for a pull request
-*PullsApi* | [**pulls/submitReview**](Apis/PullsApi.http#pulls/submitreview) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events | Submit a review for a pull request
-*PullsApi* | [**pulls/update**](Apis/PullsApi.http#pulls/update) | **PATCH** /repos/{owner}/{repo}/pulls/{pull_number} | Update a pull request
-*PullsApi* | [**pulls/updateBranch**](Apis/PullsApi.http#pulls/updatebranch) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/update-branch | Update a pull request branch
-*PullsApi* | [**pulls/updateReview**](Apis/PullsApi.http#pulls/updatereview) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Update a review for a pull request
-*PullsApi* | [**pulls/updateReviewComment**](Apis/PullsApi.http#pulls/updatereviewcomment) | **PATCH** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Update a review comment for a pull request
+*EmojisApi* | [**emojisGet**](Apis/EmojisApi.http#emojisget) | **GET** /emojis | Get emojis
+*GistsApi* | [**gistsCheckIsStarred**](Apis/GistsApi.http#gistscheckisstarred) | **GET** /gists/{gist_id}/star | Check if a gist is starred
+*GistsApi* | [**gistsCreate**](Apis/GistsApi.http#gistscreate) | **POST** /gists | Create a gist
+*GistsApi* | [**gistsCreateComment**](Apis/GistsApi.http#gistscreatecomment) | **POST** /gists/{gist_id}/comments | Create a gist comment
+*GistsApi* | [**gistsDelete**](Apis/GistsApi.http#gistsdelete) | **DELETE** /gists/{gist_id} | Delete a gist
+*GistsApi* | [**gistsDeleteComment**](Apis/GistsApi.http#gistsdeletecomment) | **DELETE** /gists/{gist_id}/comments/{comment_id} | Delete a gist comment
+*GistsApi* | [**gistsFork**](Apis/GistsApi.http#gistsfork) | **POST** /gists/{gist_id}/forks | Fork a gist
+*GistsApi* | [**gistsGet**](Apis/GistsApi.http#gistsget) | **GET** /gists/{gist_id} | Get a gist
+*GistsApi* | [**gistsGetComment**](Apis/GistsApi.http#gistsgetcomment) | **GET** /gists/{gist_id}/comments/{comment_id} | Get a gist comment
+*GistsApi* | [**gistsGetRevision**](Apis/GistsApi.http#gistsgetrevision) | **GET** /gists/{gist_id}/{sha} | Get a gist revision
+*GistsApi* | [**gistsList**](Apis/GistsApi.http#gistslist) | **GET** /gists | List gists for the authenticated user
+*GistsApi* | [**gistsListComments**](Apis/GistsApi.http#gistslistcomments) | **GET** /gists/{gist_id}/comments | List gist comments
+*GistsApi* | [**gistsListCommits**](Apis/GistsApi.http#gistslistcommits) | **GET** /gists/{gist_id}/commits | List gist commits
+*GistsApi* | [**gistsListForUser**](Apis/GistsApi.http#gistslistforuser) | **GET** /users/{username}/gists | List gists for a user
+*GistsApi* | [**gistsListForks**](Apis/GistsApi.http#gistslistforks) | **GET** /gists/{gist_id}/forks | List gist forks
+*GistsApi* | [**gistsListPublic**](Apis/GistsApi.http#gistslistpublic) | **GET** /gists/public | List public gists
+*GistsApi* | [**gistsListStarred**](Apis/GistsApi.http#gistsliststarred) | **GET** /gists/starred | List starred gists
+*GistsApi* | [**gistsStar**](Apis/GistsApi.http#gistsstar) | **PUT** /gists/{gist_id}/star | Star a gist
+*GistsApi* | [**gistsUnstar**](Apis/GistsApi.http#gistsunstar) | **DELETE** /gists/{gist_id}/star | Unstar a gist
+*GistsApi* | [**gistsUpdate**](Apis/GistsApi.http#gistsupdate) | **PATCH** /gists/{gist_id} | Update a gist
+*GistsApi* | [**gistsUpdateComment**](Apis/GistsApi.http#gistsupdatecomment) | **PATCH** /gists/{gist_id}/comments/{comment_id} | Update a gist comment
+*GitApi* | [**gitCreateBlob**](Apis/GitApi.http#gitcreateblob) | **POST** /repos/{owner}/{repo}/git/blobs | Create a blob
+*GitApi* | [**gitCreateCommit**](Apis/GitApi.http#gitcreatecommit) | **POST** /repos/{owner}/{repo}/git/commits | Create a commit
+*GitApi* | [**gitCreateRef**](Apis/GitApi.http#gitcreateref) | **POST** /repos/{owner}/{repo}/git/refs | Create a reference
+*GitApi* | [**gitCreateTag**](Apis/GitApi.http#gitcreatetag) | **POST** /repos/{owner}/{repo}/git/tags | Create a tag object
+*GitApi* | [**gitCreateTree**](Apis/GitApi.http#gitcreatetree) | **POST** /repos/{owner}/{repo}/git/trees | Create a tree
+*GitApi* | [**gitDeleteRef**](Apis/GitApi.http#gitdeleteref) | **DELETE** /repos/{owner}/{repo}/git/refs/{ref} | Delete a reference
+*GitApi* | [**gitGetBlob**](Apis/GitApi.http#gitgetblob) | **GET** /repos/{owner}/{repo}/git/blobs/{file_sha} | Get a blob
+*GitApi* | [**gitGetCommit**](Apis/GitApi.http#gitgetcommit) | **GET** /repos/{owner}/{repo}/git/commits/{commit_sha} | Get a commit object
+*GitApi* | [**gitGetRef**](Apis/GitApi.http#gitgetref) | **GET** /repos/{owner}/{repo}/git/ref/{ref} | Get a reference
+*GitApi* | [**gitGetTag**](Apis/GitApi.http#gitgettag) | **GET** /repos/{owner}/{repo}/git/tags/{tag_sha} | Get a tag
+*GitApi* | [**gitGetTree**](Apis/GitApi.http#gitgettree) | **GET** /repos/{owner}/{repo}/git/trees/{tree_sha} | Get a tree
+*GitApi* | [**gitListMatchingRefs**](Apis/GitApi.http#gitlistmatchingrefs) | **GET** /repos/{owner}/{repo}/git/matching-refs/{ref} | List matching references
+*GitApi* | [**gitUpdateRef**](Apis/GitApi.http#gitupdateref) | **PATCH** /repos/{owner}/{repo}/git/refs/{ref} | Update a reference
+*GitignoreApi* | [**gitignoreGetAllTemplates**](Apis/GitignoreApi.http#gitignoregetalltemplates) | **GET** /gitignore/templates | Get all gitignore templates
+*GitignoreApi* | [**gitignoreGetTemplate**](Apis/GitignoreApi.http#gitignoregettemplate) | **GET** /gitignore/templates/{name} | Get a gitignore template
+*InteractionsApi* | [**interactionsGetRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactionsgetrestrictionsforauthenticateduser) | **GET** /user/interaction-limits | Get interaction restrictions for your public repositories
+*InteractionsApi* | [**interactionsGetRestrictionsForOrg**](Apis/InteractionsApi.http#interactionsgetrestrictionsfororg) | **GET** /orgs/{org}/interaction-limits | Get interaction restrictions for an organization
+*InteractionsApi* | [**interactionsGetRestrictionsForRepo**](Apis/InteractionsApi.http#interactionsgetrestrictionsforrepo) | **GET** /repos/{owner}/{repo}/interaction-limits | Get interaction restrictions for a repository
+*InteractionsApi* | [**interactionsRemoveRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactionsremoverestrictionsforauthenticateduser) | **DELETE** /user/interaction-limits | Remove interaction restrictions from your public repositories
+*InteractionsApi* | [**interactionsRemoveRestrictionsForOrg**](Apis/InteractionsApi.http#interactionsremoverestrictionsfororg) | **DELETE** /orgs/{org}/interaction-limits | Remove interaction restrictions for an organization
+*InteractionsApi* | [**interactionsRemoveRestrictionsForRepo**](Apis/InteractionsApi.http#interactionsremoverestrictionsforrepo) | **DELETE** /repos/{owner}/{repo}/interaction-limits | Remove interaction restrictions for a repository
+*InteractionsApi* | [**interactionsSetRestrictionsForAuthenticatedUser**](Apis/InteractionsApi.http#interactionssetrestrictionsforauthenticateduser) | **PUT** /user/interaction-limits | Set interaction restrictions for your public repositories
+*InteractionsApi* | [**interactionsSetRestrictionsForOrg**](Apis/InteractionsApi.http#interactionssetrestrictionsfororg) | **PUT** /orgs/{org}/interaction-limits | Set interaction restrictions for an organization
+*InteractionsApi* | [**interactionsSetRestrictionsForRepo**](Apis/InteractionsApi.http#interactionssetrestrictionsforrepo) | **PUT** /repos/{owner}/{repo}/interaction-limits | Set interaction restrictions for a repository
+*IssuesApi* | [**issuesAddAssignees**](Apis/IssuesApi.http#issuesaddassignees) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/assignees | Add assignees to an issue
+*IssuesApi* | [**issuesAddLabels**](Apis/IssuesApi.http#issuesaddlabels) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/labels | Add labels to an issue
+*IssuesApi* | [**issuesCheckUserCanBeAssigned**](Apis/IssuesApi.http#issuescheckusercanbeassigned) | **GET** /repos/{owner}/{repo}/assignees/{assignee} | Check if a user can be assigned
+*IssuesApi* | [**issuesCheckUserCanBeAssignedToIssue**](Apis/IssuesApi.http#issuescheckusercanbeassignedtoissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/assignees/{assignee} | Check if a user can be assigned to a issue
+*IssuesApi* | [**issuesCreate**](Apis/IssuesApi.http#issuescreate) | **POST** /repos/{owner}/{repo}/issues | Create an issue
+*IssuesApi* | [**issuesCreateComment**](Apis/IssuesApi.http#issuescreatecomment) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/comments | Create an issue comment
+*IssuesApi* | [**issuesCreateLabel**](Apis/IssuesApi.http#issuescreatelabel) | **POST** /repos/{owner}/{repo}/labels | Create a label
+*IssuesApi* | [**issuesCreateMilestone**](Apis/IssuesApi.http#issuescreatemilestone) | **POST** /repos/{owner}/{repo}/milestones | Create a milestone
+*IssuesApi* | [**issuesDeleteComment**](Apis/IssuesApi.http#issuesdeletecomment) | **DELETE** /repos/{owner}/{repo}/issues/comments/{comment_id} | Delete an issue comment
+*IssuesApi* | [**issuesDeleteLabel**](Apis/IssuesApi.http#issuesdeletelabel) | **DELETE** /repos/{owner}/{repo}/labels/{name} | Delete a label
+*IssuesApi* | [**issuesDeleteMilestone**](Apis/IssuesApi.http#issuesdeletemilestone) | **DELETE** /repos/{owner}/{repo}/milestones/{milestone_number} | Delete a milestone
+*IssuesApi* | [**issuesGet**](Apis/IssuesApi.http#issuesget) | **GET** /repos/{owner}/{repo}/issues/{issue_number} | Get an issue
+*IssuesApi* | [**issuesGetComment**](Apis/IssuesApi.http#issuesgetcomment) | **GET** /repos/{owner}/{repo}/issues/comments/{comment_id} | Get an issue comment
+*IssuesApi* | [**issuesGetEvent**](Apis/IssuesApi.http#issuesgetevent) | **GET** /repos/{owner}/{repo}/issues/events/{event_id} | Get an issue event
+*IssuesApi* | [**issuesGetLabel**](Apis/IssuesApi.http#issuesgetlabel) | **GET** /repos/{owner}/{repo}/labels/{name} | Get a label
+*IssuesApi* | [**issuesGetMilestone**](Apis/IssuesApi.http#issuesgetmilestone) | **GET** /repos/{owner}/{repo}/milestones/{milestone_number} | Get a milestone
+*IssuesApi* | [**issuesList**](Apis/IssuesApi.http#issueslist) | **GET** /issues | List issues assigned to the authenticated user
+*IssuesApi* | [**issuesListAssignees**](Apis/IssuesApi.http#issueslistassignees) | **GET** /repos/{owner}/{repo}/assignees | List assignees
+*IssuesApi* | [**issuesListComments**](Apis/IssuesApi.http#issueslistcomments) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/comments | List issue comments
+*IssuesApi* | [**issuesListCommentsForRepo**](Apis/IssuesApi.http#issueslistcommentsforrepo) | **GET** /repos/{owner}/{repo}/issues/comments | List issue comments for a repository
+*IssuesApi* | [**issuesListEvents**](Apis/IssuesApi.http#issueslistevents) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/events | List issue events
+*IssuesApi* | [**issuesListEventsForRepo**](Apis/IssuesApi.http#issueslisteventsforrepo) | **GET** /repos/{owner}/{repo}/issues/events | List issue events for a repository
+*IssuesApi* | [**issuesListEventsForTimeline**](Apis/IssuesApi.http#issueslisteventsfortimeline) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/timeline | List timeline events for an issue
+*IssuesApi* | [**issuesListForAuthenticatedUser**](Apis/IssuesApi.http#issueslistforauthenticateduser) | **GET** /user/issues | List user account issues assigned to the authenticated user
+*IssuesApi* | [**issuesListForOrg**](Apis/IssuesApi.http#issueslistfororg) | **GET** /orgs/{org}/issues | List organization issues assigned to the authenticated user
+*IssuesApi* | [**issuesListForRepo**](Apis/IssuesApi.http#issueslistforrepo) | **GET** /repos/{owner}/{repo}/issues | List repository issues
+*IssuesApi* | [**issuesListLabelsForMilestone**](Apis/IssuesApi.http#issueslistlabelsformilestone) | **GET** /repos/{owner}/{repo}/milestones/{milestone_number}/labels | List labels for issues in a milestone
+*IssuesApi* | [**issuesListLabelsForRepo**](Apis/IssuesApi.http#issueslistlabelsforrepo) | **GET** /repos/{owner}/{repo}/labels | List labels for a repository
+*IssuesApi* | [**issuesListLabelsOnIssue**](Apis/IssuesApi.http#issueslistlabelsonissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/labels | List labels for an issue
+*IssuesApi* | [**issuesListMilestones**](Apis/IssuesApi.http#issueslistmilestones) | **GET** /repos/{owner}/{repo}/milestones | List milestones
+*IssuesApi* | [**issuesLock**](Apis/IssuesApi.http#issueslock) | **PUT** /repos/{owner}/{repo}/issues/{issue_number}/lock | Lock an issue
+*IssuesApi* | [**issuesRemoveAllLabels**](Apis/IssuesApi.http#issuesremovealllabels) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/labels | Remove all labels from an issue
+*IssuesApi* | [**issuesRemoveAssignees**](Apis/IssuesApi.http#issuesremoveassignees) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/assignees | Remove assignees from an issue
+*IssuesApi* | [**issuesRemoveLabel**](Apis/IssuesApi.http#issuesremovelabel) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/labels/{name} | Remove a label from an issue
+*IssuesApi* | [**issuesSetLabels**](Apis/IssuesApi.http#issuessetlabels) | **PUT** /repos/{owner}/{repo}/issues/{issue_number}/labels | Set labels for an issue
+*IssuesApi* | [**issuesUnlock**](Apis/IssuesApi.http#issuesunlock) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/lock | Unlock an issue
+*IssuesApi* | [**issuesUpdate**](Apis/IssuesApi.http#issuesupdate) | **PATCH** /repos/{owner}/{repo}/issues/{issue_number} | Update an issue
+*IssuesApi* | [**issuesUpdateComment**](Apis/IssuesApi.http#issuesupdatecomment) | **PATCH** /repos/{owner}/{repo}/issues/comments/{comment_id} | Update an issue comment
+*IssuesApi* | [**issuesUpdateLabel**](Apis/IssuesApi.http#issuesupdatelabel) | **PATCH** /repos/{owner}/{repo}/labels/{name} | Update a label
+*IssuesApi* | [**issuesUpdateMilestone**](Apis/IssuesApi.http#issuesupdatemilestone) | **PATCH** /repos/{owner}/{repo}/milestones/{milestone_number} | Update a milestone
+*LicensesApi* | [**licensesGet**](Apis/LicensesApi.http#licensesget) | **GET** /licenses/{license} | Get a license
+*LicensesApi* | [**licensesGetAllCommonlyUsed**](Apis/LicensesApi.http#licensesgetallcommonlyused) | **GET** /licenses | Get all commonly used licenses
+*LicensesApi* | [**licensesGetForRepo**](Apis/LicensesApi.http#licensesgetforrepo) | **GET** /repos/{owner}/{repo}/license | Get the license for a repository
+*MarkdownApi* | [**markdownRender**](Apis/MarkdownApi.http#markdownrender) | **POST** /markdown | Render a Markdown document
+*MarkdownApi* | [**markdownRenderRaw**](Apis/MarkdownApi.http#markdownrenderraw) | **POST** /markdown/raw | Render a Markdown document in raw mode
+*MetaApi* | [**metaGet**](Apis/MetaApi.http#metaget) | **GET** /meta | Get GitHub meta information
+*MetaApi* | [**metaGetAllVersions**](Apis/MetaApi.http#metagetallversions) | **GET** /versions | Get all API versions
+*MetaApi* | [**metaGetOctocat**](Apis/MetaApi.http#metagetoctocat) | **GET** /octocat | Get Octocat
+*MetaApi* | [**metaGetZen**](Apis/MetaApi.http#metagetzen) | **GET** /zen | Get the Zen of GitHub
+*MetaApi* | [**metaRoot**](Apis/MetaApi.http#metaroot) | **GET** / | GitHub API Root
+*MigrationsApi* | [**migrationsCancelImport**](Apis/MigrationsApi.http#migrationscancelimport) | **DELETE** /repos/{owner}/{repo}/import | Cancel an import
+*MigrationsApi* | [**migrationsDeleteArchiveForAuthenticatedUser**](Apis/MigrationsApi.http#migrationsdeletearchiveforauthenticateduser) | **DELETE** /user/migrations/{migration_id}/archive | Delete a user migration archive
+*MigrationsApi* | [**migrationsDeleteArchiveForOrg**](Apis/MigrationsApi.http#migrationsdeletearchivefororg) | **DELETE** /orgs/{org}/migrations/{migration_id}/archive | Delete an organization migration archive
+*MigrationsApi* | [**migrationsDownloadArchiveForOrg**](Apis/MigrationsApi.http#migrationsdownloadarchivefororg) | **GET** /orgs/{org}/migrations/{migration_id}/archive | Download an organization migration archive
+*MigrationsApi* | [**migrationsGetArchiveForAuthenticatedUser**](Apis/MigrationsApi.http#migrationsgetarchiveforauthenticateduser) | **GET** /user/migrations/{migration_id}/archive | Download a user migration archive
+*MigrationsApi* | [**migrationsGetCommitAuthors**](Apis/MigrationsApi.http#migrationsgetcommitauthors) | **GET** /repos/{owner}/{repo}/import/authors | Get commit authors
+*MigrationsApi* | [**migrationsGetImportStatus**](Apis/MigrationsApi.http#migrationsgetimportstatus) | **GET** /repos/{owner}/{repo}/import | Get an import status
+*MigrationsApi* | [**migrationsGetLargeFiles**](Apis/MigrationsApi.http#migrationsgetlargefiles) | **GET** /repos/{owner}/{repo}/import/large_files | Get large files
+*MigrationsApi* | [**migrationsGetStatusForAuthenticatedUser**](Apis/MigrationsApi.http#migrationsgetstatusforauthenticateduser) | **GET** /user/migrations/{migration_id} | Get a user migration status
+*MigrationsApi* | [**migrationsGetStatusForOrg**](Apis/MigrationsApi.http#migrationsgetstatusfororg) | **GET** /orgs/{org}/migrations/{migration_id} | Get an organization migration status
+*MigrationsApi* | [**migrationsListForAuthenticatedUser**](Apis/MigrationsApi.http#migrationslistforauthenticateduser) | **GET** /user/migrations | List user migrations
+*MigrationsApi* | [**migrationsListForOrg**](Apis/MigrationsApi.http#migrationslistfororg) | **GET** /orgs/{org}/migrations | List organization migrations
+*MigrationsApi* | [**migrationsListReposForAuthenticatedUser**](Apis/MigrationsApi.http#migrationslistreposforauthenticateduser) | **GET** /user/migrations/{migration_id}/repositories | List repositories for a user migration
+*MigrationsApi* | [**migrationsListReposForOrg**](Apis/MigrationsApi.http#migrationslistreposfororg) | **GET** /orgs/{org}/migrations/{migration_id}/repositories | List repositories in an organization migration
+*MigrationsApi* | [**migrationsMapCommitAuthor**](Apis/MigrationsApi.http#migrationsmapcommitauthor) | **PATCH** /repos/{owner}/{repo}/import/authors/{author_id} | Map a commit author
+*MigrationsApi* | [**migrationsSetLfsPreference**](Apis/MigrationsApi.http#migrationssetlfspreference) | **PATCH** /repos/{owner}/{repo}/import/lfs | Update Git LFS preference
+*MigrationsApi* | [**migrationsStartForAuthenticatedUser**](Apis/MigrationsApi.http#migrationsstartforauthenticateduser) | **POST** /user/migrations | Start a user migration
+*MigrationsApi* | [**migrationsStartForOrg**](Apis/MigrationsApi.http#migrationsstartfororg) | **POST** /orgs/{org}/migrations | Start an organization migration
+*MigrationsApi* | [**migrationsStartImport**](Apis/MigrationsApi.http#migrationsstartimport) | **PUT** /repos/{owner}/{repo}/import | Start an import
+*MigrationsApi* | [**migrationsUnlockRepoForAuthenticatedUser**](Apis/MigrationsApi.http#migrationsunlockrepoforauthenticateduser) | **DELETE** /user/migrations/{migration_id}/repos/{repo_name}/lock | Unlock a user repository
+*MigrationsApi* | [**migrationsUnlockRepoForOrg**](Apis/MigrationsApi.http#migrationsunlockrepofororg) | **DELETE** /orgs/{org}/migrations/{migration_id}/repos/{repo_name}/lock | Unlock an organization repository
+*MigrationsApi* | [**migrationsUpdateImport**](Apis/MigrationsApi.http#migrationsupdateimport) | **PATCH** /repos/{owner}/{repo}/import | Update an import
+*OidcApi* | [**oidcGetOidcCustomSubTemplateForOrg**](Apis/OidcApi.http#oidcgetoidccustomsubtemplatefororg) | **GET** /orgs/{org}/actions/oidc/customization/sub | Get the customization template for an OIDC subject claim for an organization
+*OidcApi* | [**oidcUpdateOidcCustomSubTemplateForOrg**](Apis/OidcApi.http#oidcupdateoidccustomsubtemplatefororg) | **PUT** /orgs/{org}/actions/oidc/customization/sub | Set the customization template for an OIDC subject claim for an organization
+*OrgsApi* | [**orgsAddSecurityManagerTeam**](Apis/OrgsApi.http#orgsaddsecuritymanagerteam) | **PUT** /orgs/{org}/security-managers/teams/{team_slug} | Add a security manager team
+*OrgsApi* | [**orgsAssignTeamToOrgRole**](Apis/OrgsApi.http#orgsassignteamtoorgrole) | **PUT** /orgs/{org}/organization-roles/teams/{team_slug}/{role_id} | Assign an organization role to a team
+*OrgsApi* | [**orgsAssignUserToOrgRole**](Apis/OrgsApi.http#orgsassignusertoorgrole) | **PUT** /orgs/{org}/organization-roles/users/{username}/{role_id} | Assign an organization role to a user
+*OrgsApi* | [**orgsBlockUser**](Apis/OrgsApi.http#orgsblockuser) | **PUT** /orgs/{org}/blocks/{username} | Block a user from an organization
+*OrgsApi* | [**orgsCancelInvitation**](Apis/OrgsApi.http#orgscancelinvitation) | **DELETE** /orgs/{org}/invitations/{invitation_id} | Cancel an organization invitation
+*OrgsApi* | [**orgsCheckBlockedUser**](Apis/OrgsApi.http#orgscheckblockeduser) | **GET** /orgs/{org}/blocks/{username} | Check if a user is blocked by an organization
+*OrgsApi* | [**orgsCheckMembershipForUser**](Apis/OrgsApi.http#orgscheckmembershipforuser) | **GET** /orgs/{org}/members/{username} | Check organization membership for a user
+*OrgsApi* | [**orgsCheckPublicMembershipForUser**](Apis/OrgsApi.http#orgscheckpublicmembershipforuser) | **GET** /orgs/{org}/public_members/{username} | Check public organization membership for a user
+*OrgsApi* | [**orgsConvertMemberToOutsideCollaborator**](Apis/OrgsApi.http#orgsconvertmembertooutsidecollaborator) | **PUT** /orgs/{org}/outside_collaborators/{username} | Convert an organization member to outside collaborator
+*OrgsApi* | [**orgsCreateCustomOrganizationRole**](Apis/OrgsApi.http#orgscreatecustomorganizationrole) | **POST** /orgs/{org}/organization-roles | Create a custom organization role
+*OrgsApi* | [**orgsCreateInvitation**](Apis/OrgsApi.http#orgscreateinvitation) | **POST** /orgs/{org}/invitations | Create an organization invitation
+*OrgsApi* | [**orgsCreateOrUpdateCustomProperties**](Apis/OrgsApi.http#orgscreateorupdatecustomproperties) | **PATCH** /orgs/{org}/properties/schema | Create or update custom properties for an organization
+*OrgsApi* | [**orgsCreateOrUpdateCustomPropertiesValuesForRepos**](Apis/OrgsApi.http#orgscreateorupdatecustompropertiesvaluesforrepos) | **PATCH** /orgs/{org}/properties/values | Create or update custom property values for organization repositories
+*OrgsApi* | [**orgsCreateOrUpdateCustomProperty**](Apis/OrgsApi.http#orgscreateorupdatecustomproperty) | **PUT** /orgs/{org}/properties/schema/{custom_property_name} | Create or update a custom property for an organization
+*OrgsApi* | [**orgsCreateWebhook**](Apis/OrgsApi.http#orgscreatewebhook) | **POST** /orgs/{org}/hooks | Create an organization webhook
+*OrgsApi* | [**orgsDelete**](Apis/OrgsApi.http#orgsdelete) | **DELETE** /orgs/{org} | Delete an organization
+*OrgsApi* | [**orgsDeleteCustomOrganizationRole**](Apis/OrgsApi.http#orgsdeletecustomorganizationrole) | **DELETE** /orgs/{org}/organization-roles/{role_id} | Delete a custom organization role.
+*OrgsApi* | [**orgsDeleteWebhook**](Apis/OrgsApi.http#orgsdeletewebhook) | **DELETE** /orgs/{org}/hooks/{hook_id} | Delete an organization webhook
+*OrgsApi* | [**orgsEnableOrDisableSecurityProductOnAllOrgRepos**](Apis/OrgsApi.http#orgsenableordisablesecurityproductonallorgrepos) | **POST** /orgs/{org}/{security_product}/{enablement} | Enable or disable a security feature for an organization
+*OrgsApi* | [**orgsGet**](Apis/OrgsApi.http#orgsget) | **GET** /orgs/{org} | Get an organization
+*OrgsApi* | [**orgsGetAllCustomProperties**](Apis/OrgsApi.http#orgsgetallcustomproperties) | **GET** /orgs/{org}/properties/schema | Get all custom properties for an organization
+*OrgsApi* | [**orgsGetCustomProperty**](Apis/OrgsApi.http#orgsgetcustomproperty) | **GET** /orgs/{org}/properties/schema/{custom_property_name} | Get a custom property for an organization
+*OrgsApi* | [**orgsGetMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgsgetmembershipforauthenticateduser) | **GET** /user/memberships/orgs/{org} | Get an organization membership for the authenticated user
+*OrgsApi* | [**orgsGetMembershipForUser**](Apis/OrgsApi.http#orgsgetmembershipforuser) | **GET** /orgs/{org}/memberships/{username} | Get organization membership for a user
+*OrgsApi* | [**orgsGetOrgRole**](Apis/OrgsApi.http#orgsgetorgrole) | **GET** /orgs/{org}/organization-roles/{role_id} | Get an organization role
+*OrgsApi* | [**orgsGetWebhook**](Apis/OrgsApi.http#orgsgetwebhook) | **GET** /orgs/{org}/hooks/{hook_id} | Get an organization webhook
+*OrgsApi* | [**orgsGetWebhookConfigForOrg**](Apis/OrgsApi.http#orgsgetwebhookconfigfororg) | **GET** /orgs/{org}/hooks/{hook_id}/config | Get a webhook configuration for an organization
+*OrgsApi* | [**orgsGetWebhookDelivery**](Apis/OrgsApi.http#orgsgetwebhookdelivery) | **GET** /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id} | Get a webhook delivery for an organization webhook
+*OrgsApi* | [**orgsList**](Apis/OrgsApi.http#orgslist) | **GET** /organizations | List organizations
+*OrgsApi* | [**orgsListAppInstallations**](Apis/OrgsApi.http#orgslistappinstallations) | **GET** /orgs/{org}/installations | List app installations for an organization
+*OrgsApi* | [**orgsListBlockedUsers**](Apis/OrgsApi.http#orgslistblockedusers) | **GET** /orgs/{org}/blocks | List users blocked by an organization
+*OrgsApi* | [**orgsListCustomPropertiesValuesForRepos**](Apis/OrgsApi.http#orgslistcustompropertiesvaluesforrepos) | **GET** /orgs/{org}/properties/values | List custom property values for organization repositories
+*OrgsApi* | [**orgsListFailedInvitations**](Apis/OrgsApi.http#orgslistfailedinvitations) | **GET** /orgs/{org}/failed_invitations | List failed organization invitations
+*OrgsApi* | [**orgsListForAuthenticatedUser**](Apis/OrgsApi.http#orgslistforauthenticateduser) | **GET** /user/orgs | List organizations for the authenticated user
+*OrgsApi* | [**orgsListForUser**](Apis/OrgsApi.http#orgslistforuser) | **GET** /users/{username}/orgs | List organizations for a user
+*OrgsApi* | [**orgsListInvitationTeams**](Apis/OrgsApi.http#orgslistinvitationteams) | **GET** /orgs/{org}/invitations/{invitation_id}/teams | List organization invitation teams
+*OrgsApi* | [**orgsListMembers**](Apis/OrgsApi.http#orgslistmembers) | **GET** /orgs/{org}/members | List organization members
+*OrgsApi* | [**orgsListMembershipsForAuthenticatedUser**](Apis/OrgsApi.http#orgslistmembershipsforauthenticateduser) | **GET** /user/memberships/orgs | List organization memberships for the authenticated user
+*OrgsApi* | [**orgsListOrgRoleTeams**](Apis/OrgsApi.http#orgslistorgroleteams) | **GET** /orgs/{org}/organization-roles/{role_id}/teams | List teams that are assigned to an organization role
+*OrgsApi* | [**orgsListOrgRoleUsers**](Apis/OrgsApi.http#orgslistorgroleusers) | **GET** /orgs/{org}/organization-roles/{role_id}/users | List users that are assigned to an organization role
+*OrgsApi* | [**orgsListOrgRoles**](Apis/OrgsApi.http#orgslistorgroles) | **GET** /orgs/{org}/organization-roles | Get all organization roles for an organization
+*OrgsApi* | [**orgsListOrganizationFineGrainedPermissions**](Apis/OrgsApi.http#orgslistorganizationfinegrainedpermissions) | **GET** /orgs/{org}/organization-fine-grained-permissions | List organization fine-grained permissions for an organization
+*OrgsApi* | [**orgsListOutsideCollaborators**](Apis/OrgsApi.http#orgslistoutsidecollaborators) | **GET** /orgs/{org}/outside_collaborators | List outside collaborators for an organization
+*OrgsApi* | [**orgsListPatGrantRepositories**](Apis/OrgsApi.http#orgslistpatgrantrepositories) | **GET** /orgs/{org}/personal-access-tokens/{pat_id}/repositories | List repositories a fine-grained personal access token has access to
+*OrgsApi* | [**orgsListPatGrantRequestRepositories**](Apis/OrgsApi.http#orgslistpatgrantrequestrepositories) | **GET** /orgs/{org}/personal-access-token-requests/{pat_request_id}/repositories | List repositories requested to be accessed by a fine-grained personal access token
+*OrgsApi* | [**orgsListPatGrantRequests**](Apis/OrgsApi.http#orgslistpatgrantrequests) | **GET** /orgs/{org}/personal-access-token-requests | List requests to access organization resources with fine-grained personal access tokens
+*OrgsApi* | [**orgsListPatGrants**](Apis/OrgsApi.http#orgslistpatgrants) | **GET** /orgs/{org}/personal-access-tokens | List fine-grained personal access tokens with access to organization resources
+*OrgsApi* | [**orgsListPendingInvitations**](Apis/OrgsApi.http#orgslistpendinginvitations) | **GET** /orgs/{org}/invitations | List pending organization invitations
+*OrgsApi* | [**orgsListPublicMembers**](Apis/OrgsApi.http#orgslistpublicmembers) | **GET** /orgs/{org}/public_members | List public organization members
+*OrgsApi* | [**orgsListSecurityManagerTeams**](Apis/OrgsApi.http#orgslistsecuritymanagerteams) | **GET** /orgs/{org}/security-managers | List security manager teams
+*OrgsApi* | [**orgsListWebhookDeliveries**](Apis/OrgsApi.http#orgslistwebhookdeliveries) | **GET** /orgs/{org}/hooks/{hook_id}/deliveries | List deliveries for an organization webhook
+*OrgsApi* | [**orgsListWebhooks**](Apis/OrgsApi.http#orgslistwebhooks) | **GET** /orgs/{org}/hooks | List organization webhooks
+*OrgsApi* | [**orgsPatchCustomOrganizationRole**](Apis/OrgsApi.http#orgspatchcustomorganizationrole) | **PATCH** /orgs/{org}/organization-roles/{role_id} | Update a custom organization role
+*OrgsApi* | [**orgsPingWebhook**](Apis/OrgsApi.http#orgspingwebhook) | **POST** /orgs/{org}/hooks/{hook_id}/pings | Ping an organization webhook
+*OrgsApi* | [**orgsRedeliverWebhookDelivery**](Apis/OrgsApi.http#orgsredeliverwebhookdelivery) | **POST** /orgs/{org}/hooks/{hook_id}/deliveries/{delivery_id}/attempts | Redeliver a delivery for an organization webhook
+*OrgsApi* | [**orgsRemoveCustomProperty**](Apis/OrgsApi.http#orgsremovecustomproperty) | **DELETE** /orgs/{org}/properties/schema/{custom_property_name} | Remove a custom property for an organization
+*OrgsApi* | [**orgsRemoveMember**](Apis/OrgsApi.http#orgsremovemember) | **DELETE** /orgs/{org}/members/{username} | Remove an organization member
+*OrgsApi* | [**orgsRemoveMembershipForUser**](Apis/OrgsApi.http#orgsremovemembershipforuser) | **DELETE** /orgs/{org}/memberships/{username} | Remove organization membership for a user
+*OrgsApi* | [**orgsRemoveOutsideCollaborator**](Apis/OrgsApi.http#orgsremoveoutsidecollaborator) | **DELETE** /orgs/{org}/outside_collaborators/{username} | Remove outside collaborator from an organization
+*OrgsApi* | [**orgsRemovePublicMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgsremovepublicmembershipforauthenticateduser) | **DELETE** /orgs/{org}/public_members/{username} | Remove public organization membership for the authenticated user
+*OrgsApi* | [**orgsRemoveSecurityManagerTeam**](Apis/OrgsApi.http#orgsremovesecuritymanagerteam) | **DELETE** /orgs/{org}/security-managers/teams/{team_slug} | Remove a security manager team
+*OrgsApi* | [**orgsReviewPatGrantRequest**](Apis/OrgsApi.http#orgsreviewpatgrantrequest) | **POST** /orgs/{org}/personal-access-token-requests/{pat_request_id} | Review a request to access organization resources with a fine-grained personal access token
+*OrgsApi* | [**orgsReviewPatGrantRequestsInBulk**](Apis/OrgsApi.http#orgsreviewpatgrantrequestsinbulk) | **POST** /orgs/{org}/personal-access-token-requests | Review requests to access organization resources with fine-grained personal access tokens
+*OrgsApi* | [**orgsRevokeAllOrgRolesTeam**](Apis/OrgsApi.http#orgsrevokeallorgrolesteam) | **DELETE** /orgs/{org}/organization-roles/teams/{team_slug} | Remove all organization roles for a team
+*OrgsApi* | [**orgsRevokeAllOrgRolesUser**](Apis/OrgsApi.http#orgsrevokeallorgrolesuser) | **DELETE** /orgs/{org}/organization-roles/users/{username} | Remove all organization roles for a user
+*OrgsApi* | [**orgsRevokeOrgRoleTeam**](Apis/OrgsApi.http#orgsrevokeorgroleteam) | **DELETE** /orgs/{org}/organization-roles/teams/{team_slug}/{role_id} | Remove an organization role from a team
+*OrgsApi* | [**orgsRevokeOrgRoleUser**](Apis/OrgsApi.http#orgsrevokeorgroleuser) | **DELETE** /orgs/{org}/organization-roles/users/{username}/{role_id} | Remove an organization role from a user
+*OrgsApi* | [**orgsSetMembershipForUser**](Apis/OrgsApi.http#orgssetmembershipforuser) | **PUT** /orgs/{org}/memberships/{username} | Set organization membership for a user
+*OrgsApi* | [**orgsSetPublicMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgssetpublicmembershipforauthenticateduser) | **PUT** /orgs/{org}/public_members/{username} | Set public organization membership for the authenticated user
+*OrgsApi* | [**orgsUnblockUser**](Apis/OrgsApi.http#orgsunblockuser) | **DELETE** /orgs/{org}/blocks/{username} | Unblock a user from an organization
+*OrgsApi* | [**orgsUpdate**](Apis/OrgsApi.http#orgsupdate) | **PATCH** /orgs/{org} | Update an organization
+*OrgsApi* | [**orgsUpdateMembershipForAuthenticatedUser**](Apis/OrgsApi.http#orgsupdatemembershipforauthenticateduser) | **PATCH** /user/memberships/orgs/{org} | Update an organization membership for the authenticated user
+*OrgsApi* | [**orgsUpdatePatAccess**](Apis/OrgsApi.http#orgsupdatepataccess) | **POST** /orgs/{org}/personal-access-tokens/{pat_id} | Update the access a fine-grained personal access token has to organization resources
+*OrgsApi* | [**orgsUpdatePatAccesses**](Apis/OrgsApi.http#orgsupdatepataccesses) | **POST** /orgs/{org}/personal-access-tokens | Update the access to organization resources via fine-grained personal access tokens
+*OrgsApi* | [**orgsUpdateWebhook**](Apis/OrgsApi.http#orgsupdatewebhook) | **PATCH** /orgs/{org}/hooks/{hook_id} | Update an organization webhook
+*OrgsApi* | [**orgsUpdateWebhookConfigForOrg**](Apis/OrgsApi.http#orgsupdatewebhookconfigfororg) | **PATCH** /orgs/{org}/hooks/{hook_id}/config | Update a webhook configuration for an organization
+*PackagesApi* | [**packagesDeletePackageForAuthenticatedUser**](Apis/PackagesApi.http#packagesdeletepackageforauthenticateduser) | **DELETE** /user/packages/{package_type}/{package_name} | Delete a package for the authenticated user
+*PackagesApi* | [**packagesDeletePackageForOrg**](Apis/PackagesApi.http#packagesdeletepackagefororg) | **DELETE** /orgs/{org}/packages/{package_type}/{package_name} | Delete a package for an organization
+*PackagesApi* | [**packagesDeletePackageForUser**](Apis/PackagesApi.http#packagesdeletepackageforuser) | **DELETE** /users/{username}/packages/{package_type}/{package_name} | Delete a package for a user
+*PackagesApi* | [**packagesDeletePackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packagesdeletepackageversionforauthenticateduser) | **DELETE** /user/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete a package version for the authenticated user
+*PackagesApi* | [**packagesDeletePackageVersionForOrg**](Apis/PackagesApi.http#packagesdeletepackageversionfororg) | **DELETE** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete package version for an organization
+*PackagesApi* | [**packagesDeletePackageVersionForUser**](Apis/PackagesApi.http#packagesdeletepackageversionforuser) | **DELETE** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id} | Delete package version for a user
+*PackagesApi* | [**packagesGetAllPackageVersionsForPackageOwnedByAuthenticatedUser**](Apis/PackagesApi.http#packagesgetallpackageversionsforpackageownedbyauthenticateduser) | **GET** /user/packages/{package_type}/{package_name}/versions | List package versions for a package owned by the authenticated user
+*PackagesApi* | [**packagesGetAllPackageVersionsForPackageOwnedByOrg**](Apis/PackagesApi.http#packagesgetallpackageversionsforpackageownedbyorg) | **GET** /orgs/{org}/packages/{package_type}/{package_name}/versions | List package versions for a package owned by an organization
+*PackagesApi* | [**packagesGetAllPackageVersionsForPackageOwnedByUser**](Apis/PackagesApi.http#packagesgetallpackageversionsforpackageownedbyuser) | **GET** /users/{username}/packages/{package_type}/{package_name}/versions | List package versions for a package owned by a user
+*PackagesApi* | [**packagesGetPackageForAuthenticatedUser**](Apis/PackagesApi.http#packagesgetpackageforauthenticateduser) | **GET** /user/packages/{package_type}/{package_name} | Get a package for the authenticated user
+*PackagesApi* | [**packagesGetPackageForOrganization**](Apis/PackagesApi.http#packagesgetpackagefororganization) | **GET** /orgs/{org}/packages/{package_type}/{package_name} | Get a package for an organization
+*PackagesApi* | [**packagesGetPackageForUser**](Apis/PackagesApi.http#packagesgetpackageforuser) | **GET** /users/{username}/packages/{package_type}/{package_name} | Get a package for a user
+*PackagesApi* | [**packagesGetPackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packagesgetpackageversionforauthenticateduser) | **GET** /user/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for the authenticated user
+*PackagesApi* | [**packagesGetPackageVersionForOrganization**](Apis/PackagesApi.http#packagesgetpackageversionfororganization) | **GET** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for an organization
+*PackagesApi* | [**packagesGetPackageVersionForUser**](Apis/PackagesApi.http#packagesgetpackageversionforuser) | **GET** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id} | Get a package version for a user
+*PackagesApi* | [**packagesListDockerMigrationConflictingPackagesForAuthenticatedUser**](Apis/PackagesApi.http#packageslistdockermigrationconflictingpackagesforauthenticateduser) | **GET** /user/docker/conflicts | Get list of conflicting packages during Docker migration for authenticated-user
+*PackagesApi* | [**packagesListDockerMigrationConflictingPackagesForOrganization**](Apis/PackagesApi.http#packageslistdockermigrationconflictingpackagesfororganization) | **GET** /orgs/{org}/docker/conflicts | Get list of conflicting packages during Docker migration for organization
+*PackagesApi* | [**packagesListDockerMigrationConflictingPackagesForUser**](Apis/PackagesApi.http#packageslistdockermigrationconflictingpackagesforuser) | **GET** /users/{username}/docker/conflicts | Get list of conflicting packages during Docker migration for user
+*PackagesApi* | [**packagesListPackagesForAuthenticatedUser**](Apis/PackagesApi.http#packageslistpackagesforauthenticateduser) | **GET** /user/packages | List packages for the authenticated user's namespace
+*PackagesApi* | [**packagesListPackagesForOrganization**](Apis/PackagesApi.http#packageslistpackagesfororganization) | **GET** /orgs/{org}/packages | List packages for an organization
+*PackagesApi* | [**packagesListPackagesForUser**](Apis/PackagesApi.http#packageslistpackagesforuser) | **GET** /users/{username}/packages | List packages for a user
+*PackagesApi* | [**packagesRestorePackageForAuthenticatedUser**](Apis/PackagesApi.http#packagesrestorepackageforauthenticateduser) | **POST** /user/packages/{package_type}/{package_name}/restore | Restore a package for the authenticated user
+*PackagesApi* | [**packagesRestorePackageForOrg**](Apis/PackagesApi.http#packagesrestorepackagefororg) | **POST** /orgs/{org}/packages/{package_type}/{package_name}/restore | Restore a package for an organization
+*PackagesApi* | [**packagesRestorePackageForUser**](Apis/PackagesApi.http#packagesrestorepackageforuser) | **POST** /users/{username}/packages/{package_type}/{package_name}/restore | Restore a package for a user
+*PackagesApi* | [**packagesRestorePackageVersionForAuthenticatedUser**](Apis/PackagesApi.http#packagesrestorepackageversionforauthenticateduser) | **POST** /user/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore a package version for the authenticated user
+*PackagesApi* | [**packagesRestorePackageVersionForOrg**](Apis/PackagesApi.http#packagesrestorepackageversionfororg) | **POST** /orgs/{org}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore package version for an organization
+*PackagesApi* | [**packagesRestorePackageVersionForUser**](Apis/PackagesApi.http#packagesrestorepackageversionforuser) | **POST** /users/{username}/packages/{package_type}/{package_name}/versions/{package_version_id}/restore | Restore package version for a user
+*ProjectsApi* | [**projectsAddCollaborator**](Apis/ProjectsApi.http#projectsaddcollaborator) | **PUT** /projects/{project_id}/collaborators/{username} | Add project collaborator
+*ProjectsApi* | [**projectsCreateCard**](Apis/ProjectsApi.http#projectscreatecard) | **POST** /projects/columns/{column_id}/cards | Create a project card
+*ProjectsApi* | [**projectsCreateColumn**](Apis/ProjectsApi.http#projectscreatecolumn) | **POST** /projects/{project_id}/columns | Create a project column
+*ProjectsApi* | [**projectsCreateForAuthenticatedUser**](Apis/ProjectsApi.http#projectscreateforauthenticateduser) | **POST** /user/projects | Create a user project
+*ProjectsApi* | [**projectsCreateForOrg**](Apis/ProjectsApi.http#projectscreatefororg) | **POST** /orgs/{org}/projects | Create an organization project
+*ProjectsApi* | [**projectsCreateForRepo**](Apis/ProjectsApi.http#projectscreateforrepo) | **POST** /repos/{owner}/{repo}/projects | Create a repository project
+*ProjectsApi* | [**projectsDelete**](Apis/ProjectsApi.http#projectsdelete) | **DELETE** /projects/{project_id} | Delete a project
+*ProjectsApi* | [**projectsDeleteCard**](Apis/ProjectsApi.http#projectsdeletecard) | **DELETE** /projects/columns/cards/{card_id} | Delete a project card
+*ProjectsApi* | [**projectsDeleteColumn**](Apis/ProjectsApi.http#projectsdeletecolumn) | **DELETE** /projects/columns/{column_id} | Delete a project column
+*ProjectsApi* | [**projectsGet**](Apis/ProjectsApi.http#projectsget) | **GET** /projects/{project_id} | Get a project
+*ProjectsApi* | [**projectsGetCard**](Apis/ProjectsApi.http#projectsgetcard) | **GET** /projects/columns/cards/{card_id} | Get a project card
+*ProjectsApi* | [**projectsGetColumn**](Apis/ProjectsApi.http#projectsgetcolumn) | **GET** /projects/columns/{column_id} | Get a project column
+*ProjectsApi* | [**projectsGetPermissionForUser**](Apis/ProjectsApi.http#projectsgetpermissionforuser) | **GET** /projects/{project_id}/collaborators/{username}/permission | Get project permission for a user
+*ProjectsApi* | [**projectsListCards**](Apis/ProjectsApi.http#projectslistcards) | **GET** /projects/columns/{column_id}/cards | List project cards
+*ProjectsApi* | [**projectsListCollaborators**](Apis/ProjectsApi.http#projectslistcollaborators) | **GET** /projects/{project_id}/collaborators | List project collaborators
+*ProjectsApi* | [**projectsListColumns**](Apis/ProjectsApi.http#projectslistcolumns) | **GET** /projects/{project_id}/columns | List project columns
+*ProjectsApi* | [**projectsListForOrg**](Apis/ProjectsApi.http#projectslistfororg) | **GET** /orgs/{org}/projects | List organization projects
+*ProjectsApi* | [**projectsListForRepo**](Apis/ProjectsApi.http#projectslistforrepo) | **GET** /repos/{owner}/{repo}/projects | List repository projects
+*ProjectsApi* | [**projectsListForUser**](Apis/ProjectsApi.http#projectslistforuser) | **GET** /users/{username}/projects | List user projects
+*ProjectsApi* | [**projectsMoveCard**](Apis/ProjectsApi.http#projectsmovecard) | **POST** /projects/columns/cards/{card_id}/moves | Move a project card
+*ProjectsApi* | [**projectsMoveColumn**](Apis/ProjectsApi.http#projectsmovecolumn) | **POST** /projects/columns/{column_id}/moves | Move a project column
+*ProjectsApi* | [**projectsRemoveCollaborator**](Apis/ProjectsApi.http#projectsremovecollaborator) | **DELETE** /projects/{project_id}/collaborators/{username} | Remove user as a collaborator
+*ProjectsApi* | [**projectsUpdate**](Apis/ProjectsApi.http#projectsupdate) | **PATCH** /projects/{project_id} | Update a project
+*ProjectsApi* | [**projectsUpdateCard**](Apis/ProjectsApi.http#projectsupdatecard) | **PATCH** /projects/columns/cards/{card_id} | Update an existing project card
+*ProjectsApi* | [**projectsUpdateColumn**](Apis/ProjectsApi.http#projectsupdatecolumn) | **PATCH** /projects/columns/{column_id} | Update an existing project column
+*PullsApi* | [**pullsCheckIfMerged**](Apis/PullsApi.http#pullscheckifmerged) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/merge | Check if a pull request has been merged
+*PullsApi* | [**pullsCreate**](Apis/PullsApi.http#pullscreate) | **POST** /repos/{owner}/{repo}/pulls | Create a pull request
+*PullsApi* | [**pullsCreateReplyForReviewComment**](Apis/PullsApi.http#pullscreatereplyforreviewcomment) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies | Create a reply for a review comment
+*PullsApi* | [**pullsCreateReview**](Apis/PullsApi.http#pullscreatereview) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/reviews | Create a review for a pull request
+*PullsApi* | [**pullsCreateReviewComment**](Apis/PullsApi.http#pullscreatereviewcomment) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/comments | Create a review comment for a pull request
+*PullsApi* | [**pullsDeletePendingReview**](Apis/PullsApi.http#pullsdeletependingreview) | **DELETE** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Delete a pending review for a pull request
+*PullsApi* | [**pullsDeleteReviewComment**](Apis/PullsApi.http#pullsdeletereviewcomment) | **DELETE** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Delete a review comment for a pull request
+*PullsApi* | [**pullsDismissReview**](Apis/PullsApi.http#pullsdismissreview) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/dismissals | Dismiss a review for a pull request
+*PullsApi* | [**pullsGet**](Apis/PullsApi.http#pullsget) | **GET** /repos/{owner}/{repo}/pulls/{pull_number} | Get a pull request
+*PullsApi* | [**pullsGetReview**](Apis/PullsApi.http#pullsgetreview) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Get a review for a pull request
+*PullsApi* | [**pullsGetReviewComment**](Apis/PullsApi.http#pullsgetreviewcomment) | **GET** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Get a review comment for a pull request
+*PullsApi* | [**pullsList**](Apis/PullsApi.http#pullslist) | **GET** /repos/{owner}/{repo}/pulls | List pull requests
+*PullsApi* | [**pullsListCommentsForReview**](Apis/PullsApi.http#pullslistcommentsforreview) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/comments | List comments for a pull request review
+*PullsApi* | [**pullsListCommits**](Apis/PullsApi.http#pullslistcommits) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/commits | List commits on a pull request
+*PullsApi* | [**pullsListFiles**](Apis/PullsApi.http#pullslistfiles) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/files | List pull requests files
+*PullsApi* | [**pullsListRequestedReviewers**](Apis/PullsApi.http#pullslistrequestedreviewers) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Get all requested reviewers for a pull request
+*PullsApi* | [**pullsListReviewComments**](Apis/PullsApi.http#pullslistreviewcomments) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/comments | List review comments on a pull request
+*PullsApi* | [**pullsListReviewCommentsForRepo**](Apis/PullsApi.http#pullslistreviewcommentsforrepo) | **GET** /repos/{owner}/{repo}/pulls/comments | List review comments in a repository
+*PullsApi* | [**pullsListReviews**](Apis/PullsApi.http#pullslistreviews) | **GET** /repos/{owner}/{repo}/pulls/{pull_number}/reviews | List reviews for a pull request
+*PullsApi* | [**pullsMerge**](Apis/PullsApi.http#pullsmerge) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/merge | Merge a pull request
+*PullsApi* | [**pullsRemoveRequestedReviewers**](Apis/PullsApi.http#pullsremoverequestedreviewers) | **DELETE** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Remove requested reviewers from a pull request
+*PullsApi* | [**pullsRequestReviewers**](Apis/PullsApi.http#pullsrequestreviewers) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/requested_reviewers | Request reviewers for a pull request
+*PullsApi* | [**pullsSubmitReview**](Apis/PullsApi.http#pullssubmitreview) | **POST** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id}/events | Submit a review for a pull request
+*PullsApi* | [**pullsUpdate**](Apis/PullsApi.http#pullsupdate) | **PATCH** /repos/{owner}/{repo}/pulls/{pull_number} | Update a pull request
+*PullsApi* | [**pullsUpdateBranch**](Apis/PullsApi.http#pullsupdatebranch) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/update-branch | Update a pull request branch
+*PullsApi* | [**pullsUpdateReview**](Apis/PullsApi.http#pullsupdatereview) | **PUT** /repos/{owner}/{repo}/pulls/{pull_number}/reviews/{review_id} | Update a review for a pull request
+*PullsApi* | [**pullsUpdateReviewComment**](Apis/PullsApi.http#pullsupdatereviewcomment) | **PATCH** /repos/{owner}/{repo}/pulls/comments/{comment_id} | Update a review comment for a pull request
 *RateLimitApi* | [**rateLimit/get**](Apis/RateLimitApi.http#ratelimit/get) | **GET** /rate_limit | Get rate limit status for the authenticated user
-*ReactionsApi* | [**reactions/createForCommitComment**](Apis/ReactionsApi.http#reactions/createforcommitcomment) | **POST** /repos/{owner}/{repo}/comments/{comment_id}/reactions | Create reaction for a commit comment
-*ReactionsApi* | [**reactions/createForIssue**](Apis/ReactionsApi.http#reactions/createforissue) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/reactions | Create reaction for an issue
-*ReactionsApi* | [**reactions/createForIssueComment**](Apis/ReactionsApi.http#reactions/createforissuecomment) | **POST** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions | Create reaction for an issue comment
-*ReactionsApi* | [**reactions/createForPullRequestReviewComment**](Apis/ReactionsApi.http#reactions/createforpullrequestreviewcomment) | **POST** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions | Create reaction for a pull request review comment
-*ReactionsApi* | [**reactions/createForRelease**](Apis/ReactionsApi.http#reactions/createforrelease) | **POST** /repos/{owner}/{repo}/releases/{release_id}/reactions | Create reaction for a release
-*ReactionsApi* | [**reactions/createForTeamDiscussionCommentInOrg**](Apis/ReactionsApi.http#reactions/createforteamdiscussioncommentinorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions | Create reaction for a team discussion comment
-*ReactionsApi* | [**reactions/createForTeamDiscussionCommentLegacy**](Apis/ReactionsApi.http#reactions/createforteamdiscussioncommentlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions | Create reaction for a team discussion comment (Legacy)
-*ReactionsApi* | [**reactions/createForTeamDiscussionInOrg**](Apis/ReactionsApi.http#reactions/createforteamdiscussioninorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions | Create reaction for a team discussion
-*ReactionsApi* | [**reactions/createForTeamDiscussionLegacy**](Apis/ReactionsApi.http#reactions/createforteamdiscussionlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/reactions | Create reaction for a team discussion (Legacy)
-*ReactionsApi* | [**reactions/deleteForCommitComment**](Apis/ReactionsApi.http#reactions/deleteforcommitcomment) | **DELETE** /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id} | Delete a commit comment reaction
-*ReactionsApi* | [**reactions/deleteForIssue**](Apis/ReactionsApi.http#reactions/deleteforissue) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id} | Delete an issue reaction
-*ReactionsApi* | [**reactions/deleteForIssueComment**](Apis/ReactionsApi.http#reactions/deleteforissuecomment) | **DELETE** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id} | Delete an issue comment reaction
-*ReactionsApi* | [**reactions/deleteForPullRequestComment**](Apis/ReactionsApi.http#reactions/deleteforpullrequestcomment) | **DELETE** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id} | Delete a pull request comment reaction
-*ReactionsApi* | [**reactions/deleteForRelease**](Apis/ReactionsApi.http#reactions/deleteforrelease) | **DELETE** /repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id} | Delete a release reaction
-*ReactionsApi* | [**reactions/deleteForTeamDiscussion**](Apis/ReactionsApi.http#reactions/deleteforteamdiscussion) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id} | Delete team discussion reaction
-*ReactionsApi* | [**reactions/deleteForTeamDiscussionComment**](Apis/ReactionsApi.http#reactions/deleteforteamdiscussioncomment) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id} | Delete team discussion comment reaction
-*ReactionsApi* | [**reactions/listForCommitComment**](Apis/ReactionsApi.http#reactions/listforcommitcomment) | **GET** /repos/{owner}/{repo}/comments/{comment_id}/reactions | List reactions for a commit comment
-*ReactionsApi* | [**reactions/listForIssue**](Apis/ReactionsApi.http#reactions/listforissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/reactions | List reactions for an issue
-*ReactionsApi* | [**reactions/listForIssueComment**](Apis/ReactionsApi.http#reactions/listforissuecomment) | **GET** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions | List reactions for an issue comment
-*ReactionsApi* | [**reactions/listForPullRequestReviewComment**](Apis/ReactionsApi.http#reactions/listforpullrequestreviewcomment) | **GET** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions | List reactions for a pull request review comment
-*ReactionsApi* | [**reactions/listForRelease**](Apis/ReactionsApi.http#reactions/listforrelease) | **GET** /repos/{owner}/{repo}/releases/{release_id}/reactions | List reactions for a release
-*ReactionsApi* | [**reactions/listForTeamDiscussionCommentInOrg**](Apis/ReactionsApi.http#reactions/listforteamdiscussioncommentinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions | List reactions for a team discussion comment
-*ReactionsApi* | [**reactions/listForTeamDiscussionCommentLegacy**](Apis/ReactionsApi.http#reactions/listforteamdiscussioncommentlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions | List reactions for a team discussion comment (Legacy)
-*ReactionsApi* | [**reactions/listForTeamDiscussionInOrg**](Apis/ReactionsApi.http#reactions/listforteamdiscussioninorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions | List reactions for a team discussion
-*ReactionsApi* | [**reactions/listForTeamDiscussionLegacy**](Apis/ReactionsApi.http#reactions/listforteamdiscussionlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/reactions | List reactions for a team discussion (Legacy)
-*ReposApi* | [**repos/acceptInvitationForAuthenticatedUser**](Apis/ReposApi.http#repos/acceptinvitationforauthenticateduser) | **PATCH** /user/repository_invitations/{invitation_id} | Accept a repository invitation
-*ReposApi* | [**repos/addAppAccessRestrictions**](Apis/ReposApi.http#repos/addappaccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Add app access restrictions
-*ReposApi* | [**repos/addCollaborator**](Apis/ReposApi.http#repos/addcollaborator) | **PUT** /repos/{owner}/{repo}/collaborators/{username} | Add a repository collaborator
-*ReposApi* | [**repos/addStatusCheckContexts**](Apis/ReposApi.http#repos/addstatuscheckcontexts) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Add status check contexts
-*ReposApi* | [**repos/addTeamAccessRestrictions**](Apis/ReposApi.http#repos/addteamaccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Add team access restrictions
-*ReposApi* | [**repos/addUserAccessRestrictions**](Apis/ReposApi.http#repos/adduseraccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Add user access restrictions
-*ReposApi* | [**repos/cancelPagesDeployment**](Apis/ReposApi.http#repos/cancelpagesdeployment) | **POST** /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}/cancel | Cancel a GitHub Pages deployment
-*ReposApi* | [**repos/checkAutomatedSecurityFixes**](Apis/ReposApi.http#repos/checkautomatedsecurityfixes) | **GET** /repos/{owner}/{repo}/automated-security-fixes | Check if automated security fixes are enabled for a repository
-*ReposApi* | [**repos/checkCollaborator**](Apis/ReposApi.http#repos/checkcollaborator) | **GET** /repos/{owner}/{repo}/collaborators/{username} | Check if a user is a repository collaborator
-*ReposApi* | [**repos/checkVulnerabilityAlerts**](Apis/ReposApi.http#repos/checkvulnerabilityalerts) | **GET** /repos/{owner}/{repo}/vulnerability-alerts | Check if vulnerability alerts are enabled for a repository
-*ReposApi* | [**repos/codeownersErrors**](Apis/ReposApi.http#repos/codeownerserrors) | **GET** /repos/{owner}/{repo}/codeowners/errors | List CODEOWNERS errors
-*ReposApi* | [**repos/compareCommits**](Apis/ReposApi.http#repos/comparecommits) | **GET** /repos/{owner}/{repo}/compare/{basehead} | Compare two commits
-*ReposApi* | [**repos/createAutolink**](Apis/ReposApi.http#repos/createautolink) | **POST** /repos/{owner}/{repo}/autolinks | Create an autolink reference for a repository
-*ReposApi* | [**repos/createCommitComment**](Apis/ReposApi.http#repos/createcommitcomment) | **POST** /repos/{owner}/{repo}/commits/{commit_sha}/comments | Create a commit comment
-*ReposApi* | [**repos/createCommitSignatureProtection**](Apis/ReposApi.http#repos/createcommitsignatureprotection) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Create commit signature protection
-*ReposApi* | [**repos/createCommitStatus**](Apis/ReposApi.http#repos/createcommitstatus) | **POST** /repos/{owner}/{repo}/statuses/{sha} | Create a commit status
-*ReposApi* | [**repos/createDeployKey**](Apis/ReposApi.http#repos/createdeploykey) | **POST** /repos/{owner}/{repo}/keys | Create a deploy key
-*ReposApi* | [**repos/createDeployment**](Apis/ReposApi.http#repos/createdeployment) | **POST** /repos/{owner}/{repo}/deployments | Create a deployment
-*ReposApi* | [**repos/createDeploymentBranchPolicy**](Apis/ReposApi.http#repos/createdeploymentbranchpolicy) | **POST** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies | Create a deployment branch policy
-*ReposApi* | [**repos/createDeploymentProtectionRule**](Apis/ReposApi.http#repos/createdeploymentprotectionrule) | **POST** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules | Create a custom deployment protection rule on an environment
-*ReposApi* | [**repos/createDeploymentStatus**](Apis/ReposApi.http#repos/createdeploymentstatus) | **POST** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses | Create a deployment status
-*ReposApi* | [**repos/createDispatchEvent**](Apis/ReposApi.http#repos/createdispatchevent) | **POST** /repos/{owner}/{repo}/dispatches | Create a repository dispatch event
-*ReposApi* | [**repos/createForAuthenticatedUser**](Apis/ReposApi.http#repos/createforauthenticateduser) | **POST** /user/repos | Create a repository for the authenticated user
-*ReposApi* | [**repos/createFork**](Apis/ReposApi.http#repos/createfork) | **POST** /repos/{owner}/{repo}/forks | Create a fork
-*ReposApi* | [**repos/createInOrg**](Apis/ReposApi.http#repos/createinorg) | **POST** /orgs/{org}/repos | Create an organization repository
-*ReposApi* | [**repos/createOrUpdateCustomPropertiesValues**](Apis/ReposApi.http#repos/createorupdatecustompropertiesvalues) | **PATCH** /repos/{owner}/{repo}/properties/values | Create or update custom property values for a repository
-*ReposApi* | [**repos/createOrUpdateEnvironment**](Apis/ReposApi.http#repos/createorupdateenvironment) | **PUT** /repos/{owner}/{repo}/environments/{environment_name} | Create or update an environment
-*ReposApi* | [**repos/createOrUpdateFileContents**](Apis/ReposApi.http#repos/createorupdatefilecontents) | **PUT** /repos/{owner}/{repo}/contents/{path} | Create or update file contents
-*ReposApi* | [**repos/createOrgRuleset**](Apis/ReposApi.http#repos/createorgruleset) | **POST** /orgs/{org}/rulesets | Create an organization repository ruleset
-*ReposApi* | [**repos/createPagesDeployment**](Apis/ReposApi.http#repos/createpagesdeployment) | **POST** /repos/{owner}/{repo}/pages/deployments | Create a GitHub Pages deployment
-*ReposApi* | [**repos/createPagesSite**](Apis/ReposApi.http#repos/createpagessite) | **POST** /repos/{owner}/{repo}/pages | Create a GitHub Pages site
-*ReposApi* | [**repos/createRelease**](Apis/ReposApi.http#repos/createrelease) | **POST** /repos/{owner}/{repo}/releases | Create a release
-*ReposApi* | [**repos/createRepoRuleset**](Apis/ReposApi.http#repos/createreporuleset) | **POST** /repos/{owner}/{repo}/rulesets | Create a repository ruleset
-*ReposApi* | [**repos/createTagProtection**](Apis/ReposApi.http#repos/createtagprotection) | **POST** /repos/{owner}/{repo}/tags/protection | Create a tag protection state for a repository
-*ReposApi* | [**repos/createUsingTemplate**](Apis/ReposApi.http#repos/createusingtemplate) | **POST** /repos/{template_owner}/{template_repo}/generate | Create a repository using a template
-*ReposApi* | [**repos/createWebhook**](Apis/ReposApi.http#repos/createwebhook) | **POST** /repos/{owner}/{repo}/hooks | Create a repository webhook
-*ReposApi* | [**repos/declineInvitationForAuthenticatedUser**](Apis/ReposApi.http#repos/declineinvitationforauthenticateduser) | **DELETE** /user/repository_invitations/{invitation_id} | Decline a repository invitation
-*ReposApi* | [**repos/delete**](Apis/ReposApi.http#repos/delete) | **DELETE** /repos/{owner}/{repo} | Delete a repository
-*ReposApi* | [**repos/deleteAccessRestrictions**](Apis/ReposApi.http#repos/deleteaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions | Delete access restrictions
-*ReposApi* | [**repos/deleteAdminBranchProtection**](Apis/ReposApi.http#repos/deleteadminbranchprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Delete admin branch protection
-*ReposApi* | [**repos/deleteAnEnvironment**](Apis/ReposApi.http#repos/deleteanenvironment) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name} | Delete an environment
-*ReposApi* | [**repos/deleteAutolink**](Apis/ReposApi.http#repos/deleteautolink) | **DELETE** /repos/{owner}/{repo}/autolinks/{autolink_id} | Delete an autolink reference from a repository
-*ReposApi* | [**repos/deleteBranchProtection**](Apis/ReposApi.http#repos/deletebranchprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection | Delete branch protection
-*ReposApi* | [**repos/deleteCommitComment**](Apis/ReposApi.http#repos/deletecommitcomment) | **DELETE** /repos/{owner}/{repo}/comments/{comment_id} | Delete a commit comment
-*ReposApi* | [**repos/deleteCommitSignatureProtection**](Apis/ReposApi.http#repos/deletecommitsignatureprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Delete commit signature protection
-*ReposApi* | [**repos/deleteDeployKey**](Apis/ReposApi.http#repos/deletedeploykey) | **DELETE** /repos/{owner}/{repo}/keys/{key_id} | Delete a deploy key
-*ReposApi* | [**repos/deleteDeployment**](Apis/ReposApi.http#repos/deletedeployment) | **DELETE** /repos/{owner}/{repo}/deployments/{deployment_id} | Delete a deployment
-*ReposApi* | [**repos/deleteDeploymentBranchPolicy**](Apis/ReposApi.http#repos/deletedeploymentbranchpolicy) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Delete a deployment branch policy
-*ReposApi* | [**repos/deleteFile**](Apis/ReposApi.http#repos/deletefile) | **DELETE** /repos/{owner}/{repo}/contents/{path} | Delete a file
-*ReposApi* | [**repos/deleteInvitation**](Apis/ReposApi.http#repos/deleteinvitation) | **DELETE** /repos/{owner}/{repo}/invitations/{invitation_id} | Delete a repository invitation
-*ReposApi* | [**repos/deleteOrgRuleset**](Apis/ReposApi.http#repos/deleteorgruleset) | **DELETE** /orgs/{org}/rulesets/{ruleset_id} | Delete an organization repository ruleset
-*ReposApi* | [**repos/deletePagesSite**](Apis/ReposApi.http#repos/deletepagessite) | **DELETE** /repos/{owner}/{repo}/pages | Delete a GitHub Pages site
-*ReposApi* | [**repos/deletePullRequestReviewProtection**](Apis/ReposApi.http#repos/deletepullrequestreviewprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Delete pull request review protection
-*ReposApi* | [**repos/deleteRelease**](Apis/ReposApi.http#repos/deleterelease) | **DELETE** /repos/{owner}/{repo}/releases/{release_id} | Delete a release
-*ReposApi* | [**repos/deleteReleaseAsset**](Apis/ReposApi.http#repos/deletereleaseasset) | **DELETE** /repos/{owner}/{repo}/releases/assets/{asset_id} | Delete a release asset
-*ReposApi* | [**repos/deleteRepoRuleset**](Apis/ReposApi.http#repos/deletereporuleset) | **DELETE** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Delete a repository ruleset
-*ReposApi* | [**repos/deleteTagProtection**](Apis/ReposApi.http#repos/deletetagprotection) | **DELETE** /repos/{owner}/{repo}/tags/protection/{tag_protection_id} | Delete a tag protection state for a repository
-*ReposApi* | [**repos/deleteWebhook**](Apis/ReposApi.http#repos/deletewebhook) | **DELETE** /repos/{owner}/{repo}/hooks/{hook_id} | Delete a repository webhook
-*ReposApi* | [**repos/disableAutomatedSecurityFixes**](Apis/ReposApi.http#repos/disableautomatedsecurityfixes) | **DELETE** /repos/{owner}/{repo}/automated-security-fixes | Disable automated security fixes
-*ReposApi* | [**repos/disableDeploymentProtectionRule**](Apis/ReposApi.http#repos/disabledeploymentprotectionrule) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id} | Disable a custom protection rule for an environment
-*ReposApi* | [**repos/disablePrivateVulnerabilityReporting**](Apis/ReposApi.http#repos/disableprivatevulnerabilityreporting) | **DELETE** /repos/{owner}/{repo}/private-vulnerability-reporting | Disable private vulnerability reporting for a repository
-*ReposApi* | [**repos/disableVulnerabilityAlerts**](Apis/ReposApi.http#repos/disablevulnerabilityalerts) | **DELETE** /repos/{owner}/{repo}/vulnerability-alerts | Disable vulnerability alerts
-*ReposApi* | [**repos/downloadTarballArchive**](Apis/ReposApi.http#repos/downloadtarballarchive) | **GET** /repos/{owner}/{repo}/tarball/{ref} | Download a repository archive (tar)
-*ReposApi* | [**repos/downloadZipballArchive**](Apis/ReposApi.http#repos/downloadzipballarchive) | **GET** /repos/{owner}/{repo}/zipball/{ref} | Download a repository archive (zip)
-*ReposApi* | [**repos/enableAutomatedSecurityFixes**](Apis/ReposApi.http#repos/enableautomatedsecurityfixes) | **PUT** /repos/{owner}/{repo}/automated-security-fixes | Enable automated security fixes
-*ReposApi* | [**repos/enablePrivateVulnerabilityReporting**](Apis/ReposApi.http#repos/enableprivatevulnerabilityreporting) | **PUT** /repos/{owner}/{repo}/private-vulnerability-reporting | Enable private vulnerability reporting for a repository
-*ReposApi* | [**repos/enableVulnerabilityAlerts**](Apis/ReposApi.http#repos/enablevulnerabilityalerts) | **PUT** /repos/{owner}/{repo}/vulnerability-alerts | Enable vulnerability alerts
-*ReposApi* | [**repos/generateReleaseNotes**](Apis/ReposApi.http#repos/generatereleasenotes) | **POST** /repos/{owner}/{repo}/releases/generate-notes | Generate release notes content for a release
-*ReposApi* | [**repos/get**](Apis/ReposApi.http#repos/get) | **GET** /repos/{owner}/{repo} | Get a repository
-*ReposApi* | [**repos/getAccessRestrictions**](Apis/ReposApi.http#repos/getaccessrestrictions) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions | Get access restrictions
-*ReposApi* | [**repos/getAdminBranchProtection**](Apis/ReposApi.http#repos/getadminbranchprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Get admin branch protection
-*ReposApi* | [**repos/getAllDeploymentProtectionRules**](Apis/ReposApi.http#repos/getalldeploymentprotectionrules) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules | Get all deployment protection rules for an environment
-*ReposApi* | [**repos/getAllEnvironments**](Apis/ReposApi.http#repos/getallenvironments) | **GET** /repos/{owner}/{repo}/environments | List environments
-*ReposApi* | [**repos/getAllStatusCheckContexts**](Apis/ReposApi.http#repos/getallstatuscheckcontexts) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Get all status check contexts
-*ReposApi* | [**repos/getAllTopics**](Apis/ReposApi.http#repos/getalltopics) | **GET** /repos/{owner}/{repo}/topics | Get all repository topics
-*ReposApi* | [**repos/getAppsWithAccessToProtectedBranch**](Apis/ReposApi.http#repos/getappswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Get apps with access to the protected branch
-*ReposApi* | [**repos/getAutolink**](Apis/ReposApi.http#repos/getautolink) | **GET** /repos/{owner}/{repo}/autolinks/{autolink_id} | Get an autolink reference of a repository
-*ReposApi* | [**repos/getBranch**](Apis/ReposApi.http#repos/getbranch) | **GET** /repos/{owner}/{repo}/branches/{branch} | Get a branch
-*ReposApi* | [**repos/getBranchProtection**](Apis/ReposApi.http#repos/getbranchprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection | Get branch protection
-*ReposApi* | [**repos/getBranchRules**](Apis/ReposApi.http#repos/getbranchrules) | **GET** /repos/{owner}/{repo}/rules/branches/{branch} | Get rules for a branch
-*ReposApi* | [**repos/getClones**](Apis/ReposApi.http#repos/getclones) | **GET** /repos/{owner}/{repo}/traffic/clones | Get repository clones
-*ReposApi* | [**repos/getCodeFrequencyStats**](Apis/ReposApi.http#repos/getcodefrequencystats) | **GET** /repos/{owner}/{repo}/stats/code_frequency | Get the weekly commit activity
-*ReposApi* | [**repos/getCollaboratorPermissionLevel**](Apis/ReposApi.http#repos/getcollaboratorpermissionlevel) | **GET** /repos/{owner}/{repo}/collaborators/{username}/permission | Get repository permissions for a user
-*ReposApi* | [**repos/getCombinedStatusForRef**](Apis/ReposApi.http#repos/getcombinedstatusforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/status | Get the combined status for a specific reference
-*ReposApi* | [**repos/getCommit**](Apis/ReposApi.http#repos/getcommit) | **GET** /repos/{owner}/{repo}/commits/{ref} | Get a commit
-*ReposApi* | [**repos/getCommitActivityStats**](Apis/ReposApi.http#repos/getcommitactivitystats) | **GET** /repos/{owner}/{repo}/stats/commit_activity | Get the last year of commit activity
-*ReposApi* | [**repos/getCommitComment**](Apis/ReposApi.http#repos/getcommitcomment) | **GET** /repos/{owner}/{repo}/comments/{comment_id} | Get a commit comment
-*ReposApi* | [**repos/getCommitSignatureProtection**](Apis/ReposApi.http#repos/getcommitsignatureprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Get commit signature protection
-*ReposApi* | [**repos/getCommunityProfileMetrics**](Apis/ReposApi.http#repos/getcommunityprofilemetrics) | **GET** /repos/{owner}/{repo}/community/profile | Get community profile metrics
-*ReposApi* | [**repos/getContent**](Apis/ReposApi.http#repos/getcontent) | **GET** /repos/{owner}/{repo}/contents/{path} | Get repository content
-*ReposApi* | [**repos/getContributorsStats**](Apis/ReposApi.http#repos/getcontributorsstats) | **GET** /repos/{owner}/{repo}/stats/contributors | Get all contributor commit activity
-*ReposApi* | [**repos/getCustomDeploymentProtectionRule**](Apis/ReposApi.http#repos/getcustomdeploymentprotectionrule) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id} | Get a custom deployment protection rule
-*ReposApi* | [**repos/getCustomPropertiesValues**](Apis/ReposApi.http#repos/getcustompropertiesvalues) | **GET** /repos/{owner}/{repo}/properties/values | Get all custom property values for a repository
-*ReposApi* | [**repos/getDeployKey**](Apis/ReposApi.http#repos/getdeploykey) | **GET** /repos/{owner}/{repo}/keys/{key_id} | Get a deploy key
-*ReposApi* | [**repos/getDeployment**](Apis/ReposApi.http#repos/getdeployment) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id} | Get a deployment
-*ReposApi* | [**repos/getDeploymentBranchPolicy**](Apis/ReposApi.http#repos/getdeploymentbranchpolicy) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Get a deployment branch policy
-*ReposApi* | [**repos/getDeploymentStatus**](Apis/ReposApi.http#repos/getdeploymentstatus) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id} | Get a deployment status
-*ReposApi* | [**repos/getEnvironment**](Apis/ReposApi.http#repos/getenvironment) | **GET** /repos/{owner}/{repo}/environments/{environment_name} | Get an environment
-*ReposApi* | [**repos/getLatestPagesBuild**](Apis/ReposApi.http#repos/getlatestpagesbuild) | **GET** /repos/{owner}/{repo}/pages/builds/latest | Get latest Pages build
-*ReposApi* | [**repos/getLatestRelease**](Apis/ReposApi.http#repos/getlatestrelease) | **GET** /repos/{owner}/{repo}/releases/latest | Get the latest release
-*ReposApi* | [**repos/getOrgRuleSuite**](Apis/ReposApi.http#repos/getorgrulesuite) | **GET** /orgs/{org}/rulesets/rule-suites/{rule_suite_id} | Get an organization rule suite
-*ReposApi* | [**repos/getOrgRuleSuites**](Apis/ReposApi.http#repos/getorgrulesuites) | **GET** /orgs/{org}/rulesets/rule-suites | List organization rule suites
-*ReposApi* | [**repos/getOrgRuleset**](Apis/ReposApi.http#repos/getorgruleset) | **GET** /orgs/{org}/rulesets/{ruleset_id} | Get an organization repository ruleset
-*ReposApi* | [**repos/getOrgRulesets**](Apis/ReposApi.http#repos/getorgrulesets) | **GET** /orgs/{org}/rulesets | Get all organization repository rulesets
-*ReposApi* | [**repos/getPages**](Apis/ReposApi.http#repos/getpages) | **GET** /repos/{owner}/{repo}/pages | Get a GitHub Pages site
-*ReposApi* | [**repos/getPagesBuild**](Apis/ReposApi.http#repos/getpagesbuild) | **GET** /repos/{owner}/{repo}/pages/builds/{build_id} | Get GitHub Pages build
-*ReposApi* | [**repos/getPagesDeployment**](Apis/ReposApi.http#repos/getpagesdeployment) | **GET** /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id} | Get the status of a GitHub Pages deployment
-*ReposApi* | [**repos/getPagesHealthCheck**](Apis/ReposApi.http#repos/getpageshealthcheck) | **GET** /repos/{owner}/{repo}/pages/health | Get a DNS health check for GitHub Pages
-*ReposApi* | [**repos/getParticipationStats**](Apis/ReposApi.http#repos/getparticipationstats) | **GET** /repos/{owner}/{repo}/stats/participation | Get the weekly commit count
-*ReposApi* | [**repos/getPullRequestReviewProtection**](Apis/ReposApi.http#repos/getpullrequestreviewprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Get pull request review protection
-*ReposApi* | [**repos/getPunchCardStats**](Apis/ReposApi.http#repos/getpunchcardstats) | **GET** /repos/{owner}/{repo}/stats/punch_card | Get the hourly commit count for each day
-*ReposApi* | [**repos/getReadme**](Apis/ReposApi.http#repos/getreadme) | **GET** /repos/{owner}/{repo}/readme | Get a repository README
-*ReposApi* | [**repos/getReadmeInDirectory**](Apis/ReposApi.http#repos/getreadmeindirectory) | **GET** /repos/{owner}/{repo}/readme/{dir} | Get a repository README for a directory
-*ReposApi* | [**repos/getRelease**](Apis/ReposApi.http#repos/getrelease) | **GET** /repos/{owner}/{repo}/releases/{release_id} | Get a release
-*ReposApi* | [**repos/getReleaseAsset**](Apis/ReposApi.http#repos/getreleaseasset) | **GET** /repos/{owner}/{repo}/releases/assets/{asset_id} | Get a release asset
-*ReposApi* | [**repos/getReleaseByTag**](Apis/ReposApi.http#repos/getreleasebytag) | **GET** /repos/{owner}/{repo}/releases/tags/{tag} | Get a release by tag name
-*ReposApi* | [**repos/getRepoRuleSuite**](Apis/ReposApi.http#repos/getreporulesuite) | **GET** /repos/{owner}/{repo}/rulesets/rule-suites/{rule_suite_id} | Get a repository rule suite
-*ReposApi* | [**repos/getRepoRuleSuites**](Apis/ReposApi.http#repos/getreporulesuites) | **GET** /repos/{owner}/{repo}/rulesets/rule-suites | List repository rule suites
-*ReposApi* | [**repos/getRepoRuleset**](Apis/ReposApi.http#repos/getreporuleset) | **GET** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Get a repository ruleset
-*ReposApi* | [**repos/getRepoRulesets**](Apis/ReposApi.http#repos/getreporulesets) | **GET** /repos/{owner}/{repo}/rulesets | Get all repository rulesets
-*ReposApi* | [**repos/getStatusChecksProtection**](Apis/ReposApi.http#repos/getstatuschecksprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Get status checks protection
-*ReposApi* | [**repos/getTeamsWithAccessToProtectedBranch**](Apis/ReposApi.http#repos/getteamswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Get teams with access to the protected branch
-*ReposApi* | [**repos/getTopPaths**](Apis/ReposApi.http#repos/gettoppaths) | **GET** /repos/{owner}/{repo}/traffic/popular/paths | Get top referral paths
-*ReposApi* | [**repos/getTopReferrers**](Apis/ReposApi.http#repos/gettopreferrers) | **GET** /repos/{owner}/{repo}/traffic/popular/referrers | Get top referral sources
-*ReposApi* | [**repos/getUsersWithAccessToProtectedBranch**](Apis/ReposApi.http#repos/getuserswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Get users with access to the protected branch
-*ReposApi* | [**repos/getViews**](Apis/ReposApi.http#repos/getviews) | **GET** /repos/{owner}/{repo}/traffic/views | Get page views
-*ReposApi* | [**repos/getWebhook**](Apis/ReposApi.http#repos/getwebhook) | **GET** /repos/{owner}/{repo}/hooks/{hook_id} | Get a repository webhook
-*ReposApi* | [**repos/getWebhookConfigForRepo**](Apis/ReposApi.http#repos/getwebhookconfigforrepo) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/config | Get a webhook configuration for a repository
-*ReposApi* | [**repos/getWebhookDelivery**](Apis/ReposApi.http#repos/getwebhookdelivery) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id} | Get a delivery for a repository webhook
-*ReposApi* | [**repos/listActivities**](Apis/ReposApi.http#repos/listactivities) | **GET** /repos/{owner}/{repo}/activity | List repository activities
-*ReposApi* | [**repos/listAutolinks**](Apis/ReposApi.http#repos/listautolinks) | **GET** /repos/{owner}/{repo}/autolinks | Get all autolinks of a repository
-*ReposApi* | [**repos/listBranches**](Apis/ReposApi.http#repos/listbranches) | **GET** /repos/{owner}/{repo}/branches | List branches
-*ReposApi* | [**repos/listBranchesForHeadCommit**](Apis/ReposApi.http#repos/listbranchesforheadcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head | List branches for HEAD commit
-*ReposApi* | [**repos/listCollaborators**](Apis/ReposApi.http#repos/listcollaborators) | **GET** /repos/{owner}/{repo}/collaborators | List repository collaborators
-*ReposApi* | [**repos/listCommentsForCommit**](Apis/ReposApi.http#repos/listcommentsforcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/comments | List commit comments
-*ReposApi* | [**repos/listCommitCommentsForRepo**](Apis/ReposApi.http#repos/listcommitcommentsforrepo) | **GET** /repos/{owner}/{repo}/comments | List commit comments for a repository
-*ReposApi* | [**repos/listCommitStatusesForRef**](Apis/ReposApi.http#repos/listcommitstatusesforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/statuses | List commit statuses for a reference
-*ReposApi* | [**repos/listCommits**](Apis/ReposApi.http#repos/listcommits) | **GET** /repos/{owner}/{repo}/commits | List commits
-*ReposApi* | [**repos/listContributors**](Apis/ReposApi.http#repos/listcontributors) | **GET** /repos/{owner}/{repo}/contributors | List repository contributors
-*ReposApi* | [**repos/listCustomDeploymentRuleIntegrations**](Apis/ReposApi.http#repos/listcustomdeploymentruleintegrations) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/apps | List custom deployment rule integrations available for an environment
-*ReposApi* | [**repos/listDeployKeys**](Apis/ReposApi.http#repos/listdeploykeys) | **GET** /repos/{owner}/{repo}/keys | List deploy keys
-*ReposApi* | [**repos/listDeploymentBranchPolicies**](Apis/ReposApi.http#repos/listdeploymentbranchpolicies) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies | List deployment branch policies
-*ReposApi* | [**repos/listDeploymentStatuses**](Apis/ReposApi.http#repos/listdeploymentstatuses) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses | List deployment statuses
-*ReposApi* | [**repos/listDeployments**](Apis/ReposApi.http#repos/listdeployments) | **GET** /repos/{owner}/{repo}/deployments | List deployments
-*ReposApi* | [**repos/listForAuthenticatedUser**](Apis/ReposApi.http#repos/listforauthenticateduser) | **GET** /user/repos | List repositories for the authenticated user
-*ReposApi* | [**repos/listForOrg**](Apis/ReposApi.http#repos/listfororg) | **GET** /orgs/{org}/repos | List organization repositories
-*ReposApi* | [**repos/listForUser**](Apis/ReposApi.http#repos/listforuser) | **GET** /users/{username}/repos | List repositories for a user
-*ReposApi* | [**repos/listForks**](Apis/ReposApi.http#repos/listforks) | **GET** /repos/{owner}/{repo}/forks | List forks
-*ReposApi* | [**repos/listInvitations**](Apis/ReposApi.http#repos/listinvitations) | **GET** /repos/{owner}/{repo}/invitations | List repository invitations
-*ReposApi* | [**repos/listInvitationsForAuthenticatedUser**](Apis/ReposApi.http#repos/listinvitationsforauthenticateduser) | **GET** /user/repository_invitations | List repository invitations for the authenticated user
-*ReposApi* | [**repos/listLanguages**](Apis/ReposApi.http#repos/listlanguages) | **GET** /repos/{owner}/{repo}/languages | List repository languages
-*ReposApi* | [**repos/listPagesBuilds**](Apis/ReposApi.http#repos/listpagesbuilds) | **GET** /repos/{owner}/{repo}/pages/builds | List GitHub Pages builds
-*ReposApi* | [**repos/listPublic**](Apis/ReposApi.http#repos/listpublic) | **GET** /repositories | List public repositories
-*ReposApi* | [**repos/listPullRequestsAssociatedWithCommit**](Apis/ReposApi.http#repos/listpullrequestsassociatedwithcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/pulls | List pull requests associated with a commit
-*ReposApi* | [**repos/listReleaseAssets**](Apis/ReposApi.http#repos/listreleaseassets) | **GET** /repos/{owner}/{repo}/releases/{release_id}/assets | List release assets
-*ReposApi* | [**repos/listReleases**](Apis/ReposApi.http#repos/listreleases) | **GET** /repos/{owner}/{repo}/releases | List releases
-*ReposApi* | [**repos/listTagProtection**](Apis/ReposApi.http#repos/listtagprotection) | **GET** /repos/{owner}/{repo}/tags/protection | List tag protection states for a repository
-*ReposApi* | [**repos/listTags**](Apis/ReposApi.http#repos/listtags) | **GET** /repos/{owner}/{repo}/tags | List repository tags
-*ReposApi* | [**repos/listTeams**](Apis/ReposApi.http#repos/listteams) | **GET** /repos/{owner}/{repo}/teams | List repository teams
-*ReposApi* | [**repos/listWebhookDeliveries**](Apis/ReposApi.http#repos/listwebhookdeliveries) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries | List deliveries for a repository webhook
-*ReposApi* | [**repos/listWebhooks**](Apis/ReposApi.http#repos/listwebhooks) | **GET** /repos/{owner}/{repo}/hooks | List repository webhooks
-*ReposApi* | [**repos/merge**](Apis/ReposApi.http#repos/merge) | **POST** /repos/{owner}/{repo}/merges | Merge a branch
-*ReposApi* | [**repos/mergeUpstream**](Apis/ReposApi.http#repos/mergeupstream) | **POST** /repos/{owner}/{repo}/merge-upstream | Sync a fork branch with the upstream repository
-*ReposApi* | [**repos/pingWebhook**](Apis/ReposApi.http#repos/pingwebhook) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/pings | Ping a repository webhook
-*ReposApi* | [**repos/redeliverWebhookDelivery**](Apis/ReposApi.http#repos/redeliverwebhookdelivery) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts | Redeliver a delivery for a repository webhook
-*ReposApi* | [**repos/removeAppAccessRestrictions**](Apis/ReposApi.http#repos/removeappaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Remove app access restrictions
-*ReposApi* | [**repos/removeCollaborator**](Apis/ReposApi.http#repos/removecollaborator) | **DELETE** /repos/{owner}/{repo}/collaborators/{username} | Remove a repository collaborator
-*ReposApi* | [**repos/removeStatusCheckContexts**](Apis/ReposApi.http#repos/removestatuscheckcontexts) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Remove status check contexts
-*ReposApi* | [**repos/removeStatusCheckProtection**](Apis/ReposApi.http#repos/removestatuscheckprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Remove status check protection
-*ReposApi* | [**repos/removeTeamAccessRestrictions**](Apis/ReposApi.http#repos/removeteamaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Remove team access restrictions
-*ReposApi* | [**repos/removeUserAccessRestrictions**](Apis/ReposApi.http#repos/removeuseraccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Remove user access restrictions
-*ReposApi* | [**repos/renameBranch**](Apis/ReposApi.http#repos/renamebranch) | **POST** /repos/{owner}/{repo}/branches/{branch}/rename | Rename a branch
-*ReposApi* | [**repos/replaceAllTopics**](Apis/ReposApi.http#repos/replacealltopics) | **PUT** /repos/{owner}/{repo}/topics | Replace all repository topics
-*ReposApi* | [**repos/requestPagesBuild**](Apis/ReposApi.http#repos/requestpagesbuild) | **POST** /repos/{owner}/{repo}/pages/builds | Request a GitHub Pages build
-*ReposApi* | [**repos/setAdminBranchProtection**](Apis/ReposApi.http#repos/setadminbranchprotection) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Set admin branch protection
-*ReposApi* | [**repos/setAppAccessRestrictions**](Apis/ReposApi.http#repos/setappaccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Set app access restrictions
-*ReposApi* | [**repos/setStatusCheckContexts**](Apis/ReposApi.http#repos/setstatuscheckcontexts) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Set status check contexts
-*ReposApi* | [**repos/setTeamAccessRestrictions**](Apis/ReposApi.http#repos/setteamaccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Set team access restrictions
-*ReposApi* | [**repos/setUserAccessRestrictions**](Apis/ReposApi.http#repos/setuseraccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Set user access restrictions
-*ReposApi* | [**repos/testPushWebhook**](Apis/ReposApi.http#repos/testpushwebhook) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/tests | Test the push repository webhook
-*ReposApi* | [**repos/transfer**](Apis/ReposApi.http#repos/transfer) | **POST** /repos/{owner}/{repo}/transfer | Transfer a repository
-*ReposApi* | [**repos/update**](Apis/ReposApi.http#repos/update) | **PATCH** /repos/{owner}/{repo} | Update a repository
-*ReposApi* | [**repos/updateBranchProtection**](Apis/ReposApi.http#repos/updatebranchprotection) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection | Update branch protection
-*ReposApi* | [**repos/updateCommitComment**](Apis/ReposApi.http#repos/updatecommitcomment) | **PATCH** /repos/{owner}/{repo}/comments/{comment_id} | Update a commit comment
-*ReposApi* | [**repos/updateDeploymentBranchPolicy**](Apis/ReposApi.http#repos/updatedeploymentbranchpolicy) | **PUT** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Update a deployment branch policy
-*ReposApi* | [**repos/updateInformationAboutPagesSite**](Apis/ReposApi.http#repos/updateinformationaboutpagessite) | **PUT** /repos/{owner}/{repo}/pages | Update information about a GitHub Pages site
-*ReposApi* | [**repos/updateInvitation**](Apis/ReposApi.http#repos/updateinvitation) | **PATCH** /repos/{owner}/{repo}/invitations/{invitation_id} | Update a repository invitation
-*ReposApi* | [**repos/updateOrgRuleset**](Apis/ReposApi.http#repos/updateorgruleset) | **PUT** /orgs/{org}/rulesets/{ruleset_id} | Update an organization repository ruleset
-*ReposApi* | [**repos/updatePullRequestReviewProtection**](Apis/ReposApi.http#repos/updatepullrequestreviewprotection) | **PATCH** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Update pull request review protection
-*ReposApi* | [**repos/updateRelease**](Apis/ReposApi.http#repos/updaterelease) | **PATCH** /repos/{owner}/{repo}/releases/{release_id} | Update a release
-*ReposApi* | [**repos/updateReleaseAsset**](Apis/ReposApi.http#repos/updatereleaseasset) | **PATCH** /repos/{owner}/{repo}/releases/assets/{asset_id} | Update a release asset
-*ReposApi* | [**repos/updateRepoRuleset**](Apis/ReposApi.http#repos/updatereporuleset) | **PUT** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Update a repository ruleset
-*ReposApi* | [**repos/updateStatusCheckProtection**](Apis/ReposApi.http#repos/updatestatuscheckprotection) | **PATCH** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Update status check protection
-*ReposApi* | [**repos/updateWebhook**](Apis/ReposApi.http#repos/updatewebhook) | **PATCH** /repos/{owner}/{repo}/hooks/{hook_id} | Update a repository webhook
-*ReposApi* | [**repos/updateWebhookConfigForRepo**](Apis/ReposApi.http#repos/updatewebhookconfigforrepo) | **PATCH** /repos/{owner}/{repo}/hooks/{hook_id}/config | Update a webhook configuration for a repository
-*ReposApi* | [**repos/uploadReleaseAsset**](Apis/ReposApi.http#repos/uploadreleaseasset) | **POST** /repos/{owner}/{repo}/releases/{release_id}/assets | Upload a release asset
-*SearchApi* | [**search/code**](Apis/SearchApi.http#search/code) | **GET** /search/code | Search code
-*SearchApi* | [**search/commits**](Apis/SearchApi.http#search/commits) | **GET** /search/commits | Search commits
-*SearchApi* | [**search/issuesAndPullRequests**](Apis/SearchApi.http#search/issuesandpullrequests) | **GET** /search/issues | Search issues and pull requests
-*SearchApi* | [**search/labels**](Apis/SearchApi.http#search/labels) | **GET** /search/labels | Search labels
-*SearchApi* | [**search/repos**](Apis/SearchApi.http#search/repos) | **GET** /search/repositories | Search repositories
-*SearchApi* | [**search/topics**](Apis/SearchApi.http#search/topics) | **GET** /search/topics | Search topics
-*SearchApi* | [**search/users**](Apis/SearchApi.http#search/users) | **GET** /search/users | Search users
+*ReactionsApi* | [**reactionsCreateForCommitComment**](Apis/ReactionsApi.http#reactionscreateforcommitcomment) | **POST** /repos/{owner}/{repo}/comments/{comment_id}/reactions | Create reaction for a commit comment
+*ReactionsApi* | [**reactionsCreateForIssue**](Apis/ReactionsApi.http#reactionscreateforissue) | **POST** /repos/{owner}/{repo}/issues/{issue_number}/reactions | Create reaction for an issue
+*ReactionsApi* | [**reactionsCreateForIssueComment**](Apis/ReactionsApi.http#reactionscreateforissuecomment) | **POST** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions | Create reaction for an issue comment
+*ReactionsApi* | [**reactionsCreateForPullRequestReviewComment**](Apis/ReactionsApi.http#reactionscreateforpullrequestreviewcomment) | **POST** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions | Create reaction for a pull request review comment
+*ReactionsApi* | [**reactionsCreateForRelease**](Apis/ReactionsApi.http#reactionscreateforrelease) | **POST** /repos/{owner}/{repo}/releases/{release_id}/reactions | Create reaction for a release
+*ReactionsApi* | [**reactionsCreateForTeamDiscussionCommentInOrg**](Apis/ReactionsApi.http#reactionscreateforteamdiscussioncommentinorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions | Create reaction for a team discussion comment
+*ReactionsApi* | [**reactionsCreateForTeamDiscussionCommentLegacy**](Apis/ReactionsApi.http#reactionscreateforteamdiscussioncommentlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions | Create reaction for a team discussion comment (Legacy)
+*ReactionsApi* | [**reactionsCreateForTeamDiscussionInOrg**](Apis/ReactionsApi.http#reactionscreateforteamdiscussioninorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions | Create reaction for a team discussion
+*ReactionsApi* | [**reactionsCreateForTeamDiscussionLegacy**](Apis/ReactionsApi.http#reactionscreateforteamdiscussionlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/reactions | Create reaction for a team discussion (Legacy)
+*ReactionsApi* | [**reactionsDeleteForCommitComment**](Apis/ReactionsApi.http#reactionsdeleteforcommitcomment) | **DELETE** /repos/{owner}/{repo}/comments/{comment_id}/reactions/{reaction_id} | Delete a commit comment reaction
+*ReactionsApi* | [**reactionsDeleteForIssue**](Apis/ReactionsApi.http#reactionsdeleteforissue) | **DELETE** /repos/{owner}/{repo}/issues/{issue_number}/reactions/{reaction_id} | Delete an issue reaction
+*ReactionsApi* | [**reactionsDeleteForIssueComment**](Apis/ReactionsApi.http#reactionsdeleteforissuecomment) | **DELETE** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions/{reaction_id} | Delete an issue comment reaction
+*ReactionsApi* | [**reactionsDeleteForPullRequestComment**](Apis/ReactionsApi.http#reactionsdeleteforpullrequestcomment) | **DELETE** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions/{reaction_id} | Delete a pull request comment reaction
+*ReactionsApi* | [**reactionsDeleteForRelease**](Apis/ReactionsApi.http#reactionsdeleteforrelease) | **DELETE** /repos/{owner}/{repo}/releases/{release_id}/reactions/{reaction_id} | Delete a release reaction
+*ReactionsApi* | [**reactionsDeleteForTeamDiscussion**](Apis/ReactionsApi.http#reactionsdeleteforteamdiscussion) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions/{reaction_id} | Delete team discussion reaction
+*ReactionsApi* | [**reactionsDeleteForTeamDiscussionComment**](Apis/ReactionsApi.http#reactionsdeleteforteamdiscussioncomment) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions/{reaction_id} | Delete team discussion comment reaction
+*ReactionsApi* | [**reactionsListForCommitComment**](Apis/ReactionsApi.http#reactionslistforcommitcomment) | **GET** /repos/{owner}/{repo}/comments/{comment_id}/reactions | List reactions for a commit comment
+*ReactionsApi* | [**reactionsListForIssue**](Apis/ReactionsApi.http#reactionslistforissue) | **GET** /repos/{owner}/{repo}/issues/{issue_number}/reactions | List reactions for an issue
+*ReactionsApi* | [**reactionsListForIssueComment**](Apis/ReactionsApi.http#reactionslistforissuecomment) | **GET** /repos/{owner}/{repo}/issues/comments/{comment_id}/reactions | List reactions for an issue comment
+*ReactionsApi* | [**reactionsListForPullRequestReviewComment**](Apis/ReactionsApi.http#reactionslistforpullrequestreviewcomment) | **GET** /repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions | List reactions for a pull request review comment
+*ReactionsApi* | [**reactionsListForRelease**](Apis/ReactionsApi.http#reactionslistforrelease) | **GET** /repos/{owner}/{repo}/releases/{release_id}/reactions | List reactions for a release
+*ReactionsApi* | [**reactionsListForTeamDiscussionCommentInOrg**](Apis/ReactionsApi.http#reactionslistforteamdiscussioncommentinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number}/reactions | List reactions for a team discussion comment
+*ReactionsApi* | [**reactionsListForTeamDiscussionCommentLegacy**](Apis/ReactionsApi.http#reactionslistforteamdiscussioncommentlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number}/reactions | List reactions for a team discussion comment (Legacy)
+*ReactionsApi* | [**reactionsListForTeamDiscussionInOrg**](Apis/ReactionsApi.http#reactionslistforteamdiscussioninorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/reactions | List reactions for a team discussion
+*ReactionsApi* | [**reactionsListForTeamDiscussionLegacy**](Apis/ReactionsApi.http#reactionslistforteamdiscussionlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/reactions | List reactions for a team discussion (Legacy)
+*ReposApi* | [**reposAcceptInvitationForAuthenticatedUser**](Apis/ReposApi.http#reposacceptinvitationforauthenticateduser) | **PATCH** /user/repository_invitations/{invitation_id} | Accept a repository invitation
+*ReposApi* | [**reposAddAppAccessRestrictions**](Apis/ReposApi.http#reposaddappaccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Add app access restrictions
+*ReposApi* | [**reposAddCollaborator**](Apis/ReposApi.http#reposaddcollaborator) | **PUT** /repos/{owner}/{repo}/collaborators/{username} | Add a repository collaborator
+*ReposApi* | [**reposAddStatusCheckContexts**](Apis/ReposApi.http#reposaddstatuscheckcontexts) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Add status check contexts
+*ReposApi* | [**reposAddTeamAccessRestrictions**](Apis/ReposApi.http#reposaddteamaccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Add team access restrictions
+*ReposApi* | [**reposAddUserAccessRestrictions**](Apis/ReposApi.http#reposadduseraccessrestrictions) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Add user access restrictions
+*ReposApi* | [**reposCancelPagesDeployment**](Apis/ReposApi.http#reposcancelpagesdeployment) | **POST** /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id}/cancel | Cancel a GitHub Pages deployment
+*ReposApi* | [**reposCheckAutomatedSecurityFixes**](Apis/ReposApi.http#reposcheckautomatedsecurityfixes) | **GET** /repos/{owner}/{repo}/automated-security-fixes | Check if automated security fixes are enabled for a repository
+*ReposApi* | [**reposCheckCollaborator**](Apis/ReposApi.http#reposcheckcollaborator) | **GET** /repos/{owner}/{repo}/collaborators/{username} | Check if a user is a repository collaborator
+*ReposApi* | [**reposCheckVulnerabilityAlerts**](Apis/ReposApi.http#reposcheckvulnerabilityalerts) | **GET** /repos/{owner}/{repo}/vulnerability-alerts | Check if vulnerability alerts are enabled for a repository
+*ReposApi* | [**reposCodeownersErrors**](Apis/ReposApi.http#reposcodeownerserrors) | **GET** /repos/{owner}/{repo}/codeowners/errors | List CODEOWNERS errors
+*ReposApi* | [**reposCompareCommits**](Apis/ReposApi.http#reposcomparecommits) | **GET** /repos/{owner}/{repo}/compare/{basehead} | Compare two commits
+*ReposApi* | [**reposCreateAutolink**](Apis/ReposApi.http#reposcreateautolink) | **POST** /repos/{owner}/{repo}/autolinks | Create an autolink reference for a repository
+*ReposApi* | [**reposCreateCommitComment**](Apis/ReposApi.http#reposcreatecommitcomment) | **POST** /repos/{owner}/{repo}/commits/{commit_sha}/comments | Create a commit comment
+*ReposApi* | [**reposCreateCommitSignatureProtection**](Apis/ReposApi.http#reposcreatecommitsignatureprotection) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Create commit signature protection
+*ReposApi* | [**reposCreateCommitStatus**](Apis/ReposApi.http#reposcreatecommitstatus) | **POST** /repos/{owner}/{repo}/statuses/{sha} | Create a commit status
+*ReposApi* | [**reposCreateDeployKey**](Apis/ReposApi.http#reposcreatedeploykey) | **POST** /repos/{owner}/{repo}/keys | Create a deploy key
+*ReposApi* | [**reposCreateDeployment**](Apis/ReposApi.http#reposcreatedeployment) | **POST** /repos/{owner}/{repo}/deployments | Create a deployment
+*ReposApi* | [**reposCreateDeploymentBranchPolicy**](Apis/ReposApi.http#reposcreatedeploymentbranchpolicy) | **POST** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies | Create a deployment branch policy
+*ReposApi* | [**reposCreateDeploymentProtectionRule**](Apis/ReposApi.http#reposcreatedeploymentprotectionrule) | **POST** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules | Create a custom deployment protection rule on an environment
+*ReposApi* | [**reposCreateDeploymentStatus**](Apis/ReposApi.http#reposcreatedeploymentstatus) | **POST** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses | Create a deployment status
+*ReposApi* | [**reposCreateDispatchEvent**](Apis/ReposApi.http#reposcreatedispatchevent) | **POST** /repos/{owner}/{repo}/dispatches | Create a repository dispatch event
+*ReposApi* | [**reposCreateForAuthenticatedUser**](Apis/ReposApi.http#reposcreateforauthenticateduser) | **POST** /user/repos | Create a repository for the authenticated user
+*ReposApi* | [**reposCreateFork**](Apis/ReposApi.http#reposcreatefork) | **POST** /repos/{owner}/{repo}/forks | Create a fork
+*ReposApi* | [**reposCreateInOrg**](Apis/ReposApi.http#reposcreateinorg) | **POST** /orgs/{org}/repos | Create an organization repository
+*ReposApi* | [**reposCreateOrUpdateCustomPropertiesValues**](Apis/ReposApi.http#reposcreateorupdatecustompropertiesvalues) | **PATCH** /repos/{owner}/{repo}/properties/values | Create or update custom property values for a repository
+*ReposApi* | [**reposCreateOrUpdateEnvironment**](Apis/ReposApi.http#reposcreateorupdateenvironment) | **PUT** /repos/{owner}/{repo}/environments/{environment_name} | Create or update an environment
+*ReposApi* | [**reposCreateOrUpdateFileContents**](Apis/ReposApi.http#reposcreateorupdatefilecontents) | **PUT** /repos/{owner}/{repo}/contents/{path} | Create or update file contents
+*ReposApi* | [**reposCreateOrgRuleset**](Apis/ReposApi.http#reposcreateorgruleset) | **POST** /orgs/{org}/rulesets | Create an organization repository ruleset
+*ReposApi* | [**reposCreatePagesDeployment**](Apis/ReposApi.http#reposcreatepagesdeployment) | **POST** /repos/{owner}/{repo}/pages/deployments | Create a GitHub Pages deployment
+*ReposApi* | [**reposCreatePagesSite**](Apis/ReposApi.http#reposcreatepagessite) | **POST** /repos/{owner}/{repo}/pages | Create a GitHub Pages site
+*ReposApi* | [**reposCreateRelease**](Apis/ReposApi.http#reposcreaterelease) | **POST** /repos/{owner}/{repo}/releases | Create a release
+*ReposApi* | [**reposCreateRepoRuleset**](Apis/ReposApi.http#reposcreatereporuleset) | **POST** /repos/{owner}/{repo}/rulesets | Create a repository ruleset
+*ReposApi* | [**reposCreateTagProtection**](Apis/ReposApi.http#reposcreatetagprotection) | **POST** /repos/{owner}/{repo}/tags/protection | Create a tag protection state for a repository
+*ReposApi* | [**reposCreateUsingTemplate**](Apis/ReposApi.http#reposcreateusingtemplate) | **POST** /repos/{template_owner}/{template_repo}/generate | Create a repository using a template
+*ReposApi* | [**reposCreateWebhook**](Apis/ReposApi.http#reposcreatewebhook) | **POST** /repos/{owner}/{repo}/hooks | Create a repository webhook
+*ReposApi* | [**reposDeclineInvitationForAuthenticatedUser**](Apis/ReposApi.http#reposdeclineinvitationforauthenticateduser) | **DELETE** /user/repository_invitations/{invitation_id} | Decline a repository invitation
+*ReposApi* | [**reposDelete**](Apis/ReposApi.http#reposdelete) | **DELETE** /repos/{owner}/{repo} | Delete a repository
+*ReposApi* | [**reposDeleteAccessRestrictions**](Apis/ReposApi.http#reposdeleteaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions | Delete access restrictions
+*ReposApi* | [**reposDeleteAdminBranchProtection**](Apis/ReposApi.http#reposdeleteadminbranchprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Delete admin branch protection
+*ReposApi* | [**reposDeleteAnEnvironment**](Apis/ReposApi.http#reposdeleteanenvironment) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name} | Delete an environment
+*ReposApi* | [**reposDeleteAutolink**](Apis/ReposApi.http#reposdeleteautolink) | **DELETE** /repos/{owner}/{repo}/autolinks/{autolink_id} | Delete an autolink reference from a repository
+*ReposApi* | [**reposDeleteBranchProtection**](Apis/ReposApi.http#reposdeletebranchprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection | Delete branch protection
+*ReposApi* | [**reposDeleteCommitComment**](Apis/ReposApi.http#reposdeletecommitcomment) | **DELETE** /repos/{owner}/{repo}/comments/{comment_id} | Delete a commit comment
+*ReposApi* | [**reposDeleteCommitSignatureProtection**](Apis/ReposApi.http#reposdeletecommitsignatureprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Delete commit signature protection
+*ReposApi* | [**reposDeleteDeployKey**](Apis/ReposApi.http#reposdeletedeploykey) | **DELETE** /repos/{owner}/{repo}/keys/{key_id} | Delete a deploy key
+*ReposApi* | [**reposDeleteDeployment**](Apis/ReposApi.http#reposdeletedeployment) | **DELETE** /repos/{owner}/{repo}/deployments/{deployment_id} | Delete a deployment
+*ReposApi* | [**reposDeleteDeploymentBranchPolicy**](Apis/ReposApi.http#reposdeletedeploymentbranchpolicy) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Delete a deployment branch policy
+*ReposApi* | [**reposDeleteFile**](Apis/ReposApi.http#reposdeletefile) | **DELETE** /repos/{owner}/{repo}/contents/{path} | Delete a file
+*ReposApi* | [**reposDeleteInvitation**](Apis/ReposApi.http#reposdeleteinvitation) | **DELETE** /repos/{owner}/{repo}/invitations/{invitation_id} | Delete a repository invitation
+*ReposApi* | [**reposDeleteOrgRuleset**](Apis/ReposApi.http#reposdeleteorgruleset) | **DELETE** /orgs/{org}/rulesets/{ruleset_id} | Delete an organization repository ruleset
+*ReposApi* | [**reposDeletePagesSite**](Apis/ReposApi.http#reposdeletepagessite) | **DELETE** /repos/{owner}/{repo}/pages | Delete a GitHub Pages site
+*ReposApi* | [**reposDeletePullRequestReviewProtection**](Apis/ReposApi.http#reposdeletepullrequestreviewprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Delete pull request review protection
+*ReposApi* | [**reposDeleteRelease**](Apis/ReposApi.http#reposdeleterelease) | **DELETE** /repos/{owner}/{repo}/releases/{release_id} | Delete a release
+*ReposApi* | [**reposDeleteReleaseAsset**](Apis/ReposApi.http#reposdeletereleaseasset) | **DELETE** /repos/{owner}/{repo}/releases/assets/{asset_id} | Delete a release asset
+*ReposApi* | [**reposDeleteRepoRuleset**](Apis/ReposApi.http#reposdeletereporuleset) | **DELETE** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Delete a repository ruleset
+*ReposApi* | [**reposDeleteTagProtection**](Apis/ReposApi.http#reposdeletetagprotection) | **DELETE** /repos/{owner}/{repo}/tags/protection/{tag_protection_id} | Delete a tag protection state for a repository
+*ReposApi* | [**reposDeleteWebhook**](Apis/ReposApi.http#reposdeletewebhook) | **DELETE** /repos/{owner}/{repo}/hooks/{hook_id} | Delete a repository webhook
+*ReposApi* | [**reposDisableAutomatedSecurityFixes**](Apis/ReposApi.http#reposdisableautomatedsecurityfixes) | **DELETE** /repos/{owner}/{repo}/automated-security-fixes | Disable automated security fixes
+*ReposApi* | [**reposDisableDeploymentProtectionRule**](Apis/ReposApi.http#reposdisabledeploymentprotectionrule) | **DELETE** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id} | Disable a custom protection rule for an environment
+*ReposApi* | [**reposDisablePrivateVulnerabilityReporting**](Apis/ReposApi.http#reposdisableprivatevulnerabilityreporting) | **DELETE** /repos/{owner}/{repo}/private-vulnerability-reporting | Disable private vulnerability reporting for a repository
+*ReposApi* | [**reposDisableVulnerabilityAlerts**](Apis/ReposApi.http#reposdisablevulnerabilityalerts) | **DELETE** /repos/{owner}/{repo}/vulnerability-alerts | Disable vulnerability alerts
+*ReposApi* | [**reposDownloadTarballArchive**](Apis/ReposApi.http#reposdownloadtarballarchive) | **GET** /repos/{owner}/{repo}/tarball/{ref} | Download a repository archive (tar)
+*ReposApi* | [**reposDownloadZipballArchive**](Apis/ReposApi.http#reposdownloadzipballarchive) | **GET** /repos/{owner}/{repo}/zipball/{ref} | Download a repository archive (zip)
+*ReposApi* | [**reposEnableAutomatedSecurityFixes**](Apis/ReposApi.http#reposenableautomatedsecurityfixes) | **PUT** /repos/{owner}/{repo}/automated-security-fixes | Enable automated security fixes
+*ReposApi* | [**reposEnablePrivateVulnerabilityReporting**](Apis/ReposApi.http#reposenableprivatevulnerabilityreporting) | **PUT** /repos/{owner}/{repo}/private-vulnerability-reporting | Enable private vulnerability reporting for a repository
+*ReposApi* | [**reposEnableVulnerabilityAlerts**](Apis/ReposApi.http#reposenablevulnerabilityalerts) | **PUT** /repos/{owner}/{repo}/vulnerability-alerts | Enable vulnerability alerts
+*ReposApi* | [**reposGenerateReleaseNotes**](Apis/ReposApi.http#reposgeneratereleasenotes) | **POST** /repos/{owner}/{repo}/releases/generate-notes | Generate release notes content for a release
+*ReposApi* | [**reposGet**](Apis/ReposApi.http#reposget) | **GET** /repos/{owner}/{repo} | Get a repository
+*ReposApi* | [**reposGetAccessRestrictions**](Apis/ReposApi.http#reposgetaccessrestrictions) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions | Get access restrictions
+*ReposApi* | [**reposGetAdminBranchProtection**](Apis/ReposApi.http#reposgetadminbranchprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Get admin branch protection
+*ReposApi* | [**reposGetAllDeploymentProtectionRules**](Apis/ReposApi.http#reposgetalldeploymentprotectionrules) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules | Get all deployment protection rules for an environment
+*ReposApi* | [**reposGetAllEnvironments**](Apis/ReposApi.http#reposgetallenvironments) | **GET** /repos/{owner}/{repo}/environments | List environments
+*ReposApi* | [**reposGetAllStatusCheckContexts**](Apis/ReposApi.http#reposgetallstatuscheckcontexts) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Get all status check contexts
+*ReposApi* | [**reposGetAllTopics**](Apis/ReposApi.http#reposgetalltopics) | **GET** /repos/{owner}/{repo}/topics | Get all repository topics
+*ReposApi* | [**reposGetAppsWithAccessToProtectedBranch**](Apis/ReposApi.http#reposgetappswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Get apps with access to the protected branch
+*ReposApi* | [**reposGetAutolink**](Apis/ReposApi.http#reposgetautolink) | **GET** /repos/{owner}/{repo}/autolinks/{autolink_id} | Get an autolink reference of a repository
+*ReposApi* | [**reposGetBranch**](Apis/ReposApi.http#reposgetbranch) | **GET** /repos/{owner}/{repo}/branches/{branch} | Get a branch
+*ReposApi* | [**reposGetBranchProtection**](Apis/ReposApi.http#reposgetbranchprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection | Get branch protection
+*ReposApi* | [**reposGetBranchRules**](Apis/ReposApi.http#reposgetbranchrules) | **GET** /repos/{owner}/{repo}/rules/branches/{branch} | Get rules for a branch
+*ReposApi* | [**reposGetClones**](Apis/ReposApi.http#reposgetclones) | **GET** /repos/{owner}/{repo}/traffic/clones | Get repository clones
+*ReposApi* | [**reposGetCodeFrequencyStats**](Apis/ReposApi.http#reposgetcodefrequencystats) | **GET** /repos/{owner}/{repo}/stats/code_frequency | Get the weekly commit activity
+*ReposApi* | [**reposGetCollaboratorPermissionLevel**](Apis/ReposApi.http#reposgetcollaboratorpermissionlevel) | **GET** /repos/{owner}/{repo}/collaborators/{username}/permission | Get repository permissions for a user
+*ReposApi* | [**reposGetCombinedStatusForRef**](Apis/ReposApi.http#reposgetcombinedstatusforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/status | Get the combined status for a specific reference
+*ReposApi* | [**reposGetCommit**](Apis/ReposApi.http#reposgetcommit) | **GET** /repos/{owner}/{repo}/commits/{ref} | Get a commit
+*ReposApi* | [**reposGetCommitActivityStats**](Apis/ReposApi.http#reposgetcommitactivitystats) | **GET** /repos/{owner}/{repo}/stats/commit_activity | Get the last year of commit activity
+*ReposApi* | [**reposGetCommitComment**](Apis/ReposApi.http#reposgetcommitcomment) | **GET** /repos/{owner}/{repo}/comments/{comment_id} | Get a commit comment
+*ReposApi* | [**reposGetCommitSignatureProtection**](Apis/ReposApi.http#reposgetcommitsignatureprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_signatures | Get commit signature protection
+*ReposApi* | [**reposGetCommunityProfileMetrics**](Apis/ReposApi.http#reposgetcommunityprofilemetrics) | **GET** /repos/{owner}/{repo}/community/profile | Get community profile metrics
+*ReposApi* | [**reposGetContent**](Apis/ReposApi.http#reposgetcontent) | **GET** /repos/{owner}/{repo}/contents/{path} | Get repository content
+*ReposApi* | [**reposGetContributorsStats**](Apis/ReposApi.http#reposgetcontributorsstats) | **GET** /repos/{owner}/{repo}/stats/contributors | Get all contributor commit activity
+*ReposApi* | [**reposGetCustomDeploymentProtectionRule**](Apis/ReposApi.http#reposgetcustomdeploymentprotectionrule) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/{protection_rule_id} | Get a custom deployment protection rule
+*ReposApi* | [**reposGetCustomPropertiesValues**](Apis/ReposApi.http#reposgetcustompropertiesvalues) | **GET** /repos/{owner}/{repo}/properties/values | Get all custom property values for a repository
+*ReposApi* | [**reposGetDeployKey**](Apis/ReposApi.http#reposgetdeploykey) | **GET** /repos/{owner}/{repo}/keys/{key_id} | Get a deploy key
+*ReposApi* | [**reposGetDeployment**](Apis/ReposApi.http#reposgetdeployment) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id} | Get a deployment
+*ReposApi* | [**reposGetDeploymentBranchPolicy**](Apis/ReposApi.http#reposgetdeploymentbranchpolicy) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Get a deployment branch policy
+*ReposApi* | [**reposGetDeploymentStatus**](Apis/ReposApi.http#reposgetdeploymentstatus) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id} | Get a deployment status
+*ReposApi* | [**reposGetEnvironment**](Apis/ReposApi.http#reposgetenvironment) | **GET** /repos/{owner}/{repo}/environments/{environment_name} | Get an environment
+*ReposApi* | [**reposGetLatestPagesBuild**](Apis/ReposApi.http#reposgetlatestpagesbuild) | **GET** /repos/{owner}/{repo}/pages/builds/latest | Get latest Pages build
+*ReposApi* | [**reposGetLatestRelease**](Apis/ReposApi.http#reposgetlatestrelease) | **GET** /repos/{owner}/{repo}/releases/latest | Get the latest release
+*ReposApi* | [**reposGetOrgRuleSuite**](Apis/ReposApi.http#reposgetorgrulesuite) | **GET** /orgs/{org}/rulesets/rule-suites/{rule_suite_id} | Get an organization rule suite
+*ReposApi* | [**reposGetOrgRuleSuites**](Apis/ReposApi.http#reposgetorgrulesuites) | **GET** /orgs/{org}/rulesets/rule-suites | List organization rule suites
+*ReposApi* | [**reposGetOrgRuleset**](Apis/ReposApi.http#reposgetorgruleset) | **GET** /orgs/{org}/rulesets/{ruleset_id} | Get an organization repository ruleset
+*ReposApi* | [**reposGetOrgRulesets**](Apis/ReposApi.http#reposgetorgrulesets) | **GET** /orgs/{org}/rulesets | Get all organization repository rulesets
+*ReposApi* | [**reposGetPages**](Apis/ReposApi.http#reposgetpages) | **GET** /repos/{owner}/{repo}/pages | Get a GitHub Pages site
+*ReposApi* | [**reposGetPagesBuild**](Apis/ReposApi.http#reposgetpagesbuild) | **GET** /repos/{owner}/{repo}/pages/builds/{build_id} | Get GitHub Pages build
+*ReposApi* | [**reposGetPagesDeployment**](Apis/ReposApi.http#reposgetpagesdeployment) | **GET** /repos/{owner}/{repo}/pages/deployments/{pages_deployment_id} | Get the status of a GitHub Pages deployment
+*ReposApi* | [**reposGetPagesHealthCheck**](Apis/ReposApi.http#reposgetpageshealthcheck) | **GET** /repos/{owner}/{repo}/pages/health | Get a DNS health check for GitHub Pages
+*ReposApi* | [**reposGetParticipationStats**](Apis/ReposApi.http#reposgetparticipationstats) | **GET** /repos/{owner}/{repo}/stats/participation | Get the weekly commit count
+*ReposApi* | [**reposGetPullRequestReviewProtection**](Apis/ReposApi.http#reposgetpullrequestreviewprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Get pull request review protection
+*ReposApi* | [**reposGetPunchCardStats**](Apis/ReposApi.http#reposgetpunchcardstats) | **GET** /repos/{owner}/{repo}/stats/punch_card | Get the hourly commit count for each day
+*ReposApi* | [**reposGetReadme**](Apis/ReposApi.http#reposgetreadme) | **GET** /repos/{owner}/{repo}/readme | Get a repository README
+*ReposApi* | [**reposGetReadmeInDirectory**](Apis/ReposApi.http#reposgetreadmeindirectory) | **GET** /repos/{owner}/{repo}/readme/{dir} | Get a repository README for a directory
+*ReposApi* | [**reposGetRelease**](Apis/ReposApi.http#reposgetrelease) | **GET** /repos/{owner}/{repo}/releases/{release_id} | Get a release
+*ReposApi* | [**reposGetReleaseAsset**](Apis/ReposApi.http#reposgetreleaseasset) | **GET** /repos/{owner}/{repo}/releases/assets/{asset_id} | Get a release asset
+*ReposApi* | [**reposGetReleaseByTag**](Apis/ReposApi.http#reposgetreleasebytag) | **GET** /repos/{owner}/{repo}/releases/tags/{tag} | Get a release by tag name
+*ReposApi* | [**reposGetRepoRuleSuite**](Apis/ReposApi.http#reposgetreporulesuite) | **GET** /repos/{owner}/{repo}/rulesets/rule-suites/{rule_suite_id} | Get a repository rule suite
+*ReposApi* | [**reposGetRepoRuleSuites**](Apis/ReposApi.http#reposgetreporulesuites) | **GET** /repos/{owner}/{repo}/rulesets/rule-suites | List repository rule suites
+*ReposApi* | [**reposGetRepoRuleset**](Apis/ReposApi.http#reposgetreporuleset) | **GET** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Get a repository ruleset
+*ReposApi* | [**reposGetRepoRulesets**](Apis/ReposApi.http#reposgetreporulesets) | **GET** /repos/{owner}/{repo}/rulesets | Get all repository rulesets
+*ReposApi* | [**reposGetStatusChecksProtection**](Apis/ReposApi.http#reposgetstatuschecksprotection) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Get status checks protection
+*ReposApi* | [**reposGetTeamsWithAccessToProtectedBranch**](Apis/ReposApi.http#reposgetteamswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Get teams with access to the protected branch
+*ReposApi* | [**reposGetTopPaths**](Apis/ReposApi.http#reposgettoppaths) | **GET** /repos/{owner}/{repo}/traffic/popular/paths | Get top referral paths
+*ReposApi* | [**reposGetTopReferrers**](Apis/ReposApi.http#reposgettopreferrers) | **GET** /repos/{owner}/{repo}/traffic/popular/referrers | Get top referral sources
+*ReposApi* | [**reposGetUsersWithAccessToProtectedBranch**](Apis/ReposApi.http#reposgetuserswithaccesstoprotectedbranch) | **GET** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Get users with access to the protected branch
+*ReposApi* | [**reposGetViews**](Apis/ReposApi.http#reposgetviews) | **GET** /repos/{owner}/{repo}/traffic/views | Get page views
+*ReposApi* | [**reposGetWebhook**](Apis/ReposApi.http#reposgetwebhook) | **GET** /repos/{owner}/{repo}/hooks/{hook_id} | Get a repository webhook
+*ReposApi* | [**reposGetWebhookConfigForRepo**](Apis/ReposApi.http#reposgetwebhookconfigforrepo) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/config | Get a webhook configuration for a repository
+*ReposApi* | [**reposGetWebhookDelivery**](Apis/ReposApi.http#reposgetwebhookdelivery) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id} | Get a delivery for a repository webhook
+*ReposApi* | [**reposListActivities**](Apis/ReposApi.http#reposlistactivities) | **GET** /repos/{owner}/{repo}/activity | List repository activities
+*ReposApi* | [**reposListAutolinks**](Apis/ReposApi.http#reposlistautolinks) | **GET** /repos/{owner}/{repo}/autolinks | Get all autolinks of a repository
+*ReposApi* | [**reposListBranches**](Apis/ReposApi.http#reposlistbranches) | **GET** /repos/{owner}/{repo}/branches | List branches
+*ReposApi* | [**reposListBranchesForHeadCommit**](Apis/ReposApi.http#reposlistbranchesforheadcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head | List branches for HEAD commit
+*ReposApi* | [**reposListCollaborators**](Apis/ReposApi.http#reposlistcollaborators) | **GET** /repos/{owner}/{repo}/collaborators | List repository collaborators
+*ReposApi* | [**reposListCommentsForCommit**](Apis/ReposApi.http#reposlistcommentsforcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/comments | List commit comments
+*ReposApi* | [**reposListCommitCommentsForRepo**](Apis/ReposApi.http#reposlistcommitcommentsforrepo) | **GET** /repos/{owner}/{repo}/comments | List commit comments for a repository
+*ReposApi* | [**reposListCommitStatusesForRef**](Apis/ReposApi.http#reposlistcommitstatusesforref) | **GET** /repos/{owner}/{repo}/commits/{ref}/statuses | List commit statuses for a reference
+*ReposApi* | [**reposListCommits**](Apis/ReposApi.http#reposlistcommits) | **GET** /repos/{owner}/{repo}/commits | List commits
+*ReposApi* | [**reposListContributors**](Apis/ReposApi.http#reposlistcontributors) | **GET** /repos/{owner}/{repo}/contributors | List repository contributors
+*ReposApi* | [**reposListCustomDeploymentRuleIntegrations**](Apis/ReposApi.http#reposlistcustomdeploymentruleintegrations) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/apps | List custom deployment rule integrations available for an environment
+*ReposApi* | [**reposListDeployKeys**](Apis/ReposApi.http#reposlistdeploykeys) | **GET** /repos/{owner}/{repo}/keys | List deploy keys
+*ReposApi* | [**reposListDeploymentBranchPolicies**](Apis/ReposApi.http#reposlistdeploymentbranchpolicies) | **GET** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies | List deployment branch policies
+*ReposApi* | [**reposListDeploymentStatuses**](Apis/ReposApi.http#reposlistdeploymentstatuses) | **GET** /repos/{owner}/{repo}/deployments/{deployment_id}/statuses | List deployment statuses
+*ReposApi* | [**reposListDeployments**](Apis/ReposApi.http#reposlistdeployments) | **GET** /repos/{owner}/{repo}/deployments | List deployments
+*ReposApi* | [**reposListForAuthenticatedUser**](Apis/ReposApi.http#reposlistforauthenticateduser) | **GET** /user/repos | List repositories for the authenticated user
+*ReposApi* | [**reposListForOrg**](Apis/ReposApi.http#reposlistfororg) | **GET** /orgs/{org}/repos | List organization repositories
+*ReposApi* | [**reposListForUser**](Apis/ReposApi.http#reposlistforuser) | **GET** /users/{username}/repos | List repositories for a user
+*ReposApi* | [**reposListForks**](Apis/ReposApi.http#reposlistforks) | **GET** /repos/{owner}/{repo}/forks | List forks
+*ReposApi* | [**reposListInvitations**](Apis/ReposApi.http#reposlistinvitations) | **GET** /repos/{owner}/{repo}/invitations | List repository invitations
+*ReposApi* | [**reposListInvitationsForAuthenticatedUser**](Apis/ReposApi.http#reposlistinvitationsforauthenticateduser) | **GET** /user/repository_invitations | List repository invitations for the authenticated user
+*ReposApi* | [**reposListLanguages**](Apis/ReposApi.http#reposlistlanguages) | **GET** /repos/{owner}/{repo}/languages | List repository languages
+*ReposApi* | [**reposListPagesBuilds**](Apis/ReposApi.http#reposlistpagesbuilds) | **GET** /repos/{owner}/{repo}/pages/builds | List GitHub Pages builds
+*ReposApi* | [**reposListPublic**](Apis/ReposApi.http#reposlistpublic) | **GET** /repositories | List public repositories
+*ReposApi* | [**reposListPullRequestsAssociatedWithCommit**](Apis/ReposApi.http#reposlistpullrequestsassociatedwithcommit) | **GET** /repos/{owner}/{repo}/commits/{commit_sha}/pulls | List pull requests associated with a commit
+*ReposApi* | [**reposListReleaseAssets**](Apis/ReposApi.http#reposlistreleaseassets) | **GET** /repos/{owner}/{repo}/releases/{release_id}/assets | List release assets
+*ReposApi* | [**reposListReleases**](Apis/ReposApi.http#reposlistreleases) | **GET** /repos/{owner}/{repo}/releases | List releases
+*ReposApi* | [**reposListTagProtection**](Apis/ReposApi.http#reposlisttagprotection) | **GET** /repos/{owner}/{repo}/tags/protection | List tag protection states for a repository
+*ReposApi* | [**reposListTags**](Apis/ReposApi.http#reposlisttags) | **GET** /repos/{owner}/{repo}/tags | List repository tags
+*ReposApi* | [**reposListTeams**](Apis/ReposApi.http#reposlistteams) | **GET** /repos/{owner}/{repo}/teams | List repository teams
+*ReposApi* | [**reposListWebhookDeliveries**](Apis/ReposApi.http#reposlistwebhookdeliveries) | **GET** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries | List deliveries for a repository webhook
+*ReposApi* | [**reposListWebhooks**](Apis/ReposApi.http#reposlistwebhooks) | **GET** /repos/{owner}/{repo}/hooks | List repository webhooks
+*ReposApi* | [**reposMerge**](Apis/ReposApi.http#reposmerge) | **POST** /repos/{owner}/{repo}/merges | Merge a branch
+*ReposApi* | [**reposMergeUpstream**](Apis/ReposApi.http#reposmergeupstream) | **POST** /repos/{owner}/{repo}/merge-upstream | Sync a fork branch with the upstream repository
+*ReposApi* | [**reposPingWebhook**](Apis/ReposApi.http#repospingwebhook) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/pings | Ping a repository webhook
+*ReposApi* | [**reposRedeliverWebhookDelivery**](Apis/ReposApi.http#reposredeliverwebhookdelivery) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/deliveries/{delivery_id}/attempts | Redeliver a delivery for a repository webhook
+*ReposApi* | [**reposRemoveAppAccessRestrictions**](Apis/ReposApi.http#reposremoveappaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Remove app access restrictions
+*ReposApi* | [**reposRemoveCollaborator**](Apis/ReposApi.http#reposremovecollaborator) | **DELETE** /repos/{owner}/{repo}/collaborators/{username} | Remove a repository collaborator
+*ReposApi* | [**reposRemoveStatusCheckContexts**](Apis/ReposApi.http#reposremovestatuscheckcontexts) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Remove status check contexts
+*ReposApi* | [**reposRemoveStatusCheckProtection**](Apis/ReposApi.http#reposremovestatuscheckprotection) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Remove status check protection
+*ReposApi* | [**reposRemoveTeamAccessRestrictions**](Apis/ReposApi.http#reposremoveteamaccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Remove team access restrictions
+*ReposApi* | [**reposRemoveUserAccessRestrictions**](Apis/ReposApi.http#reposremoveuseraccessrestrictions) | **DELETE** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Remove user access restrictions
+*ReposApi* | [**reposRenameBranch**](Apis/ReposApi.http#reposrenamebranch) | **POST** /repos/{owner}/{repo}/branches/{branch}/rename | Rename a branch
+*ReposApi* | [**reposReplaceAllTopics**](Apis/ReposApi.http#reposreplacealltopics) | **PUT** /repos/{owner}/{repo}/topics | Replace all repository topics
+*ReposApi* | [**reposRequestPagesBuild**](Apis/ReposApi.http#reposrequestpagesbuild) | **POST** /repos/{owner}/{repo}/pages/builds | Request a GitHub Pages build
+*ReposApi* | [**reposSetAdminBranchProtection**](Apis/ReposApi.http#repossetadminbranchprotection) | **POST** /repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins | Set admin branch protection
+*ReposApi* | [**reposSetAppAccessRestrictions**](Apis/ReposApi.http#repossetappaccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps | Set app access restrictions
+*ReposApi* | [**reposSetStatusCheckContexts**](Apis/ReposApi.http#repossetstatuscheckcontexts) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts | Set status check contexts
+*ReposApi* | [**reposSetTeamAccessRestrictions**](Apis/ReposApi.http#repossetteamaccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams | Set team access restrictions
+*ReposApi* | [**reposSetUserAccessRestrictions**](Apis/ReposApi.http#repossetuseraccessrestrictions) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users | Set user access restrictions
+*ReposApi* | [**reposTestPushWebhook**](Apis/ReposApi.http#repostestpushwebhook) | **POST** /repos/{owner}/{repo}/hooks/{hook_id}/tests | Test the push repository webhook
+*ReposApi* | [**reposTransfer**](Apis/ReposApi.http#repostransfer) | **POST** /repos/{owner}/{repo}/transfer | Transfer a repository
+*ReposApi* | [**reposUpdate**](Apis/ReposApi.http#reposupdate) | **PATCH** /repos/{owner}/{repo} | Update a repository
+*ReposApi* | [**reposUpdateBranchProtection**](Apis/ReposApi.http#reposupdatebranchprotection) | **PUT** /repos/{owner}/{repo}/branches/{branch}/protection | Update branch protection
+*ReposApi* | [**reposUpdateCommitComment**](Apis/ReposApi.http#reposupdatecommitcomment) | **PATCH** /repos/{owner}/{repo}/comments/{comment_id} | Update a commit comment
+*ReposApi* | [**reposUpdateDeploymentBranchPolicy**](Apis/ReposApi.http#reposupdatedeploymentbranchpolicy) | **PUT** /repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies/{branch_policy_id} | Update a deployment branch policy
+*ReposApi* | [**reposUpdateInformationAboutPagesSite**](Apis/ReposApi.http#reposupdateinformationaboutpagessite) | **PUT** /repos/{owner}/{repo}/pages | Update information about a GitHub Pages site
+*ReposApi* | [**reposUpdateInvitation**](Apis/ReposApi.http#reposupdateinvitation) | **PATCH** /repos/{owner}/{repo}/invitations/{invitation_id} | Update a repository invitation
+*ReposApi* | [**reposUpdateOrgRuleset**](Apis/ReposApi.http#reposupdateorgruleset) | **PUT** /orgs/{org}/rulesets/{ruleset_id} | Update an organization repository ruleset
+*ReposApi* | [**reposUpdatePullRequestReviewProtection**](Apis/ReposApi.http#reposupdatepullrequestreviewprotection) | **PATCH** /repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews | Update pull request review protection
+*ReposApi* | [**reposUpdateRelease**](Apis/ReposApi.http#reposupdaterelease) | **PATCH** /repos/{owner}/{repo}/releases/{release_id} | Update a release
+*ReposApi* | [**reposUpdateReleaseAsset**](Apis/ReposApi.http#reposupdatereleaseasset) | **PATCH** /repos/{owner}/{repo}/releases/assets/{asset_id} | Update a release asset
+*ReposApi* | [**reposUpdateRepoRuleset**](Apis/ReposApi.http#reposupdatereporuleset) | **PUT** /repos/{owner}/{repo}/rulesets/{ruleset_id} | Update a repository ruleset
+*ReposApi* | [**reposUpdateStatusCheckProtection**](Apis/ReposApi.http#reposupdatestatuscheckprotection) | **PATCH** /repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks | Update status check protection
+*ReposApi* | [**reposUpdateWebhook**](Apis/ReposApi.http#reposupdatewebhook) | **PATCH** /repos/{owner}/{repo}/hooks/{hook_id} | Update a repository webhook
+*ReposApi* | [**reposUpdateWebhookConfigForRepo**](Apis/ReposApi.http#reposupdatewebhookconfigforrepo) | **PATCH** /repos/{owner}/{repo}/hooks/{hook_id}/config | Update a webhook configuration for a repository
+*ReposApi* | [**reposUploadReleaseAsset**](Apis/ReposApi.http#reposuploadreleaseasset) | **POST** /repos/{owner}/{repo}/releases/{release_id}/assets | Upload a release asset
+*SearchApi* | [**searchCode**](Apis/SearchApi.http#searchcode) | **GET** /search/code | Search code
+*SearchApi* | [**searchCommits**](Apis/SearchApi.http#searchcommits) | **GET** /search/commits | Search commits
+*SearchApi* | [**searchIssuesAndPullRequests**](Apis/SearchApi.http#searchissuesandpullrequests) | **GET** /search/issues | Search issues and pull requests
+*SearchApi* | [**searchLabels**](Apis/SearchApi.http#searchlabels) | **GET** /search/labels | Search labels
+*SearchApi* | [**searchRepos**](Apis/SearchApi.http#searchrepos) | **GET** /search/repositories | Search repositories
+*SearchApi* | [**searchTopics**](Apis/SearchApi.http#searchtopics) | **GET** /search/topics | Search topics
+*SearchApi* | [**searchUsers**](Apis/SearchApi.http#searchusers) | **GET** /search/users | Search users
 *SecretScanningApi* | [**secretScanning/getAlert**](Apis/SecretScanningApi.http#secretscanning/getalert) | **GET** /repos/{owner}/{repo}/secret-scanning/alerts/{alert_number} | Get a secret scanning alert
 *SecretScanningApi* | [**secretScanning/listAlertsForEnterprise**](Apis/SecretScanningApi.http#secretscanning/listalertsforenterprise) | **GET** /enterprises/{enterprise}/secret-scanning/alerts | List secret scanning alerts for an enterprise
 *SecretScanningApi* | [**secretScanning/listAlertsForOrg**](Apis/SecretScanningApi.http#secretscanning/listalertsfororg) | **GET** /orgs/{org}/secret-scanning/alerts | List secret scanning alerts for an organization
@@ -843,107 +843,107 @@ Class | Method | HTTP request | Description
 *SecurityAdvisoriesApi* | [**securityAdvisories/listOrgRepositoryAdvisories**](Apis/SecurityAdvisoriesApi.http#securityadvisories/listorgrepositoryadvisories) | **GET** /orgs/{org}/security-advisories | List repository security advisories for an organization
 *SecurityAdvisoriesApi* | [**securityAdvisories/listRepositoryAdvisories**](Apis/SecurityAdvisoriesApi.http#securityadvisories/listrepositoryadvisories) | **GET** /repos/{owner}/{repo}/security-advisories | List repository security advisories
 *SecurityAdvisoriesApi* | [**securityAdvisories/updateRepositoryAdvisory**](Apis/SecurityAdvisoriesApi.http#securityadvisories/updaterepositoryadvisory) | **PATCH** /repos/{owner}/{repo}/security-advisories/{ghsa_id} | Update a repository security advisory
-*TeamsApi* | [**teams/addMemberLegacy**](Apis/TeamsApi.http#teams/addmemberlegacy) | **PUT** /teams/{team_id}/members/{username} | Add team member (Legacy)
-*TeamsApi* | [**teams/addOrUpdateMembershipForUserInOrg**](Apis/TeamsApi.http#teams/addorupdatemembershipforuserinorg) | **PUT** /orgs/{org}/teams/{team_slug}/memberships/{username} | Add or update team membership for a user
-*TeamsApi* | [**teams/addOrUpdateMembershipForUserLegacy**](Apis/TeamsApi.http#teams/addorupdatemembershipforuserlegacy) | **PUT** /teams/{team_id}/memberships/{username} | Add or update team membership for a user (Legacy)
-*TeamsApi* | [**teams/addOrUpdateProjectPermissionsInOrg**](Apis/TeamsApi.http#teams/addorupdateprojectpermissionsinorg) | **PUT** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Add or update team project permissions
-*TeamsApi* | [**teams/addOrUpdateProjectPermissionsLegacy**](Apis/TeamsApi.http#teams/addorupdateprojectpermissionslegacy) | **PUT** /teams/{team_id}/projects/{project_id} | Add or update team project permissions (Legacy)
-*TeamsApi* | [**teams/addOrUpdateRepoPermissionsInOrg**](Apis/TeamsApi.http#teams/addorupdaterepopermissionsinorg) | **PUT** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Add or update team repository permissions
-*TeamsApi* | [**teams/addOrUpdateRepoPermissionsLegacy**](Apis/TeamsApi.http#teams/addorupdaterepopermissionslegacy) | **PUT** /teams/{team_id}/repos/{owner}/{repo} | Add or update team repository permissions (Legacy)
-*TeamsApi* | [**teams/checkPermissionsForProjectInOrg**](Apis/TeamsApi.http#teams/checkpermissionsforprojectinorg) | **GET** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Check team permissions for a project
-*TeamsApi* | [**teams/checkPermissionsForProjectLegacy**](Apis/TeamsApi.http#teams/checkpermissionsforprojectlegacy) | **GET** /teams/{team_id}/projects/{project_id} | Check team permissions for a project (Legacy)
-*TeamsApi* | [**teams/checkPermissionsForRepoInOrg**](Apis/TeamsApi.http#teams/checkpermissionsforrepoinorg) | **GET** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Check team permissions for a repository
-*TeamsApi* | [**teams/checkPermissionsForRepoLegacy**](Apis/TeamsApi.http#teams/checkpermissionsforrepolegacy) | **GET** /teams/{team_id}/repos/{owner}/{repo} | Check team permissions for a repository (Legacy)
-*TeamsApi* | [**teams/create**](Apis/TeamsApi.http#teams/create) | **POST** /orgs/{org}/teams | Create a team
-*TeamsApi* | [**teams/createDiscussionCommentInOrg**](Apis/TeamsApi.http#teams/creatediscussioncommentinorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments | Create a discussion comment
-*TeamsApi* | [**teams/createDiscussionCommentLegacy**](Apis/TeamsApi.http#teams/creatediscussioncommentlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/comments | Create a discussion comment (Legacy)
-*TeamsApi* | [**teams/createDiscussionInOrg**](Apis/TeamsApi.http#teams/creatediscussioninorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions | Create a discussion
-*TeamsApi* | [**teams/createDiscussionLegacy**](Apis/TeamsApi.http#teams/creatediscussionlegacy) | **POST** /teams/{team_id}/discussions | Create a discussion (Legacy)
-*TeamsApi* | [**teams/deleteDiscussionCommentInOrg**](Apis/TeamsApi.http#teams/deletediscussioncommentinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Delete a discussion comment
-*TeamsApi* | [**teams/deleteDiscussionCommentLegacy**](Apis/TeamsApi.http#teams/deletediscussioncommentlegacy) | **DELETE** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Delete a discussion comment (Legacy)
-*TeamsApi* | [**teams/deleteDiscussionInOrg**](Apis/TeamsApi.http#teams/deletediscussioninorg) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Delete a discussion
-*TeamsApi* | [**teams/deleteDiscussionLegacy**](Apis/TeamsApi.http#teams/deletediscussionlegacy) | **DELETE** /teams/{team_id}/discussions/{discussion_number} | Delete a discussion (Legacy)
-*TeamsApi* | [**teams/deleteInOrg**](Apis/TeamsApi.http#teams/deleteinorg) | **DELETE** /orgs/{org}/teams/{team_slug} | Delete a team
-*TeamsApi* | [**teams/deleteLegacy**](Apis/TeamsApi.http#teams/deletelegacy) | **DELETE** /teams/{team_id} | Delete a team (Legacy)
-*TeamsApi* | [**teams/getByName**](Apis/TeamsApi.http#teams/getbyname) | **GET** /orgs/{org}/teams/{team_slug} | Get a team by name
-*TeamsApi* | [**teams/getDiscussionCommentInOrg**](Apis/TeamsApi.http#teams/getdiscussioncommentinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Get a discussion comment
-*TeamsApi* | [**teams/getDiscussionCommentLegacy**](Apis/TeamsApi.http#teams/getdiscussioncommentlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Get a discussion comment (Legacy)
-*TeamsApi* | [**teams/getDiscussionInOrg**](Apis/TeamsApi.http#teams/getdiscussioninorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Get a discussion
-*TeamsApi* | [**teams/getDiscussionLegacy**](Apis/TeamsApi.http#teams/getdiscussionlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number} | Get a discussion (Legacy)
-*TeamsApi* | [**teams/getLegacy**](Apis/TeamsApi.http#teams/getlegacy) | **GET** /teams/{team_id} | Get a team (Legacy)
-*TeamsApi* | [**teams/getMemberLegacy**](Apis/TeamsApi.http#teams/getmemberlegacy) | **GET** /teams/{team_id}/members/{username} | Get team member (Legacy)
-*TeamsApi* | [**teams/getMembershipForUserInOrg**](Apis/TeamsApi.http#teams/getmembershipforuserinorg) | **GET** /orgs/{org}/teams/{team_slug}/memberships/{username} | Get team membership for a user
-*TeamsApi* | [**teams/getMembershipForUserLegacy**](Apis/TeamsApi.http#teams/getmembershipforuserlegacy) | **GET** /teams/{team_id}/memberships/{username} | Get team membership for a user (Legacy)
-*TeamsApi* | [**teams/list**](Apis/TeamsApi.http#teams/list) | **GET** /orgs/{org}/teams | List teams
-*TeamsApi* | [**teams/listChildInOrg**](Apis/TeamsApi.http#teams/listchildinorg) | **GET** /orgs/{org}/teams/{team_slug}/teams | List child teams
-*TeamsApi* | [**teams/listChildLegacy**](Apis/TeamsApi.http#teams/listchildlegacy) | **GET** /teams/{team_id}/teams | List child teams (Legacy)
-*TeamsApi* | [**teams/listDiscussionCommentsInOrg**](Apis/TeamsApi.http#teams/listdiscussioncommentsinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments | List discussion comments
-*TeamsApi* | [**teams/listDiscussionCommentsLegacy**](Apis/TeamsApi.http#teams/listdiscussioncommentslegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments | List discussion comments (Legacy)
-*TeamsApi* | [**teams/listDiscussionsInOrg**](Apis/TeamsApi.http#teams/listdiscussionsinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions | List discussions
-*TeamsApi* | [**teams/listDiscussionsLegacy**](Apis/TeamsApi.http#teams/listdiscussionslegacy) | **GET** /teams/{team_id}/discussions | List discussions (Legacy)
-*TeamsApi* | [**teams/listForAuthenticatedUser**](Apis/TeamsApi.http#teams/listforauthenticateduser) | **GET** /user/teams | List teams for the authenticated user
-*TeamsApi* | [**teams/listMembersInOrg**](Apis/TeamsApi.http#teams/listmembersinorg) | **GET** /orgs/{org}/teams/{team_slug}/members | List team members
-*TeamsApi* | [**teams/listMembersLegacy**](Apis/TeamsApi.http#teams/listmemberslegacy) | **GET** /teams/{team_id}/members | List team members (Legacy)
-*TeamsApi* | [**teams/listPendingInvitationsInOrg**](Apis/TeamsApi.http#teams/listpendinginvitationsinorg) | **GET** /orgs/{org}/teams/{team_slug}/invitations | List pending team invitations
-*TeamsApi* | [**teams/listPendingInvitationsLegacy**](Apis/TeamsApi.http#teams/listpendinginvitationslegacy) | **GET** /teams/{team_id}/invitations | List pending team invitations (Legacy)
-*TeamsApi* | [**teams/listProjectsInOrg**](Apis/TeamsApi.http#teams/listprojectsinorg) | **GET** /orgs/{org}/teams/{team_slug}/projects | List team projects
-*TeamsApi* | [**teams/listProjectsLegacy**](Apis/TeamsApi.http#teams/listprojectslegacy) | **GET** /teams/{team_id}/projects | List team projects (Legacy)
-*TeamsApi* | [**teams/listReposInOrg**](Apis/TeamsApi.http#teams/listreposinorg) | **GET** /orgs/{org}/teams/{team_slug}/repos | List team repositories
-*TeamsApi* | [**teams/listReposLegacy**](Apis/TeamsApi.http#teams/listreposlegacy) | **GET** /teams/{team_id}/repos | List team repositories (Legacy)
-*TeamsApi* | [**teams/removeMemberLegacy**](Apis/TeamsApi.http#teams/removememberlegacy) | **DELETE** /teams/{team_id}/members/{username} | Remove team member (Legacy)
-*TeamsApi* | [**teams/removeMembershipForUserInOrg**](Apis/TeamsApi.http#teams/removemembershipforuserinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/memberships/{username} | Remove team membership for a user
-*TeamsApi* | [**teams/removeMembershipForUserLegacy**](Apis/TeamsApi.http#teams/removemembershipforuserlegacy) | **DELETE** /teams/{team_id}/memberships/{username} | Remove team membership for a user (Legacy)
-*TeamsApi* | [**teams/removeProjectInOrg**](Apis/TeamsApi.http#teams/removeprojectinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Remove a project from a team
-*TeamsApi* | [**teams/removeProjectLegacy**](Apis/TeamsApi.http#teams/removeprojectlegacy) | **DELETE** /teams/{team_id}/projects/{project_id} | Remove a project from a team (Legacy)
-*TeamsApi* | [**teams/removeRepoInOrg**](Apis/TeamsApi.http#teams/removerepoinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Remove a repository from a team
-*TeamsApi* | [**teams/removeRepoLegacy**](Apis/TeamsApi.http#teams/removerepolegacy) | **DELETE** /teams/{team_id}/repos/{owner}/{repo} | Remove a repository from a team (Legacy)
-*TeamsApi* | [**teams/updateDiscussionCommentInOrg**](Apis/TeamsApi.http#teams/updatediscussioncommentinorg) | **PATCH** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Update a discussion comment
-*TeamsApi* | [**teams/updateDiscussionCommentLegacy**](Apis/TeamsApi.http#teams/updatediscussioncommentlegacy) | **PATCH** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Update a discussion comment (Legacy)
-*TeamsApi* | [**teams/updateDiscussionInOrg**](Apis/TeamsApi.http#teams/updatediscussioninorg) | **PATCH** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Update a discussion
-*TeamsApi* | [**teams/updateDiscussionLegacy**](Apis/TeamsApi.http#teams/updatediscussionlegacy) | **PATCH** /teams/{team_id}/discussions/{discussion_number} | Update a discussion (Legacy)
-*TeamsApi* | [**teams/updateInOrg**](Apis/TeamsApi.http#teams/updateinorg) | **PATCH** /orgs/{org}/teams/{team_slug} | Update a team
-*TeamsApi* | [**teams/updateLegacy**](Apis/TeamsApi.http#teams/updatelegacy) | **PATCH** /teams/{team_id} | Update a team (Legacy)
-*UsersApi* | [**users/addEmailForAuthenticatedUser**](Apis/UsersApi.http#users/addemailforauthenticateduser) | **POST** /user/emails | Add an email address for the authenticated user
-*UsersApi* | [**users/addSocialAccountForAuthenticatedUser**](Apis/UsersApi.http#users/addsocialaccountforauthenticateduser) | **POST** /user/social_accounts | Add social accounts for the authenticated user
-*UsersApi* | [**users/block**](Apis/UsersApi.http#users/block) | **PUT** /user/blocks/{username} | Block a user
-*UsersApi* | [**users/checkBlocked**](Apis/UsersApi.http#users/checkblocked) | **GET** /user/blocks/{username} | Check if a user is blocked by the authenticated user
-*UsersApi* | [**users/checkFollowingForUser**](Apis/UsersApi.http#users/checkfollowingforuser) | **GET** /users/{username}/following/{target_user} | Check if a user follows another user
-*UsersApi* | [**users/checkPersonIsFollowedByAuthenticated**](Apis/UsersApi.http#users/checkpersonisfollowedbyauthenticated) | **GET** /user/following/{username} | Check if a person is followed by the authenticated user
-*UsersApi* | [**users/createGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#users/creategpgkeyforauthenticateduser) | **POST** /user/gpg_keys | Create a GPG key for the authenticated user
-*UsersApi* | [**users/createPublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#users/createpublicsshkeyforauthenticateduser) | **POST** /user/keys | Create a public SSH key for the authenticated user
-*UsersApi* | [**users/createSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#users/createsshsigningkeyforauthenticateduser) | **POST** /user/ssh_signing_keys | Create a SSH signing key for the authenticated user
-*UsersApi* | [**users/deleteEmailForAuthenticatedUser**](Apis/UsersApi.http#users/deleteemailforauthenticateduser) | **DELETE** /user/emails | Delete an email address for the authenticated user
-*UsersApi* | [**users/deleteGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#users/deletegpgkeyforauthenticateduser) | **DELETE** /user/gpg_keys/{gpg_key_id} | Delete a GPG key for the authenticated user
-*UsersApi* | [**users/deletePublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#users/deletepublicsshkeyforauthenticateduser) | **DELETE** /user/keys/{key_id} | Delete a public SSH key for the authenticated user
-*UsersApi* | [**users/deleteSocialAccountForAuthenticatedUser**](Apis/UsersApi.http#users/deletesocialaccountforauthenticateduser) | **DELETE** /user/social_accounts | Delete social accounts for the authenticated user
-*UsersApi* | [**users/deleteSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#users/deletesshsigningkeyforauthenticateduser) | **DELETE** /user/ssh_signing_keys/{ssh_signing_key_id} | Delete an SSH signing key for the authenticated user
-*UsersApi* | [**users/follow**](Apis/UsersApi.http#users/follow) | **PUT** /user/following/{username} | Follow a user
-*UsersApi* | [**users/getAuthenticated**](Apis/UsersApi.http#users/getauthenticated) | **GET** /user | Get the authenticated user
-*UsersApi* | [**users/getByUsername**](Apis/UsersApi.http#users/getbyusername) | **GET** /users/{username} | Get a user
-*UsersApi* | [**users/getContextForUser**](Apis/UsersApi.http#users/getcontextforuser) | **GET** /users/{username}/hovercard | Get contextual information for a user
-*UsersApi* | [**users/getGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#users/getgpgkeyforauthenticateduser) | **GET** /user/gpg_keys/{gpg_key_id} | Get a GPG key for the authenticated user
-*UsersApi* | [**users/getPublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#users/getpublicsshkeyforauthenticateduser) | **GET** /user/keys/{key_id} | Get a public SSH key for the authenticated user
-*UsersApi* | [**users/getSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#users/getsshsigningkeyforauthenticateduser) | **GET** /user/ssh_signing_keys/{ssh_signing_key_id} | Get an SSH signing key for the authenticated user
-*UsersApi* | [**users/list**](Apis/UsersApi.http#users/list) | **GET** /users | List users
-*UsersApi* | [**users/listBlockedByAuthenticatedUser**](Apis/UsersApi.http#users/listblockedbyauthenticateduser) | **GET** /user/blocks | List users blocked by the authenticated user
-*UsersApi* | [**users/listEmailsForAuthenticatedUser**](Apis/UsersApi.http#users/listemailsforauthenticateduser) | **GET** /user/emails | List email addresses for the authenticated user
-*UsersApi* | [**users/listFollowedByAuthenticatedUser**](Apis/UsersApi.http#users/listfollowedbyauthenticateduser) | **GET** /user/following | List the people the authenticated user follows
-*UsersApi* | [**users/listFollowersForAuthenticatedUser**](Apis/UsersApi.http#users/listfollowersforauthenticateduser) | **GET** /user/followers | List followers of the authenticated user
-*UsersApi* | [**users/listFollowersForUser**](Apis/UsersApi.http#users/listfollowersforuser) | **GET** /users/{username}/followers | List followers of a user
-*UsersApi* | [**users/listFollowingForUser**](Apis/UsersApi.http#users/listfollowingforuser) | **GET** /users/{username}/following | List the people a user follows
-*UsersApi* | [**users/listGpgKeysForAuthenticatedUser**](Apis/UsersApi.http#users/listgpgkeysforauthenticateduser) | **GET** /user/gpg_keys | List GPG keys for the authenticated user
-*UsersApi* | [**users/listGpgKeysForUser**](Apis/UsersApi.http#users/listgpgkeysforuser) | **GET** /users/{username}/gpg_keys | List GPG keys for a user
-*UsersApi* | [**users/listPublicEmailsForAuthenticatedUser**](Apis/UsersApi.http#users/listpublicemailsforauthenticateduser) | **GET** /user/public_emails | List public email addresses for the authenticated user
-*UsersApi* | [**users/listPublicKeysForUser**](Apis/UsersApi.http#users/listpublickeysforuser) | **GET** /users/{username}/keys | List public keys for a user
-*UsersApi* | [**users/listPublicSshKeysForAuthenticatedUser**](Apis/UsersApi.http#users/listpublicsshkeysforauthenticateduser) | **GET** /user/keys | List public SSH keys for the authenticated user
-*UsersApi* | [**users/listSocialAccountsForAuthenticatedUser**](Apis/UsersApi.http#users/listsocialaccountsforauthenticateduser) | **GET** /user/social_accounts | List social accounts for the authenticated user
-*UsersApi* | [**users/listSocialAccountsForUser**](Apis/UsersApi.http#users/listsocialaccountsforuser) | **GET** /users/{username}/social_accounts | List social accounts for a user
-*UsersApi* | [**users/listSshSigningKeysForAuthenticatedUser**](Apis/UsersApi.http#users/listsshsigningkeysforauthenticateduser) | **GET** /user/ssh_signing_keys | List SSH signing keys for the authenticated user
-*UsersApi* | [**users/listSshSigningKeysForUser**](Apis/UsersApi.http#users/listsshsigningkeysforuser) | **GET** /users/{username}/ssh_signing_keys | List SSH signing keys for a user
-*UsersApi* | [**users/setPrimaryEmailVisibilityForAuthenticatedUser**](Apis/UsersApi.http#users/setprimaryemailvisibilityforauthenticateduser) | **PATCH** /user/email/visibility | Set primary email visibility for the authenticated user
-*UsersApi* | [**users/unblock**](Apis/UsersApi.http#users/unblock) | **DELETE** /user/blocks/{username} | Unblock a user
-*UsersApi* | [**users/unfollow**](Apis/UsersApi.http#users/unfollow) | **DELETE** /user/following/{username} | Unfollow a user
-*UsersApi* | [**users/updateAuthenticated**](Apis/UsersApi.http#users/updateauthenticated) | **PATCH** /user | Update the authenticated user
+*TeamsApi* | [**teamsAddMemberLegacy**](Apis/TeamsApi.http#teamsaddmemberlegacy) | **PUT** /teams/{team_id}/members/{username} | Add team member (Legacy)
+*TeamsApi* | [**teamsAddOrUpdateMembershipForUserInOrg**](Apis/TeamsApi.http#teamsaddorupdatemembershipforuserinorg) | **PUT** /orgs/{org}/teams/{team_slug}/memberships/{username} | Add or update team membership for a user
+*TeamsApi* | [**teamsAddOrUpdateMembershipForUserLegacy**](Apis/TeamsApi.http#teamsaddorupdatemembershipforuserlegacy) | **PUT** /teams/{team_id}/memberships/{username} | Add or update team membership for a user (Legacy)
+*TeamsApi* | [**teamsAddOrUpdateProjectPermissionsInOrg**](Apis/TeamsApi.http#teamsaddorupdateprojectpermissionsinorg) | **PUT** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Add or update team project permissions
+*TeamsApi* | [**teamsAddOrUpdateProjectPermissionsLegacy**](Apis/TeamsApi.http#teamsaddorupdateprojectpermissionslegacy) | **PUT** /teams/{team_id}/projects/{project_id} | Add or update team project permissions (Legacy)
+*TeamsApi* | [**teamsAddOrUpdateRepoPermissionsInOrg**](Apis/TeamsApi.http#teamsaddorupdaterepopermissionsinorg) | **PUT** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Add or update team repository permissions
+*TeamsApi* | [**teamsAddOrUpdateRepoPermissionsLegacy**](Apis/TeamsApi.http#teamsaddorupdaterepopermissionslegacy) | **PUT** /teams/{team_id}/repos/{owner}/{repo} | Add or update team repository permissions (Legacy)
+*TeamsApi* | [**teamsCheckPermissionsForProjectInOrg**](Apis/TeamsApi.http#teamscheckpermissionsforprojectinorg) | **GET** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Check team permissions for a project
+*TeamsApi* | [**teamsCheckPermissionsForProjectLegacy**](Apis/TeamsApi.http#teamscheckpermissionsforprojectlegacy) | **GET** /teams/{team_id}/projects/{project_id} | Check team permissions for a project (Legacy)
+*TeamsApi* | [**teamsCheckPermissionsForRepoInOrg**](Apis/TeamsApi.http#teamscheckpermissionsforrepoinorg) | **GET** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Check team permissions for a repository
+*TeamsApi* | [**teamsCheckPermissionsForRepoLegacy**](Apis/TeamsApi.http#teamscheckpermissionsforrepolegacy) | **GET** /teams/{team_id}/repos/{owner}/{repo} | Check team permissions for a repository (Legacy)
+*TeamsApi* | [**teamsCreate**](Apis/TeamsApi.http#teamscreate) | **POST** /orgs/{org}/teams | Create a team
+*TeamsApi* | [**teamsCreateDiscussionCommentInOrg**](Apis/TeamsApi.http#teamscreatediscussioncommentinorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments | Create a discussion comment
+*TeamsApi* | [**teamsCreateDiscussionCommentLegacy**](Apis/TeamsApi.http#teamscreatediscussioncommentlegacy) | **POST** /teams/{team_id}/discussions/{discussion_number}/comments | Create a discussion comment (Legacy)
+*TeamsApi* | [**teamsCreateDiscussionInOrg**](Apis/TeamsApi.http#teamscreatediscussioninorg) | **POST** /orgs/{org}/teams/{team_slug}/discussions | Create a discussion
+*TeamsApi* | [**teamsCreateDiscussionLegacy**](Apis/TeamsApi.http#teamscreatediscussionlegacy) | **POST** /teams/{team_id}/discussions | Create a discussion (Legacy)
+*TeamsApi* | [**teamsDeleteDiscussionCommentInOrg**](Apis/TeamsApi.http#teamsdeletediscussioncommentinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Delete a discussion comment
+*TeamsApi* | [**teamsDeleteDiscussionCommentLegacy**](Apis/TeamsApi.http#teamsdeletediscussioncommentlegacy) | **DELETE** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Delete a discussion comment (Legacy)
+*TeamsApi* | [**teamsDeleteDiscussionInOrg**](Apis/TeamsApi.http#teamsdeletediscussioninorg) | **DELETE** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Delete a discussion
+*TeamsApi* | [**teamsDeleteDiscussionLegacy**](Apis/TeamsApi.http#teamsdeletediscussionlegacy) | **DELETE** /teams/{team_id}/discussions/{discussion_number} | Delete a discussion (Legacy)
+*TeamsApi* | [**teamsDeleteInOrg**](Apis/TeamsApi.http#teamsdeleteinorg) | **DELETE** /orgs/{org}/teams/{team_slug} | Delete a team
+*TeamsApi* | [**teamsDeleteLegacy**](Apis/TeamsApi.http#teamsdeletelegacy) | **DELETE** /teams/{team_id} | Delete a team (Legacy)
+*TeamsApi* | [**teamsGetByName**](Apis/TeamsApi.http#teamsgetbyname) | **GET** /orgs/{org}/teams/{team_slug} | Get a team by name
+*TeamsApi* | [**teamsGetDiscussionCommentInOrg**](Apis/TeamsApi.http#teamsgetdiscussioncommentinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Get a discussion comment
+*TeamsApi* | [**teamsGetDiscussionCommentLegacy**](Apis/TeamsApi.http#teamsgetdiscussioncommentlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Get a discussion comment (Legacy)
+*TeamsApi* | [**teamsGetDiscussionInOrg**](Apis/TeamsApi.http#teamsgetdiscussioninorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Get a discussion
+*TeamsApi* | [**teamsGetDiscussionLegacy**](Apis/TeamsApi.http#teamsgetdiscussionlegacy) | **GET** /teams/{team_id}/discussions/{discussion_number} | Get a discussion (Legacy)
+*TeamsApi* | [**teamsGetLegacy**](Apis/TeamsApi.http#teamsgetlegacy) | **GET** /teams/{team_id} | Get a team (Legacy)
+*TeamsApi* | [**teamsGetMemberLegacy**](Apis/TeamsApi.http#teamsgetmemberlegacy) | **GET** /teams/{team_id}/members/{username} | Get team member (Legacy)
+*TeamsApi* | [**teamsGetMembershipForUserInOrg**](Apis/TeamsApi.http#teamsgetmembershipforuserinorg) | **GET** /orgs/{org}/teams/{team_slug}/memberships/{username} | Get team membership for a user
+*TeamsApi* | [**teamsGetMembershipForUserLegacy**](Apis/TeamsApi.http#teamsgetmembershipforuserlegacy) | **GET** /teams/{team_id}/memberships/{username} | Get team membership for a user (Legacy)
+*TeamsApi* | [**teamsList**](Apis/TeamsApi.http#teamslist) | **GET** /orgs/{org}/teams | List teams
+*TeamsApi* | [**teamsListChildInOrg**](Apis/TeamsApi.http#teamslistchildinorg) | **GET** /orgs/{org}/teams/{team_slug}/teams | List child teams
+*TeamsApi* | [**teamsListChildLegacy**](Apis/TeamsApi.http#teamslistchildlegacy) | **GET** /teams/{team_id}/teams | List child teams (Legacy)
+*TeamsApi* | [**teamsListDiscussionCommentsInOrg**](Apis/TeamsApi.http#teamslistdiscussioncommentsinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments | List discussion comments
+*TeamsApi* | [**teamsListDiscussionCommentsLegacy**](Apis/TeamsApi.http#teamslistdiscussioncommentslegacy) | **GET** /teams/{team_id}/discussions/{discussion_number}/comments | List discussion comments (Legacy)
+*TeamsApi* | [**teamsListDiscussionsInOrg**](Apis/TeamsApi.http#teamslistdiscussionsinorg) | **GET** /orgs/{org}/teams/{team_slug}/discussions | List discussions
+*TeamsApi* | [**teamsListDiscussionsLegacy**](Apis/TeamsApi.http#teamslistdiscussionslegacy) | **GET** /teams/{team_id}/discussions | List discussions (Legacy)
+*TeamsApi* | [**teamsListForAuthenticatedUser**](Apis/TeamsApi.http#teamslistforauthenticateduser) | **GET** /user/teams | List teams for the authenticated user
+*TeamsApi* | [**teamsListMembersInOrg**](Apis/TeamsApi.http#teamslistmembersinorg) | **GET** /orgs/{org}/teams/{team_slug}/members | List team members
+*TeamsApi* | [**teamsListMembersLegacy**](Apis/TeamsApi.http#teamslistmemberslegacy) | **GET** /teams/{team_id}/members | List team members (Legacy)
+*TeamsApi* | [**teamsListPendingInvitationsInOrg**](Apis/TeamsApi.http#teamslistpendinginvitationsinorg) | **GET** /orgs/{org}/teams/{team_slug}/invitations | List pending team invitations
+*TeamsApi* | [**teamsListPendingInvitationsLegacy**](Apis/TeamsApi.http#teamslistpendinginvitationslegacy) | **GET** /teams/{team_id}/invitations | List pending team invitations (Legacy)
+*TeamsApi* | [**teamsListProjectsInOrg**](Apis/TeamsApi.http#teamslistprojectsinorg) | **GET** /orgs/{org}/teams/{team_slug}/projects | List team projects
+*TeamsApi* | [**teamsListProjectsLegacy**](Apis/TeamsApi.http#teamslistprojectslegacy) | **GET** /teams/{team_id}/projects | List team projects (Legacy)
+*TeamsApi* | [**teamsListReposInOrg**](Apis/TeamsApi.http#teamslistreposinorg) | **GET** /orgs/{org}/teams/{team_slug}/repos | List team repositories
+*TeamsApi* | [**teamsListReposLegacy**](Apis/TeamsApi.http#teamslistreposlegacy) | **GET** /teams/{team_id}/repos | List team repositories (Legacy)
+*TeamsApi* | [**teamsRemoveMemberLegacy**](Apis/TeamsApi.http#teamsremovememberlegacy) | **DELETE** /teams/{team_id}/members/{username} | Remove team member (Legacy)
+*TeamsApi* | [**teamsRemoveMembershipForUserInOrg**](Apis/TeamsApi.http#teamsremovemembershipforuserinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/memberships/{username} | Remove team membership for a user
+*TeamsApi* | [**teamsRemoveMembershipForUserLegacy**](Apis/TeamsApi.http#teamsremovemembershipforuserlegacy) | **DELETE** /teams/{team_id}/memberships/{username} | Remove team membership for a user (Legacy)
+*TeamsApi* | [**teamsRemoveProjectInOrg**](Apis/TeamsApi.http#teamsremoveprojectinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/projects/{project_id} | Remove a project from a team
+*TeamsApi* | [**teamsRemoveProjectLegacy**](Apis/TeamsApi.http#teamsremoveprojectlegacy) | **DELETE** /teams/{team_id}/projects/{project_id} | Remove a project from a team (Legacy)
+*TeamsApi* | [**teamsRemoveRepoInOrg**](Apis/TeamsApi.http#teamsremoverepoinorg) | **DELETE** /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} | Remove a repository from a team
+*TeamsApi* | [**teamsRemoveRepoLegacy**](Apis/TeamsApi.http#teamsremoverepolegacy) | **DELETE** /teams/{team_id}/repos/{owner}/{repo} | Remove a repository from a team (Legacy)
+*TeamsApi* | [**teamsUpdateDiscussionCommentInOrg**](Apis/TeamsApi.http#teamsupdatediscussioncommentinorg) | **PATCH** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number}/comments/{comment_number} | Update a discussion comment
+*TeamsApi* | [**teamsUpdateDiscussionCommentLegacy**](Apis/TeamsApi.http#teamsupdatediscussioncommentlegacy) | **PATCH** /teams/{team_id}/discussions/{discussion_number}/comments/{comment_number} | Update a discussion comment (Legacy)
+*TeamsApi* | [**teamsUpdateDiscussionInOrg**](Apis/TeamsApi.http#teamsupdatediscussioninorg) | **PATCH** /orgs/{org}/teams/{team_slug}/discussions/{discussion_number} | Update a discussion
+*TeamsApi* | [**teamsUpdateDiscussionLegacy**](Apis/TeamsApi.http#teamsupdatediscussionlegacy) | **PATCH** /teams/{team_id}/discussions/{discussion_number} | Update a discussion (Legacy)
+*TeamsApi* | [**teamsUpdateInOrg**](Apis/TeamsApi.http#teamsupdateinorg) | **PATCH** /orgs/{org}/teams/{team_slug} | Update a team
+*TeamsApi* | [**teamsUpdateLegacy**](Apis/TeamsApi.http#teamsupdatelegacy) | **PATCH** /teams/{team_id} | Update a team (Legacy)
+*UsersApi* | [**usersAddEmailForAuthenticatedUser**](Apis/UsersApi.http#usersaddemailforauthenticateduser) | **POST** /user/emails | Add an email address for the authenticated user
+*UsersApi* | [**usersAddSocialAccountForAuthenticatedUser**](Apis/UsersApi.http#usersaddsocialaccountforauthenticateduser) | **POST** /user/social_accounts | Add social accounts for the authenticated user
+*UsersApi* | [**usersBlock**](Apis/UsersApi.http#usersblock) | **PUT** /user/blocks/{username} | Block a user
+*UsersApi* | [**usersCheckBlocked**](Apis/UsersApi.http#userscheckblocked) | **GET** /user/blocks/{username} | Check if a user is blocked by the authenticated user
+*UsersApi* | [**usersCheckFollowingForUser**](Apis/UsersApi.http#userscheckfollowingforuser) | **GET** /users/{username}/following/{target_user} | Check if a user follows another user
+*UsersApi* | [**usersCheckPersonIsFollowedByAuthenticated**](Apis/UsersApi.http#userscheckpersonisfollowedbyauthenticated) | **GET** /user/following/{username} | Check if a person is followed by the authenticated user
+*UsersApi* | [**usersCreateGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#userscreategpgkeyforauthenticateduser) | **POST** /user/gpg_keys | Create a GPG key for the authenticated user
+*UsersApi* | [**usersCreatePublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#userscreatepublicsshkeyforauthenticateduser) | **POST** /user/keys | Create a public SSH key for the authenticated user
+*UsersApi* | [**usersCreateSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#userscreatesshsigningkeyforauthenticateduser) | **POST** /user/ssh_signing_keys | Create a SSH signing key for the authenticated user
+*UsersApi* | [**usersDeleteEmailForAuthenticatedUser**](Apis/UsersApi.http#usersdeleteemailforauthenticateduser) | **DELETE** /user/emails | Delete an email address for the authenticated user
+*UsersApi* | [**usersDeleteGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#usersdeletegpgkeyforauthenticateduser) | **DELETE** /user/gpg_keys/{gpg_key_id} | Delete a GPG key for the authenticated user
+*UsersApi* | [**usersDeletePublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#usersdeletepublicsshkeyforauthenticateduser) | **DELETE** /user/keys/{key_id} | Delete a public SSH key for the authenticated user
+*UsersApi* | [**usersDeleteSocialAccountForAuthenticatedUser**](Apis/UsersApi.http#usersdeletesocialaccountforauthenticateduser) | **DELETE** /user/social_accounts | Delete social accounts for the authenticated user
+*UsersApi* | [**usersDeleteSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#usersdeletesshsigningkeyforauthenticateduser) | **DELETE** /user/ssh_signing_keys/{ssh_signing_key_id} | Delete an SSH signing key for the authenticated user
+*UsersApi* | [**usersFollow**](Apis/UsersApi.http#usersfollow) | **PUT** /user/following/{username} | Follow a user
+*UsersApi* | [**usersGetAuthenticated**](Apis/UsersApi.http#usersgetauthenticated) | **GET** /user | Get the authenticated user
+*UsersApi* | [**usersGetByUsername**](Apis/UsersApi.http#usersgetbyusername) | **GET** /users/{username} | Get a user
+*UsersApi* | [**usersGetContextForUser**](Apis/UsersApi.http#usersgetcontextforuser) | **GET** /users/{username}/hovercard | Get contextual information for a user
+*UsersApi* | [**usersGetGpgKeyForAuthenticatedUser**](Apis/UsersApi.http#usersgetgpgkeyforauthenticateduser) | **GET** /user/gpg_keys/{gpg_key_id} | Get a GPG key for the authenticated user
+*UsersApi* | [**usersGetPublicSshKeyForAuthenticatedUser**](Apis/UsersApi.http#usersgetpublicsshkeyforauthenticateduser) | **GET** /user/keys/{key_id} | Get a public SSH key for the authenticated user
+*UsersApi* | [**usersGetSshSigningKeyForAuthenticatedUser**](Apis/UsersApi.http#usersgetsshsigningkeyforauthenticateduser) | **GET** /user/ssh_signing_keys/{ssh_signing_key_id} | Get an SSH signing key for the authenticated user
+*UsersApi* | [**usersList**](Apis/UsersApi.http#userslist) | **GET** /users | List users
+*UsersApi* | [**usersListBlockedByAuthenticatedUser**](Apis/UsersApi.http#userslistblockedbyauthenticateduser) | **GET** /user/blocks | List users blocked by the authenticated user
+*UsersApi* | [**usersListEmailsForAuthenticatedUser**](Apis/UsersApi.http#userslistemailsforauthenticateduser) | **GET** /user/emails | List email addresses for the authenticated user
+*UsersApi* | [**usersListFollowedByAuthenticatedUser**](Apis/UsersApi.http#userslistfollowedbyauthenticateduser) | **GET** /user/following | List the people the authenticated user follows
+*UsersApi* | [**usersListFollowersForAuthenticatedUser**](Apis/UsersApi.http#userslistfollowersforauthenticateduser) | **GET** /user/followers | List followers of the authenticated user
+*UsersApi* | [**usersListFollowersForUser**](Apis/UsersApi.http#userslistfollowersforuser) | **GET** /users/{username}/followers | List followers of a user
+*UsersApi* | [**usersListFollowingForUser**](Apis/UsersApi.http#userslistfollowingforuser) | **GET** /users/{username}/following | List the people a user follows
+*UsersApi* | [**usersListGpgKeysForAuthenticatedUser**](Apis/UsersApi.http#userslistgpgkeysforauthenticateduser) | **GET** /user/gpg_keys | List GPG keys for the authenticated user
+*UsersApi* | [**usersListGpgKeysForUser**](Apis/UsersApi.http#userslistgpgkeysforuser) | **GET** /users/{username}/gpg_keys | List GPG keys for a user
+*UsersApi* | [**usersListPublicEmailsForAuthenticatedUser**](Apis/UsersApi.http#userslistpublicemailsforauthenticateduser) | **GET** /user/public_emails | List public email addresses for the authenticated user
+*UsersApi* | [**usersListPublicKeysForUser**](Apis/UsersApi.http#userslistpublickeysforuser) | **GET** /users/{username}/keys | List public keys for a user
+*UsersApi* | [**usersListPublicSshKeysForAuthenticatedUser**](Apis/UsersApi.http#userslistpublicsshkeysforauthenticateduser) | **GET** /user/keys | List public SSH keys for the authenticated user
+*UsersApi* | [**usersListSocialAccountsForAuthenticatedUser**](Apis/UsersApi.http#userslistsocialaccountsforauthenticateduser) | **GET** /user/social_accounts | List social accounts for the authenticated user
+*UsersApi* | [**usersListSocialAccountsForUser**](Apis/UsersApi.http#userslistsocialaccountsforuser) | **GET** /users/{username}/social_accounts | List social accounts for a user
+*UsersApi* | [**usersListSshSigningKeysForAuthenticatedUser**](Apis/UsersApi.http#userslistsshsigningkeysforauthenticateduser) | **GET** /user/ssh_signing_keys | List SSH signing keys for the authenticated user
+*UsersApi* | [**usersListSshSigningKeysForUser**](Apis/UsersApi.http#userslistsshsigningkeysforuser) | **GET** /users/{username}/ssh_signing_keys | List SSH signing keys for a user
+*UsersApi* | [**usersSetPrimaryEmailVisibilityForAuthenticatedUser**](Apis/UsersApi.http#userssetprimaryemailvisibilityforauthenticateduser) | **PATCH** /user/email/visibility | Set primary email visibility for the authenticated user
+*UsersApi* | [**usersUnblock**](Apis/UsersApi.http#usersunblock) | **DELETE** /user/blocks/{username} | Unblock a user
+*UsersApi* | [**usersUnfollow**](Apis/UsersApi.http#usersunfollow) | **DELETE** /user/following/{username} | Unfollow a user
+*UsersApi* | [**usersUpdateAuthenticated**](Apis/UsersApi.http#usersupdateauthenticated) | **PATCH** /user | Update the authenticated user
 
 
 ## Usage

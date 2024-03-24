@@ -6181,7 +6181,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @return camelized string
      */
     protected String removeNonNameElementToCamelCase(final String name, final String nonNameElementPattern) {
-        String result = Arrays.stream(name.split(nonNameElementPattern))
+        String[] splitString = name.split(nonNameElementPattern);
+
+        if (splitString.length > 0) {
+            splitString[0] = camelize(splitString[0], CamelizeOption.LOWERCASE_FIRST_CHAR);
+        }
+
+        String result = Arrays.stream(splitString)
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining(""));
         if (result.length() > 0) {

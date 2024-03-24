@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+[**Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 
 
-<a id="Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
-# **Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
-> String Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath<br>
+<a id="Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
+# **Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
+> String Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PathString] <String><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PathInteger] <Int32><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-EnumNonrefStringPath] <String><br>
@@ -28,9 +28,9 @@ $EnumRefStringPath = "success" # StringEnumRef |
 
 # Test path parameter(s)
 try {
-    $Result = Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath -PathString $PathString -PathInteger $PathInteger -EnumNonrefStringPath $EnumNonrefStringPath -EnumRefStringPath $EnumRefStringPath
+    $Result = Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath -PathString $PathString -PathInteger $PathInteger -EnumNonrefStringPath $EnumNonrefStringPath -EnumRefStringPath $EnumRefStringPath
 } catch {
-    Write-Host ("Exception occurred when calling Test-sPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occurred when calling Test-sPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```

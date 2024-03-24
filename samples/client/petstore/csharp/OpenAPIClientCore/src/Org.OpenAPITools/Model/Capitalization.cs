@@ -39,16 +39,16 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalCamel">capitalCamel.</param>
         /// <param name="smallSnake">smallSnake.</param>
         /// <param name="capitalSnake">capitalSnake.</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
-        /// <param name="aTTNAME">Name of the pet .</param>
-        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
+        /// <param name="scaethFlowPoints">scaethFlowPoints.</param>
+        /// <param name="attNAME">Name of the pet .</param>
+        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string scaethFlowPoints = default(string), string attNAME = default(string))
         {
             this.SmallCamel = smallCamel;
             this.CapitalCamel = capitalCamel;
             this.SmallSnake = smallSnake;
             this.CapitalSnake = capitalSnake;
-            this.SCAETHFlowPoints = sCAETHFlowPoints;
-            this.ATT_NAME = aTTNAME;
+            this.SCAETHFlowPoints = scaethFlowPoints;
+            this.ATT_NAME = attNAME;
         }
 
         /// <summary>

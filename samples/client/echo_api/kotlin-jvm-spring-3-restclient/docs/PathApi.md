@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost:3000*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
+[**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s)
 
 
-<a id="testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
-# **testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
-> kotlin.String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+<a id="testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath"></a>
+# **testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
+> kotlin.String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
 
 Test path parameter(s)
 
@@ -27,13 +27,13 @@ val pathInteger : kotlin.Int = 56 // kotlin.Int |
 val enumNonrefStringPath : kotlin.String = enumNonrefStringPath_example // kotlin.String | 
 val enumRefStringPath : StringEnumRef =  // StringEnumRef | 
 try {
-    val result : kotlin.String = apiInstance.testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
+    val result : kotlin.String = apiInstance.testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath)
     println(result)
 } catch (e: ClientException) {
-    println("4xx response calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
+    println("4xx response calling PathApi#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
     e.printStackTrace()
 } catch (e: ServerException) {
-    println("5xx response calling PathApi#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
+    println("5xx response calling PathApi#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath")
     e.printStackTrace()
 }
 ```

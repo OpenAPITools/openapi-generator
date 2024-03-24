@@ -17,16 +17,16 @@ public final class Capitalization: Content, Hashable {
     public var capitalCamel: String?
     public var smallSnake: String?
     public var capitalSnake: String?
-    public var sCAETHFlowPoints: String?
+    public var scaETHFlowPoints: String?
     /** Name of the pet  */
     public var ATT_NAME: String?
 
-    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
+    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, scaETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
         self.capitalSnake = capitalSnake
-        self.sCAETHFlowPoints = sCAETHFlowPoints
+        self.scaETHFlowPoints = scaETHFlowPoints
         self.ATT_NAME = ATT_NAME
     }
 
@@ -35,7 +35,7 @@ public final class Capitalization: Content, Hashable {
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"
         case capitalSnake = "Capital_Snake"
-        case sCAETHFlowPoints = "SCA_ETH_Flow_Points"
+        case scaETHFlowPoints = "SCA_ETH_Flow_Points"
         case ATT_NAME
     }
 
@@ -47,7 +47,7 @@ public final class Capitalization: Content, Hashable {
         try container.encodeIfPresent(capitalCamel, forKey: .capitalCamel)
         try container.encodeIfPresent(smallSnake, forKey: .smallSnake)
         try container.encodeIfPresent(capitalSnake, forKey: .capitalSnake)
-        try container.encodeIfPresent(sCAETHFlowPoints, forKey: .sCAETHFlowPoints)
+        try container.encodeIfPresent(scaETHFlowPoints, forKey: .scaETHFlowPoints)
         try container.encodeIfPresent(ATT_NAME, forKey: .ATT_NAME)
     }
 
@@ -56,7 +56,7 @@ public final class Capitalization: Content, Hashable {
         lhs.capitalCamel == rhs.capitalCamel &&
         lhs.smallSnake == rhs.smallSnake &&
         lhs.capitalSnake == rhs.capitalSnake &&
-        lhs.sCAETHFlowPoints == rhs.sCAETHFlowPoints &&
+        lhs.scaETHFlowPoints == rhs.scaETHFlowPoints &&
         lhs.ATT_NAME == rhs.ATT_NAME
         
     }
@@ -66,7 +66,7 @@ public final class Capitalization: Content, Hashable {
         hasher.combine(capitalCamel?.hashValue)
         hasher.combine(smallSnake?.hashValue)
         hasher.combine(capitalSnake?.hashValue)
-        hasher.combine(sCAETHFlowPoints?.hashValue)
+        hasher.combine(scaETHFlowPoints?.hashValue)
         hasher.combine(ATT_NAME?.hashValue)
         
     }

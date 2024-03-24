@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:3000*
 
 | Method | HTTP request | Description |
 |--------|--------------|-------------|
-| [**TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
+| [**TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**](PathApi.md#testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 <a id="testspathstringpathstringintegerpathintegerenumnonrefstringpathenumrefstringpath"></a>
-# **TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
-> string TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath (string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath)
+# **TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath**
+> string TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath (string pathString, int pathInteger, string enumNonrefStringPath, StringEnumRef enumRefStringPath)
 
 Test path parameter(s)
 
@@ -24,7 +24,7 @@ using Org.OpenAPITools.Model;
 
 namespace Example
 {
-    public class TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExample
+    public class TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathExample
     {
         public static void Main()
         {
@@ -39,12 +39,12 @@ namespace Example
             try
             {
                 // Test path parameter(s)
-                string result = apiInstance.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+                string result = apiInstance.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
                 Debug.WriteLine(result);
             }
             catch (ApiException  e)
             {
-                Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: " + e.Message);
+                Debug.Print("Exception when calling PathApi.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: " + e.Message);
                 Debug.Print("Status Code: " + e.ErrorCode);
                 Debug.Print(e.StackTrace);
             }
@@ -53,21 +53,21 @@ namespace Example
 }
 ```
 
-#### Using the TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo variant
+#### Using the TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo variant
 This returns an ApiResponse object which contains the response data, status code and headers.
 
 ```csharp
 try
 {
     // Test path parameter(s)
-    ApiResponse<string> response = apiInstance.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
+    ApiResponse<string> response = apiInstance.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(pathString, pathInteger, enumNonrefStringPath, enumRefStringPath);
     Debug.Write("Status Code: " + response.StatusCode);
     Debug.Write("Response Headers: " + response.Headers);
     Debug.Write("Response Body: " + response.Data);
 }
 catch (ApiException e)
 {
-    Debug.Print("Exception when calling PathApi.TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo: " + e.Message);
+    Debug.Print("Exception when calling PathApi.TestsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo: " + e.Message);
     Debug.Print("Status Code: " + e.ErrorCode);
     Debug.Print(e.StackTrace);
 }

@@ -8,12 +8,12 @@ Method | HTTP request | Description
 [**Test-BodyApplicationOctetstreamBinary**](BodyApi.md#Test-BodyApplicationOctetstreamBinary) | **POST** /body/application/octetstream/binary | Test body parameter(s)
 [**Test-BodyMultipartFormdataArrayOfBinary**](BodyApi.md#Test-BodyMultipartFormdataArrayOfBinary) | **POST** /body/application/octetstream/array_of_binary | Test array of binary in multipart mime
 [**Test-BodyMultipartFormdataSingleBinary**](BodyApi.md#Test-BodyMultipartFormdataSingleBinary) | **POST** /body/application/octetstream/single_binary | Test single binary in multipart mime
+[**Test-EchoBodyAllOfPet**](BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 [**Test-EchoBodyFreeFormObjectResponseString**](BodyApi.md#Test-EchoBodyFreeFormObjectResponseString) | **POST** /echo/body/FreeFormObject/response_string | Test free form object
 [**Test-EchoBodyPet**](BodyApi.md#Test-EchoBodyPet) | **POST** /echo/body/Pet | Test body parameter(s)
 [**Test-EchoBodyPetResponseString**](BodyApi.md#Test-EchoBodyPetResponseString) | **POST** /echo/body/Pet/response_string | Test empty response body
-[**Test-EchoBodyTagResponseString**](BodyApi.md#Test-EchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
-[**Test-EchoBodyAllOfPet**](BodyApi.md#Test-EchoBodyAllOfPet) | **POST** /echo/body/allOf/Pet | Test body parameter(s)
 [**Test-EchoBodyStringEnum**](BodyApi.md#Test-EchoBodyStringEnum) | **POST** /echo/body/string_enum | Test string enum response body
+[**Test-EchoBodyTagResponseString**](BodyApi.md#Test-EchoBodyTagResponseString) | **POST** /echo/body/Tag/response_string | Test empty json (request body)
 
 
 <a id="Test-BinaryGif"></a>
@@ -183,6 +183,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a id="Test-EchoBodyAllOfPet"></a>
+# **Test-EchoBodyAllOfPet**
+> Pet Test-EchoBodyAllOfPet<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
+
+Test body parameter(s)
+
+Test body parameter(s)
+
+### Example
+```powershell
+$Category = Initialize-Category -Id 1 -Name "Dogs"
+$Tag = Initialize-Tag -Id 0 -Name "MyName"
+$Pet = Initialize-Pet -Id 10 -Name "doggie" -Category $Category -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store (optional)
+
+# Test body parameter(s)
+try {
+    $Result = Test-EchoBodyAllOfPet -Pet $Pet
+} catch {
+    Write-Host ("Exception occurred when calling Test-EchoBodyAllOfPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
+
+### Return type
+
+[**Pet**](Pet.md) (PSCustomObject)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a id="Test-EchoBodyFreeFormObjectResponseString"></a>
 # **Test-EchoBodyFreeFormObjectResponseString**
 > String Test-EchoBodyFreeFormObjectResponseString<br>
@@ -316,94 +361,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a id="Test-EchoBodyTagResponseString"></a>
-# **Test-EchoBodyTagResponseString**
-> String Test-EchoBodyTagResponseString<br>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Tag] <PSCustomObject><br>
-
-Test empty json (request body)
-
-Test empty json (request body)
-
-### Example
-```powershell
-$Tag = Initialize-Tag -Id 0 -Name "MyName" # Tag | Tag object (optional)
-
-# Test empty json (request body)
-try {
-    $Result = Test-EchoBodyTagResponseString -Tag $Tag
-} catch {
-    Write-Host ("Exception occurred when calling Test-EchoBodyTagResponseString: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **Tag** | [**Tag**](Tag.md)| Tag object | [optional] 
-
-### Return type
-
-**String**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: text/plain
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a id="Test-EchoBodyAllOfPet"></a>
-# **Test-EchoBodyAllOfPet**
-> Pet Test-EchoBodyAllOfPet<br>
-> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
-
-Test body parameter(s)
-
-Test body parameter(s)
-
-### Example
-```powershell
-$Category = Initialize-Category -Id 1 -Name "Dogs"
-$Tag = Initialize-Tag -Id 0 -Name "MyName"
-$Pet = Initialize-Pet -Id 10 -Name "doggie" -Category $Category -PhotoUrls "MyPhotoUrls" -Tags $Tag -Status "available" # Pet | Pet object that needs to be added to the store (optional)
-
-# Test body parameter(s)
-try {
-    $Result = Test-EchoBodyAllOfPet -Pet $Pet
-} catch {
-    Write-Host ("Exception occurred when calling Test-EchoBodyAllOfPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
-    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **Pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | [optional] 
-
-### Return type
-
-[**Pet**](Pet.md) (PSCustomObject)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 <a id="Test-EchoBodyStringEnum"></a>
 # **Test-EchoBodyStringEnum**
 > StringEnumRef Test-EchoBodyStringEnum<br>
@@ -444,6 +401,49 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a id="Test-EchoBodyTagResponseString"></a>
+# **Test-EchoBodyTagResponseString**
+> String Test-EchoBodyTagResponseString<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Tag] <PSCustomObject><br>
+
+Test empty json (request body)
+
+Test empty json (request body)
+
+### Example
+```powershell
+$Tag = Initialize-Tag -Id 0 -Name "MyName" # Tag | Tag object (optional)
+
+# Test empty json (request body)
+try {
+    $Result = Test-EchoBodyTagResponseString -Tag $Tag
+} catch {
+    Write-Host ("Exception occurred when calling Test-EchoBodyTagResponseString: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **Tag** | [**Tag**](Tag.md)| Tag object | [optional] 
+
+### Return type
+
+**String**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

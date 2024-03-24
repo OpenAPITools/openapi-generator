@@ -39,7 +39,7 @@ class PathApi:
 
 
     @validate_call
-    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(
+    def tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path(
         self,
         path_string: StrictStr,
         path_integer: StrictInt,
@@ -92,7 +92,7 @@ class PathApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
+        _param = self._tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,
             path_integer=path_integer,
             enum_nonref_string_path=enum_nonref_string_path,
@@ -118,7 +118,7 @@ class PathApi:
 
 
     @validate_call
-    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(
+    def tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_with_http_info(
         self,
         path_string: StrictStr,
         path_integer: StrictInt,
@@ -171,7 +171,7 @@ class PathApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
+        _param = self._tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,
             path_integer=path_integer,
             enum_nonref_string_path=enum_nonref_string_path,
@@ -197,7 +197,7 @@ class PathApi:
 
 
     @validate_call
-    def tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_without_preload_content(
+    def tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_without_preload_content(
         self,
         path_string: StrictStr,
         path_integer: StrictInt,
@@ -250,7 +250,7 @@ class PathApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
+        _param = self._tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
             path_string=path_string,
             path_integer=path_integer,
             enum_nonref_string_path=enum_nonref_string_path,
@@ -271,7 +271,7 @@ class PathApi:
         return response_data.response
 
 
-    def _tests_path_string_path_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
+    def _tests_path_stringpath_string_integer_path_integer_enum_nonref_string_path_enum_ref_string_path_serialize(
         self,
         path_string,
         path_integer,

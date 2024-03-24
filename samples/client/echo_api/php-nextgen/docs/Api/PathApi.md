@@ -4,13 +4,13 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
-| [**testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()**](PathApi.md#testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
+| [**testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()**](PathApi.md#testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath) | **GET** /path/string/{path_string}/integer/{path_integer}/{enum_nonref_string_path}/{enum_ref_string_path} | Test path parameter(s) |
 
 
-## `testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()`
+## `testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath()`
 
 ```php
-testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path): string
+testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path): string
 ```
 
 Test path parameter(s)
@@ -36,10 +36,10 @@ $enum_nonref_string_path = 'enum_nonref_string_path_example'; // string
 $enum_ref_string_path = new \OpenAPI\Client\Model\StringEnumRef(); // StringEnumRef
 
 try {
-    $result = $apiInstance->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path);
+    $result = $apiInstance->testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath($path_string, $path_integer, $enum_nonref_string_path, $enum_ref_string_path);
     print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling PathApi->testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling PathApi->testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath: ', $e->getMessage(), PHP_EOL;
 }
 ```
 

@@ -29,11 +29,11 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  String testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
+  String testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
 
   /**
    * Test path parameter(s)
-   * Similar to <code>testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath</code> but it also returns the http response headers .
+   * Similar to <code>testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath</code> but it also returns the http response headers .
    * Test path parameter(s)
    * @param pathString  (required)
    * @param pathInteger  (required)
@@ -45,7 +45,7 @@ public interface PathApi extends ApiClient.Api {
   @Headers({
     "Accept: text/plain",
   })
-  ApiResponse<String> testsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
+  ApiResponse<String> testsPathStringpathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPathWithHttpInfo(@Param("pathString") String pathString, @Param("pathInteger") Integer pathInteger, @Param("enumNonrefStringPath") String enumNonrefStringPath, @Param("enumRefStringPath") StringEnumRef enumRefStringPath);
 
 
 }

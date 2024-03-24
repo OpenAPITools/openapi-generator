@@ -39,9 +39,9 @@ namespace Org.OpenAPITools.Model
         /// <param name="capitalCamel">capitalCamel.</param>
         /// <param name="smallSnake">smallSnake.</param>
         /// <param name="capitalSnake">capitalSnake.</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints.</param>
-        /// <param name="aTTNAME">Name of the pet .</param>
-        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string sCAETHFlowPoints = default(string), string aTTNAME = default(string))
+        /// <param name="scaethFlowPoints">scaethFlowPoints.</param>
+        /// <param name="attNAME">Name of the pet .</param>
+        public Capitalization(string smallCamel = default(string), string capitalCamel = default(string), string smallSnake = default(string), string capitalSnake = default(string), string scaethFlowPoints = default(string), string attNAME = default(string))
         {
             this._SmallCamel = smallCamel;
             if (this.SmallCamel != null)
@@ -63,12 +63,12 @@ namespace Org.OpenAPITools.Model
             {
                 this._flagCapitalSnake = true;
             }
-            this._SCAETHFlowPoints = sCAETHFlowPoints;
+            this._SCAETHFlowPoints = scaethFlowPoints;
             if (this.SCAETHFlowPoints != null)
             {
                 this._flagSCAETHFlowPoints = true;
             }
-            this._ATT_NAME = aTTNAME;
+            this._ATT_NAME = attNAME;
             if (this.ATT_NAME != null)
             {
                 this._flagATT_NAME = true;

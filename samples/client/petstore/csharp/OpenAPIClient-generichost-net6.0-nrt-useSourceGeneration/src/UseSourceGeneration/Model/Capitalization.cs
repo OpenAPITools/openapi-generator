@@ -35,19 +35,19 @@ namespace UseSourceGeneration.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
         /// </summary>
-        /// <param name="aTTNAME">Name of the pet </param>
+        /// <param name="attNAME">Name of the pet </param>
         /// <param name="capitalCamel">capitalCamel</param>
         /// <param name="capitalSnake">capitalSnake</param>
-        /// <param name="sCAETHFlowPoints">sCAETHFlowPoints</param>
+        /// <param name="scaethFlowPoints">scaethFlowPoints</param>
         /// <param name="smallCamel">smallCamel</param>
         /// <param name="smallSnake">smallSnake</param>
         [JsonConstructor]
-        public Capitalization(Option<string?> aTTNAME = default, Option<string?> capitalCamel = default, Option<string?> capitalSnake = default, Option<string?> sCAETHFlowPoints = default, Option<string?> smallCamel = default, Option<string?> smallSnake = default)
+        public Capitalization(Option<string?> attNAME = default, Option<string?> capitalCamel = default, Option<string?> capitalSnake = default, Option<string?> scaethFlowPoints = default, Option<string?> smallCamel = default, Option<string?> smallSnake = default)
         {
-            ATT_NAMEOption = aTTNAME;
+            ATT_NAMEOption = attNAME;
             CapitalCamelOption = capitalCamel;
             CapitalSnakeOption = capitalSnake;
-            SCAETHFlowPointsOption = sCAETHFlowPoints;
+            SCAETHFlowPointsOption = scaethFlowPoints;
             SmallCamelOption = smallCamel;
             SmallSnakeOption = smallSnake;
             OnCreated();
@@ -192,10 +192,10 @@ namespace UseSourceGeneration.Model
 
             JsonTokenType startingTokenType = utf8JsonReader.TokenType;
 
-            Option<string?> aTTNAME = default;
+            Option<string?> attNAME = default;
             Option<string?> capitalCamel = default;
             Option<string?> capitalSnake = default;
-            Option<string?> sCAETHFlowPoints = default;
+            Option<string?> scaethFlowPoints = default;
             Option<string?> smallCamel = default;
             Option<string?> smallSnake = default;
 
@@ -215,7 +215,7 @@ namespace UseSourceGeneration.Model
                     switch (localVarJsonPropertyName)
                     {
                         case "ATT_NAME":
-                            aTTNAME = new Option<string?>(utf8JsonReader.GetString()!);
+                            attNAME = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "CapitalCamel":
                             capitalCamel = new Option<string?>(utf8JsonReader.GetString()!);
@@ -224,7 +224,7 @@ namespace UseSourceGeneration.Model
                             capitalSnake = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "SCA_ETH_Flow_Points":
-                            sCAETHFlowPoints = new Option<string?>(utf8JsonReader.GetString()!);
+                            scaethFlowPoints = new Option<string?>(utf8JsonReader.GetString()!);
                             break;
                         case "smallCamel":
                             smallCamel = new Option<string?>(utf8JsonReader.GetString()!);
@@ -238,8 +238,8 @@ namespace UseSourceGeneration.Model
                 }
             }
 
-            if (aTTNAME.IsSet && aTTNAME.Value == null)
-                throw new ArgumentNullException(nameof(aTTNAME), "Property is not nullable for class Capitalization.");
+            if (attNAME.IsSet && attNAME.Value == null)
+                throw new ArgumentNullException(nameof(attNAME), "Property is not nullable for class Capitalization.");
 
             if (capitalCamel.IsSet && capitalCamel.Value == null)
                 throw new ArgumentNullException(nameof(capitalCamel), "Property is not nullable for class Capitalization.");
@@ -247,8 +247,8 @@ namespace UseSourceGeneration.Model
             if (capitalSnake.IsSet && capitalSnake.Value == null)
                 throw new ArgumentNullException(nameof(capitalSnake), "Property is not nullable for class Capitalization.");
 
-            if (sCAETHFlowPoints.IsSet && sCAETHFlowPoints.Value == null)
-                throw new ArgumentNullException(nameof(sCAETHFlowPoints), "Property is not nullable for class Capitalization.");
+            if (scaethFlowPoints.IsSet && scaethFlowPoints.Value == null)
+                throw new ArgumentNullException(nameof(scaethFlowPoints), "Property is not nullable for class Capitalization.");
 
             if (smallCamel.IsSet && smallCamel.Value == null)
                 throw new ArgumentNullException(nameof(smallCamel), "Property is not nullable for class Capitalization.");
@@ -256,7 +256,7 @@ namespace UseSourceGeneration.Model
             if (smallSnake.IsSet && smallSnake.Value == null)
                 throw new ArgumentNullException(nameof(smallSnake), "Property is not nullable for class Capitalization.");
 
-            return new Capitalization(aTTNAME, capitalCamel, capitalSnake, sCAETHFlowPoints, smallCamel, smallSnake);
+            return new Capitalization(attNAME, capitalCamel, capitalSnake, scaethFlowPoints, smallCamel, smallSnake);
         }
 
         /// <summary>
