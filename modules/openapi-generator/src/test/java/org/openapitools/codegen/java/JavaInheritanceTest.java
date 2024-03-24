@@ -37,7 +37,6 @@ import org.testng.annotations.Test;
 
 public class JavaInheritanceTest {
 
-
     @Test(description = "convert a composed model with parent")
     public void javaInheritanceTest() {
         final Schema parentModel = new Schema().name("Base");
@@ -180,5 +179,33 @@ public class JavaInheritanceTest {
         Assert.assertEquals(propertyCD.name, "d");
         Assert.assertFalse(propertyCD.required);
         Assert.assertEquals(cm.requiredVars.size() + cm.optionalVars.size(), cm.allVars.size());
+    }
+
+    @Test(description = "convert a composed model with parent with custom schema param")
+    public void javaInheritanceWithCustomSchemaTest() {
+        Schema custom = new Schema()
+                .name("Custom")
+                .addProperty("value", new StringSchema());
+        Schema parentModel = new Schema()
+                .name("Base")
+                .addProperty("customProperty", new Schema().type("custom"));
+        Schema schema = new ComposedSchema()
+                .name("Composed")
+                .addAllOfItem(new Schema().$ref("Base"));
+
+        OpenAPI openAPI = TestUtils.createOpenAPI();
+        openAPI.setComponents(new Components()
+                .addSchemas(custom.getName(), custom)
+                .addSchemas(parentModel.getName(), parentModel)
+                .addSchemas(schema.getName(), schema)
+        );
+
+        JavaClientCodegen codegen = new JavaClientCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.schemaMapping()
+                .put("custom", custom.getName());
+        CodegenModel model = codegen.fromModel("sample", schema);
+
+        Assert.assertTrue(model.imports.contains(custom.getName()));
     }
 }
