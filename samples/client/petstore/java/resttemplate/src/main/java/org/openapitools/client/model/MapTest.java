@@ -85,6 +85,15 @@ public class MapTest {
 
   public MapTest() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public MapTest(Map<String, Map<String, String>> mapMapOfString, Map<String, InnerEnum> mapOfEnumString, Map<String, Boolean> directMap, Map<String, Boolean> indirectMap) {
+    this.mapMapOfString = mapMapOfString;
+    this.mapOfEnumString = mapOfEnumString;
+    this.directMap = directMap;
+    this.indirectMap = indirectMap;
+  }
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     
@@ -119,7 +128,6 @@ public class MapTest {
     this.mapMapOfString = mapMapOfString;
   }
 
-
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     
     this.mapOfEnumString = mapOfEnumString;
@@ -153,7 +161,6 @@ public class MapTest {
     this.mapOfEnumString = mapOfEnumString;
   }
 
-
   public MapTest directMap(Map<String, Boolean> directMap) {
     
     this.directMap = directMap;
@@ -186,7 +193,6 @@ public class MapTest {
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
   }
-
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     

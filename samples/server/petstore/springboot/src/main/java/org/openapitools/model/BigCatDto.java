@@ -76,7 +76,7 @@ public class BigCatDto extends CatDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public BigCatDto(String className) {
     super(className);

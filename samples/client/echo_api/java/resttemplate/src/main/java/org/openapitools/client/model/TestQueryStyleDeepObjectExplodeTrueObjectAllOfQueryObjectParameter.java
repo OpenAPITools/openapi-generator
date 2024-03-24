@@ -49,6 +49,15 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(String size, String color, Long id, String name) {
+    this.size = size;
+    this.color = color;
+    this.id = id;
+    this.name = name;
+  }
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(String size) {
     
@@ -75,7 +84,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     this.size = size;
   }
 
-
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter color(String color) {
     
     this.color = color;
@@ -101,7 +109,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
     this.color = color;
   }
 
-
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter id(Long id) {
     
     this.id = id;
@@ -126,7 +133,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter name(String name) {
     

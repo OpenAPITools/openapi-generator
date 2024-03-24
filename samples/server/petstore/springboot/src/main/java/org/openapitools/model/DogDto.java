@@ -36,7 +36,7 @@ public class DogDto extends AnimalDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public DogDto(String className) {
     super(className);

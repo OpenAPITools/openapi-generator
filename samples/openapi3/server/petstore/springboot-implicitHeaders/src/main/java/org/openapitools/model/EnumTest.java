@@ -184,7 +184,7 @@ public class EnumTest {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public EnumTest(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;

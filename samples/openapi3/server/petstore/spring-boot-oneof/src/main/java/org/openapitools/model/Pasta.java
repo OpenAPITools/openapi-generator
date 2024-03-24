@@ -33,7 +33,7 @@ public class Pasta extends Entity {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Pasta(String atType) {
     super(atType);

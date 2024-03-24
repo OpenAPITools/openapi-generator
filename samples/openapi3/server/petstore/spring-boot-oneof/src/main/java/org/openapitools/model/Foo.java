@@ -35,7 +35,7 @@ public class Foo extends Entity implements FooRefOrValue {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Foo(String atType) {
     super(atType);

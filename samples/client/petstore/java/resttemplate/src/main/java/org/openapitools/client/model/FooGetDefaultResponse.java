@@ -38,6 +38,12 @@ public class FooGetDefaultResponse {
 
   public FooGetDefaultResponse() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public FooGetDefaultResponse(Foo string) {
+    this.string = string;
+  }
 
   public FooGetDefaultResponse string(Foo string) {
     

@@ -81,7 +81,6 @@ public class ObjectWithDeprecatedFields {
     this.uuid = uuid;
   }
 
-
   public ObjectWithDeprecatedFields id(BigDecimal id) {
     
     this.id = id;
@@ -110,7 +109,6 @@ public class ObjectWithDeprecatedFields {
     this.id = id;
   }
 
-
   public ObjectWithDeprecatedFields deprecatedRef(DeprecatedObject deprecatedRef) {
     
     this.deprecatedRef = deprecatedRef;
@@ -138,7 +136,6 @@ public class ObjectWithDeprecatedFields {
   public void setDeprecatedRef(DeprecatedObject deprecatedRef) {
     this.deprecatedRef = deprecatedRef;
   }
-
 
   public ObjectWithDeprecatedFields bars(List<String> bars) {
     

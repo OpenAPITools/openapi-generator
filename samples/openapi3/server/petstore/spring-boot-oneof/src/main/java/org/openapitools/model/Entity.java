@@ -53,7 +53,7 @@ public class Entity {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Entity(String atType) {
     this.atType = atType;

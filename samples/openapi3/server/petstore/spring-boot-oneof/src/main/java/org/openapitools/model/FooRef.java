@@ -33,7 +33,7 @@ public class FooRef extends EntityRef implements FooRefOrValue {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public FooRef(String atType) {
     super(atType);

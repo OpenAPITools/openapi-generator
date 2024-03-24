@@ -44,7 +44,7 @@ public class Pet {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Pet(String atType) {
     this.atType = atType;

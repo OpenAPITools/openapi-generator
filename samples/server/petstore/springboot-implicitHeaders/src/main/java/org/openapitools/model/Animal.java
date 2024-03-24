@@ -45,7 +45,7 @@ public class Animal {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Animal(String className) {
     this.className = className;

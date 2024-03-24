@@ -42,6 +42,13 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesClass(Map<String, String> mapProperty, Map<String, Map<String, String>> mapOfMapProperty) {
+    this.mapProperty = mapProperty;
+    this.mapOfMapProperty = mapOfMapProperty;
+  }
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
     
@@ -75,7 +82,6 @@ public class AdditionalPropertiesClass {
   public void setMapProperty(Map<String, String> mapProperty) {
     this.mapProperty = mapProperty;
   }
-
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
     

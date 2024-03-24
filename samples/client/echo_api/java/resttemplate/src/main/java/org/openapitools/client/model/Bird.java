@@ -40,6 +40,13 @@ public class Bird {
 
   public Bird() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public Bird(String size, String color) {
+    this.size = size;
+    this.color = color;
+  }
 
   public Bird size(String size) {
     
@@ -65,7 +72,6 @@ public class Bird {
   public void setSize(String size) {
     this.size = size;
   }
-
 
   public Bird color(String color) {
     

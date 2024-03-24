@@ -40,6 +40,12 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter(List<String> values) {
+    this.values = values;
+  }
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter values(List<String> values) {
     

@@ -38,7 +38,7 @@ public class NameDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public NameDto(Integer name) {
     this.name = name;

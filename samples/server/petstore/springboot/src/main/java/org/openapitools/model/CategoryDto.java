@@ -33,7 +33,7 @@ public class CategoryDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public CategoryDto(String name) {
     this.name = name;

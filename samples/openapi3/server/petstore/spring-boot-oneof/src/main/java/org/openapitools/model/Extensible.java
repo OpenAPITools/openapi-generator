@@ -32,7 +32,7 @@ public class Extensible {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Extensible(String atType) {
     this.atType = atType;

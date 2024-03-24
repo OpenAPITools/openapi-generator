@@ -71,7 +71,7 @@ public class BigCat extends Cat {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public BigCat(String className) {
     super(className);

@@ -92,7 +92,6 @@ public class User {
     this.id = id;
   }
 
-
   public User username(String username) {
     
     this.username = username;
@@ -118,7 +117,6 @@ public class User {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public User firstName(String firstName) {
     
@@ -146,7 +144,6 @@ public class User {
     this.firstName = firstName;
   }
 
-
   public User lastName(String lastName) {
     
     this.lastName = lastName;
@@ -172,7 +169,6 @@ public class User {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
 
   public User email(String email) {
     
@@ -200,7 +196,6 @@ public class User {
     this.email = email;
   }
 
-
   public User password(String password) {
     
     this.password = password;
@@ -227,7 +222,6 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
@@ -253,7 +247,6 @@ public class User {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
 
   public User userStatus(Integer userStatus) {
     

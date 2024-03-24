@@ -74,7 +74,6 @@ public class ModelApiResponse {
     this.code = code;
   }
 
-
   public ModelApiResponse type(String type) {
     
     this.type = type;
@@ -100,7 +99,6 @@ public class ModelApiResponse {
   public void setType(String type) {
     this.type = type;
   }
-
 
   public ModelApiResponse message(String message) {
     

@@ -36,7 +36,7 @@ public class Name {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Name(Integer name) {
     this.name = name;

@@ -43,7 +43,7 @@ public class CatDto extends AnimalDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public CatDto(String className) {
     super(className);

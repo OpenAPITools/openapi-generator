@@ -42,7 +42,7 @@ public class Pizza extends Entity {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Pizza(String atType) {
     super(atType);

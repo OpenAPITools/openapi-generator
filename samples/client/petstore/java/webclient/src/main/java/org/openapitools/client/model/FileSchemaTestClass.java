@@ -70,7 +70,6 @@ public class FileSchemaTestClass {
     this._file = _file;
   }
 
-
   public FileSchemaTestClass files(List<ModelFile> files) {
     
     this.files = files;

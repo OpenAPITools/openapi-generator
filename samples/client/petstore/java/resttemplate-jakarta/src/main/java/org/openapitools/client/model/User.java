@@ -64,6 +64,19 @@ public class User {
 
   public User() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Integer userStatus) {
+    this.id = id;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+    this.userStatus = userStatus;
+  }
 
   public User id(Long id) {
     
@@ -90,7 +103,6 @@ public class User {
     this.id = id;
   }
 
-
   public User username(String username) {
     
     this.username = username;
@@ -115,7 +127,6 @@ public class User {
   public void setUsername(String username) {
     this.username = username;
   }
-
 
   public User firstName(String firstName) {
     
@@ -142,7 +153,6 @@ public class User {
     this.firstName = firstName;
   }
 
-
   public User lastName(String lastName) {
     
     this.lastName = lastName;
@@ -167,7 +177,6 @@ public class User {
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
-
 
   public User email(String email) {
     
@@ -194,7 +203,6 @@ public class User {
     this.email = email;
   }
 
-
   public User password(String password) {
     
     this.password = password;
@@ -220,7 +228,6 @@ public class User {
     this.password = password;
   }
 
-
   public User phone(String phone) {
     
     this.phone = phone;
@@ -245,7 +252,6 @@ public class User {
   public void setPhone(String phone) {
     this.phone = phone;
   }
-
 
   public User userStatus(Integer userStatus) {
     

@@ -142,7 +142,6 @@ public class EnumArrays {
     this.justSymbol = justSymbol;
   }
 
-
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     
     this.arrayEnum = arrayEnum;

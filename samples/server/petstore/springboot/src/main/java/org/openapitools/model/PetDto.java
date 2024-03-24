@@ -90,7 +90,7 @@ public class PetDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public PetDto(String name, Set<String> photoUrls) {
     this.name = name;

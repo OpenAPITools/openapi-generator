@@ -44,7 +44,7 @@ public class ContainerDefaultValue {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public ContainerDefaultValue(List<String> nullableRequiredArray, List<String> requiredArray) {
     this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);

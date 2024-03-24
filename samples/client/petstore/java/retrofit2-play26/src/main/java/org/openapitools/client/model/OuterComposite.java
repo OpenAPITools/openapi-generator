@@ -75,7 +75,6 @@ public class OuterComposite {
     this.myNumber = myNumber;
   }
 
-
   public OuterComposite myString(String myString) {
     
     this.myString = myString;
@@ -101,7 +100,6 @@ public class OuterComposite {
   public void setMyString(String myString) {
     this.myString = myString;
   }
-
 
   public OuterComposite myBoolean(Boolean myBoolean) {
     

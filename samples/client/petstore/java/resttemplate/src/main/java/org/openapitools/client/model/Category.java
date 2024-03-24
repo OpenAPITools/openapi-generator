@@ -40,6 +40,13 @@ public class Category {
 
   public Category() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public Category(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
   public Category id(Long id) {
     
@@ -65,7 +72,6 @@ public class Category {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Category name(String name) {
     

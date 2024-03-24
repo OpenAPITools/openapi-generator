@@ -41,7 +41,7 @@ public class Cat extends Animal {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Cat(String className) {
     super(className);

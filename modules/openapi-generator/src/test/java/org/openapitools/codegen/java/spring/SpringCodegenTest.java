@@ -2702,6 +2702,7 @@ public class SpringCodegenTest {
     }
     private Map<String, File> generateFromContract(String url, String library, Map<String, Object> additionalProperties) throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
 
         OpenAPI openAPI = new OpenAPIParser()
                 .readLocation(url, null, new ParseOptions()).getOpenAPI();

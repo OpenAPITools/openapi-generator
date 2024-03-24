@@ -31,7 +31,7 @@ public class BarRef extends EntityRef implements BarRefOrValue {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public BarRef(String atType) {
     super(atType);

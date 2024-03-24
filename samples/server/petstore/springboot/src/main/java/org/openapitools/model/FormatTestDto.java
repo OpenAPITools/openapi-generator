@@ -65,7 +65,7 @@ public class FormatTestDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public FormatTestDto(BigDecimal number, byte[] _byte, LocalDate date, String password) {
     this.number = number;

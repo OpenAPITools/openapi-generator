@@ -40,6 +40,13 @@ public class Tag {
 
   public Tag() {
   }
+  /**
+  * Constructor with all args parameters
+  */
+  public Tag(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
   public Tag id(Long id) {
     
@@ -65,7 +72,6 @@ public class Tag {
   public void setId(Long id) {
     this.id = id;
   }
-
 
   public Tag name(String name) {
     

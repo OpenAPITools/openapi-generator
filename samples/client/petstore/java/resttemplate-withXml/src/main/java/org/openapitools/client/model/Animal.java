@@ -58,7 +58,7 @@ public class Animal {
 
   public static final String JSON_PROPERTY_COLOR = "color";
   @XmlElement(name = "color")
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }
@@ -89,7 +89,6 @@ public class Animal {
   public void setClassName(String className) {
     this.className = className;
   }
-
 
   public Animal color(String color) {
     

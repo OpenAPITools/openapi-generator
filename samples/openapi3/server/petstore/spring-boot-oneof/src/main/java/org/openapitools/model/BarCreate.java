@@ -40,7 +40,7 @@ public class BarCreate extends Entity {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public BarCreate(String atType) {
     super(atType);

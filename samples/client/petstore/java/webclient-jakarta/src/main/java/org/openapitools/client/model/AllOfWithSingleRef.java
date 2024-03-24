@@ -67,7 +67,6 @@ public class AllOfWithSingleRef {
     this.username = username;
   }
 
-
   public AllOfWithSingleRef singleRefType(SingleRefType singleRefType) {
     
     this.singleRefType = singleRefType;

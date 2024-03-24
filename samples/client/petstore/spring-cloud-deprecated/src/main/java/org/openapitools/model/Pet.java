@@ -85,7 +85,7 @@ public class Pet {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Pet(String name, List<String> photoUrls) {
     this.name = JsonNullable.of(name);

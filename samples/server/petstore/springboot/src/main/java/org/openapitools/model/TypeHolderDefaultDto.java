@@ -44,7 +44,7 @@ public class TypeHolderDefaultDto {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public TypeHolderDefaultDto(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
     this.stringItem = stringItem;

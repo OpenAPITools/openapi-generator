@@ -91,7 +91,6 @@ public class ByteArrayObject {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
   }
 
-
   public ByteArrayObject normalArray(byte[] normalArray) {
     
     this.normalArray = normalArray;
@@ -116,7 +115,6 @@ public class ByteArrayObject {
   public void setNormalArray(byte[] normalArray) {
     this.normalArray = normalArray;
   }
-
 
   public ByteArrayObject nullableString(String nullableString) {
     this.nullableString = JsonNullable.<String>of(nullableString);
@@ -151,7 +149,6 @@ public class ByteArrayObject {
     this.nullableString = JsonNullable.<String>of(nullableString);
   }
 
-
   public ByteArrayObject stringField(String stringField) {
     
     this.stringField = stringField;
@@ -176,7 +173,6 @@ public class ByteArrayObject {
   public void setStringField(String stringField) {
     this.stringField = stringField;
   }
-
 
   public ByteArrayObject intField(BigDecimal intField) {
     

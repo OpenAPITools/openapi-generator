@@ -63,7 +63,6 @@ public class Model200Response {
     this.name = name;
   }
 
-
   public Model200Response propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;

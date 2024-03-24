@@ -28,7 +28,7 @@ public class Category {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Category(String name) {
     this.name = name;

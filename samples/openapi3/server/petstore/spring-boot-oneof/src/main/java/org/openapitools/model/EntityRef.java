@@ -54,7 +54,7 @@ public class EntityRef {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public EntityRef(String atType) {
     this.atType = atType;

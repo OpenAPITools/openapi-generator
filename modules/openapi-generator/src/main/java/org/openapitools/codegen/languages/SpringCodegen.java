@@ -1178,7 +1178,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         objs = super.postProcessAllModels(objs);
         objs = super.updateAllModels(objs);
 
-
         return objs;
     }
 

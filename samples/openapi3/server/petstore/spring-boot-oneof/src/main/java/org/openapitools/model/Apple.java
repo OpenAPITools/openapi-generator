@@ -34,7 +34,7 @@ public class Apple implements Fruit {
   }
 
   /**
-   * Constructor with only required parameters
+   * Constructor with only required parameters and all parameters
    */
   public Apple(Integer seeds) {
     this.seeds = seeds;
