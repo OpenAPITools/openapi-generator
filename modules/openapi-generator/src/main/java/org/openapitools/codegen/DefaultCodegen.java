@@ -7197,7 +7197,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.nameInPascalCase = camelize(codegenParameter.paramName);
         codegenParameter.nameInSnakeCase = CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE, codegenParameter.nameInPascalCase);
         codegenParameter.nameInLowerCase = codegenParameter.paramName.toLowerCase(Locale.ROOT);
-
+        codegenParameter.isContainer = codegenProperty.isContainer;
+        codegenParameter.containerType = codegenProperty.containerType;
+        codegenParameter.containerTypeMapped = codegenProperty.containerTypeMapped;
         codegenParameter.dataFormat = codegenProperty.dataFormat;
         // non-array/map
         updateCodegenPropertyEnum(codegenProperty);
@@ -7264,7 +7266,15 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         } else if (ModelUtils.isTypeObjectSchema(ps)) {
-            if (ModelUtils.isFreeFormObject(ps)) {
+            if (ModelUtils.isMapSchema(ps)) {
+                codegenParameter.isMap = true;
+                codegenParameter.additionalProperties = codegenProperty.additionalProperties;
+                codegenParameter.setAdditionalPropertiesIsAnyType(codegenProperty.getAdditionalPropertiesIsAnyType());
+                codegenParameter.items = codegenProperty.items;
+                codegenParameter.isPrimitiveType = false;
+                codegenParameter.items = codegenProperty.items;
+                codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+            } else if (ModelUtils.isFreeFormObject(ps)) {
                 codegenParameter.isFreeFormObject = true;
             }
         } else if (ModelUtils.isNullType(ps)) {
@@ -7273,10 +7283,10 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isArraySchema(ps)) {
             Schema inner = getSchemaItems((ArraySchema) ps);
             CodegenProperty arrayInnerProperty = fromProperty("inner", inner, false);
+            codegenParameter.isArray = true;
             codegenParameter.items = arrayInnerProperty;
             codegenParameter.mostInnerItems = arrayInnerProperty.mostInnerItems;
             codegenParameter.isPrimitiveType = false;
-            codegenParameter.isContainer = true;
             // hoist items data into the array property
             // TODO this hoisting code is generator specific and should be isolated into updateFormPropertyForArray
             codegenParameter.baseType = arrayInnerProperty.dataType;
