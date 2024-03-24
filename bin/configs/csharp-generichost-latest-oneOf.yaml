@@ -10,3 +10,4 @@ additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   nullableReferenceTypes: true
   equatable: true
+  targetFramework: net8.0
