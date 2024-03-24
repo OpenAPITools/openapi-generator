@@ -33,6 +33,7 @@ import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
 import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
+import org.openapitools.client.model.ModelApiResponse;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterEnum;
@@ -551,6 +552,146 @@ public class FakeApi {
 
         okhttp3.Call localVarCall = fakeOuterStringSerializeValidateBeforeCall(body, _callback);
         Type localVarReturnType = new TypeToken<String>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for fakeUploadRefRequestBodies
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param _file file to upload (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeUploadRefRequestBodiesCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+        String basePath = null;
+        // Operation Servers
+        String[] localBasePaths = new String[] {  };
+
+        // Determine Base Path to Use
+        if (localCustomBaseUrl != null){
+            basePath = localCustomBaseUrl;
+        } else if ( localBasePaths.length > 0 ) {
+            basePath = localBasePaths[localHostIndex];
+        } else {
+            basePath = null;
+        }
+
+        Object localVarPostBody = null;
+
+        // create path and map variables
+        String localVarPath = "/fake/pet/{petId}/uploadImage"
+            .replace("{" + "petId" + "}", localVarApiClient.escapeString(petId.toString()));
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, String> localVarCookieParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+        if (additionalMetadata != null) {
+            localVarFormParams.put("additionalMetadata", additionalMetadata);
+        }
+
+        if (_file != null) {
+            localVarFormParams.put("file", _file);
+        }
+
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            "multipart/form-data"
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        if (localVarContentType != null) {
+            localVarHeaderParams.put("Content-Type", localVarContentType);
+        }
+
+        String[] localVarAuthNames = new String[] { "petstore_auth" };
+        return localVarApiClient.buildCall(basePath, localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call fakeUploadRefRequestBodiesValidateBeforeCall(Long petId, String additionalMetadata, File _file, final ApiCallback _callback) throws ApiException {
+        // verify the required parameter 'petId' is set
+        if (petId == null) {
+            throw new ApiException("Missing the required parameter 'petId' when calling fakeUploadRefRequestBodies(Async)");
+        }
+
+        return fakeUploadRefRequestBodiesCall(petId, additionalMetadata, _file, _callback);
+
+    }
+
+    /**
+     * fake uploads an image with ref request bodies
+     * 
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param _file file to upload (optional)
+     * @return ModelApiResponse
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ModelApiResponse fakeUploadRefRequestBodies(Long petId, String additionalMetadata, File _file) throws ApiException {
+        ApiResponse<ModelApiResponse> localVarResp = fakeUploadRefRequestBodiesWithHttpInfo(petId, additionalMetadata, _file);
+        return localVarResp.getData();
+    }
+
+    /**
+     * fake uploads an image with ref request bodies
+     * 
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param _file file to upload (optional)
+     * @return ApiResponse&lt;ModelApiResponse&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public ApiResponse<ModelApiResponse> fakeUploadRefRequestBodiesWithHttpInfo(Long petId, String additionalMetadata, File _file) throws ApiException {
+        okhttp3.Call localVarCall = fakeUploadRefRequestBodiesValidateBeforeCall(petId, additionalMetadata, _file, null);
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * fake uploads an image with ref request bodies (asynchronously)
+     * 
+     * @param petId ID of pet to update (required)
+     * @param additionalMetadata Additional data to pass to server (optional)
+     * @param _file file to upload (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     * @http.response.details
+     <table summary="Response Details" border="1">
+        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+        <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
+     </table>
+     */
+    public okhttp3.Call fakeUploadRefRequestBodiesAsync(Long petId, String additionalMetadata, File _file, final ApiCallback<ModelApiResponse> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = fakeUploadRefRequestBodiesValidateBeforeCall(petId, additionalMetadata, _file, _callback);
+        Type localVarReturnType = new TypeToken<ModelApiResponse>(){}.getType();
         localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
         return localVarCall;
     }
