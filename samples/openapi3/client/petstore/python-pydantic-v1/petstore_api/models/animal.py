@@ -31,7 +31,7 @@ class Animal(BaseModel):
     """
     Animal
     """
-    class_name: StrictStr = Field(..., alias="className")
+    class_name: StrictStr = Field(default=..., alias="className")
     color: Optional[StrictStr] = 'red'
     additional_properties: Dict[str, Any] = {}
     __properties = ["className", "color"]

@@ -956,7 +956,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
 
                 if (!fields.isEmpty()) {
-                    fields.add(0, fieldCustomization);
+                    fields.add(0, "default=" + fieldCustomization);
                     pydanticImports.add("Field");
                     fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
