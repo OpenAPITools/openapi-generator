@@ -4732,7 +4732,7 @@ public class DefaultCodegen implements CodegenConfig {
         List<CodegenParameter> notNullableParams = new ArrayList<>();
 
         CodegenParameter bodyParam = null;
-        RequestBody requestBody = operation.getRequestBody();
+        RequestBody requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, operation.getRequestBody());
         if (requestBody != null) {
             String contentType = getContentType(requestBody);
             if (contentType != null) {
@@ -4756,8 +4756,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 // process body parameter
-                requestBody = ModelUtils.getReferencedRequestBody(this.openAPI, requestBody);
-
                 String bodyParameterName = "";
                 if (op.vendorExtensions != null && op.vendorExtensions.containsKey("x-codegen-request-body-name")) {
                     bodyParameterName = (String) op.vendorExtensions.get("x-codegen-request-body-name");
