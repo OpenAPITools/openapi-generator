@@ -1,0 +1,46 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: x-discriminator-value bug
+paths:
+  /getItems:
+    get:
+      description: test
+      operationId: getAllPets
+      responses:
+        200:
+          description: 'list of PetItems'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PetItem'
+definitions:
+  PetType:
+    type: string
+    enum:
+      - DOG
+      - CAT
+  PetItem:
+    discriminator: type
+    properties:
+      identifier:
+        type: string
+      type:
+        $ref: '#/definitions/PetType'
+
+  DogItem:
+    x-discriminator-value: DOG
+    allOf:
+      - $ref: '#/definitions/PetItem'
+      - type: object
+        properties:
+          packSize:
+            type: integer
+  CatItem:
+    x-discriminator-value: CAT
+    allOf:
+      - $ref: '#/definitions/PetItem'
+      - type: object
+        properties:
+          huntingSkill:
+            type: string
