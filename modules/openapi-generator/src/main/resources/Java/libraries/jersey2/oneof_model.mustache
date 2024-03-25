@@ -80,23 +80,45 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             JsonToken token = tree.traverse(jp.getCodec()).nextToken();
             {{#composedSchemas}}
             {{#oneOf}}
-            // deserialize {{{dataType}}}
+            // deserialize {{{dataType}}}{{#isNullable}} (nullable){{/isNullable}}
             try {
                 {{^isArray}}
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if ({{{dataType}}}.class.equals(Integer.class) || {{{dataType}}}.class.equals(Long.class) || {{{dataType}}}.class.equals(Float.class) || {{{dataType}}}.class.equals(Double.class) || {{{dataType}}}.class.equals(Boolean.class) || {{{dataType}}}.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= (({{{dataType}}}.class.equals(Integer.class) || {{{dataType}}}.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= (({{{dataType}}}.class.equals(Float.class) || {{{dataType}}}.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= ({{{dataType}}}.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= ({{{dataType}}}.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                        {{#isNullable}}
-                        attemptParsing |= (token == JsonToken.VALUE_NULL);
-                        {{/isNullable}}
-                    }
+                {{#isPrimitiveType}}
+                attemptParsing = typeCoercion; //respect type coercion setting
+                if (!attemptParsing) {
+                    {{#isString}}
+                    attemptParsing |= (token == JsonToken.VALUE_STRING);
+                    {{/isString}}
+                    {{#isInteger}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isInteger}}
+                    {{#isLong}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isLong}}
+                    {{#isShort}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_INT);
+                    {{/isShort}}
+                    {{#isFloat}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isFloat}}
+                    {{#isDouble}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isDouble}}
+                    {{#isNumber}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isNumber}}
+                    {{#isDecimal}}
+                    attemptParsing |= (token == JsonToken.VALUE_NUMBER_FLOAT);
+                    {{/isDecimal}}
+                    {{#isBoolean}}
+                    attemptParsing |= (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
+                    {{/isBoolean}}
+                    {{#isNullable}}
+                    attemptParsing |= (token == JsonToken.VALUE_NULL);
+                    {{/isNullable}}
                 }
+                {{/isPrimitiveType}}
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs({{{dataType}}}.class);
                     // TODO: there is no validation against JSON schema constraints
