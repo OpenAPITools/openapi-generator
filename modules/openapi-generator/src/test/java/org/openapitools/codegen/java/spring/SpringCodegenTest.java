@@ -21,25 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
-import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
-import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
-import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
-import static org.openapitools.codegen.languages.SpringCodegen.IMPLICIT_HEADERS;
-import static org.openapitools.codegen.languages.SpringCodegen.INTERFACE_ONLY;
-import static org.openapitools.codegen.languages.SpringCodegen.OPENAPI_NULLABLE;
-import static org.openapitools.codegen.languages.SpringCodegen.REACTIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.REQUEST_MAPPING_OPTION;
-import static org.openapitools.codegen.languages.SpringCodegen.RESPONSE_WRAPPER;
-import static org.openapitools.codegen.languages.SpringCodegen.RETURN_SUCCESS_CODE;
-import static org.openapitools.codegen.languages.SpringCodegen.SKIP_DEFAULT_INTERFACE;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_BOOT;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CLOUD_LIBRARY;
-import static org.openapitools.codegen.languages.SpringCodegen.SPRING_CONTROLLER;
-import static org.openapitools.codegen.languages.SpringCodegen.SSE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_ENUM_CASE_INSENSITIVE;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_RESPONSE_ENTITY;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
-import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
+import static org.openapitools.codegen.languages.SpringCodegen.*;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
 import static org.testng.Assert.assertEquals;
@@ -2687,7 +2669,8 @@ public class SpringCodegenTest {
 
     @Test
     public void shouldGenerateConstructorWithOnlyRequiredParameters() throws IOException {
-        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT);
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_9789.yml", SPRING_BOOT,
+                Map.of(CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "false"));
 
         JavaFileAssert.assertThat(output.get("ObjectWithNoRequiredParameter.java")).assertNoConstructor("String");
 
@@ -4520,6 +4503,33 @@ public class SpringCodegenTest {
                 .hasParameter("success").toConstructor()
                 .hasParameter("timestamp").toConstructor()
                 .hasParameter("pageInfo").toConstructor()
+        ;
+
+    }
+
+    @Test
+    public void test_AllArgsConstructor_disabled_inheritanceFirst() throws IOException {
+        final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
+                Map.of(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST, Boolean.TRUE,
+                        CodegenConstants.GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, Boolean.FALSE));
+        JavaFileAssert.assertThat(output.get("Object4.java"))
+                .assertConstructor("String", "String", "Boolean", "Type1")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+                .toFileAssert()
+                .fileDoesNotContains("all args");
+        ;
+        JavaFileAssert.assertThat(output.get("Object3.java"))
+                .assertConstructor("String", "String", "Boolean", "Type1")
+                .hasParameter("responseType").toConstructor()
+                .hasParameter("requestId").toConstructor()
+                .hasParameter("success").toConstructor()
+                .hasParameter("pageInfo").toConstructor()
+                .toFileAssert()
+                .fileDoesNotContains("all args");
+
         ;
 
     }
