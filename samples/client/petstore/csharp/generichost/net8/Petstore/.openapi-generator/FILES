@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 Org.OpenAPITools.sln
 README.md
 api/openapi.yaml
