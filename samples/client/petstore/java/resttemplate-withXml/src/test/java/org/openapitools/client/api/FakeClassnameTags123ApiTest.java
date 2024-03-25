@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.Client;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for FakeClassnameTags123Api
  */
-@Ignore
-public class FakeClassnameTags123ApiTest {
+@Disabled
+class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
 
@@ -38,12 +39,13 @@ public class FakeClassnameTags123ApiTest {
      *
      * To test class name in snake case
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testClassnameTest() {
+    void testClassnameTest() {
         Client client = null;
+
         Client response = api.testClassname(client);
 
         // TODO: test validations
