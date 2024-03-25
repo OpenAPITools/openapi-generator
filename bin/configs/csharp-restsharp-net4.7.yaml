@@ -1,6 +1,6 @@
 # for .net standard
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/OpenAPIClient-net47
+outputDir: samples/client/petstore/csharp/restsharp/net4.7/OpenAPIClient-net47
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature-oneof-primitive-types.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:

@@ -1,5 +1,5 @@
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/OpenAPIClientCoreAndNet47
+outputDir: samples/client/petstore/csharp/restsharp/net4.7/OpenAPIClientCoreAndNet47
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:

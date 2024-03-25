@@ -1,6 +1,6 @@
 # for .net standard
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/OpenAPIClient-net7.0-useDateTimeForDate
+outputDir: samples/client/petstore/csharp/restsharp/net7/OpenAPIClient-net7.0-useDateTimeForDate
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/dates-api.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:
