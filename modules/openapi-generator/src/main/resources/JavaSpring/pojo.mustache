@@ -105,7 +105,7 @@ public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{^parent}}
 
   {{/lombok.NoArgsConstructor}}
   /**
-   * Constructor with only required parameters{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}
+   * Constructor with only required parameters{{#generatedConstructorWithAllArgs}}{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}{{/generatedConstructorWithAllArgs}}
    */
   public {{classname}}({{#requiredVars}}{{{datatypeWithEnum}}} {{name}}{{^-last}}, {{/-last}}{{/requiredVars}}) {
     {{#parent}}

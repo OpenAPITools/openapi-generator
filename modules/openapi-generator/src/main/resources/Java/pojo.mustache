@@ -115,7 +115,7 @@ public class {{classname}} {{#parent}}extends {{{.}}} {{/parent}}{{#vendorExtens
   {{#vendorExtensions.x-has-readonly-properties}}
   {{^withXml}}
   /**
-  * Constructor with only readonly parameters{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}
+  * Constructor with only readonly parameters{{#generatedConstructorWithAllArgs}}{{^vendorExtensions.generatedConstructorWithAllArgs}} and all parameters{{/vendorExtensions.generatedConstructorWithAllArgs}}{{/generatedConstructorWithAllArgs}}
   */
   {{#jsonb}}@JsonbCreator{{/jsonb}}{{#jackson}}@JsonCreator{{/jackson}}
   public {{classname}}(
