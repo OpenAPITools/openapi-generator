@@ -3,28 +3,10 @@ name: Samples C# .Net 6 Client
 on:
   push:
     paths:
-      # build C# API client (httpclient)
-      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
-      # build C# API client (.net framework 4.7)
-      - samples/client/petstore/csharp/OpenAPIClient-net47/**
-      # build C# API client (.net framework 4.8)
-      - samples/client/petstore/csharp/OpenAPIClient-net48/**
-      # build C# API client (property, parameter name mappings)
-      - samples/client/petstore/csharp/OpenAPIClient-restsharp-name-parameter-mappings/**
-      # build C# API client (multiple frameworks)
-      - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/**
+      - samples/client/petstore/csharp/restsharp/net6/**
   pull_request:
     paths:
-      # build C# API client (httpclient)
-      - samples/client/petstore/csharp/OpenAPIClient-httpclient/**
-      # build C# API client (.net framework 4.7)
-      - samples/client/petstore/csharp/OpenAPIClient-net47/**
-      # build C# API client (.net framework 4.8)
-      - samples/client/petstore/csharp/OpenAPIClient-net48/**
-      # build C# API client (property, parameter name mappings)
-      - samples/client/petstore/csharp/OpenAPIClient-restsharp-name-parameter-mappings/**
-      # build C# API client (multiple frameworks)
-      - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/**
+      - samples/client/petstore/csharp/restsharp/net6/**
 jobs:
   build:
     name: Build .Net clients
@@ -33,16 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          # build C# API client (httpclient)
-          - samples/client/petstore/csharp/OpenAPIClient-httpclient/
-          # build C# API client (.net framework 4.7)
-          - samples/client/petstore/csharp/OpenAPIClient-net47/
-          # build C# API client (.net framework 4.8)
-          - samples/client/petstore/csharp/OpenAPIClient-net48/
-          # build C# API client (property, parameter name mappings)
-          - samples/client/petstore/csharp/OpenAPIClient-restsharp-name-parameter-mappings/
-          # build C# API client (multiple frameworks)
-          - samples/client/petstore/csharp/OpenAPIClientCoreAndNet47/
+          - samples/client/petstore/csharp/restsharp/net6/OpenAPIClient-restsharp-name-parameter-mappings/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
