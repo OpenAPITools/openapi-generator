@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>be.fednot.corporate</groupId>
-        <artifactId>fednot-corporate</artifactId>
-        <version>2.7.13</version>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>5</version>
         <relativePath/>
-    <!-- lookup parent from repository -->
+        <!-- lookup parent from repository -->
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
@@ -13,11 +13,13 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>7.5.0-FEDNOT-SNAPSHOT</version>
+    <version>7.5.0-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
-        <developerConnection>${scm.url}/scm/tool/openapi-generator-fork.git</developerConnection>
+        <connection>scm:git:git@github.com:openapitools/openapi-generator.git</connection>
+        <developerConnection>scm:git:git@github.com:openapitools/openapi-generator.git</developerConnection>
+        <url>https://github.com/openapitools/openapi-generator</url>
     </scm>
     <developers>
         <!-- original author of the project -->
@@ -56,16 +58,16 @@
         <system>github</system>
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
-<!--    <distributionManagement>-->
-<!--        <snapshotRepository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--        </snapshotRepository>-->
-<!--        <repository>-->
-<!--            <id>ossrh</id>-->
-<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
     <licenses>
         <license>
             <name>Apache License 2.0</name>
@@ -1141,10 +1143,10 @@
             <modules>
                 <module>modules/openapi-generator-core</module>
                 <module>modules/openapi-generator</module>
-<!--                <module>modules/openapi-generator-cli</module>-->
+                <module>modules/openapi-generator-cli</module>
                 <module>modules/openapi-generator-maven-plugin</module>
-<!--                <module>modules/openapi-generator-gradle-plugin</module>-->
-<!--                <module>modules/openapi-generator-online</module>-->
+                <module>modules/openapi-generator-gradle-plugin</module>
+                <module>modules/openapi-generator-online</module>
             </modules>
         </profile>
     </profiles>
@@ -1200,15 +1202,15 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>sonatype-snapshots</id>-->
-<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
-<!--            <snapshots>-->
-<!--                <enabled>true</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
