@@ -93,6 +93,7 @@ public class NullableClass extends HashMap<String, Object> {
   public NullableClass() {
 
   }
+
   /**
   * Constructor with all args parameters
   */

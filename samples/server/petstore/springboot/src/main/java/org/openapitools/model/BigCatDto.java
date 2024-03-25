@@ -76,10 +76,18 @@ public class BigCatDto extends CatDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public BigCatDto(String className) {
     super(className);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public BigCatDto(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
   }
 
   public BigCatDto kind(KindEnum kind) {

@@ -49,6 +49,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
   public MixedPropertiesAndAdditionalPropertiesClass() {
   }
+
   /**
   * Constructor with all args parameters
   */

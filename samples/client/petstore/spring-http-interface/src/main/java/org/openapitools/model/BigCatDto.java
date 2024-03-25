@@ -68,6 +68,14 @@ public class BigCatDto extends CatDto {
 
   private KindEnum kind;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public BigCatDto(KindEnum kind, Boolean declawed, String className, String color) {
+      super(declawed, className, color);
+      this.kind = kind;
+  }
+
   public BigCatDto kind(KindEnum kind) {
     this.kind = kind;
     return this;

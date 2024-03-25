@@ -36,6 +36,7 @@ public class Client {
 
   public Client() {
   }
+
   /**
   * Constructor with all args parameters
   */

@@ -40,6 +40,7 @@ public class Tag {
 
   public Tag() {
   }
+
   /**
   * Constructor with all args parameters
   */

@@ -41,6 +41,7 @@ public class Model200Response {
 
   public Model200Response() {
   }
+
   /**
   * Constructor with all args parameters
   */

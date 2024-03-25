@@ -37,6 +37,7 @@ public class NumberOnly {
 
   public NumberOnly() {
   }
+
   /**
   * Constructor with all args parameters
   */

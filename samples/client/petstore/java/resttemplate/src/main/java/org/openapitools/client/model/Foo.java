@@ -36,6 +36,7 @@ public class Foo {
 
   public Foo() {
   }
+
   /**
   * Constructor with all args parameters
   */

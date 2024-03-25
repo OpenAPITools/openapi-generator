@@ -40,11 +40,22 @@ public class Bar extends Entity implements BarRefOrValue {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Bar(String id, String atType) {
     super(atType);
     this.id = id;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Bar(String id, String barPropA, String fooPropB, FooRefOrValue foo, String href, String atSchemaLocation, String atBaseType, String atType) {
+      super(href, atSchemaLocation, atBaseType, atType);
+      this.id = id;
+      this.barPropA = barPropA;
+      this.fooPropB = fooPropB;
+      this.foo = foo;
   }
 
   public Bar id(String id) {

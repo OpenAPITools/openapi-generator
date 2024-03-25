@@ -37,6 +37,7 @@ public class ModelReturn {
 
   public ModelReturn() {
   }
+
   /**
   * Constructor with all args parameters
   */

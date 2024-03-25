@@ -41,6 +41,13 @@ public class OuterObjectWithEnumProperty {
   public OuterObjectWithEnumProperty() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterObjectWithEnumProperty(OuterEnumInteger value) {
+    this.value = value;
+  }
+
   public OuterObjectWithEnumProperty value(OuterEnumInteger value) {
     
     this.value = value;

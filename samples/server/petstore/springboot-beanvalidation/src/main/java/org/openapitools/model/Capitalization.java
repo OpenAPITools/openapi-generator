@@ -34,6 +34,18 @@ public class Capitalization {
 
   private String ATT_NAME;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Capitalization(String smallCamel, String capitalCamel, String smallSnake, String capitalSnake, String scAETHFlowPoints, String ATT_NAME) {
+      this.smallCamel = smallCamel;
+      this.capitalCamel = capitalCamel;
+      this.smallSnake = smallSnake;
+      this.capitalSnake = capitalSnake;
+      this.scAETHFlowPoints = scAETHFlowPoints;
+      this.ATT_NAME = ATT_NAME;
+  }
+
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
     return this;

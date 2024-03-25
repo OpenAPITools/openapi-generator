@@ -30,6 +30,15 @@ public class ModelApiResponse {
 
   private Optional<String> message = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ModelApiResponse(Integer code, String type, String message) {
+      this.code = Optional.ofNullable(code);
+      this.type = Optional.ofNullable(type);
+      this.message = Optional.ofNullable(message);
+  }
+
   public ModelApiResponse code(Integer code) {
     this.code = Optional.of(code);
     return this;

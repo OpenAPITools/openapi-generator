@@ -217,6 +217,7 @@ public class EnumTest {
 
   public EnumTest() {
   }
+
   /**
   * Constructor with all args parameters
   */

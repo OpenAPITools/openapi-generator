@@ -41,6 +41,14 @@ public class Animal {
   public Animal() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Animal(String className, String color) {
+    this.className = className;
+    this.color = color;
+  }
+
   public Animal className(String className) {
     
     this.className = className;

@@ -24,6 +24,14 @@ public class Category {
 
   private Optional<@Pattern(regexp = "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") String> name = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Category(Long id, String name) {
+      this.id = Optional.ofNullable(id);
+      this.name = Optional.ofNullable(name);
+  }
+
   public Category id(Long id) {
     this.id = Optional.of(id);
     return this;

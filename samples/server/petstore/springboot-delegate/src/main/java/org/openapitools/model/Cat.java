@@ -42,10 +42,18 @@ public class Cat extends Animal {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Cat(String className) {
     super(className);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Cat(Boolean declawed, String className, String color) {
+      super(className, color);
+      this.declawed = declawed;
   }
 
   public Cat declawed(Boolean declawed) {

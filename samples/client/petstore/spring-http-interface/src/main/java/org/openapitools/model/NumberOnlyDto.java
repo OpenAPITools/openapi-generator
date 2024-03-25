@@ -24,6 +24,13 @@ public class NumberOnlyDto {
 
   private BigDecimal justNumber;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NumberOnlyDto(BigDecimal justNumber) {
+      this.justNumber = justNumber;
+  }
+
   public NumberOnlyDto justNumber(BigDecimal justNumber) {
     this.justNumber = justNumber;
     return this;

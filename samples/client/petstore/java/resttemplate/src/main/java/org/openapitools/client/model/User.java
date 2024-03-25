@@ -64,6 +64,7 @@ public class User {
 
   public User() {
   }
+
   /**
   * Constructor with all args parameters
   */

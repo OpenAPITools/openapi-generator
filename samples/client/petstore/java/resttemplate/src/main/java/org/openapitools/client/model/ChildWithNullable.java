@@ -48,6 +48,7 @@ public class ChildWithNullable extends ParentWithNullable {
   public ChildWithNullable() {
 
   }
+
   /**
   * Constructor with all args parameters
   */

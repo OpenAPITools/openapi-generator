@@ -52,7 +52,7 @@ public class Name {
   public Name() {
   }
   /**
-  * Constructor with only readonly parameters and all parameters
+  * Constructor with only readonly parameters
   */
   @JsonCreator
   public Name(
@@ -61,6 +61,16 @@ public class Name {
   ) {
     this();
     this.snakeCase = snakeCase;
+    this._123number = _123number;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
+    this.name = name;
+    this.snakeCase = snakeCase;
+    this.property = property;
     this._123number = _123number;
   }
 

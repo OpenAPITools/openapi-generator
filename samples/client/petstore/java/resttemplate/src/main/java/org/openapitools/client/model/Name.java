@@ -60,6 +60,7 @@ public class Name {
     this.snakeCase = snakeCase;
     this._123number = _123number;
   }
+
   /**
   * Constructor with all args parameters
   */

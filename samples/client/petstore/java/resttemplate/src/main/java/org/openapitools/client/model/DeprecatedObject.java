@@ -38,6 +38,7 @@ public class DeprecatedObject {
 
   public DeprecatedObject() {
   }
+
   /**
   * Constructor with all args parameters
   */

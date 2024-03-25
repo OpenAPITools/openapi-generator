@@ -26,6 +26,13 @@ public class AdditionalPropertiesArray {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesArray(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesArray name(String name) {
     this.name = name;
     return this;

@@ -40,6 +40,14 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesBoolean(String name) {
+    super();
+    this.name = name;
+  }
+
   public AdditionalPropertiesBoolean name(String name) {
     
     this.name = name;

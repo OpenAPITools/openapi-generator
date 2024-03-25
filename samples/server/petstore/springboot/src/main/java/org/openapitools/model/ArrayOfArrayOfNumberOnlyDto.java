@@ -31,6 +31,13 @@ public class ArrayOfArrayOfNumberOnlyDto {
   @Valid
   private List<List<BigDecimal>> arrayArrayNumber = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayOfArrayOfNumberOnlyDto(List<List<BigDecimal>> arrayArrayNumber) {
+      this.arrayArrayNumber = arrayArrayNumber;
+  }
+
   public ArrayOfArrayOfNumberOnlyDto arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
     this.arrayArrayNumber = arrayArrayNumber;
     return this;

@@ -40,6 +40,7 @@ public class HealthCheckResult {
 
   public HealthCheckResult() {
   }
+
   /**
   * Constructor with all args parameters
   */

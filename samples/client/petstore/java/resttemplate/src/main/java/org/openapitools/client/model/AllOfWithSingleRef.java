@@ -41,6 +41,7 @@ public class AllOfWithSingleRef {
 
   public AllOfWithSingleRef() {
   }
+
   /**
   * Constructor with all args parameters
   */

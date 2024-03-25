@@ -34,10 +34,18 @@ public class Dog extends Animal {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Dog(String className) {
     super(className);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Dog(String breed, String className, String color) {
+      super(className, color);
+      this.breed = breed;
   }
 
   public Dog breed(String breed) {

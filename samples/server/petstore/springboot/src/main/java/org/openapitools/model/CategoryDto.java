@@ -33,10 +33,18 @@ public class CategoryDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public CategoryDto(String name) {
     this.name = name;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public CategoryDto(Long id, String name) {
+      this.id = id;
+      this.name = name;
   }
 
   public CategoryDto id(Long id) {

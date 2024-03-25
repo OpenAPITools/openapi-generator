@@ -89,6 +89,7 @@ public class ParentWithNullable {
 
   public ParentWithNullable() {
   }
+
   /**
   * Constructor with all args parameters
   */

@@ -53,6 +53,7 @@ public class ObjectWithDeprecatedFields {
 
   public ObjectWithDeprecatedFields() {
   }
+
   /**
   * Constructor with all args parameters
   */

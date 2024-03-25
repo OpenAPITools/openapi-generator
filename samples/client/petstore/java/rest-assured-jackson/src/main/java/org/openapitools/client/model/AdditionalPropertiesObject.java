@@ -43,6 +43,14 @@ public class AdditionalPropertiesObject extends HashMap<String, Map> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesObject(String name) {
+    super();
+    this.name = name;
+  }
+
   public AdditionalPropertiesObject name(String name) {
     
     this.name = name;

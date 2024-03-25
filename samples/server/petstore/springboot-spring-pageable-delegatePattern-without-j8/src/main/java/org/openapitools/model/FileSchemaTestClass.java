@@ -31,6 +31,14 @@ public class FileSchemaTestClass {
   @Valid
   private List<@Valid File> files = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FileSchemaTestClass(File file, List<@Valid File> files) {
+      this.file = file;
+      this.files = files;
+  }
+
   public FileSchemaTestClass file(File file) {
     this.file = file;
     return this;

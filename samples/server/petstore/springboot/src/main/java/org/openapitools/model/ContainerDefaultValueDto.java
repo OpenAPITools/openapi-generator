@@ -46,11 +46,21 @@ public class ContainerDefaultValueDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public ContainerDefaultValueDto(List<String> nullableRequiredArray, List<String> requiredArray) {
     this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
     this.requiredArray = requiredArray;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public ContainerDefaultValueDto(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
+      this.nullableArray = JsonNullable.of(nullableArray);
+      this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
+      this.requiredArray = requiredArray;
+      this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
   }
 
   public ContainerDefaultValueDto nullableArray(List<String> nullableArray) {

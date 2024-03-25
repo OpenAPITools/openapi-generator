@@ -53,6 +53,7 @@ public class Animal {
 
   public Animal() {
   }
+
   /**
   * Constructor with all args parameters
   */

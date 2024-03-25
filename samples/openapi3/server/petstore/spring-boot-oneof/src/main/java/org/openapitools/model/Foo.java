@@ -35,10 +35,19 @@ public class Foo extends Entity implements FooRefOrValue {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Foo(String atType) {
     super(atType);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Foo(String fooPropA, String fooPropB, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
+      super(href, id, atSchemaLocation, atBaseType, atType);
+      this.fooPropA = fooPropA;
+      this.fooPropB = fooPropB;
   }
 
   public Foo fooPropA(String fooPropA) {

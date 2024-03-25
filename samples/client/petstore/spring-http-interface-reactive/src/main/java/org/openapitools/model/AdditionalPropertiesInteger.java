@@ -25,6 +25,13 @@ public class AdditionalPropertiesInteger {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesInteger(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesInteger name(String name) {
     this.name = name;
     return this;

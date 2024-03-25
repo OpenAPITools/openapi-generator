@@ -40,6 +40,7 @@ public class TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter {
 
   public TestQueryStyleFormExplodeTrueArrayStringQueryObjectParameter() {
   }
+
   /**
   * Constructor with all args parameters
   */

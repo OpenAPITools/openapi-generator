@@ -93,6 +93,41 @@ public class XmlItem {
   @Valid
   private List<Integer> prefixNsWrappedArray = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public XmlItem(String attributeString, BigDecimal attributeNumber, Integer attributeInteger, Boolean attributeBoolean, List<Integer> wrappedArray, String nameString, BigDecimal nameNumber, Integer nameInteger, Boolean nameBoolean, List<Integer> nameArray, List<Integer> nameWrappedArray, String prefixString, BigDecimal prefixNumber, Integer prefixInteger, Boolean prefixBoolean, List<Integer> prefixArray, List<Integer> prefixWrappedArray, String namespaceString, BigDecimal namespaceNumber, Integer namespaceInteger, Boolean namespaceBoolean, List<Integer> namespaceArray, List<Integer> namespaceWrappedArray, String prefixNsString, BigDecimal prefixNsNumber, Integer prefixNsInteger, Boolean prefixNsBoolean, List<Integer> prefixNsArray, List<Integer> prefixNsWrappedArray) {
+      this.attributeString = Optional.ofNullable(attributeString);
+      this.attributeNumber = Optional.ofNullable(attributeNumber);
+      this.attributeInteger = Optional.ofNullable(attributeInteger);
+      this.attributeBoolean = Optional.ofNullable(attributeBoolean);
+      this.wrappedArray = wrappedArray;
+      this.nameString = Optional.ofNullable(nameString);
+      this.nameNumber = Optional.ofNullable(nameNumber);
+      this.nameInteger = Optional.ofNullable(nameInteger);
+      this.nameBoolean = Optional.ofNullable(nameBoolean);
+      this.nameArray = nameArray;
+      this.nameWrappedArray = nameWrappedArray;
+      this.prefixString = Optional.ofNullable(prefixString);
+      this.prefixNumber = Optional.ofNullable(prefixNumber);
+      this.prefixInteger = Optional.ofNullable(prefixInteger);
+      this.prefixBoolean = Optional.ofNullable(prefixBoolean);
+      this.prefixArray = prefixArray;
+      this.prefixWrappedArray = prefixWrappedArray;
+      this.namespaceString = Optional.ofNullable(namespaceString);
+      this.namespaceNumber = Optional.ofNullable(namespaceNumber);
+      this.namespaceInteger = Optional.ofNullable(namespaceInteger);
+      this.namespaceBoolean = Optional.ofNullable(namespaceBoolean);
+      this.namespaceArray = namespaceArray;
+      this.namespaceWrappedArray = namespaceWrappedArray;
+      this.prefixNsString = Optional.ofNullable(prefixNsString);
+      this.prefixNsNumber = Optional.ofNullable(prefixNsNumber);
+      this.prefixNsInteger = Optional.ofNullable(prefixNsInteger);
+      this.prefixNsBoolean = Optional.ofNullable(prefixNsBoolean);
+      this.prefixNsArray = prefixNsArray;
+      this.prefixNsWrappedArray = prefixNsWrappedArray;
+  }
+
   public XmlItem attributeString(String attributeString) {
     this.attributeString = Optional.of(attributeString);
     return this;

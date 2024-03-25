@@ -37,6 +37,7 @@ public class OuterObjectWithEnumProperty {
 
   public OuterObjectWithEnumProperty() {
   }
+
   /**
   * Constructor with all args parameters
   */

@@ -31,6 +31,14 @@ public class ChildWithNullableDto extends ParentWithNullableDto {
 
   private String otherProperty;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ChildWithNullableDto(String otherProperty, TypeEnum type, String nullableProperty) {
+      super(type, nullableProperty);
+      this.otherProperty = otherProperty;
+  }
+
   public ChildWithNullableDto otherProperty(String otherProperty) {
     this.otherProperty = otherProperty;
     return this;

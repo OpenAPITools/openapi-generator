@@ -25,6 +25,13 @@ public class ClassModel {
 
   private Optional<String> propertyClass = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ClassModel(String propertyClass) {
+      this.propertyClass = Optional.ofNullable(propertyClass);
+  }
+
   public ClassModel propertyClass(String propertyClass) {
     this.propertyClass = Optional.of(propertyClass);
     return this;

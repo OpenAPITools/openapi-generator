@@ -27,6 +27,13 @@ public class FileDto {
 
   private String sourceURI;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public FileDto(String sourceURI) {
+      this.sourceURI = sourceURI;
+  }
+
   public FileDto sourceURI(String sourceURI) {
     this.sourceURI = sourceURI;
     return this;

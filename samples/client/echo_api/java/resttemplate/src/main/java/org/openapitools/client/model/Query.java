@@ -80,6 +80,7 @@ public class Query {
 
   public Query() {
   }
+
   /**
   * Constructor with all args parameters
   */

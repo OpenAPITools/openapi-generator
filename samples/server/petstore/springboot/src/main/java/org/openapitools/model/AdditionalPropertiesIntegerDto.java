@@ -30,6 +30,13 @@ public class AdditionalPropertiesIntegerDto {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesIntegerDto(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesIntegerDto name(String name) {
     this.name = name;
     return this;

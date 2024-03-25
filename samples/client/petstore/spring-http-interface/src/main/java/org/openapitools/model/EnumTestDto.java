@@ -177,6 +177,17 @@ public class EnumTestDto {
 
   private OuterEnumDto outerEnum;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumTestDto(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnumDto outerEnum) {
+      this.enumString = enumString;
+      this.enumStringRequired = enumStringRequired;
+      this.enumInteger = enumInteger;
+      this.enumNumber = enumNumber;
+      this.outerEnum = outerEnum;
+  }
+
   public EnumTestDto enumString(EnumStringEnum enumString) {
     this.enumString = enumString;
     return this;

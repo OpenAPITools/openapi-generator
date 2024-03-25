@@ -28,6 +28,14 @@ public class HasOnlyReadOnlyDto {
 
   private String foo;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public HasOnlyReadOnlyDto(String bar, String foo) {
+      this.bar = bar;
+      this.foo = foo;
+  }
+
   public HasOnlyReadOnlyDto bar(String bar) {
     this.bar = bar;
     return this;

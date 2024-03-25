@@ -28,6 +28,14 @@ public class ReadOnlyFirstDto {
 
   private String baz;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ReadOnlyFirstDto(String bar, String baz) {
+      this.bar = bar;
+      this.baz = baz;
+  }
+
   public ReadOnlyFirstDto bar(String bar) {
     this.bar = bar;
     return this;

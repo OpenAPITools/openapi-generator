@@ -75,6 +75,18 @@ public class Order {
 
   private Optional<Boolean> complete = Optional.of(false);
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Order(Long id, Long petId, Integer quantity, OffsetDateTime shipDate, StatusEnum status, Boolean complete) {
+      this.id = Optional.ofNullable(id);
+      this.petId = Optional.ofNullable(petId);
+      this.quantity = Optional.ofNullable(quantity);
+      this.shipDate = Optional.ofNullable(shipDate);
+      this.status = Optional.ofNullable(status);
+      this.complete = Optional.ofNullable(complete);
+  }
+
   public Order id(Long id) {
     this.id = Optional.of(id);
     return this;

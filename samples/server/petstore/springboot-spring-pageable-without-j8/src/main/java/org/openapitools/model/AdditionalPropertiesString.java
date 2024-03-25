@@ -28,6 +28,13 @@ public class AdditionalPropertiesString {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesString(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesString name(String name) {
     this.name = name;
     return this;

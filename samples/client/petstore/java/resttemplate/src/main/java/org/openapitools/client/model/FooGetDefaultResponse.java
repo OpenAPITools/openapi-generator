@@ -38,6 +38,7 @@ public class FooGetDefaultResponse {
 
   public FooGetDefaultResponse() {
   }
+
   /**
   * Constructor with all args parameters
   */

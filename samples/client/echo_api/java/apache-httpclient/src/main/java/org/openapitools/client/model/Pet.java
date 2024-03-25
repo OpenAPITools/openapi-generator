@@ -102,6 +102,18 @@ public class Pet {
   public Pet() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(Long id, String name, Category category, List<String> photoUrls, List<Tag> tags, StatusEnum status) {
+    this.id = id;
+    this.name = name;
+    this.category = category;
+    this.photoUrls = photoUrls;
+    this.tags = tags;
+    this.status = status;
+  }
+
   public Pet id(Long id) {
     
     this.id = id;

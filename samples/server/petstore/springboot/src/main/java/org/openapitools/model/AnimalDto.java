@@ -46,10 +46,18 @@ public class AnimalDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public AnimalDto(String className) {
     this.className = className;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public AnimalDto(String className, String color) {
+      this.className = className;
+      this.color = color;
   }
 
   public AnimalDto className(String className) {

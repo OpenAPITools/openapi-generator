@@ -29,6 +29,15 @@ public class OuterComposite {
 
   private Optional<Boolean> myBoolean = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterComposite(BigDecimal myNumber, String myString, Boolean myBoolean) {
+      this.myNumber = Optional.ofNullable(myNumber);
+      this.myString = Optional.ofNullable(myString);
+      this.myBoolean = Optional.ofNullable(myBoolean);
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     this.myNumber = Optional.of(myNumber);
     return this;

@@ -26,6 +26,14 @@ public class Addressable {
 
   private String id;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public Addressable(String href, String id) {
+      this.href = href;
+      this.id = id;
+  }
+
   public Addressable href(String href) {
     this.href = href;
     return this;

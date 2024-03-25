@@ -57,6 +57,16 @@ public class ObjectWithDeprecatedFields {
   public ObjectWithDeprecatedFields() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ObjectWithDeprecatedFields(String uuid, BigDecimal id, DeprecatedObject deprecatedRef, List<String> bars) {
+    this.uuid = uuid;
+    this.id = id;
+    this.deprecatedRef = deprecatedRef;
+    this.bars = bars;
+  }
+
   public ObjectWithDeprecatedFields uuid(String uuid) {
     
     this.uuid = uuid;

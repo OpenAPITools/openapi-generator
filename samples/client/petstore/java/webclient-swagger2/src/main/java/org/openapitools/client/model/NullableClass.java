@@ -95,6 +95,25 @@ public class NullableClass extends HashMap<String, Object> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NullableClass(Integer integerProp, BigDecimal numberProp, Boolean booleanProp, String stringProp, LocalDate dateProp, OffsetDateTime datetimeProp, List<Object> arrayNullableProp, List<Object> arrayAndItemsNullableProp, List<Object> arrayItemsNullable, Map<String, Object> objectNullableProp, Map<String, Object> objectAndItemsNullableProp, Map<String, Object> objectItemsNullable) {
+    super();
+    this.integerProp = integerProp == null ? JsonNullable.<Integer>undefined() : JsonNullable.of(integerProp);
+    this.numberProp = numberProp == null ? JsonNullable.<BigDecimal>undefined() : JsonNullable.of(numberProp);
+    this.booleanProp = booleanProp == null ? JsonNullable.<Boolean>undefined() : JsonNullable.of(booleanProp);
+    this.stringProp = stringProp == null ? JsonNullable.<String>undefined() : JsonNullable.of(stringProp);
+    this.dateProp = dateProp == null ? JsonNullable.<LocalDate>undefined() : JsonNullable.of(dateProp);
+    this.datetimeProp = datetimeProp == null ? JsonNullable.<OffsetDateTime>undefined() : JsonNullable.of(datetimeProp);
+    this.arrayNullableProp = arrayNullableProp == null ? JsonNullable.<List<Object>>undefined() : JsonNullable.of(arrayNullableProp);
+    this.arrayAndItemsNullableProp = arrayAndItemsNullableProp == null ? JsonNullable.<List<Object>>undefined() : JsonNullable.of(arrayAndItemsNullableProp);
+    this.arrayItemsNullable = arrayItemsNullable;
+    this.objectNullableProp = objectNullableProp == null ? JsonNullable.<Map<String, Object>>undefined() : JsonNullable.of(objectNullableProp);
+    this.objectAndItemsNullableProp = objectAndItemsNullableProp == null ? JsonNullable.<Map<String, Object>>undefined() : JsonNullable.of(objectAndItemsNullableProp);
+    this.objectItemsNullable = objectItemsNullable;
+  }
+
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
     

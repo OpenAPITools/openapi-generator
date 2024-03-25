@@ -44,10 +44,18 @@ public class Animal {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Animal(String className) {
     this.className = className;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Animal(String className, String color) {
+      this.className = className;
+      this.color = color;
   }
 
   public Animal className(String className) {

@@ -50,6 +50,7 @@ public class ReadOnlyFirst {
     this();
     this.bar = bar;
   }
+
   /**
   * Constructor with all args parameters
   */

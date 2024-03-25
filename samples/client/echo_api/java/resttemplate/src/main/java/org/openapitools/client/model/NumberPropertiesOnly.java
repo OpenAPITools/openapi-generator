@@ -45,6 +45,7 @@ public class NumberPropertiesOnly {
 
   public NumberPropertiesOnly() {
   }
+
   /**
   * Constructor with all args parameters
   */

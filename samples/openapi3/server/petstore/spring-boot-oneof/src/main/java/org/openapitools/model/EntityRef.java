@@ -54,10 +54,23 @@ public class EntityRef {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public EntityRef(String atType) {
     this.atType = atType;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public EntityRef(String name, String atReferredType, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
+      this.name = name;
+      this.atReferredType = atReferredType;
+      this.href = href;
+      this.id = id;
+      this.atSchemaLocation = atSchemaLocation;
+      this.atBaseType = atBaseType;
+      this.atType = atType;
   }
 
   public EntityRef name(String name) {

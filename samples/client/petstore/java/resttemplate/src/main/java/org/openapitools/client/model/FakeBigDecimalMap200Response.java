@@ -44,6 +44,7 @@ public class FakeBigDecimalMap200Response {
 
   public FakeBigDecimalMap200Response() {
   }
+
   /**
   * Constructor with all args parameters
   */

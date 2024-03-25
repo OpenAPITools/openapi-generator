@@ -37,6 +37,7 @@ public class ModelList {
 
   public ModelList() {
   }
+
   /**
   * Constructor with all args parameters
   */

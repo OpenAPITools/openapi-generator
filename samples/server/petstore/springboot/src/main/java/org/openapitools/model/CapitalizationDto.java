@@ -36,6 +36,18 @@ public class CapitalizationDto {
 
   private String ATT_NAME;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public CapitalizationDto(String smallCamel, String capitalCamel, String smallSnake, String capitalSnake, String scAETHFlowPoints, String ATT_NAME) {
+      this.smallCamel = smallCamel;
+      this.capitalCamel = capitalCamel;
+      this.smallSnake = smallSnake;
+      this.capitalSnake = capitalSnake;
+      this.scAETHFlowPoints = scAETHFlowPoints;
+      this.ATT_NAME = ATT_NAME;
+  }
+
   public CapitalizationDto smallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
     return this;

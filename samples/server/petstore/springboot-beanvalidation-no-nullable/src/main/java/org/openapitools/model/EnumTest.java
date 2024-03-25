@@ -184,10 +184,21 @@ public class EnumTest {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public EnumTest(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumTest(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnum outerEnum) {
+      this.enumString = enumString;
+      this.enumStringRequired = enumStringRequired;
+      this.enumInteger = enumInteger;
+      this.enumNumber = enumNumber;
+      this.outerEnum = outerEnum;
   }
 
   public EnumTest enumString(EnumStringEnum enumString) {

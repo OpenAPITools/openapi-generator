@@ -29,6 +29,16 @@ public class ResponseObjectWithDifferentFieldNamesDto {
 
   private String propertyNameWithSpaces;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ResponseObjectWithDifferentFieldNamesDto(String normalPropertyName, String UPPER_CASE_PROPERTY_SNAKE, String lowerCasePropertyDashes, String propertyNameWithSpaces) {
+      this.normalPropertyName = normalPropertyName;
+      this.UPPER_CASE_PROPERTY_SNAKE = UPPER_CASE_PROPERTY_SNAKE;
+      this.lowerCasePropertyDashes = lowerCasePropertyDashes;
+      this.propertyNameWithSpaces = propertyNameWithSpaces;
+  }
+
   public ResponseObjectWithDifferentFieldNamesDto normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = normalPropertyName;
     return this;

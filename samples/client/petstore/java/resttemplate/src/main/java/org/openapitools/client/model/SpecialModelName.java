@@ -37,6 +37,7 @@ public class SpecialModelName {
 
   public SpecialModelName() {
   }
+
   /**
   * Constructor with all args parameters
   */

@@ -40,6 +40,7 @@ public class ArrayOfNumberOnly {
 
   public ArrayOfNumberOnly() {
   }
+
   /**
   * Constructor with all args parameters
   */

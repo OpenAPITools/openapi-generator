@@ -41,6 +41,14 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesNumber(String name) {
+    super();
+    this.name = name;
+  }
+
   public AdditionalPropertiesNumber name(String name) {
     
     this.name = name;

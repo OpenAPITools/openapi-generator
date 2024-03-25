@@ -219,6 +219,20 @@ public class EnumTest {
   public EnumTest() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumTest(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnum outerEnum, OuterEnumInteger outerEnumInteger, OuterEnumDefaultValue outerEnumDefaultValue, OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
+    this.enumString = enumString;
+    this.enumStringRequired = enumStringRequired;
+    this.enumInteger = enumInteger;
+    this.enumNumber = enumNumber;
+    this.outerEnum = outerEnum == null ? JsonNullable.<OuterEnum>undefined() : JsonNullable.of(outerEnum);
+    this.outerEnumInteger = outerEnumInteger;
+    this.outerEnumDefaultValue = outerEnumDefaultValue;
+    this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+  }
+
   public EnumTest enumString(EnumStringEnum enumString) {
     
     this.enumString = enumString;

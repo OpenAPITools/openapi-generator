@@ -56,6 +56,7 @@ public class Capitalization {
 
   public Capitalization() {
   }
+
   /**
   * Constructor with all args parameters
   */

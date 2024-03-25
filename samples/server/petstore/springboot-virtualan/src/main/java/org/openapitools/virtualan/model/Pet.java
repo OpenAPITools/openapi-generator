@@ -87,11 +87,23 @@ public class Pet {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Pet(String name, Set<String> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(Long id, Category category, String name, Set<String> photoUrls, List<@Valid Tag> tags, StatusEnum status) {
+      this.id = id;
+      this.category = category;
+      this.name = name;
+      this.photoUrls = photoUrls;
+      this.tags = tags;
+      this.status = status;
   }
 
   public Pet id(Long id) {

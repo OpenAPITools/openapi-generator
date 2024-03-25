@@ -113,6 +113,7 @@ public class EnumArrays {
 
   public EnumArrays() {
   }
+
   /**
   * Constructor with all args parameters
   */

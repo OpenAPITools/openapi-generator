@@ -31,6 +31,15 @@ public class OuterCompositeDto {
 
   private Boolean myBoolean;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterCompositeDto(BigDecimal myNumber, String myString, Boolean myBoolean) {
+      this.myNumber = myNumber;
+      this.myString = myString;
+      this.myBoolean = myBoolean;
+  }
+
   public OuterCompositeDto myNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
     return this;

@@ -47,6 +47,7 @@ public class Cat extends Animal {
   public Cat() {
 
   }
+
   /**
   * Constructor with all args parameters
   */

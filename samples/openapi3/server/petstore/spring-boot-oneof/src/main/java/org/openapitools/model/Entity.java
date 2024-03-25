@@ -53,10 +53,21 @@ public class Entity {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Entity(String atType) {
     this.atType = atType;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Entity(String href, String id, String atSchemaLocation, String atBaseType, String atType) {
+      this.href = href;
+      this.id = id;
+      this.atSchemaLocation = atSchemaLocation;
+      this.atBaseType = atBaseType;
+      this.atType = atType;
   }
 
   public Entity href(String href) {

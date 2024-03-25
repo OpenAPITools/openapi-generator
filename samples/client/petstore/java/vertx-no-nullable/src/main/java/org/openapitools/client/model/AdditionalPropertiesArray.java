@@ -41,6 +41,14 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesArray(String name) {
+    super();
+    this.name = name;
+  }
+
   public AdditionalPropertiesArray name(String name) {
     
     this.name = name;

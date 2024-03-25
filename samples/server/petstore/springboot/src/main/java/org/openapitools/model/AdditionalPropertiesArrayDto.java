@@ -31,6 +31,13 @@ public class AdditionalPropertiesArrayDto {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesArrayDto(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesArrayDto name(String name) {
     this.name = name;
     return this;

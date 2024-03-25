@@ -46,6 +46,15 @@ public class NumberPropertiesOnly {
   public NumberPropertiesOnly() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NumberPropertiesOnly(BigDecimal number, Float _float, Double _double) {
+    this.number = number;
+    this._float = _float;
+    this._double = _double;
+  }
+
   public NumberPropertiesOnly number(BigDecimal number) {
     
     this.number = number;

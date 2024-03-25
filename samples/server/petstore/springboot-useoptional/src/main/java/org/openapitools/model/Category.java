@@ -31,10 +31,18 @@ public class Category {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Category(String name) {
     this.name = name;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Category(Long id, String name) {
+      this.id = Optional.ofNullable(id);
+      this.name = name;
   }
 
   public Category id(Long id) {

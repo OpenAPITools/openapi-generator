@@ -29,6 +29,13 @@ public class AdditionalPropertiesObject {
 
   private String name;
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesObject(String name) {
+      this.name = name;
+  }
+
   public AdditionalPropertiesObject name(String name) {
     this.name = name;
     return this;

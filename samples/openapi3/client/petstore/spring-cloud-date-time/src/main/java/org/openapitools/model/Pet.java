@@ -44,10 +44,22 @@ public class Pet {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Pet(String atType) {
     this.atType = atType;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Pet(String atType, Integer age, Boolean happy, BigDecimal price, OffsetDateTime lastFeed, LocalDate dateOfBirth) {
+      this.atType = atType;
+      this.age = age;
+      this.happy = happy;
+      this.price = price;
+      this.lastFeed = lastFeed;
+      this.dateOfBirth = dateOfBirth;
   }
 
   public Pet atType(String atType) {

@@ -28,6 +28,13 @@ public class AdditionalPropertiesBoolean {
 
   private Optional<String> name = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesBoolean(String name) {
+      this.name = Optional.ofNullable(name);
+  }
+
   public AdditionalPropertiesBoolean name(String name) {
     this.name = Optional.of(name);
     return this;

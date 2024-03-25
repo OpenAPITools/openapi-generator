@@ -102,6 +102,7 @@ public class FormatTest {
 
   public FormatTest() {
   }
+
   /**
   * Constructor with all args parameters
   */

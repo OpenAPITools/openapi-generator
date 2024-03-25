@@ -45,6 +45,7 @@ public class ModelApiResponse {
 
   public ModelApiResponse() {
   }
+
   /**
   * Constructor with all args parameters
   */

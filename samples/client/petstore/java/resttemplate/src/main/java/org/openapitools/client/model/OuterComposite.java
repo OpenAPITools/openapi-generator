@@ -45,6 +45,7 @@ public class OuterComposite {
 
   public OuterComposite() {
   }
+
   /**
   * Constructor with all args parameters
   */

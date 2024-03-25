@@ -28,6 +28,14 @@ public class HasOnlyReadOnly {
 
   private Optional<String> foo = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public HasOnlyReadOnly(String bar, String foo) {
+      this.bar = Optional.ofNullable(bar);
+      this.foo = Optional.ofNullable(foo);
+  }
+
   public HasOnlyReadOnly bar(String bar) {
     this.bar = Optional.of(bar);
     return this;

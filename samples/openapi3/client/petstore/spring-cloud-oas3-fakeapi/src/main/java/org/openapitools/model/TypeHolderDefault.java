@@ -36,6 +36,17 @@ public class TypeHolderDefault {
   @Valid
   private List<Integer> arrayItem = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
 
+  /**
+  * Constructor with all args parameters
+  */
+  public TypeHolderDefault(String stringItem, BigDecimal numberItem, Integer integerItem, Boolean boolItem, List<Integer> arrayItem) {
+      this.stringItem = stringItem;
+      this.numberItem = numberItem;
+      this.integerItem = integerItem;
+      this.boolItem = boolItem;
+      this.arrayItem = arrayItem;
+  }
+
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;
     return this;

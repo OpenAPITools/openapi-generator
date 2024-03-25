@@ -50,6 +50,7 @@ public class DataQuery extends Query {
   public DataQuery() {
 
   }
+
   /**
   * Constructor with all args parameters
   */

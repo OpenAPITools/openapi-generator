@@ -36,6 +36,7 @@ public class ClassModel {
 
   public ClassModel() {
   }
+
   /**
   * Constructor with all args parameters
   */

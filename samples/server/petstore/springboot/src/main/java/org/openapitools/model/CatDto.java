@@ -43,10 +43,18 @@ public class CatDto extends AnimalDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public CatDto(String className) {
     super(className);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public CatDto(Boolean declawed, String className, String color) {
+      super(className, color);
+      this.declawed = declawed;
   }
 
   public CatDto declawed(Boolean declawed) {

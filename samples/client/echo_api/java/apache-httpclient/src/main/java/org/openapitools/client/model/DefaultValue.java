@@ -113,6 +113,20 @@ public class DefaultValue {
   public DefaultValue() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public DefaultValue(List<StringEnumRef> arrayStringEnumRefDefault, List<ArrayStringEnumDefaultEnum> arrayStringEnumDefault, List<String> arrayStringDefault, List<Integer> arrayIntegerDefault, List<String> arrayString, List<String> arrayStringNullable, List<String> arrayStringExtensionNullable, String stringNullable) {
+    this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;
+    this.arrayStringEnumDefault = arrayStringEnumDefault;
+    this.arrayStringDefault = arrayStringDefault;
+    this.arrayIntegerDefault = arrayIntegerDefault;
+    this.arrayString = arrayString;
+    this.arrayStringNullable = arrayStringNullable == null ? JsonNullable.<List<String>>undefined() : JsonNullable.of(arrayStringNullable);
+    this.arrayStringExtensionNullable = arrayStringExtensionNullable == null ? JsonNullable.<List<String>>undefined() : JsonNullable.of(arrayStringExtensionNullable);
+    this.stringNullable = stringNullable == null ? JsonNullable.<String>undefined() : JsonNullable.of(stringNullable);
+  }
+
   public DefaultValue arrayStringEnumRefDefault(List<StringEnumRef> arrayStringEnumRefDefault) {
     
     this.arrayStringEnumRefDefault = arrayStringEnumRefDefault;

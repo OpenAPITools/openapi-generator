@@ -94,6 +94,7 @@ public class Order {
 
   public Order() {
   }
+
   /**
   * Constructor with all args parameters
   */

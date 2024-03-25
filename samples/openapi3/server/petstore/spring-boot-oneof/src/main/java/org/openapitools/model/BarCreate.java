@@ -40,10 +40,20 @@ public class BarCreate extends Entity {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public BarCreate(String atType) {
     super(atType);
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public BarCreate(String barPropA, String fooPropB, FooRefOrValue foo, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
+      super(href, id, atSchemaLocation, atBaseType, atType);
+      this.barPropA = barPropA;
+      this.fooPropB = fooPropB;
+      this.foo = foo;
   }
 
   public BarCreate barPropA(String barPropA) {

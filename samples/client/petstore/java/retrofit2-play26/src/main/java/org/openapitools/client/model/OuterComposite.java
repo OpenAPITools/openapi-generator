@@ -48,6 +48,15 @@ public class OuterComposite {
   public OuterComposite() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public OuterComposite(BigDecimal myNumber, String myString, Boolean myBoolean) {
+    this.myNumber = myNumber;
+    this.myString = myString;
+    this.myBoolean = myBoolean;
+  }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
     
     this.myNumber = myNumber;

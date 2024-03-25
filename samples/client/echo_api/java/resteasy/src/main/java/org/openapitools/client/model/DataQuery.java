@@ -51,6 +51,16 @@ public class DataQuery extends Query {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public DataQuery(String suffix, String text, OffsetDateTime date, Long id, List<OutcomesEnum> outcomes) {
+    super(id, outcomes);
+    this.suffix = suffix;
+    this.text = text;
+    this.date = date;
+  }
+
   public DataQuery suffix(String suffix) {
     
     this.suffix = suffix;

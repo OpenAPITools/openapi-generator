@@ -42,6 +42,7 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass() {
   }
+
   /**
   * Constructor with all args parameters
   */

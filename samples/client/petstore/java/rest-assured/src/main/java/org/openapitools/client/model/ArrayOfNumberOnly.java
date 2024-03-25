@@ -41,6 +41,13 @@ public class ArrayOfNumberOnly {
   public ArrayOfNumberOnly() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ArrayOfNumberOnly(List<BigDecimal> arrayNumber) {
+    this.arrayNumber = arrayNumber;
+  }
+
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
     
     this.arrayNumber = arrayNumber;

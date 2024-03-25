@@ -101,6 +101,14 @@ public class EnumArrays {
   @Valid
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public EnumArrays(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
+      this.justSymbol = Optional.ofNullable(justSymbol);
+      this.arrayEnum = arrayEnum;
+  }
+
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = Optional.of(justSymbol);
     return this;

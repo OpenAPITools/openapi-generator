@@ -37,6 +37,14 @@ public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
 
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesAnyType(String name) {
+    super();
+    this.name = name;
+  }
+
   public AdditionalPropertiesAnyType name(String name) {
     
     this.name = name;

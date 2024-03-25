@@ -32,10 +32,19 @@ public class Extensible {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Extensible(String atType) {
     this.atType = atType;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public Extensible(String atSchemaLocation, String atBaseType, String atType) {
+      this.atSchemaLocation = atSchemaLocation;
+      this.atBaseType = atBaseType;
+      this.atType = atType;
   }
 
   public Extensible atSchemaLocation(String atSchemaLocation) {

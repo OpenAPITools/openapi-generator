@@ -44,6 +44,7 @@ public class FileSchemaTestClass {
 
   public FileSchemaTestClass() {
   }
+
   /**
   * Constructor with all args parameters
   */

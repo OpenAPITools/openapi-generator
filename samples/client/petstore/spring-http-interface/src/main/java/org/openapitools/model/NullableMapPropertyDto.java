@@ -29,6 +29,13 @@ public class NullableMapPropertyDto {
   
   private JsonNullable<Map<String, String>> languageValues = JsonNullable.<Map<String, String>>undefined();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NullableMapPropertyDto(Map<String, String> languageValues) {
+      this.languageValues = JsonNullable.of(languageValues);
+  }
+
   public NullableMapPropertyDto languageValues(Map<String, String> languageValues) {
     this.languageValues = JsonNullable.of(languageValues);
     return this;

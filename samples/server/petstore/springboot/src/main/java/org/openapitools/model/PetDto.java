@@ -90,11 +90,23 @@ public class PetDto {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public PetDto(String name, Set<String> photoUrls) {
     this.name = name;
     this.photoUrls = photoUrls;
+  }
+
+  /**
+  * Constructor with all args parameters
+  */
+  public PetDto(Long id, CategoryDto category, String name, Set<String> photoUrls, List<@Valid TagDto> tags, StatusEnum status) {
+      this.id = id;
+      this.category = category;
+      this.name = name;
+      this.photoUrls = photoUrls;
+      this.tags = tags;
+      this.status = status;
   }
 
   public PetDto id(Long id) {

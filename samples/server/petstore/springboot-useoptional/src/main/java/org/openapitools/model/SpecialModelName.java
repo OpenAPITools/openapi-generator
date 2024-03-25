@@ -26,6 +26,13 @@ public class SpecialModelName {
 
   private Optional<Long> $specialPropertyName = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public SpecialModelName(Long $specialPropertyName) {
+      this.$specialPropertyName = Optional.ofNullable($specialPropertyName);
+  }
+
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = Optional.of($specialPropertyName);
     return this;

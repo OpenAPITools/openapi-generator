@@ -58,6 +58,17 @@ public class ByteArrayObject {
   public ByteArrayObject() {
   }
 
+  /**
+  * Constructor with all args parameters
+  */
+  public ByteArrayObject(byte[] nullableArray, byte[] normalArray, String nullableString, String stringField, BigDecimal intField) {
+    this.nullableArray = nullableArray == null ? JsonNullable.<byte[]>undefined() : JsonNullable.of(nullableArray);
+    this.normalArray = normalArray;
+    this.nullableString = nullableString == null ? JsonNullable.<String>undefined() : JsonNullable.of(nullableString);
+    this.stringField = stringField;
+    this.intField = intField;
+  }
+
   public ByteArrayObject nullableArray(byte[] nullableArray) {
     this.nullableArray = JsonNullable.<byte[]>of(nullableArray);
     

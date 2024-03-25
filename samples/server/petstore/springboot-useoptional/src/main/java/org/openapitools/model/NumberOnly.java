@@ -25,6 +25,13 @@ public class NumberOnly {
 
   private Optional<BigDecimal> justNumber = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public NumberOnly(BigDecimal justNumber) {
+      this.justNumber = Optional.ofNullable(justNumber);
+  }
+
   public NumberOnly justNumber(BigDecimal justNumber) {
     this.justNumber = Optional.of(justNumber);
     return this;

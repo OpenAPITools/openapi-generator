@@ -29,6 +29,13 @@ public class AdditionalPropertiesArray {
 
   private Optional<String> name = Optional.empty();
 
+  /**
+  * Constructor with all args parameters
+  */
+  public AdditionalPropertiesArray(String name) {
+      this.name = Optional.ofNullable(name);
+  }
+
   public AdditionalPropertiesArray name(String name) {
     this.name = Optional.of(name);
     return this;
