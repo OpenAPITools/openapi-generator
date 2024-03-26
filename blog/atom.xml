@@ -13,7 +13,7 @@
         <link href="https://openapi-generator.tech/blog/2018/12/24/new-website"/>
         <updated>2018-12-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Every great open source project has great documentation.]]></summary>
-        <content type="html"><![CDATA[<p>Every great open source project has great documentation.</p><p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p><p>We will still continue to maintain the documentation on our GitHub repository. In fact, our website will be generated with <a href="https://docusaurus.io/en" target="_blank" rel="noopener noreferrer">Docusaurus</a>, so our docs on GitHub will still be incorporated into this site!</p>]]></content>
+        <content type="html"><![CDATA[<p>Every great open source project has great documentation.</p><p>That's why we're proud to announce that we've adopted a new website and design for our official documentation.</p><p>We will still continue to maintain the documentation on our GitHub repository. In fact, our website will be generated with <a href="https://docusaurus.io" target="_blank" rel="noopener noreferrer">Docusaurus</a>, so our docs on GitHub will still be incorporated into this site!</p>]]></content>
         <author>
             <name>Jim Schubert</name>
             <uri>http://twitter.com/jimschubert</uri>
