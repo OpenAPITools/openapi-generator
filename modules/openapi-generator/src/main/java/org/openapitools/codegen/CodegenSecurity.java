@@ -43,6 +43,8 @@ public class CodegenSecurity {
     // Oauth specific
     public String flow, authorizationUrl, tokenUrl, refreshUrl;
     public List<Map<String, Object>> scopes;
+    public Boolean hasScopes;
+
     public Boolean isCode, isPassword, isApplication, isImplicit;
     // OpenId specific
     public String openIdConnectUrl;

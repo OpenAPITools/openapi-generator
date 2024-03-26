@@ -1,5 +1,6 @@
 package org.openapitools.configuration;
 
+
 import java.util.Properties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -9,13 +10,12 @@ import org.springframework.core.env.PropertiesPropertySource;
 public class ClientPropertiesConfiguration {
 
     public ClientPropertiesConfiguration( final ConfigurableEnvironment configurableEnvironment ) {
-        final Properties properties = new Properties();
-        properties.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.client-id", "set-petstoreAuthImplicit-client-id" );
-        properties.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.scope", "write:pets,read:pets" );
-        properties.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.authorization-grant-type", "implicit" );
-        properties.put("spring.security.oauth2.client.provider.petstoreAuthImplicit.authorization-uri", "http://petstore.swagger.io/api/oauth/dialog" );
-        final PropertiesPropertySource propertiesPropertySource = new PropertiesPropertySource("petstoreAuthImplicit", properties );
-        configurableEnvironment.getPropertySources().addLast( propertiesPropertySource );
+        final Properties petstoreAuthImplicit = new Properties();
+        petstoreAuthImplicit.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.client-id", "set-petstoreAuthImplicit-client-id" );
+        petstoreAuthImplicit.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.scope", "write:pets,read:pets" );
+        petstoreAuthImplicit.put("spring.security.oauth2.client.registration.petstoreAuthImplicit.authorization-grant-type", "implicit" );
+        petstoreAuthImplicit.put("spring.security.oauth2.client.provider.petstoreAuthImplicit.authorization-uri", "http://petstore.swagger.io/api/oauth/dialog" );
+        configurableEnvironment.getPropertySources().addLast( new PropertiesPropertySource("petstoreAuthImplicit", petstoreAuthImplicit ) );
     }
 
 }

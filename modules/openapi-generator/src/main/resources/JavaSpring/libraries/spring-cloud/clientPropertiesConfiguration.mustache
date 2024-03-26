@@ -14,9 +14,9 @@ public class ClientPropertiesConfiguration {
     {{#isOAuth}}
         final Properties {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}} = new Properties();
         {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.client-id", "set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-client-id" );
-        {{#scopes}}
+        {{#hasScopes}}
         {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("{{#scopes}}{{#-first}}spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.scope", "{{/-first}}{{scope}}{{^-last}},{{/-last}}{{/scopes}}" );
-        {{/scopes}}
+        {{/hasScopes}}
         {{#isCode}}
         {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.authorization-grant-type", "authorization_code" );
         {{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.put("spring.security.oauth2.client.registration.{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}.redirect-uri", "set-{{{name}}}{{#lambda.pascalcase}}{{{flow}}}{{/lambda.pascalcase}}-redirect-uri" );
