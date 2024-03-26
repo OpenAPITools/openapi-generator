@@ -122,16 +122,6 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Whale
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Whale.class.equals(Integer.class) || Whale.class.equals(Long.class) || Whale.class.equals(Float.class) || Whale.class.equals(Double.class) || Whale.class.equals(Boolean.class) || Whale.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Whale.class.equals(Integer.class) || Whale.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Whale.class.equals(Float.class) || Whale.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Whale.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Whale.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -148,16 +138,6 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Zebra
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class) || Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class) || Zebra.class.equals(Boolean.class) || Zebra.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Zebra.class.equals(Integer.class) || Zebra.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Zebra.class.equals(Float.class) || Zebra.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Zebra.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Zebra.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -174,16 +154,6 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Pig
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Pig.class.equals(Integer.class) || Pig.class.equals(Long.class) || Pig.class.equals(Float.class) || Pig.class.equals(Double.class) || Pig.class.equals(Boolean.class) || Pig.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Pig.class.equals(Integer.class) || Pig.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Pig.class.equals(Float.class) || Pig.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Pig.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Pig.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
                     // TODO: there is no validation against JSON schema constraints

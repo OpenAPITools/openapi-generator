@@ -117,16 +117,6 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             // deserialize Triangle
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Triangle.class.equals(Integer.class) || Triangle.class.equals(Long.class) || Triangle.class.equals(Float.class) || Triangle.class.equals(Double.class) || Triangle.class.equals(Boolean.class) || Triangle.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Triangle.class.equals(Integer.class) || Triangle.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Triangle.class.equals(Float.class) || Triangle.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Triangle.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Triangle.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
                     // TODO: there is no validation against JSON schema constraints
@@ -143,16 +133,6 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             // deserialize Quadrilateral
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class) || Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class) || Quadrilateral.class.equals(Boolean.class) || Quadrilateral.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((Quadrilateral.class.equals(Integer.class) || Quadrilateral.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((Quadrilateral.class.equals(Float.class) || Quadrilateral.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (Quadrilateral.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (Quadrilateral.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
                     // TODO: there is no validation against JSON schema constraints

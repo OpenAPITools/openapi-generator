@@ -88,16 +88,6 @@ public class Example extends AbstractOpenApiSchema {
             // deserialize UUID
             try {
                 boolean attemptParsing = true;
-                // ensure that we respect type coercion as set on the client ObjectMapper
-                if (UUID.class.equals(Integer.class) || UUID.class.equals(Long.class) || UUID.class.equals(Float.class) || UUID.class.equals(Double.class) || UUID.class.equals(Boolean.class) || UUID.class.equals(String.class)) {
-                    attemptParsing = typeCoercion;
-                    if (!attemptParsing) {
-                        attemptParsing |= ((UUID.class.equals(Integer.class) || UUID.class.equals(Long.class)) && token == JsonToken.VALUE_NUMBER_INT);
-                        attemptParsing |= ((UUID.class.equals(Float.class) || UUID.class.equals(Double.class)) && token == JsonToken.VALUE_NUMBER_FLOAT);
-                        attemptParsing |= (UUID.class.equals(Boolean.class) && (token == JsonToken.VALUE_FALSE || token == JsonToken.VALUE_TRUE));
-                        attemptParsing |= (UUID.class.equals(String.class) && token == JsonToken.VALUE_STRING);
-                    }
-                }
                 if (attemptParsing) {
                     deserialized = tree.traverse(jp.getCodec()).readValueAs(UUID.class);
                     // TODO: there is no validation against JSON schema constraints
