@@ -35,8 +35,8 @@ abstract class EntityRef implements Addressable, Extensible {
   static const String discriminatorFieldName = r'@type';
 
   static const Map<String, Type> discriminatorMapping = {
-    r'BarRef': BarRef,
     r'FooRef': FooRef,
+    r'BarRef': BarRef,
   };
 
   @BuiltValueSerializer(custom: true)
@@ -45,22 +45,22 @@ abstract class EntityRef implements Addressable, Extensible {
 
 extension EntityRefDiscriminatorExt on EntityRef {
     String? get discriminatorValue {
-        if (this is BarRef) {
-            return r'BarRef';
-        }
         if (this is FooRef) {
             return r'FooRef';
+        }
+        if (this is BarRef) {
+            return r'BarRef';
         }
         return null;
     }
 }
 extension EntityRefBuilderDiscriminatorExt on EntityRefBuilder {
     String? get discriminatorValue {
-        if (this is BarRefBuilder) {
-            return r'BarRef';
-        }
         if (this is FooRefBuilder) {
             return r'FooRef';
+        }
+        if (this is BarRefBuilder) {
+            return r'BarRef';
         }
         return null;
     }
@@ -133,11 +133,11 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     EntityRef object, {
     FullType specifiedType = FullType.unspecified,
   }) {
-    if (object is BarRef) {
-      return serializers.serialize(object, specifiedType: FullType(BarRef))!;
-    }
     if (object is FooRef) {
       return serializers.serialize(object, specifiedType: FullType(FooRef))!;
+    }
+    if (object is BarRef) {
+      return serializers.serialize(object, specifiedType: FullType(BarRef))!;
     }
     return _serializeProperties(serializers, object, specifiedType: specifiedType).toList();
   }
@@ -152,10 +152,10 @@ class _$EntityRefSerializer implements PrimitiveSerializer<EntityRef> {
     final discIndex = serializedList.indexOf(EntityRef.discriminatorFieldName) + 1;
     final discValue = serializers.deserialize(serializedList[discIndex], specifiedType: FullType(String)) as String;
     switch (discValue) {
-      case r'BarRef':
-        return serializers.deserialize(serialized, specifiedType: FullType(BarRef)) as BarRef;
       case r'FooRef':
         return serializers.deserialize(serialized, specifiedType: FullType(FooRef)) as FooRef;
+      case r'BarRef':
+        return serializers.deserialize(serialized, specifiedType: FullType(BarRef)) as BarRef;
       default:
         return serializers.deserialize(serialized, specifiedType: FullType($EntityRef)) as $EntityRef;
     }
