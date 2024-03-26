@@ -57,7 +57,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.api.MapAssert;
 import org.openapitools.codegen.CliOption;
