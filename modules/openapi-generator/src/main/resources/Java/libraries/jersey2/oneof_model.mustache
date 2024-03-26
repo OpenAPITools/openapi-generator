@@ -279,7 +279,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     }
     {{/isArray}}
     {{#isArray}}
-        public {{{dataType}}} get{{{escapedDataType}}}() throws ClassCastException {
+        public {{{dataType}}} get{{#sanitizeGeneric}}{{{dataType}}}{{/sanitizeGeneric}}() throws ClassCastException {
         return ({{{dataType}}})super.getActualInstance();
         }
     {{/isArray}}

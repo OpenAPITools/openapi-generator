@@ -2627,19 +2627,6 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Modifies the given type string such that the result can be used in an identifier, according
-     * to the language specification.
-     * <p>
-     * Example for Java: {@code List<List<String>>} is converted to "ListListString"
-     *
-     * @param languageDataType Source data type as string
-     * @return The given data type string, escaped in such a way that it may be used in identifiers
-     */
-    public String escapeDataType(final String languageDataType) {
-        return languageDataType.replaceAll("[<>]", "");
-    }
-
-    /**
      * Determine the type alias for the given type if it exists. This feature
      * was originally developed for Java because the language does not have an aliasing
      * mechanism of its own but later extends to handle other languages
@@ -4150,7 +4137,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         property.dataType = getTypeDeclaration(p);
-        property.escapedDataType = escapeDataType(property.dataType);
         property.dataFormat = p.getFormat();
         property.baseType = getSchemaType(p);
 
