@@ -2464,6 +2464,14 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = unaliasSchema(schema);
 
+        if (ModelUtils.isRefToSchemaWithProperties(unaliasSchema.get$ref())) {
+            // ref to schema's properties, e.g. #/components/schemas/Pet/properties/category
+            Schema refSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema);
+            if (refSchema != null) {
+                return getSingleSchemaType(refSchema);
+            }
+        }
+
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
@@ -3981,6 +3989,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (cpc != null) {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
             return cpc;
+        }
+
+        // if it's ref to schema's properties, get the actual schema defined in the properties
+        Schema refToPropertiesSchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, p.get$ref());
+        if (refToPropertiesSchema != null) {
+            p = refToPropertiesSchema;
+            return fromProperty(name, refToPropertiesSchema, required, schemaIsFromAdditionalProperties);
         }
 
         Schema original = null;

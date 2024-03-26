@@ -235,6 +235,7 @@ Class | Method | HTTP request | Description
  - [ParentPet](docs/ParentPet.md)
  - [Pet](docs/Pet.md)
  - [PetComposition](docs/PetComposition.md)
+ - [PetRef](docs/PetRef.md)
  - [PetUsingAllOf](docs/PetUsingAllOf.md)
  - [PetWithRequiredTags](docs/PetWithRequiredTags.md)
  - [Pig](docs/Pig.md)

@@ -79,6 +79,7 @@ docs/ParentPet.md
 docs/Pet.md
 docs/PetApi.md
 docs/PetComposition.md
+docs/PetRef.md
 docs/PetUsingAllOf.md
 docs/PetWithRequiredTags.md
 docs/Pig.md
@@ -213,6 +214,7 @@ src/main/java/org/openapitools/client/model/OuterEnumIntegerDefaultValue.java
 src/main/java/org/openapitools/client/model/ParentPet.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/PetComposition.java
+src/main/java/org/openapitools/client/model/PetRef.java
 src/main/java/org/openapitools/client/model/PetUsingAllOf.java
 src/main/java/org/openapitools/client/model/PetWithRequiredTags.java
 src/main/java/org/openapitools/client/model/Pig.java
