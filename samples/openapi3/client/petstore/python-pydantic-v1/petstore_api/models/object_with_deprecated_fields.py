@@ -28,7 +28,7 @@ class ObjectWithDeprecatedFields(BaseModel):
     """
     uuid: Optional[StrictStr] = None
     id: Optional[StrictFloat] = None
-    deprecated_ref: Optional[DeprecatedObject] = Field(None, alias="deprecatedRef")
+    deprecated_ref: Optional[DeprecatedObject] = Field(default=None, alias="deprecatedRef")
     bars: Optional[conlist(StrictStr)] = None
     additional_properties: Dict[str, Any] = {}
     __properties = ["uuid", "id", "deprecatedRef", "bars"]

@@ -1277,6 +1277,35 @@ paths:
       responses:
         '200':
           description: ''
+  '/fake/pet/{petId}/uploadImage':
+    post:
+      tags:
+        - fake
+      summary: fake uploads an image with ref request bodies
+      description: ''
+      operationId: fake-upload-ref-request-bodies
+      parameters:
+        - name: petId
+          in: path
+          description: ID of pet to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+      security:
+        - petstore_auth:
+            - 'write:pets'
+            - 'read:pets'
+      requestBody:
+        $ref: '#/components/requestBodies/upload_body'
+
   /values:
     get:
       tags:
@@ -1336,6 +1365,19 @@ servers:
     description: The local server without variables
 components:
   requestBodies:
+    upload_body:
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              additionalMetadata:
+                description: Additional data to pass to server
+                type: string
+              file:
+                description: file to upload
+                type: string
+                format: binary
     UserArray:
       content:
         application/json:
@@ -2610,3 +2652,6 @@ components:
             - available
             - pending
             - sold
+    PetComposition:
+      allOf:
+        - $ref: '#/components/schemas/Pet'

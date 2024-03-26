@@ -101,9 +101,16 @@ public class OpenAPINormalizer {
     final String X_INTERNAL = "x-internal";
     boolean removeXInternal;
 
-    // when set (e.g. operationId:getPetById, addPet), filter out (or remove) everything else
+    // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
     final String FILTER = "FILTER";
     HashSet<String> operationIdFilters = new HashSet<>();
+
+    // when set (e.g. operationId:getPetById|addPet), filter out (or remove) everything else
+    final String SET_CONTAINER_TO_NULLABLE = "SET_CONTAINER_TO_NULLABLE";
+    HashSet<String> setContainerToNullable = new HashSet<>();
+    boolean updateArrayToNullable;
+    boolean updateSetToNullable;
+    boolean updateMapToNullable;
 
     // ============= end of rules =============
 
@@ -197,6 +204,23 @@ public class OpenAPINormalizer {
                 } else {
                     LOGGER.error("FILTER rule must be in the form of `operationId:name1|name2|name3`: {}", inputRules.get(FILTER));
                 }
+            }
+        }
+
+        if (inputRules.get(SET_CONTAINER_TO_NULLABLE) != null) {
+            rules.put(SET_CONTAINER_TO_NULLABLE, true);
+            setContainerToNullable = new HashSet<>(Arrays.asList(inputRules.get(SET_CONTAINER_TO_NULLABLE).split("[|]")));
+            if (setContainerToNullable.contains("array")) {
+                updateArrayToNullable = true;
+            }
+            if (setContainerToNullable.contains("set")) {
+                updateSetToNullable = true;
+            }
+            if (setContainerToNullable.contains("map")) {
+                updateMapToNullable = true;
+            }
+            if (!updateArrayToNullable && !updateSetToNullable && !updateMapToNullable) {
+                LOGGER.error("SET_CONTAINER_TO_NULLABLE rule must be in the form of `array|set|map`, e.g. `set`, `array|map`: {}", inputRules.get(SET_CONTAINER_TO_NULLABLE));
             }
         }
     }
@@ -445,8 +469,10 @@ public class OpenAPINormalizer {
         }
 
         if (schema instanceof ArraySchema) { // array
+            normalizeArraySchema(schema);
             normalizeSchema(schema.getItems(), visitedSchemas);
         } else if (schema.getAdditionalProperties() instanceof Schema) { // map
+            normalizeMapSchema(schema);
             normalizeSchema((Schema) schema.getAdditionalProperties(), visitedSchemas);
         } else if (ModelUtils.isOneOf(schema)) { // oneOf
             return normalizeOneOf(schema, visitedSchemas);
@@ -496,6 +522,14 @@ public class OpenAPINormalizer {
         }
 
         return schema;
+    }
+
+    private Schema normalizeArraySchema(Schema schema) {
+        return processSetArraytoNullable(schema);
+    }
+
+    private Schema normalizeMapSchema(Schema schema) {
+        return processSetMapToNullable(schema);
     }
 
     private Schema normalizeSimpleSchema(Schema schema, Set<Schema> visitedSchemas) {
@@ -818,8 +852,14 @@ public class OpenAPINormalizer {
             }
         }
 
-        if (!(schema instanceof JsonSchema) && (schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
-            return true;
+        if (schema instanceof JsonSchema) { // 3.1 spec
+            if (Boolean.TRUE.equals(schema.getNullable())) {
+                return true;
+            }
+        } else { // 3.0.x or 2.x spec
+            if ((schema.getType() == null || schema.getType().equals("null")) && schema.get$ref() == null) {
+                return true;
+            }
         }
 
         // convert referenced enum of null only to `nullable:true`
@@ -859,6 +899,60 @@ public class OpenAPINormalizer {
                     return (Schema) oneOfSchemas.get(0);
                 }
             }
+        }
+
+        return schema;
+    }
+
+    /**
+     * Set nullable to true in array/set if needed.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSetArraytoNullable(Schema schema) {
+        if (!getRule(SET_CONTAINER_TO_NULLABLE)) {
+            return schema;
+        }
+
+        if (Boolean.TRUE.equals(schema.getUniqueItems())) { // a set
+            if (updateSetToNullable) {
+                if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+                    // already set, don't overwrite
+                    return schema;
+                }
+                schema.setNullable(true);
+            }
+        } else { // array
+            if (updateArrayToNullable) {
+                if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+                    // already set, don't overwrite
+                    return schema;
+                }
+                schema.setNullable(true);
+            }
+        }
+
+        return schema;
+    }
+
+    /**
+     * Set nullable to true in map if needed.
+     *
+     * @param schema Schema
+     * @return Schema
+     */
+    private Schema processSetMapToNullable(Schema schema) {
+        if (!getRule(SET_CONTAINER_TO_NULLABLE)) {
+            return schema;
+        }
+
+        if (updateMapToNullable) {
+            if (schema.getNullable() != null || (schema.getExtensions() != null && schema.getExtensions().containsKey("x-nullable"))) {
+                // already set, don't override
+                return schema;
+            }
+            schema.setNullable(true);
         }
 
         return schema;
@@ -1036,6 +1130,7 @@ public class OpenAPINormalizer {
                 as.setMaxItems(schema.getMaxItems());
                 as.setExtensions(schema.getExtensions());
                 as.setXml(schema.getXml());
+                as.setUniqueItems(schema.getUniqueItems());
                 if (schema.getItems() != null) {
                     // `items` is also a json schema
                     if (StringUtils.isNotEmpty(schema.getItems().get$ref())) {

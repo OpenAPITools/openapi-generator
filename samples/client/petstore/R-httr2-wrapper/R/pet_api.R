@@ -1807,7 +1807,7 @@ PetApi <- R6::R6Class(
 
 
       form_params["additionalMetadata"] <- `additional_metadata`
-      file_params["file"] <- curl::form_file(`file`)
+      file_params[["file"]] <- curl::form_file(`file`)
       local_var_url_path <- "/pet/{petId}/uploadImage"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)

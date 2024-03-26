@@ -5,6 +5,7 @@ All URIs are relative to http://localhost:3000, except if the operation defines 
 | Method | HTTP request | Description |
 | ------------- | ------------- | ------------- |
 | [**testFormIntegerBooleanString()**](FormApi.md#testFormIntegerBooleanString) | **POST** /form/integer/boolean/string | Test form parameter(s) |
+| [**testFormObjectMultipart()**](FormApi.md#testFormObjectMultipart) | **POST** /form/object/multipart | Test form parameter(s) for multipart schema |
 | [**testFormOneof()**](FormApi.md#testFormOneof) | **POST** /form/oneof | Test form parameter(s) for oneOf schema |
 
 
@@ -62,6 +63,62 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: `application/x-www-form-urlencoded`
+- **Accept**: `text/plain`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `testFormObjectMultipart()`
+
+```php
+testFormObjectMultipart($marker): string
+```
+
+Test form parameter(s) for multipart schema
+
+Test form parameter(s) for multipart schema
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FormApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$marker = new \OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker(); // \OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker
+
+try {
+    $result = $apiInstance->testFormObjectMultipart($marker);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling FormApi->testFormObjectMultipart: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+| Name | Type | Description  | Notes |
+| ------------- | ------------- | ------------- | ------------- |
+| **marker** | [**\OpenAPI\Client\Model\TestFormObjectMultipartRequestMarker**](../Model/TestFormObjectMultipartRequestMarker.md)|  | |
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: `multipart/form-data`
 - **Accept**: `text/plain`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)

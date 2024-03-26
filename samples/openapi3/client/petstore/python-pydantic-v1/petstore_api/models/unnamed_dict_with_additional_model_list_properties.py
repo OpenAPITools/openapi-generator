@@ -26,7 +26,7 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
     """
     UnnamedDictWithAdditionalModelListProperties
     """
-    dict_property: Optional[Dict[str, conlist(CreatureInfo)]] = Field(None, alias="dictProperty")
+    dict_property: Optional[Dict[str, conlist(CreatureInfo)]] = Field(default=None, alias="dictProperty")
     additional_properties: Dict[str, Any] = {}
     __properties = ["dictProperty"]
 
@@ -59,7 +59,7 @@ class UnnamedDictWithAdditionalModelListProperties(BaseModel):
         _field_dict_of_array = {}
         if self.dict_property:
             for _key in self.dict_property:
-                if self.dict_property[_key]:
+                if self.dict_property[_key] is not None:
                     _field_dict_of_array[_key] = [
                         _item.to_dict() for _item in self.dict_property[_key]
                     ]

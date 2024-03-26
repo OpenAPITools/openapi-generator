@@ -37,7 +37,8 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     put:
       description: ""
       operationId: updatePet
@@ -58,7 +59,8 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -101,7 +103,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -141,7 +145,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       description: ""
@@ -173,7 +179,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -206,7 +213,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       description: ""
       operationId: updatePetWithForm
@@ -236,7 +245,8 @@ paths:
       tags:
       - pet
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -271,7 +281,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/inventory:
     get:
       description: Returns a map of status codes to quantities
@@ -291,7 +302,8 @@ paths:
       summary: Returns pet inventories by status
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /store/order:
     post:
       description: ""
@@ -319,7 +331,9 @@ paths:
       tags:
       - store
       x-content-type: application/json
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /store/order/{orderId}:
     delete:
       description: For valid response try integer IDs with value < 1000. Anything
@@ -342,7 +356,8 @@ paths:
       summary: Delete purchase order by ID
       tags:
       - store
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: For valid response try integer IDs with value <= 5 or > 10. Other
         values will generate exceptions
@@ -376,7 +391,9 @@ paths:
       summary: Find purchase order by ID
       tags:
       - store
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /user:
     post:
       description: This can only be done by the logged in user.
@@ -397,7 +414,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithArray:
     post:
       description: ""
@@ -413,7 +431,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/createWithList:
     post:
       description: ""
@@ -429,7 +448,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/login:
     get:
       description: ""
@@ -490,7 +510,9 @@ paths:
       summary: Logs user into the system
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
   /user/logout:
     get:
       description: ""
@@ -503,7 +525,8 @@ paths:
       summary: Logs out current logged in user session
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /user/{username}:
     delete:
       description: This can only be done by the logged in user.
@@ -527,7 +550,8 @@ paths:
       summary: Delete user
       tags:
       - user
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: ""
       operationId: getUserByName
@@ -557,7 +581,9 @@ paths:
       summary: Get user by user name
       tags:
       - user
-      x-accepts: "application/json,application/xml"
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: This can only be done by the logged in user.
       operationId: updateUser
@@ -588,7 +614,8 @@ paths:
       tags:
       - user
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   requestBodies:
     UserArray:

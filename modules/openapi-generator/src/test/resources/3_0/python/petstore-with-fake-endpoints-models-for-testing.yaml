@@ -1140,6 +1140,27 @@ paths:
                 properties:
                   reason404:
                     type: string
+  /fake/object_for_multipart_requests: 
+    post:
+      tags:
+        - fake
+      operationId: testObjectForMultipartRequests
+      responses:
+        "200":
+          description: Success
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - marker
+              properties:
+                marker:
+                  type: object
+                  properties:
+                    name:
+                      type: string
   /another-fake/dummy:
     patch:
       tags:
@@ -1524,6 +1545,20 @@ paths:
               schema:
                 type: string
                 format: byte
+  /import_test/return_datetime:
+    get:
+      tags:
+        - import-test-datetime
+      summary: test date time
+      operationId: import_test_return_datetime
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                format: date-time
+                type: string
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server

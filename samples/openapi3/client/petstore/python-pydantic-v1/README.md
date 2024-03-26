@@ -121,9 +121,11 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_inline_additional_properties**](docs/FakeApi.md#test_inline_additional_properties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**test_inline_freeform_additional_properties**](docs/FakeApi.md#test_inline_freeform_additional_properties) | **POST** /fake/inline-freeform-additionalProperties | test inline free-form additionalProperties
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**test_object_for_multipart_requests**](docs/FakeApi.md#test_object_for_multipart_requests) | **POST** /fake/object_for_multipart_requests | 
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-parameters | 
 *FakeApi* | [**test_string_map_reference**](docs/FakeApi.md#test_string_map_reference) | **POST** /fake/stringMap-reference | test referenced string map
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
+*ImportTestDatetimeApi* | [**import_test_return_datetime**](docs/ImportTestDatetimeApi.md#import_test_return_datetime) | **GET** /import_test/return_datetime | test date time
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
@@ -236,6 +238,7 @@ Class | Method | HTTP request | Description
  - [TestErrorResponsesWithModel400Response](docs/TestErrorResponsesWithModel400Response.md)
  - [TestErrorResponsesWithModel404Response](docs/TestErrorResponsesWithModel404Response.md)
  - [TestInlineFreeformAdditionalPropertiesRequest](docs/TestInlineFreeformAdditionalPropertiesRequest.md)
+ - [TestObjectForMultipartRequestsRequestMarker](docs/TestObjectForMultipartRequestsRequestMarker.md)
  - [Tiger](docs/Tiger.md)
  - [UnnamedDictWithAdditionalModelListProperties](docs/UnnamedDictWithAdditionalModelListProperties.md)
  - [UnnamedDictWithAdditionalStringListProperties](docs/UnnamedDictWithAdditionalStringListProperties.md)
