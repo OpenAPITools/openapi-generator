@@ -2,7 +2,9 @@ abstract
 as
 assert
 async
+augment
 await
+base
 break
 case
 catch
@@ -50,6 +52,7 @@ patch
 required
 rethrow
 return
+sealed
 set
 show
 source
@@ -64,6 +67,7 @@ try
 typedef
 var
 void
+when
 while
 with
 yield
