@@ -49,6 +49,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     protected String artifactId = env("ARTIFACT_ID", "caskgen");
     protected String basePackage = groupId;
     protected String artifactVersion = "1.0.0";
+    protected String gitUserId = env("GIT_USER", System.getProperty("user.name"));
+    protected String gitRepoId = env("GIT_REPO", artifactId);
     protected String appName = env("APP_NAME", "Cask App");
     protected String infoEmail = env("INFO_EMAIL", "contact@kindservices.co.uk");
 
@@ -117,6 +119,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(groupId));
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC).defaultValue(artifactId));
+        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC).defaultValue(gitRepoId));
+        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC).defaultValue(gitUserId));
     }
 
     @Override
@@ -171,12 +175,17 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
+        additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, basePackage);
+        additionalProperties.put("openbrackets", "{{");
+        additionalProperties.put("closebrackets", "}}");
 
         supportingFiles.add(new SupportingFile("example.mustache", "example", "Server.scala"));
         supportingFiles.add(new SupportingFile("Dockerfile.mustache", "example", "Dockerfile"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
+        supportingFiles.add(new SupportingFile("bulidAndPublish.yml.mustache", "", ".github/workflows/bulidAndPublish.yml"));
         supportingFiles.add(new SupportingFile("build.sc.mustache", "", "build.sc"));
         supportingFiles.add(new SupportingFile(".scalafmt.conf.mustache", "", ".scalafmt.conf"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));

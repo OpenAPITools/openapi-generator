@@ -8,3 +8,16 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %% "upickle" % "3.2.0",
   "org.scalatest" %% "scalatest" % "3.2.18" % Test
 )
+
+publishMavenStyle := true
+
+val githubUser = "{{{gitUserId}}}"
+val githubRepo = "{{{gitRepoId}}}"
+publishTo := Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$githubUser/$githubRepo")
+
+credentials += Credentials(
+  "GitHub Package Registry",
+  "maven.pkg.github.com",
+  githubUser,
+  sys.env("GITHUB_TOKEN")
+)
