@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  license:
+    name: MIT
+  title: Example - oneOf data type
+  version: 1.0.0
+servers:
+- url: http://api.example.xyz/v1
+paths:
+  /example:
+    get:
+      operationId: list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Example'
+          description: OK
+      x-accepts:
+      - application/json
+components:
+  schemas:
+    Example:
+      oneOf:
+      - format: uuid
+        type: string
+      - items:
+          type: integer
+        type: array
+
