@@ -15,7 +15,7 @@
 
 import type { Configuration } from "./configuration";
 import type { RequestArgs } from "./base";
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosResponse } from "axios";
 import { RequiredError } from "./base";
 
 /**
@@ -83,6 +83,7 @@ export const setOAuthToObject = async function (object: any, name: string, scope
         object["Authorization"] = "Bearer " + localVarAccessTokenValue;
     }
 }
+
 
 function setFlattenedQueryParams(urlSearchParams: URLSearchParams, parameter: any, key: string = ""): void {
     if (parameter == null) return;

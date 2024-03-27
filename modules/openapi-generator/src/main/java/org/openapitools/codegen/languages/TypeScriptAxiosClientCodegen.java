@@ -42,9 +42,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
     public static final String WITH_NODE_IMPORTS = "withNodeImports";
     public static final String STRING_ENUMS = "stringEnums";
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
 
     protected String npmRepository = null;
     protected Boolean stringEnums = false;
+    protected boolean withAWSV4Signature = false;
 
     private String tsModelPackage = "";
 
@@ -53,7 +55,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
-                .includeSecurityFeatures(SecurityFeature.BearerToken));
+                .includeSecurityFeatures(SecurityFeature.BearerToken, SecurityFeature.AWSV4Signature));
 
         // clear import mapping (from default generator) as TS does not use it
         // at the moment
@@ -73,6 +75,7 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         this.cliOptions.add(new CliOption(USE_SINGLE_REQUEST_PARAMETER, "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(WITH_NODE_IMPORTS, "Setting this property to true adds imports for NodeJS", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support", SchemaTypeUtil.BOOLEAN_TYPE).defaultValue(Boolean.FALSE.toString()));
         // Templates have no mapping between formatted property names and original base names so use only "original" and remove this option
         removeOption(CodegenConstants.MODEL_PROPERTY_NAMING);
     }
@@ -151,6 +154,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(NPM_NAME)) {
             addNpmPackageGeneration();
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT)) {
+            this.setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT).toString()));
+        }
+        additionalProperties.put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, withAWSV4Signature);
 
     }
 
@@ -264,6 +272,10 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
             m.put("filename", javaImport.replaceAll("([a-z0-9])([A-Z])", "$1-$2").toLowerCase(Locale.ROOT));
         }
         return objs;
+    }
+
+    public void setWithAWSV4Signature(boolean withAWSV4Signature) {
+        this.withAWSV4Signature = withAWSV4Signature;
     }
 
     /**
