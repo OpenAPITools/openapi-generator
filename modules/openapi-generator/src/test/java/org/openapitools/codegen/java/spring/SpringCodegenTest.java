@@ -4505,8 +4505,11 @@ public class SpringCodegenTest {
         //       public Object4(Type1 pageInfo, String responseType, String requestId, Boolean success) {
         //            super(responseType, requestId, success, pageInfo);
         //        }
+        // UPDATE: with https://github.com/OpenAPITools/openapi-generator/pull/18238
+        // (REFACTOR_ALLOF_WITH_PROPERTIES_ONLY default to true)
+        // public Object4(String responseType, String requestId, Boolean success, Type1 pageInfo)
         JavaFileAssert.assertThat(output.get("Object4.java"))
-                .assertConstructor("Type1", "String", "String", "Boolean")
+                .assertConstructor("String", "String", "Boolean", "Type1")
                 .hasParameter("responseType").toConstructor()
                 .hasParameter("requestId").toConstructor()
                 .hasParameter("success").toConstructor()
