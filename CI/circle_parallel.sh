@@ -13,7 +13,7 @@ if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX ..."
   java -version
 
-  sudo apt-get -y install cpanminus libmagic-dev
+  sudo apt-get -y install cpanminus
 
   (cd samples/client/petstore/perl && /bin/bash ./test.bash)
   (cd samples/client/petstore/ruby && mvn integration-test)
@@ -112,5 +112,3 @@ else
   (cd samples/client/petstore/java/apache-httpclient && mvn integration-test)
 
 fi
-
-
