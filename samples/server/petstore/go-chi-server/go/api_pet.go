@@ -221,8 +221,8 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	if query.Has("status") {
 		statusParam = strings.Split(query.Get("status"), ",")
 	}
-	inlineEnumPathParam := chi.URLParam(r, "inlineEnumPath")
-	if inlineEnumPathParam == "" {
+	inlineEnumPathParam := getPointerOrNilIfEmpty(chi.URLParam(r, "inlineEnumPath"))
+	if inlineEnumPathParam == nil {
 		c.errorHandler(w, r, &RequiredError{"inlineEnumPath"}, nil)
 		return
 	}

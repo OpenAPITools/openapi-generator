@@ -177,8 +177,8 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
@@ -202,8 +202,8 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
@@ -298,8 +298,8 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}

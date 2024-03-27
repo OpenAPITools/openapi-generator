@@ -178,8 +178,8 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	usernameParam := params["username"]
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
@@ -204,8 +204,8 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	usernameParam := params["username"]
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
@@ -269,8 +269,8 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	usernameParam := params["username"]
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(params["username"])
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}

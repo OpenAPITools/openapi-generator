@@ -186,8 +186,8 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isDateTime}}
 	{{^isEnumRef}}
-	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
-	if {{paramName}}Param == "" {
+	{{paramName}}Param := getPointerOrNilIfEmpty({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if {{paramName}}Param == nil {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}

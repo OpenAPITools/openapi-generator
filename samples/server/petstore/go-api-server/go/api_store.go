@@ -76,8 +76,8 @@ func (c *StoreAPIController) Routes() Routes {
 // DeleteOrder - Delete purchase order by ID
 func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
-	orderIdParam := params["orderId"]
-	if orderIdParam == "" {
+	orderIdParam := getPointerOrNilIfEmpty(params["orderId"])
+	if orderIdParam == nil {
 		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
 		return
 	}
