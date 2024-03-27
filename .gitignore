@@ -46,6 +46,8 @@ nb-configuration.xml
 *.pm~
 *.xml~
 *.t~
+?/.m2/
+?/.config/jgit/config
 
 /target
 /generated-files
