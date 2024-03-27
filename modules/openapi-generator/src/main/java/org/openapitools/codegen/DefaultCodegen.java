@@ -2464,6 +2464,14 @@ public class DefaultCodegen implements CodegenConfig {
     protected String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = unaliasSchema(schema);
 
+        if (ModelUtils.isRefToSchemaWithProperties(unaliasSchema.get$ref())) {
+            // ref to schema's properties, e.g. #/components/schemas/Pet/properties/category
+            Schema refSchema = ModelUtils.getReferencedSchema(openAPI, unaliasSchema);
+            if (refSchema != null) {
+                return getSingleSchemaType(refSchema);
+            }
+        }
+
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
             // get the schema/model name from $ref
             String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
@@ -3354,7 +3362,7 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(((Schema) oneOf).get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) oneOf, discPropName, visitedSchemas);
                     if (thisCp == null) {
-                        LOGGER.warn(
+                        once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced OneOf schema '{}' is missing {}",
                                 composedSchemaName, discPropName, modelName, discPropName);
                     }
@@ -3363,7 +3371,7 @@ public class DefaultCodegen implements CodegenConfig {
                         continue;
                     }
                     if (cp != thisCp) {
-                        LOGGER.warn(
+                        once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the OneOf schema '{}' has a different {} definition than the prior OneOf schema's. Make sure the {} type and required values are the same",
                                 composedSchemaName, discPropName, modelName, discPropName, discPropName);
                     }
@@ -3377,7 +3385,7 @@ public class DefaultCodegen implements CodegenConfig {
                     String modelName = ModelUtils.getSimpleRef(((Schema) anyOf).get$ref());
                     CodegenProperty thisCp = discriminatorFound(composedSchemaName, (Schema) anyOf, discPropName, visitedSchemas);
                     if (thisCp == null) {
-                        LOGGER.warn(
+                        once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the referenced AnyOf schema '{}' is missing {}",
                                 composedSchemaName, discPropName, modelName, discPropName);
                     }
@@ -3386,7 +3394,7 @@ public class DefaultCodegen implements CodegenConfig {
                         continue;
                     }
                     if (cp != thisCp) {
-                        LOGGER.warn(
+                        once(LOGGER).warn(
                                 "'{}' defines discriminator '{}', but the AnyOf schema '{}' has a different {} definition than the prior AnyOf schema's. Make sure the {} type and required values are the same",
                                 composedSchemaName, discPropName, modelName, discPropName, discPropName);
                     }
@@ -3454,7 +3462,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 if (discriminatorsPropNames.size() > 1) {
-                    LOGGER.warn("The oneOf schemas have conflicting discriminator property names. " +
+                    once(LOGGER).warn("The oneOf schemas have conflicting discriminator property names. " +
                             "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
                 if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
@@ -3483,7 +3491,7 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
                 if (discriminatorsPropNames.size() > 1) {
-                    LOGGER.warn("The anyOf schemas have conflicting discriminator property names. " +
+                    once(LOGGER).warn("The anyOf schemas have conflicting discriminator property names. " +
                             "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
                 if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
@@ -3532,7 +3540,7 @@ public class DefaultCodegen implements CodegenConfig {
                     // schemas also has inline composed schemas
                     // Note: if it is only inline one level, then the inline model resolver will move it into its own
                     // schema and make it a $ref schema in the oneOf/anyOf location
-                    LOGGER.warn(
+                    once(LOGGER).warn(
                             "Invalid inline schema defined in oneOf/anyOf in '{}'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the oneOf/anyOf schemas must use $ref. Change this inline definition to a $ref definition",
                             composedSchemaName);
                 }
@@ -3554,14 +3562,14 @@ public class DefaultCodegen implements CodegenConfig {
                             msgSuffix += spacer + "invalid optional definition of " + discPropName + ", include it in required";
                         }
                     }
-                    LOGGER.warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
+                    once(LOGGER).warn("'{}' defines discriminator '{}', but the referenced schema '{}' is incorrect. {}",
                             composedSchemaName, discPropName, modelName, msgSuffix);
                 }
                 MappedModel mm = new MappedModel(modelName, toModelName(modelName));
                 descendentSchemas.add(mm);
                 Schema cs = ModelUtils.getSchema(openAPI, modelName);
                 if (cs == null) { // cannot lookup the model based on the name
-                    LOGGER.error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
+                    once(LOGGER).error("Failed to lookup the schema '{}' when processing oneOf/anyOf. Please check to ensure it's defined properly.", modelName);
                 } else {
                     Map<String, Object> vendorExtensions = cs.getExtensions();
                     if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
@@ -3674,7 +3682,7 @@ public class DefaultCodegen implements CodegenConfig {
                 if (e.getValue().indexOf('/') >= 0) {
                     name = ModelUtils.getSimpleRef(e.getValue());
                     if (ModelUtils.getSchema(openAPI, name) == null) {
-                        LOGGER.error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
+                        once(LOGGER).error("Failed to lookup the schema '{}' when processing the discriminator mapping of oneOf/anyOf. Please check to ensure it's defined properly.", name);
                     }
                 } else {
                     name = e.getValue();
@@ -3981,6 +3989,13 @@ public class DefaultCodegen implements CodegenConfig {
         if (cpc != null) {
             LOGGER.debug("Cached fromProperty for {} : {} required={}", name, p.getName(), required);
             return cpc;
+        }
+
+        // if it's ref to schema's properties, get the actual schema defined in the properties
+        Schema refToPropertiesSchema = ModelUtils.getSchemaFromRefToSchemaWithProperties(openAPI, p.get$ref());
+        if (refToPropertiesSchema != null) {
+            p = refToPropertiesSchema;
+            return fromProperty(name, refToPropertiesSchema, required, schemaIsFromAdditionalProperties);
         }
 
         Schema original = null;
