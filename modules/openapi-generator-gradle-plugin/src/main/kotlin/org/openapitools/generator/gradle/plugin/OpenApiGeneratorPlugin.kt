@@ -100,6 +100,7 @@ class OpenApiGeneratorPlugin : Plugin<Project> {
                     inputSpecRootDirectory.set(generate.inputSpecRootDirectory)
                     remoteInputSpec.set(generate.remoteInputSpec)
                     templateDir.set(generate.templateDir)
+                    templateResourcePath.set(generate.templateResourcePath)
                     auth.set(generate.auth)
                     globalProperties.set(generate.globalProperties)
                     configFile.set(generate.configFile)
