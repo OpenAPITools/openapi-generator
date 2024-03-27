@@ -13,8 +13,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"time"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -96,11 +94,6 @@ func (c *PetAPIController) Routes() Routes {
 			strings.ToUpper("Get"),
 			"/v2/pets/boolean/parsing",
 			c.GetPetsUsingBooleanQueryParameters,
-		},
-		"SearchPet": Route{
-			strings.ToUpper("Get"),
-			"/v2/pet/searchPetWithManyFilters",
-			c.SearchPet,
 		},
 		"UpdatePet": Route{
 			strings.ToUpper("Put"),
@@ -185,13 +178,13 @@ func (c *PetAPIController) FilterPetsByCategory(w http.ResponseWriter, r *http.R
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	var speciesParam Species
-	if query.Has("species") {
-		param := Species(query.Get("species"))
-
-		speciesParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "species"}, nil)
+	if !query.Has("species"){
+		c.errorHandler(w, r, &RequiredError{"species"}, nil)
+		return
+	}
+	speciesParam, err := NewSpeciesFromValue(query.Get("species"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
 	var notSpeciesParam []Species
@@ -235,10 +228,7 @@ func (c *PetAPIController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	}
 	var inlineEnumParam string
 	if query.Has("inlineEnum") {
-		param := query.Get("inlineEnum")
-
-		inlineEnumParam = param
-	} else {
+		inlineEnumParam = query.Get("inlineEnum")
 	}
 	result, err := c.service.FindPetsByStatus(r.Context(), statusParam, inlineEnumPathParam, inlineEnumParam)
 	// If an error occurred, encode the error with the status code
@@ -262,38 +252,21 @@ func (c *PetAPIController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	if query.Has("tags") {
 		tagsParam = strings.Split(query.Get("tags"), ",")
 	}
-	var bornAfterParam time.Time
-	if query.Has("bornAfter"){
-		param, err := parseTime(query.Get("bornAfter"))
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		bornAfterParam = param
-	} else {
+	if !query.Has("bornAfter"){
 		c.errorHandler(w, r, &RequiredError{"bornAfter"}, nil)
 		return
 	}
-	var bornBeforeParam time.Time
-	if query.Has("bornBefore"){
-		param, err := parseTime(query.Get("bornBefore"))
-		if err != nil {
+	bornAfterParam, err := parseTime(query.Get("bornAfter"))
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
+	}
+	bornBeforeParam, err := parseTime(query.Get("bornBefore"))
+	if err != nil {
 			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 			return
-		}
-
-		bornBeforeParam = param
-	} else {
 	}
-	var colourParam Colour
-	if query.Has("colour") {
-		param := Colour(query.Get("colour"))
-
-		colourParam = param
-	} else {
-	}
-	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam, colourParam)
+	result, err := c.service.FindPetsByTags(r.Context(), tagsParam, bornAfterParam, bornBeforeParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -367,123 +340,31 @@ func (c *PetAPIController) GetPetsUsingBooleanQueryParameters(w http.ResponseWri
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	var exprParam bool
-	if query.Has("expr") {
-		param, err := parseBoolParameter(
-			query.Get("expr"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		exprParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "expr"}, nil)
-		return
-	}
-	var groupingParam bool
-	if query.Has("grouping") {
-		param, err := parseBoolParameter(
-			query.Get("grouping"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		groupingParam = param
-	} else {
-	}
-	var inactiveParam bool
-	if query.Has("inactive") {
-		param, err := parseBoolParameter(
-			query.Get("inactive"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		inactiveParam = param
-	} else {
-		var param bool = false
-		inactiveParam = param
-	}
-	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
-	// If an error occurred, encode the error with the status code
-	if err != nil {
-		c.errorHandler(w, r, err, &result)
-		return
-	}
-	// If no error, encode the body and the result code
-	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
-}
-
-// SearchPet - Search Pets by filters
-func (c *PetAPIController) SearchPet(w http.ResponseWriter, r *http.Request) {
-	query, err := parseQuery(r.URL.RawQuery)
+	exprParam, err := parseBoolParameter(
+		query.Get("expr"),
+		WithRequire[bool](parseBool),
+	)
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	var ageParam *int64
-	if query.Has("age") {
-		param, err := parseNumericParameter[int64](
-			query.Get("age"),
-			WithParse[int64](parseInt64),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		ageParam = &param
-	} else {
+	groupingParam, err := parseBoolParameter(
+		query.Get("grouping"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var priceParam *float32
-	if query.Has("price") {
-		param, err := parseNumericParameter[float32](
-			query.Get("price"),
-			WithParse[float32](parseFloat32),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		priceParam = &param
-	} else {
+	inactiveParam, err := parseBoolParameter(
+		query.Get("inactive"),
+		WithDefaultOrParse[bool](false, parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var bornAfterParam *time.Time
-	if query.Has("bornAfter"){
-		param, err := parseTime(query.Get("bornAfter"))
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		bornAfterParam = &param
-	} else {
-	}
-	var oldParam *bool
-	if query.Has("old") {
-		param, err := parseBoolParameter(
-			query.Get("old"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		oldParam = &param
-	} else {
-	}
-	result, err := c.service.SearchPet(r.Context(), ageParam, priceParam, bornAfterParam, oldParam)
+	result, err := c.service.GetPetsUsingBooleanQueryParameters(r.Context(), exprParam, groupingParam, inactiveParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -534,11 +415,11 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	
+
+
 	nameParam := r.FormValue("name")
-	
-	
+
+
 	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
@@ -564,24 +445,19 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	
-	additionalMetadataParam := r.FormValue("additionalMetadata")
-	
-	
-	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
-	var fileParam *os.File
-	{
-		param, err := ReadFormFileToTempFile(r, "file")
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
 
-		fileParam = param
+
+	additionalMetadataParam := r.FormValue("additionalMetadata")
+
+
+	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
+	fileParam, err := ReadFormFileToTempFile(r, "file")
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	
-	
+
+
 	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, extraOptionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -606,21 +482,16 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	
-	
-	additionalMetadataParam := r.FormValue("additionalMetadata")
-	var filesParam []*os.File
-	{
-		param, err := ReadFormFilesToTempFiles(r, "files")
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
 
-		filesParam = param
+
+	additionalMetadataParam := r.FormValue("additionalMetadata")
+	filesParam, err := ReadFormFilesToTempFiles(r, "files")
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	
-	
+
+
 	result, err := c.service.UploadFileArrayOfFiles(r.Context(), petIdParam, additionalMetadataParam, filesParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
