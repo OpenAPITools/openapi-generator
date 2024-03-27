@@ -661,53 +661,31 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     }
 
     /**
-     * Expand path template with variables
-     *
-     * @param pathTemplate path template with placeholders
-     * @param variables variables to replace
-     * @return path with placeholders replaced by variables
-     */
-    public String expandPath(String pathTemplate, Map<String, Object> variables) {
-        return restTemplate.getUriTemplateHandler().expand(pathTemplate, variables).toString();
-    }
-
-    /**
-     * Include queryParams in uriParams taking into account the paramName
-     *
+     * Process the queryParams taking into account the paramName encoding and paramValue template.
      * @param queryParams The query parameters
      * @param uriParams The path parameters
-     * return templatized query string
+     * return templatized query parameters
      */
-    public String generateQueryUri(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
-        StringBuilder queryBuilder = new StringBuilder();
-        queryParams.forEach((name, values) -> {
-            try {
-                final String encodedName = URLEncoder.encode(name.toString(), "UTF-8");
-                if (CollectionUtils.isEmpty(values)) {
-                    if (queryBuilder.length() != 0) {
-                        queryBuilder.append('&');
-                    }
-                    queryBuilder.append(encodedName);
-                } else {
+    public MultiValueMap<String, String> processQueryParams(MultiValueMap<String, String> queryParams, Map<String, Object> uriParams) {
+        final MultiValueMap<String, String> result = new LinkedMultiValueMap<>();
+        if (queryParams != null) {
+            queryParams.forEach((name, values) -> {
+                final String encodedName = URLEncoder.encode(name, StandardCharsets.UTF_8);
+                final List<String> resultValues =
+                    result.computeIfAbsent(encodedName, k -> new ArrayList<>(1));
+                if (!CollectionUtils.isEmpty(values)) {
                     int valueItemCounter = 0;
                     for (Object value : values) {
-                        if (queryBuilder.length() != 0) {
-                            queryBuilder.append('&');
-                        }
-                        queryBuilder.append(encodedName);
                         if (value != null) {
                             String templatizedKey = encodedName + valueItemCounter++;
                             uriParams.put(templatizedKey, value.toString());
-                            queryBuilder.append('=').append("{").append(templatizedKey).append("}");
+                            resultValues.add(String.format("{%s}", templatizedKey));
                         }
                     }
                 }
-            } catch (UnsupportedEncodingException e) {
-
-            }
-        });
-        return queryBuilder.toString();
-
+            });
+        }
+        return result;
     }
 
     /**
@@ -731,28 +709,16 @@ public class ApiClient{{#jsr310}} extends JavaTimeFormatter{{/jsr310}} {
     public <T> ResponseEntity<T> invokeAPI(String path, HttpMethod method, Map<String, Object> pathParams, MultiValueMap<String, String> queryParams, Object body, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams, MultiValueMap<String, Object> formParams, List<MediaType> accept, MediaType contentType, String[] authNames, ParameterizedTypeReference<T> returnType) throws RestClientException {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
-        Map<String,Object> uriParams = new HashMap<>();
-        uriParams.putAll(pathParams);
+   	    final Map<String,Object> uriParams = new HashMap<>(pathParams);
+        final URI uri = UriComponentsBuilder.fromHttpUrl(basePath)
+            .path(path)
+            // Encode the name and templatize values before adding them
+            .queryParams(processQueryParams(queryParams, uriParams))
+            .encode()
+            .buildAndExpand(uriParams)
+            .toUri();
 
-        String finalUri = path;
-
-        if (queryParams != null && !queryParams.isEmpty()) {
-            //Include queryParams in uriParams taking into account the paramName
-            String queryUri = generateQueryUri(queryParams, uriParams);
-            //Append to finalUri the templatized query string like "?param1={param1Value}&.......
-            finalUri += "?" + queryUri;
-        }
-        String expandedPath = this.expandPath(finalUri, uriParams);
-        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(expandedPath);
-
-        URI uri;
-        try {
-            uri = new URI(builder.build().toUriString());
-        } catch (URISyntaxException ex)  {
-            throw new RestClientException("Could not build URL: " + builder.toUriString(), ex);
-        }
-
-        final BodyBuilder requestBuilder = RequestEntity.method(method, UriComponentsBuilder.fromHttpUrl(basePath).toUriString() + finalUri, uriParams);
+        final BodyBuilder requestBuilder = RequestEntity.method(method, uri);
         if (accept != null) {
             requestBuilder.accept(accept.toArray(new MediaType[accept.size()]));
         }
