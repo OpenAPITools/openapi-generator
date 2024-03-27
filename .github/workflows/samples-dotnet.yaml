@@ -3,16 +3,16 @@ name: Samples C# .Net 8 Clients
 on:
   push:
     paths:
-      - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**
-      - samples/client/petstore/csharp/*net6.0*/**
-      - samples/client/petstore/csharp/*net7.0*/**
-      - samples/client/petstore/csharp/OpenAPIClient-*latest*/**
+      - samples/client/petstore/csharp/generichost/net8/**
+      - samples/client/petstore/csharp/httpclient/net8/**
+      - samples/client/petstore/csharp/restsharp/net8/**
+      - samples/client/petstore/csharp/unityWebRequest/net8/**
   pull_request:
     paths:
-      - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests/**
-      - samples/client/petstore/csharp/*net6.0*/**
-      - samples/client/petstore/csharp/*net7.0*/**
-      - samples/client/petstore/csharp/OpenAPIClient-*latest*/**
+      - samples/client/petstore/csharp/generichost/net8/**
+      - samples/client/petstore/csharp/httpclient/net8/**
+      - samples/client/petstore/csharp/restsharp/net8/**
+      - samples/client/petstore/csharp/unityWebRequest/net8/**
 jobs:
   build:
     name: Build .Net projects
@@ -21,16 +21,14 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          # clients
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-manual-tests
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0-nrt
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-net6.0-nrt-useSourceGeneration
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-net7.0-useDateTimeForDate
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-allOf
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-anyOf
-          - samples/client/petstore/csharp/OpenAPIClient-generichost-netcore-latest-oneOf
-          - samples/client/petstore/csharp/OpenAPIClient-net7.0-useDateTimeForDate
+          - samples/client/petstore/csharp/generichost/net8/ManualTests
+          - samples/client/petstore/csharp/generichost/net8/Petstore
+          - samples/client/petstore/csharp/generichost/net8/NullReferenceTypes
+          - samples/client/petstore/csharp/generichost/net8/SourceGeneration
+          - samples/client/petstore/csharp/generichost/net8/UseDateTimeForDate
+          - samples/client/petstore/csharp/generichost/net8/AllOf
+          - samples/client/petstore/csharp/generichost/net8/AnyOf
+          - samples/client/petstore/csharp/generichost/net8/OneOf
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
