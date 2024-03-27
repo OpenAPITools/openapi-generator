@@ -81,7 +81,7 @@ func (c *StoreAPIController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 		c.errorHandler(w, r, &RequiredError{"orderId"}, nil)
 		return
 	}
-	result, err := c.service.DeleteOrder(r.Context(), orderIdParam)
+	result, err := c.service.DeleteOrder(r.Context(), *orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -116,7 +116,7 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetOrderById(r.Context(), orderIdParam)
+	result, err := c.service.GetOrderById(r.Context(), *orderIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -128,22 +128,22 @@ func (c *StoreAPIController) GetOrderById(w http.ResponseWriter, r *http.Request
 
 // PlaceOrder - Place an order for a pet
 func (c *StoreAPIController) PlaceOrder(w http.ResponseWriter, r *http.Request) {
-	orderParam := Order{}
+	orderParam := &Order{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&orderParam); err != nil {
+	if err := d.Decode(orderParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertOrderRequired(orderParam); err != nil {
+	if err := AssertOrderRequired(*orderParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertOrderConstraints(orderParam); err != nil {
+	if err := AssertOrderConstraints(*orderParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.PlaceOrder(r.Context(), orderParam)
+	result, err := c.service.PlaceOrder(r.Context(), *orderParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

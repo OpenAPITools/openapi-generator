@@ -44,12 +44,12 @@ func (v Gender) IsValid() bool {
 
 // NewGenderFromValue returns a pointer to a valid Gender
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func NewGenderFromValue(v string) (Gender, error) {
+func NewGenderFromValue(v string) (*Gender, error) {
 	ev := Gender(v)
 	if ev.IsValid() {
-		return ev, nil
+		return &ev, nil
 	} else {
-		return "", fmt.Errorf("invalid value '%v' for Gender: valid values are %v", v, AllowedGenderEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for Gender: valid values are %v", v, AllowedGenderEnumValues)
 	}
 }
 
