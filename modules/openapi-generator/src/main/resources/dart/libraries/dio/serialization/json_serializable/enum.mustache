@@ -7,11 +7,13 @@ import 'package:json_annotation/json_annotation.dart';
 enum {{{classname}}} {
 {{#allowableValues}}
 {{#enumVars}}
-  {{#description}}
-  /// {{{.}}}
-  {{/description}}
-  @JsonValue({{#isString}}r{{/isString}}{{{value}}})
-  {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{^isNull}}
+      {{#description}}
+          /// {{{.}}}
+      {{/description}}
+      @JsonValue({{#isString}}r{{/isString}}{{{value}}})
+      {{{name}}}({{^isString}}'{{/isString}}{{#isString}}r{{/isString}}{{{value}}}{{^isString}}'{{/isString}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+  {{/isNull}}
 {{/enumVars}}
 {{/allowableValues}}
 
