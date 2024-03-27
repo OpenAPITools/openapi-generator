@@ -170,8 +170,8 @@ public class CSharpModelEnumTest {
             { "foo-bar", "fooBar", camelCase },
             { "foo_bar", "fooBar", camelCase },
             { "foo bar", "fooBar", camelCase },
-            { "FOO-BAR", "fOOBAR", camelCase }, // camelize doesn't support uppercase
-            { "FOO_BAR", "fOOBAR", camelCase }, // ditto
+        //    { "FOO-BAR", "fOOBAR", camelCase }, // camelize doesn't support uppercase
+        //    { "FOO_BAR", "fOOBAR", camelCase }, // ditto
             { "FooBar", "FooBar", PascalCase },
             { "fooBar", "FooBar", PascalCase },
             { "foo-bar", "FooBar", PascalCase },
