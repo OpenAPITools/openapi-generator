@@ -235,42 +235,6 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
-	query, err := parseQuery(r.URL.RawQuery)
-	if err != nil {
-		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-		return
-	}
-	var usernameParam string
-	if query.Has("username") {
-		param := query.Get("username")
-
-		usernameParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "username"}, nil)
-		return
-	}
-	var passwordParam string
-	if query.Has("password") {
-		param := query.Get("password")
-
-		passwordParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
-		return
-	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
 	}
 	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code

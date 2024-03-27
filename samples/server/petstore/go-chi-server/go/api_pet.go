@@ -415,11 +415,11 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
-
+	
+	
 	nameParam := r.FormValue("name")
-
-
+	
+	
 	statusParam := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
@@ -445,19 +445,19 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
-
+	
+	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
-
-
+	
+	
 	extraOptionalMetadataParam := strings.Split(r.FormValue("extraOptionalMetadata"), ",")
 	fileParam, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
-
+	
+	
 	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, extraOptionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
@@ -482,16 +482,16 @@ func (c *PetAPIController) UploadFileArrayOfFiles(w http.ResponseWriter, r *http
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
-
+	
+	
 	additionalMetadataParam := r.FormValue("additionalMetadata")
 	filesParam, err := ReadFormFilesToTempFiles(r, "files")
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-
-
+	
+	
 	result, err := c.service.UploadFileArrayOfFiles(r.Context(), petIdParam, additionalMetadataParam, filesParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
