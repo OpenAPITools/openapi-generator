@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
-  private Boolean declawed;
+  protected Boolean declawed;
 
   public Cat() {
 

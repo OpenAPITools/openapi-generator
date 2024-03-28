@@ -53,7 +53,7 @@ public class Animal {
   protected String className;
 
   public static final String JSON_PROPERTY_COLOR = "color";
-  private String color = "red";
+  protected String color = "red";
 
   public Animal() {
   }

@@ -284,7 +284,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    this.anytype1 = Optional.of(anytype1);
+    this.anytype1 = Optional.ofNullable(anytype1);
     return this;
   }
 
@@ -324,7 +324,7 @@ public class AdditionalPropertiesClass {
   }
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    this.anytype3 = Optional.of(anytype3);
+    this.anytype3 = Optional.ofNullable(anytype3);
     return this;
   }
 
@@ -410,5 +410,128 @@ public class AdditionalPropertiesClass {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
+  public static class Builder {
+
+    private AdditionalPropertiesClass instance;
+
+    public Builder() {
+      this(new AdditionalPropertiesClass());
+    }
+
+    protected Builder(AdditionalPropertiesClass instance) {
+      this.instance = instance;
+    }
+
+    protected Builder copyOf(AdditionalPropertiesClass value) { 
+      this.instance.setMapString(value.mapString);
+      this.instance.setMapNumber(value.mapNumber);
+      this.instance.setMapInteger(value.mapInteger);
+      this.instance.setMapBoolean(value.mapBoolean);
+      this.instance.setMapArrayInteger(value.mapArrayInteger);
+      this.instance.setMapArrayAnytype(value.mapArrayAnytype);
+      this.instance.setMapMapString(value.mapMapString);
+      this.instance.setMapMapAnytype(value.mapMapAnytype);
+      this.instance.setAnytype1(value.anytype1);
+      this.instance.setAnytype2(value.anytype2);
+      this.instance.setAnytype3(value.anytype3);
+      return this;
+    }
+
+    public AdditionalPropertiesClass.Builder mapString(Map<String, String> mapString) {
+      this.instance.mapString(mapString);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapNumber(Map<String, BigDecimal> mapNumber) {
+      this.instance.mapNumber(mapNumber);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapInteger(Map<String, Integer> mapInteger) {
+      this.instance.mapInteger(mapInteger);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapBoolean(Map<String, Boolean> mapBoolean) {
+      this.instance.mapBoolean(mapBoolean);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
+      this.instance.mapArrayInteger(mapArrayInteger);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
+      this.instance.mapArrayAnytype(mapArrayAnytype);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapMapString(Map<String, Map<String, String>> mapMapString) {
+      this.instance.mapMapString(mapMapString);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
+      this.instance.mapMapAnytype(mapMapAnytype);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder anytype1(Object anytype1) {
+      this.instance.anytype1(anytype1);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder anytype2(Object anytype2) {
+      this.instance.anytype2(anytype2);
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder anytype2(JsonNullable<Object> anytype2) {
+      this.instance.anytype2 = anytype2;
+      return this;
+    }
+    
+    public AdditionalPropertiesClass.Builder anytype3(Object anytype3) {
+      this.instance.anytype3(anytype3);
+      return this;
+    }
+    
+    /**
+    * returns a built AdditionalPropertiesClass instance.
+    *
+    * The builder is not reusable (NullPointerException)
+    */
+    public AdditionalPropertiesClass build() {
+      try {
+        return this.instance;
+      } finally {
+        // ensure that this.instance is not reused
+        this.instance = null;
+      }
+    }
+
+    @Override
+    public String toString() {
+      return getClass() + "=(" + instance + ")";
+    }
+  }
+
+  /**
+  * Create a builder with no initialized field (except for the default values).
+  */
+  public static AdditionalPropertiesClass.Builder builder() {
+    return new AdditionalPropertiesClass.Builder();
+  }
+
+  /**
+  * Create a builder with a shallow copy of this instance.
+  */
+  public AdditionalPropertiesClass.Builder toBuilder() {
+    AdditionalPropertiesClass.Builder builder = new AdditionalPropertiesClass.Builder();
+    return builder.copyOf(this);
+  }
+
 }
 

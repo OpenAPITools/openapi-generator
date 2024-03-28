@@ -593,4 +593,8 @@ static {
   JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
 }
 {{/discriminator}}
+{{#generateBuilders}}
+
+    {{>javaBuilder}}
+{{/generateBuilders}}
 }

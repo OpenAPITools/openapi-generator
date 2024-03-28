@@ -86,7 +86,7 @@ public class ParentWithNullable {
   protected TypeEnum type;
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
-  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+  protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable() {
   }

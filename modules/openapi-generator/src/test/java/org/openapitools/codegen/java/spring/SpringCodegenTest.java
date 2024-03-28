@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openapitools.codegen.TestUtils.assertFileContains;
 import static org.openapitools.codegen.TestUtils.assertFileNotContains;
+import static org.openapitools.codegen.languages.AbstractJavaCodegen.GENERATE_BUILDERS;
 import static org.openapitools.codegen.languages.SpringCodegen.ASYNC;
 import static org.openapitools.codegen.languages.SpringCodegen.DELEGATE_PATTERN;
 import static org.openapitools.codegen.languages.SpringCodegen.DocumentationProvider;
@@ -42,6 +43,7 @@ import static org.openapitools.codegen.languages.SpringCodegen.USE_SPRING_BOOT3;
 import static org.openapitools.codegen.languages.SpringCodegen.USE_TAGS;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.ANNOTATION_LIBRARY;
 import static org.openapitools.codegen.languages.features.DocumentationProviderFeatures.DOCUMENTATION_PROVIDER;
+import static org.openapitools.codegen.languages.features.OptionalFeatures.USE_OPTIONAL;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
@@ -254,7 +256,7 @@ public class SpringCodegenTest {
                 .containsWithNameAndAttributes("DateTimeFormat", ImmutableMap.of("iso", "DateTimeFormat.ISO.DATE_TIME"))
                 .toProperty().toType()
                 .assertMethod("born", "LocalDate")
-                .bodyContainsLines("this.born = Optional.of(born)")
+                .bodyContainsLines("this.born = Optional.ofNullable(born)")
                 .doesNotHaveComment();
     }
 
@@ -4290,7 +4292,7 @@ public class SpringCodegenTest {
     }
 
     private void assertOptionalMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "Optional", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "Optional", "ofNullable", type, expectedName, getterReturnType);
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, Class<?> type, String expectedName, String getterReturnType){
@@ -4298,14 +4300,14 @@ public class SpringCodegenTest {
     }
 
     private void assertJsonNullableMethod(JavaFileAssert javaFileAssert, String type, String expectedName, String getterReturnType){
-        assertWrapperMethod(javaFileAssert, "JsonNullable", type, expectedName, getterReturnType);
+        assertWrapperMethod(javaFileAssert, "JsonNullable", "of", type, expectedName, getterReturnType);
     }
 
-    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String type, String expectedName, String getterReturnType){
+    private void assertWrapperMethod(JavaFileAssert javaFileAssert, String wrapperType, String ofMethod, String type, String expectedName, String getterReturnType){
         String methodName = StringUtils.capitalize(expectedName);
         javaFileAssert.assertMethod(expectedName)
                 .hasReturnType("Animal")
-                .bodyContainsLines("this."+expectedName+" = "+wrapperType+".of("+expectedName+");", "return this;")
+                .bodyContainsLines("this."+expectedName+" = "+wrapperType+"." + ofMethod + "("+expectedName+");", "return this;")
                 .hasParameter(expectedName)
                 .withType(type)
                 .toMethod()
@@ -4570,6 +4572,24 @@ public class SpringCodegenTest {
                 .toFileAssert()
                 .assertMethod("equals")
         ;
+    }
+
+    @Test
+    void testBuilderJavaSpring() throws IOException {
+        Map<String, File> files = generateFromContract("src/test/resources/3_0/java/builder.yaml", SPRING_BOOT,
+                Map.of(GENERATE_BUILDERS, true, USE_OPTIONAL, false));
+
+        JavaFileAssert.assertThat(files.get("Pet.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder {");
+        JavaFileAssert.assertThat(files.get("Snake.java"))
+                .fileContains("toBuilder()",
+                        "builder()",
+                        "public static class Builder extends Reptile.Builder {",
+                        "return builder.copyOf(this);");
+        JavaFileAssert.assertThat(files.get("SimpleObject.java"))
+                .fileContains("public SimpleObject.Builder additionalProperties(Map<String, Integer> additionalProperties) {");
     }
 
     @Test

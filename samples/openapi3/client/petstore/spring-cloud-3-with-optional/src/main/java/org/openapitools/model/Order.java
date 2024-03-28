@@ -74,7 +74,7 @@ public class Order {
   private Optional<Boolean> complete = Optional.of(false);
 
   public Order id(Long id) {
-    this.id = Optional.of(id);
+    this.id = Optional.ofNullable(id);
     return this;
   }
 
@@ -93,7 +93,7 @@ public class Order {
   }
 
   public Order petId(Long petId) {
-    this.petId = Optional.of(petId);
+    this.petId = Optional.ofNullable(petId);
     return this;
   }
 
@@ -112,7 +112,7 @@ public class Order {
   }
 
   public Order quantity(Integer quantity) {
-    this.quantity = Optional.of(quantity);
+    this.quantity = Optional.ofNullable(quantity);
     return this;
   }
 
@@ -131,7 +131,7 @@ public class Order {
   }
 
   public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = Optional.of(shipDate);
+    this.shipDate = Optional.ofNullable(shipDate);
     return this;
   }
 
@@ -150,7 +150,7 @@ public class Order {
   }
 
   public Order status(StatusEnum status) {
-    this.status = Optional.of(status);
+    this.status = Optional.ofNullable(status);
     return this;
   }
 
@@ -169,7 +169,7 @@ public class Order {
   }
 
   public Order complete(Boolean complete) {
-    this.complete = Optional.of(complete);
+    this.complete = Optional.ofNullable(complete);
     return this;
   }
 

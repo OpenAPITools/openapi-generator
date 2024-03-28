@@ -97,7 +97,7 @@ public class ParentWithNullable {
 
   public static final String JSON_PROPERTY_NULLABLE_PROPERTY = "nullableProperty";
   @XmlElement(name = "nullableProperty")
-  private JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
+  protected JsonNullable<String> nullableProperty = JsonNullable.<String>undefined();
 
   public ParentWithNullable() {
   }
