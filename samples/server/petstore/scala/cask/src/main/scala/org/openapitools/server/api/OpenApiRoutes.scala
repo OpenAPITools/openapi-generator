@@ -42,13 +42,13 @@ object OpenApiRoutes {
 
 class OpenApiRoutes(localPort: Int, swaggerUrl: Option[String]) extends cask.Routes {
 
-  def openApiDir = "src/main/resources/ui"
+  def openApiDir = "ui"
 
   @cask.get("/")
   def index() = cask.Redirect("/ui/index.html")
 
   @cask.staticFiles("/ui")
-  def staticUI() = "src/main/resources/ui"
+  def staticUI() = openApiDir
 
   @cask.staticResources("/openapi.json")
   def staticOpenApi() = "openapi.json"
@@ -104,7 +104,9 @@ class OpenApiRoutes(localPort: Int, swaggerUrl: Option[String]) extends cask.Rou
           case line => line
         }
 
-        Files.writeString(fullPath, textLines.mkString("\n"))
+        // keeping this compatible for java 8, where this is from >= java 11:
+        // Files.writeString(fullPath, textLines.mkString("\n"))
+        scala.util.Using(new java.io.PrintWriter(fullPath.toFile))(_.write(textLines.mkString("\n")))
       } else {
         Using(new FileOutputStream(filePath)) { outputStream =>
           val buffer = new Array[Byte](1024)

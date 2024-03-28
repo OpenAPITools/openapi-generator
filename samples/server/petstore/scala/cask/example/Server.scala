@@ -1,5 +1,6 @@
 //> using scala "3.3.1"
 //> using lib "org.openapitools::caskgen:0.0.1-SNAPSHOT"
+//> using repositories https://maven.pkg.github.com/aaron/caskgen
 
 
 /**

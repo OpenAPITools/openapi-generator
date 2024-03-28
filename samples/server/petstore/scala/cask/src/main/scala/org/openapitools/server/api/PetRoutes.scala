@@ -16,12 +16,17 @@
 // this is generated from apiRoutes.mustache
 package org.openapitools.server.api
 
+import org.openapitools.server.model.*
+
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
 import org.openapitools.server.model.ApiResponse
 import java.io.File
 import org.openapitools.server.model.Pet
 
 
-final case class PetRoutes(service : PetService) extends cask.Routes {
+class PetRoutes(service : PetService) extends cask.Routes {
 
     // route group for routeWorkAroundForPOSTPet
     @cask.post("/pet", true)
@@ -30,7 +35,7 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
             case Seq() => addPet(request)
             case Seq(petId) => updatePetWithForm(petId.toLong,request)
             case Seq(petId,"uploadImage") => uploadFile(petId.toLong,request)
-            case _          => asHttpResponse(Right(ServiceResponse.NotFound()))
+            case _          => cask.Response("Not Found", statusCode = 404)
         }
     }
     // route group for routeWorkAroundForGETPet
@@ -40,7 +45,7 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
             case Seq("findByStatus") => findPetsByStatus(request,status)
             case Seq("findByTags") => findPetsByTags(request,tags)
             case Seq(petId) => getPetById(petId.toLong,request)
-            case _          => asHttpResponse(Right(ServiceResponse.NotFound()))
+            case _          => cask.Response("Not Found", statusCode = 404)
         }
     }
 
@@ -52,14 +57,20 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def addPet(request: cask.Request) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            pet <- Parsed.eval(Pet.fromJsonString(request.bodyAsString))
+
+              petData <- Parsed.eval(PetData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as Pet from >${request.bodyAsString}< : ${e}") /* not array or map */
+              pet <- Parsed.fromTry(petData.validated(failFast))
             result <- Parsed.eval(service.addPet(pet))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Deletes a pet
@@ -69,7 +80,9 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def deletePet(petId : Long, request: cask.Request) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             petId <- Parsed(petId)
             
@@ -77,7 +90,10 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
             result <- Parsed.eval(service.deletePet(petId, apiKey))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Finds Pets by status
@@ -87,11 +103,16 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def findPetsByStatus(request: cask.Request, status : Seq[String]) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             result <- Parsed.eval(service.findPetsByStatus(status))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Finds Pets by tags
@@ -101,11 +122,16 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def findPetsByTags(request: cask.Request, tags : Seq[String]) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             result <- Parsed.eval(service.findPetsByTags(tags))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Find pet by ID
@@ -115,13 +141,18 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def getPetById(petId : Long, request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             petId <- Parsed(petId)
             result <- Parsed.eval(service.getPetById(petId))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Update an existing pet
@@ -131,14 +162,20 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def updatePet(request: cask.Request) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            pet <- Parsed.eval(Pet.fromJsonString(request.bodyAsString))
+
+              petData <- Parsed.eval(PetData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as Pet from >${request.bodyAsString}< : ${e}") /* not array or map */
+              pet <- Parsed.fromTry(petData.validated(failFast))
             result <- Parsed.eval(service.updatePet(pet))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Updates a pet in the store with form data
@@ -148,7 +185,9 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def updatePetWithForm(petId : Long, request: cask.Request) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             petId <- Parsed(petId)
     
@@ -158,7 +197,10 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
             result <- Parsed.eval(service.updatePetWithForm(petId, name, status))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** uploads an image
@@ -168,7 +210,9 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
         def uploadFile(petId : Long, request: cask.Request) = {
             // auth method petstore_auth : oauth2, keyParamName: 
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             petId <- Parsed(petId)
     
@@ -178,7 +222,10 @@ final case class PetRoutes(service : PetService) extends cask.Routes {
             result <- Parsed.eval(service.uploadFile(petId, additionalMetadata, file))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
 
     initialize()

@@ -19,16 +19,18 @@ package org.openapitools.server.api
 import _root_.java.time.OffsetDateTime
 import _root_.org.openapitools.server.model.User
 
+import _root_.org.openapitools.server.model.*
+
 object UserService {
   def apply() : UserService = new UserService {
-        override def createUser(user : User) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def createUsersWithArrayInput(user : Seq[User]) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def createUsersWithListInput(user : Seq[User]) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def deleteUser(username : String) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def getUserByName(username : String) : ServiceResponse[User] = ServiceResponse.notImplemented
-        override def loginUser(username : String, password : String) : ServiceResponse[String] = ServiceResponse.notImplemented
-        override def logoutUser() : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def updateUser(username : String, user : User) : ServiceResponse[Unit] = ServiceResponse.notImplemented
+        override def createUser(user : User) : Unit = ???
+        override def createUsersWithArrayInput(user : Seq[User]) : Unit = ???
+        override def createUsersWithListInput(user : Seq[User]) : Unit = ???
+        override def deleteUser(username : String) : Unit = ???
+        override def getUserByName(username : String) : User = ???
+        override def loginUser(username : String, password : String) : String = ???
+        override def logoutUser() : Unit = ???
+        override def updateUser(username : String, user : User) : Unit = ???
   }
 }
 
@@ -40,48 +42,40 @@ trait UserService {
    * 
    * @return 
    */
-  
-  def createUser(user : User) : ServiceResponse[Unit]
+  def createUser(user : User) : Unit
   /** Creates list of users with given input array
    * 
    * @return 
    */
-  
-  def createUsersWithArrayInput(user : Seq[User]) : ServiceResponse[Unit]
+  def createUsersWithArrayInput(user : Seq[User]) : Unit
   /** Creates list of users with given input array
    * 
    * @return 
    */
-  
-  def createUsersWithListInput(user : Seq[User]) : ServiceResponse[Unit]
+  def createUsersWithListInput(user : Seq[User]) : Unit
   /** Delete user
    * 
    * @return 
    */
-  
-  def deleteUser(username : String) : ServiceResponse[Unit]
+  def deleteUser(username : String) : Unit
   /** Get user by user name
    * 
    * @return User
    */
-  
-  def getUserByName(username : String) : ServiceResponse[User]
+  def getUserByName(username : String) : User
   /** Logs user into the system
    * 
    * @return String
    */
-  
-  def loginUser(username : String, password : String) : ServiceResponse[String]
+  def loginUser(username : String, password : String) : String
   /** Logs out current logged in user session
    * 
    * @return 
    */
-  
-  def logoutUser() : ServiceResponse[Unit]
+  def logoutUser() : Unit
   /** Updated user
    * 
    * @return 
    */
-  
-  def updateUser(username : String, user : User) : ServiceResponse[Unit]
+  def updateUser(username : String, user : User) : Unit
 }

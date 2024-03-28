@@ -17,6 +17,9 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 
+# Mill specific
+out
+
 # IntelliJ specific
 .idea
 *.iml

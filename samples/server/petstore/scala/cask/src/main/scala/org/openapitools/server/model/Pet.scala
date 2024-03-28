@@ -20,58 +20,56 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 case class Pet(
+  id: Option[Long] = None ,
 
-  id: Long = 0 ,
+    category: Option[Category] = None ,
 
-  
-  category: Category = null ,
+    name: String,
 
-  
-  name: String,
+    photoUrls: Seq[String],
 
-  
-  photoUrls: List[String],
-
-  
-  tags: List[Tag] = Nil ,
+    tags: Seq[Tag] = Nil ,
 
   /* pet status in the store */
-
-  status: Pet.StatusEnum = null 
+  status: Option[Pet.StatusEnum] = None 
 
   ) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : PetData = {
+    PetData(
+            id = id.getOrElse(0),
+            category = category.map(_.asData).getOrElse(null),
+            name = name,
+            photoUrls = photoUrls,
+            tags = tags.map(_.asData),
+            status = status.getOrElse(null)
+    )
+  }
 
 }
 
 object Pet{
 
+    given RW[Pet] = PetData.readWriter.bimap[Pet](_.asData, _.asModel)
+
+    enum Fields(fieldName : String) extends Field(fieldName) {
+            case id extends Fields("id")
+            case category extends Fields("category")
+            case name extends Fields("name")
+            case photoUrls extends Fields("photoUrls")
+            case tags extends Fields("tags")
+            case status extends Fields("status")
+    }
+
+        // baseName=status
+        // nameInCamelCase = status
         enum StatusEnum derives ReadWriter {
             case available
             case pending
             case sold
         }
-
-  given RW[Pet] = macroRW
-
-  def fromJsonString(jason : String) : Pet = try {
-        read[Pet](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[Pet] = try {
-        read[List[Pet]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
-    }
-
-  def mapFromJsonString(jason : String) : Map[String, Pet] = try {
-        read[Map[String, Pet]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 

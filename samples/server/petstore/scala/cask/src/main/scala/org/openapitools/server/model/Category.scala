@@ -18,40 +18,32 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 case class Category(
+  id: Option[Long] = None ,
 
-  id: Long = 0 ,
-
-  
-  name: String = "" 
+    name: Option[String] = None 
 
   ) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : CategoryData = {
+    CategoryData(
+            id = id.getOrElse(0),
+            name = name.getOrElse("")
+    )
+  }
 
 }
 
 object Category{
 
+    given RW[Category] = CategoryData.readWriter.bimap[Category](_.asData, _.asModel)
 
-  given RW[Category] = macroRW
-
-  def fromJsonString(jason : String) : Category = try {
-        read[Category](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[Category] = try {
-        read[List[Category]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
+    enum Fields(fieldName : String) extends Field(fieldName) {
+            case id extends Fields("id")
+            case name extends Fields("name")
     }
 
-  def mapFromJsonString(jason : String) : Map[String, Category] = try {
-        read[Map[String, Category]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 

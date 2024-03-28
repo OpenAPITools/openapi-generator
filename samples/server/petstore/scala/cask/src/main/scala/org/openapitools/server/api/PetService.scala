@@ -20,16 +20,18 @@ import _root_.org.openapitools.server.model.ApiResponse
 import _root_.java.io.File
 import _root_.org.openapitools.server.model.Pet
 
+import _root_.org.openapitools.server.model.*
+
 object PetService {
   def apply() : PetService = new PetService {
-        override def addPet(pet : Pet) : ServiceResponse[Pet] = ServiceResponse.notImplemented
-        override def deletePet(petId : Long, apiKey : Option[String]) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def findPetsByStatus(status : Seq[String]) : ServiceResponse[List[Pet]] = ServiceResponse.notImplemented
-        override def findPetsByTags(tags : Seq[String]) : ServiceResponse[List[Pet]] = ServiceResponse.notImplemented
-        override def getPetById(petId : Long) : ServiceResponse[Pet] = ServiceResponse.notImplemented
-        override def updatePet(pet : Pet) : ServiceResponse[Pet] = ServiceResponse.notImplemented
-        override def updatePetWithForm(petId : Long, name : Option[String], status : Option[String]) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def uploadFile(petId : Long, additionalMetadata : Option[String], file : Option[File]) : ServiceResponse[ApiResponse] = ServiceResponse.notImplemented
+        override def addPet(pet : Pet) : Pet = ???
+        override def deletePet(petId : Long, apiKey : Option[String]) : Unit = ???
+        override def findPetsByStatus(status : Seq[String]) : List[Pet] = ???
+        override def findPetsByTags(tags : Seq[String]) : List[Pet] = ???
+        override def getPetById(petId : Long) : Pet = ???
+        override def updatePet(pet : Pet) : Pet = ???
+        override def updatePetWithForm(petId : Long, name : Option[String], status : Option[String]) : Unit = ???
+        override def uploadFile(petId : Long, additionalMetadata : Option[String], file : Option[File]) : ApiResponse = ???
   }
 }
 
@@ -41,48 +43,40 @@ trait PetService {
    * 
    * @return Pet
    */
-  
-  def addPet(pet : Pet) : ServiceResponse[Pet]
+  def addPet(pet : Pet) : Pet
   /** Deletes a pet
    * 
    * @return 
    */
-  
-  def deletePet(petId : Long, apiKey : Option[String]) : ServiceResponse[Unit]
+  def deletePet(petId : Long, apiKey : Option[String]) : Unit
   /** Finds Pets by status
    * 
    * @return List[Pet]
    */
-  
-  def findPetsByStatus(status : Seq[String]) : ServiceResponse[List[Pet]]
+  def findPetsByStatus(status : Seq[String]) : List[Pet]
   /** Finds Pets by tags
    * 
    * @return List[Pet]
    */
-  
-  def findPetsByTags(tags : Seq[String]) : ServiceResponse[List[Pet]]
+  def findPetsByTags(tags : Seq[String]) : List[Pet]
   /** Find pet by ID
    * 
    * @return Pet
    */
-  
-  def getPetById(petId : Long) : ServiceResponse[Pet]
+  def getPetById(petId : Long) : Pet
   /** Update an existing pet
    * 
    * @return Pet
    */
-  
-  def updatePet(pet : Pet) : ServiceResponse[Pet]
+  def updatePet(pet : Pet) : Pet
   /** Updates a pet in the store with form data
    * 
    * @return 
    */
-  
-  def updatePetWithForm(petId : Long, name : Option[String], status : Option[String]) : ServiceResponse[Unit]
+  def updatePetWithForm(petId : Long, name : Option[String], status : Option[String]) : Unit
   /** uploads an image
    * 
    * @return ApiResponse
    */
-  
-  def uploadFile(petId : Long, additionalMetadata : Option[String], file : Option[File]) : ServiceResponse[ApiResponse]
+  def uploadFile(petId : Long, additionalMetadata : Option[String], file : Option[File]) : ApiResponse
 }

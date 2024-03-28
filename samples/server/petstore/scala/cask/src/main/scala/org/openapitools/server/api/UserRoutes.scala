@@ -16,11 +16,16 @@
 // this is generated from apiRoutes.mustache
 package org.openapitools.server.api
 
+import org.openapitools.server.model.*
+
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
 import java.time.OffsetDateTime
 import org.openapitools.server.model.User
 
 
-final case class UserRoutes(service : UserService) extends cask.Routes {
+class UserRoutes(service : UserService) extends cask.Routes {
 
     // route group for routeWorkAroundForGETUser
     @cask.get("/user", true)
@@ -29,7 +34,7 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
             case Seq("login") => loginUser(request,username.getOrElse(""), password.getOrElse(""))
             case Seq("logout") => logoutUser(request)
             case Seq(username) => getUserByName(username,request)
-            case _          => asHttpResponse(Right(ServiceResponse.NotFound()))
+            case _          => cask.Response("Not Found", statusCode = 404)
         }
     }
 
@@ -41,14 +46,20 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def createUser(request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            user <- Parsed.eval(User.fromJsonString(request.bodyAsString))
+
+              userData <- Parsed.eval(UserData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as User from >${request.bodyAsString}< : ${e}") /* not array or map */
+              user <- Parsed.fromTry(userData.validated(failFast))
             result <- Parsed.eval(service.createUser(user))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Creates list of users with given input array
@@ -58,14 +69,19 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def createUsersWithArrayInput(request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            user <- Parsed.eval(User.manyFromJsonString(request.bodyAsString))
+
+            user <- Parsed.fromTry(UserData.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of User from >${request.bodyAsString}< : ${e}") /* array */
             result <- Parsed.eval(service.createUsersWithArrayInput(user))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Creates list of users with given input array
@@ -75,14 +91,19 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def createUsersWithListInput(request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            user <- Parsed.eval(User.manyFromJsonString(request.bodyAsString))
+
+            user <- Parsed.fromTry(UserData.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of User from >${request.bodyAsString}< : ${e}") /* array */
             result <- Parsed.eval(service.createUsersWithListInput(user))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Delete user
@@ -92,13 +113,18 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def deleteUser(username : String, request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             username <- Parsed(username)
             result <- Parsed.eval(service.deleteUser(username))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Get user by user name
@@ -107,13 +133,18 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         // conflicts with [/user/{username}, /user/login, /user/logout] after/user, ignoring @cask.get("/user/:username")
         def getUserByName(username : String, request: cask.Request) = {
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             username <- Parsed(username)
             result <- Parsed.eval(service.getUserByName(username))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Logs user into the system
@@ -122,11 +153,16 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         // conflicts with [/user/{username}, /user/login, /user/logout] after/user, ignoring @cask.get("/user/login")
         def loginUser(request: cask.Request, username : String, password : String) = {
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             result <- Parsed.eval(service.loginUser(username, password))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Logs out current logged in user session
@@ -136,11 +172,16 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def logoutUser(request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             result <- Parsed.eval(service.logoutUser())
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Updated user
@@ -150,16 +191,22 @@ final case class UserRoutes(service : UserService) extends cask.Routes {
         def updateUser(username : String, request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             username <- Parsed(username)
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            user <- Parsed.eval(User.fromJsonString(request.bodyAsString))
+
+              userData <- Parsed.eval(UserData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as User from >${request.bodyAsString}< : ${e}") /* not array or map */
+              user <- Parsed.fromTry(userData.validated(failFast))
             result <- Parsed.eval(service.updateUser(username, user))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
 
     initialize()
