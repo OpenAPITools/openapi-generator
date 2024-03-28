@@ -1,0 +1,37 @@
+//> using scala "3.3.1"
+//> using lib "com.lihaoyi::cask:0.8.3"
+//> using lib "com.lihaoyi::scalatags:0.12.0"
+{{>licenseInfo}}
+
+// generated from apiService.mustache
+package {{apiPackage}}
+
+{{#imports}}import _root_.{{import}}
+{{/imports}}
+
+import _root_.{{modelPackage}}.*
+
+object {{classname}}Service {
+  def apply() : {{classname}}Service = new {{classname}}Service {
+{{#operations}}
+    {{#operation}}
+        override def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : {{vendorExtensions.x-response-type}} = ???
+    {{/operation}}
+{{/operations}}
+  }
+}
+
+/**
+ * The {{classname}} business-logic
+ */
+trait {{classname}}Service {
+{{#operations}}
+{{#operation}}
+  /** {{{summary}}}
+   * {{{description}}}
+   * @return {{returnType}}
+   */
+  def {{operationId}}({{vendorExtensions.x-param-list-typed}}) : {{vendorExtensions.x-response-type}}
+{{/operation}}
+{{/operations}}
+}

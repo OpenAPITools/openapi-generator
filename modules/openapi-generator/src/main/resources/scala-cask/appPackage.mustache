@@ -1,0 +1,12 @@
+{{>licenseInfo}}
+package {{packageName}}
+
+def box(str: String): String = {
+  val lines = str.linesIterator.toList
+  val maxLen = (0 +: lines.map(_.length)).max
+  val boxed = lines.map { line =>
+    s" | ${line.padTo(maxLen, ' ')} |"
+  }
+  val bar = " +-" + ("-" * maxLen) + "-+"
+  (bar +: boxed :+ bar).mkString("\n")
+}
