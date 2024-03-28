@@ -18,43 +18,36 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 case class ApiResponse(
+  code: Option[Int] = None ,
 
-  code: Int = 0 ,
+    `type`: Option[String] = None ,
 
-  
-  `type`: String = "" ,
-
-  
-  message: String = "" 
+    message: Option[String] = None 
 
   ) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : ApiResponseData = {
+    ApiResponseData(
+            code = code.getOrElse(0),
+            `type` = `type`.getOrElse(""),
+            message = message.getOrElse("")
+    )
+  }
 
 }
 
 object ApiResponse{
 
+    given RW[ApiResponse] = ApiResponseData.readWriter.bimap[ApiResponse](_.asData, _.asModel)
 
-  given RW[ApiResponse] = macroRW
-
-  def fromJsonString(jason : String) : ApiResponse = try {
-        read[ApiResponse](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[ApiResponse] = try {
-        read[List[ApiResponse]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
+    enum Fields(fieldName : String) extends Field(fieldName) {
+            case code extends Fields("code")
+            case `type` extends Fields("`type`")
+            case message extends Fields("message")
     }
 
-  def mapFromJsonString(jason : String) : Map[String, ApiResponse] = try {
-        read[Map[String, ApiResponse]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 

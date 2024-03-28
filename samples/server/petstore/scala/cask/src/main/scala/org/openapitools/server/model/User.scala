@@ -18,59 +18,57 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 case class User(
+  id: Option[Long] = None ,
 
-  id: Long = 0 ,
+    username: Option[String] = None ,
 
-  
-  username: String = "" ,
+    firstName: Option[String] = None ,
 
-  
-  firstName: String = "" ,
+    lastName: Option[String] = None ,
 
-  
-  lastName: String = "" ,
+    email: Option[String] = None ,
 
-  
-  email: String = "" ,
+    password: Option[String] = None ,
 
-  
-  password: String = "" ,
-
-  
-  phone: String = "" ,
+    phone: Option[String] = None ,
 
   /* User Status */
-
-  userStatus: Int = 0 
+  userStatus: Option[Int] = None 
 
   ) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : UserData = {
+    UserData(
+            id = id.getOrElse(0),
+            username = username.getOrElse(""),
+            firstName = firstName.getOrElse(""),
+            lastName = lastName.getOrElse(""),
+            email = email.getOrElse(""),
+            password = password.getOrElse(""),
+            phone = phone.getOrElse(""),
+            userStatus = userStatus.getOrElse(0)
+    )
+  }
 
 }
 
 object User{
 
+    given RW[User] = UserData.readWriter.bimap[User](_.asData, _.asModel)
 
-  given RW[User] = macroRW
-
-  def fromJsonString(jason : String) : User = try {
-        read[User](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[User] = try {
-        read[List[User]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
+    enum Fields(fieldName : String) extends Field(fieldName) {
+            case id extends Fields("id")
+            case username extends Fields("username")
+            case firstName extends Fields("firstName")
+            case lastName extends Fields("lastName")
+            case email extends Fields("email")
+            case password extends Fields("password")
+            case phone extends Fields("phone")
+            case userStatus extends Fields("userStatus")
     }
 
-  def mapFromJsonString(jason : String) : Map[String, User] = try {
-        read[Map[String, User]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 

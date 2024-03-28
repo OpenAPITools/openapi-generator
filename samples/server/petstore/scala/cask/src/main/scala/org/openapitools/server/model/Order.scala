@@ -19,58 +19,56 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import upickle.default.*
 
 case class Order(
+  id: Option[Long] = None ,
 
-  id: Long = 0 ,
+    petId: Option[Long] = None ,
 
-  
-  petId: Long = 0 ,
+    quantity: Option[Int] = None ,
 
-  
-  quantity: Int = 0 ,
-
-  
-  shipDate: OffsetDateTime = null ,
+    shipDate: Option[OffsetDateTime] = None ,
 
   /* Order Status */
+  status: Option[Order.StatusEnum] = None ,
 
-  status: Order.StatusEnum = null ,
-
-  
-  complete: Boolean = false 
+    complete: Option[Boolean] = None 
 
   ) {
 
-  def asJson = write(this)
+  def asJson: String = asData.asJson
+
+  def asData : OrderData = {
+    OrderData(
+            id = id.getOrElse(0),
+            petId = petId.getOrElse(0),
+            quantity = quantity.getOrElse(0),
+            shipDate = shipDate.getOrElse(null),
+            status = status.getOrElse(null),
+            complete = complete.getOrElse(false)
+    )
+  }
 
 }
 
 object Order{
 
+    given RW[Order] = OrderData.readWriter.bimap[Order](_.asData, _.asModel)
+
+    enum Fields(fieldName : String) extends Field(fieldName) {
+            case id extends Fields("id")
+            case petId extends Fields("petId")
+            case quantity extends Fields("quantity")
+            case shipDate extends Fields("shipDate")
+            case status extends Fields("status")
+            case complete extends Fields("complete")
+    }
+
+        // baseName=status
+        // nameInCamelCase = status
         enum StatusEnum derives ReadWriter {
             case placed
             case approved
             case delivered
         }
-
-  given RW[Order] = macroRW
-
-  def fromJsonString(jason : String) : Order = try {
-        read[Order](jason)
-     } catch {
-          case NonFatal(e) => sys.error(s"Error parsing json '$jason': $e")
-     }
-
-  def manyFromJsonString(jason : String) : List[Order] = try {
-        read[List[Order]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as list: $e")
-    }
-
-  def mapFromJsonString(jason : String) : Map[String, Order] = try {
-        read[Map[String, Order]](jason)
-    } catch {
-        case NonFatal(e) => sys.error(s"Error parsing json '$jason' as map: $e")
-    }
 
 }
 

@@ -16,10 +16,15 @@
 // this is generated from apiRoutes.mustache
 package org.openapitools.server.api
 
+import org.openapitools.server.model.*
+
+import upickle.default.{ReadWriter => RW, macroRW}
+import upickle.default.*
+
 import org.openapitools.server.model.Order
 
 
-final case class StoreRoutes(service : StoreService) extends cask.Routes {
+class StoreRoutes(service : StoreService) extends cask.Routes {
 
 
         
@@ -29,13 +34,18 @@ final case class StoreRoutes(service : StoreService) extends cask.Routes {
         @cask.delete("/store/order/:orderId")
         def deleteOrder(orderId : String, request: cask.Request) = {
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             orderId <- Parsed(orderId)
             result <- Parsed.eval(service.deleteOrder(orderId))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Returns pet inventories by status
@@ -45,11 +55,16 @@ final case class StoreRoutes(service : StoreService) extends cask.Routes {
         def getInventory(request: cask.Request) = {
             // auth method api_key : apiKey, keyParamName: api_key
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             result <- Parsed.eval(service.getInventory())
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Find purchase order by ID
@@ -58,13 +73,18 @@ final case class StoreRoutes(service : StoreService) extends cask.Routes {
         @cask.get("/store/order/:orderId")
         def getOrderById(orderId : Long, request: cask.Request) = {
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
             orderId <- Parsed(orderId)
             result <- Parsed.eval(service.getOrderById(orderId))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
         
         /** Place an order for a pet
@@ -73,14 +93,20 @@ final case class StoreRoutes(service : StoreService) extends cask.Routes {
         @cask.post("/store/order")
         def placeOrder(request: cask.Request) = {
 
-        val serviceResponse =         for {
+        def failFast = request.queryParams.keySet.contains("failFast")
+
+        val result =         for {
             
-            /** TODO - this is a bit of a hack - we should do content type negotiation */
-            order <- Parsed.eval(Order.fromJsonString(request.bodyAsString))
+
+              orderData <- Parsed.eval(OrderData.fromJsonString(request.bodyAsString)).mapError(e => s"Error parsing json as Order from >${request.bodyAsString}< : ${e}") /* not array or map */
+              order <- Parsed.fromTry(orderData.validated(failFast))
             result <- Parsed.eval(service.placeOrder(order))
         } yield result
 
-        asHttpResponse(serviceResponse)
+        result match {
+          case Left(error) => cask.Response(error, 500)
+            case Right(_) => cask.Response("", 200)
+        }
       }
 
     initialize()

@@ -16,6 +16,33 @@ import upickle.default._
 import java.time.*
 import java.time.format.DateTimeFormatter
 
+/**
+ * This base class lets us refer to fields in exceptions
+ */
+class Field(val name : String)
+
+final case class ValidationErrors(
+    first: ValidationError,
+    remaining: Seq[ValidationError],
+    message: String
+) extends Exception(message)
+
+object ValidationErrors {
+  def apply(first: ValidationError, remaining: Seq[ValidationError]) = {
+    val noun = if remaining.isEmpty then "error" else "errors"
+    new ValidationErrors(
+      first,
+      remaining,
+      remaining.mkString(s"${remaining.size + 1} $noun found: ${first}", "\n\t", "")
+    )
+  }
+}
+
+
+final case class ValidationError(path : Seq[Field], message : String) extends Exception(message) {
+  override def toString = s"ValidationError for ${path.mkString(".")}: $message"
+}
+
 given ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
   zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
   str => ZonedDateTime.parse(str, DateTimeFormatter.ISO_INSTANT))
@@ -30,5 +57,7 @@ given ReadWriter[LocalDate] = readwriter[String].bimap[LocalDate](
 
 given ReadWriter[OffsetDateTime] = readwriter[String].bimap[OffsetDateTime](
     zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
-    str => OffsetDateTime.parse(str, DateTimeFormatter.ISO_INSTANT)
+    str =>  scala.util.Try(OffsetDateTime.parse(str, DateTimeFormatter.ISO_DATE_TIME)).getOrElse(
+             OffsetDateTime.parse(str, DateTimeFormatter.ISO_INSTANT)
+            )
 )

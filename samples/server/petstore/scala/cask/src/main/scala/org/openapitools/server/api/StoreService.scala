@@ -18,12 +18,14 @@ package org.openapitools.server.api
 
 import _root_.org.openapitools.server.model.Order
 
+import _root_.org.openapitools.server.model.*
+
 object StoreService {
   def apply() : StoreService = new StoreService {
-        override def deleteOrder(orderId : String) : ServiceResponse[Unit] = ServiceResponse.notImplemented
-        override def getInventory() : ServiceResponse[Map[String, Int]] = ServiceResponse.notImplemented
-        override def getOrderById(orderId : Long) : ServiceResponse[Order] = ServiceResponse.notImplemented
-        override def placeOrder(order : Order) : ServiceResponse[Order] = ServiceResponse.notImplemented
+        override def deleteOrder(orderId : String) : Unit = ???
+        override def getInventory() : Map[String, Int] = ???
+        override def getOrderById(orderId : Long) : Order = ???
+        override def placeOrder(order : Order) : Order = ???
   }
 }
 
@@ -35,24 +37,20 @@ trait StoreService {
    * 
    * @return 
    */
-  
-  def deleteOrder(orderId : String) : ServiceResponse[Unit]
+  def deleteOrder(orderId : String) : Unit
   /** Returns pet inventories by status
    * 
    * @return Map[String, Int]
    */
-  
-  def getInventory() : ServiceResponse[Map[String, Int]]
+  def getInventory() : Map[String, Int]
   /** Find purchase order by ID
    * 
    * @return Order
    */
-  
-  def getOrderById(orderId : Long) : ServiceResponse[Order]
+  def getOrderById(orderId : Long) : Order
   /** Place an order for a pet
    * 
    * @return Order
    */
-  
-  def placeOrder(order : Order) : ServiceResponse[Order]
+  def placeOrder(order : Order) : Order
 }
