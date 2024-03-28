@@ -21,7 +21,7 @@ sys.env.get("GITHUB_TOKEN") match {
       "GitHub Package Registry",
       "maven.pkg.github.com",
       githubUser,
-      sys.env.getOrElse("GITHUB_TOKEN", {println("GITHUB_TOKEN not set - assuming a local build"); "GITHUB_TOKEN is unset"})
+      token
     )
   case _ =>
     println("\n\t\tGITHUB_TOKEN not set - assuming a local build\n\n")

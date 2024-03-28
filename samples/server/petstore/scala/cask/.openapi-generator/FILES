@@ -37,9 +37,3 @@ src/main/scala/org/openapitools/server/model/User.scala
 src/main/scala/org/openapitools/server/model/UserData.scala
 src/main/scala/org/openapitools/server/model/package.scala
 src/main/scala/org/openapitools/server/package.scala
-src/test/scala/org/openapitools/server/model/ApiResponseTest.scala
-src/test/scala/org/openapitools/server/model/CategoryTest.scala
-src/test/scala/org/openapitools/server/model/OrderTest.scala
-src/test/scala/org/openapitools/server/model/PetTest.scala
-src/test/scala/org/openapitools/server/model/TagTest.scala
-src/test/scala/org/openapitools/server/model/UserTest.scala
