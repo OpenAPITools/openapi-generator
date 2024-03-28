@@ -14,7 +14,7 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Observable, from, of, map } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 import { ApiResponse } from '../model/apiResponse';
 import { Pet } from '../model/pet';
 import { Configuration } from '../configuration';
@@ -87,8 +87,8 @@ export class PetService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -144,8 +144,8 @@ export class PetService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -202,8 +202,8 @@ export class PetService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -261,8 +261,8 @@ export class PetService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -313,8 +313,8 @@ export class PetService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -372,8 +372,8 @@ export class PetService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -449,8 +449,8 @@ export class PetService {
         }
 
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -531,8 +531,8 @@ export class PetService {
         }
 
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 

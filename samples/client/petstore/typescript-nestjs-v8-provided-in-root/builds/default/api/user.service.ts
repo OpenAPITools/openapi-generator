@@ -14,7 +14,7 @@
 import { Inject, Injectable, Optional } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { AxiosResponse } from 'axios';
-import { Observable, from, of, map } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 import { User } from '../model/user';
 import { Configuration } from '../configuration';
 import { COLLECTION_FORMATS } from '../variables';
@@ -81,8 +81,8 @@ export class UserService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -136,8 +136,8 @@ export class UserService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -191,8 +191,8 @@ export class UserService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -241,8 +241,8 @@ export class UserService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -287,8 +287,8 @@ export class UserService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -346,8 +346,8 @@ export class UserService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -391,8 +391,8 @@ export class UserService {
         const consumes: string[] = [
         ];
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
@@ -450,8 +450,8 @@ export class UserService {
             headers['Content-Type'] = httpContentTypeSelected;
         }
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 

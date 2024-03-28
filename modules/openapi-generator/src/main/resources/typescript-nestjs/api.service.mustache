@@ -9,7 +9,7 @@ import { HttpService } from '@nestjs/axios';
 import { HttpService, Inject, Injectable, Optional } from '@nestjs/common';
 {{/useAxiosHttpModule}}
 import { AxiosResponse } from 'axios';
-import { Observable, from, of, map } from 'rxjs';
+import { Observable, from, of, switchMap } from 'rxjs';
 {{#imports}}
 import { {{classname}} } from '../{{filename}}';
 {{/imports}}
@@ -227,8 +227,8 @@ export class {{classname}} {
 
 {{/hasFormParams}}
         return accessTokenObservable.pipe(
-            map((accessToken) => {
-                if(accessToken) {
+            switchMap((accessToken) => {
+                if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;
                 }
 
