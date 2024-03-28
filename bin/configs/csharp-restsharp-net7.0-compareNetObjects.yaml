@@ -1,5 +1,5 @@
 generatorName: csharp
-outputDir: samples/client/petstore/csharp/OpenAPIClientCore
+outputDir: samples/client/petstore/csharp/restsharp/net7/OpenAPIClientCore
 inputSpec: modules/openapi-generator/src/test/resources/3_0/csharp/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/csharp
 additionalProperties:

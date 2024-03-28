@@ -745,10 +745,15 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             param.vendorExtensions.put(VENDOR_EXTENSION_X_IS_BODY_OR_FORM_PARAM, param.isBodyParam || param.isFormParam);
             if (!StringUtils.isBlank(param.collectionFormat)) {
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
-            } else if (!param.isBodyParam && (param.isArray || param.dataType.startsWith("["))) { // param.isArray is sometimes false for list types
-                // defaulting due to https://github.com/wing328/openapi-generator/issues/72
-                param.collectionFormat = "csv";
-                param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+            } else if (!param.isBodyParam) {
+                if (param.isArray || param.dataType.startsWith("[")) { // param.isArray is sometimes false for list types
+                    // defaulting due to https://github.com/wing328/openapi-generator/issues/72
+                    param.collectionFormat = "csv";
+                    param.vendorExtensions.put(VENDOR_EXTENSION_X_COLLECTION_FORMAT, mapCollectionFormat(param.collectionFormat));
+                }
+            }
+            if (param.isQueryParam && (isJsonMimeType(param.contentType) || ContainsJsonMimeType(param.contentType))) {
+                param.vendorExtensions.put(X_MEDIA_IS_JSON, "true");
             }
             if (!param.required) {
                 op.vendorExtensions.put(VENDOR_EXTENSION_X_HAS_OPTIONAL_PARAMS, true);

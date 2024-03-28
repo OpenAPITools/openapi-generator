@@ -91,7 +91,7 @@ private:
     void primitivesIntegerPostCallback(PFXHttpRequestWorker *worker);
     void primitivesNumberPutCallback(PFXHttpRequestWorker *worker);
 
-signals:
+Q_SIGNALS:
 
     void primitivesIntegerPostSignal();
     void primitivesNumberPutSignal();
@@ -116,7 +116,7 @@ signals:
     void abortRequestsSignal();
     void allPendingRequestsCompleted();
 
-public slots:
+public Q_SLOTS:
     void tokenAvailable();
 };
 

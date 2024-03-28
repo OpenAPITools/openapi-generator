@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -61,7 +62,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         /*
          * Reserved words.  Override this with reserved words specific to your language
          */
-        setReservedWordsLowerCase(
+        reservedWords = new HashSet<>(
                 Arrays.asList(
                         "alignas",
                         "alignof",
@@ -112,6 +113,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "noexcept",
                         "not",
                         "not_eq",
+                        "NULL",
                         "nullptr",
                         "operator",
                         "or",
@@ -278,7 +280,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
     @Override
     public CodegenProperty fromProperty(String name, Schema p, boolean required) {
         CodegenProperty property = super.fromProperty(name, p, required);
-        String nameInCamelCase = property.nameInCamelCase;
+        String nameInCamelCase = property.nameInPascalCase;
         if (nameInCamelCase.length() > 1) {
             nameInCamelCase = sanitizeName(Character.toLowerCase(nameInCamelCase.charAt(0)) + nameInCamelCase.substring(1));
         } else {

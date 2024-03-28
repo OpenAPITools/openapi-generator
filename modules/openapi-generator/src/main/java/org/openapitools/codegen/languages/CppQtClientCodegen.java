@@ -120,6 +120,9 @@ public class CppQtClientCodegen extends CppQtAbstractCodegen implements CodegenC
         typeMapping.put("AnyType", "QJsonValue");
         importMapping.put(PREFIX + "HttpFileElement", "#include \"" + PREFIX + "HttpFileElement.h\"");
         importMapping.put("QJsonValue", "#include <QJsonValue>");
+
+        reservedWords.add("valid");
+        reservedWords.add("set");
     }
 
     @Override

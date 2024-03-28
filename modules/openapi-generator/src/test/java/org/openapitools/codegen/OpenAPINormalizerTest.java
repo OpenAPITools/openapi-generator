@@ -38,7 +38,7 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
-import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
+import org.openapitools.codegen.templating.mustache.CamelCaseAndSanitizeLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
@@ -137,6 +137,15 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void isNullTypeSchemaTest() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
+        Map<String, String> options = new HashMap<>();
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        Schema schema = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertFalse(openAPINormalizer.isNullTypeSchema(schema));
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/simplifyOneOfAnyOf_test.yaml");
@@ -155,6 +164,9 @@ public class OpenAPINormalizerTest {
 
         Schema schema7 = openAPI.getComponents().getSchemas().get("Parent");
         assertEquals(((Schema) schema7.getProperties().get("number")).getAnyOf().size(), 1);
+
+        Schema schema9 = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertEquals(schema9.getAnyOf().size(), 2);
 
         Map<String, String> options = new HashMap<>();
         options.put("SIMPLIFY_ONEOF_ANYOF", "true");
@@ -177,6 +189,9 @@ public class OpenAPINormalizerTest {
 
         Schema schema8 = openAPI.getComponents().getSchemas().get("Parent");
         assertEquals(((Schema) schema8.getProperties().get("number")).get$ref(), "#/components/schemas/Number");
+
+        Schema schema10 = openAPI.getComponents().getSchemas().get("AnyOfStringArrayOfString");
+        assertEquals(schema10.getAnyOf().size(), 2);
     }
 
     @Test
@@ -385,7 +400,7 @@ public class OpenAPINormalizerTest {
 
         Schema pet = openAPI.getComponents().getSchemas().get("Pet");
         // verify schema for property id
-        Schema petSchema = (Schema)pet.getProperties().get("id");
+        Schema petSchema = (Schema) pet.getProperties().get("id");
         // both type and types are defined
         assertNotNull(petSchema.getType());
         assertNotNull(petSchema.getTypes());
@@ -413,5 +428,108 @@ public class OpenAPINormalizerTest {
         assertEquals(pathItem.getDelete().getParameters().size(), 1);
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getType());
         assertNotNull(pathItem.getDelete().getParameters().get(0).getSchema().getTypes());
+    }
+
+    @Test
+    public void testRemoveXInternal() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+        Schema s = openAPI.getComponents().getSchemas().get("Dummy");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(s.getExtensions().get("x-internal"), true);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("REMOVE_X_INTERNAL", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema s2 = openAPI.getComponents().getSchemas().get("Dummy");
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), null);
+        assertEquals(s2.getExtensions().get("x-internal"), null);
+    }
+
+    @Test
+    public void testFilter() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/enableKeepOnlyFirstTagInOperation_test.yaml");
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions(), null);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), true);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("FILTER", "operationId:delete|list");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getGet().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getDelete().getExtensions().get("x-internal"), false);
+        assertEquals(openAPI.getPaths().get("/person/display/{personId}").getPut().getExtensions().get("x-internal"), true);
+    }
+
+    @Test
+    public void testComposedSchemaDoesNotThrow() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/composed-schema.yaml");
+
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, Collections.emptyMap());
+        openAPINormalizer.normalize();
+    }
+
+    @Test
+    public void testSetContainerToNullable() {
+        // test `array|map`
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("map_property")).getNullable(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_CONTAINER_TO_NULLABLE", "array|map");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema2.getProperties().get("array_property")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema2.getProperties().get("map_property")).getNullable(), true);
+
+        // test `set`
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0/setContainerToNullable_test.yaml");
+
+        Schema schema3 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema3.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("set_property")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("map_property")).getNullable(), null);
+
+        options.put("SET_CONTAINER_TO_NULLABLE", "set");
+        OpenAPINormalizer openAPINormalizer2 = new OpenAPINormalizer(openAPI2, options);
+        openAPINormalizer2.normalize();
+
+        Schema schema4 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema4.getProperties().get("array_property")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("set_property")).getNullable(), true);
+        assertEquals(((Schema) schema4.getProperties().get("map_property")).getNullable(), null);
+    }
+
+    @Test
+    public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
+        // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
+        // test spec contains anyOf with a ref to enum and another scheme type is null
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema.getProperties().get("my_enum")).getAnyOf().size(), 2);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SIMPLIFY_ANYOF_STRING_AND_ENUM_STRING", "true");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Item");
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).getAnyOf(), null);
+        assertEquals(((Schema) schema2.getProperties().get("my_enum")).get$ref(), "#/components/schemas/MyEnum");
     }
 }

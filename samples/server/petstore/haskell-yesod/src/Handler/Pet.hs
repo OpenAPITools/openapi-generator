@@ -20,6 +20,12 @@ deletePetByInt64R :: Int64 -- ^ Pet id to delete
                   -> Handler Value
 deletePetByInt64R petId = notImplemented
 
+-- | Finds Pets
+--
+-- operationId: findPets
+getPetFindR :: Handler Value
+getPetFindR = notImplemented
+
 -- | Finds Pets by status
 --
 -- Multiple status values can be provided with comma separated strings

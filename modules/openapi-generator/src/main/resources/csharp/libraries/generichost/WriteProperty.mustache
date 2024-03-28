@@ -2,7 +2,7 @@
 {{>WritePropertyHelper}}
 {{/required}}
 {{^required}}
-if ({{#lambda.camelcase_param}}{{classname}}{{/lambda.camelcase_param}}.{{name}}Option.IsSet)
+if ({{#lambda.camelcase_sanitize_param}}{{classname}}{{/lambda.camelcase_sanitize_param}}.{{name}}Option.IsSet)
     {{#lambda.indent1}}
     {{>WritePropertyHelper}}
     {{/lambda.indent1}}

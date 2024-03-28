@@ -8,6 +8,7 @@ module OpenAPIPetstore.Types (
   Category (..),
   Order (..),
   Pet (..),
+  PetFilter (..),
   SpecialCharacters (..),
   Tag (..),
   User (..),
@@ -136,6 +137,30 @@ optionsPet =
       , ("petPhotoUrls", "photoUrls")
       , ("petTags", "tags")
       , ("petStatus", "status")
+      ]
+
+
+-- | 
+data PetFilter = PetFilter
+  { petFilterTags :: Maybe [Text] -- ^ 
+  , petFilterStatus :: Maybe [Text] -- ^ 
+  } deriving (Show, Eq, Generic)
+
+instance FromJSON PetFilter where
+  parseJSON = genericParseJSON optionsPetFilter
+instance ToJSON PetFilter where
+  toJSON = genericToJSON optionsPetFilter
+
+optionsPetFilter :: Options
+optionsPetFilter =
+  defaultOptions
+    { omitNothingFields  = True
+    , fieldLabelModifier = \s -> fromMaybe ("did not find JSON field name for " ++ show s) $ List.lookup s table
+    }
+  where
+    table =
+      [ ("petFilterTags", "tags")
+      , ("petFilterStatus", "status")
       ]
 
 

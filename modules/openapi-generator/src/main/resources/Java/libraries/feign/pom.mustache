@@ -65,12 +65,12 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <property>
                             <name>loggerPath</name>
                             <value>conf/log4j.properties</value>
                         </property>
-                    </systemProperties>
+                    </systemPropertyVariables>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
@@ -380,7 +380,7 @@
         {{#swagger2AnnotationLibrary}}
         <swagger-annotations-version>2.2.15</swagger-annotations-version>
         {{/swagger2AnnotationLibrary}}
-        <feign-version>12.5</feign-version>
+        <feign-version>13.2.1</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         {{#jackson}}
         <jackson-version>2.15.2</jackson-version>

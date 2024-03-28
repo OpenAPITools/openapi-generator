@@ -21,11 +21,17 @@ import json
 from typing import Optional, Union
 from pydantic import BaseModel, Field, StrictStr
 
+from typing import TYPE_CHECKING
+from importlib import import_module
+if TYPE_CHECKING:
+    from petstore_api.models.cat import Cat
+    from petstore_api.models.dog import Dog
+
 class Animal(BaseModel):
     """
     Animal
     """
-    class_name: StrictStr = Field(..., alias="className")
+    class_name: StrictStr = Field(default=..., alias="className")
     color: Optional[StrictStr] = 'red'
     __properties = ["className", "color"]
 
@@ -78,15 +84,12 @@ class Animal(BaseModel):
         """Create an instance of Animal from a dict"""
         # look up the object type based on discriminator mapping
         object_type = cls.get_discriminator_value(obj)
-        if object_type:
-            klass = globals()[object_type]
-            return klass.from_dict(obj)
-        else:
-            raise ValueError("Animal failed to lookup discriminator value from " +
-                             json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
-                             ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
+        if object_type ==  'Cat':
+            return import_module("petstore_api.models.cat").Cat.from_dict(obj)
+        if object_type ==  'Dog':
+            return import_module("petstore_api.models.dog").Dog.from_dict(obj)
+        raise ValueError("Animal failed to lookup discriminator value from " +
+                            json.dumps(obj) + ". Discriminator property name: " + cls.__discriminator_property_name +
+                            ", mapping: " + json.dumps(cls.__discriminator_value_class_map))
 
-from petstore_api.models.cat import Cat
-from petstore_api.models.dog import Dog
-Animal.update_forward_refs()
 

@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of NullableProperty from a JSON string
 nullable_property_instance = NullableProperty.from_json(json)
 # print the JSON string representation of the object
-print NullableProperty.to_json()
+print(NullableProperty.to_json())
 
 # convert the object into a dict
 nullable_property_dict = nullable_property_instance.to_dict()

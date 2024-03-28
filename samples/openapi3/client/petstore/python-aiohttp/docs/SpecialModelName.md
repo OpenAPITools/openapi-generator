@@ -17,7 +17,7 @@ json = "{}"
 # create an instance of SpecialModelName from a JSON string
 special_model_name_instance = SpecialModelName.from_json(json)
 # print the JSON string representation of the object
-print SpecialModelName.to_json()
+print(SpecialModelName.to_json())
 
 # convert the object into a dict
 special_model_name_dict = special_model_name_instance.to_dict()

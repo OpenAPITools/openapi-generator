@@ -76,7 +76,7 @@ class HealthCheckResultTest extends TestCase
     public function testHealthCheckResult()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 
     /**
@@ -85,6 +85,6 @@ class HealthCheckResultTest extends TestCase
     public function testPropertyNullableMessage()
     {
         // TODO: implement
-        $this->markTestIncomplete('Not implemented');
+        self::markTestIncomplete('Not implemented');
     }
 }

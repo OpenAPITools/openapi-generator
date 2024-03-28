@@ -46,7 +46,9 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     put:
       description: ""
       operationId: updatePet
@@ -76,7 +78,9 @@ paths:
       tags:
       - pet
       x-content-type: application/json
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -120,7 +124,9 @@ paths:
       summary: Finds Pets by status
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/findByTags:
     get:
       deprecated: true
@@ -160,7 +166,9 @@ paths:
       summary: Finds Pets by tags
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
   /pet/{petId}:
     delete:
       description: ""
@@ -192,7 +200,8 @@ paths:
       summary: Deletes a pet
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
     get:
       description: Returns a single pet
       operationId: getPetById
@@ -225,7 +234,9 @@ paths:
       summary: Find pet by ID
       tags:
       - pet
-      x-accepts: application/json
+      x-accepts:
+      - application/json
+      - application/xml
     post:
       description: ""
       operationId: updatePetWithForm
@@ -256,7 +267,8 @@ paths:
       - pet
       x-group-parameters: false
       x-content-type: application/x-www-form-urlencoded
-      x-accepts: application/json
+      x-accepts:
+      - application/json
   /pet/{petId}/uploadImage:
     post:
       description: ""
@@ -291,7 +303,8 @@ paths:
       tags:
       - pet
       x-content-type: multipart/form-data
-      x-accepts: application/json
+      x-accepts:
+      - application/json
 components:
   requestBodies:
     UserArray:

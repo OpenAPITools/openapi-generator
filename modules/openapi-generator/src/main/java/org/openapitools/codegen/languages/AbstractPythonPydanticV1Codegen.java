@@ -879,17 +879,13 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 // if super class
                 if (model.getDiscriminator() != null && model.getDiscriminator().getMappedModels() != null) {
                     typingImports.add("Union");
-                    Set<CodegenDiscriminator.MappedModel> discriminator = model.getDiscriminator().getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : discriminator) {
-                        postponedModelImports.add(mappedModel.getModelName());
-                    }
                 }
             }
 
             if (!model.allOf.isEmpty()) { // allOf
                 for (CodegenProperty cp : model.allVars) {
                     if (!cp.isPrimitiveType || cp.isModel) {
-                        if (cp.isArray){ // if array
+                        if (cp.isArray || cp.isMap){ // if array or map
                             modelImports.add(cp.items.dataType);
                         }else{ // if model
                             modelImports.add(cp.dataType);
@@ -960,7 +956,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                 }
 
                 if (!fields.isEmpty()) {
-                    fields.add(0, fieldCustomization);
+                    fields.add(0, "default=" + fieldCustomization);
                     pydanticImports.add("Field");
                     fieldCustomization = String.format(Locale.ROOT, "Field(%s)", StringUtils.join(fields, ", "));
                 }
@@ -1355,7 +1351,7 @@ public abstract class AbstractPythonPydanticV1Codegen extends DefaultCodegen imp
                     values.add((String) enumVar.get("value"));
                 }
             }
-            return String.format(Locale.ROOT, "%sEnum", cp.nameInCamelCase);
+            return String.format(Locale.ROOT, "%sEnum", cp.nameInPascalCase);
         } else*/
         if (cp.isArray) {
             String constraints = "";

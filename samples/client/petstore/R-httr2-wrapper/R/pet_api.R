@@ -746,7 +746,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -984,7 +984,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "array[Pet]", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1100,7 +1100,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "array[Pet]", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "array[Pet]", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1221,7 +1221,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1353,7 +1353,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1483,7 +1483,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1605,7 +1605,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "Pet", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "Pet", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",
@@ -1807,7 +1807,7 @@ PetApi <- R6::R6Class(
 
 
       form_params["additionalMetadata"] <- `additional_metadata`
-      file_params["file"] <- curl::form_file(`file`)
+      file_params[["file"]] <- curl::form_file(`file`)
       local_var_url_path <- "/pet/{petId}/uploadImage"
       if (!missing(`pet_id`)) {
         local_var_url_path <- gsub("\\{petId\\}", URLencode(as.character(`pet_id`), reserved = TRUE), local_var_url_path)
@@ -1843,7 +1843,7 @@ PetApi <- R6::R6Class(
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "ModelApiResponse", loadNamespace("petstore")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "ModelApiResponse", loadNamespace("petstore")),
           error = function(e) {
             rlang::abort(message = "Failed to deserialize response",
                          .subclass = "ApiException",

@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **array_of_string** | **List[str]** |  | [optional] 
+**array_of_nullable_float** | **List[Optional[float]]** |  | [optional] 
 **array_array_of_integer** | **List[List[int]]** |  | [optional] 
 **array_array_of_model** | **List[List[ReadOnlyFirst]]** |  | [optional] 
 
@@ -19,7 +20,7 @@ json = "{}"
 # create an instance of ArrayTest from a JSON string
 array_test_instance = ArrayTest.from_json(json)
 # print the JSON string representation of the object
-print ArrayTest.to_json()
+print(ArrayTest.to_json())
 
 # convert the object into a dict
 array_test_dict = array_test_instance.to_dict()

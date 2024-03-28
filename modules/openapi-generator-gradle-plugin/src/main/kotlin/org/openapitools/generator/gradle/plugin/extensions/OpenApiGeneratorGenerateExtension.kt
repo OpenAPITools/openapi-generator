@@ -193,6 +193,11 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val enumNameMappings = project.objects.mapProperty<String, String>()
 
     /**
+     * Specifies mappings between an operation id name and the new name
+     */
+    val operationIdNameMappings = project.objects.mapProperty<String, String>()
+
+    /**
      * Specifies mappings (rules) in OpenAPI normalizer
      */
     val openapiNormalizer = project.objects.mapProperty<String, String>()

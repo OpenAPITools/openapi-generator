@@ -94,8 +94,8 @@
         form_params.each do |key, value|
           case value
           when ::File, ::Tempfile
-            # TODO hardcode to application/octet-stream, need better way to detect content type
-            data[key] = Faraday::FilePart.new(value.path, 'application/octet-stream', value.path)
+            filemagic = FileMagic.new(FileMagic::MAGIC_MIME)
+            data[key] = Faraday::FilePart.new(value.path, filemagic.file(value.path, true))
           when ::Array, nil
             # let Faraday handle Array and nil parameters
             data[key] = value

@@ -515,7 +515,7 @@
       file_params["{{baseName}}"] <- httr::upload_file(`{{paramName}}`)
       {{/isHttr2}}
       {{#isHttr2}}
-      file_params["{{baseName}}"] <- curl::form_file(`{{paramName}}`)
+      file_params[["{{{baseName}}}"]] <- curl::form_file(`{{paramName}}`)
       {{/isHttr2}}
       {{/isFile}}
       {{/formParams}}
@@ -637,7 +637,7 @@
         }
 
         deserialized_resp_obj <- tryCatch(
-          self$api_client$deserialize(local_var_resp$response, "{{returnType}}", loadNamespace("{{packageName}}")),
+          self$api_client$deserialize(local_var_resp$response_as_text(), "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e) {
             {{#useDefaultExceptionHandling}}
             stop("Failed to deserialize response")

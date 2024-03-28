@@ -57,6 +57,7 @@ public final class GeneratorSettings implements Serializable {
     private final Map<String, String> parameterNameMappings;
     private final Map<String, String> modelNameMappings;
     private final Map<String, String> enumNameMappings;
+    private final Map<String, String> operationIdNameMappings;
     private final Map<String, String> openapiNormalizer;
     private final Set<String> languageSpecificPrimitives;
     private final Set<String> openapiGeneratorIgnoreList;
@@ -307,6 +308,15 @@ public final class GeneratorSettings implements Serializable {
     }
 
     /**
+     * Gets operation id name mappings between an operation id name and the new name.
+     *
+     * @return the operation id name mappings
+     */
+    public Map<String, String> getOperationIdNameMappings() {
+        return operationIdNameMappings;
+    }
+
+    /**
      * Gets OpenAPI normalizer rules
      *
      * @return a map of rules
@@ -446,6 +456,7 @@ public final class GeneratorSettings implements Serializable {
         parameterNameMappings = Collections.unmodifiableMap(builder.parameterNameMappings);
         modelNameMappings = Collections.unmodifiableMap(builder.modelNameMappings);
         enumNameMappings = Collections.unmodifiableMap(builder.enumNameMappings);
+        operationIdNameMappings = Collections.unmodifiableMap(builder.operationIdNameMappings);
         openapiNormalizer = Collections.unmodifiableMap(builder.openapiNormalizer);
         languageSpecificPrimitives = Collections.unmodifiableSet(builder.languageSpecificPrimitives);
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(builder.openapiGeneratorIgnoreList);
@@ -525,6 +536,7 @@ public final class GeneratorSettings implements Serializable {
         parameterNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         modelNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         enumNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
+        operationIdNameMappings = Collections.unmodifiableMap(new HashMap<>(0));
         openapiNormalizer = Collections.unmodifiableMap(new HashMap<>(0));
         languageSpecificPrimitives = Collections.unmodifiableSet(new HashSet<>(0));
         openapiGeneratorIgnoreList = Collections.unmodifiableSet(new HashSet<>(0));
@@ -599,6 +611,9 @@ public final class GeneratorSettings implements Serializable {
         if (copy.getEnumNameMappings() != null) {
             builder.enumNameMappings.putAll(copy.getEnumNameMappings());
         }
+        if (copy.getOperationIdNameMappings() != null) {
+            builder.operationIdNameMappings.putAll(copy.getOperationIdNameMappings());
+        }
         if (copy.getOpenAPINormalizer() != null) {
             builder.openapiNormalizer.putAll(copy.getOpenAPINormalizer());
         }
@@ -651,6 +666,7 @@ public final class GeneratorSettings implements Serializable {
         private Map<String, String> parameterNameMappings;
         private Map<String, String> modelNameMappings;
         private Map<String, String> enumNameMappings;
+        private Map<String, String> operationIdNameMappings;
         private Map<String, String> openapiNormalizer;
         private Set<String> languageSpecificPrimitives;
         private Set<String> openapiGeneratorIgnoreList;
@@ -677,6 +693,7 @@ public final class GeneratorSettings implements Serializable {
             parameterNameMappings = new HashMap<>();
             modelNameMappings = new HashMap<>();
             enumNameMappings = new HashMap<>();
+            operationIdNameMappings = new HashMap<>();
             openapiNormalizer = new HashMap<>();
             languageSpecificPrimitives = new HashSet<>();
             openapiGeneratorIgnoreList = new HashSet<>();
@@ -1104,6 +1121,32 @@ public final class GeneratorSettings implements Serializable {
         }
 
         /**
+         * Sets the {@code operationIdNameMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param operationIdNameMappings the {@code operationIdNameMappings} to set
+         * @return a reference to this Builder
+         */
+        public Builder withOperationIdNameMappings(Map<String, String> operationIdNameMappings) {
+            this.operationIdNameMappings = operationIdNameMappings;
+            return this;
+        }
+
+        /**
+         * Sets a single {@code operationIdNameMappings} and returns a reference to this Builder so that the methods can be chained together.
+         *
+         * @param key   A key for the name mapping
+         * @param value The value of name mapping
+         * @return a reference to this Builder
+         */
+        public Builder withOperationIdNameMapping(String key, String value) {
+            if (this.operationIdNameMappings == null) {
+                this.operationIdNameMappings = new HashMap<>();
+            }
+            this.operationIdNameMappings.put(key, value);
+            return this;
+        }
+
+        /**
          * Sets the {@code openapiNormalizer} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param openapiNormalizer the {@code openapiNormalizer} to set
@@ -1346,6 +1389,7 @@ public final class GeneratorSettings implements Serializable {
                 Objects.equals(getParameterNameMappings(), that.getParameterNameMappings()) &&
                 Objects.equals(getModelNameMappings(), that.getModelNameMappings()) &&
                 Objects.equals(getEnumNameMappings(), that.getEnumNameMappings()) &&
+                Objects.equals(getOperationIdNameMappings(), that.getOperationIdNameMappings()) &&
                 Objects.equals(getOpenAPINormalizer(), that.getOpenAPINormalizer()) &&
                 Objects.equals(getLanguageSpecificPrimitives(), that.getLanguageSpecificPrimitives()) &&
                 Objects.equals(getOpenAPIGeneratorIgnoreList(), that.getOpenAPIGeneratorIgnoreList()) &&
@@ -1383,6 +1427,7 @@ public final class GeneratorSettings implements Serializable {
                 getParameterNameMappings(),
                 getModelNameMappings(),
                 getEnumNameMappings(),
+                getOperationIdNameMappings(),
                 getOpenAPINormalizer(),
                 getLanguageSpecificPrimitives(),
                 getOpenAPIGeneratorIgnoreList(),

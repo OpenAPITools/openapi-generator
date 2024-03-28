@@ -30,7 +30,7 @@ namespace Org.OpenAPITools.Models
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=true)]
-        public bool Declawed { get; set; }
+        public bool? Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

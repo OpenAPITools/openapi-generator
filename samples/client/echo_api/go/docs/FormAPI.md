@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost:3000*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**TestFormIntegerBooleanString**](FormAPI.md#TestFormIntegerBooleanString) | **Post** /form/integer/boolean/string | Test form parameter(s)
+[**TestFormObjectMultipart**](FormAPI.md#TestFormObjectMultipart) | **Post** /form/object/multipart | Test form parameter(s) for multipart schema
 [**TestFormOneof**](FormAPI.md#TestFormOneof) | **Post** /form/oneof | Test form parameter(s) for oneOf schema
 
 
@@ -72,6 +73,72 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: text/plain
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestFormObjectMultipart
+
+> string TestFormObjectMultipart(ctx).Marker(marker).Execute()
+
+Test form parameter(s) for multipart schema
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+)
+
+func main() {
+	marker := *openapiclient.NewTestFormObjectMultipartRequestMarker() // TestFormObjectMultipartRequestMarker | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.FormAPI.TestFormObjectMultipart(context.Background()).Marker(marker).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `FormAPI.TestFormObjectMultipart``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `TestFormObjectMultipart`: string
+	fmt.Fprintf(os.Stdout, "Response from `FormAPI.TestFormObjectMultipart`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestFormObjectMultipartRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **marker** | [**TestFormObjectMultipartRequestMarker**](TestFormObjectMultipartRequestMarker.md) |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
 - **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

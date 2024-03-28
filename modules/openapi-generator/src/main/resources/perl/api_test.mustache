@@ -4,7 +4,7 @@
 # Please update the test cases below to test the API endpoints.
 # Ref: https://openapi-generator.tech
 #
-use Test::More tests => 1; #TODO update number of test cases
+use Test::More;
 use Test::Exception;
 
 use lib 'lib';
@@ -29,3 +29,5 @@ isa_ok($api, '{{moduleName}}::{{classname}}');
 
 {{/operation}}
 {{/operations}}
+
+done_testing();

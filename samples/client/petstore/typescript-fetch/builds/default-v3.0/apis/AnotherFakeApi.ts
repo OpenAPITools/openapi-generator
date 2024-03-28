@@ -36,8 +36,11 @@ export class AnotherFakeApi extends runtime.BaseAPI {
      * To test special tags
      */
     async _123testSpecialTagsRaw(requestParameters: 123testSpecialTagsRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Client>> {
-        if (requestParameters.client === null || requestParameters.client === undefined) {
-            throw new runtime.RequiredError('client','Required parameter requestParameters.client was null or undefined when calling _123testSpecialTags.');
+        if (requestParameters['client'] == null) {
+            throw new runtime.RequiredError(
+                'client',
+                'Required parameter "client" was null or undefined when calling _123testSpecialTags().'
+            );
         }
 
         const queryParameters: any = {};
@@ -51,7 +54,7 @@ export class AnotherFakeApi extends runtime.BaseAPI {
             method: 'PATCH',
             headers: headerParameters,
             query: queryParameters,
-            body: ClientToJSON(requestParameters.client),
+            body: ClientToJSON(requestParameters['client']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => ClientFromJSON(jsonValue));
