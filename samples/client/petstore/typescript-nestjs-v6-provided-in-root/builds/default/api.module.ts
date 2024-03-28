@@ -1,4 +1,4 @@
-import { DynamicModule, HttpService, HttpModule, Module, Global } from '@nestjs/common';
+import { DynamicModule, HttpService, HttpModule, Module, Global, Provider } from '@nestjs/common';
 import { AsyncConfiguration, Configuration, ConfigurationFactory } from './configuration';
 
 import { PetService } from './api/pet.service';
