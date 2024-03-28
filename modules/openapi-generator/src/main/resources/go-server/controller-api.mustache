@@ -186,8 +186,8 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{^isInteger}}
 	{{^isDateTime}}
 	{{^isEnumRef}}
-	{{paramName}}Param := {{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}}
-	if {{paramName}}Param == "" {
+	{{paramName}}Param := getPointerOrNilIfEmpty({{#routers}}{{#mux}}params["{{baseName}}"]{{/mux}}{{#chi}}chi.URLParam(r, "{{baseName}}"){{/chi}}{{/routers}})
+	if {{paramName}}Param == nil {
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
@@ -399,7 +399,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 				c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 				return
 			}
-			{{paramName}}Param = append({{paramName}}Param, paramEnum)
+			{{paramName}}Param = append({{paramName}}Param, *paramEnum)
 		}
 	}
 	{{/items.isEnumRef}}
@@ -425,10 +425,10 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/defaultValue}}
 	{{^defaultValue}}
 	{{^required}}
-	var {{paramName}}Param {{dataType}}
+	var {{paramName}}Param *{{dataType}}
 	if query.Has("{{baseName}}") {
 		{{^isEnumRef}}
-		{{paramName}}Param = query.Get("{{baseName}}")
+		{{paramName}}Param = getPointer(query.Get("{{baseName}}"))
 		{{/isEnumRef}}
 		{{#isEnumRef}}
 		var err error
@@ -441,14 +441,14 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	}
 	{{/required}}
 	{{#required}}
-	{{^isEnumRef}}
-	{{paramName}}Param := query.Get("{{baseName}}")
-	{{/isEnumRef}}
-	{{#isEnumRef}}
 	if !query.Has("{{baseName}}"){
 		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
 		return
 	}
+	{{^isEnumRef}}
+	{{paramName}}Param := query.Get("{{baseName}}")
+	{{/isEnumRef}}
+	{{#isEnumRef}}
 	{{paramName}}Param, err := New{{dataType}}FromValue(query.Get("{{baseName}}"))
 	if err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
@@ -509,21 +509,33 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{paramName}}Param := strings.Split(r.FormValue("{{baseName}}"), ",")
 	{{/isArray}}
 	{{^isArray}}
-	{{paramName}}Param := r.FormValue("{{baseName}}")
+	{{paramName}}Param := getPointerOrNilIfEmpty(r.FormValue("{{baseName}}"))
+	{{#required}}
+	if {{paramName}}Param == nil {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{/required}}
 	{{/isArray}}
 	{{/isLong}}
 	{{/isFile}}
 	{{/isFormParam}}
 	{{#isHeaderParam}}
-	{{paramName}}Param := r.Header.Get("{{baseName}}")
+	{{paramName}}Param := getPointerOrNilIfEmpty(r.Header.Get("{{baseName}}"))
+	{{#required}}
+	if {{paramName}}Param == nil {
+		c.errorHandler(w, r, &RequiredError{"{{baseName}}"}, nil)
+		return
+	}
+	{{/required}}
 	{{/isHeaderParam}}
 	{{#isBodyParam}}
-	{{paramName}}Param := {{dataType}}{}
+	{{paramName}}Param := {{^isArray}}&{{/isArray}}{{dataType}}{}
 	d := json.NewDecoder(r.Body)
 	{{^isAdditionalPropertiesTrue}}
 	d.DisallowUnknownFields()
 	{{/isAdditionalPropertiesTrue}}
-	if err := d.Decode(&{{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.EOF) {{/required}}{
+	if err := d.Decode({{paramName}}Param); err != nil {{^required}}&& !errors.Is(err, io.EOF) {{/required}}{
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -538,20 +550,26 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		{{/items.isModel}}
 	{{/isArray}}
 	{{^isArray}}
-		{{#isModel}}
-	if err := Assert{{baseType}}Required({{paramName}}Param); err != nil {
+	{{#isModel}}
+	{{^required}}
+	if {{paramName}}Param != nil {
+	{{/required}}
+	if err := Assert{{baseType}}Required(*{{paramName}}Param); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := Assert{{baseType}}Constraints({{paramName}}Param); err != nil {
+	if err := Assert{{baseType}}Constraints(*{{paramName}}Param); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-		{{/isModel}}
+	{{^required}}
+	}
+	{{/required}}
+	{{/isModel}}
 	{{/isArray}}
 	{{/isBodyParam}}
 	{{/allParams}}
-	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{paramName}}Param{{/allParams}})
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{^isArray}}{{^isFile}}{{#required}}*{{/required}}{{/isFile}}{{/isArray}}{{paramName}}Param{{/allParams}})
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
