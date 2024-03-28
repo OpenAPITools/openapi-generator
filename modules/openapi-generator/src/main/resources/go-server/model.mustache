@@ -45,12 +45,12 @@ func (v {{{classname}}}) IsValid() bool {
 
 // New{{{classname}}}FromValue returns a pointer to a valid {{{classname}}}
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) ({{{classname}}}, error) {
+func New{{{classname}}}FromValue(v {{{format}}}{{^format}}{{dataType}}{{/format}}) (*{{{classname}}}, error) {
 	ev := {{{classname}}}(v)
 	if ev.IsValid() {
-		return ev, nil
+		return &ev, nil
 	} else {
-		return "", fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for {{{classname}}}: valid values are %v", v, Allowed{{{classname}}}EnumValues)
 	}
 }
 

@@ -95,22 +95,22 @@ func (c *UserAPIController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserAPIController) CreateUser(w http.ResponseWriter, r *http.Request) {
-	userParam := User{}
+	userParam := &User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertUserRequired(userParam); err != nil {
+	if err := AssertUserRequired(*userParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertUserConstraints(userParam); err != nil {
+	if err := AssertUserConstraints(*userParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.CreateUser(r.Context(), userParam)
+	result, err := c.service.CreateUser(r.Context(), *userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -125,7 +125,7 @@ func (c *UserAPIController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -150,7 +150,7 @@ func (c *UserAPIController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	userParam := []User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
@@ -177,26 +177,20 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	result, err := c.service.DeleteUser(r.Context(), usernameParam, booleanTestParam)
+	result, err := c.service.DeleteUser(r.Context(), *usernameParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -208,12 +202,12 @@ func (c *UserAPIController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 
 // GetUserByName - Get user by user name
 func (c *UserAPIController) GetUserByName(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	result, err := c.service.GetUserByName(r.Context(), usernameParam)
+	result, err := c.service.GetUserByName(r.Context(), *usernameParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -230,95 +224,57 @@ func (c *UserAPIController) LoginUser(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	var usernameParam string
-	if query.Has("username") {
-		param := query.Get("username")
-
-		usernameParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "username"}, nil)
+	if !query.Has("username"){
+		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	var passwordParam string
-	if query.Has("password") {
-		param := query.Get("password")
-
-		passwordParam = param
-	} else {
-		c.errorHandler(w, r, &RequiredError{Field: "password"}, nil)
+	usernameParam := query.Get("username")
+	if !query.Has("password"){
+		c.errorHandler(w, r, &RequiredError{"password"}, nil)
 		return
 	}
-	var int32TestParam int32
-	if query.Has("int32_test") {
-		param, err := parseNumericParameter[int32](
-			query.Get("int32_test"),
-			WithParse[int32](parseInt32),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		int32TestParam = param
-	} else {
+	passwordParam := query.Get("password")
+	int32TestParam, err := parseNumericParameter[int32](
+		query.Get("int32_test"),
+		WithParse[int32](parseInt32),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var int64TestParam int64
-	if query.Has("int64_test") {
-		param, err := parseNumericParameter[int64](
-			query.Get("int64_test"),
-			WithParse[int64](parseInt64),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		int64TestParam = param
-	} else {
+	int64TestParam, err := parseNumericParameter[int64](
+		query.Get("int64_test"),
+		WithParse[int64](parseInt64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var float32TestParam float32
-	if query.Has("float32_test") {
-		param, err := parseNumericParameter[float32](
-			query.Get("float32_test"),
-			WithParse[float32](parseFloat32),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		float32TestParam = param
-	} else {
+	float32TestParam, err := parseNumericParameter[float32](
+		query.Get("float32_test"),
+		WithParse[float32](parseFloat32),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var float64TestParam float64
-	if query.Has("float64_test") {
-		param, err := parseNumericParameter[float64](
-			query.Get("float64_test"),
-			WithParse[float64](parseFloat64),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		float64TestParam = param
-	} else {
+	float64TestParam, err := parseNumericParameter[float64](
+		query.Get("float64_test"),
+		WithParse[float64](parseFloat64),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	var booleanTestParam bool
-	if query.Has("boolean_test") {
-		param, err := parseBoolParameter(
-			query.Get("boolean_test"),
-			WithParse[bool](parseBool),
-		)
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		booleanTestParam = param
-	} else {
+	booleanTestParam, err := parseBoolParameter(
+		query.Get("boolean_test"),
+		WithParse[bool](parseBool),
+	)
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
-	result, err := c.service.LoginUser(r.Context(), usernameParam, passwordParam, int32TestParam, int64TestParam, float32TestParam, float64TestParam, booleanTestParam)
+	result, err := c.service.LoginUser(r.Context(), *usernameParam, *passwordParam, int32TestParam, int64TestParam, float32TestParam, float64TestParam, booleanTestParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -342,27 +298,27 @@ func (c *UserAPIController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 
 // UpdateUser - Updated user
 func (c *UserAPIController) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	usernameParam := chi.URLParam(r, "username")
-	if usernameParam == "" {
+	usernameParam := getPointerOrNilIfEmpty(chi.URLParam(r, "username"))
+	if usernameParam == nil {
 		c.errorHandler(w, r, &RequiredError{"username"}, nil)
 		return
 	}
-	userParam := User{}
+	userParam := &User{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&userParam); err != nil {
+	if err := d.Decode(userParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertUserRequired(userParam); err != nil {
+	if err := AssertUserRequired(*userParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertUserConstraints(userParam); err != nil {
+	if err := AssertUserConstraints(*userParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.UpdateUser(r.Context(), usernameParam, userParam)
+	result, err := c.service.UpdateUser(r.Context(), *usernameParam, *userParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)

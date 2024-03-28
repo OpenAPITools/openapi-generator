@@ -13,7 +13,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"os"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -96,22 +95,22 @@ func (c *PetAPIController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetAPIController) AddPet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := &Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil {
+	if err := d.Decode(petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(petParam); err != nil {
+	if err := AssertPetRequired(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertPetConstraints(petParam); err != nil {
+	if err := AssertPetConstraints(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.AddPet(r.Context(), petParam)
+	result, err := c.service.AddPet(r.Context(), *petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -131,8 +130,8 @@ func (c *PetAPIController) DeletePet(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	apiKeyParam := r.Header.Get("api_key")
-	result, err := c.service.DeletePet(r.Context(), petIdParam, apiKeyParam)
+	apiKeyParam := getPointerOrNilIfEmpty(r.Header.Get("api_key"))
+	result, err := c.service.DeletePet(r.Context(), *petIdParam, apiKeyParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -195,7 +194,7 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	result, err := c.service.GetPetById(r.Context(), petIdParam)
+	result, err := c.service.GetPetById(r.Context(), *petIdParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -207,22 +206,22 @@ func (c *PetAPIController) GetPetById(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePet - Update an existing pet
 func (c *PetAPIController) UpdatePet(w http.ResponseWriter, r *http.Request) {
-	petParam := Pet{}
+	petParam := &Pet{}
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
-	if err := d.Decode(&petParam); err != nil {
+	if err := d.Decode(petParam); err != nil {
 		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
 		return
 	}
-	if err := AssertPetRequired(petParam); err != nil {
+	if err := AssertPetRequired(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	if err := AssertPetConstraints(petParam); err != nil {
+	if err := AssertPetConstraints(*petParam); err != nil {
 		c.errorHandler(w, r, err, nil)
 		return
 	}
-	result, err := c.service.UpdatePet(r.Context(), petParam)
+	result, err := c.service.UpdatePet(r.Context(), *petParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -248,11 +247,11 @@ func (c *PetAPIController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	
-	nameParam := r.FormValue("name")
+	nameParam := getPointerOrNilIfEmpty(r.FormValue("name"))
 	
 	
-	statusParam := r.FormValue("status")
-	result, err := c.service.UpdatePetWithForm(r.Context(), petIdParam, nameParam, statusParam)
+	statusParam := getPointerOrNilIfEmpty(r.FormValue("status"))
+	result, err := c.service.UpdatePetWithForm(r.Context(), *petIdParam, nameParam, statusParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
@@ -278,20 +277,15 @@ func (c *PetAPIController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	
-	additionalMetadataParam := r.FormValue("additionalMetadata")
-	var fileParam *os.File
-	{
-		param, err := ReadFormFileToTempFile(r, "file")
-		if err != nil {
-			c.errorHandler(w, r, &ParsingError{Err: err}, nil)
-			return
-		}
-
-		fileParam = param
+	additionalMetadataParam := getPointerOrNilIfEmpty(r.FormValue("additionalMetadata"))
+	fileParam, err := ReadFormFileToTempFile(r, "file")
+	if err != nil {
+		c.errorHandler(w, r, &ParsingError{Err: err}, nil)
+		return
 	}
 	
 	
-	result, err := c.service.UploadFile(r.Context(), petIdParam, additionalMetadataParam, fileParam)
+	result, err := c.service.UploadFile(r.Context(), *petIdParam, additionalMetadataParam, fileParam)
 	// If an error occurred, encode the error with the status code
 	if err != nil {
 		c.errorHandler(w, r, err, &result)
