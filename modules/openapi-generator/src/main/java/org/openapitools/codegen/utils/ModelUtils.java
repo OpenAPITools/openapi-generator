@@ -929,14 +929,74 @@ public class ModelUtils {
      * @return schema without '$ref'
      */
     public static Schema getReferencedSchema(OpenAPI openAPI, Schema schema) {
-        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
-            String name = getSimpleRef(schema.get$ref());
-            Schema referencedSchema = getSchema(openAPI, name);
-            if (referencedSchema != null) {
-                return referencedSchema;
-            }
+        if (schema == null) {
+            return null;
         }
+
+        if (StringUtils.isEmpty(schema.get$ref())) {
+            return schema;
+        }
+
+        try {
+            Schema refSchema = getSchemaFromRefToSchemaWithProperties(openAPI, schema.get$ref());
+            if (refSchema != null) {
+                // it's ref to schema's properties, #/components/schemas/Pet/properties/category for example
+                return refSchema;
+            }
+        } catch (Exception e) {
+            LOGGER.warn("Failed to parse $ref {}. Please report the issue to openapi-generator GitHub repo.", schema.get$ref());
+        }
+
+        // a simple ref, e.g. #/components/schemas/Pet
+        String name = getSimpleRef(schema.get$ref());
+        Schema referencedSchema = getSchema(openAPI, name);
+        if (referencedSchema != null) {
+            return referencedSchema;
+        }
+
         return schema;
+    }
+
+    /**
+     * Get the schema referenced by $ref to schema's properties, e.g. #/components/schemas/Pet/properties/category.
+     *
+     * @param openAPI    specification being checked
+     * @param refString  schema reference
+     * @return schema
+     */
+    public static Schema getSchemaFromRefToSchemaWithProperties(OpenAPI openAPI, String refString) {
+        if (refString == null) {
+            return null;
+        }
+
+        String[] parts = refString.split("/");
+        // #/components/schemas/Pet/properties/category
+        if (parts.length == 6 && "properties".equals(parts[4])) {
+            Schema referencedSchema = getSchema(openAPI, parts[3]); // parts[3] is Pet
+            return (Schema) referencedSchema.getProperties().get(parts[5]); // parts[5] is category
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns true if $ref to a reference to schema's properties, e.g. #/components/schemas/Pet/properties/category.
+     *
+     * @param refString  schema reference
+     * @return true if $ref to a reference to schema's properties
+     */
+    public static boolean isRefToSchemaWithProperties(String refString) {
+        if (refString == null) {
+            return false;
+        }
+
+        String[] parts = refString.split("/");
+        // #/components/schemas/Pet/properties/category
+        if (parts.length == 6 && "properties".equals(parts[4])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static Schema getSchema(OpenAPI openAPI, String name) {
@@ -1272,7 +1332,9 @@ public class ModelUtils {
             }
             Schema ref = allSchemas.get(simpleRef);
             if (ref == null) {
-                once(LOGGER).warn("{} is not defined", schema.get$ref());
+                if (!isRefToSchemaWithProperties(schema.get$ref())) {
+                    once(LOGGER).warn("{} is not defined", schema.get$ref());
+                }
                 return schema;
             } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
                 // top-level enum class
