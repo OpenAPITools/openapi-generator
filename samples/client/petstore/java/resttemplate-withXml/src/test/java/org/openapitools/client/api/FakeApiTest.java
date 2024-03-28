@@ -14,6 +14,7 @@
 package org.openapitools.client.api;
 
 import java.math.BigDecimal;
+import org.openapitools.client.model.ChildWithNullable;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.EnumClass;
 import org.openapitools.client.model.FakeBigDecimalMap200Response;
@@ -25,9 +26,11 @@ import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.OuterObjectWithEnumProperty;
 import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.TestInlineFreeformAdditionalPropertiesRequest;
 import org.openapitools.client.model.User;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -39,8 +42,8 @@ import java.util.Map;
 /**
  * API tests for FakeApi
  */
-@Ignore
-public class FakeApiTest {
+@Disabled
+class FakeApiTest {
 
     private final FakeApi api = new FakeApi();
 
@@ -50,11 +53,12 @@ public class FakeApiTest {
      *
      * for Java apache and Java native, test toUrlQueryString for maps with BegDecimal keys
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeBigDecimalMapTest() {
+    void fakeBigDecimalMapTest() {
+
         FakeBigDecimalMap200Response response = api.fakeBigDecimalMap();
 
         // TODO: test validations
@@ -65,11 +69,12 @@ public class FakeApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeHealthGetTest() {
+    void fakeHealthGetTest() {
+
         HealthCheckResult response = api.fakeHealthGet();
 
         // TODO: test validations
@@ -80,14 +85,15 @@ public class FakeApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeHttpSignatureTestTest() {
+    void fakeHttpSignatureTestTest() {
         Pet pet = null;
         String query1 = null;
         String header1 = null;
+
         api.fakeHttpSignatureTest(pet, query1, header1);
 
         // TODO: test validations
@@ -98,12 +104,13 @@ public class FakeApiTest {
      *
      * Test serialization of outer boolean types
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterBooleanSerializeTest() {
+    void fakeOuterBooleanSerializeTest() {
         Boolean body = null;
+
         Boolean response = api.fakeOuterBooleanSerialize(body);
 
         // TODO: test validations
@@ -114,12 +121,13 @@ public class FakeApiTest {
      *
      * Test serialization of object with outer number type
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterCompositeSerializeTest() {
+    void fakeOuterCompositeSerializeTest() {
         OuterComposite outerComposite = null;
+
         OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
 
         // TODO: test validations
@@ -130,12 +138,13 @@ public class FakeApiTest {
      *
      * Test serialization of outer number types
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterNumberSerializeTest() {
+    void fakeOuterNumberSerializeTest() {
         BigDecimal body = null;
+
         BigDecimal response = api.fakeOuterNumberSerialize(body);
 
         // TODO: test validations
@@ -146,12 +155,13 @@ public class FakeApiTest {
      *
      * Test serialization of outer string types
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakeOuterStringSerializeTest() {
+    void fakeOuterStringSerializeTest() {
         String body = null;
+
         String response = api.fakeOuterStringSerialize(body);
 
         // TODO: test validations
@@ -162,13 +172,31 @@ public class FakeApiTest {
      *
      * Test serialization of enum (int) properties with examples
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fakePropertyEnumIntegerSerializeTest() {
+    void fakePropertyEnumIntegerSerializeTest() {
         OuterObjectWithEnumProperty outerObjectWithEnumProperty = null;
+
         OuterObjectWithEnumProperty response = api.fakePropertyEnumIntegerSerialize(outerObjectWithEnumProperty);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * test referenced additionalProperties
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testAdditionalPropertiesReferenceTest() {
+        Map<String, Object> requestBody = null;
+
+        api.testAdditionalPropertiesReference(requestBody);
 
         // TODO: test validations
     }
@@ -178,12 +206,13 @@ public class FakeApiTest {
      *
      * For this test, the body has to be a binary file.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithBinaryTest() {
+    void testBodyWithBinaryTest() {
         File body = null;
+
         api.testBodyWithBinary(body);
 
         // TODO: test validations
@@ -194,12 +223,13 @@ public class FakeApiTest {
      *
      * For this test, the body for this request must reference a schema named &#x60;File&#x60;.
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithFileSchemaTest() {
+    void testBodyWithFileSchemaTest() {
         FileSchemaTestClass fileSchemaTestClass = null;
+
         api.testBodyWithFileSchema(fileSchemaTestClass);
 
         // TODO: test validations
@@ -210,13 +240,14 @@ public class FakeApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testBodyWithQueryParamsTest() {
+    void testBodyWithQueryParamsTest() {
         String query = null;
         User user = null;
+
         api.testBodyWithQueryParams(query, user);
 
         // TODO: test validations
@@ -227,12 +258,13 @@ public class FakeApiTest {
      *
      * To test \&quot;client\&quot; model
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testClientModelTest() {
+    void testClientModelTest() {
         Client client = null;
+
         Client response = api.testClientModel(client);
 
         // TODO: test validations
@@ -243,11 +275,11 @@ public class FakeApiTest {
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testEndpointParametersTest() {
+    void testEndpointParametersTest() {
         BigDecimal number = null;
         Double _double = null;
         String patternWithoutDelimiter = null;
@@ -262,6 +294,7 @@ public class FakeApiTest {
         OffsetDateTime dateTime = null;
         String password = null;
         String paramCallback = null;
+
         api.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
 
         // TODO: test validations
@@ -272,11 +305,11 @@ public class FakeApiTest {
      *
      * To test enum parameters
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testEnumParametersTest() {
+    void testEnumParametersTest() {
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
@@ -286,6 +319,7 @@ public class FakeApiTest {
         List<EnumClass> enumQueryModelArray = null;
         List<String> enumFormStringArray = null;
         String enumFormString = null;
+
         api.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumQueryModelArray, enumFormStringArray, enumFormString);
 
         // TODO: test validations
@@ -296,17 +330,18 @@ public class FakeApiTest {
      *
      * Fake endpoint to test group parameters (optional)
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testGroupParametersTest() {
+    void testGroupParametersTest() {
         Integer requiredStringGroup = null;
         Boolean requiredBooleanGroup = null;
         Long requiredInt64Group = null;
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
+
         api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
 
         // TODO: test validations
@@ -317,13 +352,31 @@ public class FakeApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testInlineAdditionalPropertiesTest() {
+    void testInlineAdditionalPropertiesTest() {
         Map<String, String> requestBody = null;
+
         api.testInlineAdditionalProperties(requestBody);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * test inline free-form additionalProperties
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testInlineFreeformAdditionalPropertiesTest() {
+        TestInlineFreeformAdditionalPropertiesRequest testInlineFreeformAdditionalPropertiesRequest = null;
+
+        api.testInlineFreeformAdditionalProperties(testInlineFreeformAdditionalPropertiesRequest);
 
         // TODO: test validations
     }
@@ -333,14 +386,32 @@ public class FakeApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testJsonFormDataTest() {
+    void testJsonFormDataTest() {
         String param = null;
         String param2 = null;
+
         api.testJsonFormData(param, param2);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * test nullable parent property
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testNullableTest() {
+        ChildWithNullable childWithNullable = null;
+
+        api.testNullable(childWithNullable);
 
         // TODO: test validations
     }
@@ -350,11 +421,11 @@ public class FakeApiTest {
      *
      * To test the collection format in query parameters
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void testQueryParameterCollectionFormatTest() {
+    void testQueryParameterCollectionFormatTest() {
         List<String> pipe = null;
         List<String> ioutil = null;
         List<String> http = null;
@@ -362,7 +433,25 @@ public class FakeApiTest {
         List<String> context = null;
         String allowEmpty = null;
         Map<String, String> language = null;
+
         api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, allowEmpty, language);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * test referenced string map
+     *
+     * 
+     *
+     * @throws RestClientException
+     *          if the Api call fails
+     */
+    @Test
+    void testStringMapReferenceTest() {
+        Map<String, String> requestBody = null;
+
+        api.testStringMapReference(requestBody);
 
         // TODO: test validations
     }

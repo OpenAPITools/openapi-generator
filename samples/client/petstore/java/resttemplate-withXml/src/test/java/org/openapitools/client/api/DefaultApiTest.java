@@ -14,8 +14,9 @@
 package org.openapitools.client.api;
 
 import org.openapitools.client.model.FooGetDefaultResponse;
-import org.junit.Test;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.springframework.web.client.RestClientException;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -27,8 +28,8 @@ import java.util.Map;
 /**
  * API tests for DefaultApi
  */
-@Ignore
-public class DefaultApiTest {
+@Disabled
+class DefaultApiTest {
 
     private final DefaultApi api = new DefaultApi();
 
@@ -38,11 +39,12 @@ public class DefaultApiTest {
      *
      * 
      *
-     * @throws ApiException
+     * @throws RestClientException
      *          if the Api call fails
      */
     @Test
-    public void fooGetTest() {
+    void fooGetTest() {
+
         FooGetDefaultResponse response = api.fooGet();
 
         // TODO: test validations

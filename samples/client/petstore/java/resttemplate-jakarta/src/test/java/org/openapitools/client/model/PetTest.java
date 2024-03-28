@@ -19,25 +19,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * Model tests for Pet
  */
-public class PetTest {
+class PetTest {
     private final Pet model = new Pet();
 
     /**
      * Model tests for Pet
      */
     @Test
-    public void testPet() {
+    void testPet() {
         // TODO: test Pet
     }
 
@@ -45,7 +45,7 @@ public class PetTest {
      * Test the property 'id'
      */
     @Test
-    public void idTest() {
+    void idTest() {
         // TODO: test id
     }
 
@@ -53,7 +53,7 @@ public class PetTest {
      * Test the property 'category'
      */
     @Test
-    public void categoryTest() {
+    void categoryTest() {
         // TODO: test category
     }
 
@@ -61,7 +61,7 @@ public class PetTest {
      * Test the property 'name'
      */
     @Test
-    public void nameTest() {
+    void nameTest() {
         // TODO: test name
     }
 
@@ -69,7 +69,7 @@ public class PetTest {
      * Test the property 'photoUrls'
      */
     @Test
-    public void photoUrlsTest() {
+    void photoUrlsTest() {
         // TODO: test photoUrls
     }
 
@@ -77,7 +77,7 @@ public class PetTest {
      * Test the property 'tags'
      */
     @Test
-    public void tagsTest() {
+    void tagsTest() {
         // TODO: test tags
     }
 
@@ -85,7 +85,7 @@ public class PetTest {
      * Test the property 'status'
      */
     @Test
-    public void statusTest() {
+    void statusTest() {
         // TODO: test status
     }
 
