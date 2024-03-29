@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Test.Api
             var response = await _instance.ListAsync(personId);
             var model = response.Ok();
             Assert.IsType<Person>(model);
-            Assert.IsTrue(false);
+            Assert.True(false);
         }
     }
 }
