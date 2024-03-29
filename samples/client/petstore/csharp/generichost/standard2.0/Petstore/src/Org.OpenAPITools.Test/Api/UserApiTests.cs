@@ -58,6 +58,7 @@ namespace Org.OpenAPITools.Test.Api
         {
             User user = default;
             await _instance.CreateUserAsync(user);
+            Assert.True(false);
         }
 
         /// <summary>
