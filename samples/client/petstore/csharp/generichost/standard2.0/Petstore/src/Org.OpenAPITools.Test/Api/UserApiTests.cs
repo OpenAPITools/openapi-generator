@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Test.Api
         /// <summary>
         /// Test CreateUser
         /// </summary>
-        [Fact (Skip = "not implemented")]
+        // [Fact (Skip = "not implemented")]
         public async Task CreateUserAsyncTest()
         {
             User user = default;
