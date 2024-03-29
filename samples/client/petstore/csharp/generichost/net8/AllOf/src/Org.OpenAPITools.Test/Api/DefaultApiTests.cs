@@ -53,14 +53,13 @@ namespace Org.OpenAPITools.Test.Api
         /// <summary>
         /// Test List
         /// </summary>
-        [Fact] // (Skip = "not implemented")]
+        [Fact (Skip = "not implemented")]
         public async Task ListAsyncTest()
         {
             string personId = default!;
             var response = await _instance.ListAsync(personId);
             var model = response.Ok();
             Assert.IsType<Person>(model);
-            Assert.True(false);
         }
     }
 }

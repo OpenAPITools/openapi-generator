@@ -56,7 +56,6 @@ public class UnitTest1
             Category? category2 = JsonSerializer.Deserialize<Category>(categoryJson, _jsonSerializerOptions);
             Assert.AreEqual(category.Id, category2?.Id);
             Assert.AreEqual(category.Name, category2?.Name);
-            Assert.IsTrue(false);
         }
 
         [TestMethod]
