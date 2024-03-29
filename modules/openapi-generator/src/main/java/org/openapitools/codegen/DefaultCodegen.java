@@ -2769,7 +2769,6 @@ public class DefaultCodegen implements CodegenConfig {
 
         // TODO revise the logic below to set discriminator, xml attributes
         if (supportsInheritance || supportsMixins) {
-            m.allVars = new ArrayList<>();
             if (composed.getAllOf() != null) {
                 int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                 int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
@@ -5973,7 +5972,7 @@ public class DefaultCodegen implements CodegenConfig {
             addVars(m, m.allVars, allProperties, allMandatory);
             m.allMandatory = allMandatory;
         } else { // without parent, allVars and vars are the same
-            m.allVars = m.vars;
+            m.allVars = new ArrayList<>(m.vars);
             m.allMandatory = m.mandatory;
         }
 
