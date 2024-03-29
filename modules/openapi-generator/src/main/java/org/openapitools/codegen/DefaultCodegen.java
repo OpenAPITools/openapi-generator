@@ -5973,7 +5973,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.allMandatory = allMandatory;
         } else { // without parent, allVars and vars are the same
             m.allVars = new ArrayList<>(m.vars);
-            m.allMandatory = m.mandatory;
+            m.allMandatory = new TreeSet<>(m.mandatory);
         }
 
         // loop through list to update property name with toVarName
