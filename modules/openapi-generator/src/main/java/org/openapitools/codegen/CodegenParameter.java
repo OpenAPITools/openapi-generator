@@ -26,7 +26,6 @@ import java.util.Objects;
 
 import io.swagger.v3.oas.models.examples.Example;
 
-
 /**
  * Describes a single operation parameter in the OAS specification.
  * A unique parameter is defined by a combination of a name and location.
