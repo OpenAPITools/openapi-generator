@@ -515,6 +515,48 @@ public class OpenAPINormalizerTest {
     }
 
     @Test
+    public void testSetPrimitiveTypesToNullable() {
+        // test `string|integer|number|boolean`
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0//setPrimitiveTypesToNullable_test.yaml");
+
+        Schema schema = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_number")).getNullable(), null);
+        assertEquals(((Schema) schema.getProperties().get("first_boolean")).getNullable(), null);
+
+        Map<String, String> options = new HashMap<>();
+        options.put("SET_PRIMITIVE_TYPES_TO_NULLABLE", "string|integer|number|boolean");
+        OpenAPINormalizer openAPINormalizer = new OpenAPINormalizer(openAPI, options);
+        openAPINormalizer.normalize();
+
+        Schema schema2 = openAPI.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema2.getProperties().get("lastName")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_integer")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_number")).getNullable(), true);
+        assertEquals(((Schema) schema2.getProperties().get("first_boolean")).getNullable(), true);
+
+        // test `number` only
+        OpenAPI openAPI2 = TestUtils.parseSpec("src/test/resources/3_0//setPrimitiveTypesToNullable_test.yaml");
+
+        Schema schema3 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema3.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_number")).getNullable(), null);
+        assertEquals(((Schema) schema3.getProperties().get("first_boolean")).getNullable(), null);
+
+        options.put("SET_PRIMITIVE_TYPES_TO_NULLABLE", "number");
+        OpenAPINormalizer openAPINormalizer2 = new OpenAPINormalizer(openAPI2, options);
+        openAPINormalizer2.normalize();
+
+        Schema schema4 = openAPI2.getComponents().getSchemas().get("Person");
+        assertEquals(((Schema) schema4.getProperties().get("lastName")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("first_integer")).getNullable(), null);
+        assertEquals(((Schema) schema4.getProperties().get("first_number")).getNullable(), true);
+        assertEquals(((Schema) schema4.getProperties().get("first_boolean")).getNullable(), null);
+    }
+
+    @Test
     public void testOpenAPINormalizerSimplifyOneOfAnyOf31Spec() {
         // to test the rule SIMPLIFY_ONEOF_ANYOF in 3.1 spec
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_1/issue_18184.yaml");
