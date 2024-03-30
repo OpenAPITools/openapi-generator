@@ -1139,6 +1139,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isEnum = isEnum;
     }
 
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");

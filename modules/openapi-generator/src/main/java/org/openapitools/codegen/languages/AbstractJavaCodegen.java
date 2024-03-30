@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -666,6 +667,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setContainerDefaultToNull(Boolean.parseBoolean(additionalProperties.get(CONTAINER_DEFAULT_TO_NULL).toString()));
         }
         additionalProperties.put(CONTAINER_DEFAULT_TO_NULL, containerDefaultToNull);
+
+        additionalProperties.put("sanitizeGeneric", (Mustache.Lambda) (fragment, writer) -> {
+            String content = fragment.execute();
+            for (final String s: List.of("<", ">", ",", " ")) {
+                content = content.replace(s, "");
+            }
+            writer.write(content);
+        });
     }
 
     @Override
@@ -1592,15 +1601,29 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
 
         // additional import for different cases
-        addAdditionalImports(codegenModel, codegenModel.oneOf);
-        addAdditionalImports(codegenModel, codegenModel.anyOf);
+        addAdditionalImports(codegenModel, codegenModel.getComposedSchemas());
         return codegenModel;
     }
 
-    private void addAdditionalImports(CodegenModel model, Set<String> dataTypeSet) {
-        for (String dataType : dataTypeSet) {
-            if (null != importMapping().get(dataType)) {
-                model.imports.add(dataType);
+    private void addAdditionalImports(CodegenModel model, CodegenComposedSchemas composedSchemas) {
+        if(composedSchemas == null) {
+            return;
+        }
+
+        final List<List<CodegenProperty>> propertyLists = Arrays.asList(
+                composedSchemas.getAnyOf(),
+                composedSchemas.getOneOf(),
+                composedSchemas.getAllOf());
+        for(final List<CodegenProperty> propertyList : propertyLists){
+            if(propertyList == null)
+            {
+                continue;
+            }
+            for (CodegenProperty cp : propertyList) {
+                final String dataType = cp.baseType;
+                if (null != importMapping().get(dataType)) {
+                    model.imports.add(dataType);
+                }
             }
         }
     }
@@ -2506,5 +2529,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             importsItem.put("import", entry.getValue());
             imports.add(importsItem);
         }
+    }
+
+    @Override
+    public boolean isTypeErasedGenerics() {
+        return true;
     }
 }
