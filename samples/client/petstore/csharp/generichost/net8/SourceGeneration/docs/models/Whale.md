@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Whale
+# Org.OpenAPITools.Model.Whale
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.FooGetDefaultResponse
+# Org.OpenAPITools.Model.FooGetDefaultResponse
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Capitalization
+# Org.OpenAPITools.Model.Capitalization
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ActivityOutputElementRepresentation
+# Org.OpenAPITools.Model.ActivityOutputElementRepresentation
 
 ## Properties
 

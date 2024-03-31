@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Dog
+# Org.OpenAPITools.Model.Dog
 
 ## Properties
 

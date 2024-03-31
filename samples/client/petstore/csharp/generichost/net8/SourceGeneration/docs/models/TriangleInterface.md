@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.TriangleInterface
+# Org.OpenAPITools.Model.TriangleInterface
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.BasquePig
+# Org.OpenAPITools.Model.BasquePig
 
 ## Properties
 

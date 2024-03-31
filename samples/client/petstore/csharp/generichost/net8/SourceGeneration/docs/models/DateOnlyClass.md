@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.DateOnlyClass
+# Org.OpenAPITools.Model.DateOnlyClass
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ShapeInterface
+# Org.OpenAPITools.Model.ShapeInterface
 
 ## Properties
 

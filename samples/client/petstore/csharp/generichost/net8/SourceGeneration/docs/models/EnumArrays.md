@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.EnumArrays
+# Org.OpenAPITools.Model.EnumArrays
 
 ## Properties
 

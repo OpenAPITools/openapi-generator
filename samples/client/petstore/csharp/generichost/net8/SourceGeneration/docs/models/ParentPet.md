@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ParentPet
+# Org.OpenAPITools.Model.ParentPet
 
 ## Properties
 

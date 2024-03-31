@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.TestInlineFreeformAdditionalPropertiesRequest
+# Org.OpenAPITools.Model.TestInlineFreeformAdditionalPropertiesRequest
 
 ## Properties
 
