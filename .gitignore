@@ -286,9 +286,3 @@ samples/client/petstore/ocaml/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json
-
-## Scala
-samples/client/petstore/scala-cask/
-samples/scala-cask/
-samples/server/petstore/scala/
-
