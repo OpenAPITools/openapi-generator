@@ -734,6 +734,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             });
         }
 
+        String[] numericTypes = {"double", "double?", "decimal", "decimal", "float", "float?", "int", "int?", "long", "long?", "ulong", "ulong?"};
+        enumVars.forEach((enumVar) -> {
+            enumVar.put("isNumeric", Arrays.stream(numericTypes).anyMatch(dataType::equals));
+        });
+
         return enumVars;
     }
 

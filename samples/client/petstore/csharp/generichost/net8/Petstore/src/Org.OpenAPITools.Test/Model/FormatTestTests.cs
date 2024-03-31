@@ -54,12 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'VarByte'
+        /// Test the property 'Byte'
         /// </summary>
         [Fact]
-        public void VarByteTest()
+        public void ByteTest()
         {
-            // TODO unit test for the property 'VarByte'
+            // TODO unit test for the property 'Byte'
         }
 
         /// <summary>
@@ -108,30 +108,30 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'VarDecimal'
+        /// Test the property 'Decimal'
         /// </summary>
         [Fact]
-        public void VarDecimalTest()
+        public void DecimalTest()
         {
-            // TODO unit test for the property 'VarDecimal'
+            // TODO unit test for the property 'Decimal'
         }
 
         /// <summary>
-        /// Test the property 'VarDouble'
+        /// Test the property 'Double'
         /// </summary>
         [Fact]
-        public void VarDoubleTest()
+        public void DoubleTest()
         {
-            // TODO unit test for the property 'VarDouble'
+            // TODO unit test for the property 'Double'
         }
 
         /// <summary>
-        /// Test the property 'VarFloat'
+        /// Test the property 'Float'
         /// </summary>
         [Fact]
-        public void VarFloatTest()
+        public void FloatTest()
         {
-            // TODO unit test for the property 'VarFloat'
+            // TODO unit test for the property 'Float'
         }
 
         /// <summary>
@@ -189,12 +189,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'VarString'
+        /// Test the property 'String'
         /// </summary>
         [Fact]
-        public void VarStringTest()
+        public void StringTest()
         {
-            // TODO unit test for the property 'VarString'
+            // TODO unit test for the property 'String'
         }
 
         /// <summary>

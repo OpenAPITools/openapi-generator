@@ -54,12 +54,39 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
+        /// Test the property 'Lock'
+        /// </summary>
+        [Fact]
+        public void LockTest()
+        {
+            // TODO unit test for the property 'Lock'
+        }
+
+        /// <summary>
+        /// Test the property 'Abstract'
+        /// </summary>
+        [Fact]
+        public void AbstractTest()
+        {
+            // TODO unit test for the property 'Abstract'
+        }
+
+        /// <summary>
         /// Test the property 'VarReturn'
         /// </summary>
         [Fact]
         public void VarReturnTest()
         {
             // TODO unit test for the property 'VarReturn'
+        }
+
+        /// <summary>
+        /// Test the property 'Unsafe'
+        /// </summary>
+        [Fact]
+        public void UnsafeTest()
+        {
+            // TODO unit test for the property 'Unsafe'
         }
     }
 }
