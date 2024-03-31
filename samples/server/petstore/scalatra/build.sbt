@@ -1,7 +1,7 @@
 organization := "org.openapitools"
 name := "org.openapitools-openapi-server"
 version := "1.0.0"
-scalaVersion := "2.12.4"
+scalaVersion := "2.13.13"
 
 mainClass in assembly := Some("JettyMain")
 
