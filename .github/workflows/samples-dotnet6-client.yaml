@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         sample:
-          - samples/client/petstore/csharp/restsharp/net6/OpenAPIClient-restsharp-name-parameter-mappings/
+          - samples/client/petstore/csharp/restsharp/net6/ParameterMappings/
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4.0.0
