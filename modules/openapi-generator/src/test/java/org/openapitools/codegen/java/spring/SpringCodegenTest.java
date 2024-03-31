@@ -2720,6 +2720,26 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void contractWithResolvedInnerEnumContainsEnumConverter() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("spring")
+                .setInputSpec("src/test/resources/3_0/inner_enum.yaml")
+                .addInlineSchemaOption("RESOLVE_INLINE_ENUMS", "true")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        Map<String, File> files = generator.opts(clientOptInput).generate().stream()
+                .collect(Collectors.toMap(File::getName, Function.identity()));
+
+        JavaFileAssert.assertThat(files.get("EnumConverterConfiguration.java"))
+                .assertMethod("ponyTypeConverter");
+    }
+
+    @Test
     public void shouldUseTheSameTagNameForTheInterfaceAndTheMethod_issue11570() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/bugs/issue_11570.yml", SPRING_BOOT);
 
