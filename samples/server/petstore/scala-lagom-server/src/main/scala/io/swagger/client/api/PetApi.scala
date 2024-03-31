@@ -135,4 +135,3 @@ trait PetApi extends Service {
         implicit val pathParamSerializer: PathParamSerializer[PetApiStatusEnum] = PathParamSerializer.required("PetApiStatusEnum")(withName)(_.toString)
         }
   }
-

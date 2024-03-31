@@ -1,6 +1,6 @@
 organization := "org.openapitools"
-name := "scalatra-sample"
-version := "0.1.0-SNAPSHOT"
+name := "org.openapitools-openapi-server"
+version := "1.0.0"
 scalaVersion := "2.12.4"
 
 mainClass in assembly := Some("JettyMain")

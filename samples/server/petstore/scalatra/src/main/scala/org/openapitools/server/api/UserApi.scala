@@ -12,6 +12,7 @@
 
 package org.openapitools.server.api
 
+import java.time.OffsetDateTime
 import org.openapitools.server.model.User
 
 import java.io.File

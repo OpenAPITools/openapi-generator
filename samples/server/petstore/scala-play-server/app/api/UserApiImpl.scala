@@ -1,11 +1,12 @@
 package api
 
+import java.time.OffsetDateTime
 import model.User
 
 /**
   * Provides a default implementation for [[UserApi]].
   */
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 class UserApiImpl extends UserApi {
   /**
     * @inheritdoc

@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.Order
 
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 @Singleton
 class StoreApiController @Inject()(cc: ControllerComponents, api: StoreApi) extends AbstractController(cc) {
   /**

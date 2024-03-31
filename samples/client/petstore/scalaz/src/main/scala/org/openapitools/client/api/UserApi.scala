@@ -21,6 +21,7 @@ import scalaz.concurrent.Task
 
 import HelperCodecs._
 
+import java.time.OffsetDateTime
 import org.openapitools.client.api.User
 
 object UserApi {
@@ -31,7 +32,7 @@ object UserApi {
 
   def createUser(host: String, user: User): Task[Unit] = {
     val path = "/user"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -47,10 +48,10 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def createUsersWithArrayInput(host: String, user: List[User]): Task[Unit] = {
     val path = "/user/createWithArray"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -66,10 +67,10 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def createUsersWithListInput(host: String, user: List[User]): Task[Unit] = {
     val path = "/user/createWithList"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -85,10 +86,10 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def deleteUser(host: String, username: String): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -104,12 +105,12 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def getUserByName(host: String, username: String): Task[User] = {
     implicit val returnTypeDecoder: EntityDecoder[User] = jsonOf[User]
 
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -125,12 +126,12 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def loginUser(host: String, username: String, password: String)(implicit usernameQuery: QueryParam[String], passwordQuery: QueryParam[String]): Task[String] = {
     implicit val returnTypeDecoder: EntityDecoder[String] = jsonOf[String]
 
     val path = "/user/login"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -146,10 +147,10 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def logoutUser(host: String): Task[Unit] = {
     val path = "/user/logout"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -165,10 +166,10 @@ object UserApi {
 
     } yield resp
   }
-  
+
   def updateUser(host: String, username: String, user: User): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -184,7 +185,7 @@ object UserApi {
 
     } yield resp
   }
-  
+
 }
 
 class HttpServiceUserApi(service: HttpService) {
@@ -194,7 +195,7 @@ class HttpServiceUserApi(service: HttpService) {
 
   def createUser(user: User): Task[Unit] = {
     val path = "/user"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -210,10 +211,10 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def createUsersWithArrayInput(user: List[User]): Task[Unit] = {
     val path = "/user/createWithArray"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -229,10 +230,10 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def createUsersWithListInput(user: List[User]): Task[Unit] = {
     val path = "/user/createWithList"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -248,10 +249,10 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def deleteUser(username: String): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -267,12 +268,12 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def getUserByName(username: String): Task[User] = {
     implicit val returnTypeDecoder: EntityDecoder[User] = jsonOf[User]
 
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -288,12 +289,12 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def loginUser(username: String, password: String)(implicit usernameQuery: QueryParam[String], passwordQuery: QueryParam[String]): Task[String] = {
     implicit val returnTypeDecoder: EntityDecoder[String] = jsonOf[String]
 
     val path = "/user/login"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -309,10 +310,10 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def logoutUser(): Task[Unit] = {
     val path = "/user/logout"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -328,10 +329,10 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def updateUser(username: String, user: User): Task[Unit] = {
     val path = "/user/{username}".replaceAll("\\{" + "username" + "\\}",escape(username.toString))
-    
+
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -347,5 +348,5 @@ class HttpServiceUserApi(service: HttpService) {
 
     } yield resp
   }
-  
+
 }

@@ -35,7 +35,7 @@ object PetApi {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -51,10 +51,10 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def deletePet(host: String, petId: Long, apiKey: String): Task[Unit] = {
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -70,12 +70,12 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def findPetsByStatus(host: String, status: List[String] = List.empty[String] )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -91,12 +91,12 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def findPetsByTags(host: String, tags: List[String] = List.empty[String] )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -112,12 +112,12 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def getPetById(host: String, petId: Long): Task[Pet] = {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -133,12 +133,12 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def updatePet(host: String, pet: Pet): Task[Pet] = {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet"
-    
+
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -154,10 +154,10 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def updatePetWithForm(host: String, petId: Long, name: String, status: String): Task[Unit] = {
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -173,12 +173,12 @@ object PetApi {
 
     } yield resp
   }
-  
+
   def uploadFile(host: String, petId: Long, additionalMetadata: String, file: File): Task[ApiResponse] = {
     implicit val returnTypeDecoder: EntityDecoder[ApiResponse] = jsonOf[ApiResponse]
 
     val path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -194,7 +194,7 @@ object PetApi {
 
     } yield resp
   }
-  
+
 }
 
 class HttpServicePetApi(service: HttpService) {
@@ -206,7 +206,7 @@ class HttpServicePetApi(service: HttpService) {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet"
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -222,10 +222,10 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def deletePet(petId: Long, apiKey: String): Task[Unit] = {
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.DELETE
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -241,12 +241,12 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def findPetsByStatus(status: List[String] = List.empty[String] )(implicit statusQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByStatus"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -262,12 +262,12 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def findPetsByTags(tags: List[String] = List.empty[String] )(implicit tagsQuery: QueryParam[List[String]]): Task[List[Pet]] = {
     implicit val returnTypeDecoder: EntityDecoder[List[Pet]] = jsonOf[List[Pet]]
 
     val path = "/pet/findByTags"
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -283,12 +283,12 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def getPetById(petId: Long): Task[Pet] = {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.GET
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -304,12 +304,12 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def updatePet(pet: Pet): Task[Pet] = {
     implicit val returnTypeDecoder: EntityDecoder[Pet] = jsonOf[Pet]
 
     val path = "/pet"
-    
+
     val httpMethod = Method.PUT
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -325,10 +325,10 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def updatePetWithForm(petId: Long, name: String, status: String): Task[Unit] = {
     val path = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -344,12 +344,12 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
   def uploadFile(petId: Long, additionalMetadata: String, file: File): Task[ApiResponse] = {
     implicit val returnTypeDecoder: EntityDecoder[ApiResponse] = jsonOf[ApiResponse]
 
     val path = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}",escape(petId.toString))
-    
+
     val httpMethod = Method.POST
     val contentType = `Content-Type`(MediaType.`application/json`)
     val headers = Headers(
@@ -365,5 +365,5 @@ class HttpServicePetApi(service: HttpService) {
 
     } yield resp
   }
-  
+
 }

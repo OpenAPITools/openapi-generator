@@ -6,7 +6,7 @@ import play.api.libs.json._
   * A User who is purchasing from the pet store
   * @param userStatus User Status
   */
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 case class User(
   id: Option[Long],
   username: Option[String],

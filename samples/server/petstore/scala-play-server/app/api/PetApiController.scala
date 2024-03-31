@@ -8,7 +8,7 @@ import model.ApiResponse
 import model.Pet
 import play.api.libs.Files.TemporaryFile
 
-
+@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), comments = "Generator version: 7.5.0-SNAPSHOT")
 @Singleton
 class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends AbstractController(cc) {
   /**
@@ -52,6 +52,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
         .getOrElse {
           throw new OpenApiExceptions.MissingRequiredParameterException("status", "query string")
         }
+        
       api.findPetsByStatus(status)
     }
 
@@ -70,6 +71,7 @@ class PetApiController @Inject()(cc: ControllerComponents, api: PetApi) extends 
         .getOrElse {
           throw new OpenApiExceptions.MissingRequiredParameterException("tags", "query string")
         }
+        
       api.findPetsByTags(tags)
     }
 

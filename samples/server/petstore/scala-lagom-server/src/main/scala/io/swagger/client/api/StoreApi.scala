@@ -70,4 +70,3 @@ trait StoreApi extends Service {
   
 
   }
-

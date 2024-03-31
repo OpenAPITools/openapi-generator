@@ -18,6 +18,7 @@ import com.lightbend.lagom.scaladsl.api.{Service, ServiceCall}
 import play.api.libs.json._
 import com.lightbend.lagom.scaladsl.api.deser.PathParamSerializer
 
+import java.time.OffsetDateTime
 import io.swagger.client.model.User
 
 trait UserApi extends Service {
@@ -109,4 +110,3 @@ trait UserApi extends Service {
   
 
   }
-
