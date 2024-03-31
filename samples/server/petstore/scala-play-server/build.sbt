@@ -1,7 +1,7 @@
 organization := ""
 version      := ""
 name         := ""
-scalaVersion := "2.12.6"
+scalaVersion := "2.13.13"
 
 enablePlugins(PlayScala)
 
