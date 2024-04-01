@@ -25,7 +25,7 @@ class SpecialModelName(BaseModel):
     """
     SpecialModelName
     """
-    special_property_name: Optional[StrictInt] = Field(None, alias="$special[property.name]")
+    special_property_name: Optional[StrictInt] = Field(default=None, alias="$special[property.name]")
     __properties = ["$special[property.name]"]
 
     class Config:

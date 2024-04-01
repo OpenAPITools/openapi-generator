@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -39,21 +39,18 @@ export function FooFromJSON(json: any): Foo {
 }
 
 export function FooFromJSONTyped(json: any, ignoreDiscriminator: boolean): Foo {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'bar': !exists(json, 'bar') ? undefined : json['bar'],
+        'bar': json['bar'] == null ? undefined : json['bar'],
     };
 }
 
 export function FooToJSON(value?: Foo | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

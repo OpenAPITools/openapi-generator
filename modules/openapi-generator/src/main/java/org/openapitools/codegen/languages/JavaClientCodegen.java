@@ -569,6 +569,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
         }
 
+        if (APACHE.equals(getLibrary()) || RESTTEMPLATE.equals(getLibrary())) {
+            supportingFiles.add(new SupportingFile("BaseApi.mustache", invokerFolder, "BaseApi.java"));
+        }
+
         if (FEIGN.equals(getLibrary())) {
             if (getSerializationLibrary() == null) {
                 LOGGER.info("No serializationLibrary configured, using '{}' as fallback", SERIALIZATION_LIBRARY_JACKSON);
@@ -606,8 +610,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (RETROFIT_2.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.mustache", authFolder, "OAuthOkHttpClient.java"));
             supportingFiles.add(new SupportingFile("CollectionFormats.mustache", invokerFolder, "CollectionFormats.java"));
-            forceSerializationLibrary(SERIALIZATION_LIBRARY_GSON);
-            if (RETROFIT_2.equals(getLibrary()) && !usePlayWS) {
+            if (SERIALIZATION_LIBRARY_JACKSON.equals(getSerializationLibrary())) {
+                supportingFiles.add(new SupportingFile("JSON_jackson.mustache", invokerFolder, "JSON.java"));
+            } else if (!usePlayWS) {
                 supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
             }
         } else if (JERSEY2.equals(getLibrary())) {

@@ -256,12 +256,6 @@ namespace Org.OpenAPITools.Api
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             }
 
-            // verify the required parameter 'enumRefStringPath' is set
-            if (enumRefStringPath == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumRefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
-
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             string[] _contentTypes = new string[] {
@@ -347,12 +341,6 @@ namespace Org.OpenAPITools.Api
             if (enumNonrefStringPath == null)
             {
                 throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumNonrefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
-            }
-
-            // verify the required parameter 'enumRefStringPath' is set
-            if (enumRefStringPath == null)
-            {
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'enumRefStringPath' when calling PathApi->TestsPathStringPathStringIntegerPathIntegerEnumNonrefStringPathEnumRefStringPath");
             }
 
 

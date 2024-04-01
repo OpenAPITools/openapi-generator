@@ -25,7 +25,7 @@ json = "{}"
 # create an instance of DefaultValue from a JSON string
 default_value_instance = DefaultValue.from_json(json)
 # print the JSON string representation of the object
-print DefaultValue.to_json()
+print(DefaultValue.to_json())
 
 # convert the object into a dict
 default_value_dict = default_value_instance.to_dict()

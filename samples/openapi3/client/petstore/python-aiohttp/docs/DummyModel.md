@@ -18,7 +18,7 @@ json = "{}"
 # create an instance of DummyModel from a JSON string
 dummy_model_instance = DummyModel.from_json(json)
 # print the JSON string representation of the object
-print DummyModel.to_json()
+print(DummyModel.to_json())
 
 # convert the object into a dict
 dummy_model_dict = dummy_model_instance.to_dict()

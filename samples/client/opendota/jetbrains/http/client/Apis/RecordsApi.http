@@ -1,0 +1,6 @@
+## RecordsApi
+
+### GET /records/{field}
+## GET /records/{field}
+GET https://api.opendota.com/api/records/{{field}}
+Accept: application/json; charset=utf-8

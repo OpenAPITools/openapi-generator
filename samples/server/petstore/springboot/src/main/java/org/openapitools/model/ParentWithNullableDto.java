@@ -36,8 +36,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = ChildWithNullableDto.class, name = "ChildWithNullable")
 })
 
-@JsonTypeName("ParentWithNullable")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ParentWithNullableDto {
 
   /**

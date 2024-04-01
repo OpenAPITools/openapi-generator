@@ -22,7 +22,7 @@ json = "{}"
 # create an instance of Order from a JSON string
 order_instance = Order.from_json(json)
 # print the JSON string representation of the object
-print Order.to_json()
+print(Order.to_json())
 
 # convert the object into a dict
 order_dict = order_instance.to_dict()

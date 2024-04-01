@@ -16,6 +16,7 @@ pom.xml
 settings.gradle
 src/main/AndroidManifest.xml
 src/main/java/org/openapitools/client/ApiClient.java
+src/main/java/org/openapitools/client/BaseApi.java
 src/main/java/org/openapitools/client/JavaTimeFormatter.java
 src/main/java/org/openapitools/client/RFC3339DateFormat.java
 src/main/java/org/openapitools/client/ServerConfiguration.java

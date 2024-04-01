@@ -28,7 +28,7 @@ public class XmlItem  {
   private Boolean attributeBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> wrappedArray;
+  private List<Integer> wrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String nameString;
@@ -44,10 +44,10 @@ public class XmlItem  {
   private Boolean nameBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameArray;
+  private List<Integer> nameArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> nameWrappedArray;
+  private List<Integer> nameWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixString;
@@ -63,10 +63,10 @@ public class XmlItem  {
   private Boolean prefixBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixArray;
+  private List<Integer> prefixArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixWrappedArray;
+  private List<Integer> prefixWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String namespaceString;
@@ -82,10 +82,10 @@ public class XmlItem  {
   private Boolean namespaceBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceArray;
+  private List<Integer> namespaceArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> namespaceWrappedArray;
+  private List<Integer> namespaceWrappedArray = new ArrayList<>();
 
   @ApiModelProperty(example = "string", value = "")
   private String prefixNsString;
@@ -101,10 +101,10 @@ public class XmlItem  {
   private Boolean prefixNsBoolean;
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsArray;
+  private List<Integer> prefixNsArray = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Integer> prefixNsWrappedArray;
+  private List<Integer> prefixNsWrappedArray = new ArrayList<>();
  /**
    * Get attributeString
    * @return attributeString

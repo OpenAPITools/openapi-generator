@@ -30,10 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanValidationFeatures {
 
@@ -412,7 +409,8 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen implements BeanVa
     @Override
     public OperationsMap postProcessOperationsWithModels(OperationsMap objs, List<ModelMap> allModels) {
         OperationMap operations = objs.getOperations();
-        if (operations != null) {
+        // The following processing breaks the JAX-RS spec, so we only do this for the other libs.
+        if (operations != null && !Objects.equals(library, Constants.JAXRS_SPEC)) {
             List<CodegenOperation> ops = operations.getOperation();
             ops.forEach(operation -> {
                 List<CodegenResponse> responses = operation.responses;

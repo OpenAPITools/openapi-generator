@@ -37,7 +37,7 @@ public class ExampleGenerator {
     private static final String MIME_TYPE_JSON = "application/json";
     private static final String MIME_TYPE_XML = "application/xml";
 
-    protected final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
+    protected final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
 
     private static final String EXAMPLE = "example";
     private static final String CONTENT_TYPE = "contentType";
@@ -57,7 +57,7 @@ public class ExampleGenerator {
         this.openAPI = openAPI;
         // use a fixed seed to make the "random" numbers reproducible.
         this.random = new Random("ExampleGenerator".hashCode());
-        DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public List<Map<String, String>> generateFromResponseSchema(String statusCode, Schema responseSchema, Set<String> producesInfo) {
@@ -238,7 +238,7 @@ public class ExampleGenerator {
             // When a property is of type Date, we want to ensure that we're returning a formatted Date.
             // And not returning the Date object directly.
             if (property.getExample() instanceof Date) {
-                return DATE_FORMAT.format(property.getExample());
+                return dateFormat.format(property.getExample());
             }
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {

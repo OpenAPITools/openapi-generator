@@ -20,10 +20,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
 @JsonTypeName("FileSchemaTestClass")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   private @Valid ModelFile _file;
-  private @Valid List<@Valid ModelFile> files;
+  private @Valid List<@Valid ModelFile> files = new ArrayList<>();
 
   /**
    **/

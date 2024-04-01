@@ -182,8 +182,10 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
     public boolean isInherited;
     public String discriminatorValue;
+
     public String nameInLowerCase; // property name in lower case
-    public String nameInCamelCase; // property name in camel case
+    public String nameInCamelCase; // property name in camel case (e.g.  modifiedDate)
+    public String nameInPascalCase; // property name in pascal case (e.g. ModifiedDate)
     public String nameInSnakeCase; // property name in upper snake case
     // enum name based on the property name, usually use as a prefix (e.g. VAR_NAME) for enum name (e.g. VAR_NAME_VALUE1)
     public String enumName;
@@ -697,6 +699,14 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.nameInCamelCase = nameInCamelCase;
     }
 
+    public String getNameInPascalCase() {
+        return nameInPascalCase;
+    }
+
+    public void setNameInPascalCase(String nameInPascalCase) {
+        this.nameInPascalCase = nameInPascalCase;
+    }
+
     public String getNameInSnakeCase() {
         return nameInSnakeCase;
     }
@@ -1129,6 +1139,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         this.isEnum = isEnum;
     }
 
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CodegenProperty{");
@@ -1213,6 +1224,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", isInherited=").append(isInherited);
         sb.append(", discriminatorValue='").append(discriminatorValue).append('\'');
         sb.append(", nameInCamelCase='").append(nameInCamelCase).append('\'');
+        sb.append(", nameInPascalCase='").append(nameInPascalCase).append('\'');
         sb.append(", nameInSnakeCase='").append(nameInSnakeCase).append('\'');
         sb.append(", enumName='").append(enumName).append('\'');
         sb.append(", maxItems=").append(maxItems);
@@ -1352,6 +1364,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(discriminatorValue, that.discriminatorValue) &&
                 Objects.equals(nameInCamelCase, that.nameInCamelCase) &&
+                Objects.equals(nameInPascalCase, that.nameInPascalCase) &&
                 Objects.equals(nameInSnakeCase, that.nameInSnakeCase) &&
                 Objects.equals(enumName, that.enumName) &&
                 Objects.equals(maxItems, that.maxItems) &&
@@ -1376,7 +1389,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 isArray, isMap, isEnum, isInnerEnum, isEnumRef, isAnyType, isReadOnly, isWriteOnly, isNullable, isShort,
                 isUnboundedInteger, isSelfReference, isCircularReference, isDiscriminator, isNew, isOverridden, _enum,
                 allowableValues, items, mostInnerItems, additionalProperties, vars, requiredVars,
-                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInCamelCase,
+                vendorExtensions, hasValidation, isInherited, discriminatorValue, nameInPascalCase, nameInCamelCase,
                 nameInSnakeCase, enumName, maxItems, minItems, isXmlAttribute, xmlPrefix, xmlName,
                 xmlNamespace, isXmlWrapped, isNull, isVoid, additionalPropertiesIsAnyType, hasVars, hasRequired,
                 hasDiscriminatorWithNonEmptyMapping, composedSchemas, hasMultipleTypes, requiredVarsMap,

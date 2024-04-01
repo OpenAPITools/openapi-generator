@@ -953,6 +953,12 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     if (Boolean.TRUE.equals(param.isFile)) {
                         operations.put("x-kotlin-multipart-import", true);
                     }
+
+                    if (param.isQueryParam && "form".equals(param.style) && param.isExplode && param.isModel) {
+                        // query parameter (style: form, explode) referencing models need to import
+                        // models defined in the properties of the models
+                        operations.put("x-koltin-import-models", true);
+                    }
                 }
 
                 if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {

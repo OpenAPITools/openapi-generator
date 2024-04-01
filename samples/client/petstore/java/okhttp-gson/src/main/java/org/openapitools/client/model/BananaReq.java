@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * BananaReq
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class BananaReq {
   public static final String SERIALIZED_NAME_LENGTH_CM = "lengthCm";
   @SerializedName(SERIALIZED_NAME_LENGTH_CM)

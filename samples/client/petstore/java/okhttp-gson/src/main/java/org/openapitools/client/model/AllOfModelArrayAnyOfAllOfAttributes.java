@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfAttributes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributes {
   public static final String SERIALIZED_NAME_C = "C";
   @SerializedName(SERIALIZED_NAME_C)

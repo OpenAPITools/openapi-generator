@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * Contains all the info about a pet part
  * @export
@@ -47,7 +47,7 @@ export function PartFromJSON(json: any): Part {
 }
 
 export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part {
-    if (json === undefined || json === null) {
+    if (json == null) {
         return json;
     }
     return {
@@ -58,11 +58,8 @@ export function PartFromJSONTyped(json: any, ignoreDiscriminator: boolean): Part
 }
 
 export function PartToJSON(value?: Part | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         

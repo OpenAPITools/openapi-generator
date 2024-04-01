@@ -31,7 +31,7 @@ public class Pet  {
   private List<String> photoUrls = new ArrayList<>();
 
   @ApiModelProperty(value = "")
-  private List<Tag> tags;
+  private List<Tag> tags = new ArrayList<>();
 
 public enum StatusEnum {
 

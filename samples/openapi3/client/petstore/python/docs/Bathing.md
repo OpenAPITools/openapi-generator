@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Bathing from a JSON string
 bathing_instance = Bathing.from_json(json)
 # print the JSON string representation of the object
-print Bathing.to_json()
+print(Bathing.to_json())
 
 # convert the object into a dict
 bathing_dict = bathing_instance.to_dict()

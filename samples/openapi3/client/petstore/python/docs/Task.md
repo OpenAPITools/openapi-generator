@@ -19,7 +19,7 @@ json = "{}"
 # create an instance of Task from a JSON string
 task_instance = Task.from_json(json)
 # print the JSON string representation of the object
-print Task.to_json()
+print(Task.to_json())
 
 # convert the object into a dict
 task_dict = task_instance.to_dict()
