@@ -314,7 +314,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     // Whether to automatically hardcode params that are considered Constants by OpenAPI Spec
     protected boolean autosetConstants = false;
-//    protected SortByInheritanceFirstBuilder sortByInheritanceFirstBuilder;
 
     public boolean getAddSuffixToDuplicateOperationNicknames() {
         return addSuffixToDuplicateOperationNicknames;
@@ -3261,9 +3260,18 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         if (sortModelPropertiesByRequiredFlag) {
+            /**
+             * primary order: sort by required flags and then
+             * secondary order: inheritance first or properties first
+             */
             Comparator<CodegenProperty> comparator = new Comparator<CodegenProperty>() {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
+                    /**
+                     *
+                     * Warning: the secondary order is not guaranteed
+                     */
+
                     if (one.required == another.required) return 0;
                     else if (one.required) return -1;
                     else return 1;
