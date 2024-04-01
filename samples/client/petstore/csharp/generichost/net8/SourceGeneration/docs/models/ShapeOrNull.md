@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ShapeOrNull
+# Org.OpenAPITools.Model.ShapeOrNull
 The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
 
 ## Properties

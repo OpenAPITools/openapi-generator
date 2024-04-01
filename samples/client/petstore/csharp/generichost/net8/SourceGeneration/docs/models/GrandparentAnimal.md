@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.GrandparentAnimal
+# Org.OpenAPITools.Model.GrandparentAnimal
 
 ## Properties
 

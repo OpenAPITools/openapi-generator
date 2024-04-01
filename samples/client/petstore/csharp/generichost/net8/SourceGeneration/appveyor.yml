@@ -6,4 +6,4 @@ build_script:
 - dotnet build -c Release
 - dotnet test -c Release
 after_build:
-- dotnet pack .\src\UseSourceGeneration\UseSourceGeneration.csproj -o ../../output -c Release --no-build
+- dotnet pack .\src\Org.OpenAPITools\Org.OpenAPITools.csproj -o ../../output -c Release --no-build

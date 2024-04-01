@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.PolymorphicProperty
+# Org.OpenAPITools.Model.PolymorphicProperty
 
 ## Properties
 

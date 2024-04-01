@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.OuterComposite
+# Org.OpenAPITools.Model.OuterComposite
 
 ## Properties
 

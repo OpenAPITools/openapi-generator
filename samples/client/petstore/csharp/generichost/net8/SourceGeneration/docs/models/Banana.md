@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Banana
+# Org.OpenAPITools.Model.Banana
 
 ## Properties
 

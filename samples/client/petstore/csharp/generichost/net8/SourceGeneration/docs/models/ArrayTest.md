@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ArrayTest
+# Org.OpenAPITools.Model.ArrayTest
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.IsoscelesTriangle
+# Org.OpenAPITools.Model.IsoscelesTriangle
 
 ## Properties
 

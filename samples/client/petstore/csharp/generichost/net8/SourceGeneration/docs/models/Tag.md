@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Tag
+# Org.OpenAPITools.Model.Tag
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Mammal
+# Org.OpenAPITools.Model.Mammal
 
 ## Properties
 

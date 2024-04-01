@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.FormatTest
+# Org.OpenAPITools.Model.FormatTest
 
 ## Properties
 

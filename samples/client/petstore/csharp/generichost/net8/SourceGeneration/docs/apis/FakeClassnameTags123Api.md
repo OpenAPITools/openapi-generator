@@ -1,4 +1,4 @@
-# UseSourceGeneration.Api.FakeClassnameTags123Api
+# Org.OpenAPITools.Api.FakeClassnameTags123Api
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -18,9 +18,9 @@ To test class name in snake case
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Drawing
+# Org.OpenAPITools.Model.Drawing
 
 ## Properties
 

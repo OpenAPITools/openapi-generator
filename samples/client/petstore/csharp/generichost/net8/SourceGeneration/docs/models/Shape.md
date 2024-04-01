@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Shape
+# Org.OpenAPITools.Model.Shape
 
 ## Properties
 

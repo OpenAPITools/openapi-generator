@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.HasOnlyReadOnly
+# Org.OpenAPITools.Model.HasOnlyReadOnly
 
 ## Properties
 
