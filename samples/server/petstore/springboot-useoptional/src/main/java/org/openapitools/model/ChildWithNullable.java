@@ -32,14 +32,6 @@ public class ChildWithNullable extends ParentWithNullable {
 
   private Optional<String> otherProperty = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ChildWithNullable(String otherProperty, TypeEnum type, String nullableProperty) {
-      super(type, nullableProperty);
-      this.otherProperty = Optional.ofNullable(otherProperty);
-  }
-
   public ChildWithNullable otherProperty(String otherProperty) {
     this.otherProperty = Optional.of(otherProperty);
     return this;

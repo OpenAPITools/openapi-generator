@@ -31,13 +31,6 @@ public class AdditionalPropertiesNumberDto {
 
   private String name;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesNumberDto(String name) {
-      this.name = name;
-  }
-
   public AdditionalPropertiesNumberDto name(String name) {
     this.name = name;
     return this;

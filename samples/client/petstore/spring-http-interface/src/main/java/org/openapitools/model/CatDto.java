@@ -35,14 +35,6 @@ public class CatDto extends AnimalDto {
 
   private Boolean declawed;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public CatDto(Boolean declawed, String className, String color) {
-      super(className, color);
-      this.declawed = declawed;
-  }
-
   public CatDto declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;

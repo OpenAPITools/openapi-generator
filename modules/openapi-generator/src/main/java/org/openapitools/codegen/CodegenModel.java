@@ -429,7 +429,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setDiscriminator(CodegenDiscriminator discriminator) {
         this.discriminator = discriminator;
-        if (discriminator != null && (!discriminator.getMappedModels().isEmpty() || this.vendorExtensions.containsKey("x-discriminator-value"))) {
+        if (discriminator != null && !discriminator.getMappedModels().isEmpty()) {
             this.hasDiscriminatorWithNonEmptyMapping = true;
         }
     }

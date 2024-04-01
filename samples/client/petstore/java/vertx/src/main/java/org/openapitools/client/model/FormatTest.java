@@ -103,28 +103,6 @@ public class FormatTest {
   public FormatTest() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FormatTest(Integer integer, Integer int32, Long int64, BigDecimal number, Float _float, Double _double, BigDecimal decimal, String string, byte[] _byte, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, UUID uuid, String password, String patternWithDigits, String patternWithDigitsAndDelimiter) {
-    this.integer = integer;
-    this.int32 = int32;
-    this.int64 = int64;
-    this.number = number;
-    this._float = _float;
-    this._double = _double;
-    this.decimal = decimal;
-    this.string = string;
-    this._byte = _byte;
-    this.binary = binary;
-    this.date = date;
-    this.dateTime = dateTime;
-    this.uuid = uuid;
-    this.password = password;
-    this.patternWithDigits = patternWithDigits;
-    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
-  }
-
   public FormatTest integer(Integer integer) {
     
     this.integer = integer;

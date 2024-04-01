@@ -42,16 +42,6 @@ public class Name {
     this.name = name;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Name(Integer name, Integer snakeCase, String property, Integer _123number) {
-      this.name = name;
-      this.snakeCase = Optional.ofNullable(snakeCase);
-      this.property = Optional.ofNullable(property);
-      this._123number = Optional.ofNullable(_123number);
-  }
-
   public Name name(Integer name) {
     this.name = name;
     return this;

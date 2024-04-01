@@ -26,13 +26,6 @@ public class SpecialModelNameDto {
 
   private Long $SpecialPropertyName;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public SpecialModelNameDto(Long $SpecialPropertyName) {
-      this.$SpecialPropertyName = $SpecialPropertyName;
-  }
-
   public SpecialModelNameDto $SpecialPropertyName(Long $SpecialPropertyName) {
     this.$SpecialPropertyName = $SpecialPropertyName;
     return this;

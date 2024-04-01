@@ -69,7 +69,6 @@ import java.util.stream.Stream;
 
 import junit.framework.AssertionFailedError;
 import lombok.SneakyThrows;
-import org.jetbrains.kotlin.types.model.ObsoleteTypeKind;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.java.assertions.JavaFileAssert;

@@ -40,13 +40,6 @@ public class ModelReturn {
   public ModelReturn() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ModelReturn(Integer _return) {
-    this._return = _return;
-  }
-
   public ModelReturn _return(Integer _return) {
     
     this._return = _return;

@@ -38,13 +38,6 @@ public class ModelFile {
   public ModelFile() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ModelFile(String sourceURI) {
-    this.sourceURI = sourceURI;
-  }
-
   public ModelFile sourceURI(String sourceURI) {
     
     this.sourceURI = sourceURI;

@@ -26,14 +26,6 @@ public class ReadOnlyFirst {
 
   private Optional<String> baz = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ReadOnlyFirst(String bar, String baz) {
-      this.bar = Optional.ofNullable(bar);
-      this.baz = Optional.ofNullable(baz);
-  }
-
   public ReadOnlyFirst bar(String bar) {
     this.bar = Optional.of(bar);
     return this;

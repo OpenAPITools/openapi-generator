@@ -36,7 +36,7 @@ public class FakeApiMockServer {
     }
 
     public static String fakeBigDecimalMap200ResponseSample1() {
-        return "{ \"someId\" : 0.8008281904610115, \"someMap\" : { \"key\" : 6.027456183070403 }}";
+        return "{ \"someId\" : 0.8008281904610115, \"someMap\" : { \"key\" : 6.027456183070403 } }";
     }
 
 
@@ -66,7 +66,7 @@ public class FakeApiMockServer {
     }
 
     public static String fakeHealthGet200ResponseSample1() {
-        return "{ \"NullableMessage\" : \"NullableMessage\"}";
+        return "{ \"NullableMessage\" : \"NullableMessage\" }";
     }
 
 
@@ -111,7 +111,7 @@ public class FakeApiMockServer {
 
 
     public static String fakeHttpSignatureTestRequestSample1() {
-        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}";
+        return "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"default-name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
     }
     public static String fakeHttpSignatureTestRequestSample2() {
         return "<Pet> <id>123456789</id> <Category> <id>123456789</id> <name>aeiou</name> </Category> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> <Tag> <id>123456789</id> <name>aeiou</name> </Tag> </tags> <status>aeiou</status> </Pet>";
@@ -177,11 +177,11 @@ public class FakeApiMockServer {
     }
 
     public static String fakeOuterCompositeSerialize200ResponseSample1() {
-        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true}";
+        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
     }
 
     public static String fakeOuterCompositeSerializeRequestSample1() {
-        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true}";
+        return "{ \"my_string\" : \"my_string\", \"my_number\" : 0.8008281904610115, \"my_boolean\" : true }";
     }
 
 
@@ -276,11 +276,11 @@ public class FakeApiMockServer {
     }
 
     public static String fakePropertyEnumIntegerSerialize200ResponseSample1() {
-        return "{ \"value\" : 2}";
+        return "{ \"value\" : 2 }";
     }
 
     public static String fakePropertyEnumIntegerSerializeRequestSample1() {
-        return "{ \"value\" : 2}";
+        return "{ \"value\" : 2 }";
     }
 
 
@@ -364,7 +364,7 @@ public class FakeApiMockServer {
 
 
     public static String testBodyWithFileSchemaRequestSample1() {
-        return "{ \"file\" : { \"sourceURI\" : \"sourceURI\" }, \"files\" : [ { \"sourceURI\" : \"sourceURI\" }, { \"sourceURI\" : \"sourceURI\" } ]}";
+        return "{ \"file\" : { \"sourceURI\" : \"sourceURI\" }, \"files\" : [ { \"sourceURI\" : \"sourceURI\" }, { \"sourceURI\" : \"sourceURI\" } ] }";
     }
 
 
@@ -394,7 +394,7 @@ public class FakeApiMockServer {
 
 
     public static String testBodyWithQueryParamsRequestSample1() {
-        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\"}";
+        return "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
     }
 
 
@@ -425,11 +425,11 @@ public class FakeApiMockServer {
     }
 
     public static String testClientModel200ResponseSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
     public static String testClientModelRequestSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
 
@@ -844,7 +844,7 @@ public class FakeApiMockServer {
 
 
     public static String testNullableRequestSample1() {
-        return "{ \"otherProperty\" : \"otherProperty\", \"nullableProperty\" : \"nullableProperty\", \"type\" : \"ChildWithNullable\"}";
+        return "{ \"otherProperty\" : \"otherProperty\", \"nullableProperty\" : \"nullableProperty\", \"type\" : \"ChildWithNullable\" }";
     }
 
 

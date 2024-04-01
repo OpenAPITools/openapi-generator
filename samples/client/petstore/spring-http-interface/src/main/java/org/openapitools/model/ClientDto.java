@@ -23,13 +23,6 @@ public class ClientDto {
 
   private String client;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ClientDto(String client) {
-      this.client = client;
-  }
-
   public ClientDto client(String client) {
     this.client = client;
     return this;

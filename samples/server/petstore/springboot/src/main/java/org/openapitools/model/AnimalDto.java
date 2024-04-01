@@ -52,14 +52,6 @@ public class AnimalDto {
     this.className = className;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AnimalDto(String className, String color) {
-      this.className = className;
-      this.color = color;
-  }
-
   public AnimalDto className(String className) {
     this.className = className;
     return this;

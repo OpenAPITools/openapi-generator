@@ -28,14 +28,6 @@ public class TagDto {
 
   private String name;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public TagDto(Long id, String name) {
-      this.id = id;
-      this.name = name;
-  }
-
   public TagDto id(Long id) {
     this.id = id;
     return this;

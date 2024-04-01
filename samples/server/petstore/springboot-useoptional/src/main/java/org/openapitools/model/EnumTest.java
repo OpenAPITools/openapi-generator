@@ -191,17 +191,6 @@ public class EnumTest {
     this.enumStringRequired = enumStringRequired;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public EnumTest(EnumStringEnum enumString, EnumStringRequiredEnum enumStringRequired, EnumIntegerEnum enumInteger, EnumNumberEnum enumNumber, OuterEnum outerEnum) {
-      this.enumString = Optional.ofNullable(enumString);
-      this.enumStringRequired = enumStringRequired;
-      this.enumInteger = Optional.ofNullable(enumInteger);
-      this.enumNumber = Optional.ofNullable(enumNumber);
-      this.outerEnum = Optional.ofNullable(outerEnum);
-  }
-
   public EnumTest enumString(EnumStringEnum enumString) {
     this.enumString = Optional.of(enumString);
     return this;

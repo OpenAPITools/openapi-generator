@@ -23,13 +23,6 @@ public class ClassModelDto {
 
   private String propertyClass;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ClassModelDto(String propertyClass) {
-      this.propertyClass = propertyClass;
-  }
-
   public ClassModelDto propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
     return this;

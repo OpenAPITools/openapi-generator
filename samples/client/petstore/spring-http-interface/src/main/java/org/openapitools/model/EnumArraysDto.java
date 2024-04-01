@@ -100,14 +100,6 @@ public class EnumArraysDto {
   
   private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public EnumArraysDto(JustSymbolEnum justSymbol, List<ArrayEnumEnum> arrayEnum) {
-      this.justSymbol = justSymbol;
-      this.arrayEnum = arrayEnum;
-  }
-
   public EnumArraysDto justSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
     return this;

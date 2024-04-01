@@ -28,13 +28,6 @@ public class ArrayOfNumberOnlyDto {
   
   private List<BigDecimal> arrayNumber = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ArrayOfNumberOnlyDto(List<BigDecimal> arrayNumber) {
-      this.arrayNumber = arrayNumber;
-  }
-
   public ArrayOfNumberOnlyDto arrayNumber(List<BigDecimal> arrayNumber) {
     this.arrayNumber = arrayNumber;
     return this;

@@ -59,17 +59,6 @@ public class Entity {
     this.atType = atType;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Entity(String href, String id, String atSchemaLocation, String atBaseType, String atType) {
-      this.href = href;
-      this.id = id;
-      this.atSchemaLocation = atSchemaLocation;
-      this.atBaseType = atBaseType;
-      this.atType = atType;
-  }
-
   public Entity href(String href) {
     this.href = href;
     return this;

@@ -30,13 +30,6 @@ public class AdditionalPropertiesBooleanDto {
 
   private String name;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesBooleanDto(String name) {
-      this.name = name;
-  }
-
   public AdditionalPropertiesBooleanDto name(String name) {
     this.name = name;
     return this;

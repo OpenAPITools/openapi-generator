@@ -25,14 +25,6 @@ public class CategoryDto {
 
   private String name = "default-name";
 
-  /**
-  * Constructor with all args parameters
-  */
-  public CategoryDto(Long id, String name) {
-      this.id = id;
-      this.name = name;
-  }
-
   public CategoryDto id(Long id) {
     this.id = id;
     return this;

@@ -42,14 +42,6 @@ public class AdditionalPropertiesString extends HashMap<String, String> {
 
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesString(String name) {
-    super();
-    this.name = name;
-  }
-
   public AdditionalPropertiesString name(String name) {
     
     this.name = name;

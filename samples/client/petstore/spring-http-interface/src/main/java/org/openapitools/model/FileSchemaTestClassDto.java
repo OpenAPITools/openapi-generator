@@ -30,14 +30,6 @@ public class FileSchemaTestClassDto {
   
   private List<FileDto> files = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FileSchemaTestClassDto(FileDto file, List<FileDto> files) {
-      this.file = file;
-      this.files = files;
-  }
-
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;
     return this;

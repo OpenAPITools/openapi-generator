@@ -71,6 +71,7 @@ public class PhpLumenServerOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.ARTIFACT_URL, ARTIFACTURL_VALUE)
                 .put(CodegenConstants.DEVELOPER_ORGANIZATION, DEVELOPER_ORGANIZATION_VALUE)
                 .put(CodegenConstants.COMPOSER_PACKAGE_NAME, COMPOSER_PACKAGE_NAME_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST, "false")
                 .build();
     }
 

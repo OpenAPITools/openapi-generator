@@ -26,7 +26,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}"))
+            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }"))
             .unmarshal().json(JsonLibrary.Jackson, Pet.class);
         /**
         DELETE /pet/{petId} : Deletes a pet
@@ -48,7 +48,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"} ]"))
+            .setBody(constant("[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]"))
             .unmarshal().json(JsonLibrary.Jackson, Pet[].class);
         /**
         GET /pet/findByTags : Finds Pets by tags
@@ -60,7 +60,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"} ]"))
+            .setBody(constant("[ { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }, { \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" } ]"))
             .unmarshal().json(JsonLibrary.Jackson, Pet[].class);
         /**
         GET /pet/{petId} : Find pet by ID
@@ -72,7 +72,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}"))
+            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }"))
             .unmarshal().json(JsonLibrary.Jackson, Pet.class);
         /**
         PUT /pet : Update an existing pet
@@ -84,7 +84,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\"}"))
+            .setBody(constant("{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }"))
             .unmarshal().json(JsonLibrary.Jackson, Pet.class);
         /**
         POST /pet/{petId} : Updates a pet in the store with form data
@@ -106,7 +106,7 @@ public class PetApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\"}"))
+            .setBody(constant("{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }"))
             .unmarshal().json(JsonLibrary.Jackson, ModelApiResponse.class);
     }
 }

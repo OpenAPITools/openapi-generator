@@ -36,15 +36,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @Valid
   private Map<String, Animal> map = new HashMap<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public MixedPropertiesAndAdditionalPropertiesClass(UUID uuid, OffsetDateTime dateTime, Map<String, Animal> map) {
-      this.uuid = Optional.ofNullable(uuid);
-      this.dateTime = Optional.ofNullable(dateTime);
-      this.map = map;
-  }
-
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
     this.uuid = Optional.of(uuid);
     return this;

@@ -33,14 +33,6 @@ public class FileSchemaTestClassDto {
   @Valid
   private List<@Valid FileDto> files = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FileSchemaTestClassDto(FileDto file, List<@Valid FileDto> files) {
-      this.file = file;
-      this.files = files;
-  }
-
   public FileSchemaTestClassDto file(FileDto file) {
     this.file = file;
     return this;

@@ -38,15 +38,6 @@ public class Extensible {
     this.atType = atType;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Extensible(String atSchemaLocation, String atBaseType, String atType) {
-      this.atSchemaLocation = atSchemaLocation;
-      this.atBaseType = atBaseType;
-      this.atType = atType;
-  }
-
   public Extensible atSchemaLocation(String atSchemaLocation) {
     this.atSchemaLocation = atSchemaLocation;
     return this;

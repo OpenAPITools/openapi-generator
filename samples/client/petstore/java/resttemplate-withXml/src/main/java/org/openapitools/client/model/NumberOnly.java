@@ -46,13 +46,6 @@ public class NumberOnly {
   public NumberOnly() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public NumberOnly(BigDecimal justNumber) {
-    this.justNumber = justNumber;
-  }
-
   public NumberOnly justNumber(BigDecimal justNumber) {
     
     this.justNumber = justNumber;

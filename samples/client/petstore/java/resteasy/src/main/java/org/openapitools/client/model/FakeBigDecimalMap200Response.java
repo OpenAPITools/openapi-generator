@@ -45,14 +45,6 @@ public class FakeBigDecimalMap200Response {
   public FakeBigDecimalMap200Response() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FakeBigDecimalMap200Response(BigDecimal someId, Map<String, BigDecimal> someMap) {
-    this.someId = someId;
-    this.someMap = someMap;
-  }
-
   public FakeBigDecimalMap200Response someId(BigDecimal someId) {
     
     this.someId = someId;

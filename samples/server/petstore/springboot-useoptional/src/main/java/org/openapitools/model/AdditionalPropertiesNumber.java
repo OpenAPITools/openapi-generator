@@ -29,13 +29,6 @@ public class AdditionalPropertiesNumber {
 
   private Optional<String> name = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesNumber(String name) {
-      this.name = Optional.ofNullable(name);
-  }
-
   public AdditionalPropertiesNumber name(String name) {
     this.name = Optional.of(name);
     return this;

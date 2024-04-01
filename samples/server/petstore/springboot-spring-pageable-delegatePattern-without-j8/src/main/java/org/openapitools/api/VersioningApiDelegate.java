@@ -40,7 +40,7 @@ public interface VersioningApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\"}";
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
                     ApiUtil.setExampleResponse(request, "*/*", exampleString);
                     break;
                 }
@@ -69,7 +69,7 @@ public interface VersioningApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\"}";
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
                     ApiUtil.setExampleResponse(request, "*/*", exampleString);
                     break;
                 }
@@ -94,7 +94,7 @@ public interface VersioningApiDelegate {
         getRequest().ifPresent(request -> {
             for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
                 if (mediaType.isCompatibleWith(MediaType.valueOf("*/*"))) {
-                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\"}";
+                    String exampleString = "{ \"code\" : 0, \"type\" : \"type\", \"message\" : \"message\" }";
                     ApiUtil.setExampleResponse(request, "*/*", exampleString);
                     break;
                 }

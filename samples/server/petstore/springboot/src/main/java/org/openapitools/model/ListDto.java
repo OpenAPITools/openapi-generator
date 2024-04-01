@@ -26,13 +26,6 @@ public class ListDto {
 
   private String _123List;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ListDto(String _123List) {
-      this._123List = _123List;
-  }
-
   public ListDto _123List(String _123List) {
     this._123List = _123List;
     return this;

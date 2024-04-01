@@ -28,13 +28,6 @@ public class AdditionalPropertiesInteger {
 
   private Optional<String> name = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesInteger(String name) {
-      this.name = Optional.ofNullable(name);
-  }
-
   public AdditionalPropertiesInteger name(String name) {
     this.name = Optional.of(name);
     return this;

@@ -66,7 +66,7 @@ public class UserApiRoutesImpl extends RouteBuilder {
                     .log(LoggingLevel.INFO, "BODY TYPE: ${body.getClass().getName()}")
             .end()
             .log(LoggingLevel.INFO, "HEADERS: ${headers}")
-            .setBody(constant("{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\"}"))
+            .setBody(constant("{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }"))
             .unmarshal().json(JsonLibrary.Jackson, User.class);
         /**
         GET /user/login : Logs user into the system

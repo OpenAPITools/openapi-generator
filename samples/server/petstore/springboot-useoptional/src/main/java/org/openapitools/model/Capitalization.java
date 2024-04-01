@@ -34,18 +34,6 @@ public class Capitalization {
 
   private Optional<String> ATT_NAME = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Capitalization(String smallCamel, String capitalCamel, String smallSnake, String capitalSnake, String scAETHFlowPoints, String ATT_NAME) {
-      this.smallCamel = Optional.ofNullable(smallCamel);
-      this.capitalCamel = Optional.ofNullable(capitalCamel);
-      this.smallSnake = Optional.ofNullable(smallSnake);
-      this.capitalSnake = Optional.ofNullable(capitalSnake);
-      this.scAETHFlowPoints = Optional.ofNullable(scAETHFlowPoints);
-      this.ATT_NAME = Optional.ofNullable(ATT_NAME);
-  }
-
   public Capitalization smallCamel(String smallCamel) {
     this.smallCamel = Optional.of(smallCamel);
     return this;

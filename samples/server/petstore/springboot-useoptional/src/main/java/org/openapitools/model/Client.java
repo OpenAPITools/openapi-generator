@@ -24,13 +24,6 @@ public class Client {
 
   private Optional<String> client = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Client(String client) {
-      this.client = Optional.ofNullable(client);
-  }
-
   public Client client(String client) {
     this.client = Optional.of(client);
     return this;

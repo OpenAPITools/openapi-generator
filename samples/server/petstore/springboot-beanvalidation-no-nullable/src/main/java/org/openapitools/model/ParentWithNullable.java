@@ -71,14 +71,6 @@ public class ParentWithNullable {
 
   private String nullableProperty = null;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ParentWithNullable(TypeEnum type, String nullableProperty) {
-      this.type = type;
-      this.nullableProperty = nullableProperty;
-  }
-
   public ParentWithNullable type(TypeEnum type) {
     this.type = type;
     return this;

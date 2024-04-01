@@ -29,14 +29,6 @@ public class Model200Response {
 
   private Optional<String> propertyClass = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Model200Response(Integer name, String propertyClass) {
-      this.name = Optional.ofNullable(name);
-      this.propertyClass = Optional.ofNullable(propertyClass);
-  }
-
   public Model200Response name(Integer name) {
     this.name = Optional.of(name);
     return this;

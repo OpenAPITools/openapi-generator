@@ -38,11 +38,11 @@ public class AnotherFakeApiMockServer {
     }
 
     public static String call123testSpecialTags200ResponseSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
     public static String call123testSpecialTagsRequestSample1() {
-        return "{ \"client\" : \"client\"}";
+        return "{ \"client\" : \"client\" }";
     }
 
 

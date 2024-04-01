@@ -37,14 +37,6 @@ public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
 
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesInteger(String name) {
-    super();
-    this.name = name;
-  }
-
   public AdditionalPropertiesInteger name(String name) {
     
     this.name = name;

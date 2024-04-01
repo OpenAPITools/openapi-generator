@@ -28,14 +28,6 @@ public class DogDto extends AnimalDto {
 
   private String breed;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public DogDto(String breed, String className, String color) {
-      super(className, color);
-      this.breed = breed;
-  }
-
   public DogDto breed(String breed) {
     this.breed = breed;
     return this;

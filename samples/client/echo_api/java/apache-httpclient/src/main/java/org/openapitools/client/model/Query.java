@@ -84,14 +84,6 @@ public class Query {
   public Query() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Query(Long id, List<OutcomesEnum> outcomes) {
-    this.id = id;
-    this.outcomes = outcomes;
-  }
-
   public Query id(Long id) {
     
     this.id = id;

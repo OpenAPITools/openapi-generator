@@ -23,13 +23,6 @@ public class ReturnDto {
 
   private Integer _return;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ReturnDto(Integer _return) {
-      this._return = _return;
-  }
-
   public ReturnDto _return(Integer _return) {
     this._return = _return;
     return this;

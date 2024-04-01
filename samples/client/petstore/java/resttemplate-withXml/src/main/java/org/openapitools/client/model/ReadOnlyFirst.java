@@ -50,14 +50,6 @@ public class ReadOnlyFirst {
   public ReadOnlyFirst() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ReadOnlyFirst(String bar, String baz) {
-    this.bar = bar;
-    this.baz = baz;
-  }
-
    /**
    * Get bar
    * @return bar

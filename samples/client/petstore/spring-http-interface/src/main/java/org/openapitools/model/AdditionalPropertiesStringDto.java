@@ -27,13 +27,6 @@ public class AdditionalPropertiesStringDto {
 
   private String name;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesStringDto(String name) {
-      this.name = name;
-  }
-
   public AdditionalPropertiesStringDto name(String name) {
     this.name = name;
     return this;

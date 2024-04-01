@@ -30,16 +30,6 @@ public class ResponseObjectWithDifferentFieldNames {
 
   private Optional<String> propertyNameWithSpaces = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ResponseObjectWithDifferentFieldNames(String normalPropertyName, String UPPER_CASE_PROPERTY_SNAKE, String lowerCasePropertyDashes, String propertyNameWithSpaces) {
-      this.normalPropertyName = Optional.ofNullable(normalPropertyName);
-      this.UPPER_CASE_PROPERTY_SNAKE = Optional.ofNullable(UPPER_CASE_PROPERTY_SNAKE);
-      this.lowerCasePropertyDashes = Optional.ofNullable(lowerCasePropertyDashes);
-      this.propertyNameWithSpaces = Optional.ofNullable(propertyNameWithSpaces);
-  }
-
   public ResponseObjectWithDifferentFieldNames normalPropertyName(String normalPropertyName) {
     this.normalPropertyName = Optional.of(normalPropertyName);
     return this;

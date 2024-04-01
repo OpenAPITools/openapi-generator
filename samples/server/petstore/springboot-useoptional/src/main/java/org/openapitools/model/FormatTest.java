@@ -74,26 +74,6 @@ public class FormatTest {
     this.password = password;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FormatTest(Integer integer, Integer int32, Long int64, BigDecimal number, Float _float, Double _double, String string, byte[] _byte, org.springframework.core.io.Resource binary, LocalDate date, OffsetDateTime dateTime, UUID uuid, String password, BigDecimal bigDecimal) {
-      this.integer = Optional.ofNullable(integer);
-      this.int32 = Optional.ofNullable(int32);
-      this.int64 = Optional.ofNullable(int64);
-      this.number = number;
-      this._float = Optional.ofNullable(_float);
-      this._double = Optional.ofNullable(_double);
-      this.string = Optional.ofNullable(string);
-      this._byte = _byte;
-      this.binary = Optional.ofNullable(binary);
-      this.date = date;
-      this.dateTime = Optional.ofNullable(dateTime);
-      this.uuid = Optional.ofNullable(uuid);
-      this.password = password;
-      this.bigDecimal = Optional.ofNullable(bigDecimal);
-  }
-
   public FormatTest integer(Integer integer) {
     this.integer = Optional.of(integer);
     return this;

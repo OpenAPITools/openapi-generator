@@ -48,14 +48,6 @@ public class FileSchemaTestClass {
   public FileSchemaTestClass() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FileSchemaTestClass(ModelFile _file, List<@Valid ModelFile> files) {
-    this._file = _file;
-    this.files = files;
-  }
-
   public FileSchemaTestClass _file(ModelFile _file) {
     
     this._file = _file;

@@ -39,14 +39,6 @@ public class FooRef extends EntityRef implements FooRefOrValue {
     super(atType);
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FooRef(String foorefPropA, String name, String atReferredType, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
-      super(name, atReferredType, href, id, atSchemaLocation, atBaseType, atType);
-      this.foorefPropA = foorefPropA;
-  }
-
   public FooRef foorefPropA(String foorefPropA) {
     this.foorefPropA = foorefPropA;
     return this;

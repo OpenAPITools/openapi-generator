@@ -49,18 +49,6 @@ public class ObjectWithUniqueItems {
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime nullDateField;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ObjectWithUniqueItems(Set<String> nullSet, Set<String> notNullSet, List<String> nullList, List<String> notNullList, OffsetDateTime notNullDateField, OffsetDateTime nullDateField) {
-      this.nullSet = JsonNullable.of(nullSet);
-      this.notNullSet = notNullSet;
-      this.nullList = JsonNullable.of(nullList);
-      this.notNullList = notNullList;
-      this.notNullDateField = notNullDateField;
-      this.nullDateField = nullDateField;
-  }
-
   public ObjectWithUniqueItems nullSet(Set<String> nullSet) {
     this.nullSet = JsonNullable.of(nullSet);
     return this;

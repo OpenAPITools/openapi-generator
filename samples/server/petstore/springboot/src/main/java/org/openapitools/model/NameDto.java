@@ -44,16 +44,6 @@ public class NameDto {
     this.name = name;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public NameDto(Integer name, Integer snakeCase, String property, Integer _123Number) {
-      this.name = name;
-      this.snakeCase = snakeCase;
-      this.property = property;
-      this._123Number = _123Number;
-  }
-
   public NameDto name(Integer name) {
     this.name = name;
     return this;

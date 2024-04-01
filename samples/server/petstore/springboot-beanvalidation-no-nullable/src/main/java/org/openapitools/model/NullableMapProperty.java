@@ -26,13 +26,6 @@ public class NullableMapProperty {
   @Valid
   private Map<String, String> languageValues;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public NullableMapProperty(Map<String, String> languageValues) {
-      this.languageValues = languageValues;
-  }
-
   public NullableMapProperty languageValues(Map<String, String> languageValues) {
     this.languageValues = languageValues;
     return this;

@@ -44,14 +44,6 @@ public class Model200Response {
   public Model200Response() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Model200Response(Integer name, String propertyClass) {
-    this.name = name;
-    this.propertyClass = propertyClass;
-  }
-
   public Model200Response name(Integer name) {
     
     this.name = name;

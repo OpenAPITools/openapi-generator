@@ -38,16 +38,6 @@ public class ContainerDefaultValue {
   @Valid
   private JsonNullable<List<String>> nullableArrayWithDefault = JsonNullable.<List<String>>undefined();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ContainerDefaultValue(List<String> nullableArray, List<String> nullableRequiredArray, List<String> requiredArray, List<String> nullableArrayWithDefault) {
-      this.nullableArray = JsonNullable.of(nullableArray);
-      this.nullableRequiredArray = JsonNullable.of(nullableRequiredArray);
-      this.requiredArray = requiredArray;
-      this.nullableArrayWithDefault = JsonNullable.of(nullableArrayWithDefault);
-  }
-
   public ContainerDefaultValue nullableArray(List<String> nullableArray) {
     this.nullableArray = JsonNullable.of(nullableArray);
     return this;

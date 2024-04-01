@@ -44,7 +44,7 @@ public class HasOnlyReadOnly {
   public HasOnlyReadOnly() {
   }
   /**
-  * Constructor with only readonly parameters and all parameters
+  * Constructor with only readonly parameters
   */
   @JsonCreator
   public HasOnlyReadOnly(

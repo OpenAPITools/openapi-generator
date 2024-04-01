@@ -27,15 +27,6 @@ public class ApiResponseDto {
 
   private String message;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ApiResponseDto(Integer code, String type, String message) {
-      this.code = code;
-      this.type = type;
-      this.message = message;
-  }
-
   public ApiResponseDto code(Integer code) {
     this.code = code;
     return this;

@@ -46,15 +46,6 @@ public class ArrayTest {
   public ArrayTest() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ArrayTest(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    this.arrayOfString = arrayOfString;
-    this.arrayArrayOfInteger = arrayArrayOfInteger;
-    this.arrayArrayOfModel = arrayArrayOfModel;
-  }
-
   public ArrayTest arrayOfString(List<String> arrayOfString) {
     
     this.arrayOfString = arrayOfString;

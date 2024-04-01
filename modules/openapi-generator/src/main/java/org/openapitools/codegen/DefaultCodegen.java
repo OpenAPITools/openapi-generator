@@ -26,7 +26,6 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-import io.swagger.v3.core.util.AnnotationsUtils;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -3267,7 +3266,6 @@ public class DefaultCodegen implements CodegenConfig {
         if (sortModelPropertiesByInheritanceFirst) {
             new SortByInheritanceFirstBuilder(this)
                     .buildAll(schema)
-                    .validate(m)
                     .reorder(m);
         }
 
@@ -3280,8 +3278,7 @@ public class DefaultCodegen implements CodegenConfig {
                 @Override
                 public int compare(CodegenProperty one, CodegenProperty another) {
                     /**
-                     *
-                     * Warning: the secondary order is not guaranteed
+                     * Warning: the secondary order is not guaranteed if there are many variables
                      */
 
                     if (one.required == another.required) return 0;

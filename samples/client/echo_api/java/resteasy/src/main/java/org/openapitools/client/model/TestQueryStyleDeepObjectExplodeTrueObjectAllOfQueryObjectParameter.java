@@ -50,16 +50,6 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter(String size, String color, Long id, String name) {
-    this.size = size;
-    this.color = color;
-    this.id = id;
-    this.name = name;
-  }
-
   public TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter size(String size) {
     
     this.size = size;

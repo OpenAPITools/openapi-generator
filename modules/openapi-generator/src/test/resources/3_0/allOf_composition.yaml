@@ -52,13 +52,13 @@ components:
       - $ref: '#/components/schemas/Human'
       - $ref: '#/components/schemas/Hero'
       - type: object
-      required:
-        - level
-      properties:
-            category:
-              type: string
-            level:
-              type: integer
+        required:
+          - level
+        properties:
+          category:
+            type: string
+          level:
+            type: integer 
     Hero:
       description: Hero
       type: object

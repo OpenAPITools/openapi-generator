@@ -24,13 +24,6 @@ public class Client {
 
   private String client;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Client(String client) {
-      this.client = client;
-  }
-
   public Client client(String client) {
     this.client = client;
     return this;

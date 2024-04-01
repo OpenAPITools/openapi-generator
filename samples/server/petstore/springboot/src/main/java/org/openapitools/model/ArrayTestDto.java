@@ -37,15 +37,6 @@ public class ArrayTestDto {
   @Valid
   private List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ArrayTestDto(List<String> arrayOfString, List<List<Long>> arrayArrayOfInteger, List<List<@Valid ReadOnlyFirstDto>> arrayArrayOfModel) {
-      this.arrayOfString = arrayOfString;
-      this.arrayArrayOfInteger = arrayArrayOfInteger;
-      this.arrayArrayOfModel = arrayArrayOfModel;
-  }
-
   public ArrayTestDto arrayOfString(List<String> arrayOfString) {
     this.arrayOfString = arrayOfString;
     return this;

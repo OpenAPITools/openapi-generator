@@ -40,14 +40,6 @@ public class PizzaSpeziale extends Pizza {
     super(atType);
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public PizzaSpeziale(String toppings, BigDecimal pizzaSize, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
-      super(pizzaSize, href, id, atSchemaLocation, atBaseType, atType);
-      this.toppings = toppings;
-  }
-
   public PizzaSpeziale toppings(String toppings) {
     this.toppings = toppings;
     return this;

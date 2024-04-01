@@ -48,14 +48,6 @@ public class Pizza extends Entity {
     super(atType);
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Pizza(BigDecimal pizzaSize, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
-      super(href, id, atSchemaLocation, atBaseType, atType);
-      this.pizzaSize = pizzaSize;
-  }
-
   public Pizza pizzaSize(BigDecimal pizzaSize) {
     this.pizzaSize = pizzaSize;
     return this;

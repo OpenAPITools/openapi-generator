@@ -4509,46 +4509,6 @@ public class SpringCodegenTest {
     }
 
     @Test
-    public void testXDiscriminatorValue_issue17343() throws IOException {
-        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
-        output.deleteOnExit();
-
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/issue_17343.yaml");
-        final SpringCodegen codegen = new SpringCodegen();
-        codegen.setOpenAPI(openAPI);
-        codegen.setModelNameSuffix("Dto");
-        codegen.setOutputDir(output.getAbsolutePath());
-        ClientOptInput input = new ClientOptInput();
-        input.openAPI(openAPI);
-        input.config(codegen);
-
-        DefaultGenerator generator = new DefaultGenerator();
-
-        Map<String, File> files = generator.opts(input).generate().stream()
-                .collect(Collectors.toMap(File::getName, Function.identity()));
-
-        JavaFileAssert.assertThat(files.get("DogItemDto.java")).assertTypeAnnotations()
-                .doesNotContainsWithName("JsonTypeName");
-        JavaFileAssert.assertThat(files.get("CatItemDto.java")).assertTypeAnnotations()
-            .doesNotContainsWithName("JsonTypeName");
-        JavaFileAssert.assertThat(files.get("PetItemDto.java"))
-                .assertTypeAnnotations()
-                .contains(new SingleMemberAnnotationExpr(new Name("JsonSubTypes"),
-                    new ArrayInitializerExpr(NodeList.nodeList(
-                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
-                            NodeList.nodeList(
-                                new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("CatItemDto"))),
-                                new MemberValuePair("name", new StringLiteralExpr("CAT"))
-                        )),
-                        new NormalAnnotationExpr(new Name(new Name("JsonSubTypes"), "Type"),
-                           NodeList.nodeList(
-                                   new MemberValuePair("value", new ClassExpr(new ClassOrInterfaceType("DogItemDto"))),
-                                   new MemberValuePair("name", new StringLiteralExpr("DOG"))
-                   )))
-            )));
-    }
-
-    @Test
     public void testAllArgsConstructor_inheritanceFirst() throws IOException {
         final Map<String, File> output = generateFromContract("src/test/resources/3_0/spring/issue_16797.yaml", SPRING_BOOT,
                 Map.of(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST, Boolean.TRUE,
@@ -4602,9 +4562,6 @@ public class SpringCodegenTest {
                 .hasParameter("pageInfo").toConstructor()
                 .toFileAssert()
                 .fileDoesNotContains("all args");
-
-        ;
-
     }
 
     @Test

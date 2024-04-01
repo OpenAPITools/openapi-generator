@@ -39,14 +39,6 @@ public class Pasta extends Entity {
     super(atType);
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Pasta(String vendor, String href, String id, String atSchemaLocation, String atBaseType, String atType) {
-      super(href, id, atSchemaLocation, atBaseType, atType);
-      this.vendor = vendor;
-  }
-
   public Pasta vendor(String vendor) {
     this.vendor = vendor;
     return this;

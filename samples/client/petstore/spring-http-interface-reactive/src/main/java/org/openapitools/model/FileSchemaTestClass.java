@@ -28,14 +28,6 @@ public class FileSchemaTestClass {
   
   private List<File> files = new ArrayList<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public FileSchemaTestClass(File file, List<File> files) {
-      this.file = file;
-      this.files = files;
-  }
-
   public FileSchemaTestClass file(File file) {
     this.file = file;
     return this;

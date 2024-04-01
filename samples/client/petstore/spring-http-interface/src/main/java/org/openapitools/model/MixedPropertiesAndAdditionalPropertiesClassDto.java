@@ -35,15 +35,6 @@ public class MixedPropertiesAndAdditionalPropertiesClassDto {
   
   private Map<String, AnimalDto> map = new HashMap<>();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public MixedPropertiesAndAdditionalPropertiesClassDto(UUID uuid, OffsetDateTime dateTime, Map<String, AnimalDto> map) {
-      this.uuid = uuid;
-      this.dateTime = dateTime;
-      this.map = map;
-  }
-
   public MixedPropertiesAndAdditionalPropertiesClassDto uuid(UUID uuid) {
     this.uuid = uuid;
     return this;

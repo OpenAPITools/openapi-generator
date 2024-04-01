@@ -36,20 +36,6 @@ public class User {
 
   private Optional<Integer> userStatus = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public User(Long id, String username, String firstName, String lastName, String email, String password, String phone, Integer userStatus) {
-      this.id = Optional.ofNullable(id);
-      this.username = Optional.ofNullable(username);
-      this.firstName = Optional.ofNullable(firstName);
-      this.lastName = Optional.ofNullable(lastName);
-      this.email = Optional.ofNullable(email);
-      this.password = Optional.ofNullable(password);
-      this.phone = Optional.ofNullable(phone);
-      this.userStatus = Optional.ofNullable(userStatus);
-  }
-
   public User id(Long id) {
     this.id = Optional.of(id);
     return this;

@@ -49,14 +49,6 @@ public class TestInlineFreeformAdditionalPropertiesRequest extends HashMap<Strin
 
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public TestInlineFreeformAdditionalPropertiesRequest(String someProperty) {
-    super();
-    this.someProperty = someProperty;
-  }
-
   public TestInlineFreeformAdditionalPropertiesRequest someProperty(String someProperty) {
     
     this.someProperty = someProperty;

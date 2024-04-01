@@ -34,7 +34,7 @@ public class Banana implements Fruit {
   }
 
   /**
-   * Constructor with only required parameters and all parameters
+   * Constructor with only required parameters
    */
   public Banana(Integer length) {
     this.length = length;

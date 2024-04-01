@@ -50,18 +50,6 @@ public class Pet {
     this.atType = atType;
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Pet(String atType, Integer age, Boolean happy, BigDecimal price, OffsetDateTime lastFeed, LocalDate dateOfBirth) {
-      this.atType = atType;
-      this.age = age;
-      this.happy = happy;
-      this.price = price;
-      this.lastFeed = lastFeed;
-      this.dateOfBirth = dateOfBirth;
-  }
-
   public Pet atType(String atType) {
     this.atType = atType;
     return this;

@@ -88,16 +88,6 @@ public class MapTest {
   public MapTest() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public MapTest(Map<String, Map<String, String>> mapMapOfString, Map<String, InnerEnum> mapOfEnumString, Map<String, Boolean> directMap, Map<String, Boolean> indirectMap) {
-    this.mapMapOfString = mapMapOfString;
-    this.mapOfEnumString = mapOfEnumString;
-    this.directMap = directMap;
-    this.indirectMap = indirectMap;
-  }
-
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     
     this.mapMapOfString = mapMapOfString;

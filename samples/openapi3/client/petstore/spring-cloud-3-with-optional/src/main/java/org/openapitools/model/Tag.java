@@ -24,14 +24,6 @@ public class Tag {
 
   private Optional<String> name = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Tag(Long id, String name) {
-      this.id = Optional.ofNullable(id);
-      this.name = Optional.ofNullable(name);
-  }
-
   public Tag id(Long id) {
     this.id = Optional.of(id);
     return this;

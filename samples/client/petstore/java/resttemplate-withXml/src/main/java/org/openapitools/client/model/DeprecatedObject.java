@@ -47,13 +47,6 @@ public class DeprecatedObject {
   public DeprecatedObject() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public DeprecatedObject(String name) {
-    this.name = name;
-  }
-
   public DeprecatedObject name(String name) {
     
     this.name = name;

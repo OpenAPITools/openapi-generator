@@ -39,13 +39,6 @@ public class ClassModel {
   public ClassModel() {
   }
 
-  /**
-  * Constructor with all args parameters
-  */
-  public ClassModel(String propertyClass) {
-    this.propertyClass = propertyClass;
-  }
-
   public ClassModel propertyClass(String propertyClass) {
     
     this.propertyClass = propertyClass;

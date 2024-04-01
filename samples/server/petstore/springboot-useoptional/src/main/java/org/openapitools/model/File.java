@@ -25,13 +25,6 @@ public class File {
 
   private Optional<String> sourceURI = Optional.empty();
 
-  /**
-  * Constructor with all args parameters
-  */
-  public File(String sourceURI) {
-      this.sourceURI = Optional.ofNullable(sourceURI);
-  }
-
   public File sourceURI(String sourceURI) {
     this.sourceURI = Optional.of(sourceURI);
     return this;

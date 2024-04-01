@@ -283,7 +283,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(CAMEL_CASE_DOLLAR_SIGN, "Fix camelCase when starting with $ sign. when true : $Value when false : $value"));
         cliOptions.add(CliOption.newBoolean(USE_JAKARTA_EE, "whether to use Jakarta EE namespace instead of javax"));
         cliOptions.add(CliOption.newBoolean(CONTAINER_DEFAULT_TO_NULL, "Set containers (array, set, map) default to null"));
-        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(CliOption.newBoolean(GENERATE_CONSTRUCTOR_WITH_ALL_ARGS, "whether to generate a constructor for all arguments").defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -691,6 +691,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         return generatedConstructorWithAllArgs;
     }
 
+    /**
+     * Analyse and post process all Models.
+     * @param objs the models map.
+     * @return the processed models map.
+     **/
     @Override
     public Map<String, ModelsMap> postProcessAllModels(Map<String, ModelsMap> objs) {
         objs = super.postProcessAllModels(objs);
@@ -719,7 +724,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
-
+        /*
+         Add parentVars and parentRequiredVars to every Model which has a parent.
+         Add isInherited to every model which has children.
+         This allows
+            to generate fluent setter methods for inherited properties
+            to generate all arg constructors
+         ps: This code was specific to SpringCodeGen and now is available to all java generators.
+        */
         for (ModelsMap modelsAttrs : objs.values()) {
             for (ModelMap mo : modelsAttrs.getModels()) {
                 CodegenModel codegenModel = mo.getModel();
@@ -764,9 +776,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         }
 
+
         if (isGeneratedConstructorWithAllArgs()) {
-            // helper for all args constructor generatation
-            // it should be equivalent to allVars. but with inheritanceSupport allVars does not match the specs.
+            // compute allArgsConstructorVars to simplify the templates.
+            // It is used in the templates to generate the all arguments constructor.
+            // It should be equivalent to allVars. but with inheritanceSupport allVars does not match the specs.
             for (CodegenModel cm : allModels.values()) {
                 List<Object> constructorArgs = new ArrayList<>();
                 cm.vendorExtensions.put("allArgsConstructorVars", constructorArgs);
@@ -798,7 +812,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     /**
-     * trigger the generation of all arguments constructor or not
+     * trigger the generation of all arguments constructor or not.
+     *
+     * It avoids generating the same constructor twice.
      */
     protected void handleGenerateConstructorWithAllArgs(CodegenModel codegenModel) {
         if (this.generatedConstructorWithAllArgs && !codegenModel.vars.isEmpty()) {

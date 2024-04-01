@@ -13,14 +13,12 @@ public class SortByInheritanceFirstBuilder {
     private final DefaultCodegen defaultCodegen;
     private final OpenAPI openAPI;
     private final Set<Schema> visitedSchemas = Collections.newSetFromMap(new IdentityHashMap<>());
-//    private final Set<String> properties = new LinkedHashSet<>();
-//    private final Map<String, Schema> allDefinitions;
+
     private List<String> properties = new ArrayList<>();
 
-    SortByInheritanceFirstBuilder(DefaultCodegen defaultCodegen) {
+    public SortByInheritanceFirstBuilder(DefaultCodegen defaultCodegen) {
         this.defaultCodegen = defaultCodegen;
         openAPI = defaultCodegen.openAPI;
-//        this.allDefinitions = allDefinitions;
     }
 
     public void build(Schema schema) {
@@ -55,7 +53,6 @@ public class SortByInheritanceFirstBuilder {
             Map map = defaultCodegen.unaliasPropertySchema(schema.getProperties());
             properties.addAll(map.keySet());
         }
-
     }
 
 
@@ -72,20 +69,19 @@ public class SortByInheritanceFirstBuilder {
     }
 
     public void reorder(CodegenModel m) {
-//        List<String> properties = getProperties(m);
         if (properties.isEmpty()) {
             return;
         }
         try {
-            reorder( m.vars);
-            reorder( m.allVars);
-            reorder( m.requiredVars);
-            reorder( m.optionalVars);
-            reorder( m.readOnlyVars);
-            reorder( m.readWriteVars);
-            reorder( m.parentVars);
-//            reorder(properties, m.parentRequiredVars);
-            reorder( m.nonNullableVars);
+            reorder(m.vars);
+            reorder(m.allVars);
+            reorder(m.requiredVars);
+            reorder(m.optionalVars);
+            reorder(m.readOnlyVars);
+            reorder(m.readWriteVars);
+            reorder(m.parentVars);
+            reorder(m.parentRequiredVars);
+            reorder(m.nonNullableVars);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("unable to reorder " + m.schemaName, e);
         }
@@ -113,25 +109,4 @@ public class SortByInheritanceFirstBuilder {
         }
     }
 
-    public SortByInheritanceFirstBuilder validate(CodegenModel m) {
-        if (true) return this;
-//        List<String> properties = getProperties(m);
-        List<String> notFound = m.allVars.stream()
-                .map(CodegenProperty::getBaseName).filter(p -> !properties.contains(p))
-                .collect(Collectors.toList());
-        if (!notFound.isEmpty() || m.allVars.size() != properties.size()) {
-            String allVars = m.allVars.stream().map(CodegenProperty::getBaseName).distinct().collect(Collectors.joining(",", "[", "]"));
-            String found = properties.stream().collect(Collectors.joining(",", "[", "]"));
-            throw new IllegalArgumentException("Expecting " + m.name + " to have all of " + found + ". Missing " + notFound +  " allvars:" + allVars + " computed:" + properties);
-        }
-        return this;
-    }
-
-//    private static List<String> getProperties(CodegenModel m) {
-//        List<String> properties = (List<String>)m.vendorExtensions.get(CodegenConstants.SORT_MODEL_PROPERTIES_BY_INHERITANCE_FIRST);
-//        if (properties == null) {
-//            throw new IllegalArgumentException("Sorted properties not found for " + m.schemaName);
-//        }
-//        return properties;
-//    }
 }

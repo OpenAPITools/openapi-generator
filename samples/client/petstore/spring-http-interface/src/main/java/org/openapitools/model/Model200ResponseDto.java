@@ -25,14 +25,6 @@ public class Model200ResponseDto {
 
   private String propertyClass;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Model200ResponseDto(Integer name, String propertyClass) {
-      this.name = name;
-      this.propertyClass = propertyClass;
-  }
-
   public Model200ResponseDto name(Integer name) {
     this.name = name;
     return this;

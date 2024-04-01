@@ -28,13 +28,6 @@ public class AdditionalPropertiesObjectDto {
 
   private String name;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public AdditionalPropertiesObjectDto(String name) {
-      this.name = name;
-  }
-
   public AdditionalPropertiesObjectDto name(String name) {
     this.name = name;
     return this;

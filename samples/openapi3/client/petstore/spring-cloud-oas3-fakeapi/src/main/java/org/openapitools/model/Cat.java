@@ -36,14 +36,6 @@ public class Cat extends Animal {
 
   private Boolean declawed;
 
-  /**
-  * Constructor with all args parameters
-  */
-  public Cat(Boolean declawed, String className, String color) {
-      super(className, color);
-      this.declawed = declawed;
-  }
-
   public Cat declawed(Boolean declawed) {
     this.declawed = declawed;
     return this;
