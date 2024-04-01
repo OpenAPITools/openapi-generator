@@ -54,12 +54,12 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Byte'
+        /// Test the property 'VarByte'
         /// </summary>
         [Fact]
-        public void ByteTest()
+        public void VarByteTest()
         {
-            // TODO unit test for the property 'Byte'
+            // TODO unit test for the property 'VarByte'
         }
 
         /// <summary>
@@ -108,30 +108,30 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Decimal'
+        /// Test the property 'VarDecimal'
         /// </summary>
         [Fact]
-        public void DecimalTest()
+        public void VarDecimalTest()
         {
-            // TODO unit test for the property 'Decimal'
+            // TODO unit test for the property 'VarDecimal'
         }
 
         /// <summary>
-        /// Test the property 'Double'
+        /// Test the property 'VarDouble'
         /// </summary>
         [Fact]
-        public void DoubleTest()
+        public void VarDoubleTest()
         {
-            // TODO unit test for the property 'Double'
+            // TODO unit test for the property 'VarDouble'
         }
 
         /// <summary>
-        /// Test the property 'Float'
+        /// Test the property 'VarFloat'
         /// </summary>
         [Fact]
-        public void FloatTest()
+        public void VarFloatTest()
         {
-            // TODO unit test for the property 'Float'
+            // TODO unit test for the property 'VarFloat'
         }
 
         /// <summary>
@@ -189,12 +189,12 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'String'
+        /// Test the property 'VarString'
         /// </summary>
         [Fact]
-        public void StringTest()
+        public void VarStringTest()
         {
-            // TODO unit test for the property 'String'
+            // TODO unit test for the property 'VarString'
         }
 
         /// <summary>

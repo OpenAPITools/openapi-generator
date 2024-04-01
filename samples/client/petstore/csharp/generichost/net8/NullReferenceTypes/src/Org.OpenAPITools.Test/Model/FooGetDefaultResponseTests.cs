@@ -54,12 +54,12 @@ namespace Org.OpenAPITools.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'String'
+        /// Test the property 'VarString'
         /// </summary>
         [Fact]
-        public void StringTest()
+        public void VarStringTest()
         {
-            // TODO unit test for the property 'String'
+            // TODO unit test for the property 'VarString'
         }
     }
 }

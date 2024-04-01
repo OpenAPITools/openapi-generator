@@ -54,12 +54,12 @@ namespace UseSourceGeneration.Test.Model
         }
 
         /// <summary>
-        /// Test the property 'Class'
+        /// Test the property 'VarClass'
         /// </summary>
         [Fact]
-        public void ClassTest()
+        public void VarClassTest()
         {
-            // TODO unit test for the property 'Class'
+            // TODO unit test for the property 'VarClass'
         }
 
         /// <summary>
