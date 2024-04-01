@@ -373,10 +373,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     static String capitalise(String p) {
         if (p.length() < 2) {
-            return p.toUpperCase();
+            return p.toUpperCase(Locale.ROOT);
         } else {
             String first = "" + p.charAt(0);
-            return first.toUpperCase() + p.substring(1);
+            return first.toUpperCase(Locale.ROOT) + p.substring(1);
         }
     }
 
