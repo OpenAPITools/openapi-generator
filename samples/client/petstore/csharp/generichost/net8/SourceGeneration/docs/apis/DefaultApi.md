@@ -1,4 +1,4 @@
-# UseSourceGeneration.Api.DefaultApi
+# Org.OpenAPITools.Api.DefaultApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -20,9 +20,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -102,9 +102,9 @@ No authorization required
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -187,9 +187,9 @@ Hello
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -271,9 +271,9 @@ No authorization required
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -353,9 +353,9 @@ Retrieve an existing Notificationtest's Elements
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {

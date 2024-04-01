@@ -1,4 +1,4 @@
-# UseSourceGeneration.Api.StoreApi
+# Org.OpenAPITools.Api.StoreApi
 
 All URIs are relative to *http://petstore.swagger.io:80/v2*
 
@@ -21,9 +21,9 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -109,9 +109,9 @@ Returns a map of status codes to quantities
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -200,9 +200,9 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {
@@ -291,9 +291,9 @@ Place an order for a pet
 ```csharp
 using System.Collections.Generic;
 using System.Diagnostics;
-using UseSourceGeneration.Api;
-using UseSourceGeneration.Client;
-using UseSourceGeneration.Model;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
 
 namespace Example
 {

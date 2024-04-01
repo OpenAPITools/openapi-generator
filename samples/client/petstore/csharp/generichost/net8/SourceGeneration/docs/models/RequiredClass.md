@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.RequiredClass
+# Org.OpenAPITools.Model.RequiredClass
 
 ## Properties
 

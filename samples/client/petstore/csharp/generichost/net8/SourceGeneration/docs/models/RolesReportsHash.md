@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.RolesReportsHash
+# Org.OpenAPITools.Model.RolesReportsHash
 Role report Hash
 
 ## Properties

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.OuterEnumTest
+# Org.OpenAPITools.Model.OuterEnumTest
 
 ## Properties
 

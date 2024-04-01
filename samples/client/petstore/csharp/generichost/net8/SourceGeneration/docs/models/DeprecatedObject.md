@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.DeprecatedObject
+# Org.OpenAPITools.Model.DeprecatedObject
 
 ## Properties
 

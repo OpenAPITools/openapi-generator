@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.NotificationtestGetElementsV1ResponseMPayload
+# Org.OpenAPITools.Model.NotificationtestGetElementsV1ResponseMPayload
 
 ## Properties
 

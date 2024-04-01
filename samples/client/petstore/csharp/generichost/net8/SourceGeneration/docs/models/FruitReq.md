@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.FruitReq
+# Org.OpenAPITools.Model.FruitReq
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Activity
+# Org.OpenAPITools.Model.Activity
 test map of maps
 
 ## Properties

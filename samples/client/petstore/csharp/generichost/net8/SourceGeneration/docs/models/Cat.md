@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Cat
+# Org.OpenAPITools.Model.Cat
 
 ## Properties
 

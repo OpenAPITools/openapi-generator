@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.ClassModel
+# Org.OpenAPITools.Model.ClassModel
 Model for testing model with \"_class\" property
 
 ## Properties

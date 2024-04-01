@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Foo
+# Org.OpenAPITools.Model.Foo
 
 ## Properties
 

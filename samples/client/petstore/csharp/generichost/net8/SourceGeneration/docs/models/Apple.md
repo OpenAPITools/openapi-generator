@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Apple
+# Org.OpenAPITools.Model.Apple
 
 ## Properties
 
