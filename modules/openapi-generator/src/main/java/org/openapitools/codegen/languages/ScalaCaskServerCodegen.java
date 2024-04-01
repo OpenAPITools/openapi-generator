@@ -12,9 +12,11 @@ import org.openapitools.codegen.serializer.SerializerUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -138,7 +140,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     }
 
     public String toModelTestFilename(String name) {
-        String n =  super.toModelTestFilename(name);
+        String n = super.toModelTestFilename(name);
         return (modelPackage + "." + n).replace('.', File.separatorChar);
     }
 
@@ -538,8 +540,14 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             this.pathPrefix = pathPrefix;
             caskAnnotation = "@cask." + httpMethod.toLowerCase(Locale.ROOT);
 
-            List<String> stripped = Arrays.stream(pathPrefix.split(File.separator, -1))
-                    .map(p -> capitalise(p)).collect(Collectors.toList());
+            String[] array = null;
+            try {
+                array = pathPrefix.split(File.separator, -1);
+            } catch (PatternSyntaxException exp) {
+                throw new RuntimeException("For some reason, splitting >" + pathPrefix + "< on >" + File.separator + "< threw " + exp, exp);
+            }
+            List<String> stripped = Arrays.stream(array)
+                    .map(ScalaCaskServerCodegen::capitalise).collect(Collectors.toList());
 
             methodName = "routeWorkAroundFor" + capitalise(httpMethod) + String.join("", stripped);
         }
@@ -719,7 +727,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         op.vendorExtensions.put("x-query-args", queryArgs(op));
 
         List<String> responses = op.responses.stream().map(r -> r.dataType).filter(Objects::nonNull).collect(Collectors.toList());
-        op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit": String.join(" | ", responses));
+        op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit" : String.join(" | ", responses));
 
         String responseDebug = String.join("\n\n - - - - - - -\n\n", op.responses.stream().map(r -> inComment(pretty(r))).collect(Collectors.toList()));
         op.vendorExtensions.put("x-responses", responseDebug);
@@ -895,31 +903,31 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     /**
      * For our model classes, we have two variants:
-     *
+     * <p>
      * 1) a {model}.scala one which is a validated, model class
      * 2) a {model}Data.scala one which is just our data-transfer-object (DTO) which is written primarily for e.g. json serialisation
-     *
+     * <p>
      * The data variant can have nulls and other non-scala things, but they know how to create validated model objects.
-     *
+     * <p>
      * This 'asScalaDataType' is used to ensure the type hierarchy is correct for both the model and data varients.
-     *
+     * <p>
      * e.g. consider this example:
      * ```
      * case class Foo(bar : Bar, bazz :List[Bazz])
      * case class Bar(x : Option[String] = None)
      * case class Bazz(y : Int)
-     *
+     * <p>
      * // vs
-     *
+     * <p>
      * case class FooData(bar : BarData, bazz :List[BazzData])
      * case class BarData(x : String = "")
      * case class BazzData(y : Int)
-     *```
-     *
+     * ```
      */
     private static String asScalaDataType(final IJsonSchemaValidationProperties param, boolean required, boolean useJason) {
         return asScalaDataType(param, required, useJason, !useJason);
     }
+
     private static String asScalaDataType(final IJsonSchemaValidationProperties param, boolean required, boolean useJason, boolean allowOptional) {
         String dataType = (param.getIsModel() && useJason) ? param.getDataType() + "Data" : param.getDataType();
 
