@@ -536,7 +536,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         public OperationGroup(String httpMethod, String pathPrefix) {
             this.httpMethod = httpMethod;
             this.pathPrefix = pathPrefix;
-            caskAnnotation = "@cask." + httpMethod.toLowerCase();
+            caskAnnotation = "@cask." + httpMethod.toLowerCase(Locale.ROOT);
 
             List<String> stripped = Arrays.stream(pathPrefix.split(File.separator, -1))
                     .map(p -> capitalise(p)).collect(Collectors.toList());
@@ -623,7 +623,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
                 final String scalaPath = pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(op);
                 op.vendorExtensions.put("x-cask-path", scalaPath);
 
-                final String annotation = "@cask." + op.httpMethod.toLowerCase();
+                final String annotation = "@cask." + op.httpMethod.toLowerCase(Locale.ROOT);
                 op.vendorExtensions.put("x-annotation", annotation);
                 if (!group.contains(op)) {
                     if (op.path.startsWith(group.pathPrefix) && op.httpMethod.equalsIgnoreCase(group.httpMethod)) {
@@ -680,7 +680,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     private static void postProcessOperation(CodegenOperation op) {
         // force http method to lower case
-        op.httpMethod = op.httpMethod.toLowerCase();
+        op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
         op.vendorExtensions.put("x-debug", inComment(pretty(op)));
         op.allParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
