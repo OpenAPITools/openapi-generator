@@ -33,6 +33,7 @@ import javax.annotation.Generated;
   @JsonSubTypes.Type(value = BigCatDto.class, name = "BigCat")
 })
 
+@JsonTypeName("Cat")
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class CatDto extends AnimalDto {
 
