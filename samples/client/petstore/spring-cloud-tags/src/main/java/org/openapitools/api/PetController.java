@@ -124,7 +124,7 @@ public interface PetController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByStatus",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<List<Pet>> findPetsByStatus(
@@ -164,7 +164,7 @@ public interface PetController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/findByTags",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<List<Pet>> findPetsByTags(
@@ -200,7 +200,7 @@ public interface PetController {
     @RequestMapping(
         method = RequestMethod.GET,
         value = "/pet/{petId}",
-        produces = "application/json,application/xml"
+        produces = { "application/json", "application/xml" }
     )
     
     ResponseEntity<Pet> getPetById(
@@ -307,7 +307,7 @@ public interface PetController {
     @RequestMapping(
         method = RequestMethod.POST,
         value = "/pet/{petId}/uploadImage",
-        produces = "application/json",
+        produces = { "application/json" },
         consumes = "multipart/form-data"
     )
     

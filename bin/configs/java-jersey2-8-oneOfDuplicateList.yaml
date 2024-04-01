@@ -1,0 +1,7 @@
+generatorName: java
+outputDir: samples/client/others/java/jersey2-oneOf-duplicates
+library: jersey2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOf_duplicateArray.yaml
+templateDir: modules/openapi-generator/src/main/resources/Java
+additionalProperties:
+  hideGenerationTimestamp: "true"

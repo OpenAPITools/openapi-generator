@@ -27,8 +27,8 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * FormatTest
@@ -50,7 +50,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
 @JsonTypeName("format_test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -129,7 +129,7 @@ public class FormatTest {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
  @Min(10) @Max(100)
   @JsonProperty(JSON_PROPERTY_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -157,7 +157,7 @@ public class FormatTest {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
  @Min(20) @Max(200)
   @JsonProperty(JSON_PROPERTY_INT32)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -183,7 +183,7 @@ public class FormatTest {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   @JsonProperty(JSON_PROPERTY_INT64)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -211,7 +211,7 @@ public class FormatTest {
    * maximum: 543.2
    * @return number
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
   @Valid
  @DecimalMin("32.1") @DecimalMax("543.2")
@@ -241,7 +241,7 @@ public class FormatTest {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
  @DecimalMin("54.3") @DecimalMax("987.6")
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -269,7 +269,7 @@ public class FormatTest {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
  @DecimalMin("67.8") @DecimalMax("123.4")
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -295,7 +295,7 @@ public class FormatTest {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
  @Pattern(regexp="/[a-z]/i")
   @JsonProperty(JSON_PROPERTY_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -321,7 +321,7 @@ public class FormatTest {
    * Get _byte
    * @return _byte
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
 
   @JsonProperty(JSON_PROPERTY_BYTE)
@@ -348,7 +348,7 @@ public class FormatTest {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_BINARY)
@@ -375,7 +375,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
   @Valid
 
@@ -403,7 +403,7 @@ public class FormatTest {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
@@ -430,7 +430,7 @@ public class FormatTest {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_UUID)
@@ -457,7 +457,7 @@ public class FormatTest {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @NotNull
  @Size(min=10,max=64)
   @JsonProperty(JSON_PROPERTY_PASSWORD)
@@ -484,7 +484,7 @@ public class FormatTest {
    * Get bigDecimal
    * @return bigDecimal
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
   @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)

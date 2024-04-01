@@ -8,7 +8,8 @@ wrapper {
 
 buildscript {
     ext.kotlin_version = '1.8.10'
-    ext.vertx_version = "4.3.3"
+    ext.vertx_version = "4.5.6"
+    // 6.13.0 is the latest stable release that supports JDK8
     ext.spotless_version = "6.13.0"
 
     repositories {
@@ -55,7 +56,7 @@ test {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "com.google.code.gson:gson:2.9.0"
+    implementation "com.google.code.gson:gson:2.10.1"
     testImplementation "io.kotlintest:kotlintest-runner-junit5:3.4.2"
     implementation "io.vertx:vertx-web-client:$vertx_version"
     implementation "io.vertx:vertx-core:$vertx_version"

@@ -2103,6 +2103,40 @@ export const FakeApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postArrayOfString: async (requestBody?: Array<string>, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/fake/request-array-string`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(requestBody, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary test referenced additionalProperties
          * @param {{ [key: string]: any; }} requestBody request body
          * @param {*} [options] Override http request option.
@@ -2819,6 +2853,19 @@ export const FakeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async postArrayOfString(requestBody?: Array<string>, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.postArrayOfString(requestBody, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FakeApi.postArrayOfString']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @summary test referenced additionalProperties
          * @param {{ [key: string]: any; }} requestBody request body
          * @param {*} [options] Override http request option.
@@ -3067,6 +3114,16 @@ export const FakeApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @summary Array of string
+         * @param {Array<string>} [requestBody] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        postArrayOfString(requestBody?: Array<string>, options?: any): AxiosPromise<void> {
+            return localVarFp.postArrayOfString(requestBody, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary test referenced additionalProperties
          * @param {{ [key: string]: any; }} requestBody request body
          * @param {*} [options] Override http request option.
@@ -3287,6 +3344,18 @@ export class FakeApi extends BaseAPI {
      */
     public getArrayOfEnums(options?: RawAxiosRequestConfig) {
         return FakeApiFp(this.configuration).getArrayOfEnums(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Array of string
+     * @param {Array<string>} [requestBody] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof FakeApi
+     */
+    public postArrayOfString(requestBody?: Array<string>, options?: RawAxiosRequestConfig) {
+        return FakeApiFp(this.configuration).postArrayOfString(requestBody, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
