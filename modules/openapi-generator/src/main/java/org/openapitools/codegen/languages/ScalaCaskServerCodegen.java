@@ -61,7 +61,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     public ScalaCaskServerCodegen() {
         super();
 
-        outputFolder = "generated-code" + File.separator + "scala-cask";
+        outputFolder = "generated-code/scala-cask";
 
         embeddedTemplateDir = templateDir = "scala-cask";
         apiPackage = "Apis";
@@ -141,7 +141,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
     public String toModelTestFilename(String name) {
         String n = super.toModelTestFilename(name);
-        return (modelPackage + "." + n).replace('.', File.separatorChar);
+        return (modelPackage + "." + n).replace('.', '/');
     }
 
     @Override
@@ -156,8 +156,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             artifactId = ((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
         }
 
-        final String apiPath = "src/main/scala/" + apiPackage.replace('.', File.separatorChar);
-        final String modelPath = "src/main/scala/" + modelPackage.replace('.', File.separatorChar);
+        final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
+        final String modelPath = "src/main/scala/" + modelPackage.replace('.', '/');
         final List<String> appFullPath = Arrays.stream(modelPath.split("/")).collect(Collectors.toList());
         final String appFolder = String.join("/", appFullPath.subList(0, appFullPath.size() - 1));
 
@@ -408,12 +408,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     protected String getResourceFolder() {
         String src = getSourceFolder();
 
-        List<String> parts = Arrays.stream(src.split(File.separator, -1)).collect(Collectors.toList());
+        List<String> parts = Arrays.stream(src.split("/", -1)).collect(Collectors.toList());
         if (parts.isEmpty()) {
             return "resources";
         } else {
-            String srcMain = String.join(File.separator, parts.subList(0, parts.size() - 1));
-            return srcMain + File.separator + "resources";
+            String srcMain = String.join("/", parts.subList(0, parts.size() - 1));
+            return srcMain + "/resources";
         }
     }
 
@@ -421,9 +421,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     public void processOpenAPI(OpenAPI openAPI) {
         String jsonOpenAPI = SerializerUtils.toJsonString(openAPI);
 
-
         try {
-            String outputFile = getOutputDir() + File.separator + getResourceFolder() + File.separator + "openapi.json";
+            String outputFile = getOutputDir() + "/" + getResourceFolder() + "/openapi.json";
             FileUtils.writeStringToFile(new File(outputFile), jsonOpenAPI, StandardCharsets.UTF_8);
             LOGGER.info("wrote file to {}", outputFile);
         } catch (Exception e) {
@@ -540,13 +539,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             this.pathPrefix = pathPrefix;
             caskAnnotation = "@cask." + httpMethod.toLowerCase(Locale.ROOT);
 
-            String[] array = null;
-            try {
-                array = pathPrefix.split(File.separator, -1);
-            } catch (PatternSyntaxException exp) {
-                throw new RuntimeException("For some reason, splitting >" + pathPrefix + "< on >" + File.separator + "< threw " + exp, exp);
-            }
-            List<String> stripped = Arrays.stream(array)
+            List<String> stripped = Arrays.stream(pathPrefix.split("/", -1))
                     .map(ScalaCaskServerCodegen::capitalise).collect(Collectors.toList());
 
             methodName = "routeWorkAroundFor" + capitalise(httpMethod) + String.join("", stripped);
@@ -561,7 +554,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             }
 
             final List<ScalaCaskServerCodegen.ParamPart> pathParts = new ArrayList<>();
-            final List<String> parts = Arrays.stream(op.path.substring(pathPrefix.length()).split(File.separator, -1)).filter(p -> !p.isEmpty()).collect(Collectors.toList());
+            final List<String> parts = Arrays.stream(op.path.substring(pathPrefix.length()).split("/", -1)).filter(p -> !p.isEmpty()).collect(Collectors.toList());
             for (int i = 0; i < parts.size(); i++) {
                 String p = parts.get(i);
                 ScalaCaskServerCodegen.ParamPart pp = hasBrackets(p) ? new ScalaCaskServerCodegen.ParamPart(chompBrackets(p), pathParamForName(op, chompBrackets(p))) : new ScalaCaskServerCodegen.ParamPart(p, null);
@@ -618,7 +611,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         final String firstParam = op.pathParams.stream().findFirst().get().paramName;
         final int i = op.path.indexOf(firstParam);
-        final String path = chompSuffix(op.path.substring(0, i - 1), File.separator);
+        final String path = chompSuffix(op.path.substring(0, i - 1), "/");
         return path;
     }
 
@@ -780,12 +773,12 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * @return
      */
     private static String pathWithBracketPlaceholdersRemovedAndXPathIndexAdded(CodegenOperation op) {
-        String[] items = op.path.split(File.separator, -1);
+        String[] items = op.path.split("/", -1);
         String scalaPath = "";
         for (int i = 0; i < items.length; ++i) {
             final String nextPart = hasBrackets(items[i]) ? ":" + chompBrackets(items[i]) : items[i];
             if (i != items.length - 1) {
-                scalaPath = scalaPath + nextPart + File.separator;
+                scalaPath = scalaPath + nextPart + "/";
             } else {
                 scalaPath = scalaPath + nextPart;
             }
@@ -808,7 +801,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * @return a list of both the path and query parameters as typed arguments (e.g. "aPathArg : Int, request: cask.Request, aQueryArg : Option[Long]")
      */
     private static String routeArgs(CodegenOperation op) {
-        final Stream<String> pathParamNames = Arrays.stream(op.path.split(File.separator, -1)).filter(p -> hasBrackets(p)).map(p -> {
+        final Stream<String> pathParamNames = Arrays.stream(op.path.split("/", -1)).filter(p -> hasBrackets(p)).map(p -> {
             final CodegenParameter param = pathParamForName(op, chompBrackets(p));
             param.vendorExtensions.put("x-debug", inComment(pretty(param)));
             return param.paramName + " : " + asScalaDataType(param, param.required, true);
