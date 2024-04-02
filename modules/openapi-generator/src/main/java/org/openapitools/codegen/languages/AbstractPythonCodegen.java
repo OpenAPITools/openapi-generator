@@ -1000,6 +1000,11 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
             // set the extensions if the key is absent
             model.getVendorExtensions().putIfAbsent("x-py-readonly", readOnlyFields);
 
+            // remove the items of postponedModelImports in modelImports to avoid circular imports error
+            if (!modelImports.isEmpty() && !postponedModelImports.isEmpty()){
+                modelImports.removeAll(postponedModelImports);
+            }
+
             // import models one by one
             if (!modelImports.isEmpty()) {
                 Set<String> modelsToImport = new TreeSet<>();
