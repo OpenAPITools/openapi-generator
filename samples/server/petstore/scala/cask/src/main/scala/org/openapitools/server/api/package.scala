@@ -69,7 +69,6 @@ object Parsed {
       }
     }
 }
-q
 
 extension[A] (parsed: Parsed[A]) {
   def toEither: Either[String, A] = parsed
