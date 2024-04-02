@@ -38,6 +38,8 @@ public class OpenAPINormalizer {
     private Map<String, String> inputRules = new HashMap<>();
     private Map<String, Boolean> rules = new HashMap<>();
 
+    private TreeSet<String> anyTypeTreeSet = new TreeSet<>();
+
     final Logger LOGGER = LoggerFactory.getLogger(OpenAPINormalizer.class);
 
     Set<String> ruleNames = new TreeSet<>();
@@ -160,6 +162,14 @@ public class OpenAPINormalizer {
         rules.put(SIMPLIFY_BOOLEAN_ENUM, true);
 
         processRules(inputRules);
+
+        // represent any type in tree set
+        anyTypeTreeSet.add("string");
+        anyTypeTreeSet.add("number");
+        anyTypeTreeSet.add("integer");
+        anyTypeTreeSet.add("boolean");
+        anyTypeTreeSet.add("object");
+        anyTypeTreeSet.add("array");
     }
 
     /**
@@ -922,6 +932,27 @@ public class OpenAPINormalizer {
 
         List<Schema> oneOfSchemas = schema.getOneOf();
         if (oneOfSchemas != null) {
+            // simplify any type with 6 sub-schemas (string, integer, etc) in oneOf
+            if (oneOfSchemas.size() == 6) {
+                TreeSet<String> ts = new TreeSet<>();
+                for (Schema s: oneOfSchemas) {
+                    ts.add(s.getType());
+                }
+
+                if (ts.equals(anyTypeTreeSet)) {
+                    Schema anyType = new Schema();
+                    anyType.setDescription(schema.getDescription());
+                    anyType.setNullable(schema.getNullable());
+                    anyType.setExtensions(schema.getExtensions());
+                    anyType.setTitle(schema.getTitle());
+                    anyType.setExample(schema.getExample());
+                    anyType.setExamples(schema.getExamples());
+                    anyType.setDefault(schema.getDefault());
+                    anyType.setDeprecated(schema.getDeprecated());
+                    return anyType;
+                }
+            }
+
             if (oneOfSchemas.removeIf(oneOf -> isNullTypeSchema(oneOf))) {
                 schema.setNullable(true);
 
@@ -1026,6 +1057,27 @@ public class OpenAPINormalizer {
 
         List<Schema> anyOfSchemas = schema.getAnyOf();
         if (anyOfSchemas != null) {
+            // simplify any type with 6 sub-schemas (string, integer, etc) in anyOf
+            if (anyOfSchemas.size() == 6) {
+                TreeSet<String> ts = new TreeSet<>();
+                for (Schema s: anyOfSchemas) {
+                    ts.add(s.getType());
+                }
+
+                if (ts.equals(anyTypeTreeSet)) {
+                    Schema anyType = new Schema();
+                    anyType.setDescription(schema.getDescription());
+                    anyType.setNullable(schema.getNullable());
+                    anyType.setExtensions(schema.getExtensions());
+                    anyType.setTitle(schema.getTitle());
+                    anyType.setExample(schema.getExample());
+                    anyType.setExamples(schema.getExamples());
+                    anyType.setDefault(schema.getDefault());
+                    anyType.setDeprecated(schema.getDeprecated());
+                    return anyType;
+                }
+            }
+
             if (anyOfSchemas.removeIf(anyOf -> isNullTypeSchema(anyOf))) {
                 schema.setNullable(true);
             }
