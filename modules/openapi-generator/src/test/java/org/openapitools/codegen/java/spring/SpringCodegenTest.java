@@ -4663,4 +4663,29 @@ public class SpringCodegenTest {
                 .fileDoesNotContains("private List<String> stringList = new ArrayList<>()")
                 .fileDoesNotContains("private Set<String> stringSet = new LinkedHashSet<>()");
     }
+
+    @Test
+    public void shouldGenerateOptionalParameterTypesWhenUsingOptionalAndDelegate_issue17768() throws IOException {
+        Map<String, Object> additionalProperties = new HashMap<>();
+        additionalProperties.put(SpringCodegen.USE_TAGS, "true");
+        additionalProperties.put(SpringCodegen.SKIP_DEFAULT_INTERFACE, "true");
+        additionalProperties.put(SpringCodegen.PERFORM_BEANVALIDATION, "true");
+        additionalProperties.put(SpringCodegen.SPRING_CONTROLLER, "true");
+        additionalProperties.put(CodegenConstants.SERIALIZATION_LIBRARY, "jackson");
+        additionalProperties.put(SpringCodegen.USE_OPTIONAL, "true");
+        additionalProperties.put(DELEGATE_PATTERN, "true");
+        Map<String, File> files = generateFromContract("src/test/resources/bugs/issue_17768.yaml", SPRING_BOOT, additionalProperties);
+        JavaFileAssert.assertThat(files.get("TestApiDelegate.java"))
+                .assertMethod("updatePost")
+                .hasParameter("updateRequest")
+                .withType("Optional<UpdateRequest>")
+                .toMethod()
+                .toFileAssert();
+        JavaFileAssert.assertThat(files.get("TestApi.java"))
+                .assertMethod("updatePost")
+                .hasParameter("updateRequest")
+                .withType("Optional<UpdateRequest>")
+                .toMethod()
+                .toFileAssert();
+    }
 }
