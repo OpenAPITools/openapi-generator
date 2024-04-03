@@ -4,3 +4,9 @@ inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/scala-cask
 additionalProperties:
   hideGenerationTimestamp: "true"
+  artifactId: scala-cask-petstore
+  groupId: "demo.rest"
+  package: "sample.cask"
+  modelPackage: "mo.del.pack.age"
+  gitRepoId: "sample-cask-repo"
+  gitUserId: "sample-cask-user"

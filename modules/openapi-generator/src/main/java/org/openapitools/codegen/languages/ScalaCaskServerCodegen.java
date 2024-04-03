@@ -106,6 +106,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
         cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, CodegenConstants.PACKAGE_DESCRIPTION));
     }
 
     @Override
@@ -127,71 +128,33 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return (modelPackage + "." + n).replace('.', '/');
     }
 
+    private String ensureProp(String key, String defaultValue) {
+        if (additionalProperties.containsKey(key) && !additionalProperties.get(key).toString().trim().isEmpty()) {
+            return (String) additionalProperties.get(key);
+        } else {
+            additionalProperties.put(key, defaultValue);
+            return defaultValue;
+        }
+    }
     @Override
     public void processOpts() {
         super.processOpts();
 
-        String groupId = "org.openapitools";
-        if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
-            groupId = (String) additionalProperties.get(CodegenConstants.GROUP_ID);
-        } else {
-            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        }
+        final String groupId = ensureProp(CodegenConstants.GROUP_ID, "org.openapitools");
+        ensureProp(CodegenConstants.ARTIFACT_ID, "caskgen");
+        artifactVersion = ensureProp(CodegenConstants.ARTIFACT_VERSION, "0.0.1");
+        gitRepoId = ensureProp(CodegenConstants.GIT_REPO_ID, "<your git repo -- set 'gitRepoId'>");
+        gitUserId = ensureProp(CodegenConstants.GIT_USER_ID, "<your git user -- set 'gitUserId'>");
 
-        String artifactId = "caskgen";
-        if (!additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
-            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        }
+        String basePackage = ensureProp(CodegenConstants.PACKAGE_NAME, groupId + ".server");
+        apiPackage = ensureProp(CodegenConstants.API_PACKAGE, basePackage + ".api");
+        modelPackage = ensureProp(CodegenConstants.MODEL_PACKAGE, basePackage + ".model");
 
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
-            artifactVersion = (String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION);
-        } else {
-            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "0.0.1");
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
-            gitRepoId = (String) additionalProperties.get(CodegenConstants.GIT_REPO_ID);
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_REPO_ID, "<your git repo -- set 'gitRepoId'>");
-        }
-
-        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
-            gitRepoId = (String) additionalProperties.get(CodegenConstants.GIT_USER_ID);
-        } else {
-            additionalProperties.put(CodegenConstants.GIT_USER_ID, "<your git user -- set 'gitUserId'>");
-        }
-
-        String basePackage = groupId;
-        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
-            basePackage = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
-        } else {
-            additionalProperties.put(CodegenConstants.PACKAGE_NAME, basePackage);
-        }
-
-        apiPackage = basePackage + ".server.api";
-        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
-            apiPackage = (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
-        } else {
-            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-        }
-
-        modelPackage = basePackage + ".server.model";
-        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
-            modelPackage = (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
-        } else {
-            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-        }
 
         final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
         final String modelPath = "src/main/scala/" + modelPackage.replace('.', '/');
         final List<String> appFullPath = Arrays.stream(modelPath.split("/")).collect(Collectors.toList());
         final String appFolder = String.join("/", appFullPath.subList(0, appFullPath.size() - 1));
-
-        List<String> basePackageParts = Arrays.stream(modelPackage.split("\\.", -1)).collect(Collectors.toList());
-        if (basePackageParts.size() > 1) {
-            basePackageParts = basePackageParts.subList(0, basePackageParts.size() - 1);
-        }
-        basePackage = String.join(".", basePackageParts);
 
         additionalProperties.put("appName", "Cask App");
         additionalProperties.put("appDescription", "A cask service");

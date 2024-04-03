@@ -1,5 +1,5 @@
-name := "caskgen"
-organization:="org.openapitools"
+name := "scala-cask-petstore"
+organization:="demo.rest"
 version := "0.0.1-SNAPSHOT"
 scalaVersion := "3.3.1"
 scalafmtOnCompile := true
@@ -11,8 +11,8 @@ libraryDependencies ++= Seq(
 
 publishMavenStyle := true
 
-val githubUser = "aaron"
-val githubRepo = "caskgen"
+val githubUser = "GIT_USER_ID"
+val githubRepo = "GIT_REPO_ID"
 publishTo := Some("GitHub Package Registry" at s"https://maven.pkg.github.com/$githubUser/$githubRepo")
 
 sys.env.get("GITHUB_TOKEN") match {

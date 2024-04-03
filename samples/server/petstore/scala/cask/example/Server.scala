@@ -1,6 +1,6 @@
 //> using scala "3.3.1"
-//> using lib "org.openapitools::caskgen:0.0.1-SNAPSHOT"
-//> using repositories https://maven.pkg.github.com/aaron/caskgen
+//> using lib "demo.rest::scala-cask-petstore:0.0.1-SNAPSHOT"
+//> using repositories https://maven.pkg.github.com/GIT_USER_ID/GIT_REPO_ID
 
 
 /**
@@ -11,7 +11,7 @@
 *
 *
 * ```
-* docker build . -t caskgen:latest
+* docker build . -t scala-cask-petstore:latest
 * ```
 * ======================
 * == Building Locally ==
@@ -40,9 +40,9 @@
 */
 package app
 
-import org.openapitools.server.BaseApp
-import org.openapitools.server.api.*
-import org.openapitools.server.model.*
+import demo.rest.server.BaseApp
+import demo.rest.server.api.*
+import mo.del.pack.age.*
 
 import java.io.File
 

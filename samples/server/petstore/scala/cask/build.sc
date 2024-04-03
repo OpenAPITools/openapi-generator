@@ -7,15 +7,15 @@ import mill._, scalalib._, scalafmt._, publish._
 // mill _.reformat
 // mill _.publishLocal
 // mill _.test.test
-object caskgen extends SbtModule with ScalafmtModule with PublishModule {
+object scala-cask-petstore extends SbtModule with ScalafmtModule with PublishModule {
   def scalaVersion = "3.3.1"
 
   def pomSettings = PomSettings(
-    description = "caskgen",
-    organization = "org.openapitools",
-    url = "https://github.com/<username>/caskgen",
+    description = "scala-cask-petstore",
+    organization = "demo.rest",
+    url = "https://github.com/<username>/scala-cask-petstore",
     licenses = Seq(License.MIT),
-    versionControl = VersionControl.github("<username>", "caskgen"),
+    versionControl = VersionControl.github("<username>", "scala-cask-petstore"),
     developers = Seq(
       // Developer("<username>", "<your name>", "https://github.com/<you>")
     )
