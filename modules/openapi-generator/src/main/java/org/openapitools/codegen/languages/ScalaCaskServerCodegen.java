@@ -39,22 +39,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         return "Generates a scala-cask server.";
     }
 
-
-    static String env(String key, String defaultValue) {
-        final String value = System.getenv().get(key);
-        return value == null || value.isEmpty() ? defaultValue : value;
-    }
-
-    static boolean debug = Boolean.parseBoolean(env("DEBUG", "false"));
-
-    protected String groupId = env("GROUP_ID", "org.openapitools");
-    protected String artifactId = env("ARTIFACT_ID", "caskgen");
-    protected String basePackage = groupId;
-    protected String artifactVersion = "1.0.0";
-    protected String gitUserId = env("GIT_USER", System.getProperty("user.name"));
-    protected String gitRepoId = env("GIT_REPO", artifactId);
-    protected String appName = env("APP_NAME", "Cask App");
-    protected String infoEmail = env("INFO_EMAIL", "contact@kindservices.co.uk");
+    protected String artifactVersion = "0.0.1";
 
     static String ApiServiceTemplate = "apiService.mustache";
 
@@ -79,8 +64,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         apiTemplateFiles.put(ApiServiceTemplate, "Service.scala");
 
         embeddedTemplateDir = templateDir = "scala-cask";
-        apiPackage = basePackage + ".server.api";
-        modelPackage = basePackage + ".server.model";
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -119,10 +102,10 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // mapped to String as a workaround
         typeMapping.put("binary", "String");
 
-        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC).defaultValue(groupId));
-        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC).defaultValue(artifactId));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC).defaultValue(gitRepoId));
-        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC).defaultValue(gitUserId));
+        cliOptions.add(new CliOption(CodegenConstants.GROUP_ID, CodegenConstants.GROUP_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.ARTIFACT_ID, CodegenConstants.ARTIFACT_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GIT_REPO_ID, CodegenConstants.GIT_REPO_ID_DESC));
+        cliOptions.add(new CliOption(CodegenConstants.GIT_USER_ID, CodegenConstants.GIT_USER_ID_DESC));
     }
 
     @Override
@@ -148,12 +131,55 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
     public void processOpts() {
         super.processOpts();
 
+        String groupId = "org.openapitools";
         if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
             groupId = (String) additionalProperties.get(CodegenConstants.GROUP_ID);
+        } else {
+            additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         }
 
-        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
-            artifactId = ((String) additionalProperties.get(CodegenConstants.ARTIFACT_ID));
+        String artifactId = "caskgen";
+        if (!additionalProperties.containsKey(CodegenConstants.ARTIFACT_ID)) {
+            additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ARTIFACT_VERSION)) {
+            artifactVersion = (String) additionalProperties.get(CodegenConstants.ARTIFACT_VERSION);
+        } else {
+            additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, "0.0.1");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GIT_REPO_ID)) {
+            gitRepoId = (String) additionalProperties.get(CodegenConstants.GIT_REPO_ID);
+        } else {
+            additionalProperties.put(CodegenConstants.GIT_REPO_ID, "<your git repo -- set 'gitRepoId'>");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.GIT_USER_ID)) {
+            gitRepoId = (String) additionalProperties.get(CodegenConstants.GIT_USER_ID);
+        } else {
+            additionalProperties.put(CodegenConstants.GIT_USER_ID, "<your git user -- set 'gitUserId'>");
+        }
+
+        String basePackage = groupId;
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            basePackage = (String) additionalProperties.get(CodegenConstants.PACKAGE_NAME);
+        } else {
+            additionalProperties.put(CodegenConstants.PACKAGE_NAME, basePackage);
+        }
+
+        apiPackage = basePackage + ".server.api";
+        if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            apiPackage = (String) additionalProperties.get(CodegenConstants.API_PACKAGE);
+        } else {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+        }
+
+        modelPackage = basePackage + ".server.model";
+        if (additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            modelPackage = (String) additionalProperties.get(CodegenConstants.MODEL_PACKAGE);
+        } else {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
         }
 
         final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
@@ -167,19 +193,13 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         }
         basePackage = String.join(".", basePackageParts);
 
-        additionalProperties.put("appName", appName);
+        additionalProperties.put("appName", "Cask App");
         additionalProperties.put("appDescription", "A cask service");
         additionalProperties.put("infoUrl", "http://swagger.io");
         additionalProperties.put("infoEmail", infoEmail);
         additionalProperties.put("licenseInfo", "All rights reserved");
         additionalProperties.put("licenseUrl", "http://apache.org/licenses/LICENSE-2.0.html");
         additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
-        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
-        additionalProperties.put(CodegenConstants.GIT_REPO_ID, gitRepoId);
-        additionalProperties.put(CodegenConstants.GIT_USER_ID, gitUserId);
-        additionalProperties.put(CodegenConstants.PACKAGE_NAME, basePackage);
         additionalProperties.put("openbrackets", "{{");
         additionalProperties.put("closebrackets", "}}");
 
@@ -253,104 +273,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         }
         mapAsString.append("}");
         return mapAsString.toString();
-    }
-
-    static String inComment(String text) {
-        // these maps are to insert some context in our templates.
-        // This 'debug' flag is a convenient way to short-circuit that. Just too bad that 'text' can't easily
-        // be made lazy. Hey ho ... Java ¯\_(ツ)_/¯ ?
-        if (!debug) {
-            return "";
-        }
-        return text.trim().isEmpty() ? "" : "\n/** " + text + " */\n";
-    }
-
-    static String pretty(CodegenResponse response) {
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("class", "CodegenResponse");
-        map.put("code", response.code);
-        map.put("message", response.message);
-        map.put("headers", response.headers);
-        map.put("dataType", response.dataType);
-        map.put("baseType", response.baseType);
-        map.put("containerType", response.containerType);
-        map.put("simpleType", response.simpleType);
-        map.put("primitiveType", response.primitiveType);
-        map.put("isListContainer", response.isArray);
-        map.put("isMapContainer", response.isMap);
-        map.put("schema", response.schema);
-        map.put("jsonSchema", response.jsonSchema);
-        map.put("examples", response.examples);
-        map.put("vendorExtensions", formatMap(response.vendorExtensions));
-        return formatMap(map);
-    }
-
-    static String pretty(CodegenParameter response) {
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("class", "CodegenParameter");
-        map.put("baseName", response.baseName);
-        map.put("paramName", response.paramName);
-        map.put("baseType", response.baseType);
-        map.put("dataType", response.dataType);
-        map.put("required", response.required);
-        map.put("datatypeWithEnum", response.datatypeWithEnum);
-        map.put("dataFormat", response.dataFormat);
-        map.put("collectionFormat", response.collectionFormat);
-        map.put("enumName", response.enumName);
-        map.put("isFile", response.isFile);
-        map.put("isEnum", response.isEnum);
-        map.put("hasValidation", response.hasValidation);
-        map.put("multipleOf", response.multipleOf);
-        map.put("isListContainer", response.isArray);
-        map.put("isMapContainer", response.isMap);
-        map.put("jsonSchema", response.jsonSchema);
-        map.put("vendorExtensions", formatMap(response.vendorExtensions));
-        if (response.items == null) {
-            map.put("items", "null");
-        } else {
-            map.put("items", pretty(response.items));
-        }
-        return formatMap(map);
-    }
-
-    static String pretty(CodegenOperation response) {
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("class", "CodegenOperation");
-        map.put("baseName", response.baseName);
-        map.put("imports", String.join(";", response.imports));
-        map.put("tags", String.join(";", response.tags.stream().map(Tag::getName).collect(Collectors.toList())));
-        map.put("operationIdOriginal", response.operationIdOriginal);
-        map.put("returnType", response.returnType);
-        map.put("httpMethod", response.httpMethod);
-        map.put("returnBaseType", response.returnBaseType);
-        map.put("returnContainer", response.returnContainer);
-        map.put("summary", response.summary);
-        map.put("isListContainer", response.isArray);
-        map.put("isMapContainer", response.isMap);
-        map.put("unescapedNotes", response.unescapedNotes);
-        map.put("notes", response.notes);
-        map.put("defaultResponse", response.defaultResponse);
-        map.put("discriminator", response.discriminator);
-        map.put("vendorExtensions", formatMap(response.vendorExtensions));
-        return formatMap(map);
-    }
-
-    static String pretty(CodegenProperty response) {
-        final Map<String, Object> map = new HashMap<String, Object>();
-        map.put("class", "CodegenProperty");
-        map.put("baseName", response.baseName);
-        map.put("complexType", response.complexType);
-        map.put("baseType", response.baseType);
-        map.put("title", response.title);
-        map.put("required", response.required);
-        map.put("datatypeWithEnum", response.datatypeWithEnum);
-        map.put("dataFormat", response.dataFormat);
-        map.put("enumName", response.enumName);
-        map.put("isListContainer", response.isArray);
-        map.put("isMapContainer", response.isMap);
-        map.put("jsonSchema", response.jsonSchema);
-        map.put("vendorExtensions", formatMap(response.vendorExtensions));
-        return formatMap(map);
     }
 
     @Override
@@ -683,17 +605,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
         // force http method to lower case
         op.httpMethod = op.httpMethod.toLowerCase(Locale.ROOT);
 
-        op.vendorExtensions.put("x-debug", inComment(pretty(op)));
-        op.allParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.bodyParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.pathParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.queryParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.headerParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.formParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-        op.requiredParams.forEach(p -> p.vendorExtensions.put("x-debug", inComment(pretty(p))));
-
-
-        /** Put in 'x-consumes-json' and 'x-consumes-xml' */
+        /* Put in 'x-consumes-json' and 'x-consumes-xml' */
         op.vendorExtensions.put("x-consumes-json", consumesMimetype(op, "application/json"));
         op.vendorExtensions.put("x-consumes-xml", consumesMimetype(op, "application/xml"));
 
@@ -702,7 +614,7 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
             p.vendorExtensions.put("x-consumes-xml", consumesMimetype(op, "application/xml"));
         });
 
-        /** put in 'x-container-type' to help with unmarshalling from json */
+        /* put in 'x-container-type' to help with unmarshalling from json */
         op.allParams.forEach((p) -> p.vendorExtensions.put("x-container-type", containerType(p.dataType)));
         op.bodyParams.forEach((p) -> p.vendorExtensions.put("x-container-type", containerType(p.dataType)));
 
@@ -721,10 +633,6 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         List<String> responses = op.responses.stream().map(r -> r.dataType).filter(Objects::nonNull).collect(Collectors.toList());
         op.vendorExtensions.put("x-response-type", responses.isEmpty() ? "Unit" : String.join(" | ", responses));
-
-        String responseDebug = String.join("\n\n - - - - - - -\n\n", op.responses.stream().map(r -> inComment(pretty(r))).collect(Collectors.toList()));
-        op.vendorExtensions.put("x-responses", responseDebug);
-
     }
 
     private static void postProcessProperty(CodegenProperty p) {
@@ -801,9 +709,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
      * @return a list of both the path and query parameters as typed arguments (e.g. "aPathArg : Int, request: cask.Request, aQueryArg : Option[Long]")
      */
     private static String routeArgs(CodegenOperation op) {
-        final Stream<String> pathParamNames = Arrays.stream(op.path.split("/", -1)).filter(p -> hasBrackets(p)).map(p -> {
+        final Stream<String> pathParamNames = Arrays.stream(op.path.split("/", -1)).filter(ScalaCaskServerCodegen::hasBrackets).map(p -> {
             final CodegenParameter param = pathParamForName(op, chompBrackets(p));
-            param.vendorExtensions.put("x-debug", inComment(pretty(param)));
             return param.paramName + " : " + asScalaDataType(param, param.required, true);
         });
 

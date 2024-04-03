@@ -1,6 +1,5 @@
         for {
 {{#pathParams}}
-            {{vendorExtensions.x-debug}}
     {{#isString}}
             {{paramName}} <- Parsed({{paramName}})
     {{/isString}}
@@ -9,7 +8,6 @@
     {{/isString}}
 {{/pathParams}}
 {{#headerParams}}
-            {{vendorExtensions.x-debug}}
             {{#required}}
                 {{paramName}} <- request.headerSingleValueRequired("{{paramName}}")
             {{/required}}
@@ -18,7 +16,6 @@
             {{/required}}
 {{/headerParams}}
 {{#formParams}}
-    {{vendorExtensions.x-debug}}
     {{#required}}
         {{paramName}} <- {{#isFile}}request.formValueAsFileRequired("{{paramName}}"){{/isFile}}{{^isFile}}request.formSingleValueRequired("{{paramName}}"){{/isFile}}
     {{/required}}
@@ -27,8 +24,6 @@
     {{/required}}
 {{/formParams}}
 {{#bodyParams}}
-            {{vendorExtensions.x-debug}}
-
     {{#vendorExtensions.x-consumes-json}}
         {{#isArray}}
             {{paramName}} <- Parsed.fromTry({{vendorExtensions.x-container-type}}Data.manyFromJsonStringValidated(request.bodyAsString)).mapError(e => s"Error parsing json as an array of {{vendorExtensions.x-container-type}} from >${request.bodyAsString}< : ${e}") /* array */

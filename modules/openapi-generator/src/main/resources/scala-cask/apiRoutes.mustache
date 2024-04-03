@@ -14,7 +14,6 @@ import upickle.default.*
 {{#imports}}import {{import}}
 {{/imports}}
 
-{{vendorExtensions.x-debug}}
 class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
 {{#route-groups}}
@@ -32,7 +31,6 @@ class {{classname}}Routes(service : {{classname}}Service) extends cask.Routes {
 
 {{#operations}}
     {{#operation}}
-        {{vendorExtensions.x-debug}}
         /** {{summary}}
          * {{description}}
          */
