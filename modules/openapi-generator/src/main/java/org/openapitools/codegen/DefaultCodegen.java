@@ -3116,11 +3116,6 @@ public class DefaultCodegen implements CodegenConfig {
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
-        if (schema.equals(trueSchema)) {
-            m.setIsBooleanSchemaTrue(true);
-        } else if (schema.equals(falseSchema)) {
-            m.setIsBooleanSchemaFalse(true);
-        }
         // unalias schema
         schema = unaliasSchema(schema);
         if (schema == null) {
@@ -4006,11 +4001,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         CodegenProperty property = CodegenModelFactory.newInstance(CodegenModelType.PROPERTY);
-        if (p.equals(trueSchema)) {
-            property.setIsBooleanSchemaTrue(true);
-        } else if (p.equals(falseSchema)) {
-            property.setIsBooleanSchemaFalse(true);
-        }
 
         // unalias schema
         p = unaliasSchema(p);
