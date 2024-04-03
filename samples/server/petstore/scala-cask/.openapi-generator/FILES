@@ -1,6 +1,5 @@
 .github/workflows/bulidAndPublish.yml
 .gitignore
-.openapi-generator-ignore
 .scalafmt.conf
 README.md
 README.md
@@ -38,9 +37,3 @@ src/main/scala/mo/del/pack/age/TagData.scala
 src/main/scala/mo/del/pack/age/User.scala
 src/main/scala/mo/del/pack/age/UserData.scala
 src/main/scala/mo/del/pack/age/package.scala
-src/test/scala/mo/del/pack/age/ApiResponseTest.scala
-src/test/scala/mo/del/pack/age/CategoryTest.scala
-src/test/scala/mo/del/pack/age/OrderTest.scala
-src/test/scala/mo/del/pack/age/PetTest.scala
-src/test/scala/mo/del/pack/age/TagTest.scala
-src/test/scala/mo/del/pack/age/UserTest.scala

@@ -10,7 +10,7 @@
  */
 
 // this model was generated using modelData.mustache
-package sample.cask
+package mo.del.pack.age
 import mo.del.pack.age.Category
 import mo.del.pack.age.Tag
 import scala.util.control.NonFatal

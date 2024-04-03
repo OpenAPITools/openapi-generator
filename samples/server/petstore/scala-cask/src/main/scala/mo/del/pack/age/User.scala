@@ -10,7 +10,7 @@
  */
 
 // this model was generated using model.mustache
-package sample.cask
+package mo.del.pack.age
 import scala.util.control.NonFatal
 
 // see https://com-lihaoyi.github.io/upickle/

@@ -10,7 +10,7 @@
  */
 
 // this model was generated using model.mustache
-package sample.cask
+package mo.del.pack.age
 import java.time.OffsetDateTime
 import scala.util.control.NonFatal
 
