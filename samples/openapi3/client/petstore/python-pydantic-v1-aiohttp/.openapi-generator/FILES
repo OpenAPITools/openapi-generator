@@ -43,6 +43,7 @@ docs/EnumTest.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
 docs/Feeding.md
+docs/Field.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/FirstRef.md
@@ -156,6 +157,7 @@ petstore_api/models/enum_string1.py
 petstore_api/models/enum_string2.py
 petstore_api/models/enum_test.py
 petstore_api/models/feeding.py
+petstore_api/models/field.py
 petstore_api/models/file.py
 petstore_api/models/file_schema_test_class.py
 petstore_api/models/first_ref.py

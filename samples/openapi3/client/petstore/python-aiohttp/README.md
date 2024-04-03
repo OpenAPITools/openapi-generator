@@ -202,6 +202,7 @@ Class | Method | HTTP request | Description
  - [MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [Model200Response](docs/Model200Response.md)
  - [ModelApiResponse](docs/ModelApiResponse.md)
+ - [ModelField](docs/ModelField.md)
  - [ModelReturn](docs/ModelReturn.md)
  - [Name](docs/Name.md)
  - [NullableClass](docs/NullableClass.md)
