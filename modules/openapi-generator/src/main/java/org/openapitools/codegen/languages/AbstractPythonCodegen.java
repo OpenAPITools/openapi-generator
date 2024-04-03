@@ -105,8 +105,8 @@ public abstract class AbstractPythonCodegen extends DefaultCodegen implements Co
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
                 Arrays.asList(
-			// pydantic
-			"field",
+                        // pydantic
+                        "field",
                         // local variable name used in API methods (endpoints)
                         "all_params", "resource_path", "path_params", "query_params",
                         "header_params", "form_params", "local_var_files", "body_params", "auth_settings",
