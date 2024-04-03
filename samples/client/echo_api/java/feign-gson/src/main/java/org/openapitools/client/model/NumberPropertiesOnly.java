@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 /**
  * NumberPropertiesOnly
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String SERIALIZED_NAME_NUMBER = "number";
   @SerializedName(SERIALIZED_NAME_NUMBER)
@@ -53,7 +53,7 @@ public class NumberPropertiesOnly {
    * Get number
    * @return number
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public BigDecimal getNumber() {
     return number;
@@ -75,7 +75,7 @@ public class NumberPropertiesOnly {
    * Get _float
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Float getFloat() {
     return _float;
@@ -99,7 +99,7 @@ public class NumberPropertiesOnly {
    * maximum: 50.2
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Double getDouble() {
     return _double;

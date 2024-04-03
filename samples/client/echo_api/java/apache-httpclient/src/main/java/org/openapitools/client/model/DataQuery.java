@@ -39,7 +39,7 @@ import java.util.StringJoiner;
   DataQuery.JSON_PROPERTY_TEXT,
   DataQuery.JSON_PROPERTY_DATE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class DataQuery extends Query {
   public static final String JSON_PROPERTY_SUFFIX = "suffix";
   private String suffix;
@@ -64,7 +64,7 @@ public class DataQuery extends Query {
    * test suffix
    * @return suffix
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SUFFIX)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -90,7 +90,7 @@ public class DataQuery extends Query {
    * Some text containing white spaces
    * @return text
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_TEXT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -116,7 +116,7 @@ public class DataQuery extends Query {
    * A date
    * @return date
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

@@ -26,8 +26,8 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -38,7 +38,7 @@ import io.github.threetenjaxb.core.*;
   FakeBigDecimalMap200Response.JSON_PROPERTY_SOME_MAP
 })
 @JsonTypeName("fakeBigDecimalMap_200_response")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @XmlRootElement(name = "FakeBigDecimalMap200Response")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FakeBigDecimalMap200Response")
@@ -67,7 +67,7 @@ public class FakeBigDecimalMap200Response {
    * Get someId
    * @return someId
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someId")
@@ -103,7 +103,7 @@ public class FakeBigDecimalMap200Response {
    * Get someMap
    * @return someMap
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOME_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "someMap")

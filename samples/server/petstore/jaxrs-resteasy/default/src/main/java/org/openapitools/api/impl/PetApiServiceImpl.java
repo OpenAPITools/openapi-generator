@@ -14,14 +14,14 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.enterprise.context.RequestScoped;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
 @RequestScoped
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class PetApiServiceImpl implements PetApiService {
       public Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException {

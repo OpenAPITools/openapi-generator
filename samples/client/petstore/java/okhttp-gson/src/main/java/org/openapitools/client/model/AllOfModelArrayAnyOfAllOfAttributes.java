@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOfAllOfAttributes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AllOfModelArrayAnyOfAllOfAttributes {
   public static final String SERIALIZED_NAME_C = "C";
   @SerializedName(SERIALIZED_NAME_C)
@@ -68,7 +68,7 @@ public class AllOfModelArrayAnyOfAllOfAttributes {
    * Get C
    * @return C
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfAttributesC getC() {
     return C;
   }

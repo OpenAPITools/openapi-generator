@@ -24,8 +24,8 @@ import java.util.List;
 import org.openapitools.model.ModelFile;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * FileSchemaTestClass
@@ -34,7 +34,7 @@ import javax.validation.Valid;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FileSchemaTestClass  implements Serializable {
   public static final String JSON_PROPERTY_FILE = "file";
   @JsonProperty(JSON_PROPERTY_FILE)

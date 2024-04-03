@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * Bird
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Bird {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
@@ -48,7 +48,7 @@ public class Bird {
    * Get size
    * @return size
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getSize() {
     return size;
@@ -70,7 +70,7 @@ public class Bird {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getColor() {
     return color;

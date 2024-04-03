@@ -20,8 +20,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * Must be named &#x60;File&#x60; for test.
@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelFile   {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)

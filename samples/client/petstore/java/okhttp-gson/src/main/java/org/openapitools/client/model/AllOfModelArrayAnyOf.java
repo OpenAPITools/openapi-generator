@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * AllOfModelArrayAnyOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AllOfModelArrayAnyOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -81,7 +81,7 @@ public class AllOfModelArrayAnyOf {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -100,7 +100,7 @@ public class AllOfModelArrayAnyOf {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getName() {
     return name;
   }
@@ -119,7 +119,7 @@ public class AllOfModelArrayAnyOf {
    * Get linkListColumn1
    * @return linkListColumn1
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfLinkListColumn1 getLinkListColumn1() {
     return linkListColumn1;
   }
@@ -138,7 +138,7 @@ public class AllOfModelArrayAnyOf {
    * Get attributes
    * @return attributes
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public AllOfModelArrayAnyOfAllOfAttributes getAttributes() {
     return attributes;
   }

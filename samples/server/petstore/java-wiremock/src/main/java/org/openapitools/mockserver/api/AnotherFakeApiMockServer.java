@@ -11,7 +11,7 @@ import com.github.tomakehurst.wiremock.http.Fault;
 
 public class AnotherFakeApiMockServer {
 
-    public static MappingBuilder stubCall123testSpecialTags200(@javax.annotation.Nonnull String body, String response) {
+    public static MappingBuilder stubCall123testSpecialTags200(@jakarta.annotation.Nonnull String body, String response) {
         MappingBuilder stub = patch(urlPathEqualTo("/another-fake/dummy"))
             .withHeader("Accept", havingExactly("application/json"))
             .withRequestBody(equalToJson(body))
@@ -25,7 +25,7 @@ public class AnotherFakeApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubCall123testSpecialTagsFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubCall123testSpecialTagsFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = patch(urlPathEqualTo("/another-fake/dummy"))
             .withHeader("Accept", havingExactly("application/json"))
             .withRequestBody(equalToJson(body))

@@ -34,7 +34,7 @@ import java.util.StringJoiner;
   AllOfWithSingleRef.JSON_PROPERTY_USERNAME,
   AllOfWithSingleRef.JSON_PROPERTY_SINGLE_REF_TYPE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AllOfWithSingleRef {
   public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
@@ -55,7 +55,7 @@ public class AllOfWithSingleRef {
    * Get username
    * @return username
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_USERNAME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -81,7 +81,7 @@ public class AllOfWithSingleRef {
    * Get singleRefType
    * @return singleRefType
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SINGLE_REF_TYPE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

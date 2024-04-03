@@ -3,23 +3,23 @@ package org.openapitools.api;
 import org.openapitools.model.Client;
 import java.util.UUID;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Response;
 
 import io.swagger.annotations.*;
 
 import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
 * Represents a collection of functions to interact with the API endpoints.
 */
 @Path("/another-fake/dummy")
 @Api(description = "the another-fake API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public interface AnotherFakeApi {
 
     /**

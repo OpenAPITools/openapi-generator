@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPetCategoryInlineAllof
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NewPetCategoryInlineAllof {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -76,7 +76,7 @@ public class NewPetCategoryInlineAllof {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -95,7 +95,7 @@ public class NewPetCategoryInlineAllof {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getName() {
     return name;
   }
@@ -114,7 +114,7 @@ public class NewPetCategoryInlineAllof {
    * Get categoryTag
    * @return categoryTag
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public NewPetCategoryInlineAllofAllOfCategoryTag getCategoryTag() {
     return categoryTag;
   }

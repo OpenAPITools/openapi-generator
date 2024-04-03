@@ -56,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FormatTest implements Parcelable {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -128,7 +128,7 @@ public class FormatTest implements Parcelable {
    * maximum: 100
    * @return integer
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Integer getInteger() {
     return integer;
   }
@@ -149,7 +149,7 @@ public class FormatTest implements Parcelable {
    * maximum: 200
    * @return int32
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Integer getInt32() {
     return int32;
   }
@@ -168,7 +168,7 @@ public class FormatTest implements Parcelable {
    * Get int64
    * @return int64
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getInt64() {
     return int64;
   }
@@ -189,7 +189,7 @@ public class FormatTest implements Parcelable {
    * maximum: 543.2
    * @return number
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public BigDecimal getNumber() {
     return number;
   }
@@ -210,7 +210,7 @@ public class FormatTest implements Parcelable {
    * maximum: 987.6
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Float getFloat() {
     return _float;
   }
@@ -231,7 +231,7 @@ public class FormatTest implements Parcelable {
    * maximum: 123.4
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Double getDouble() {
     return _double;
   }
@@ -250,7 +250,7 @@ public class FormatTest implements Parcelable {
    * Get string
    * @return string
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getString() {
     return string;
   }
@@ -269,7 +269,7 @@ public class FormatTest implements Parcelable {
    * Get _byte
    * @return _byte
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public byte[] getByte() {
     return _byte;
   }
@@ -288,7 +288,7 @@ public class FormatTest implements Parcelable {
    * Get binary
    * @return binary
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public File getBinary() {
     return binary;
   }
@@ -307,7 +307,7 @@ public class FormatTest implements Parcelable {
    * Get date
    * @return date
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public LocalDate getDate() {
     return date;
   }
@@ -326,7 +326,7 @@ public class FormatTest implements Parcelable {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -345,7 +345,7 @@ public class FormatTest implements Parcelable {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public UUID getUuid() {
     return uuid;
   }
@@ -364,7 +364,7 @@ public class FormatTest implements Parcelable {
    * Get password
    * @return password
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getPassword() {
     return password;
   }
@@ -383,7 +383,7 @@ public class FormatTest implements Parcelable {
    * Get bigDecimal
    * @return bigDecimal
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public BigDecimal getBigDecimal() {
     return bigDecimal;
   }

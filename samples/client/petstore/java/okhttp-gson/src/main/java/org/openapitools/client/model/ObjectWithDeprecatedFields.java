@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * ObjectWithDeprecatedFields
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ObjectWithDeprecatedFields {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -86,7 +86,7 @@ public class ObjectWithDeprecatedFields {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getUuid() {
     return uuid;
   }
@@ -108,7 +108,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public BigDecimal getId() {
     return id;
   }
@@ -131,7 +131,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public DeprecatedObject getDeprecatedRef() {
     return deprecatedRef;
   }
@@ -162,7 +162,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<String> getBars() {
     return bars;
   }

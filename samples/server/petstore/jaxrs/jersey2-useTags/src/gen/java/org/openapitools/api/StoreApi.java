@@ -18,19 +18,19 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.*;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @Path("/store")
 
 
 @io.swagger.annotations.Api(description = "the Store API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class StoreApi  {
    private final StoreApiService delegate;
 
@@ -55,7 +55,7 @@ public class StoreApi  {
       this.delegate = delegate;
    }
 
-    @javax.ws.rs.DELETE
+    @jakarta.ws.rs.DELETE
     @Path("/order/{order_id}")
     
     
@@ -68,7 +68,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.deleteOrder(orderId, securityContext);
     }
-    @javax.ws.rs.GET
+    @jakarta.ws.rs.GET
     @Path("/inventory")
     
     @Produces({ "application/json" })
@@ -82,7 +82,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getInventory(securityContext);
     }
-    @javax.ws.rs.GET
+    @jakarta.ws.rs.GET
     @Path("/order/{order_id}")
     
     @Produces({ "application/xml", "application/json" })
@@ -96,7 +96,7 @@ public class StoreApi  {
     throws NotFoundException {
         return delegate.getOrderById(orderId, securityContext);
     }
-    @javax.ws.rs.POST
+    @jakarta.ws.rs.POST
     @Path("/order")
     
     @Produces({ "application/xml", "application/json" })

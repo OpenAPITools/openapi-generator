@@ -23,14 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * MapTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class MapTest {
   public static final String SERIALIZED_NAME_MAP_MAP_OF_STRING = "map_map_of_string";
   @SerializedName(SERIALIZED_NAME_MAP_MAP_OF_STRING)
@@ -116,7 +116,7 @@ public class MapTest {
    * Get mapMapOfString
    * @return mapMapOfString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -148,7 +148,7 @@ public class MapTest {
    * Get mapOfEnumString
    * @return mapOfEnumString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Map<String, InnerEnum> getMapOfEnumString() {
@@ -179,7 +179,7 @@ public class MapTest {
    * Get directMap
    * @return directMap
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Map<String, Boolean> getDirectMap() {
@@ -210,7 +210,7 @@ public class MapTest {
    * Get indirectMap
    * @return indirectMap
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Map<String, Boolean> getIndirectMap() {

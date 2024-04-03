@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * ShapeInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ShapeInterface {
   public static final String SERIALIZED_NAME_SHAPE_TYPE = "shapeType";
   @SerializedName(SERIALIZED_NAME_SHAPE_TYPE)
@@ -67,7 +67,7 @@ public class ShapeInterface {
    * Get shapeType
    * @return shapeType
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getShapeType() {
     return shapeType;
   }

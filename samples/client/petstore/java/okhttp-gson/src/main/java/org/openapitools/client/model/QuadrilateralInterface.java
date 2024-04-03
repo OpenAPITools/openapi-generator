@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * QuadrilateralInterface
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class QuadrilateralInterface {
   public static final String SERIALIZED_NAME_QUADRILATERAL_TYPE = "quadrilateralType";
   @SerializedName(SERIALIZED_NAME_QUADRILATERAL_TYPE)
@@ -67,7 +67,7 @@ public class QuadrilateralInterface {
    * Get quadrilateralType
    * @return quadrilateralType
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getQuadrilateralType() {
     return quadrilateralType;
   }

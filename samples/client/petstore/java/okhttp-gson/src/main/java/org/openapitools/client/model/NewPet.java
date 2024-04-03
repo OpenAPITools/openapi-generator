@@ -54,7 +54,7 @@ import org.openapitools.client.JSON;
 /**
  * NewPet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NewPet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -150,7 +150,7 @@ public class NewPet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -169,7 +169,7 @@ public class NewPet {
    * Get categoryInlineAllof
    * @return categoryInlineAllof
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public NewPetCategoryInlineAllof getCategoryInlineAllof() {
     return categoryInlineAllof;
   }
@@ -188,7 +188,7 @@ public class NewPet {
    * Get categoryAllOfRef
    * @return categoryAllOfRef
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Category getCategoryAllOfRef() {
     return categoryAllOfRef;
   }
@@ -207,7 +207,7 @@ public class NewPet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getName() {
     return name;
   }
@@ -234,7 +234,7 @@ public class NewPet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
@@ -261,7 +261,7 @@ public class NewPet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<Tag> getTags() {
     return tags;
   }
@@ -280,7 +280,7 @@ public class NewPet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public StatusEnum getStatus() {
     return status;
   }

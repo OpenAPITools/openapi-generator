@@ -25,14 +25,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * XmlItem
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -163,7 +163,7 @@ public class XmlItem {
    * Get attributeString
    * @return attributeString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public String getAttributeString() {
@@ -186,7 +186,7 @@ public class XmlItem {
    * Get attributeNumber
    * @return attributeNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -210,7 +210,7 @@ public class XmlItem {
    * Get attributeInteger
    * @return attributeInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Integer getAttributeInteger() {
@@ -233,7 +233,7 @@ public class XmlItem {
    * Get attributeBoolean
    * @return attributeBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Boolean isAttributeBoolean() {
@@ -264,7 +264,7 @@ public class XmlItem {
    * Get wrappedArray
    * @return wrappedArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getWrappedArray() {
@@ -287,7 +287,7 @@ public class XmlItem {
    * Get nameString
    * @return nameString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public String getNameString() {
@@ -310,7 +310,7 @@ public class XmlItem {
    * Get nameNumber
    * @return nameNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -334,7 +334,7 @@ public class XmlItem {
    * Get nameInteger
    * @return nameInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Integer getNameInteger() {
@@ -357,7 +357,7 @@ public class XmlItem {
    * Get nameBoolean
    * @return nameBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Boolean isNameBoolean() {
@@ -388,7 +388,7 @@ public class XmlItem {
    * Get nameArray
    * @return nameArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getNameArray() {
@@ -419,7 +419,7 @@ public class XmlItem {
    * Get nameWrappedArray
    * @return nameWrappedArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getNameWrappedArray() {
@@ -442,7 +442,7 @@ public class XmlItem {
    * Get prefixString
    * @return prefixString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public String getPrefixString() {
@@ -465,7 +465,7 @@ public class XmlItem {
    * Get prefixNumber
    * @return prefixNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -489,7 +489,7 @@ public class XmlItem {
    * Get prefixInteger
    * @return prefixInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Integer getPrefixInteger() {
@@ -512,7 +512,7 @@ public class XmlItem {
    * Get prefixBoolean
    * @return prefixBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Boolean isPrefixBoolean() {
@@ -543,7 +543,7 @@ public class XmlItem {
    * Get prefixArray
    * @return prefixArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getPrefixArray() {
@@ -574,7 +574,7 @@ public class XmlItem {
    * Get prefixWrappedArray
    * @return prefixWrappedArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getPrefixWrappedArray() {
@@ -597,7 +597,7 @@ public class XmlItem {
    * Get namespaceString
    * @return namespaceString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public String getNamespaceString() {
@@ -620,7 +620,7 @@ public class XmlItem {
    * Get namespaceNumber
    * @return namespaceNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -644,7 +644,7 @@ public class XmlItem {
    * Get namespaceInteger
    * @return namespaceInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Integer getNamespaceInteger() {
@@ -667,7 +667,7 @@ public class XmlItem {
    * Get namespaceBoolean
    * @return namespaceBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Boolean isNamespaceBoolean() {
@@ -698,7 +698,7 @@ public class XmlItem {
    * Get namespaceArray
    * @return namespaceArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getNamespaceArray() {
@@ -729,7 +729,7 @@ public class XmlItem {
    * Get namespaceWrappedArray
    * @return namespaceWrappedArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getNamespaceWrappedArray() {
@@ -752,7 +752,7 @@ public class XmlItem {
    * Get prefixNsString
    * @return prefixNsString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public String getPrefixNsString() {
@@ -775,7 +775,7 @@ public class XmlItem {
    * Get prefixNsNumber
    * @return prefixNsNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Valid
 
 
@@ -799,7 +799,7 @@ public class XmlItem {
    * Get prefixNsInteger
    * @return prefixNsInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Integer getPrefixNsInteger() {
@@ -822,7 +822,7 @@ public class XmlItem {
    * Get prefixNsBoolean
    * @return prefixNsBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public Boolean isPrefixNsBoolean() {
@@ -853,7 +853,7 @@ public class XmlItem {
    * Get prefixNsArray
    * @return prefixNsArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getPrefixNsArray() {
@@ -884,7 +884,7 @@ public class XmlItem {
    * Get prefixNsWrappedArray
    * @return prefixNsWrappedArray
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public List<Integer> getPrefixNsWrappedArray() {

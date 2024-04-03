@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * TestFormObjectMultipartRequestMarker
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class TestFormObjectMultipartRequestMarker {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -44,7 +44,7 @@ public class TestFormObjectMultipartRequestMarker {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getName() {
     return name;

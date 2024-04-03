@@ -25,8 +25,8 @@ import org.openapitools.model.OuterEnumDefaultValue;
 import org.openapitools.model.OuterEnumInteger;
 import org.openapitools.model.OuterEnumIntegerDefaultValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * EnumTest
@@ -41,7 +41,7 @@ import javax.validation.Valid;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest   {
   /**
    * Gets or Sets enumString

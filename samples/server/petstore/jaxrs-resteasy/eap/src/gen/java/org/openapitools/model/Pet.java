@@ -12,11 +12,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import io.swagger.annotations.*;
 
-@ApiModel(description="A pet for sale in the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@ApiModel(description="A pet for sale in the pet store")@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Pet   {
   
   private Long id;

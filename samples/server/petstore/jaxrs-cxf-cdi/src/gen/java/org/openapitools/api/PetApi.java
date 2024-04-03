@@ -4,12 +4,12 @@ import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.openapitools.api.PetApiService;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 
 import io.swagger.annotations.*;
 import java.io.InputStream;
@@ -20,15 +20,15 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 
 import java.util.Map;
 import java.util.List;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 @Path("/pet")
 @RequestScoped
 
 @Api(description = "the pet API")
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 
 public class PetApi  {
 

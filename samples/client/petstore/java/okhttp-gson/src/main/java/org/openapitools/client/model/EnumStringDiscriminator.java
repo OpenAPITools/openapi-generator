@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * An object to test discriminator of enum string
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumStringDiscriminator {
   /**
    * enum string type
@@ -119,7 +119,7 @@ public class EnumStringDiscriminator {
    * enum string type
    * @return enumStrType
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public EnumStrTypeEnum getEnumStrType() {
     return enumStrType;
   }

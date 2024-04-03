@@ -5,7 +5,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-import javax.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.GenericType;
 
 import java.math.BigDecimal;
 import org.openapitools.client.model.ChildWithNullable;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FakeApi {
   private ApiClient apiClient;
 

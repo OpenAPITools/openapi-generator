@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * GrandparentAnimal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class GrandparentAnimal {
   public static final String SERIALIZED_NAME_PET_TYPE = "pet_type";
   @SerializedName(SERIALIZED_NAME_PET_TYPE)
@@ -68,7 +68,7 @@ public class GrandparentAnimal {
    * Get petType
    * @return petType
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getPetType() {
     return petType;
   }

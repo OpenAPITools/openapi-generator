@@ -3,12 +3,12 @@ package apimodels;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.*;
 import java.util.Set;
-import javax.validation.*;
+import jakarta.validation.*;
 import java.util.Objects;
 /**
  * An order for a pets from the pet store
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")

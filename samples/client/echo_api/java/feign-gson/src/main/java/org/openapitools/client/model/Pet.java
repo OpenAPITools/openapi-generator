@@ -30,7 +30,7 @@ import org.openapitools.client.model.Tag;
 /**
  * Pet
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -118,7 +118,7 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -140,7 +140,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
 
   public String getName() {
     return name;
@@ -162,7 +162,7 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Category getCategory() {
     return category;
@@ -192,7 +192,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
 
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -222,7 +222,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public List<Tag> getTags() {
     return tags;
@@ -244,7 +244,7 @@ public class Pet {
    * pet status in the store
    * @return status
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public StatusEnum getStatus() {
     return status;

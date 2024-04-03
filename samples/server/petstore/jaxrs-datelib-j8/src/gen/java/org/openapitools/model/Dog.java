@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * Dog
@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Dog extends Animal implements Serializable {
   public static final String JSON_PROPERTY_BREED = "breed";
   @JsonProperty(JSON_PROPERTY_BREED)

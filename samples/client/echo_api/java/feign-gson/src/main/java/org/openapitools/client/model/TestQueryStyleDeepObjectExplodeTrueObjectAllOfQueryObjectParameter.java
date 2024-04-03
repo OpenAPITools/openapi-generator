@@ -25,7 +25,7 @@ import java.io.IOException;
 /**
  * TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter {
   public static final String SERIALIZED_NAME_SIZE = "size";
   @SerializedName(SERIALIZED_NAME_SIZE)
@@ -56,7 +56,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get size
    * @return size
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getSize() {
     return size;
@@ -78,7 +78,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getColor() {
     return color;
@@ -100,7 +100,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public Long getId() {
     return id;
@@ -122,7 +122,7 @@ public class TestQueryStyleDeepObjectExplodeTrueObjectAllOfQueryObjectParameter 
    * Get name
    * @return name
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
   public String getName() {
     return name;

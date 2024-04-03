@@ -28,8 +28,8 @@ import org.openapitools.client.model.DeprecatedObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
-import javax.xml.bind.annotation.*;
-import javax.xml.bind.annotation.adapters.*;
+import jakarta.xml.bind.annotation.*;
+import jakarta.xml.bind.annotation.adapters.*;
 import io.github.threetenjaxb.core.*;
 
 /**
@@ -41,7 +41,7 @@ import io.github.threetenjaxb.core.*;
   ObjectWithDeprecatedFields.JSON_PROPERTY_DEPRECATED_REF,
   ObjectWithDeprecatedFields.JSON_PROPERTY_BARS
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 @XmlRootElement(name = "ObjectWithDeprecatedFields")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ObjectWithDeprecatedFields")
@@ -78,7 +78,7 @@ public class ObjectWithDeprecatedFields {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_UUID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "uuid")
@@ -108,7 +108,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_ID)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "id")
@@ -138,7 +138,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DEPRECATED_REF)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "deprecatedRef")
@@ -176,7 +176,7 @@ public class ObjectWithDeprecatedFields {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_BARS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   @JacksonXmlProperty(localName = "bars")

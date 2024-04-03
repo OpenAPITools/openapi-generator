@@ -53,7 +53,7 @@ import org.openapitools.client.JSON;
 /**
  * EnumArrays
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets justSymbol
@@ -179,7 +179,7 @@ public class EnumArrays implements Parcelable {
    * Get justSymbol
    * @return justSymbol
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
@@ -206,7 +206,7 @@ public class EnumArrays implements Parcelable {
    * Get arrayEnum
    * @return arrayEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }

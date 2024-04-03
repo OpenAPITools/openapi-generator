@@ -33,7 +33,7 @@ import java.util.StringJoiner;
   ModelFile.JSON_PROPERTY_SOURCE_U_R_I
 })
 @JsonTypeName("File")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ModelFile {
   public static final String JSON_PROPERTY_SOURCE_U_R_I = "sourceURI";
   private String sourceURI;
@@ -51,7 +51,7 @@ public class ModelFile {
    * Test capitalization
    * @return sourceURI
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_SOURCE_U_R_I)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

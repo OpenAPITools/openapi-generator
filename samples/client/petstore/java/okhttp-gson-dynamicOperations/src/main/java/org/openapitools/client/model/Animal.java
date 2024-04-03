@@ -49,7 +49,7 @@ import org.openapitools.client.JSON;
 /**
  * Animal
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
@@ -72,7 +72,7 @@ public class Animal {
    * Get className
    * @return className
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getClassName() {
     return className;
   }
@@ -91,7 +91,7 @@ public class Animal {
    * Get color
    * @return color
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getColor() {
     return color;
   }

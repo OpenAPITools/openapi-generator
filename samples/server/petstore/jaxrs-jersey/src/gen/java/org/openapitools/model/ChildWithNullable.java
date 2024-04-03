@@ -21,8 +21,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.ParentWithNullable;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * ChildWithNullable
@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   ChildWithNullable.JSON_PROPERTY_OTHER_PROPERTY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ChildWithNullable extends ParentWithNullable  {
   public static final String JSON_PROPERTY_OTHER_PROPERTY = "otherProperty";
   @JsonProperty(JSON_PROPERTY_OTHER_PROPERTY)

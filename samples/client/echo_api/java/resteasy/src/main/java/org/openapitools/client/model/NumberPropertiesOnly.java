@@ -32,7 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   NumberPropertiesOnly.JSON_PROPERTY_FLOAT,
   NumberPropertiesOnly.JSON_PROPERTY_DOUBLE
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NumberPropertiesOnly {
   public static final String JSON_PROPERTY_NUMBER = "number";
   private BigDecimal number;
@@ -56,7 +56,7 @@ public class NumberPropertiesOnly {
    * Get number
    * @return number
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -82,7 +82,7 @@ public class NumberPropertiesOnly {
    * Get _float
    * @return _float
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_FLOAT)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -110,7 +110,7 @@ public class NumberPropertiesOnly {
    * maximum: 50.2
    * @return _double
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_DOUBLE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

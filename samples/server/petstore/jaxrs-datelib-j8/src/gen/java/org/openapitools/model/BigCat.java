@@ -22,8 +22,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * BigCat
@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class BigCat extends Cat implements Serializable {
   /**
    * Gets or Sets kind

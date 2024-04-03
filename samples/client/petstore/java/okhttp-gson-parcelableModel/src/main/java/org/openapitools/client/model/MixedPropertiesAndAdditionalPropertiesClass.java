@@ -56,7 +56,7 @@ import org.openapitools.client.JSON;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -82,7 +82,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get uuid
    * @return uuid
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public UUID getUuid() {
     return uuid;
   }
@@ -101,7 +101,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get dateTime
    * @return dateTime
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public OffsetDateTime getDateTime() {
     return dateTime;
   }
@@ -128,7 +128,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass implements Parcelable {
    * Get map
    * @return map
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Map<String, Animal> getMap() {
     return map;
   }

@@ -27,13 +27,13 @@ import play.libs.Files.TemporaryFile;
 import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FakeApiController extends Controller {
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;

@@ -11,7 +11,7 @@ import com.github.tomakehurst.wiremock.http.Fault;
 
 public class PetApiMockServer {
 
-    public static MappingBuilder stubAddPet200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubAddPet200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -24,7 +24,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubAddPet405(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubAddPet405(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = post(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -37,7 +37,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubAddPetFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubAddPetFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = post(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -59,7 +59,7 @@ public class PetApiMockServer {
     }
 
 
-    public static MappingBuilder stubDeletePet200(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String apiKey) {
+    public static MappingBuilder stubDeletePet200(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String apiKey) {
         MappingBuilder stub = delete(urlPathTemplate("/pet/{petId}"))
             .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
@@ -74,7 +74,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeletePet400(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String apiKey) {
+    public static MappingBuilder stubDeletePet400(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String apiKey) {
         MappingBuilder stub = delete(urlPathTemplate("/pet/{petId}"))
             .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
@@ -89,7 +89,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubDeletePetFault(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String apiKey, Fault fault) {
+    public static MappingBuilder stubDeletePetFault(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String apiKey, Fault fault) {
         MappingBuilder stub = delete(urlPathTemplate("/pet/{petId}"))
             .withHeader("Authorization", matching(".*"))
             .willReturn(aResponse()
@@ -107,7 +107,7 @@ public class PetApiMockServer {
 
 
 
-    public static MappingBuilder stubFindPetsByStatus200(@javax.annotation.Nonnull String status, String response) {
+    public static MappingBuilder stubFindPetsByStatus200(@jakarta.annotation.Nonnull String status, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByStatus"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -122,7 +122,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFindPetsByStatus400(@javax.annotation.Nonnull String status, String response) {
+    public static MappingBuilder stubFindPetsByStatus400(@jakarta.annotation.Nonnull String status, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByStatus"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -137,7 +137,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFindPetsByStatusFault(@javax.annotation.Nonnull String status, Fault fault) {
+    public static MappingBuilder stubFindPetsByStatusFault(@jakarta.annotation.Nonnull String status, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByStatus"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -160,7 +160,7 @@ public class PetApiMockServer {
 
 
     @Deprecated
-    public static MappingBuilder stubFindPetsByTags200(@javax.annotation.Nonnull String tags, String response) {
+    public static MappingBuilder stubFindPetsByTags200(@jakarta.annotation.Nonnull String tags, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByTags"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -176,7 +176,7 @@ public class PetApiMockServer {
     }
 
     @Deprecated
-    public static MappingBuilder stubFindPetsByTags400(@javax.annotation.Nonnull String tags, String response) {
+    public static MappingBuilder stubFindPetsByTags400(@jakarta.annotation.Nonnull String tags, String response) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByTags"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -191,7 +191,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubFindPetsByTagsFault(@javax.annotation.Nonnull String tags, Fault fault) {
+    public static MappingBuilder stubFindPetsByTagsFault(@jakarta.annotation.Nonnull String tags, Fault fault) {
         MappingBuilder stub = get(urlPathEqualTo("/pet/findByTags"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -213,7 +213,7 @@ public class PetApiMockServer {
 
 
 
-    public static MappingBuilder stubGetPetById200(@javax.annotation.Nonnull String petId, String response) {
+    public static MappingBuilder stubGetPetById200(@jakarta.annotation.Nonnull String petId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/pet/{petId}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -228,7 +228,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetPetById400(@javax.annotation.Nonnull String petId, String response) {
+    public static MappingBuilder stubGetPetById400(@jakarta.annotation.Nonnull String petId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/pet/{petId}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -243,7 +243,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetPetById404(@javax.annotation.Nonnull String petId, String response) {
+    public static MappingBuilder stubGetPetById404(@jakarta.annotation.Nonnull String petId, String response) {
         MappingBuilder stub = get(urlPathTemplate("/pet/{petId}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -258,7 +258,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubGetPetByIdFault(@javax.annotation.Nonnull String petId, Fault fault) {
+    public static MappingBuilder stubGetPetByIdFault(@jakarta.annotation.Nonnull String petId, Fault fault) {
         MappingBuilder stub = get(urlPathTemplate("/pet/{petId}"))
             .withHeader("Accept", havingExactly("application/xml", "application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -280,7 +280,7 @@ public class PetApiMockServer {
 
 
 
-    public static MappingBuilder stubUpdatePet200(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdatePet200(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -293,7 +293,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePet400(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdatePet400(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -306,7 +306,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePet404(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdatePet404(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -319,7 +319,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePet405(@javax.annotation.Nonnull String body) {
+    public static MappingBuilder stubUpdatePet405(@jakarta.annotation.Nonnull String body) {
         MappingBuilder stub = put(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -332,7 +332,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePetFault(@javax.annotation.Nonnull String body, Fault fault) {
+    public static MappingBuilder stubUpdatePetFault(@jakarta.annotation.Nonnull String body, Fault fault) {
         MappingBuilder stub = put(urlPathEqualTo("/pet"))
             .withHeader("Content-Type", havingExactly("application/json"))
             .withHeader("Authorization", matching(".*"))
@@ -354,7 +354,7 @@ public class PetApiMockServer {
     }
 
 
-    public static MappingBuilder stubUpdatePetWithForm200(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) {
+    public static MappingBuilder stubUpdatePetWithForm200(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) {
         MappingBuilder stub = post(urlPathTemplate("/pet/{petId}"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -373,7 +373,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePetWithForm405(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status) {
+    public static MappingBuilder stubUpdatePetWithForm405(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status) {
         MappingBuilder stub = post(urlPathTemplate("/pet/{petId}"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -392,7 +392,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUpdatePetWithFormFault(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String name, @javax.annotation.Nullable String status, Fault fault) {
+    public static MappingBuilder stubUpdatePetWithFormFault(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String name, @jakarta.annotation.Nullable String status, Fault fault) {
         MappingBuilder stub = post(urlPathTemplate("/pet/{petId}"))
             .withHeader("Content-Type", havingExactly("application/x-www-form-urlencoded"))
             .withHeader("Authorization", matching(".*"))
@@ -414,7 +414,7 @@ public class PetApiMockServer {
 
 
 
-    public static MappingBuilder stubUploadFile200(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable String _file, String response) {
+    public static MappingBuilder stubUploadFile200(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable String _file, String response) {
         MappingBuilder stub = post(urlPathTemplate("/pet/{petId}/uploadImage"))
             .withHeader("Accept", havingExactly("application/json"))
             .withHeader("Content-Type", havingExactly("multipart/form-data"))
@@ -436,7 +436,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUploadFileFault(@javax.annotation.Nonnull String petId, @javax.annotation.Nullable String additionalMetadata, @javax.annotation.Nullable String _file, Fault fault) {
+    public static MappingBuilder stubUploadFileFault(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nullable String additionalMetadata, @jakarta.annotation.Nullable String _file, Fault fault) {
         MappingBuilder stub = post(urlPathTemplate("/pet/{petId}/uploadImage"))
             .withHeader("Accept", havingExactly("application/json"))
             .withHeader("Content-Type", havingExactly("multipart/form-data"))
@@ -462,7 +462,7 @@ public class PetApiMockServer {
 
 
 
-    public static MappingBuilder stubUploadFileWithRequiredFile200(@javax.annotation.Nonnull String petId, @javax.annotation.Nonnull String requiredFile, @javax.annotation.Nullable String additionalMetadata, String response) {
+    public static MappingBuilder stubUploadFileWithRequiredFile200(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nonnull String requiredFile, @jakarta.annotation.Nullable String additionalMetadata, String response) {
         MappingBuilder stub = post(urlPathTemplate("/fake/{petId}/uploadImageWithRequiredFile"))
             .withHeader("Accept", havingExactly("application/json"))
             .withHeader("Content-Type", havingExactly("multipart/form-data"))
@@ -482,7 +482,7 @@ public class PetApiMockServer {
         return stub;
     }
 
-    public static MappingBuilder stubUploadFileWithRequiredFileFault(@javax.annotation.Nonnull String petId, @javax.annotation.Nonnull String requiredFile, @javax.annotation.Nullable String additionalMetadata, Fault fault) {
+    public static MappingBuilder stubUploadFileWithRequiredFileFault(@jakarta.annotation.Nonnull String petId, @jakarta.annotation.Nonnull String requiredFile, @jakarta.annotation.Nullable String additionalMetadata, Fault fault) {
         MappingBuilder stub = post(urlPathTemplate("/fake/{petId}/uploadImageWithRequiredFile"))
             .withHeader("Accept", havingExactly("application/json"))
             .withHeader("Content-Type", havingExactly("multipart/form-data"))

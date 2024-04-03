@@ -51,7 +51,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ArrayDefault {
   public static final String SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET = "WithDefaultEmptyBracket";
   @SerializedName(SERIALIZED_NAME_WITH_DEFAULT_EMPTY_BRACKET)
@@ -81,7 +81,7 @@ public class ArrayDefault {
    * Get withDefaultEmptyBracket
    * @return withDefaultEmptyBracket
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<String> getWithDefaultEmptyBracket() {
     return withDefaultEmptyBracket;
   }
@@ -108,7 +108,7 @@ public class ArrayDefault {
    * Get withoutDefault
    * @return withoutDefault
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<String> getWithoutDefault() {
     return withoutDefault;
   }

@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
@@ -76,7 +76,7 @@ public class OuterComposite {
    * Get myNumber
    * @return myNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public BigDecimal getMyNumber() {
     return myNumber;
   }
@@ -95,7 +95,7 @@ public class OuterComposite {
    * Get myString
    * @return myString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public String getMyString() {
     return myString;
   }
@@ -114,7 +114,7 @@ public class OuterComposite {
    * Get myBoolean
    * @return myBoolean
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Boolean getMyBoolean() {
     return myBoolean;
   }

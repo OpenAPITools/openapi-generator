@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AppleReq.JSON_PROPERTY_CULTIVAR,
   AppleReq.JSON_PROPERTY_MEALY
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class AppleReq {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -55,7 +55,7 @@ public class AppleReq {
    * Get cultivar
    * @return cultivar
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_CULTIVAR)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -80,7 +80,7 @@ public class AppleReq {
    * Get mealy
    * @return mealy
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_MEALY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

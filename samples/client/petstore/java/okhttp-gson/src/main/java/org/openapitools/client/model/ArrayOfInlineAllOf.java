@@ -52,7 +52,7 @@ import org.openapitools.client.JSON;
 /**
  * ArrayOfInlineAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class ArrayOfInlineAllOf {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -78,7 +78,7 @@ public class ArrayOfInlineAllOf {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public Long getId() {
     return id;
   }
@@ -97,7 +97,7 @@ public class ArrayOfInlineAllOf {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   public String getName() {
     return name;
   }
@@ -124,7 +124,7 @@ public class ArrayOfInlineAllOf {
    * Get arrayAllofDogProperty
    * @return arrayAllofDogProperty
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   public List<ArrayOfInlineAllOfArrayAllofDogPropertyInner> getArrayAllofDogProperty() {
     return arrayAllofDogProperty;
   }

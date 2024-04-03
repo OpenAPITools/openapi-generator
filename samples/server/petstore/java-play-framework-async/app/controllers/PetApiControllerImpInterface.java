@@ -23,8 +23,8 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @SuppressWarnings("RedundantThrows")
 public abstract class PetApiControllerImpInterface {

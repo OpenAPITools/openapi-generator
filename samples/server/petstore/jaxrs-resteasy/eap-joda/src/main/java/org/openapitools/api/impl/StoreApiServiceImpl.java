@@ -11,12 +11,12 @@ import java.util.List;
 
 import java.io.InputStream;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class StoreApiServiceImpl implements StoreApi {
       public Response deleteOrder(String orderId,SecurityContext securityContext) {
       // do some magic!

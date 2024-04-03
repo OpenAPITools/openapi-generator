@@ -24,10 +24,10 @@ import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 import com.fasterxml.jackson.annotation.*;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import io.micronaut.core.annotation.*;
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 
 /**
  * Pet

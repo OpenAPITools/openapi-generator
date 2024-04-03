@@ -46,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
 @JsonTypeName("Enum_Test")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -229,7 +229,7 @@ public class EnumTest {
    * Get enumString
    * @return enumString
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -256,7 +256,7 @@ public class EnumTest {
    * Get enumStringRequired
    * @return enumStringRequired
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
@@ -283,7 +283,7 @@ public class EnumTest {
    * Get enumInteger
    * @return enumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -310,7 +310,7 @@ public class EnumTest {
    * Get enumNumber
    * @return enumNumber
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -337,7 +337,7 @@ public class EnumTest {
    * Get outerEnum
    * @return outerEnum
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonIgnore
 
@@ -372,7 +372,7 @@ public class EnumTest {
    * Get outerEnumInteger
    * @return outerEnumInteger
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -399,7 +399,7 @@ public class EnumTest {
    * Get outerEnumDefaultValue
    * @return outerEnumDefaultValue
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
@@ -426,7 +426,7 @@ public class EnumTest {
    * Get outerEnumIntegerDefaultValue
    * @return outerEnumIntegerDefaultValue
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   @JsonProperty(JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)

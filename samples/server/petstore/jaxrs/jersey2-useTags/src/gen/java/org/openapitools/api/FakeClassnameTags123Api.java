@@ -17,19 +17,19 @@ import java.io.InputStream;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 
-import javax.servlet.ServletConfig;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.servlet.ServletConfig;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.*;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class FakeClassnameTags123Api  {
    private final FakeClassnameTags123ApiService delegate;
 
@@ -54,7 +54,7 @@ public class FakeClassnameTags123Api  {
       this.delegate = delegate;
    }
 
-    @javax.ws.rs.PATCH
+    @jakarta.ws.rs.PATCH
     
     @Consumes({ "application/json" })
     @Produces({ "application/json" })

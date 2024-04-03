@@ -22,13 +22,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class StoreApiController extends Controller {
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;

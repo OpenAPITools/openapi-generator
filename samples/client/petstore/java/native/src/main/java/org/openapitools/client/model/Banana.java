@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   Banana.JSON_PROPERTY_LENGTH_CM
 })
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -52,7 +52,7 @@ public class Banana {
    * Get lengthCm
    * @return lengthCm
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @JsonProperty(JSON_PROPERTY_LENGTH_CM)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

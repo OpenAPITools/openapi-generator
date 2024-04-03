@@ -55,7 +55,7 @@ import org.openapitools.client.JSON;
  * A pet for sale in the pet store
  */
 @Schema(description = "A pet for sale in the pet store")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -148,7 +148,7 @@ public class Pet {
    * Get id
    * @return id
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Long getId() {
     return id;
@@ -168,7 +168,7 @@ public class Pet {
    * Get category
    * @return category
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public Category getCategory() {
     return category;
@@ -188,7 +188,7 @@ public class Pet {
    * Get name
    * @return name
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @Schema(example = "doggie", requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   public String getName() {
     return name;
@@ -216,7 +216,7 @@ public class Pet {
    * Get photoUrls
    * @return photoUrls
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "")
   public List<String> getPhotoUrls() {
     return photoUrls;
@@ -244,7 +244,7 @@ public class Pet {
    * Get tags
    * @return tags
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "")
   public List<Tag> getTags() {
     return tags;
@@ -267,7 +267,7 @@ public class Pet {
    * @deprecated
   **/
   @Deprecated
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
   @Schema(requiredMode = Schema.RequiredMode.NOT_REQUIRED, description = "pet status in the store")
   public StatusEnum getStatus() {
     return status;

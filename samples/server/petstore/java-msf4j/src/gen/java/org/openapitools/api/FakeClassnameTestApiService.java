@@ -13,10 +13,10 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public abstract class FakeClassnameTestApiService {
     public abstract Response testClassname(Client body
  ) throws NotFoundException;

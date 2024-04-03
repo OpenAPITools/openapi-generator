@@ -38,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
   TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
 })
 @javax.annotation.concurrent.Immutable
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class TypeHolderDefault {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem = "what";
@@ -68,7 +68,7 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -94,7 +94,7 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -120,7 +120,7 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -146,7 +146,7 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -180,7 +180,7 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
-  @javax.annotation.Nonnull
+  @jakarta.annotation.Nonnull
   @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 

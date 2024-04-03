@@ -12,9 +12,9 @@ import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class StoreApiControllerImp extends StoreApiControllerImpInterface {
     @Override
     public void deleteOrder(Http.Request request, String orderId) throws Exception {

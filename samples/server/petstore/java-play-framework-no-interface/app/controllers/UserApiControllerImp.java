@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import play.libs.Files.TemporaryFile;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class UserApiControllerImp  {
     
     public void createUser(Http.Request request, User body) throws Exception {

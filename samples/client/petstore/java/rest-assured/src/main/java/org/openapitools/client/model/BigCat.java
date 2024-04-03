@@ -22,14 +22,14 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 import org.openapitools.client.model.Cat;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 import org.hibernate.validator.constraints.*;
 
 /**
  * BigCat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
+@jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class BigCat extends Cat {
   /**
    * Gets or Sets kind
@@ -100,7 +100,7 @@ public class BigCat extends Cat {
    * Get kind
    * @return kind
   **/
-  @javax.annotation.Nullable
+  @jakarta.annotation.Nullable
 
 
   public KindEnum getKind() {
