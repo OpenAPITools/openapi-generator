@@ -153,7 +153,8 @@ public class ScalaCaskServerCodegen extends AbstractScalaCodegen implements Code
 
         final String apiPath = "src/main/scala/" + apiPackage.replace('.', '/');
         final String modelPath = "src/main/scala/" + modelPackage.replace('.', '/');
-        final List<String> appFullPath = Arrays.stream(modelPath.split("/")).collect(Collectors.toList());
+
+        final List<String> appFullPath = Arrays.stream(apiPath.split("/")).collect(Collectors.toList());
         final String appFolder = String.join("/", appFullPath.subList(0, appFullPath.size() - 1));
 
         additionalProperties.put("appName", "Cask App");
