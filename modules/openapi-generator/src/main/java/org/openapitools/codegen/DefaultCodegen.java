@@ -97,8 +97,6 @@ public class DefaultCodegen implements CodegenConfig {
     private static final Cache<SanitizeNameOptions, String> sanitizedNameCache;
     private static final String xSchemaTestExamplesKey = "x-schema-test-examples";
     private static final String xSchemaTestExamplesRefPrefix = "#/components/x-schema-test-examples/";
-    protected static Schema falseSchema;
-    protected static Schema trueSchema = new Schema();
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -151,8 +149,6 @@ public class DefaultCodegen implements CodegenConfig {
                 .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
                 .ticker(Ticker.systemTicker())
                 .build();
-        falseSchema = new Schema();
-        falseSchema.setNot(new Schema());
     }
 
     protected GeneratorMetadata generatorMetadata;
@@ -303,8 +299,6 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache to efficiently lookup schema `toModelName()` based on the schema Key
     private final Map<String, String> schemaKeyToModelNameCache = new HashMap<>();
-
-    protected boolean loadDeepObjectIntoItems = true;
 
     // if true then baseTypes will be imported
     protected boolean importBaseType = true;
@@ -5490,7 +5484,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         codegenParameter.pattern = toRegularExpression(parameterSchema.getPattern());
 
-        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject && loadDeepObjectIntoItems) {
+        if (codegenParameter.isQueryParam && codegenParameter.isDeepObject) {
             Schema schema = parameterSchema;
             if (schema.get$ref() != null) {
                 schema = ModelUtils.getReferencedSchema(openAPI, schema);
@@ -8497,34 +8491,6 @@ public class DefaultCodegen implements CodegenConfig {
         Into strings that can be rendered in the language that the generator will output to
         */
     protected String handleSpecialCharacters(String name) { return name; }
-
-    /**
-     * Used to ensure that null or Schema is returned given an input Boolean/Schema/null
-     * This will be used in openapi 3.1.0 spec processing to ensure that Booleans become Schemas
-     * Because our generators only understand Schemas
-     * Note: use getIsBooleanSchemaTrue or getIsBooleanSchemaFalse on the IJsonSchemaValidationProperties
-     * if you need to be able to detect if the original schema's value was true or false
-     *
-     * @param schema the input Boolean or Schema data to convert to a Schema
-     * @return Schema the input data converted to a Schema if possible
-     */
-    protected Schema getSchemaFromBooleanOrSchema(Object schema) {
-        if (schema == null) {
-            return null;
-        } else if (schema instanceof Boolean) {
-            if (Boolean.TRUE.equals(schema)) {
-                return trueSchema;
-            } else if (Boolean.FALSE.equals(schema)) {
-                return falseSchema;
-            }
-            // null case
-            return null;
-        } else if (schema instanceof Schema) {
-            return (Schema) schema;
-        } else {
-            throw new IllegalArgumentException("Invalid schema type; type must be Boolean or Schema");
-        }
-    }
 
     public void setAutosetConstants(boolean autosetConstants) {
         this.autosetConstants = autosetConstants;
