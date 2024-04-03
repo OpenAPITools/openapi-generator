@@ -2706,3 +2706,8 @@ components:
             type: array
             items:
               $ref: "#/components/schemas/CreatureInfo"
+    field:
+      type: object
+      properties:
+        field:
+          type: string
