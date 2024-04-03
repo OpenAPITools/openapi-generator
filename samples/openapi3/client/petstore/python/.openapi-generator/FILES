@@ -228,7 +228,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_all_of_super_model.py
-test/test_circular_all_of_ref.py
-test/test_second_circular_all_of_ref.py
 tox.ini
