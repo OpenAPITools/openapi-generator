@@ -45,12 +45,13 @@ build_script:
 test_script:
   - dotnet test samples\client\petstore\csharp\generichost\net8\AllOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\AnyOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\generichost\net8\ManualTests\ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj
-  - dotnet test samples\client\petstore\csharp\generichost\net8\ManualTests\OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net8\FormModels\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net8\ManualSourceGenerationTests\ManualTests.Latest.UseSourceGeneration\ManualTests.Latest.UseSourceGeneration.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net8\ManualPetstoreTests\OpenAPIClient-generichost-manual-tests\OpenAPIClient-generichost-manual-tests.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\NullReferenceTypes\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\OneOf\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
-  - dotnet test samples\client\petstore\csharp\generichost\net8\SourceGeneration\src\UseSourceGeneration.Test\UseSourceGeneration.Test.csproj
+  - dotnet test samples\client\petstore\csharp\generichost\net8\SourceGeneration\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\net8\UseDateTimeForDate\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp\generichost\standard2.0\Petstore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
 

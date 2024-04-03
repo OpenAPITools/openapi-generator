@@ -52,6 +52,7 @@ from petstore_api.models.enum_string1 import EnumString1
 from petstore_api.models.enum_string2 import EnumString2
 from petstore_api.models.enum_test import EnumTest
 from petstore_api.models.feeding import Feeding
+from petstore_api.models.field import Field
 from petstore_api.models.file import File
 from petstore_api.models.file_schema_test_class import FileSchemaTestClass
 from petstore_api.models.first_ref import FirstRef

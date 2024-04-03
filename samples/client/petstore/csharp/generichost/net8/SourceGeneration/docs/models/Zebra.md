@@ -1,4 +1,4 @@
-# UseSourceGeneration.Model.Zebra
+# Org.OpenAPITools.Model.Zebra
 
 ## Properties
 

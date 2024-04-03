@@ -807,7 +807,7 @@ public class ApiClient extends JavaTimeFormatter {
           File file = (File) param.getValue();
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey())
               .fileName(file.getName()).size(file.length()).build();
-          
+
           // Attempt to probe the content type for the file so that the form part is more correctly
           // and precisely identified, but fall back to application/octet-stream if that fails.
           MediaType type;
@@ -816,7 +816,7 @@ public class ApiClient extends JavaTimeFormatter {
           } catch (IOException | IllegalArgumentException e) {
             type = MediaType.APPLICATION_OCTET_STREAM_TYPE;
           }
-          
+
           multiPart.bodyPart(new FormDataBodyPart(contentDisp, file, type));
         } else {
           FormDataContentDisposition contentDisp = FormDataContentDisposition.name(param.getKey()).build();

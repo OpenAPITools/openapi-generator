@@ -605,3 +605,10 @@ Example:
 ```
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_CONTAINER_TO_NULLABLE="array|map"
 ```
+
+- `SET_PRIMITIVE_TYPES_TO_NULLABLE`: When set to `string|integer|number|boolean` (or just `string`) for example, it will set the type to `nullable` (nullable: true)
+
+Example:
+```
+java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate -g java -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -o /tmp/java-okhttp/ --openapi-normalizer SET_PRIMITIVE_TYPES_TO_NULLABLE="integer|number"
+```

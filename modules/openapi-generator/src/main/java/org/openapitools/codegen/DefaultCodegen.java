@@ -6795,6 +6795,7 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("name", finalEnumName);
             enumVar.put("value", toEnumValue(String.valueOf(value), dataType));
             enumVar.put("isString", isDataTypeString(dataType));
+            // TODO: add isNumeric
             enumVars.add(enumVar);
         }
 
@@ -6817,6 +6818,7 @@ public class DefaultCodegen implements CodegenConfig {
             enumVar.put("name", toEnumVarName(enumName, dataType));
             enumVar.put("value", toEnumValue(enumValue, dataType));
             enumVar.put("isString", isDataTypeString(dataType));
+            // TODO: add isNumeric
             enumVars.add(enumVar);
         }
 
