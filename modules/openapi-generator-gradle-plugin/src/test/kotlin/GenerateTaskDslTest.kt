@@ -401,7 +401,7 @@ class GenerateTaskDslTest : TestBase() {
     fun `openApiValidate should fail on invalid spec`() {
         // Arrange
         val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
         )
 
         withProject(defaultBuildGradle, projectFiles)
@@ -423,7 +423,7 @@ class GenerateTaskDslTest : TestBase() {
     fun `openApiValidate should ok skip spec validation`() {
         // Arrange
         val projectFiles = mapOf(
-                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid.yaml")
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0-invalid-due-to-missing-info-attribute.yaml")
         )
 
         withProject("""
