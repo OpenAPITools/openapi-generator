@@ -117,8 +117,12 @@ function Invoke-PSApiClient {
         }
     }
 
-    # Use splatting to pass optional parameters
+    # Use splatting to pass parameters
     $Params = @{}
+    $Params.Uri = $UriBuilder.Uri
+    $Params.Method = $Method
+    $Params.Headers = $HeaderParameters
+    $Params.ErrorAction = 'Stop'
     if ($SkipCertificateCheck -eq $true) {
         $Params.SkipCertificateCheck = $true
     }
@@ -126,7 +130,9 @@ function Invoke-PSApiClient {
         $Params.Proxy = $Configuration["Proxy"].GetProxy($UriBuilder.Uri)
         $Params.ProxyUseDefaultCredentials = $true
     }
-    if ($Multipart) {
+
+    # Invoke request
+    if ($MultiPart) {
         if ($PSVersionTable.PSVersion.Major -eq 5) {
             # Preset null return values as not supported by Invoke-RestMethod on PS5
             $ResponseHeaders = $null
@@ -136,16 +142,8 @@ function Invoke-PSApiClient {
             $Params.ResponseHeadersVariable = "ResponseHeaders"
             $Params.StatusCodeVariable = "ResponseStatusCode"
         }
-    }
-
-    # Invoke request
-    if ($MultiPart) {
         $Params.Form = $FormParameters
-        $Response = Invoke-RestMethod -Uri $UriBuilder.Uri `
-                                    -Method $Method `
-                                    -Headers $HeaderParameters `
-                                    -ErrorAction Stop `
-                                    @Params
+        $Response = Invoke-RestMethod @Params
 
         return @{
             Response = $Response
@@ -154,12 +152,8 @@ function Invoke-PSApiClient {
         }
    } else {
         $Params.Body = $RequestBody
-        $Response = Invoke-WebRequest -Uri $UriBuilder.Uri `
-                                    -Method $Method `
-                                    -Headers $HeaderParameters `
-                                    -ErrorAction Stop `
-                                    -UseBasicParsing `
-                                    @Params
+        $Params.UseBasicParsing = $true
+        $Response = Invoke-WebRequest @Params
 
         return @{
             Response = DeserializeResponse -Response $Response.Content -ReturnType $ReturnType -ContentTypes $Response.Headers["Content-Type"]
