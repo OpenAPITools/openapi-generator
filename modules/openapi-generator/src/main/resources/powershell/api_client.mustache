@@ -61,9 +61,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
         if ($ContentType -eq 'multipart/form-data') {
-            [string]$MultiPartBoundary = [System.Guid]::NewGuid()
-            $MultiPartBoundary = "---------------------------$MultiPartBoundary"
-            $HeaderParameters['Content-Type'] = "$ContentType; boundary=$MultiPartBoundary"
+            $MultiPart = $true
         }
     }
 
