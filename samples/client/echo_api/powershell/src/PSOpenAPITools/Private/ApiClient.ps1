@@ -94,7 +94,7 @@ function Invoke-ApiClient {
     $UriBuilder = [System.UriBuilder]($RequestUri)
     $UriBuilder.Query = $HttpValues.ToString()
 
-     if ($Body -or $IsBodyNullable) {
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
         if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
             $RequestBody = "null"
