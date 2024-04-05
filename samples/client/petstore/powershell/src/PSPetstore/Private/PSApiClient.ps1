@@ -67,9 +67,7 @@ function Invoke-PSApiClient {
     if ($ContentType) {
         $HeaderParameters['Content-Type'] = $ContentType
         if ($ContentType -eq 'multipart/form-data') {
-            [string]$MultiPartBoundary = [System.Guid]::NewGuid()
-            $MultiPartBoundary = "---------------------------$MultiPartBoundary"
-            $HeaderParameters['Content-Type'] = "$ContentType; boundary=$MultiPartBoundary"
+            $MultiPart = $true
         }
     }
 
@@ -92,6 +90,11 @@ function Invoke-PSApiClient {
     # Build the request and load it with the query string.
     $UriBuilder = [System.UriBuilder]($RequestUri)
     $UriBuilder.Query = $HttpValues.ToString()
+
+    # include form parameters in the request body
+    if ($FormParameters -and $FormParameters.Count -gt 0) {
+       $RequestBody = $FormParameters
+	}
 
     if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
@@ -117,28 +120,37 @@ function Invoke-PSApiClient {
         }
     }
 
-    # Use splatting to pass parameters
+    # syntax must be adapted to version
+	$PSMajorVersion = $PSVersionTable.PSVersion.Major
+
+    # use splatting to pass parameters
     $Params = @{}
     $Params.Uri = $UriBuilder.Uri
     $Params.Method = $Method
     $Params.Headers = $HeaderParameters
+    $Params.Body = $RequestBody
     $Params.ErrorAction = 'Stop'
-    if ($SkipCertificateCheck -eq $true) {
+	# SkipCertificateCheck not defined for PS5
+    if ($SkipCertificateCheck -eq $true -and $PSMajorVersion -gt 5) {
         $Params.SkipCertificateCheck = $true
     }
+	# do not set proxy if it is null or same as target Uri
     if ($null -ne $Configuration["Proxy"]) {
-        $Params.Proxy = $Configuration["Proxy"].GetProxy($UriBuilder.Uri)
-        $Params.ProxyUseDefaultCredentials = $true
+        $proxy = $Configuration["Proxy"].GetProxy($UriBuilder.Uri)
+        if ($null -ne $proxy -and $proxy.AbsoluteUri -ne $UriBuilder.Uri) {
+            $Params.Proxy = $proxy.AbsoluteUri
+            $Params.ProxyUseDefaultCredentials = $true
+        }
     }
 
-    # Invoke request
+    # use Invoke-RestApi if Content-Type is 'multipart/form-data', Invoke-WebRequest otherwise
     if ($MultiPart) {
-        if ($PSVersionTable.PSVersion.Major -eq 5) {
-            # Preset null return values as not supported by Invoke-RestMethod on PS5
+        if ($PSMajorVersion -eq 5) {
+            # preset null return values as not supported by Invoke-RestMethod on PS5
             $ResponseHeaders = $null
             $ResponseStatusCode = $null
         } else {
-            # Preset return variables
+            # preset return variables
             $Params.ResponseHeadersVariable = "ResponseHeaders"
             $Params.StatusCodeVariable = "ResponseStatusCode"
         }
@@ -151,7 +163,6 @@ function Invoke-PSApiClient {
             Headers = $ResponseHeaders
         }
    } else {
-        $Params.Body = $RequestBody
         $Params.UseBasicParsing = $true
         $Response = Invoke-WebRequest @Params
 
