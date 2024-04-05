@@ -8,8 +8,12 @@ build.sbt
 docs/Animal.md
 docs/AnyOfArray.md
 docs/AnyTypeTest.md
+docs/ArrayOfSameRef.md
 docs/Cat.md
 docs/Category.md
+docs/CircularReference1.md
+docs/CircularReference2.md
+docs/CircularReference3.md
 docs/Dog.md
 docs/FakeApi.md
 docs/ModelApiResponse.md
@@ -60,8 +64,12 @@ src/main/java/org/openapitools/client/model/AbstractOpenApiSchema.java
 src/main/java/org/openapitools/client/model/Animal.java
 src/main/java/org/openapitools/client/model/AnyOfArray.java
 src/main/java/org/openapitools/client/model/AnyTypeTest.java
+src/main/java/org/openapitools/client/model/ArrayOfSameRef.java
 src/main/java/org/openapitools/client/model/Cat.java
 src/main/java/org/openapitools/client/model/Category.java
+src/main/java/org/openapitools/client/model/CircularReference1.java
+src/main/java/org/openapitools/client/model/CircularReference2.java
+src/main/java/org/openapitools/client/model/CircularReference3.java
 src/main/java/org/openapitools/client/model/Dog.java
 src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/OneOfStringOrInt.java
