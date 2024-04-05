@@ -503,14 +503,11 @@ public class OpenAPINormalizer {
             return schema;
         }
 
-        /*
-         * comment out below as there shouldn't be a need to check circular reference since
-         * $ref processing is skipped right above.
         if ((visitedSchemas.contains(schema))) {
             return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
-        }*/
+        }
 
         if (schema instanceof ArraySchema) { // array
             normalizeArraySchema(schema);
@@ -597,7 +594,7 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            Schema newProperty = normalizeSchema(property, visitedSchemas);
+            Schema newProperty = normalizeSchema(property, new HashSet<>());
             propertiesEntry.setValue(newProperty);
         }
     }
