@@ -499,7 +499,7 @@ public class OpenAPINormalizer {
         }
 
         if (StringUtils.isNotEmpty(schema.get$ref())) {
-            // not need to process $ref
+            // no need to process $ref
             return schema;
         }
 
@@ -594,7 +594,7 @@ public class OpenAPINormalizer {
         }
         for (Map.Entry<String, Schema> propertiesEntry : properties.entrySet()) {
             Schema property = propertiesEntry.getValue();
-            Schema newProperty = normalizeSchema(property, visitedSchemas);
+            Schema newProperty = normalizeSchema(property, new HashSet<>());
             propertiesEntry.setValue(newProperty);
         }
     }
