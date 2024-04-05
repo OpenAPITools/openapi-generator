@@ -1015,6 +1015,32 @@ components:
       maxItems: 5
       minItems: 3
       type: array
+    circular_reference_1:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      properties:
+        arrayFooOne:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+        arrayFooTwo:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+        arrayFooThree:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
     updatePetWithForm_request:
       properties:
         name:

@@ -914,3 +914,33 @@ components:
           description: A list of "good output" node IDs in the prompt.
           items:
             type: string
+    circular_reference_1:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_2'
+    circular_reference_2:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_3'
+    circular_reference_3:
+      type: object
+      properties:
+        prop1:
+          $ref: '#/components/schemas/circular_reference_1'
+    array_of_same_ref:
+      type: object
+      properties:
+        arrayFooOne:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooTwo:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        arrayFooThree:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'

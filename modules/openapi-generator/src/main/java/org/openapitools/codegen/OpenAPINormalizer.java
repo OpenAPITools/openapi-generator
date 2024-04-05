@@ -499,15 +499,18 @@ public class OpenAPINormalizer {
         }
 
         if (StringUtils.isNotEmpty(schema.get$ref())) {
-            // not need to process $ref
+            // no need to process $ref
             return schema;
         }
 
+        /*
+         * comment out below as there shouldn't be a need to check circular reference since
+         * $ref processing is skipped right above.
         if ((visitedSchemas.contains(schema))) {
             return schema; // skip due to circular reference
         } else {
             visitedSchemas.add(schema);
-        }
+        }*/
 
         if (schema instanceof ArraySchema) { // array
             normalizeArraySchema(schema);
