@@ -901,7 +901,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         } else if ("kotlin.Float".equals(datatype)) {
             return value + "f";
         } else {
-            return "\"" + escapeText(value) + "\"";
+            return "\"" + value + "\"";
         }
     }
 
