@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("NumberOnly")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class NumberOnly  implements Serializable {
-  private @Valid BigDecimal justNumber;
+  private BigDecimal justNumber;
 
   protected NumberOnly(NumberOnlyBuilder<?, ?> b) {
     this.justNumber = b.justNumber;
@@ -36,7 +36,7 @@ public class NumberOnly  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(description = "")
   @JsonProperty("JustNumber")
-  public BigDecimal getJustNumber() {
+  @Valid public BigDecimal getJustNumber() {
     return justNumber;
   }
 

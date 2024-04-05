@@ -18,10 +18,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Name")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen", comments = "Generator version: 7.5.0-SNAPSHOT")
 public class Name  implements Serializable {
-  private @Valid Integer name;
-  private @Valid Integer snakeCase;
-  private @Valid String property;
-  private @Valid Integer _123number;
+  private Integer name;
+  private Integer snakeCase;
+  private String property;
+  private Integer _123number;
 
   protected Name(NameBuilder<?, ?> b) {
     this.name = b.name;
@@ -43,8 +43,7 @@ public class Name  implements Serializable {
   
   @org.eclipse.microprofile.openapi.annotations.media.Schema(required = true, description = "")
   @JsonProperty("name")
-  @NotNull
-  public Integer getName() {
+  @NotNull public Integer getName() {
     return name;
   }
 

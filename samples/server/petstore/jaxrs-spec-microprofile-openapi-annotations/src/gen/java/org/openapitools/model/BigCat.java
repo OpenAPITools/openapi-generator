@@ -64,7 +64,7 @@ public class BigCat extends Cat implements Serializable {
     }
 }
 
-  private @Valid KindEnum kind;
+  private KindEnum kind;
 
   protected BigCat(BigCatBuilder<?, ?> b) {
     super(b);
